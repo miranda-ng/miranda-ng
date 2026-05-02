@@ -79,8 +79,6 @@
 [ was added.]
  беше добавен.
 ;file \plugins\IEView\src\ieview_main.cpp
-[Code]
-
 [RTL On]
 
 [RTL Off]
@@ -88,8 +86,6 @@
 [Group On]
 
 [Group Off]
-
-[Format text as code]
 
 [IEView]
 IEView

@@ -28,3 +28,8 @@ Podporuje Jingle
 Sítě
 [VoIP]
 
+;file \plugins\Jingle\src\voip.cpp
+[GStreamer plugin %S not found]
+
+[GStreamer plugin %S not loaded, it might require Windows 7 or later]
+

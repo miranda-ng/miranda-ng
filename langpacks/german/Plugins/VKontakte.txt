@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.19.2
+;  Version: 0.1.19.7
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -225,6 +225,10 @@ Nachrichten-als-gelesen-markieren-Icon
 Weiterleiten-Icon
 [Reload messages icon]
 Nachricht-neu-Laden-Icon
+[Protocols]
+Protokolle
+[VKontakte]
+VKontakte
 [Access denied! Data will not be sent or received.]
 Zugriff verweigert! Daten werden nicht gesendet oder empfangen!
 [Error]
@@ -422,8 +426,6 @@ Zur Anmeldung beim VKontakte-Protokoll müssen Sie sich im Browser autorisieren 
 [Wall message for %s]
 Pinnwandnachricht für %s
 ;file \protocols\VKontakte\src\vk_feed.cpp
-[VKontakte]
-VKontakte
 [New news]
 Neue Neuigkeiten
 [New notifications]
@@ -498,8 +500,6 @@ Nachrichten für alle Kontakte wurden komplett geladen.
 Verlauf laden
 [Error loading message history for %s from server.]
 Fehler beim Laden des Nachrichtenverlaufes von %s vom Server.
-[Loading messages for %s is completed.]
-Laden der Nachrichten von %s ist fertig.
 ;file \protocols\VKontakte\src\vk_messages.cpp
 [Me]
 Ich

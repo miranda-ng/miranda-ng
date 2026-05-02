@@ -26,8 +26,6 @@ Ukryj okna przy zamykaniu
 Zapamiętaj niewysłane wiadomości
 [Delete temporary contacts on closing]
 Kasuj niezapisane kontakty przy zamykaniu
-[Use BBCodes to send format inside messages]
-
 [Show warning when message has not been received after]
 Pokazuj ostrzeżenie jeśli wiadomość nie została odebrana po
 [seconds]
@@ -369,8 +367,6 @@ Formatowanie dziennika
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Dodaj kontakt
-[User's details]
-Dane kontaktu
 [User's history]
 Historia kontaktu
 [Send message]
@@ -411,6 +407,8 @@ Pogrubienie
 Kursywa
 [Underlined]
 Podkreślenie
+[Strikethrough]
+Przekreślenie
 [Room history]
 Historia
 [Room settings]
@@ -610,40 +608,44 @@ Menu użytkownika
 Zobacz dane kontaktu
 [&History]
 &Historia
-[View user's history (Ctrl+H)]
-Zobacz historię użytkownika (Ctrl+H)
+[View user's history]
+Zobacz historię użytkownika
 [&Bold]
 &Pogrubienie
-[Make the text bold (Ctrl+B)]
-Pogrub tekst (Ctrl+B)
+[Make the text bold]
+Pogrub tekst
 [&Italic]
 &Kursywa
-[Make the text italicized (Ctrl+I)]
-Dodaj kursywę do tekstu (Ctrl+I)
+[Make the text italicized]
+Dodaj kursywę do tekstu
 [&Underline]
 P&odkreślenie
-[Make the text underlined (Ctrl+U)]
-Podkreśl tekst (Ctrl+U)
+[Make the text underlined]
+Podkreśl tekst
+[&Strikethrough]
+
+[Make the text strikethrough]
+
 [&Color]
 Ko&lor
-[Select a foreground color for the text (Ctrl+K)]
-Wybierz kolor dla tekstu (Ctrl+K)
+[Select text color]
+Wybierz kolor dla tekstu
 [&Background color]
 Kolor &tła
-[Select a background color for the text (Ctrl+L)]
-Wybierz kolor tła dla tekstu (Ctrl+L)
+[Select background color]
+Wybierz kolor tła dla tekstu
 [&Room settings]
 Ustawienia &pokoju
-[Control this room (Ctrl+O)]
-Kontroluj ten pokój (Ctrl + O)
+[Control this room]
+Kontroluj ten pokój
 [&Show/hide nick list]
 &Pokaż/ukryj listę użytkowników
-[Show/hide the nick list (Ctrl+N)]
-Pokaż/ukryj listę użytkowników (Ctrl+N)
+[Show/hide the nick list]
+Pokaż/ukryj listę użytkowników
 [&Filter]
 &Filtr
-[Enable/disable the event filter (Ctrl+F)]
-Włącz/wyłącz filtr zdarzeń (Ctrl+F)
+[Enable/disable the event filter]
+Włącz/wyłącz filtr zdarzeń
 [&Message]
 &Wiadomość
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]

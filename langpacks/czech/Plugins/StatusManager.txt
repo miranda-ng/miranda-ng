@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.6
+;  Version: 1.2.0.8
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -120,22 +120,16 @@ Zobrazit dialog
 Doba zobrazení
 [s]
 s
-[Dial-up (experimental)]
-Vytáčené spojení (experimentální)
-[Automatically dial on startup]
-Automaticky vytáčet po spuštění
-[Automatically hang up on exit]
-Automaticky zavěsit po ukončení
 [Other]
 Ostatní
 [Set status to offline before exit]
 Před ukončením přejít do 'Offline'
+[Show CMDL]
+Příkazový ř.
 [Window on startup]
 Okno po startu
 [Set window state]
 Stav okna
-[Set docked]
-Zadokovat
 [Set window location]
 Umístit na souřadnice
 [Left]
@@ -146,8 +140,6 @@ Nahoře
 Velikost okna
 [Width]
 Šířka
-[Show CMDL]
-Příkazový ř.
 [Height]
 Výška
 [Background color]
@@ -285,6 +277,9 @@ Automatické stavy
 Pravidla
 [Status messages]
 Stavové zprávy
+;file \plugins\StatusManager\src\commonstatus.cpp
+[<unknown>]
+<neznámý>
 ;file \plugins\StatusManager\src\confirmdialog.cpp
 [Set %s message for %s.]
 Nastavit %s zprávu pro %s.
@@ -336,8 +331,6 @@ Oznámení
 [Status manager]
 
 ;file \plugins\StatusManager\src\ss_options.cpp
-[<unknown>]
-<neznámý>
 [default]
 výchozí
 [Hidden]
@@ -346,10 +339,6 @@ Skrytý
 Minimalizované
 [Normal]
 Normální
-[Right]
-Vpravo
-[None]
----
 [size: %d x %d]
 velikost: %d x %d
 [loc: %d x %d]

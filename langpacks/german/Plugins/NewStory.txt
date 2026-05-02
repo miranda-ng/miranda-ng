@@ -148,10 +148,6 @@ Links
 Unbenannt
 [ %u KB]
  %u KB
-[I]
-Ich
-[wrote]
-geschrieben
 ;file \plugins\NewStory\src\history_control.cpp
 [Toggle bookmark]
 Lesezeichen umschalten

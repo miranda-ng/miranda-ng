@@ -1,0 +1,83 @@
+#muuid {d0d8a5be-a76a-46b1-92b6-3d69924e211d}
+;============================================================
+;  File: LibreView.dll
+;  Plugin: LibreView
+;  Version: 0.1.0.1
+;  Authors: Miranda NG team
+;============================================================
+[Retrieves glucose data from LibreView service and displays it in your contact list.]
+
+;file \protocols\LibreView\res\options.rc
+[Email:]
+Пошта:
+[Password:]
+Пароль:
+[API URL:]
+
+[Update every]
+
+[minutes (0 = disable auto update)]
+
+[Display units:]
+
+[mmol/L]
+
+[mg/dL]
+
+[Write data to history]
+
+[Patient:]
+
+[Current glucose:]
+
+[Sensor activation:]
+
+[Sensor remaining:]
+
+[Last update:]
+
+;file \protocols\LibreView\src\check.cpp
+[updating...]
+Оновлення...
+[LibreView update failed]
+
+[error]
+Помилка
+;file \protocols\LibreView\src\main.cpp
+[LibreView]
+
+[&Update data]
+
+;file \protocols\LibreView\src\options.cpp
+[Network]
+Мережа
+;file \protocols\LibreView\src\proto.cpp
+[Login failed]
+
+[Login Error]
+
+[falling quickly]
+
+[falling]
+Падає
+[steady]
+Не змін.
+[rising]
+Зростає
+[rising quickly]
+
+[trend unknown]
+
+[Failed to connect to LibreView server. Please check your internet connection and try again.]
+
+;file \protocols\LibreView\src\userinfo.cpp
+[N/A]
+Недоступний
+[Expired]
+
+[%d days %d hours]
+
+[%d hours %d minutes]
+
+[%d minutes]
+%d хв

@@ -67,11 +67,16 @@ Služby
 Text
 [Background]
 Pozadí
-[Text Files (*.txt)]
+[Text files (*.txt)]
 Textové soubory (*.txt)
-[All Files]
+[All files]
 Všechny soubory
 [Save selection to file]
 
 [Save log to file]
 
+;file \plugins\Console\src\init.cpp
+[Show]
+Zobrazit
+[Hide]
+Skrýt

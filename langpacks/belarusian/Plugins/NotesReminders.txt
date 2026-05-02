@@ -50,18 +50,8 @@
 Дата
 [Time]
 Час
-[Repeat each day]
-
 [Reminder Note:]
 Напамінак:
-[None]
-Няма
-[Daily]
-Дзён
-[Weekly]
-Тыдняў
-[Monthly]
-Месяцаў
 [Repeat Alert Sound]
 Паўтараць сігнал
 [Use Sound]
@@ -250,8 +240,12 @@
 Колер фону нататкі
 [Sticky Note Body]
 Акно
-[Executable Files\0*.exe\0All Files\0*.*\0\0]
-Файлы выканання\0*.exe\0Усе файлы\0*.*\0\0
+[None]
+Няма
+[Executable Files]
+Выкананыя файлы
+[All Files]
+Усе файлы
 [Select Executable]
 Абраць праграму…
 [Plugins]
@@ -259,14 +253,22 @@
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [The specified time is invalid.]
 Паказаны час несапраўдна
+[Don't repeat]
+
+[Repeat daily]
+
+[Repeat weekly]
+
+[Repeat monthly]
+
 [Minutes]
 Хвілін
-[Hours]
-Гадзін
 [The specified time is invalid due to begin of daylight saving (summer time).]
 Паказаны час несапраўдна з-за пераходу на «летні час»
 [Hour]
 Гадзіна
+[Hours]
+Гадзін
 [Day]
 Дзень
 [Days]

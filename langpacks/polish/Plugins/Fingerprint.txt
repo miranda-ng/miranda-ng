@@ -14,6 +14,8 @@ Ikony nakładek
 Klienty Mirandy
 [Miranda packs overlays]
 Nakładki paczek
+[Secure overlays]
+Nakładki bezpieczeństwa
 [Show Miranda version at Overlay#2]
 Pokaż nakładkę wersji Mirandy #2
 [Resource overlays]
@@ -24,12 +26,8 @@ Nakładki platform
 Nakładki protokołów
 [Unicode overlay]
 Nakładka Unicode
-[Secure overlays]
-Nakładki bezpieczeństwa
 [Select protocols]
 Zaznacz protokoły
-[Facebook clients]
-Klienty Facebooka
 [Gadu-Gadu clients]
 Klienty Gadu-Gadu
 [IRC clients]
@@ -88,8 +86,6 @@ Nakładka JGTalk
 Nakładka Jabber
 [VK overlay]
 Nakładka VK
-[Skype overlay]
-Nakładka Skype
 [Gadu-Gadu v11 client]
 Klient Gadu-Gadu v11
 [Gadu-Gadu v10 client]

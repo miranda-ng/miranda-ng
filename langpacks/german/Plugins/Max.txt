@@ -1,0 +1,99 @@
+#muuid {a7e4f9c2-1d8b-4e5a-9c3f-8b2e1d0c9a8f}
+;============================================================
+;  File: Max.dll
+;  Plugin: Max protocol
+;  Version: 0.1.0.1
+;  Authors: Miranda NG contributors
+;============================================================
+[Max protocol support for Miranda NG.]
+
+;file \protocols\Max\res\max.rc
+[Default group:]
+Standardgruppe:
+[Compress files on send]
+Dateien beim Senden komprimieren
+[Link a device]
+Ein Gerät verknüpfen
+[Open Max application on your mobile phone, choose device linking and scan this QR code. The window closes automatically after successful login.]
+
+[First name]
+Vorname
+[Last name]
+Nachname
+[Phone number]
+Telefon
+[Biography]
+Biografie
+[Forward message(s)]
+
+[Cancel]
+Abbrechen
+;file \protocols\Max\src\connection.cpp
+[Enter password]
+Passwort eingeben
+[ (hint: %s)]
+ (Hinweis: %s)
+[Max]
+Max
+[QR login failed or timed out.]
+
+;file \protocols\Max\src\main.cpp
+[Protocol icon]
+Protokollicon
+[Protocols]
+Protokolle
+;file \protocols\Max\src\max_proto.cpp
+[Forward]
+Später
+[Max user ID]
+
+[Gateway is not connected]
+
+[Missing chat ID for this contact]
+
+[Message send failed]
+Senden der Nachricht fehlgeschlagen
+[Cannot load server history: gateway is not connected.]
+
+[Cannot load server history: chat ID is missing for this contact.]
+
+[Cannot remove server chat: not connected.]
+
+[Could not leave the chat on the server.]
+
+[Cannot remove server chat: dialog ID is unknown.]
+
+[Could not delete the dialog on the server.]
+
+[You must be online to save your profile.]
+
+[First name cannot be empty.]
+
+[Could not save your profile on the server.]
+
+[Too many requests. Please wait before trying again.]
+
+[Server rejected web sync credentials for this token (login.cred).]
+
+[Network]
+Netzwerk
+[Account]
+Konto
+;file \protocols\Max\src\messages.cpp
+[Reaction]
+Reaktion
+[SmileyAdd plugin required to support stickers]
+Zur Unterstützung von Stickern wird das Plugin SmileyAdd benötigt
+[Sticker]
+Sticker
+[Unknown]
+Unbekannt
+[wrote]
+geschrieben
+[Forwarded message]
+
+;file \protocols\Max\src\roster.cpp
+[Members]
+
+[Favorites]
+Favoriten

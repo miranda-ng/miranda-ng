@@ -67,11 +67,16 @@
 Тэкст
 [Background]
 Фон
-[Text Files (*.txt)]
+[Text files (*.txt)]
 Тэкставыя файлы (*.txt)
-[All Files]
+[All files]
 Усе файлы
 [Save selection to file]
 Захаваць абранае
 [Save log to file]
 Захаваць часопіс у файл
+;file \plugins\Console\src\init.cpp
+[Show]
+Паказаць
+[Hide]
+Схаваць

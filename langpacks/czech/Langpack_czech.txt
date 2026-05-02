@@ -11,7 +11,7 @@ Author-email: robyer@seznam.cz
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.6
+;  Version: 0.96.7
 ;============================================================
 [Become idle if the following is left unattended:]
 Přejít do stavu nečinnosti pokud se nic neděje v:
@@ -117,8 +117,6 @@ Zobrazit záhlaví
 Text v záhlaví:
 [Show drop shadow (restart required)]
 Zobrazit stín (vyžaduje restart)
-[Pin to desktop]
-Připíchnout na plochu
 [Hide contact list after it has been idle for]
 Skrýt seznam kontaktů, byl-li neaktivní po dobu
 [seconds]
@@ -133,8 +131,6 @@ max. však
 Zvětšovat okno směrem nahoru
 [If window is partially covered, bring to front instead of hiding]
 Je-li okno částečně zakryto, zobrazit na popředí namísto skrytí
-[Enable docking]
-Povolit dokování
 [Translucency options]
 Průhlednost
 [Fade contact list in/out]
@@ -817,16 +813,14 @@ Nabídky účtů
 Přesunout do hlavní nabídky
 [Move to the status bar]
 Přesunout do nabídky stavu
-[Warning!\r\nThis menu object not support user defined options.]
-Upozornění!\r\nTato nabídka nepodporuje změnu nastavení.
-[Insert submenu]
-Vložit podnabídku
 [Insert separator]
 Vložit oddělovač
 [Module:]
 Modul:
 [Service:]
 Služba:
+[ID:]
+Identifikátor:
 [Default]
 Výchozí
 [Set]
@@ -1187,8 +1181,8 @@ Seznam
 &Zpráva
 [Clear lo&g]
 Vy&mazat záznam
-[Word lookup]
-Vyhledávání slova
+[No word to look up]
+Není co vyhledat
 [Yandex]
 Yandex
 [Wikipedia (en)]
@@ -1501,38 +1495,24 @@ Přidat do seznamu natrvalo
 Nabídka kontaktu
 [View user's details]
 Zobrazit osobní údaje
+[View user's history]
+Zobrazit historii
 [&Bold]
 &Tučné
-[Make the text bold (Ctrl+B)]
-Změní styl písma na tučné (Ctrl+B)
 [&Italic]
 &Kurzíva
-[Make the text italicized (Ctrl+I)]
-Změní styl písma na kurzívu (Ctrl+I)
 [&Underline]
 Pod&tržené
-[Make the text underlined (Ctrl+U)]
-Změní styl písma na podtržené (Ctrl+U)
 [&Color]
 &Barva
-[Select a foreground color for the text (Ctrl+K)]
-Změní barvu textu (Ctrl+K)
 [&Background color]
 Barva &pozadí
-[Select a background color for the text (Ctrl+L)]
-Změní barvu pozadí textu (Ctrl+L)
 [&Room settings]
 &Správa místnosti
-[Control this room (Ctrl+O)]
-Možnosti řízení kanálu (Ctrl+O)
 [&Show/hide nick list]
 &Přepnout seznam účastníků
-[Show/hide the nick list (Ctrl+N)]
-Zobrazí/skryje seznam účastníků (Ctrl+N)
 [&Filter]
 &Filtr
-[Enable/disable the event filter (Ctrl+F)]
-Aktivuje/deaktivuje filtrování událostí (Ctrl+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda nemůže načíst vestavěný komunikační modul, msftedit.dll nebyl nalezen. Stiskněte 'Ano' pro pokračování ve spouštění Mirandy.
 [Instant messages]
@@ -1867,6 +1847,28 @@ Informace (na %s)
 Místnosti chatu
 [Events and filters]
 Události a filtry
+[My custom name (not movable)]
+Upravené jméno (nelze přesunout)
+[Nick]
+Přezdívka
+[FirstName]
+Jméno
+[E-mail]
+E-mail
+[LastName]
+Příjmení
+[Username]
+Uživatel
+[FirstName LastName]
+Jméno Příjmení
+[LastName FirstName]
+Příjmení Jméno
+['(Unknown contact)' (not movable)]
+'(neznámý kontakt)' (nelze přesunout)
+['(Unknown contact)']
+'(neznámý kontakt)'
+[Contact names]
+Jména kontaktů
 [New group]
 Nová skupina
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -1899,28 +1901,6 @@ Vybraný kontakt daného komunikačního systému je uložen na centrálním ser
 Př&ejmenovat
 [&Add permanently to list]
 Přid&at do seznamu natrvalo
-[My custom name (not movable)]
-Upravené jméno (nelze přesunout)
-[Nick]
-Přezdívka
-[FirstName]
-Jméno
-[E-mail]
-E-mail
-[LastName]
-Příjmení
-[Username]
-Uživatel
-[FirstName LastName]
-Jméno Příjmení
-[LastName FirstName]
-Příjmení Jméno
-['(Unknown contact)' (not movable)]
-'(neznámý kontakt)' (nelze přesunout)
-['(Unknown contact)']
-'(neznámý kontakt)'
-[Contact names]
-Jména kontaktů
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda se snaží aktualizovat strukturu vašeho profilu.\nProfil %s nemůže být přesunut do nového umístění %s,\nprotože profil s tímto názvem již existuje. Vyřešte prosím tento problém ručně.
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
@@ -1975,8 +1955,6 @@ Pohlaví
 Doplňkové ikony
 [&File]
 &Soubor
-[Send file]
-Poslat soubor
 [File from %s]
 Soubor od: %s
 [File &transfers...]
@@ -2003,8 +1981,6 @@ Události
 Zabezpečení
 [My received files]
 Moje přijaté soubory
-[View user's history]
-Zobrazit historii
 [This file transfer has been canceled by the other side]
 Přenos tohoto souboru byl přerušen druhou stranou
 [Canceled]
@@ -2239,14 +2215,10 @@ Hlavní nabídka
 Nabídka rámečků
 [Group menu]
 Nabídka skupiny
-[Hide offline users out here]
-Skrýt uživatele offline mimo skupiny
 [Disable groups]
 Vypnout skupiny
 [Hide offline users in here]
 Skrýt uživatele offline
-[New submenu]
-Nová podnabídka
 [Menus]
 Nabídky
 [Tray menu]
@@ -2579,6 +2551,8 @@ Rámečky
 Přidat skupinu
 [Warning]
 Upozornění
+[Forward]
+Další
 [Locked status]
 Zamknuto
 [Status icons]
@@ -2603,12 +2577,18 @@ Uložit jako
 Zkopírovat vše
 [Look up '%s':]
 Vyhledat '%s':
-[No word to look up]
-Není co vyhledat
+[Toggle filter]
+Přepnout filtr
+[Toggle nick list]
+Přepnout seznam uživatelů
+[Channel manager]
+Správa kanálů
 [<Separator>]
 <oddělovač>
 [Toolbar]
 Lišta tlačítek
+[Send file]
+Poslat soubor
 [Message from %s]
 Zpráva od: %s
 [Unspecified]
@@ -3820,7 +3800,7 @@ Varování registrů
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
-;  Version: 0.0.2.2
+;  Version: 0.0.2.3
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
@@ -3893,8 +3873,6 @@ Události pro ukončení
 Závažné události pro ukončení
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Automaticky ukončit operační systém a vypnout počítač, nastane-li jedna z následujících variant:
-[&Thunderstorm warning is issued (Weather)]
-Varování před bouřkou (Wea&ther)
 [Automatic shutdown]
 Automatické ukončení
 [Select the automatic shutdown event]
@@ -5657,18 +5635,10 @@ Kontakty offline přesunout na konec
 3)
 [Place offline users out of groups]
 Kontakty offline umístit mimo skupiny
-[Selection mode]
-Způsob výběru
-[Default]
-Výchozí
-[Full selection]
-Celý řádek
-[Less selection]
-Část řádku
-[No selection]
-Bez výběru
-[Gamma correction]
-Gama korekce
+[Appearance]
+Vzhled
+[Always on top]
+Vždy navrchu
 [Bring to front if covered]
 Při překrytí přenést do popředí
 [Hide contact list after]
@@ -5687,8 +5657,6 @@ Chování
 Zamezit ruční změně velikosti
 [Drag to]
 Táhnutí myši
-[Easy scroll]
-Vylepšené rolování
 [Easy move]
 Vylepšené přesouvání
 [x100 ms]
@@ -5713,8 +5681,6 @@ Vypnuto
 Zobrazovat automaticky
 [Always visible]
 Vždy viditelný
-[Dock to sides]
-Dokovat u okrajů
 [and minimum]
 a minimálně
 [Items]
@@ -5803,12 +5769,6 @@ Odsazení podkontaktů:
 Zobrazit čas pouze když se liší od místního
 [Show contact time as row item]
 Zobrazit čas kontaktu jako položku řádku
-[Appearance]
-Vzhled
-[Always on top]
-Vždy navrchu
-[Pin to desktop]
-Připíchnout na plochu
 [Client area margins]
 Vnitřní okraje okna
 [Thin border main window]
@@ -5823,8 +5783,6 @@ Zobrazit záhlaví
 Text v záhlaví:
 [Tool style main window]
 Zjednodušené záhlaví okna
-[Minimize to tray]
-Minimalizovat do ozn. oblasti
 [Translucency options]
 Průhlednost
 [Fade contact list in/out]
@@ -5853,6 +5811,12 @@ Režim bez skinu
 Vypnout skinovací aparát
 [Enable Aero Glass (Vista, Win 7)]
 Povolit Aero Glass (Vista, Win 7)
+[Selection mode]
+Způsob výběru
+[Gamma correction]
+Gama korekce
+[Minimize to tray]
+Minimalizovat do ozn. oblasti
 [Order of items:]
 Pořadí prvků:
 [Minimum row height:]
@@ -6005,6 +5969,8 @@ Zobrazit záhlaví rámečků
 Skrýt záhlaví rámečků
 [&Hide/show]
 Skrýt/Zo&brazit
+[Show offline users in here]
+Zobrazit &uživatele offline
 [Last seen]
 Naposledy spatřen
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
@@ -6137,8 +6103,6 @@ Jméno
 Jméno (použít místní nastavení)
 [Last message time]
 Čas poslední zprávy
-[Account name]
-Název účtu
 [Rate]
 Priorita
 [Last online]
@@ -6151,6 +6115,14 @@ Do oznam. oblasti
 Za levý okraj
 [Behind right edge]
 Za pravý okraj
+[Default]
+Výchozí
+[Full selection]
+Celý řádek
+[Less selection]
+Část řádku
+[No selection]
+Bez výběru
 [General]
 Obecné
 [Tray]
@@ -6518,8 +6490,6 @@ Zaoblený rámeček
 Okraj
 [Title bar text:]
 Text v záhlaví:
-[Pin to desktop]
-Připíchnout na plochu
 [Show drop shadow (restart required)]
 Zobrazit stín (vyžaduje restart)
 [Hide contact list after it has been idle for]
@@ -6568,8 +6538,6 @@ Zakázat uchopení a přetáhnutí položek
 Zakázat přejmenování položek dvojím kliknutím
 [Show selection even when list is not focused]
 Zobrazit výběr i tehdy, není-li seznam aktivní
-[Make selection highlight translucent]
-Zobrazit vybrané položky průhledně
 [Use full row for selection and hottracking]
 Při výběru a hledání označit celý řádek
 [Double click on avatar opens user info]
@@ -6628,6 +6596,8 @@ Zobrazit efekt zkosení panelů
 Zobrazit tlač. změny velik.
 [Draw background skin]
 Použít skin pozadí
+[Show extended status icons]
+Zobrazit ikony rozšířeného stavu
 [Mark protocols locked from global status changes]
 Označit protokoly se zamknutým stavem
 [Available view modes]
@@ -6932,10 +6902,6 @@ Zobrazit všechny rámečky
 Zobrazit záhlaví rámečků
 [Hide all title bars]
 Skrýt záhlaví rámečků
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-Seznam kontaktů nemůže být ukotven při použití výchozího stylu záhlaví a okraje. Použijte tenký styl záhlaví nebo okno bez okraje.
-[Contact list docking]
-Ukotvení seznamu kontaktů
 [Load and apply]
 Použití
 [Skins]
@@ -7069,7 +7035,7 @@ Zanořený (s rámováním)
 ;============================================================
 ;  File: CloudFile.dll
 ;  Plugin: CloudFile
-;  Version: 0.11.0.6
+;  Version: 0.12.0.1
 ;  Authors: Miranda NG team
 ;============================================================
 [General]
@@ -7092,8 +7058,6 @@ Zrušit
 Navštívit stránku
 [Upload file(s)]
 Nahrát soubor(y)
-[Upload]
-Nahrát na server
 [None]
 ---
 [Services]
@@ -7209,10 +7173,14 @@ Služby
 Text
 [Background]
 Pozadí
-[Text Files (*.txt)]
+[Text files (*.txt)]
 Textové soubory (*.txt)
-[All Files]
+[All files]
 Všechny soubory
+[Show]
+Zobrazit
+[Hide]
+Skrýt
 #muuid {0324785E-74CE-4600-B781-851773B3EFC5}
 ;============================================================
 ;  File: Contacts.dll
@@ -7386,6 +7354,10 @@ Zrušit
 GnuPG doplněk - zvolte veřejný klíč
 [Refresh]
 Aktualizovat
+[All files]
+Všechny soubory
+[Select GnuPG executable]
+Vyberte gpg.exe
 #muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
 ;============================================================
 ;  File: CSList.dll
@@ -8153,6 +8125,29 @@ Vyberte složku pro zálohování profilů
 Miranda NG [%s] záloha databáze
 #muuid {88928401-2ce8-4568-aaa7-226141870cbf}
 ;============================================================
+;  File: DeltaChat.dll
+;  Plugin: DeltaChat protocol
+;  Version: 0.96.5.1
+;  Authors: George Hazan
+;============================================================
+[Username]
+Uživatel
+[Password]
+Heslo
+[Default group:]
+Výchozí skupina:
+[Port]
+Port
+[Main icon]
+Hlavní ikona
+[Plain]
+Pláň
+[Network]
+Sítě
+[Account]
+Účet
+#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
 ;  Version: 0.96.5.1
@@ -8202,7 +8197,7 @@ Náhled
 ;============================================================
 ;  File: Dummy.dll
 ;  Plugin: Dummy protocol
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: Robert Pösel
 ;============================================================
 [Dummy protocol for Miranda NG. Could be used for holding contacts and history from deprecated protocols or for creating virtual contacts.]
@@ -8359,55 +8354,6 @@ Doplňky
 Vynucené znovu-připojení k Exchange serveru...
 [Connecting to Exchange ...]
 Připojování k Exchange...
-#muuid {ee0543fb-711d-4ac8-b6c0-1dda4838107e}
-;============================================================
-;  File: Facebook.dll
-;  Plugin: Facebook
-;  Version: 0.1.0.11
-;  Authors: Miranda NG Team
-;============================================================
-[Facebook protocol support for Miranda NG.]
-Facebook protokol pro Mirandu NG.
-[E-mail:]
-E-mail:
-[Password:]
-Heslo:
-[Create a new Facebook account]
-Zřídit nový účet na Facebooku
-[User details]
-Informace o uživateli
-[Contacts]
-Kontakty
-[Default group:]
-Výchozí skupina:
-[Keep messages as unread on server]
-Ponechat zprávy na serveru jako nepřečtené
-[Group chats]
-Skupinové rozhovory
-[Do not open chat windows on creation]
-Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
-[Send group chat invitation]
-Odeslat pozvánku k diskusi
-[&Invite]
-&Pozvat
-[Cancel]
-Zrušit
-[&Invite a user]
-Pozvat už&ivatele
-[Network]
-Sítě
-[Account]
-Účet
-[Participant]
-Účastník
-[URL]
-Odkaz
-[Title]
-Název
-[Source]
-Zdroj
-[Description]
-Popis
 #muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;============================================================
 ;  File: FavContacts.dll
@@ -8481,7 +8427,7 @@ Zobrazit oblíbené kontakty
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [File transfer by using the messaging services - as plain text.]
@@ -8520,6 +8466,10 @@ Pro další volby použijte Možnosti -> Události -> Přenos souborů, skupina 
 Přijmout soubor
 [Send file]
 Poslat soubor
+[Perform]
+Akce
+[Pause]
+Pozastavit
 [File already exists. Overwrite?]
 Soubor již existuje. Přepsat?
 [Couldn't open a file]
@@ -8566,8 +8516,6 @@ Přerušeno uživatelem
 Přenos dat ještě nebyl dokončen. Opravdu ho chcete přerušit?
 [Play]
 Přehrát
-[Pause]
-Pozastavit
 [Revive]
 Obnovit
 [Stop]
@@ -8589,8 +8537,6 @@ Soubor jako zpráva
 ;============================================================
 [Select protocols]
 Vybrat protokoly
-[Facebook clients]
-Klienti Facebook
 [Gadu-Gadu clients]
 Klienti Gadu-Gadu
 [IRC clients]
@@ -8791,7 +8737,7 @@ Vzhled
 ;============================================================
 ;  File: Folders.dll
 ;  Plugin: Custom profile folders
-;  Version: 0.2.0.2
+;  Version: 0.3.0.1
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
 [Custom folders]
@@ -9180,34 +9126,6 @@ Za&blokovat
 Konference
 [Contact list]
 Seznam kontaktů
-[Images]
-Obrázky
-[Gadu-Gadu Number]
-Identifikátor
-[Female]
-žena
-[Male]
-muž
-[Open &conference...]
-Založit novou konferen&ci...
-[&Clear ignored conferences]
-&Vymazat ignorované konference
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
-%s založil konferenci (počet účastníků: %d, z toho neznámých: %s).\nChcete se přidat?
-[%s initiated the conference.]
-%s zahájil konferenci.
-[This is my own conference.]
-Moje vlastní konference.
-[Participants]
-Účastníci
-['Unknown']
-'Neznámý'
-[You have to be connected to open new conference.]
-Novou konferenci lze zahájit až po připojení.
-[All ignored conferences are now unignored and the conference policy will act again.]
-Seznam ignorovaných konferencí byl vymazán a vše je opět řízeno stanovenými pravidly.
-[There are no ignored conferences.]
-Seznam ignorovaných konferencí je prázdný.
 [Protocol icon]
 Ikona protokolu
 [Import list from server]
@@ -9238,6 +9156,34 @@ Odstranit
 Vymazat ignorované konference
 [Concurrent sessions]
 Přehled relací
+[Images]
+Obrázky
+[Gadu-Gadu Number]
+Identifikátor
+[Female]
+žena
+[Male]
+muž
+[Open &conference...]
+Založit novou konferen&ci...
+[&Clear ignored conferences]
+&Vymazat ignorované konference
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
+%s založil konferenci (počet účastníků: %d, z toho neznámých: %s).\nChcete se přidat?
+[%s initiated the conference.]
+%s zahájil konferenci.
+[This is my own conference.]
+Moje vlastní konference.
+[Participants]
+Účastníci
+['Unknown']
+'Neznámý'
+[You have to be connected to open new conference.]
+Novou konferenci lze zahájit až po připojení.
+[All ignored conferences are now unignored and the conference policy will act again.]
+Seznam ignorovaných konferencí byl vymazán a vše je opět řízeno stanovenými pravidly.
+[There are no ignored conferences.]
+Seznam ignorovaných konferencí je prázdný.
 [&Image]
 &Obrázek
 [Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
@@ -9391,9 +9337,9 @@ E-mail byl změněn.
 #muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
 ;============================================================
 ;  File: GmailNotifier.dll
-;  Plugin: Gmail Multiple Notifier
-;  Version: 1.0.1.3
-;  Authors: Mixwind
+;  Plugin: Gmail Notifier Oauth2 Edition
+;  Version: 2.0.1.1
+;  Authors: George Hazan
 ;============================================================
 [Check your Gmail inboxes locally.]
 Lokálně kontroluje vaše schránky na Gmailu.
@@ -9401,14 +9347,14 @@ Lokálně kontroluje vaše schránky na Gmailu.
 Účet na Gmailu
 [Name:]
 Název:
-[Password:]
-Heslo:
 [Add]
 Přidat
-[Save]
-Uložit
+[Edit]
+Upravit
 [Delete]
 Smazat
+[Authorize]
+Autorizovat
 [Configuration]
 Nastavení
 [Check Gmail inbox every]
@@ -9421,32 +9367,30 @@ Oznámení:
 Doba:
 [seconds]
 sek.
-[Text|Background:]
-Text|Pozadí:
 [On double click:]
 Při dvojím kliknutí:
+[Login using default browser]
+Přihlásit (výchozí prohlížeč)
+[Do nothing]
+Nedělat nic
+[Run custom program]
+Spustit vlastní program
 [System tray]
 Oznam. obl.
 [Popup plugin]
 Dopl. PopUp
-[Login using default browser]
-Přihlásit (výchozí prohlížeč)
-[Login using Internet Explorer]
-Přihlásit (Internet Explorer)
-[Run custom program]
-Spustit vlastní program
 [Use online contacts when no new mail]
 Použít online kontakty, když nemáte nový mail
-[Enable icon selection and icon in status bar (restart)]
-Zobrazit ikonu ve stavové liště (restart)
-[This is a shared computer so disable auto login]
-Nepřihlašovat automaticky (veřejný počítač)
 [Log unread threads into database (enable history)]
 Zapsat nepřečtené zprávy do databáze (historie)
+[Authorization]
+Autorizace
+[Cancel]
+Zrušit
+[Go to this link]
+Navštívit stránku
 [Checking...]
 Kontrolování...
-[Can't send account data!]
-Nelze zaslat data o účtu!
 [Wrong name or password!]
 Neplatné jméno nebo heslo!
 [Other]
@@ -11255,7 +11199,7 @@ Dokončit
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.96.1.4
+;  Version: 0.96.7.1
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -11854,7 +11798,7 @@ Odstranění výjimky
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.95.11.1
+;  Version: 0.96.7.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -11911,6 +11855,8 @@ Jako prostředek použít název počítače
 Port:
 [Use SSL]
 Použít SSL
+[Use STARTTLS]
+Použít STARTTLS
 [Unregister]
 Zrušit reg.
 [Expert]
@@ -12333,8 +12279,6 @@ Podporuje správu historie
 Umožňuje odesílat informace o aktivitě uživatele
 [Receives information about user activity]
 Přijímá informace o aktivitě uživatele
-[Supports Miranda NG notes extension]
-Podporuje rozšíření poznámky Miranda NG
 [Supports Roster Exchange]
 Podporuje výměnu seznamů na serveru
 [Supports direct chat invitations (XEP-0249)]
@@ -12569,8 +12513,6 @@ Změnit na místnost
 Přihlásit/odhlásit
 [Resolve nicks]
 Zjistit přezdívku
-[Send note]
-Poslat poznámku
 [AdHoc Command]
 Příkaz
 [OpenID Request]
@@ -12667,8 +12609,6 @@ Volba účtu protokolu Jabber
 Přidat mezi záložky
 [Commands]
 Příkazy
-[Send Note]
-Poslat poznámku
 [Send Presence]
 Poslat stav
 [Jabber Resource]
@@ -12719,10 +12659,6 @@ Od
 Oboje
 [Errors]
 Chyby
-[Incoming note from %s]
-Příchozí poznámka: %s
-[Send note to %s]
-Poslat poznámku: %s
 [From: %s]
 Od: %s
 [All tags]
@@ -12731,8 +12667,6 @@ Všechny štítky
 Poznámky nejsou uloženy, přejete si zavřít okno bez nahrání dat na server?
 [Are you sure?]
 Opravdu chcete pokračovat?
-[Incoming note]
-Příchozí poznámka
 [Afrikaans]
 afrikánština
 [Albanian]
@@ -12885,16 +12819,14 @@ Zobrazit informace o náladě
 Zobrazit informace o poslechu hudby
 [Enable user activity receiving]
 Sledovat aktivity uživatelů
-[Receive notes]
-Přijímat poznámky
-[Automatically save received notes]
-Automaticky uložit obdržené poznámky
 [Enable server-side history (XEP-0136)]
 Povolit historii na serveru
 [Server options]
 Možnosti serveru
 [Disable SASL authentication (for old servers)]
 Vypnout ověření přes SASL (pro zastaralé servery)
+[Enable stream compression]
+Povolit kompresi přenášených dat
 [Other]
 Ostatní
 [Enable remote controlling (from another resource of same JID only)]
@@ -13077,6 +13009,8 @@ Vyberte požadovaný seznam.
 Aktivní ani výchozí seznam nelze odstranit.
 [List Editor...]
 Editor...
+[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
+Jsem šťastný uživatel Mirandy NG. Stáhněte si ji z https://miranda-ng.org/.
 [Set status]
 Změnit stav
 [Set options]
@@ -13567,8 +13501,6 @@ Poslech hudby
 Nálada
 [Activities]
 Činnosti
-[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
-Jsem šťastný uživatel Mirandy NG. Stáhněte si ji z https://miranda-ng.org/.
 #muuid {D3E24A92-E2C3-440F-bc87-002Ab822abf8}
 ;============================================================
 ;  File: Jingle
@@ -13785,6 +13717,31 @@ Pravidla
 Blikání
 [Themes]
 Vlastní sekvence
+#muuid {d0d8a5be-a76a-46b1-92b6-3d69924e211d}
+;============================================================
+;  File: LibreView.dll
+;  Plugin: LibreView
+;  Version: 0.1.0.1
+;  Authors: Miranda NG team
+;============================================================
+[Email:]
+E-mail:
+[Password:]
+Heslo:
+[error]
+Chyba
+[Network]
+Sítě
+[falling]
+klesá
+[steady]
+ustálený
+[rising]
+stoupá
+[N/A]
+<neuvedeno>
+[%d minutes]
+%d minut
 #muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 ;============================================================
 ;  File: LinkList.dll
@@ -14139,6 +14096,39 @@ Přichycení oken
 Pro uživatele doplňku Scriver: Při přesunu a změně velikosti automaticky držte klávesu Ctrl (jen pro Scriver!)
 [Customize]
 Vlastní úpravy
+#muuid {a7e4f9c2-1d8b-4e5a-9c3f-8b2e1d0c9a8f}
+;============================================================
+;  File: Max.dll
+;  Plugin: Max protocol
+;  Version: 0.1.0.1
+;  Authors: Miranda NG contributors
+;============================================================
+[Default group:]
+Výchozí skupina:
+[First name]
+Jméno
+[Last name]
+Příjmení
+[Cancel]
+Zrušit
+[Enter password]
+Zadejte heslo
+[Max]
+Max
+[Protocol icon]
+Ikona protokolu
+[Protocols]
+Protokoly
+[Forward]
+Další
+[Network]
+Sítě
+[Account]
+Účet
+[Unknown]
+Neznámý
+[Favorites]
+Oblíbené
 #muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
 ;============================================================
 ;  File: MenuEx.dll
@@ -14247,6 +14237,8 @@ Ikona přečtené zprávy
 Ikona chyby odesílání
 [Sending message icon]
 Ikony odesílání zprávy
+[Unread contact list extra icon]
+Ikona nepřečtené zprávy v seznamu
 #muuid {7efa77d0-5ca2-485e-a045-609b988f3718}
 ;============================================================
 ;  File: MimCmd.exe
@@ -14392,7 +14384,7 @@ Načíst znovu
 Obecné skripty
 [Services]
 Služby
-[C libs folder]
+[C Libs Folder]
 Složka s knihovnami C
 [Scripts folder]
 Složka se skripty
@@ -14783,6 +14775,8 @@ min
 max
 [Status Message]
 Zpráva stavu
+[All files]
+Všechny soubory
 #muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
 ;============================================================
 ;  File: MsgPopup.dll
@@ -14828,7 +14822,7 @@ Zpráva s hvězdičkou
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.10
+;  Version: 3.1.3.1
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Export directory]
@@ -15221,6 +15215,8 @@ Pamatovat poslední zprávu pro každý kontakt zvlášť
 Ukládat nastavení autom. odpovědi či ignorování pro každý kontakt zvlášť
 [Use protocol specific nick for %nas_mynick%]
 Pro %nas_mynick% použít přezdívku nastavenou pro protokol
+[Update status messages every]
+Aktualizovat stavové zprávy každý
 [seconds]
 sek.
 [Don't show the message dialog for]
@@ -15538,7 +15534,7 @@ Informovat o událostech
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.6
+;  Version: 0.1.0.7
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
@@ -15647,7 +15643,7 @@ Povolit/zakázat automatickou aktualizaci
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.2
+;  Version: 0.2.0.3
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -16427,14 +16423,6 @@ Datum
 Čas
 [Reminder Note:]
 Obsah připomínky
-[None]
----
-[Daily]
-Každý den
-[Weekly]
-Co týden
-[Monthly]
-Co měsíc
 [&Add Reminder]
 Přid&at připomínku
 [&Close]
@@ -16507,14 +16495,20 @@ Nahoře
 Poznámky
 [Note text]
 Pozn. text
+[None]
+---
+[Executable Files]
+Spustitelné soubory
+[All Files]
+Všechny soubory
 [Plugins]
 Doplňky
 [Minutes]
 minut
-[Hours]
-hodin
 [Hour]
 hodina
+[Hours]
+hodin
 [Day]
 den
 [Days]
@@ -17033,7 +17027,7 @@ Neznámý
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.7
+;  Version: 0.3.1.2
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -17158,12 +17152,12 @@ Stahování dokončeno. Přejete si zobrazit nastavení doplňků?
 Seznam je prázdný
 [List loading already started!]
 Načítání seznamu již probíhá!
+[Miranda NG Core]
+Miranda NG jádro
 [Will be deleted!]
 Bude smazán!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Aktualizace dokončena. Přejete si nyní restartovat Mirandu?
-[Miranda NG Core]
-Miranda NG jádro
 [Deprecated!]
 Již nepodporován!
 [Update found!]
@@ -18422,6 +18416,8 @@ přezdívka stávajícího kontaktu (pokud je definováno)
 název protokolu stávajícího kontaktu (pokud je definován). Název účtu je použit pokud protokol podporuje možnost více účtů
 [user-defined account name of current contact (if defined).]
 uživatelem definovaný název účtu (pokud je definován)
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
+Identifikátor stávajícího kontaktu (pokud je definován). To znamená JID pro Jabber atd.
 [path to Miranda root folder]
 cesta ke kořenové složce Mirandy
 [path to folder containing Miranda profiles]
@@ -18474,8 +18470,6 @@ Obecné
 Formátování záznamu
 [Add contact]
 Přidat kontakt
-[User's details]
-Osobní údaje
 [User's history]
 Historie komunikace
 [Send message]
@@ -18702,38 +18696,24 @@ Nabídka kontaktu
 Zobrazit osobní údaje
 [&History]
 &Historie
+[View user's history]
+Zobrazit historii
 [&Bold]
 &Tučné
-[Make the text bold (Ctrl+B)]
-Změní styl písma na tučné (Ctrl+B)
 [&Italic]
 &Kurzíva
-[Make the text italicized (Ctrl+I)]
-Změní styl písma na kurzívu (Ctrl+I)
 [&Underline]
 Pod&tržené
-[Make the text underlined (Ctrl+U)]
-Změní styl písma na podtržené (Ctrl+U)
 [&Color]
 &Barva
-[Select a foreground color for the text (Ctrl+K)]
-Změní barvu textu (Ctrl+K)
 [&Background color]
 Barva &pozadí
-[Select a background color for the text (Ctrl+L)]
-Změní barvu pozadí textu (Ctrl+L)
 [&Room settings]
 &Správa místnosti
-[Control this room (Ctrl+O)]
-Možnosti řízení kanálu (Ctrl+O)
 [&Show/hide nick list]
 &Přepnout seznam účastníků
-[Show/hide the nick list (Ctrl+N)]
-Zobrazí/skryje seznam účastníků (Ctrl+N)
 [&Filter]
 &Filtr
-[Enable/disable the event filter (Ctrl+F)]
-Aktivuje/deaktivuje filtrování událostí (Ctrl+F)
 [&Message]
 &Zpráva
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
@@ -19360,7 +19340,7 @@ Není nečinný
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.9.0.3
+;  Version: 0.9.0.4
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -19973,180 +19953,6 @@ Ne, nejsem tady
 Skrývám se před mafií.
 [idleeeeeeee]
 Chrrrrrrrrrrrr
-#muuid {2925520b-6677-4658-8bad-5661d13e4692}
-;============================================================
-;  File: SkypeStatusChange.dll
-;  Plugin: Skype status change
-;  Version: 0.0.0.18
-;  Authors: Dioksin
-;============================================================
-[Skype status change according to Miranda status.]
-Změna stavu programu Skype dle stavu Mirandy.
-[Synchronize status message]
-Synchronizovat zprávu stavu.
-[&Check any protocol or any status to exclude it from synchronization:]
-&Zaškrtněte jakýkoliv protokol či stav pro vyloučení ze synchronizace:
-[Synchronize if current status differs from previous one]
-Synchronizovat pouze pokud se aktuální stav liší od předchozího
-[Change Skype status]
-Změna stavu Skype
-[Plugins]
-Doplňky
-#muuid {57e90ac6-1067-423b-8ca3-70a39d200d4f}
-;============================================================
-;  File: SkypeWeb.dll
-;  Plugin: Skype protocol (Web)
-;  Version: 0.96.6.1
-;  Authors: Miranda NG team
-;============================================================
-[Skype protocol support for Miranda NG. Based on new Skype for Web.]
-Skype protokol pro Mirandu NG. Založen na novém Skypu pro Web.
-[Create group chat]
-Vytvořit diskusi
-[Cancel]
-Zrušit
-[Mark users you want to invite to a new chat]
-Označte kontakty, které chcete pozvat do nové diskuse
-[Invite user to chat]
-Pozvat uživatele k diskusi
-[Choose one of your contacts to be invited:]
-Zvolte kontakty, které chcete pozvat:
-[Skypename:]
-Skype jméno:
-[Password:]
-Heslo:
-[Default group:]
-Výchozí skupina:
-[Account]
-Účet
-[Others]
-Ostatní
-[Automatic messages synchronization]
-Automatická synchronizace zpráv
-[Use BBCode]
-Použít BBCode
-[Place:]
-Místo:
-[Use hostname]
-Použít název hostitele
-[Change password]
-Změnit heslo
-[Set mood]
-Zadání nalády
-[Mood]
-Nálada
-[Text]
-Text
-[Skype Link Protocol]
-Odkaz protokolu Skype
-[Admin]
-Admin
-[User]
-Uživatel
-[Enter new nickname]
-Zadejte novou přezdívku
-[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-Tato diskuse bude navždy zrušena s veškerým jejím obsahem. Tuto akci nelze vrátit zpět. Přejete si pokračovat?
-[Warning]
-Varování
-[&Invite user...]
-Pozvat k d&iskusi...
-[&Leave chat session]
-&Opustit diskusi
-[&Change topic...]
-&Změnit téma...
-[Kick &user]
-Vykopnout &uživatele
-[Set &role]
-Určit &roli
-[&Admin]
-&Správce
-[&User]
-&Uživatel
-[Change nick...]
-Změnit přezdívku...
-[Enter new chatroom topic]
-Zadejte nové téma diskuse
-[Are you sure?]
-Opravdu chcete pokračovat?
-[Incoming call]
-Příchozí hovor
-[Action]
-Akce
-[Call information]
-Informace o hovoru
-[File transfer information]
-Informace o přenosu souboru
-[Moji]
-Moji
-[Unknown event]
-Neznámá událost
-[SkypeWeb error: Invalid data!]
-SkypeWeb chyba: Neplatná data!
-[Call]
-Hovor
-[Call missed]
-Zmeškaný hovor
-[Call ended (%s)]
-Hovor ukončen (%s)
-[File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
-Přenos souboru:\n\tNázev souboru: %s \n\tVelikost: %lld bajtů \n
-[Preview]
-Náhled
-[Unknown event, please send this text for developer: "%s"]
-Neznámá událost, odešlete prosím tento text vývojáři: "%s"
-[Protocol icon]
-Ikona protokolu
-[Create new chat icon]
-Ikona vytvoření nového chatu
-[Block user icon]
-Ikona blokování uživatele
-[Unblock user icon]
-Ikona odblokování uživatele
-[Incoming call icon]
-Ikona příchozího hovoru
-[Notification icon]
-Ikona upozornění
-[Error icon]
-Ikona chyby
-[Action icon]
-Ikona akce
-[Protocols]
-Protokoly
-[Authentication failed. Invalid username.]
-Ověření selhalo. Neplatné uživatelské jméno.
-[Authentication failed. Bad username or password.]
-Ověření selhalo. Neplatné uživatelské jméno nebo heslo.
-[Too many failed authentication attempts with given username or IP.]
-Příliš mnoho neúspěšných pokusů o ověření pro dané uživatelské jméno nebo IP.
-[Authentication failed. Unknown error.]
-Ověření selhalo. Neznámá chyba.
-[Block contact]
-Zablokovat kontakt
-[Unblock contact]
-Odblokovat kontakt
-[Create new chat]
-Založit novou diskusi
-[Unknown error!]
-Neznámá chyba!
-[Network error!]
-Chyba sítě!
-[None]
----
-[Traveling]
-na cestě
-[Driving]
-řídím
-[Network]
-Sítě
-[Notifications]
-Upozornění
-[Errors]
-Chyby
-[Calls]
-Hovory
-[Skypename]
-Skype jméno
 #muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;============================================================
 ;  File: SmileyAdd.dll
@@ -20238,7 +20044,7 @@ Regulární výraz "%s" v knihovně smajlíků "%s" je neplatný.
 ;============================================================
 ;  File: SpellChecker.dll
 ;  Plugin: Spell checker
-;  Version: 0.2.6.6
+;  Version: 0.3.1.0
 ;  Authors: Ricardo Pescuma Domenecci, Wishmaster
 ;============================================================
 [Spell checker for the message windows. Uses Hunspell to do the checking.]
@@ -20509,7 +20315,7 @@ Stavy
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.6
+;  Version: 1.2.0.8
 ;  Authors: P Boon
 ;============================================================
 [Note: Miranda NG will have to be restarted for changes to take effect.]
@@ -20604,22 +20410,16 @@ Zobrazit dialog
 Doba zobrazení
 [s]
 s
-[Dial-up (experimental)]
-Vytáčené spojení (experimentální)
-[Automatically dial on startup]
-Automaticky vytáčet po spuštění
-[Automatically hang up on exit]
-Automaticky zavěsit po ukončení
 [Other]
 Ostatní
 [Set status to offline before exit]
 Před ukončením přejít do 'Offline'
+[Show CMDL]
+Příkazový ř.
 [Window on startup]
 Okno po startu
 [Set window state]
 Stav okna
-[Set docked]
-Zadokovat
 [Set window location]
 Umístit na souřadnice
 [Left]
@@ -20630,8 +20430,6 @@ Nahoře
 Velikost okna
 [Width]
 Šířka
-[Show CMDL]
-Příkazový ř.
 [Height]
 Výška
 [Background color]
@@ -20766,6 +20564,8 @@ Automatické stavy
 Pravidla
 [Status messages]
 Stavové zprávy
+[<unknown>]
+<neznámý>
 [Set %s message for %s.]
 Nastavit %s zprávu pro %s.
 [<last>]
@@ -20810,8 +20610,6 @@ Obecné
 Extra
 [Popups]
 Oznámení
-[<unknown>]
-<neznámý>
 [default]
 výchozí
 [Hidden]
@@ -20820,10 +20618,6 @@ Skrytý
 Minimalizované
 [Normal]
 Normální
-[Right]
-Vpravo
-[None]
----
 [size: %d x %d]
 velikost: %d x %d
 [loc: %d x %d]
@@ -20844,7 +20638,7 @@ Lišta tlačítek
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -20871,28 +20665,28 @@ Komunikace
 Zobrazovat události konverzace (např. uživatel ukončil komunikaci)
 [Connection]
 Spojení
-[Captcha]
-Ověřovací kód
-[Cancel]
-Zrušit
-[As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
-Z bezpečnostních důvodů musíte ověřit přístup k vašemu účtu zadáním speciálního kódu, který jsme vám právě odeslali na vaši e-mailovou adresu.
-[Go to email domain]
-Navštívit doménu e-mailu
 [Block]
 Blokovat
 [Enter password]
 Zadejte heslo
 [Save password]
 Uložit heslo
+[Cancel]
+Zrušit
 [Enter the password to continue.]
 Zadejte heslo pro pokračování.
-[Security code]
-Bezpečnostní kód
-[As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
-Z bezpečnostních důvodů musíte ověřit přístup k vašemu účtu zadáním SMS kódu, který jsme vám právě odeslali na váš mobilní telefon.
+[Protocol icon]
+Ikona protokolu
+[Gaming icon]
+Herní ikona
 [Steam game]
 Steam hra
+[Owner]
+Něco o sobě
+[Participant]
+Účastník
+[&Leave chat session]
+&Opustit diskusi
 [Looking to play]
 Chci hrát
 [ (Non-Steam)]
@@ -20907,29 +20701,17 @@ Hraje
 %s byl odebrán z vašeho seznamu kontaktů
 [%s has added you to contact list]
 %s si vás přidal do svého seznamu kontaktů
-[Steam menu chooser]
-Volba nabídky Steam
-[Join to game]
-Přidat se do hry
-[Unknown error]
-Neznámá chyba
 [Name]
 Jméno
 [Network]
 Sítě
-[Protocols]
-Protokoly
-[Protocol icon]
-Ikona protokolu
-[Gaming icon]
-Herní ikona
 [closed chat session]
 ukončil komunikaci
 #muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -20950,16 +20732,10 @@ Oddělovač:
 Proměnné
 [Enable protection for following accounts:]
 Aktivovat ochranu pro následující účty:
-[Do not send more than]
-Neposílat více než
-[questions to one contact (0 - for no limit)]
-otázek na jeden kontakt (0 - bez omezení)
 [Enable StopSpam-StopSpam infinite talk protection]
 Povolit ochranu proti spamu StopSpam-StopSpam
 [Add contact permanently]
 Automaticky přidat kontakt po správné odpovědi
-[Enable auth. requests blocking]
-Povolit blokování žádostí o autorizaci
 [Answer is not case sensitive]
 Odpověď není závislá na velikosti písmen
 [Log Spammers to system history]
@@ -21110,6 +20886,8 @@ Jména ke zvýraznění, zástupné znaky jako * a ? jsou povoleny, jednotlivé 
 Zvýraznění textu zprávy
 [Enable highlighting for message text]
 Povolit zvýraznění textu zprávy
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces.]
+Slova ke zvýraznění, zástupné znaky jako * a ? jsou povoleny, jednotlivé položky se oddělují mezerami.
 [Highlight messages containing my own nickname]
 Zvýraznit zprávy obsahující vlastní přezdívku
 [&Retry]
@@ -21176,8 +20954,6 @@ Režim info panel
 Zobrazit avatar v komunikačním okně
 [Ignore sending timeouts]
 Neupozorňovat na vypršení času doručení
-[Load only actual history]
-Načíst pouze aktuální historii
 [Use private splitter position]
 Použít soukromý oddělovač
 [Always trim message log to]
@@ -21620,18 +21396,6 @@ Pozice oddělovače
 Globální
 [Private]
 Soukromý
-[Send text formatting]
-Formátování textu
-[BBCode]
-BBCode
-[Off]
-Vyp
-[This contact]
-Tento kontakt
-[Global setting]
-Globální nastavení
-[Force off]
-Vždy vypnout
 [Set position for this session]
 Nastavit pozici pro tento rozhovor
 [Set and save for all sessions]
@@ -21708,14 +21472,12 @@ Použít umístění okna jako výchozí
 Tlačítko protokolu
 [Info button]
 Informace o kontaktu
-[Bold text]
-Tučný text
-[Italic text]
+[Bold]
+Tučné
+[Italics]
 Kurzíva
-[Underlined text]
-Podtržený text
-[Strike-through text]
-Přeškrtnutý text
+[Underlined]
+Podtržené
 [Send message\nClick dropdown arrow for sending options]
 Poslat zprávu\nKliknutím na šipku zobrazíte možnosti odeslání
 [Close session]
@@ -21726,16 +21488,6 @@ Citovat poslední zprávu NEBO vybraný text
 Možnosti záznamu komunikace
 [View user's history]
 Zobrazit historii
-[Select a foreground color for the text (Ctrl+K)]
-Změní barvu textu (Ctrl+K)
-[Select a background color for the text (Ctrl+L)]
-Změní barvu pozadí textu (Ctrl+L)
-[Show/hide the nick list (Ctrl+N)]
-Zobrazí/skryje seznam účastníků (Ctrl+N)
-[Enable/disable the event filter (Ctrl+F)]
-Aktivuje/deaktivuje filtrování událostí (Ctrl+F)
-[Control this room (Ctrl+O)]
-Možnosti řízení kanálu (Ctrl+O)
 [Message sessions]
 Komunikace
 [Group chats]
@@ -21920,8 +21672,6 @@ Zablikat oknem při napsání zprávy
 Zablikat oknem při zvýraznění slova
 [Create tabs or windows for highlight events]
 Vytvořit panely nebo okna při zvýraznění
-[Activate chat window on highlight]
-Aktivovat okno chatu při zvýraznění
 [Show list of users in the chat room]
 Zobrazit seznam uživatelů v místnosti
 [Show topic as status message on the contact list]
@@ -21976,6 +21726,8 @@ přezdívka stávajícího kontaktu (pokud je definováno)
 název protokolu stávajícího kontaktu (pokud je definován). Název účtu je použit pokud protokol podporuje možnost více účtů
 [user-defined account name of current contact (if defined).]
 uživatelem definovaný název účtu (pokud je definován)
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
+Identifikátor stávajícího kontaktu (pokud je definován). To znamená JID pro Jabber atd.
 [path to Miranda root folder]
 cesta ke kořenové složce Mirandy
 [path to folder containing Miranda profiles]
@@ -22120,6 +21872,8 @@ Ostatní
 TabSRMM: psaní
 [&Messaging settings...]
 &Nastavení komunikace...
+[Send later job list...]
+Fronta zpožděných zpráv...
 [signed off.]
 se odhlásil/a.
 [signed on and is now %s.]
@@ -22156,14 +21910,6 @@ Přepnout odesílání více uživatelům
 Vymazat záznam komunikace
 [Collapse side bar]
 Skrýt boční lištu
-[Channel manager]
-Správa kanálů
-[Toggle filter]
-Přepnout filtr
-[Toggle nick list]
-Přepnout seznam uživatelů
-[Show server window]
-Zobrazit okno serveru
 [%s    Idle: %dh,%02dm]
 %s    Nečinný: %dh,%02dm
 [  Client: %s]
@@ -22226,8 +21972,6 @@ Skiny
 Avatary
 [Typing notification]
 Upozornění na psaní zprávy
-[Insert [img] tag / surround selected text with [img][/img]]
-Vložit značku [img] / uzavřít vybraný text do [img][/img]
 [Add this contact permanently to your contact list]
 Přidat tento kontakt do seznamu natrvalo
 [Do not add this contact permanently]
@@ -22290,12 +22034,10 @@ minuta
 , %d %s nečinný
 [%s on %s%s]
 %s v síti %s%s
-[%s: chat room (%u user%s)]
-%s: místnost (účastníků: %u)
-[%s: chat room (%u users%s)]
-%s: místnost (účastníků: %u)
-[, event filter active]
-, filtr událostí aktivní
+[%s: chat room (%u user)]
+%s: kanál (účastníků: %u)
+[%s: chat room (%u users)]
+%s: kanál (účastníků: %u)
 [%s: message session]
 %s: rozhovor
 [%s: message session (%u users)]
@@ -22400,8 +22142,6 @@ Minimalizovat okno kliknutím na 'Poslat'
 Zavřít okno kliknutím na 'Poslat'
 [Enable "Paste and send" feature]
 Povolit funkci "Vložit a poslat"
-[Allow BBCode formatting in outgoing messages]
-Povolit formátování pomocí BBCode v odchozích zprávách
 [Automatically split long messages (experimental, use with care)]
 Automaticky rozdělovat příliš dlouhé zprávy (experimentální fce)
 [Test contact]
@@ -22532,26 +22272,16 @@ Použití
 Rozvržení okna
 [Message Log options]
 Možnosti záznamu komunikace
-[Image tag]
-Tag obrázku
 [Quote text]
 Citovat text
 [Save and close]
 Uložit a zavřít
 [Smiley button]
 Smajlík
-[Format bold]
-Tučně
-[Format italic]
-Kurzíva
-[Format underline]
-Podtrhnout
 [Font face]
 Písmo
 [Font color]
 Barva písma
-[Format strike-through]
-Přeškrtnutý text
 [Background color]
 Barva pozadí
 [Room settings]
@@ -22600,8 +22330,6 @@ Funkce zakázána (použito jako překrytí)
 Komunikační okna - klasické rozhovory
 [Message windows - all]
 Komunikační okna - všechny rozhovory
-[Message windows - group chats]
-Komunikační okna - skupinové rozhovory
 [Select container for %s]
 Vyberte kontejner pro %s
 [You cannot delete the default container]
@@ -22712,6 +22440,10 @@ Upozornění na psaní
 Kontakt začal psát
 [Contact stopped typing]
 Kontakt přestal psát
+[BBCode]
+BBCode
+[Force off]
+Vždy vypnout
 [Set messaging options for %s]
 Nastavení komunikace pro kontakt %s
 [TabSRMM message (%s)]
@@ -22732,11 +22464,92 @@ Zavření okna|Pro projevení změn nahraného tématu v okně možností, musí
 Nahrání tématu|Nahrání barev a písma tématu může přepsat nastavení definované vaším skinem.\n\nPřejete si pokračovat?
 [There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 Některé neodeslané zprávy čekají na potvrzení.\nPokud nyní zavřete komunikační okno, Miranda se je pokusí poslat, avšak pokud se jí to nepodaří, možná vás nebude moci informovat o chybách.\nOpravdu chcete zavřít toto okno?
+#muuid {DCD56CEC-C61B-4275-a010-8c65c5848815}
+;============================================================
+;  File: Teams.dll
+;  Plugin: Teams protocol
+;  Version: 0.96.6.1
+;  Authors: Miranda NG team
+;============================================================
+[Default group:]
+Výchozí skupina:
+[Account]
+Účet
+[Cancel]
+Zrušit
+[Static]
+Statický
+[Protocol icon]
+Ikona protokolu
+[Create new chat icon]
+Ikona vytvoření nového chatu
+[Block user icon]
+Ikona blokování uživatele
+[Unblock user icon]
+Ikona odblokování uživatele
+[Incoming call icon]
+Ikona příchozího hovoru
+[Notification icon]
+Ikona upozornění
+[Error icon]
+Ikona chyby
+[Action icon]
+Ikona akce
+[Admin]
+Admin
+[User]
+Uživatel
+[Enter new nickname]
+Zadejte novou přezdívku
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Tato diskuse bude navždy zrušena s veškerým jejím obsahem. Tuto akci nelze vrátit zpět. Přejete si pokračovat?
+[Warning]
+Upozornění
+[&Invite user...]
+Pozvat k d&iskusi...
+[&Leave chat session]
+&Opustit diskusi
+[&Change topic...]
+&Změnit téma...
+[Kick &user]
+Vykopnout &uživatele
+[Set &role]
+Určit &roli
+[&Admin]
+&Správce
+[&User]
+&Uživatel
+[Change nick...]
+Změnit přezdívku...
+[Enter new chatroom topic]
+Zadejte nové téma diskuse
+[Are you sure?]
+Opravdu chcete pokračovat?
+[Block contact]
+Zablokovat kontakt
+[Unblock contact]
+Odblokovat kontakt
+[Create new chat]
+Založit novou diskusi
+[Network error!]
+Chyba sítě!
+[Unknown error!]
+Neznámá chyba!
+[Network]
+Sítě
+[Notifications]
+Upozornění
+[Errors]
+Chyby
+[Calls]
+Hovory
+[Incoming call]
+Příchozí hovor
 #muuid {ae708252-0df8-42ba-9ef9-9acc038eeda7}
 ;============================================================
 ;  File: Telegram.dll
 ;  Plugin: Telegram protocol
-;  Version: 0.11.0.1
+;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Telegram protocol support for Miranda NG.]
@@ -22749,6 +22562,10 @@ Telefon:
 Výchozí skupina:
 [Do not open chat windows on creation]
 Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
+[Port]
+Port
+[Secret]
+Utajený
 [Software]
 Software
 [First name:]
@@ -22761,6 +22578,8 @@ Telefon:
 Zrušit
 [Forward]
 Další
+[Birthday]
+Narozeniny
 [Enter password]
 Zadejte heslo
 [Error]
@@ -22793,6 +22612,8 @@ Extra
 Relace
 [General]
 Obecné
+[Unspecified]
+<neuvedeno>
 [none]
 ---
 [Errors]
@@ -22803,8 +22624,6 @@ Audio
 sek.
 [Video]
 Video
-[Title]
-Název
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
@@ -23328,6 +23147,8 @@ popis stavu (WORD)
 časový údaj pro časový rozdíl (DWORD)
 [BYTE to Yes/No]
 definice ano/ne (BYTE)
+[BYTE to Male/Female]
+rozlišení pohlaví (BYTE)
 [WORD to country name]
 název země (WORD)
 [DWORD to IP address]
@@ -23846,69 +23667,6 @@ Transliterovat poslední / vybrané
 Invertovat velikost všeho / vybraného
 [Invert Case Last / Selected]
 Invertovat velikost posledního / vybraného
-#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
-;============================================================
-;  File: Twitter.dll
-;  Plugin: Twitter protocol
-;  Version: 1.3.1.7
-;  Authors: dentist, omniwolf, Thief
-;============================================================
-[Twitter protocol support for Miranda NG.]
-Twitter protokol pro Mirandu NG.
-[Default group:]
-Výchozí skupina:
-[Username:]
-Uživatel:
-[Send]
-Poslat
-[Cancel]
-Zrušit
-[Miscellaneous options]
-Ostatní možnosti
-[sec]
-sek.
-[These changes will take effect the next time you connect to the Twitter network.]
-Provedené změny se projeví až při dalším připojení k síti Twitter.
-[Colors]
-Barvy
-[Use Windows colors]
-Použít barvy Windows
-[Use default colors]
-Použít výchozí barvy
-[Use custom colors]
-Použít vlastní barvy
-[Back]
-Pozadí
-[Text]
-Text
-[Timeout]
-Doba zobrazení
-[Default]
-Výchozí
-[Custom]
-Vlastní
-[Permanent]
-Trvale
-[Preview]
-Náhled
-[Normal]
-Normální
-[%s (server)]
-%s (server)
-[Unable to initialize Netlib for %s.]
-Nelze inicializovat síťovou komunikaci pro %s.
-[%s (avatar)]
-%s (avatar)
-[User name]
-uživatelské jméno
-[Network]
-Sítě
-[Basic]
-Obecné
-[Popups]
-Oznámení
-[%s Protocol]
-%s protokol
 #muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
 ;============================================================
 ;  File: UInfoEx.dll
@@ -24564,6 +24322,8 @@ Státní správa
 Škola (SŠ)
 [Home]
 Domov
+[Providing Help]
+Pomoc uživatelům
 [Law]
 Právo
 [Managerial]
@@ -24784,12 +24544,12 @@ Chcete přerušit probíhající proceduru občerstvování?
 %s má dnes %s.
 [an anniversary]
 výročí
-[He/she has the following anniversaries:]
-On/ona má následující výročí:
-[He has the following anniversaries:]
-On má následující výročí:
-[She has the following anniversaries:]
-Ona má následující výročí:
+[He]
+On
+[She]
+Ona
+[He/she]
+On/ona
 [%d. %s today]
 %d. %s dnes
 [%d. %s tomorrow]
@@ -24802,12 +24562,6 @@ Ona má následující výročí:
 %s bude mít zítra narozeniny.
 [%s has birthday in %d days.]
 Přezdívka: %s, zbývá dnů: %d
-[\nHe/she becomes %d years old.]
-\nOn/ona oslaví %d. narozeniny.
-[\nHe becomes %d years old.]
-\nOn oslaví %d. narozeniny.
-[\nShe becomes %d years old.]
-\nOna oslaví %d. narozeniny.
 [No anniversaries to remind of]
 Není co připomenout z výročí
 [Birthday reminder]
@@ -25138,7 +24892,7 @@ pouze uloží y jako proměnnou x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.16.12
+;  Version: 0.1.19.7
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -25165,10 +24919,6 @@ Skupiny
 Stránky
 [Invites]
 Pozvání
-[E-mail or phone number:]
-E-mail nebo telefonní číslo:
-[Password:]
-Heslo:
 [Advanced]
 Extra
 [Do not open chat windows on creation]
@@ -25199,10 +24949,10 @@ Odkaz:
 Ikona upozornění
 [Read message icon]
 Ikona přečtené zprávy
+[Protocols]
+Protokoly
 [Error]
 Chyba
-[Enter confirmation code]
-Zadejte potvrzovací kód
 [Enter new nickname]
 Zadejte novou přezdívku
 [Message read: %s]
@@ -26024,7 +25774,7 @@ Doplňky
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.8
+;  Version: 1.1.0.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
@@ -26039,8 +25789,6 @@ Stručná př.
 Zavřít
 [Options]
 Možnosti
-[Update weather information on startup]
-Při spuštění zaktualizovat informace o počasí
 [Update weather information every]
 Aktualizovat stav počasí každých
 [minutes]
@@ -26053,8 +25801,6 @@ Při aktualizaci odstranit stará data
 Zobrazit kurzívou stanici s otevřenými informacemi o počasí
 [Modes]
 Režimy
-[Use weather condition as protocol status]
-Zobrazit aktuální situaci jako stav protokolu
 [Avatar only mode]
 Zobrazit pouze avatary (symboly stavu počasí)
 [Units]
@@ -26131,12 +25877,6 @@ Použít externí soubor
 Při aktualizaci přepsat soubor
 [Path:]
 Cesta:
-[Link Settings]
-Odkazy
-[More Info URL]
-Další informace
-[Weather Map]
-Mapa počasí
 [Other Options]
 Ostatní možnosti
 [Set as default station]
@@ -26151,8 +25891,6 @@ Změnit
 Zrušit
 [Popup Options]
 Možnosti oznámení
-[Enable popups]
-Povolit oznámení
 [Popup only when condition changes]
 Oznámit pouze při změně situace
 [Colors]
@@ -26229,26 +25967,6 @@ Rosný bod
 Vlhkost
 [More...]
 Více...
-[Weather Protocol INI Setup]
-Nastavení konfiguračního souboru pro počasí
-[Install and load your weather ini file here]
-Instalace a načtení konfiguračních souborů pro počasí
-[Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
-Nelze najít požadovaný konfigurační soubor pro počasí. Řiďte se prosím následujícími pokyny:
-[Click here to download a weather ini file from Miranda file listing]
-Stáhnout konfigurační soubor ze stránek Miranda-IM
-[Extract the weather ini file from archive to this directory]
-Rozbalit konfigurační soubor do vybrané složky
-[Click here to load the data from the new ini file into memory]
-Načíst data nového konfiguračního souboru
-[Add new weather station and close this dialog]
-Přidat novou meteorologickou stanici a zavřít dialog
-[Total INI files]
-Počet INI souborů
-[Total memory used]
-Využití paměti
-[Reload INI]
-Znovu načíst INI
 [City:]
 Město:
 [Menu]
@@ -26275,6 +25993,54 @@ Předchozí nastavení
 Výchozí nastavení
 [N/A]
 <neuvedeno>
+[Protocol icon]
+Ikona protokolu
+[Update Disabled]
+Aktualizace vypnuta
+[View Log]
+Zobrazit záznam
+[Update with Clear]
+Úplná aktualizace
+[View Brief]
+Stručná předpověď
+[View Complete]
+Úplná předpověď
+[Weather Update]
+Aktualizace předpovědi
+[Weather Map]
+Mapa počasí
+[Edit Settings]
+Upravit nastavení...
+[Condition Changed]
+Změna počasí
+[Alert Issued]
+Varování
+[Current weather information for %s.]
+Aktuální informace o počasí pro %s.
+[%s is now the default weather station]
+%s je nyní výchozí meterologická stanice
+[Weather Protocol]
+Protokol Weather
+[Please try again after weather update is completed.]
+Prosím zkuste znovu po aktualizaci předpovědi počasí.
+[Weather condition was not logged.]
+Předpověď počasí nebyla zaznamenána.
+[Browse]
+Procházet
+[Text Files]
+Textové soubory
+[All Files]
+Všechny soubory
+[mb]
+mb
+[in]
+in
+[mm]
+mm
+[<unknown time>]
+<neznámý čas>
+[<Error>]
+<chyba>
 [Invalid ID format, missing "/" (10)]
 Neplatný formát ID, chybí "/" (č.10)
 [Invalid service (11)]
@@ -26325,130 +26091,38 @@ HTTP Chyba: Špatná brána (502)
 HTTP Chyba: Služba není dostupná (503)
 [HTTP Error: Gateway timeout (504)]
 HTTP Chyba: Doba průchodu vypršela (504)
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
-%c\taktuální předpověď\n%d\taktuální datum\n%e\trosný bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsměr větru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvýchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost větru\n%y\tzápad slunce\n----------\n\\n\tnový řádek
-[Enable/disable auto update]
-Povolit/zakázat automatickou aktualizaci
-[Auto Update Enabled]
-Zakázat automatickou aktualizaci
-[Auto Update Disabled]
-Povolit automatickou aktualizaci
-[Protocol icon]
-Ikona protokolu
-[Update Disabled]
-Aktualizace vypnuta
-[View Log]
-Zobrazit záznam
-[Update with Clear]
-Úplná aktualizace
-[View Brief]
-Stručná předpověď
-[View Complete]
-Úplná předpověď
-[Weather Update]
-Aktualizace předpovědi
-[Edit Settings]
-Upravit nastavení...
-[Condition Changed]
-Změna počasí
-[Alert Issued]
-Varování
-[Weather notifications]
-Oznámení počasí
-[Current weather information for %s.]
-Aktuální informace o počasí pro %s.
-[%s is now the default weather station]
-%s je nyní výchozí meterologická stanice
-[Weather Protocol]
-Protokol Weather
-[Please try again after weather update is completed.]
-Prosím zkuste znovu po aktualizaci předpovědi počasí.
-[<Enter station name here>]
-<zde zadejte název stanice>
-[<Enter station ID here>]
-<zde zadejte identifikátor stanice>
-[Weather condition was not logged.]
-Předpověď počasí nebyla zaznamenána.
-[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
-Není zadána adresa pro kompletní předpověď počasí. Z menu vyberte položku 'Upravit nastavení' a v sekci Odkazy doplňte příslušný údaj.
-[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
-Není zadána adresa pro mapu počasí. Z menu vyberte položku 'Upravit nastavení' a v sekci Odkazy doplňte příslušný údaj.
-[Get city name from ID]
-Zjistit jméno města dle ID
-[Weather INI information]
-Informace o konfiguraci
-[Browse]
-Procházet
-[View webpage]
-Zobrazit stránku
-[Reset to default]
-Obnovit výchozí
-[Text Files]
-Textové soubory
-[All Files]
-Všechny soubory
-[mb]
-mb
-[in]
-in
-[mm]
-mm
-[<unknown time>]
-<neznámý čas>
-[<Error>]
-<chyba>
 [HTTP Error %i]
 HTTP chyba %i
 [<Enter city name here>]
 <zde zadejte město>
-[Error when obtaining data: %s]
-Chyba při stahování dat: %s
-[Name]
-Jméno
-[Author]
-Autor
-[File Version]
-Verze souboru
-[INI Version]
-Verze INI
-[Items]
-Položky
-[Display Name]
-Název
-[File Name]
-Název souboru
-[The corresponding INI file for "%s" is not found.]
-INI soubor pro "%s" nebyl nalezen.
-[Weather INI information for "%s":]
-INI s informacemi o počasí pro "%s":
-[Name:]
-Název:
-[Internal Name:]
-Interní název:
-[Author:]
-Autor:
-[Version:]
-Verze:
-[INI Version:]
-Verze INI:
-[File Name:]
-Název souboru:
-[Item Count:]
-Počet položek:
-[Memory Used:]
-Alokováno paměti:
-[bytes]
-bajtů
-[Description:]
-Popis:
-[Here is a list of custom variables that are currently available]
-Seznam ostatních proměnných, které jsou k dispozici:
-[All update data has been reloaded.]
-Aktualizovaná data byla znovu načtena.
-[Invalid ini format for: %s]
-Neplatný formát souboru ini: %s
-[No update data file is found. Please check your Plugins\\Weather directory.]
-Nelze najít konfigurační soubor. Podívejte se do složky Plugins\\Weather.
+[N]
+S
+[NNE]
+SSV
+[NE]
+SV
+[ENE]
+VSV
+[E]
+V
+[ESE]
+VJV
+[SSE]
+JJV
+[S]
+J
+[SSW]
+JJZ
+[SW]
+JZ
+[WSW]
+ZJZ
+[W]
+Z
+[WNW]
+ZSZ
+[NNW]
+SSZ
 [Frame Font]
 Písmo v rámečku
 [Frame Title Font]
@@ -26457,10 +26131,6 @@ Písmo v záhlaví rámečku
 Barva pozadí rámečku
 [Weather Condition for %n as of %u]
 Aktuální situace: %n, %u
-[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-Subj. teplota: %f\\nTlak: %p\\nVítr: %i  %w\\nVlhkost: %m\\nRosný bod: %e\\nViditelnost: %v\\n\\nVýchod slunce: %r\\nZápad slunce: %y\\n\\nPředpověď na 5 dnů:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-%c\\nTeplota: %t\\nSubj. teplota: %f\\nTlak: %p\\nVítr: %i  %w\\nVlhkost: %m\\nRosný bod: %e\\nViditelnost: %v\\n\\nVýchod slunce: %r\\nZápad slunce: %y\\n\\nPředpověď na 5 dnů:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %n v %u:	%c, %t (subj. %f)	Vítr: %i %w	Vlhkost: %m
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
@@ -26471,22 +26141,44 @@ Teplota: %[Temperature]]
 %n   (%u)
 [%c, %t\\nToday:  High %h, Low %l]
 %c, %t\\nDnes:  Max. %h, min. %l
+[Today's high]
+Denní maximum
+[Wind direction]
+Směr větru
+[Today's low]
+Denní minimum
+[Station name]
+Název stanice
+[Station ID]
+Identifikátor
+[Wind speed]
+Rychlost větru
+[Here is a list of custom variables that are currently available]
+Seznam ostatních proměnných, které jsou k dispozici:
 [Weather Protocol Text Preview]
 Počasí - náhled
 [Network]
 Sítě
+[Account]
+Účet
 [General]
 Obecné
 [Display]
 Zobrazení
-[Popups]
-Oznámení
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\taktuální předpověď\n%d\taktuální datum\n%e\trosný bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsměr větru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvýchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost větru\n%y\tzápad slunce
 [%[..]\tcustom variables]
 %[..]\tspeciální proměnné
-[Station ID]
-Identifikátor
+[Popups]
+Oznámení
+[notifications]
+Upozornění
+[Enable/disable auto update]
+Povolit/zakázat automatickou aktualizaci
+[Auto Update Enabled]
+Zakázat automatickou aktualizaci
+[Auto Update Disabled]
+Povolit automatickou aktualizaci
 [Update Weather]
 Aktualizovat předpověď
 [Remove Old Data then Update]
@@ -26495,24 +26187,36 @@ Aktualizovat vše včetně cache
 Zobrazit stručnou předpověď
 [Read Complete Forecast]
 Zobrazit kompletní předpověď
-[Weather]
-Počasí
-[Enable/Disable Weather Update]
-Zapnout/Vypnout aktualizaci počasí
-[Update All Weather]
-Aktualizovat všechno
-[Remove Old Data then Update All]
-Aktualizovat vše včetně cache
 [Display in a frame]
 Zobrazit v rámečku
 [Unable to retrieve weather information for %s]
 Nelze stáhnout předpověď počasí pro %s
-[No information available.\r\nPlease update weather condition first.]
-Nejsou dostupné žádné informace.\r\nZkuste nejdříve aktualizovat informace o počasí.
+[New moon]
+nov
+[Waxing crescent]
+dorůstá (srpek)
+[Waxing gibbous]
+dorůstá
+[Waning gibbous]
+couvá
+[Waning crescent]
+couvá (srpek)
+[Date]
+Datum
+[Condition]
+Podmínka
+[High]
+Vysoká
+[Low]
+Nízká
+[Feel]
+Subj.
 [Variable]
 Proměnná
 [Information]
 Informace
+[No information available.\r\nPlease update weather condition first.]
+Nejsou dostupné žádné informace.\r\nZkuste nejdříve aktualizovat informace o počasí.
 [Retrieving new data, please wait...]
 Aktualizace dat, počkejte prosím...
 [More Info]
@@ -26522,179 +26226,6 @@ Aktuální předpověď pro %n
 [Last update on:   %u]
 Naposledy aktualizováno %u
 ;============================================================
-;  File: Intellicast.ini
-;  Plugin: Weather
-;============================================================
-[Mon]
-Po
-[Tue]
-Út
-[Wed]
-St
-[Thu]
-Čt
-[Fri]
-Pá
-[Sat]
-So
-[Sun]
-Ne
-[Full]
-úplněk
-[Sunny]
-slunečno
-[Waning Crescent]
-couvá (srpek)
-[Waning Gibbous]
-couvá
-[Waxing Crescent]
-dorůstá (srpek)
-[Waxing Gibbous]
-dorůstá
-[Last Quarter]
-poslední čtvrť
-[First Quarter]
-první čtvrť
-[Partly Sunny]
-částečně slunečno
-[Mostly Sunny]
-převážně slunečno
-[Partly Cloudy]
-částečně oblačno
-[Mostly Cloudy]
-převážně oblačno
-[Mostly Clear]
-převážně jasno
-[Scattered Thunderstorms]
-proměnlivé bouřky
-[Feel]
-Subj.
-[Forecast Day 1]
-Předpověď na 1. den
-[Forecast Day 2]
-Předpověď na 2. den
-[Forecast Day 3]
-Předpověď na 3. den
-[Forecast Day 4]
-Předpověď na 4. den
-[Forecast Day 5]
-Předpověď na 5. den
-[Forecast Day 6]
-Předpověď na 6. den
-[Forecast Day 7]
-Předpověď na 7. den
-[Forecast Day 8]
-Předpověď na 8. den
-[Forecast Day 9]
-Předpověď na 9. den
-[Forecast Day 10]
-Předpověď na 10. den
-[Forecast today]
-Předpověď na dnešní den
-[Heat Index]
-Teplotní index
-[Moon]
-Měsíc
-[Update1]
-Aktualizace1
-[Update2]
-Aktualizace2
-[Wind Direction]
-Směr větru
-[Wind Speed]
-Rychlost větru
-[N]
-S
-[W]
-Z
-[S]
-J
-[E]
-V
-[NW]
-SZ
-[NE]
-SV
-[SW]
-JZ
-[SE]
-JV
-[NNW]
-SSZ
-[NNE]
-SSV
-[SSW]
-JJZ
-[SSE]
-JJV
-[ENE]
-VSV
-[WSW]
-ZJZ
-[WNW]
-ZSZ
-[ESE]
-VJV
-[Scattered Clouds]
-střídavě oblačno
-[North]
-Severní
-[East]
-Východní
-[South]
-Jižní
-[West]
-Západní
-[Northwest]
-Severozápadní
-[Northeast]
-Severovýchodní
-[Southwest]
-Jihozápadní
-[Southeast]
-Jihovýchodní
-;============================================================
-;  File: msn.ini
-;  Plugin: Weather
-;============================================================
-[Condition]
-Situace
-[Feel]
-Subj.
-[Forecast Day 1]
-Předpověď na 1. den
-[Forecast Day 2]
-Předpověď na 2. den
-[Forecast Day 3]
-Předpověď na 3. den
-[Forecast Day 4]
-Předpověď na 4. den
-[Forecast Day 5]
-Předpověď na 5. den
-[Forecast Day 6]
-Předpověď na 6. den
-[Forecast Day 7]
-Předpověď na 7. den
-[Forecast Day 8]
-Předpověď na 8. den
-[Forecast Day 9]
-Předpověď na 9. den
-[Heat Index]
-Teplotní index
-[High]
-Vysoká
-[Low]
-Nízká
-[Temperature]
-Teplota
-[UV Index]
-UV index
-[Wind direction]
-Směr větru
-[Wind speed]
-Rychlost větru
-;============================================================
-;  File: weatherxml.ini
 ;  Plugin: Weather
 ;============================================================
 [AM Rain]
@@ -26721,8 +26252,14 @@ sněhové přeháňky (dop.)
 sněžení (dop.)
 [Am T-Storms]
 bouřky (dop.)
+[Blowing Snow]
+poletující sníh
+[Chance Of Rain]
+příležitostně déšť
 [Clear / Wind]
 jasno / vítr
+[Clear]
+Vymazat
 [Clouds Early / Clearing Late]
 k ránu oblačno, později vyjasnění
 [Cloudy / Wind]
@@ -26733,20 +26270,28 @@ oblačno/větrno
 oblačno a větrno
 [Cloudy]
 oblačno
+[Day Length]
+Délka dne
 [Drifting Snow]
 poletující sníh
+[Drizzle]
+mrholení
 [ENE]
 VSV
 [ESE]
 VJV
 [E]
 V
+[Elevation]
+Výška
 [Fair / Windy]
 pěkně / větrno
 [Fair And Windy]
 pěkně / větrno
 [Fair]
 pěkně
+[Falling]
+Klesá
 [Feel]
 Subj.
 [Few Showers / Wind]
@@ -26765,72 +26310,78 @@ hustá mlha / větrno
 později mlha
 [Fog]
 hustá mlha
-[Forecast Day 0]
-Předpověď na dnešní den
-[Forecast Day 1]
-Předpověď na 1. den
-[Forecast Day 2]
-Předpověď na 2. den
-[Forecast Day 3]
-Předpověď na 3. den
-[Forecast Day 4]
-Předpověď na 4. den
-[Forecast Day 5]
-Předpověď na 5. den
-[Forecast Day 6]
-Předpověď na 6. den
-[Forecast Day 7]
-Předpověď na 7. den
-[Forecast Day 8]
-Předpověď na 8. den
-[Forecast Day 9]
-Předpověď na 9. den
-[Forecast Update VAR]
-Aktualizace předpovědi VAR
-[Forecast Update]
-Aktualizace předpovědi
 [Freezing Drizzle / Windy]
 mrznoucí mrholení / větrno
+[Freezing Drizzle]
+mrznoucí mrholení
+[Freezing Fog]
+mrznoucí mlha
 [Freezing Rain / Windy]
 mrznoucí déšť / větrno
+[Freezing Rain]
+mrznoucí déšť
 [Full Moon]
+úplněk
+[Full]
 úplněk
 [Haze]
 slabé mrholení
 [Heat Index]
 Teplotní index
+[Heavy Fog]
+velmi hustá mlha
 [Heavy Rain / Wind]
 průtrž mračen/vítr
+[Heavy Rain Showers]
+silné dešťové přeháňky
 [Heavy Rain]
 průtrž mračen
 [Heavy Snow And Windy]
 silné sněžení / větrno
 [Heavy Snow Shower]
 silná sněhová přeháňka
+[Heavy Snow Showers]
+silné sněhové přeháňky
 [Heavy Snow]
 silné sněžení
 [Heavy T-Storm]
 silná bouřka
 [Heavy T-Storms]
 silná bouřka
+[High]
+Vysoká
 [Ice Crystals]
 ledové krystaly
+[Ice Pellets]
+ledové kuličky
 [Isolated T-Storms / Wind]
 ojedinělé bouřky / vítr
 [Isolated T-Storms]
 ojedinělé bouřky
-[Last Quarter]
-poslední čtvrť
 [Light Drizzle And Fog]
 slabé mrholení / hustá mlha
 [Light Drizzle And Windy]
 slabé mrholení / větrno
+[Light Drizzle Mist]
+slabé mrholení a mlha
 [Light Drizzle]
 slabé mrholení
+[Light Fog]
+slabá mlha
+[Light Freezing Drizzle Mist]
+slabé mrznoucí mrholení
+[Light Freezing Drizzle]
+slabé mrznoucí mrholení
 [Light Freezing Rain / Fog]
 slabý mrznoucí déšť/hustá mlha
 [Light Freezing Rain / Windy]
 slabý mrznoucí déšť/větrno
+[Light Freezing Rain Mist]
+slabý mrznoucí déšť / mrholení
+[Light Freezing Rain]
+slabý mrznoucí déšť
+[Light Ice Pellets]
+slabé ledové kuličky
 [Light Rain / Fog]
 slabý déšť / mlha
 [Light Rain / Freezing Rain]
@@ -26847,10 +26398,14 @@ slabý déšť / větrno
 k ránu slabý déšť
 [Light Rain Late]
 později slabý déšť
+[Light Rain Mist]
+mrholení / slabý déšť
 [Light Rain Shower And Windy]
 slabá dešťová přeháňka / větrno
 [Light Rain Shower]
 slabá dešťová přeháňka
+[Light Rain Showers]
+slabé dešťové přeháňky
 [Light Rain With Thunder]
 slabý déšť s hřměním
 [Light Rain]
@@ -26863,18 +26418,30 @@ slabé sněžení / mlha
 slabé sněžení / větrno
 [Light Snow Early]
 k ránu slabé sněžení
+[Light Snow Grains]
+slabé sněhové vločky
 [Light Snow Late]
 později slabé sněžení
+[Light Snow Mist]
+slabé sněhové mrholení
 [Light Snow Shower And Windy]
 slabé sněhové přeháňky / větrno
 [Light Snow Shower]
 slabá sněhová přeháňka
+[Light Snow Showers]
+slabé sněhové přeháňky
 [Light Snow]
 slabé sněžení
 [Light Thunderstorm Rain]
 slabá bouřka / déšť
+[Light Thunderstorm]
+slabá bouřka
 [Local Time]
 Místní čas
+[Low Drifting Snow]
+nízko poletující sníh
+[Low]
+Nízká
 [Mist]
 mrholení
 [Moderate]
@@ -26893,8 +26460,6 @@ převážně oblačno
 převážně slunečno / vítr
 [Mostly Sunny]
 převážně slunečno
-[N/a]
-<neuvedeno>
 [NE]
 SV
 [NNE]
@@ -26911,6 +26476,8 @@ nov
 noc
 [Overcast]
 zataženo
+[Partial Fog]
+místy hustá mlha
 [Partly Cloudy / Wind]
 částečně oblačno / vítr
 [Partly Cloudy / Windy]
@@ -26939,6 +26506,8 @@ Sněhové přeháňky (odp.)
 sněžení (odp.)
 [Pm T-Storms]
 bouřky (odp.)
+[Pressure Change]
+Změna tlaku
 [Pressure Tendency]
 Tlaková tendence
 [Rain / Freezing Rain / Wind]
@@ -26971,12 +26540,16 @@ déšť se sněhem
 k ránu déšť
 [Rain Late]
 později déšť
+[Rain Mist]
+déšť a mlha
 [Rain Shower]
 dešťová přeháňka
 [Rain To Snow]
 déšť se sněhem
 [Rain]
 déšť
+[Rising]
+Stoupá
 [SE]
 JV
 [SSE]
@@ -26989,6 +26562,8 @@ JZ
 J
 [Sand]
 písek
+[Scattered Clouds]
+střídavě oblačno
 [Scattered Showers]
 proměnlivé přeháňky
 [Scattered Snow Showers]
@@ -26996,6 +26571,8 @@ proměnlivé sněhové přeháňky
 [Scattered T-Storms / Wind]
 proměnlivé bouřky / vítr
 [Scattered T-Storms]
+proměnlivé bouřky
+[Scattered Thunderstorms]
 proměnlivé bouřky
 [Shallow Fog]
 slabá mlha
@@ -27029,6 +26606,8 @@ sněžení/větrno
 sníh s deštěm
 [Snow Early]
 k ránu sněžení
+[Snow Grains]
+sněhové vločky
 [Snow Shower / Wind]
 sněhová přeháňka / vítr
 [Snow Shower And Windy]
@@ -27041,12 +26620,18 @@ sněhové přeháňky / k ránu vítr
 k ránu sněhové přeháňky
 [Snow Showers Late]
 později sněhové přeháňky
+[Snow Showers]
+sněhové přeháňky
 [Snow To Rain]
 sníh s deštěm
 [Snow To Wintry Mix]
 sněžení s mrznoucím deštěm
 [Snow]
 sněžení
+[Stable]
+Stabilní
+[Steady]
+Ustálený
 [Sunny / Wind]
 slunečno/vítr
 [Sunny / Windy]
@@ -27065,20 +26650,22 @@ k ránu bouřky
 později bouřky
 [T-Storms]
 bouřky
+[Temperature]
+Teplota
 [Thunder In The Vicinity]
 bouře v okolí
 [Thunderstorm Rain]
 bouřka a déšť
 [Thunderstorm]
 bouřka
+[Thunderstorms And Rain]
+bouřky / déšť
 [UV Index]
 UV index
 [UVI]
 UVI
 [UV]
 UV
-[Update VAR]
-Aktualizace VAR
 [WNW]
 ZSZ
 [WSW]
@@ -27093,730 +26680,42 @@ couvá
 dorůstá (srpek)
 [Waxing Gibbous]
 dorůstá
-[Wind Direction DEG]
-Směr větru (stupně)
-[Wind Direction]
-Směr větru
-[Wind Speed]
-Rychlost větru
-[WindDir]
-Směr větru
-[Wintry Mix / Wind]
-mrznoucí déšť se sněhem/vítr
-[falling]
-klesá
-[rising]
-stoupá
-[steady]
-ustálený
-;============================================================
-;  File: wundergrnd_intl.ini
-;  Plugin: Weather
-;============================================================
-[Alert]
-Upozornění
-[Blowing Snow]
-poletující sníh
-[Clear]
-jasno
-[Cloudy]
-oblačno
-[Day Length]
-Délka dne
-[Drizzle]
-mrholení
-[ENE]
-VSV
-[ESE]
-VJV
-[E]
-V
-[East]
-Východní
-[Elevation]
-Výška
-[Falling]
-Klesá
-[Feel]
-Subj.
-[First Quarter]
-první čtvrť
-[Fog]
-hustá mlha
-[Forecast Day 1 Condition]
-Předpověď na 1. den - počasí
-[Forecast Day 1 Day]
-Předpověď na 1. den - denní
-[Forecast Day 1 High]
-Předpověď na 1. den - nejvyšší
-[Forecast Day 1 Low]
-Předpověď na 1. den - nejnižší
-[Forecast Day 1 Night Text]
-Předpověď na 1. den - noční informace
-[Forecast Day 1 Text]
-Předpověď na 1. den - informace
-[Forecast Day 1]
-Předpověď na 1. den
-[Forecast Day 2 Condition]
-Předpověď na 2. den - počasí
-[Forecast Day 2 Day]
-Předpověď na 2. den - denní
-[Forecast Day 2 High]
-Předpověď na 2. den - nejvyšší
-[Forecast Day 2 Low]
-Předpověď na 2. den - nejnižší
-[Forecast Day 2 Night Text]
-Předpověď na 2. den - noční informace
-[Forecast Day 2 Text]
-Předpověď na 2. den - informace
-[Forecast Day 2]
-Předpověď na 2. den
-[Forecast Day 3 Condition]
-Předpověď na 3. den - počasí
-[Forecast Day 3 Day]
-Předpověď na 3. den - denní
-[Forecast Day 3 High]
-Předpověď na 3. den - nejvyšší
-[Forecast Day 3 Low]
-Předpověď na 3. den - nejnižší
-[Forecast Day 3 Night Text]
-Předpověď na 3. den - noční informace
-[Forecast Day 3 Text]
-Předpověď na 3. den - informace
-[Forecast Day 3]
-Předpověď na 3. den
-[Forecast Day 4 Condition]
-Předpověď na 4. den - počasí
-[Forecast Day 4 Day]
-Předpověď na 4. den - denní
-[Forecast Day 4 High]
-Předpověď na 4. den - nejvyšší
-[Forecast Day 4 Low]
-Předpověď na 4. den - nejnižší
-[Forecast Day 4 Night Text]
-Předpověď na 4. den - noční informace
-[Forecast Day 4 Text]
-Předpověď na 4. den - informace
-[Forecast Day 4]
-Předpověď na 4. den
-[Forecast Day 5 Condition]
-Předpověď na 5. den - počasí
-[Forecast Day 5 Day]
-Předpověď na 5. den - denní
-[Forecast Day 5 High]
-Předpověď na 5. den - nejvyšší
-[Forecast Day 5 Low]
-Předpověď na 5. den - nejnižší
-[Forecast Day 5 Night Text]
-Předpověď na 5. den - noční informace
-[Forecast Day 5 Text]
-Předpověď na 5. den - informace
-[Forecast Day 5]
-Předpověď na 5. den
-[Freezing Drizzle]
-mrznoucí mrholení
-[Freezing Fog]
-mrznoucí mlha
-[Freezing Rain]
-mrznoucí déšť
-[Friday]
-pátek
-[Full Moon]
-úplněk
-[Haze]
-slabé mrholení
-[Heat Index]
-Teplotní index
-[Heavy Fog]
-velmi hustá mlha
-[Heavy Rain Showers]
-silné dešťové přeháňky
-[Heavy Snow Showers]
-silné sněhové přeháňky
-[Heavy Snow]
-silné sněžení
-[Ice Pellets]
-ledové kuličky
-[Last Quarter]
-poslední čtvrť
-[Light Drizzle Mist]
-slabé mrholení a mlha
-[Light Drizzle]
-slabé mrholení
-[Light Fog]
-slabá mlha
-[Light Freezing Drizzle Mist]
-slabé mrznoucí mrholení
-[Light Freezing Drizzle]
-slabé mrznoucí mrholení
-[Light Freezing Rain Mist]
-slabý mrznoucí déšť / mrholení
-[Light Freezing Rain]
-slabý mrznoucí déšť
-[Light Ice Pellets]
-slabé ledové kuličky
-[Light Rain Mist]
-mrholení / slabý déšť
-[Light Rain Showers]
-slabé dešťové přeháňky
-[Light Rain]
-slabý déšť
-[Light Showers Rain]
-slabé přeháňky a déšť
-[Light Snow Grains]
-slabé sněhové vločky
-[Light Snow Mist]
-slabé sněhové mrholení
-[Light Snow Showers]
-slabé sněhové přeháňky
-[Light Snow]
-slabé sněžení
-[Light Thunderstorm Rain]
-slabá bouřka / déšť
-[Light Thunderstorm]
-slabá bouřka
-[Local Time]
-Místní čas
-[Low Drifting Snow]
-nízko poletující sníh
-[Max]
-Max
-[Min]
-Min
-[Mist]
-mrholení
-[Monday]
-pondělí
-[Moon]
-Měsíc
-[Mostly Clear]
-převážně jasno
-[Mostly Cloudy]
-převážně oblačno
-[Mostly Sunny]
-převážně slunečno
-[N/a]
-<neuvedeno>
-[NE]
-SV
-[NNE]
-SSV
-[NNW]
-SSZ
-[NW]
-SZ
-[N]
-S
-[New Moon]
-nov
-[North]
-Severní
-[Northeast]
-Severovýchodní
-[Northwest]
-Severozápadní
-[Overcast]
-zataženo
-[Partial Fog]
-místy hustá mlha
-[Partly Cloudy]
-částečně oblačno
-[Partly Sunny]
-částečně slunečno
-[Pressure Change]
-Změna tlaku
-[Rain Mist]
-déšť a mlha
-[Rain]
-déšť
-[Rising]
-Stoupá
-[SE]
-JV
-[SSE]
-JJV
-[SSW]
-JJZ
-[SW]
-JZ
-[S]
-J
-[Saturday]
-sobota
-[Scattered Clouds]
-střídavě oblačno
-[Shallow Fog]
-slabá mlha
-[Showers Rain]
-dešťová přeháňka
-[Smoke]
-kouř
-[Snow Grains]
-sněhové vločky
-[Snow Showers]
-sněhové přeháňky
-[Snow]
-sněžení
-[South]
-Jižní
-[Southeast]
-Jihovýchodní
-[Southwest]
-Jihozápadní
-[Stable]
-Stabilní
-[Steady]
-Ustálený
-[Sunday]
-neděle
-[Thunderstorm Rain]
-bouřka a déšť
-[Thunderstorm]
-bouřka
-[Thunderstorms And Rain]
-bouřky / déšť
-[Thursday]
-čtvrtek
-[Tuesday]
-úterý
-[UV Index]
-UV index
-[Var]
-Proměnlivý
-[WNW]
-ZSZ
-[WSW]
-ZJZ
-[W]
-Z
-[Waning Crescent]
-couvá (srpek)
-[Waning Gibbous]
-couvá
-[Waxing Crescent]
-dorůstá (srpek)
-[Waxing Gibbous]
-dorůstá
-[Wednesday]
-středa
 [West]
 Západní
 [Wind Direction DEG]
 Směr větru (stupně)
-[Wind Direction]
-Směr větru
-[Wind Speed]
-Rychlost větru
-[longer]
-delší
-[shorter]
-kratší
-;============================================================
-;  File: wundergrnd_xml.ini
-;  Module: weather
-;============================================================
-[Alert]
-Upozornění
-[Blowing Snow]
-poletující sníh
-[Chance Of Rain]
-příležitostně déšť
-[Clear]
-Vymazat
-[Cloudy]
-oblačno
-[Day Length]
-Délka dne
-[Drizzle]
-mrholení
-[ENE]
-VSV
-[ESE]
-VJV
-[E]
-V
-[East]
-Východní
-[Elevation]
-Výška
-[Falling]
-Klesá
-[Feel]
-Subj.
-[First Quarter]
-první čtvrť
-[Fog]
-hustá mlha
-[Forecast Day 1 Condition]
-Předpověď na 1. den - počasí
-[Forecast Day 1 Day]
-Předpověď na 1. den - denní
-[Forecast Day 1 High]
-Předpověď na 1. den - nejvyšší
-[Forecast Day 1 Low]
-Předpověď na 1. den - nejnižší
-[Forecast Day 1 Night Text]
-Předpověď na 1. den - noční informace
-[Forecast Day 1 Text]
-Předpověď na 1. den - informace
-[Forecast Day 1]
-Předpověď na 1. den
-[Forecast Day 2 Condition]
-Předpověď na 2. den - počasí
-[Forecast Day 2 Day]
-Předpověď na 2. den - denní
-[Forecast Day 2 High]
-Předpověď na 2. den - nejvyšší
-[Forecast Day 2 Low]
-Předpověď na 2. den - nejnižší
-[Forecast Day 2 Night Text]
-Předpověď na 2. den - noční informace
-[Forecast Day 2 Text]
-Předpověď na 2. den - informace
-[Forecast Day 2]
-Předpověď na 2. den
-[Forecast Day 3 Condition]
-Předpověď na 3. den - počasí
-[Forecast Day 3 Day]
-Předpověď na 3. den - denní
-[Forecast Day 3 High]
-Předpověď na 3. den - nejvyšší
-[Forecast Day 3 Low]
-Předpověď na 3. den - nejnižší
-[Forecast Day 3 Night Text]
-Předpověď na 3. den - noční informace
-[Forecast Day 3 Text]
-Předpověď na 3. den - informace
-[Forecast Day 3]
-Předpověď na 3. den
-[Forecast Day 4 Condition]
-Předpověď na 4. den - počasí
-[Forecast Day 4 Day]
-Předpověď na 4. den - denní
-[Forecast Day 4 High]
-Předpověď na 4. den - nejvyšší
-[Forecast Day 4 Low]
-Předpověď na 4. den - nejnižší
-[Forecast Day 4 Night Text]
-Předpověď na 4. den - noční informace
-[Forecast Day 4 Text]
-Předpověď na 4. den - informace
-[Forecast Day 4]
-Předpověď na 4. den
-[Forecast Day 5 Condition]
-Předpověď na 5. den - počasí
-[Forecast Day 5 Day]
-Předpověď na 5. den - denní
-[Forecast Day 5 High]
-Předpověď na 5. den - nejvyšší
-[Forecast Day 5 Low]
-Předpověď na 5. den - nejnižší
-[Forecast Day 5 Night Text]
-Předpověď na 5. den - noční informace
-[Forecast Day 5 Text]
-Předpověď na 5. den - informace
-[Forecast Day 5]
-Předpověď na 5. den
-[Freezing Drizzle]
-mrznoucí mrholení
-[Freezing Fog]
-mrznoucí mlha
-[Freezing Rain]
-mrznoucí déšť
-[Friday]
-pátek
-[Full Moon]
-úplněk
-[Haze]
-slabé mrholení
-[Heat Index]
-Teplotní index
-[Heavy Fog]
-velmi hustá mlha
-[Heavy Rain Showers]
-silné dešťové přeháňky
-[Heavy Snow Showers]
-silné sněhové přeháňky
-[Heavy Snow]
-silné sněžení
-[Ice Pellets]
-ledové kuličky
-[Last Quarter]
-poslední čtvrť
-[Light Drizzle Mist]
-slabé mrholení a mlha
-[Light Drizzle]
-slabé mrholení
-[Light Fog]
-slabá mlha
-[Light Freezing Drizzle Mist]
-slabé mrznoucí mrholení
-[Light Freezing Drizzle]
-slabé mrznoucí mrholení
-[Light Freezing Rain Mist]
-slabý mrznoucí déšť / mrholení
-[Light Freezing Rain]
-slabý mrznoucí déšť
-[Light Ice Pellets]
-slabé ledové kuličky
-[Light Rain Mist]
-mrholení / slabý déšť
-[Light Rain Showers]
-slabé dešťové přeháňky
-[Light Rain]
-slabý déšť
-[Light Showers Rain]
-slabé přeháňky a déšť
-[Light Snow Grains]
-slabé sněhové vločky
-[Light Snow Mist]
-slabé sněhové mrholení
-[Light Snow Showers]
-slabé sněhové přeháňky
-[Light Snow]
-slabé sněžení
-[Light Thunderstorm Rain]
-slabá bouřka / déšť
-[Light Thunderstorm]
-slabá bouřka
-[Local Time]
-Místní čas
-[longer]
-delší
-[Low Drifting Snow]
-nízko poletující sníh
-[Max]
-Max
-[Min]
-Min
-[Mist]
-mrholení
-[Monday]
-pondělí
-[Moon]
-Měsíc
-[Mostly Clear]
-převážně jasno
-[Mostly Cloudy]
-převážně oblačno
-[Mostly Sunny]
-převážně slunečno
-[N/a]
-<neuvedeno>
-[NE]
-SV
-[NNE]
-SSV
-[NNW]
-SSZ
-[NW]
-SZ
-[N]
-S
-[New Moon]
-nov
-[North]
-Severní
-[Northeast]
-Severovýchodní
-[Northwest]
-Severozápadní
-[Overcast]
-zataženo
-[Partial Fog]
-místy hustá mlha
-[Partly Cloudy]
-částečně oblačno
-[Partly Sunny]
-částečně slunečno
-[Pressure Change]
-Změna tlaku
-[Rain Mist]
-déšť a mlha
-[Rain]
-déšť
-[Rising]
-Stoupá
-[SE]
-JV
-[SSE]
-JJV
-[SSW]
-JJZ
-[SW]
-JZ
-[S]
-J
-[Saturday]
-sobota
-[Scattered Clouds]
-střídavě oblačno
-[Shallow Fog]
-slabá mlha
-[shorter]
-kratší
-[Showers Rain]
-dešťová přeháňka
-[Smoke]
-kouř
-[Snow Grains]
-sněhové vločky
-[Snow Showers]
-sněhové přeháňky
-[Snow]
-sněžení
-[South]
-Jižní
-[Southeast]
-Jihovýchodní
-[Southwest]
-Jihozápadní
-[Stable]
-Stabilní
-[Steady]
-Ustálený
-[Sunday]
-neděle
-[Thunderstorm Rain]
-bouřka a déšť
-[Thunderstorm]
-bouřka
-[Thunderstorms And Rain]
-bouřky / déšť
-[Thursday]
-čtvrtek
-[Tuesday]
-úterý
-[UV Index]
-UV index
-[Var]
-proměnlivý
-[WNW]
-ZSZ
-[WSW]
-ZJZ
-[W]
-Z
-[Waning Crescent]
-couvá (srpek)
-[Waning Gibbous]
-couvá
-[Waxing Crescent]
-dorůstá (srpek)
-[Waxing Gibbous]
-dorůstá
-[Wednesday]
-středa
-[West]
-Západní
-[Wind Direction DEG]
-Směr větru (stupně)
-[Wind Direction]
-Směr větru
-[Wind Speed]
-Rychlost větru
-;============================================================
-;  File: yweather.ini
-;  Plugin: Weather
-;============================================================
-[ENE]
-VSV
-[ESE]
-VJV
-[E]
-V
-[East]
-Východní
-[Feel]
-Subj.
-[Forecast Day 1 Condition]
-Předpověď na 1. den - počasí
-[Forecast Day 1 Date]
-Předpověď na 1. den - datum
-[Forecast Day 1 Day]
-Předpověď na 1. den - denní
-[Forecast Day 1 High]
-Předpověď na 1. den - nejvyšší
-[Forecast Day 1 Low]
-Předpověď na 1. den - nejnižší
-[Forecast Day 1]
-Předpověď na 1. den
-[Fri]
-Pá
-[Heat Index]
-Teplotní index
-[Mon]
-Po
-[Mostly Clear]
-převážně jasno
-[Mostly Cloudy]
-převážně oblačno
-[Mostly Sunny]
-převážně slunečno
-[NE]
-SV
-[NNE]
-SSV
-[NNW]
-SSZ
-[NW]
-SZ
-[N]
-S
-[North]
-Severní
-[Northeast]
-Severovýchodní
-[Northwest]
-Severozápadní
-[Partly Cloudy]
-částečně oblačno
-[Partly Sunny]
-částečně slunečno
-[SE]
-JV
-[SSE]
-JJV
-[SSW]
-JJZ
-[SW]
-JZ
-[S]
-J
-[Sat]
-So
-[Scattered Clouds]
-střídavě oblačno
-[South]
-Jižní
-[Southeast]
-Jihovýchodní
-[Southwest]
-Jihozápadní
-[Sun]
-Ne
-[Sunny]
-slunečno
-[Thu]
-Čt
-[Tue]
-Út
-[WNW]
-ZSZ
-[WSW]
-ZJZ
-[W]
-Z
-[Wed]
-St
-[West]
-Západní
 [Wind Direction Degrees]
 Směr větru (stupně)
 [Wind Direction]
 Směr větru
 [Wind Speed]
 Rychlost větru
+[Wind direction]
+Směr větru
+[Wind speed]
+Rychlost větru
+[Wintry Mix / Wind]
+mrznoucí déšť se sněhem/vítr
+[Forecast Day 0]
+Předpověď na dnešní den
+[Forecast Day 1]
+Předpověď na 1. den
+[Forecast Day 2]
+Předpověď na 2. den
+[Forecast Day 3]
+Předpověď na 3. den
+[Forecast Day 4]
+Předpověď na 4. den
+[Forecast Day 5]
+Předpověď na 5. den
+[Forecast Day 6]
+Předpověď na 6. den
+[Forecast Day 7]
+Předpověď na 7. den
+[Forecast Day 8]
+Předpověď na 8. den
+[Forecast Day 9]
+Předpověď na 9. den
 #muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
 ;============================================================
 ;  File: Webview.dll
@@ -27943,6 +26842,8 @@ Něco o sobě
 Admin
 [Participant]
 Účastník
+[Incoming call]
+Příchozí hovor
 [Network]
 Sítě
 [Account]

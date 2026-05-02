@@ -224,37 +224,6 @@ Za&blokovat
 Konference
 [Contact list]
 Seznam kontaktů
-;file \protocols\Gadu-Gadu\src\gg_proto.cpp
-[Images]
-Obrázky
-[Gadu-Gadu Number]
-Identifikátor
-[Female]
-žena
-[Male]
-muž
-;file \protocols\Gadu-Gadu\src\groupchat.cpp
-[Open &conference...]
-Založit novou konferen&ci...
-[&Clear ignored conferences]
-&Vymazat ignorované konference
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
-%s založil konferenci (počet účastníků: %d, z toho neznámých: %s).\nChcete se přidat?
-[%s initiated the conference.]
-%s zahájil konferenci.
-[This is my own conference.]
-Moje vlastní konference.
-[Participants]
-Účastníci
-['Unknown']
-'Neznámý'
-[You have to be connected to open new conference.]
-Novou konferenci lze zahájit až po připojení.
-[All ignored conferences are now unignored and the conference policy will act again.]
-Seznam ignorovaných konferencí byl vymazán a vše je opět řízeno stanovenými pravidly.
-[There are no ignored conferences.]
-Seznam ignorovaných konferencí je prázdný.
-;file \protocols\Gadu-Gadu\src\icolib.cpp
 [Protocol icon]
 Ikona protokolu
 [Import list from server]
@@ -285,6 +254,36 @@ Odstranit
 Vymazat ignorované konference
 [Concurrent sessions]
 Přehled relací
+;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+[Images]
+Obrázky
+[Gadu-Gadu Number]
+Identifikátor
+[Female]
+žena
+[Male]
+muž
+;file \protocols\Gadu-Gadu\src\groupchat.cpp
+[Open &conference...]
+Založit novou konferen&ci...
+[&Clear ignored conferences]
+&Vymazat ignorované konference
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
+%s založil konferenci (počet účastníků: %d, z toho neznámých: %s).\nChcete se přidat?
+[%s initiated the conference.]
+%s zahájil konferenci.
+[This is my own conference.]
+Moje vlastní konference.
+[Participants]
+Účastníci
+['Unknown']
+'Neznámý'
+[You have to be connected to open new conference.]
+Novou konferenci lze zahájit až po připojení.
+[All ignored conferences are now unignored and the conference policy will act again.]
+Seznam ignorovaných konferencí byl vymazán a vše je opět řízeno stanovenými pravidly.
+[There are no ignored conferences.]
+Seznam ignorovaných konferencí je prázdný.
 ;file \protocols\Gadu-Gadu\src\image.cpp
 [&Image]
 &Obrázek

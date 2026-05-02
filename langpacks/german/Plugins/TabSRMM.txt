@@ -150,8 +150,6 @@ Infobereichsmodus
 Avatar im Nachrichtenfenster anzeigen
 [Ignore sending timeouts]
 Zeitüberschreitungen ignorieren
-[Load only actual history]
-Lade nur aktuellen Nachrichtenverlauf
 [Use private splitter position]
 Private Splitterposition verwenden
 [Always trim message log to]

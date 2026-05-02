@@ -156,18 +156,10 @@
 3ти:
 [Place offline users out of groups]
 
-[Selection mode]
-Режим на маркиране
-[Default]
-Стандарт
-[Full selection]
-Цялостно маркиране
-[Less selection]
-Частично маркиране
-[No selection]
-Без маркиране
-[Gamma correction]
-Корекция на гамата
+[Appearance]
+Външен вид
+[Always on top]
+Винаги отгоре
 [Bring to front if covered]
 Извеждане отпред, ако е покрит
 [Hide contact list after]
@@ -186,8 +178,6 @@
 Без ръчно оразмеряване
 [Drag to]
 При влачене
-[Easy scroll]
-Лесно придвижване
 [Easy move]
 Лесно местене
 [x100 ms]
@@ -212,8 +202,6 @@ x100 ms
 Автоматично показване
 [Always visible]
 Винаги видимо
-[Dock to sides]
-Загнездване отстрани
 [and minimum]
 минимум
 [Items]
@@ -302,12 +290,6 @@ x100 ms
 Показване само при различен часови пояс
 [Show contact time as row item]
 Показване на местното време като елемент на реда
-[Appearance]
-Външен вид
-[Always on top]
-Винаги отгоре
-[Pin to desktop]
-Прилепване към работния плот
 [Client area margins]
 
 [Thin border main window]
@@ -322,8 +304,6 @@ x100 ms
 Заглавна лента:
 [Tool style main window]
 
-[Minimize to tray]
-Минимизиране в трея
 [Translucency options]
 Настройки за прозрачност
 [Fade contact list in/out]
@@ -352,6 +332,12 @@ x100 ms
 Изключване на машината за облици
 [Enable Aero Glass (Vista, Win 7)]
 
+[Selection mode]
+Режим на маркиране
+[Gamma correction]
+Корекция на гамата
+[Minimize to tray]
+Минимизиране в трея
 [Order of items:]
 Ред на елементите:
 [Minimum row height:]
@@ -643,8 +629,8 @@ Modern contact list
 Име (използват се местните настройки)
 [Last message time]
 Час на посл. съобщение
-[Account name]
-Име на акаунта
+[Account order]
+
 [Rate]
 Оценка
 [Last online]
@@ -657,6 +643,14 @@ Modern contact list
 Зад левия ръб
 [Behind right edge]
 Зад десния ръб
+[Default]
+Стандарт
+[Full selection]
+Цялостно маркиране
+[Less selection]
+Частично маркиране
+[No selection]
+Без маркиране
 [General]
 Основни
 [Tray]

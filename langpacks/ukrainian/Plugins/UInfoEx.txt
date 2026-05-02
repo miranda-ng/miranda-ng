@@ -918,12 +918,14 @@ Web-дизайн
 %s святкує %s сьогодні.
 [an anniversary]
 свято
-[He/she has the following anniversaries:]
-Він/вона відзначає такі свята:
-[He has the following anniversaries:]
-Він відзначає такі свята:
-[She has the following anniversaries:]
-Вона відзначає такі свята:
+[He]
+Йому
+[She]
+Їй
+[He/she]
+Йому/їй
+[%s has the following anniversaries:]
+%s відзначає такі свята:
 [%d. %s today]
 %d років. %s сьогодні
 [%d. %s tomorrow]
@@ -936,12 +938,8 @@ Web-дизайн
 %s святкує день народження завтра.
 [%s has birthday in %d days.]
 %s святкує день народження через %d днів.
-[\nHe/she becomes %d years old.]
-\nЙому/їй виповнюється %d.
-[\nHe becomes %d years old.]
-\nЙому виповнюється %d.
-[\nShe becomes %d years old.]
-\nЇй виповнюється %d.
+[%s becomes %d years old.]
+%s виповнюється %d.
 [No anniversaries to remind of]
 Немає свят, про які треба нагадати
 [Reminders]

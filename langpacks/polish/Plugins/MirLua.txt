@@ -38,10 +38,10 @@ Kompiluj
 ;file \plugins\MirLua\src\options.cpp
 [Common scripts]
 Wspólne skrypty
-;file \plugins\MirLua\src\plugin.cpp
 [Services]
 Usługi
-[C libs folder]
+;file \plugins\MirLua\src\plugin.cpp
+[C Libs Folder]
 Folder bibliotek C
 [Scripts folder]
 Folder skryptów

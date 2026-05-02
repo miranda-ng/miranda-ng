@@ -38,10 +38,10 @@ General
 ;file \plugins\MirLua\src\options.cpp
 [Common scripts]
 
-;file \plugins\MirLua\src\plugin.cpp
 [Services]
 Servicios
-[C libs folder]
+;file \plugins\MirLua\src\plugin.cpp
+[C Libs Folder]
 
 [Scripts folder]
 

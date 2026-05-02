@@ -225,6 +225,10 @@ URL:
 Переслать
 [Reload messages icon]
 Перезагрузить сообщения
+[Protocols]
+Протоколы
+[VKontakte]
+ВКонтакте
 [Access denied! Data will not be sent or received.]
 Отказ в доступе! Данные не будут приняты или отправлены.
 [Error]
@@ -422,8 +426,6 @@ URL:
 [Wall message for %s]
 Сообщение на стену для %s
 ;file \protocols\VKontakte\src\vk_feed.cpp
-[VKontakte]
-ВКонтакте
 [New news]
 Новости
 [New notifications]

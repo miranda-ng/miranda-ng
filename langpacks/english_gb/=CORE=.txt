@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.6
+;  Version: 0.96.7
 ;============================================================
 [Minimize to tray]
 Minimise to tray
@@ -51,16 +51,10 @@ Minimise the file transfer window
 Timestamp has same colour as the event
 [Strip colors from messages in the log]
 Strip colours from messages in the log
-[Make the text italicized (Ctrl+I)]
-Make the text italicised (Ctrl+I)
 [&Color]
 &Colour
-[Select a foreground color for the text (Ctrl+K)]
-Select a foreground colour for the text (Ctrl+K)
 [&Background color]
 &Background colour
-[Select a background color for the text (Ctrl+L)]
-Select a background colour for the text (Ctrl+L)
 [Please authorize my request and add me to your contact list.]
 Please authorise my request and add me to your contact list.
 [%s requests authorization]

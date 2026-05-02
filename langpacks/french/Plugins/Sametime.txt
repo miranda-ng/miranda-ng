@@ -5,7 +5,7 @@
 ;  Version: 0.7.0.5
 ;  Authors: Scott Ellis, Szymon Tokarz
 ;============================================================
-[Implementation of instant messaging for the Lotus Sametime protocol.]
+[Lotus Sametime protocol support for Miranda NG.]
 Support du protocole Lotus Sametime pour Miranda NG.
 ;file \protocols\Sametime\res\resource.rc
 [Connection]

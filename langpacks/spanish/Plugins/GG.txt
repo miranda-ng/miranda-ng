@@ -224,37 +224,6 @@ Edad:
 
 [Contact list]
 Lista de contactos
-;file \protocols\Gadu-Gadu\src\gg_proto.cpp
-[Images]
-
-[Gadu-Gadu Number]
-
-[Female]
-Femenino
-[Male]
-Masculino
-;file \protocols\Gadu-Gadu\src\groupchat.cpp
-[Open &conference...]
-
-[&Clear ignored conferences]
-
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
-
-[%s initiated the conference.]
-
-[This is my own conference.]
-
-[Participants]
-
-['Unknown']
-
-[You have to be connected to open new conference.]
-
-[All ignored conferences are now unignored and the conference policy will act again.]
-
-[There are no ignored conferences.]
-
-;file \protocols\Gadu-Gadu\src\icolib.cpp
 [Protocol icon]
 
 [Import list from server]
@@ -284,6 +253,36 @@ Masculino
 [Clear ignored conferences]
 
 [Concurrent sessions]
+
+;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+[Images]
+
+[Gadu-Gadu Number]
+
+[Female]
+Femenino
+[Male]
+Masculino
+;file \protocols\Gadu-Gadu\src\groupchat.cpp
+[Open &conference...]
+
+[&Clear ignored conferences]
+
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
+
+[%s initiated the conference.]
+
+[This is my own conference.]
+
+[Participants]
+
+['Unknown']
+
+[You have to be connected to open new conference.]
+
+[All ignored conferences are now unignored and the conference policy will act again.]
+
+[There are no ignored conferences.]
 
 ;file \protocols\Gadu-Gadu\src\image.cpp
 [&Image]

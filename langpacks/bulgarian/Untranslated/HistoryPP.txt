@@ -33,3 +33,4 @@
 [Fast history plugin with filter capability\\nBased on improved code of History+ plugin]
 [Unused]
 [Can not apply default toolbar configuration.]
+[Select]

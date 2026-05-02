@@ -1,0 +1,120 @@
+#muuid {DCD56CEC-C61B-4275-a010-8c65c5848815}
+;============================================================
+;  File: Teams.dll
+;  Plugin: Teams protocol
+;  Version: 0.96.6.1
+;  Authors: Miranda NG team
+;============================================================
+[Microsoft Teams protocol support for Miranda NG.]
+
+;file \protocols\Teams\res\Resource.rc
+[Login:]
+
+[Default group:]
+Grupo predeterminado:
+[Logout]
+
+[Account]
+Cuenta
+[Teams]
+
+[Proceed]
+
+[Cancel]
+Cancelar
+[Static]
+
+;file \protocols\Teams\src\main.cpp
+[Protocol icon]
+
+[Create new chat icon]
+
+[Block user icon]
+
+[Unblock user icon]
+
+[Incoming call icon]
+
+[Notification icon]
+
+[Error icon]
+
+[Action icon]
+
+;file \protocols\Teams\src\teams_chatrooms.cpp
+[Admin]
+
+[User]
+
+[Enter new nickname]
+
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+
+[Warning]
+Advertencia
+[&Invite user...]
+&Invitar usuario...
+[&Leave chat session]
+&Abandonar sesión de charla
+[&Change topic...]
+
+[Kick &user]
+
+[Set &role]
+
+[&Admin]
+
+[&User]
+
+[Change nick...]
+
+[Enter new chatroom topic]
+
+;file \protocols\Teams\src\teams_contacts.cpp
+[(You)]
+
+[Are you sure?]
+
+;file \protocols\Teams\src\teams_login.cpp
+[To login into Teams you need to open '%S' in a browser and select your Teams account there.]
+
+[Enter the following code then: %s.]
+
+[Click Proceed to copy that code to clipboard and launch a browser]
+
+;file \protocols\Teams\src\teams_menus.cpp
+[Block contact]
+
+[Unblock contact]
+
+[Create new chat]
+
+;file \protocols\Teams\src\teams_messages.cpp
+[Network error!]
+
+[Unknown error!]
+
+;file \protocols\Teams\src\teams_options.cpp
+[<will appear after first login>]
+
+[Network]
+Red
+;file \protocols\Teams\src\teams_popups.cpp
+[Notifications]
+Notificaciones
+[Errors]
+Errores
+[Calls]
+
+;file \protocols\Teams\src\teams_proto.cpp
+[%s websocket connection]
+
+[Incoming call]
+
+[Incoming call canceled]
+
+[Teams ID]
+
+;file \protocols\Teams\src\teams_utils.cpp
+[wrote]
+

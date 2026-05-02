@@ -89,38 +89,11 @@ Kontakt blockieren
 Blockierung aufheben
 [Create new chat]
 Neuen Chat erstellen
-[Set own mood]
-Eigene Stimmung setzen
 ;file \protocols\Teams\src\teams_messages.cpp
-[Unknown error!]
-Unbekannter Fehler!
 [Network error!]
 Netzwerkfehler!
-;file \protocols\Teams\src\teams_mood.cpp
-[None]
-Keine
-[Custom emoji]
-Eigenes Emoji
-[Be right back]
-Bin gleich zurück
-[Out for lunch]
-Am Essen
-[In meetings]
-In Besprechungen
-[At school]
-In der Schule
-[At the movies]
-Im Kino
-[Traveling]
-Reisen
-[Celebrating]
-Feiern
-[Driving]
-Fahren
-[At the gym]
-Im Fitnessstudio
-[Working from home]
-Zu Hause arbeiten
+[Unknown error!]
+Unbekannter Fehler!
 ;file \protocols\Teams\src\teams_options.cpp
 [<will appear after first login>]
 <erscheint nach der ersten Anmeldung>

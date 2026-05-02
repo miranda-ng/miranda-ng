@@ -14,6 +14,8 @@ Fingerprint Overlay Icons
 Miranda Clients
 [Miranda packs overlays]
 Miranda Paket-Overlays
+[Secure overlays]
+Sicherheits-Overlay
 [Show Miranda version at Overlay#2]
 Miranda-Version als Overlay #2 anzeigen
 [Resource overlays]
@@ -24,12 +26,8 @@ Platform-Overlays
 Protokolle-Overlays
 [Unicode overlay]
 Unicode-Overlay
-[Secure overlays]
-Sicherheits-Overlay
 [Select protocols]
 Protokolle auswählen
-[Facebook clients]
-Facebook-Clients
 [Gadu-Gadu clients]
 Gadu-Gadu-Clients
 [IRC clients]
@@ -88,8 +86,6 @@ JGTalk overlay
 Jabber overlay
 [VK overlay]
 VK overlay
-[Skype overlay]
-Skype-Overlay
 [Gadu-Gadu v11 client]
 Gadu-Gadu v11 client
 [Gadu-Gadu v10 client]

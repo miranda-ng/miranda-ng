@@ -1,5 +1,6 @@
 [Show groups folded]
 [Show account names]
+[Account order]
 [Last online]
 [Contract meta]
 [Expand meta]

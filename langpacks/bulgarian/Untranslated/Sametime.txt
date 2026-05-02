@@ -1,4 +1,4 @@
-[Implementation of instant messaging for the Lotus Sametime protocol.]
+[Lotus Sametime protocol support for Miranda NG.]
 [Server name:]
 [Client ID and version]
 [Error display]

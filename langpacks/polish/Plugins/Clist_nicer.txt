@@ -166,8 +166,6 @@ Zaokrąglona ramka
 Obramowanie
 [Title bar text:]
 Tekst paska tytułu:
-[Pin to desktop]
-Przypnij do pulpitu
 [Show drop shadow (restart required)]
 Pokaż cień (wymagane ponowne uruchomienie)
 [Hide contact list after it has been idle for]
@@ -216,8 +214,6 @@ Wyłącz "przeciągnij i upuść"
 Wyłącz zmianę nazwy po podwójnym kliknięciu
 [Show selection even when list is not focused]
 Pokazuj zaznaczenie na nieaktywnej liście
-[Make selection highlight translucent]
-Przezroczyste podświetlenie zaznaczenia
 [Use full row for selection and hottracking]
 Użyj pełnego wiersza dla zaznaczenia i podświetlenia
 [Double click on avatar opens user info]
@@ -590,11 +586,6 @@ Pokaż wszystkie ramki
 Pokaż wszystkie paski tytułów
 [Hide all title bars]
 Ukryj wszystkie paski tytułów
-;file \plugins\Clist_nicer\src\Docking.cpp
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-Lista nie może być dokowana, jeśli używany jest domyślny pasek tytułowy i obramowanie. Zamiast tego użyj stylu okna narzędziowego lub stylu bez obramowania.
-[Contact list docking]
-Dokowanie listy
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Wczytaj i zastosuj

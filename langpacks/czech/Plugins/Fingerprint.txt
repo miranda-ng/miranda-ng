@@ -14,6 +14,8 @@
 
 [Miranda packs overlays]
 
+[Secure overlays]
+
 [Show Miranda version at Overlay#2]
 
 [Resource overlays]
@@ -24,12 +26,8 @@
 
 [Unicode overlay]
 
-[Secure overlays]
-
 [Select protocols]
 Vybrat protokoly
-[Facebook clients]
-Klienti Facebook
 [Gadu-Gadu clients]
 Klienti Gadu-Gadu
 [IRC clients]
@@ -87,8 +85,6 @@ Nezjištěný klient
 [Jabber overlay]
 
 [VK overlay]
-
-[Skype overlay]
 
 [Gadu-Gadu v11 client]
 

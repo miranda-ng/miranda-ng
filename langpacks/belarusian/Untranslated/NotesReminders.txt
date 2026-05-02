@@ -1,4 +1,3 @@
-[Repeat each day]
 [Maroon]
 [Olive]
 [Navy]
@@ -10,3 +9,7 @@
 [Lime]
 [Fuchsia]
 [Aqua]
+[Don't repeat]
+[Repeat daily]
+[Repeat weekly]
+[Repeat monthly]

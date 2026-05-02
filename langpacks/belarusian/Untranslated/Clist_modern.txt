@@ -10,6 +10,7 @@
 [For different statuses]
 [Cycle period, seconds]
 [Max size (pixels):]
+[Account order]
 [Last online]
 [Contract meta]
 [Expand meta]

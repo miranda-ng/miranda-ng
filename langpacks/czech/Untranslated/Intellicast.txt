@@ -1,7 +1,0 @@
-[Ceiling]
-[MoonRise]
-[MoonSet]
-[Wind Chill]
-[WindDir1]
-[WindDir2]
-[Broken Clouds]

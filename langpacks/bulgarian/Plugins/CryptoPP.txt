@@ -20,3 +20,10 @@
 
 [Refresh]
 Обновяване
+;file \plugins\CryptoPP\src\GPGw\gpg_main.cpp
+[GnuPG executable]
+
+[All files]
+Всички файлове
+[Select GnuPG executable]
+

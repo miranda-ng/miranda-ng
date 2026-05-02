@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.6
+;  Version: 0.96.7
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -110,8 +110,6 @@ Mostrar barra de título
 Texto de la barra de título:
 [Show drop shadow (restart required)]
 Mostrar sombra (requiere un reinicio)
-[Pin to desktop]
-Pin de escritorio
 [Hide contact list after it has been idle for]
 Ocultar la lista de contactos después de que ha estado inactivo durante
 [seconds]
@@ -126,8 +124,6 @@ máximo
 Tamaño arriba
 [If window is partially covered, bring to front instead of hiding]
 Si la ventana está cubierta parcialmente, traer al frente en lugar de esconderse
-[Enable docking]
-Habilitar el acoplamiento
 [Translucency options]
 Opciones de translucidez
 [Fade contact list in/out]
@@ -261,8 +257,6 @@ Mostrar botón 'Enviar'
 Mostrar recuento de caracteres
 [Show toolbar buttons on top row]
 Mostrar botones de barra de herramientas en la parte superior de la fila
-[Use BBCodes to send format inside messages]
-
 [Show warning when message has not been received after]
 Mostrar aviso cuando el mensaje no se ha recibido después de
 [Send error]
@@ -725,6 +719,8 @@ Activar eventos de sonido
 Los siguientes eventos seran ignorados:
 [Files]
 Archivos
+[Cloud files]
+
 [Online notification]
 Notificación En línea
 [Auth requests]
@@ -845,16 +841,14 @@ Menús protocolo
 Mover al menú principal
 [Move to the status bar]
 Mover a la barra de estado
-[Warning!\r\nThis menu object not support user defined options.]
-¡Advertencia!\r\nEste menú objeto no admite opciones definidas por el usuario.
-[Insert submenu]
-
 [Insert separator]
 Insertar separador
 [Module:]
 
 [Service:]
 Servicio:
+[ID:]
+
 [Default]
 Por defecto
 [Set]
@@ -969,9 +963,11 @@ Lista de contactos
 
 [Lock name to first contact]
 
-[Choose needed logger from listed below:]
+[Choose a log viewer]
 
-[Enable custom loggers in group chats]
+[For the private conversations]
+
+[For the group chats]
 
 [Current language:]
 
@@ -1037,6 +1033,8 @@ ms de retardo
 Interfaz simple clic
 [Always show status in tooltip]
 Mostrar estado sobre herramientas
+[Hide offline users in root]
+
 [Default settings for known event types]
 
 [Popup]
@@ -1191,8 +1189,6 @@ Limpiar transferencias realizadas al cerrar la ventana
 Siempre que se pregunte sobre archivos de personas que no están en la lista
 [If incoming files already exist]
 Si ya existen los archivos entrantes
-[Cloud files]
-
 [Download cloud files automatically]
 
 [Only if their size is less than]
@@ -1239,8 +1235,8 @@ Lista
 &Mensaje
 [Clear lo&g]
 Limpiar re&gistro
-[Word lookup]
-Palabra de búsqueda
+[No word to look up]
+Ni una palabra para buscar
 [Yandex]
 
 [Wikipedia (en)]
@@ -1387,6 +1383,8 @@ Negrita
 Cursiva
 [Underlined]
 Subrayado
+[Strikethrough]
+
 [Smiley button]
 Botón de emoticono
 [Room history]
@@ -1574,40 +1572,44 @@ Añadir contacto permanentemente a la lista
 Menú del usuario
 [View user's details]
 Ver detalles del usuario
-[View user's history (Ctrl+H)]
-Ver historial del usuario (Ctrl+H)
+[View user's history]
+Ver historial del usuario
 [&Bold]
 &Negrita
-[Make the text bold (Ctrl+B)]
-Hacer el texto negrita (Ctrl+B)
+[Make the text bold]
+Hacer el texto negrita
 [&Italic]
 C&ursiva
-[Make the text italicized (Ctrl+I)]
-Hacer el texto cursiva (Ctrl+I)
+[Make the text italicized]
+Hacer el texto cursiva
 [&Underline]
 S&ubrayar
-[Make the text underlined (Ctrl+U)]
-Hacer el texto subrayado (Ctrl+U)
+[Make the text underlined]
+Hacer el texto subrayado
+[&Strikethrough]
+
+[Make the text strikethrough]
+
 [&Color]
 &Color
-[Select a foreground color for the text (Ctrl+K)]
-Seleccione un color de primer plano para el texto (Ctrl+K)
+[Select text color]
+
 [&Background color]
 Color &de fondo
-[Select a background color for the text (Ctrl+L)]
-Seleccione un color de fondo para el texto (Ctrl+L)
+[Select background color]
+Seleccione un color de fondo
 [&Room settings]
 Configu&ración de espacio
-[Control this room (Ctrl+O)]
-Controlar esta sala (Ctrl+O)
+[Control this room]
+Controlar esta sala
 [&Show/hide nick list]
 &Mostrar/ocultar lista de nicks
-[Show/hide the nick list (Ctrl+N)]
-Mostrar/ocultar la lista de apodos (Ctrl+N)
+[Show/hide the nick list]
+Mostrar/ocultar la lista de apodos
 [&Filter]
 &Filtro
-[Enable/disable the event filter (Ctrl+F)]
-Activar/desactivar el filtro de eventos (Ctrl+F)
+[Enable/disable the event filter]
+Activar/desactivar el filtro de eventos
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda no pudo cargar el módulo de mensajes incorporado, falta msftedit.dll. Pulse 'Sí ' para continuar cargando Miranda.
 [Instant messages]
@@ -1975,6 +1977,29 @@ Información en %s
 [Events and filters]
 
 ;file \src\mir_app\src\clcitems.cpp
+;file \src\mir_app\src\clistcontacts.cpp
+[My custom name (not movable)]
+Mi nombre personalizado (no movible)
+[Nick]
+Apodo
+[FirstName]
+Nombre
+[E-mail]
+E-mail
+[LastName]
+Apellido
+[Username]
+Nombre de usuario
+[FirstName LastName]
+Nombre y apellido
+[LastName FirstName]
+Nombre Apellido
+['(Unknown contact)' (not movable)]
+'(Contacto desconocido)' (no movible)
+['(Unknown contact)']
+'(Contacto desconocido)'
+[Contact names]
+Nombres de contacto
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
 Nuevo grupo
@@ -2013,29 +2038,6 @@ E&liminar
 [&Add permanently to list]
 &Añadir a la lista de forma permanente
 ;file \src\mir_app\src\colorchooser.cpp
-;file \src\mir_app\src\contacts.cpp
-[My custom name (not movable)]
-Mi nombre personalizado (no movible)
-[Nick]
-Apodo
-[FirstName]
-Nombre
-[E-mail]
-E-mail
-[LastName]
-Apellido
-[Username]
-Nombre de usuario
-[FirstName LastName]
-Nombre y apellido
-[LastName FirstName]
-Nombre Apellido
-['(Unknown contact)' (not movable)]
-'(Contacto desconocido)' (no movible)
-['(Unknown contact)']
-'(Contacto desconocido)'
-[Contact names]
-Nombres de contacto
 ;file \src\mir_app\src\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda está tratando de actualizar su estructura de perfil.\nNo se puede mover el perfil %s a la nueva ubicación %s\nPorque ya existe un perfil con este nombre. Por favor, resolver el problema de forma manual.
@@ -2074,6 +2076,10 @@ Miranda no puede entender el perfil
 
 [Contacts: ]
 
+[I]
+
+[wrote]
+
 ;file \src\mir_app\src\db_ini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Los sistemas de seguridad para prevenir cambios maliciosos están en su lugar y se le advirtió antes de cada cambio que se realiza.
@@ -2111,6 +2117,8 @@ Sitio web
 Actividad de chat
 [Chat mute mode]
 
+[Reaction]
+
 [Gender]
 Genero
 [Account]
@@ -2123,11 +2131,13 @@ Iconos adicionales
 
 [Attach]
 
+[Code]
+
+[Cloud file]
+
 ;file \src\mir_app\src\file.cpp
 [&File]
 &Archivo
-[Send file]
-
 [File from %s]
 Archivo de %s
 [File &transfers...]
@@ -2157,8 +2167,6 @@ Eventos
 ;file \src\mir_app\src\filerecvdlg.cpp
 [My received files]
 Mis archivos recibidos
-[View user's history]
-Ver historial del usuario
 [This file transfer has been canceled by the other side]
 
 [Canceled]
@@ -2411,17 +2419,11 @@ Menú principal
 
 [New subgroup]
 
-[Hide offline users out here]
-Ocultar usuarios fuera de línea fuera de aquí
 [Disable groups]
 Desactivar grupos
 [Hide offline users in here]
 Ocul&tar usuarios fuera de línea aquí
 ;file \src\mir_app\src\menu_options.cpp
-[New submenu]
-
-[Do you really want to delete this menu item?]
-
 [Menus]
 Menús
 ;file \src\mir_app\src\menu_tray.cpp
@@ -2659,6 +2661,8 @@ Protocolos
 ;file \src\mir_app\src\proto_interface.cpp
 [Preview folder]
 
+[History loaded successfully]
+
 [Request authorization]
 Solicitar autorización
 [Grant authorization]
@@ -2804,6 +2808,8 @@ Marcos
 Advertencia
 [Blank]
 
+[Forward]
+
 [Locked status]
 Estado bloqueado
 [Status icons]
@@ -2826,9 +2832,9 @@ Archivos WAV
 &Mensaje %s
 [Nickname]
 Apodo
-[Disable the event filter (Ctrl+F)]
+[Disable the event filter]
 
-[Enable the event filter (Ctrl+F)]
+[Enable the event filter]
 
 [In reply to]
 
@@ -2853,18 +2859,40 @@ Descargar
 
 [Look up '%s':]
 Buscar '%s':
-[No word to look up]
-Ni una palabra para buscar
 ;file \src\mir_app\src\srmm_main.cpp
 [Are you sure to wipe the system history?]
 
 [Empty system history]
+
+[Toggle bold formatting]
+
+[Toggle italic formatting]
+
+[Toggle underline formatting]
+
+[Toggle text color]
+
+[Toggle background color]
+
+[Clear formatting]
+
+[Open history window]
+
+[Toggle filter]
+
+[Toggle nick list]
+
+[Channel manager]
 
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Separador>
 [Toolbar]
 Barra de herramientas
+[Custom BBCodes]
+
+[Send file]
+
 ;file \src\mir_app\src\srmm_util.cpp
 [Message from %s]
 Mensaje de

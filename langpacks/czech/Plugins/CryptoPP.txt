@@ -20,3 +20,10 @@ Zrušit
 GnuPG doplněk - zvolte veřejný klíč
 [Refresh]
 Aktualizovat
+;file \plugins\CryptoPP\src\GPGw\gpg_main.cpp
+[GnuPG executable]
+
+[All files]
+Všechny soubory
+[Select GnuPG executable]
+Vyberte gpg.exe

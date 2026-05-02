@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.7
+;  Version: 0.3.1.2
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -132,14 +132,16 @@ Plugin Updater
 [List loading already started!]
 Списъкът вече се зарежда.
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
+[Miranda NG Core]
+Ядро на Miranda NG
+[Libraries]
+
 [Will be deleted!]
 Ще бъде изтрито!
 [Unpack operation failed with error code=%d, update terminated]
 
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Актуализирането приключи. Кликнете върху "Да" за рестартиране на Miranda сега или "Не" за да откажете.
-[Miranda NG Core]
-Ядро на Miranda NG
 [Deprecated!]
 
 [Update found!]
@@ -158,6 +160,8 @@ Plugin Updater
 Няма налични актуализации.
 [Update checking already started!]
 Вече е стартирана проверка за актуализации!
+[There are some updates available]
+
 ;file \plugins\PluginUpdater\src\Events.cpp
 [Plugin updater URI scheme]
 
@@ -194,7 +198,7 @@ Plugin Updater
 Провалено актуализиране
 [Update completed]
 Приключено актуализиране
-;file \plugins\PluginUpdater\src\Utils.cpp
+;file \plugins\PluginUpdater\src\ServerConfig.cpp
 [Updates are temporarily disabled, try again later.]
 
 [An error occurred while checking for new updates.]

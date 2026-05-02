@@ -6,6 +6,8 @@
 [      History for]
 [Invalid Database event received. Type %d, size %d]
 [Unknown event type %d, size %d]
+[%s reacted with %s to message "%s" from %s]
+[%s remove reaction %s to message "%s" from %s]
 [Miranda database contains %d events]
 [Failed to open file]
 [Save as RTF]

@@ -687,3 +687,5 @@ Effacer
 Haut
 [Down]
 Bas
+[Select]
+

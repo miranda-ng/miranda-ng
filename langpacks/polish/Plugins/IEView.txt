@@ -79,8 +79,6 @@ Przychodzący transfer plików
 [ was added.]
  został dodany.
 ;file \plugins\IEView\src\ieview_main.cpp
-[Code]
-
 [RTL On]
 RTL wł.
 [RTL Off]
@@ -89,8 +87,6 @@ RTL wył.
 Grupowanie wł.
 [Group Off]
 Grupowanie wył.
-[Format text as code]
-
 [IEView]
 IEView
 ;file \plugins\IEView\src\Options.cpp

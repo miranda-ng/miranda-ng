@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -36,7 +36,11 @@ Kontakt dauerhaft hinzufügen
 Groß-/Kleinschreibung der Antwort nicht beachten
 [Log Spammers to system history]
 Spammer in den Systemverlauf eintragen
+[Move spam contacts to the following group]
+
 ;file \plugins\StopSpamPlus\src\events.cpp
+[You haven't sent authorization request, this message was ignored]
+
 [StopSpam automatic message:\r\n]
 Automatische StopSpam-Nachricht:\r\n
 ;file \plugins\StopSpamPlus\src\options.cpp
@@ -60,3 +64,6 @@ Glückwunsch! Sie haben gerade den Mensch-/Robotertest bestanden. Nun können Si
 ;file \plugins\StopSpamPlus\src\stdafx.h
 [StopSpam]
 StopSpam
+;file \plugins\StopSpamPlus\src\stopspam.cpp
+[Spam]
+

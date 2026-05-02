@@ -45,6 +45,7 @@
 [Selected menu text]
 [Frame title text]
 [3rd party frames transparent back color]
+[Account order]
 [Last online]
 [Event area background]
 [Contact rate: none]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [File transfer by using the messaging services - as plain text.]
@@ -43,6 +43,12 @@
 
 [Send file]
 Перадаць файл
+[Perform]
+Выканаць
+[Revive a transfer]
+
+[Pause]
+Паўза
 [File already exists. Overwrite?]
 Файл ужо існуе. Перазапісаць?
 [Couldn't open a file]
@@ -90,8 +96,6 @@
 ;file \plugins\FileAsMessage\src\main.cpp
 [Play]
 Пуск
-[Pause]
-Паўза
 [Revive]
 Зноўку
 [Stop]

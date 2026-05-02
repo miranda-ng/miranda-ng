@@ -21,6 +21,7 @@
 [Status bar background]
 [Frames title bar background]
 [3rd party frames transparent back color]
+[Account order]
 [Last online]
 [Event area background]
 [Contract meta]

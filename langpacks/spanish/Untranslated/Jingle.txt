@@ -7,3 +7,5 @@
 [Jingle DTLS]
 [Jingle RTP Audio]
 [VoIP]
+[GStreamer plugin %S not found]
+[GStreamer plugin %S not loaded, it might require Windows 7 or later]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -36,29 +36,43 @@ Sesiones de mensaje
 Conexión
 [Error limit before logout:]
 
-[Captcha]
-
-[Cancel]
-Cancelar
-[As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
-
-[Go to email domain]
-
 [Block]
 
 [Enter password]
 
 [Save password]
 Guardar contraseña
+[Cancel]
+Cancelar
 [Enter the password to continue.]
 
-[Security code]
-
-[As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
-
 ;file \protocols\Steam\src\main.cpp
+[Protocol icon]
+
+[Gaming icon]
+
 [Steam game]
 
+;file \protocols\Steam\src\steam_bbcodes.cpp
+[You were invited to play a game]
+
+[Associated application]
+
+;file \protocols\Steam\src\steam_chats.cpp
+[Owner]
+Propietario
+[Participant]
+
+[total members]
+
+[online members]
+
+[chatting]
+
+[in game]
+
+[&Leave chat session]
+&Abandonar sesión de charla
 ;file \protocols\Steam\src\steam_contacts.cpp
 [Looking to play]
 
@@ -74,28 +88,27 @@ Guardar contraseña
 
 [%s has added you to contact list]
 
-;file \protocols\Steam\src\steam_menus.cpp
-[Steam menu chooser]
+;file \protocols\Steam\src\steam_login.cpp
+[Enter email confimation code]
 
+[Enter the code from your authentication device]
+
+;file \protocols\Steam\src\steam_menus.cpp
 [Unblock]
 
-[Join to game]
+[Join the game]
+
+[Join group chat]
 
 ;file \protocols\Steam\src\steam_messages.cpp
-[Unknown error]
-Error desconocido
+[Message sending has failed with error %d]
+
 ;file \protocols\Steam\src\steam_options.cpp
 [Name]
 Nombre
 [Network]
 Red
-;file \protocols\Steam\src\steam_proto.cpp
-[Protocols]
-Protocolos
-[Protocol icon]
-
-[Gaming icon]
-
+;file \protocols\Steam\src\steam_server.cpp
 ;file \protocols\Steam\src\steam_utils.cpp
 [closed chat session]
 

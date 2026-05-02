@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.6
+;  Version: 1.2.0.8
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -120,22 +120,16 @@ ms
 Времетраене
 [s]
 сек
-[Dial-up (experimental)]
-Dial-up (експериментално)
-[Automatically dial on startup]
-Автоматично набиране при стартиране
-[Automatically hang up on exit]
-Автоматично затваряне при излизане
 [Other]
 Друго
 [Set status to offline before exit]
 Задай състояние "Извън линия" преди излизане
+[Show CMDL]
+Команден ред
 [Window on startup]
 Прозорец при стартиране
 [Set window state]
 Състояние на прозореца
-[Set docked]
-Загнездване
 [Set window location]
 Местоположение на прозореца
 [Left]
@@ -146,8 +140,6 @@ Dial-up (експериментално)
 Размер на прозореца
 [Width]
 Ширина
-[Show CMDL]
-Команден ред
 [Height]
 Височина
 [Background color]
@@ -285,6 +277,9 @@ Dial-up (експериментално)
 Правила
 [Status messages]
 Текст за състояние
+;file \plugins\StatusManager\src\commonstatus.cpp
+[<unknown>]
+<неизвестно>
 ;file \plugins\StatusManager\src\confirmdialog.cpp
 [Set %s message for %s.]
 Задаване на текст "%s" за акаунт %s.
@@ -336,8 +331,6 @@ Dial-up (експериментално)
 [Status manager]
 
 ;file \plugins\StatusManager\src\ss_options.cpp
-[<unknown>]
-<неизвестно>
 [default]
 стандарт
 [Hidden]
@@ -346,10 +339,6 @@ Dial-up (експериментално)
 Минимизирано
 [Normal]
 Нормално
-[Right]
-Дясно
-[None]
-Няма
 [size: %d x %d]
 размер: %d x %d
 [loc: %d x %d]

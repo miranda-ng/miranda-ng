@@ -67,11 +67,16 @@ Usługi
 Tekst
 [Background]
 Tło
-[Text Files (*.txt)]
+[Text files (*.txt)]
 Plik tekstowy (*.txt)
-[All Files]
+[All files]
 Wszystkie pliki
 [Save selection to file]
 Zapisz zaznaczone do pliku
 [Save log to file]
 Zapisz dziennik do pliku
+;file \plugins\Console\src\init.cpp
+[Show]
+Pokaż
+[Hide]
+Ukryj

@@ -38,9 +38,9 @@ Kompilieren
 ;file \plugins\MirLua\src\options.cpp
 [Common scripts]
 Gemeinsame Skripte
-;file \plugins\MirLua\src\plugin.cpp
 [Services]
 Dienste
+;file \plugins\MirLua\src\plugin.cpp
 [C Libs Folder]
 C-Bibliotheken-Verzeichnis
 [Scripts folder]

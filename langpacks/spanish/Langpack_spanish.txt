@@ -16,7 +16,7 @@ Author-email: carlos1994sanchez@gmail.com
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.6
+;  Version: 0.96.7
 ;============================================================
 [Become idle if the following is left unattended:]
 Pasar a reposo, si el siguiente queda desatendido:
@@ -122,8 +122,6 @@ Mostrar barra de título
 Texto de la barra de título:
 [Show drop shadow (restart required)]
 Mostrar sombra (requiere un reinicio)
-[Pin to desktop]
-Pin de escritorio
 [Hide contact list after it has been idle for]
 Ocultar la lista de contactos después de que ha estado inactivo durante
 [seconds]
@@ -138,8 +136,6 @@ máximo
 Tamaño arriba
 [If window is partially covered, bring to front instead of hiding]
 Si la ventana está cubierta parcialmente, traer al frente en lugar de esconderse
-[Enable docking]
-Habilitar el acoplamiento
 [Translucency options]
 Opciones de translucidez
 [Fade contact list in/out]
@@ -770,8 +766,6 @@ Menús protocolo
 Mover al menú principal
 [Move to the status bar]
 Mover a la barra de estado
-[Warning!\r\nThis menu object not support user defined options.]
-¡Advertencia!\r\nEste menú objeto no admite opciones definidas por el usuario.
 [Insert separator]
 Insertar separador
 [Service:]
@@ -1050,8 +1044,8 @@ Lista
 &Mensaje
 [Clear lo&g]
 Limpiar re&gistro
-[Word lookup]
-Palabra de búsqueda
+[No word to look up]
+Ni una palabra para buscar
 [&Main menu]
 &Menú principal
 [E&xit]
@@ -1352,40 +1346,24 @@ Añadir contacto permanentemente a la lista
 Menú del usuario
 [View user's details]
 Ver detalles del usuario
-[View user's history (Ctrl+H)]
-Ver historial del usuario (Ctrl+H)
+[View user's history]
+Ver historial del usuario
 [&Bold]
 &Negrita
-[Make the text bold (Ctrl+B)]
-Hacer el texto negrita (Ctrl+B)
 [&Italic]
 C&ursiva
-[Make the text italicized (Ctrl+I)]
-Hacer el texto cursiva (Ctrl+I)
 [&Underline]
 S&ubrayar
-[Make the text underlined (Ctrl+U)]
-Hacer el texto subrayado (Ctrl+U)
 [&Color]
 &Color
-[Select a foreground color for the text (Ctrl+K)]
-Seleccione un color de primer plano para el texto (Ctrl+K)
 [&Background color]
 Color &de fondo
-[Select a background color for the text (Ctrl+L)]
-Seleccione un color de fondo para el texto (Ctrl+L)
 [&Room settings]
 Configu&ración de espacio
-[Control this room (Ctrl+O)]
-Controlar esta sala (Ctrl+O)
 [&Show/hide nick list]
 &Mostrar/ocultar lista de nicks
-[Show/hide the nick list (Ctrl+N)]
-Mostrar/ocultar la lista de apodos (Ctrl+N)
 [&Filter]
 &Filtro
-[Enable/disable the event filter (Ctrl+F)]
-Activar/desactivar el filtro de eventos (Ctrl+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda no pudo cargar el módulo de mensajes incorporado, falta msftedit.dll. Pulse 'Sí ' para continuar cargando Miranda.
 [Instant messages]
@@ -1608,6 +1586,28 @@ Información en %s
 %s habilita '%s' de estado para %s en %s
 [%s disables '%s' status for %s in %s]
 %s deshabilita '%s' de estado para %s en %s
+[My custom name (not movable)]
+Mi nombre personalizado (no movible)
+[Nick]
+Apodo
+[FirstName]
+Nombre
+[E-mail]
+E-mail
+[LastName]
+Apellido
+[Username]
+Nombre de usuario
+[FirstName LastName]
+Nombre y apellido
+[LastName FirstName]
+Nombre Apellido
+['(Unknown contact)' (not movable)]
+'(Contacto desconocido)' (no movible)
+['(Unknown contact)']
+'(Contacto desconocido)'
+[Contact names]
+Nombres de contacto
 [New group]
 Nuevo grupo
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -1636,28 +1636,6 @@ E&liminar
 &Renombrar
 [&Add permanently to list]
 &Añadir a la lista de forma permanente
-[My custom name (not movable)]
-Mi nombre personalizado (no movible)
-[Nick]
-Apodo
-[FirstName]
-Nombre
-[E-mail]
-E-mail
-[LastName]
-Apellido
-[Username]
-Nombre de usuario
-[FirstName LastName]
-Nombre y apellido
-[LastName FirstName]
-Nombre Apellido
-['(Unknown contact)' (not movable)]
-'(Contacto desconocido)' (no movible)
-['(Unknown contact)']
-'(Contacto desconocido)'
-[Contact names]
-Nombres de contacto
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda está tratando de actualizar su estructura de perfil.\nNo se puede mover el perfil %s a la nueva ubicación %s\nPorque ya existe un perfil con este nombre. Por favor, resolver el problema de forma manual.
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
@@ -1726,8 +1704,6 @@ Archivos ejecutables
 Eventos
 [My received files]
 Mis archivos recibidos
-[View user's history]
-Ver historial del usuario
 [Canceled]
 Cancelado
 [%d files]
@@ -1902,8 +1878,6 @@ Estado personalizado
 Menú de estado
 [Main menu]
 Menú principal
-[Hide offline users out here]
-Ocultar usuarios fuera de línea fuera de aquí
 [Disable groups]
 Desactivar grupos
 [Hide offline users in here]
@@ -2158,8 +2132,6 @@ Apodo
 Descargar
 [Look up '%s':]
 Buscar '%s':
-[No word to look up]
-Ni una palabra para buscar
 [<Separator>]
 <Separador>
 [Toolbar]
@@ -3139,7 +3111,7 @@ Servicios
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
-;  Version: 0.0.2.2
+;  Version: 0.0.2.3
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
@@ -3916,18 +3888,10 @@ Mover usuario fuera de línea al final
 3ro:
 [Place offline users out of groups]
 Coloca los usuarios sin conexión de grupos
-[Selection mode]
-Modo de selección
-[Default]
-Por defecto
-[Full selection]
-Selección completa
-[Less selection]
-Menos selección
-[No selection]
-Sin selección
-[Gamma correction]
-Corrección de gama
+[Appearance]
+Apariencia
+[Always on top]
+Siempre en primer plano
 [Bring to front if covered]
 Traer al frente si está cubierto
 [Hide contact list after]
@@ -3946,8 +3910,6 @@ Comportamiento
 Bloqueo de cambio de tamaño manual
 [Drag to]
 Arrastrar a
-[Easy scroll]
-Desplazamiento fácil
 [Easy move]
 Movimiento fácil
 [x100 ms]
@@ -3972,8 +3934,6 @@ Desabilitado
 Mostrar de forma automática
 [Always visible]
 Siempre visible
-[Dock to sides]
-Acoplar a los lados
 [and minimum]
 y mínimo
 [Items]
@@ -4020,12 +3980,6 @@ Ocultar barra de desplazamiento vertical
 Desaparecer lista entera cuando:
 [System tray icon]
 Icono de la bandeja de sistema
-[Appearance]
-Apariencia
-[Always on top]
-Siempre en primer plano
-[Pin to desktop]
-Pin de escritorio
 [Show menu bar]
 Mostrar barra de menú
 [Show title bar]
@@ -4034,8 +3988,6 @@ Mostrar barra de título
 Texto de la barra de título:
 [Tool style main window]
 Estilo de ventana de herramientas principal
-[Minimize to tray]
-Minimizar a la bandeja
 [Translucency options]
 Opciones de translucidez
 [Fade contact list in/out]
@@ -4050,6 +4002,12 @@ Opacidad activio:
 Marcos
 [Round corners]
 Esquinas redondeadas
+[Selection mode]
+Modo de selección
+[Gamma correction]
+Corrección de gama
+[Minimize to tray]
+Minimizar a la bandeja
 [Left margin:]
 Margen izquierdo:
 [Show avatars]
@@ -4110,6 +4068,14 @@ Libre para el chat
 Invisible
 [Name]
 Nombre
+[Default]
+Por defecto
+[Full selection]
+Selección completa
+[Less selection]
+Menos selección
+[No selection]
+Sin selección
 [General]
 General
 [Tray]
@@ -4313,8 +4279,6 @@ Fácil movimiento
 Borde
 [Title bar text:]
 Texto de la barra de título:
-[Pin to desktop]
-Pin de escritorio
 [Show drop shadow (restart required)]
 Mostrar sombra (requiere un reinicio)
 [Hide contact list after it has been idle for]
@@ -4353,8 +4317,6 @@ Desactivar arrastre y soltado de ítems
 Desactivar renombrado de ítems con doble clic
 [Show selection even when list is not focused]
 Mostrar selección aún si la lista no está enfocada
-[Make selection highlight translucent]
-Hacer selección resaltada translúcida
 [Visual]
 Visual
 [Scroll list smoothly]
@@ -4632,7 +4594,7 @@ Grabado
 ;============================================================
 ;  File: CloudFile.dll
 ;  Plugin: CloudFile
-;  Version: 0.11.0.6
+;  Version: 0.12.0.1
 ;  Authors: Miranda NG team
 ;============================================================
 [General]
@@ -4643,8 +4605,6 @@ No hacer nada
 Autorización
 [Cancel]
 Cancelar
-[Upload]
-Subir
 [None]
 Ninguno
 [Services]
@@ -4696,10 +4656,12 @@ Servicios
 Texto
 [Background]
 Fondo
-[Text Files (*.txt)]
+[Text files (*.txt)]
 Archivos de texto (*.txt)
-[All Files]
+[All files]
 Todos los archivos
+[Show]
+Mostrar
 #muuid {0324785E-74CE-4600-B781-851773B3EFC5}
 ;============================================================
 ;  File: Contacts.dll
@@ -4815,6 +4777,8 @@ Cancelar
 GnuPG Plugin - Seleccione la clave pública
 [Refresh]
 Refrescar
+[All files]
+Todos los archivos
 #muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
 ;============================================================
 ;  File: CSList.dll
@@ -5028,6 +4992,27 @@ minutos
 Variables
 #muuid {88928401-2ce8-4568-aaa7-226141870cbf}
 ;============================================================
+;  File: DeltaChat.dll
+;  Plugin: DeltaChat protocol
+;  Version: 0.96.5.1
+;  Authors: George Hazan
+;============================================================
+[Username]
+Nombre de usuario
+[Password]
+Contraseña
+[Default group:]
+Grupo predeterminado:
+[Port]
+Puerto
+[Main icon]
+Icono principal
+[Network]
+Red
+[Account]
+Cuenta
+#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
 ;  Version: 0.96.5.1
@@ -5061,7 +5046,7 @@ Previsualizar
 ;============================================================
 ;  File: Dummy.dll
 ;  Plugin: Dummy protocol
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: Robert Pösel
 ;============================================================
 [Custom]
@@ -5158,37 +5143,6 @@ Comprobar buzones de intercambio
 Notificar intercambio
 [Plugins]
 Plugins
-#muuid {ee0543fb-711d-4ac8-b6c0-1dda4838107e}
-;============================================================
-;  File: Facebook.dll
-;  Plugin: Facebook
-;  Version: 0.1.0.11
-;  Authors: Miranda NG Team
-;============================================================
-[Facebook protocol support for Miranda NG.]
-Compatibilidad con el protocolo de Facebook para Miranda NG.
-[E-mail:]
-Correo:
-[Password:]
-Contraseña:
-[Create a new Facebook account]
-Crear una nueva cuenta de Facebook
-[User details]
-Detalles del usuario
-[Contacts]
-Contactos
-[Default group:]
-Grupo predeterminado:
-[Group chats]
-Grupo de chats
-[Cancel]
-Cancelar
-[Network]
-Red
-[Account]
-Cuenta
-[URL]
-URL
 #muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;============================================================
 ;  File: FavContacts.dll
@@ -5212,7 +5166,7 @@ Fondo
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [Size:]
@@ -5376,7 +5330,7 @@ Apariencia
 ;============================================================
 ;  File: Folders.dll
 ;  Plugin: Custom profile folders
-;  Version: 0.2.0.2
+;  Version: 0.3.0.1
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
 [Preview]
@@ -5538,24 +5492,28 @@ Errores
 #muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
 ;============================================================
 ;  File: GmailNotifier.dll
-;  Plugin: Gmail Multiple Notifier
-;  Version: 1.0.1.3
-;  Authors: Mixwind
+;  Plugin: Gmail Notifier Oauth2 Edition
+;  Version: 2.0.1.1
+;  Authors: George Hazan
 ;============================================================
 [Name:]
 Nombre:
-[Password:]
-Contraseña:
 [Add]
 Añadir
-[Save]
-Guardar
+[Edit]
+Editar
 [Delete]
 Eliminar
 [minutes]
 minutos
 [seconds]
 segundos
+[Do nothing]
+No hacer nada
+[Authorization]
+Autorización
+[Cancel]
+Cancelar
 [Other]
 Otro
 [Network]
@@ -5882,7 +5840,7 @@ Todos los archivos
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.96.1.4
+;  Version: 0.96.7.1
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -5969,7 +5927,7 @@ Avanzado
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.95.11.1
+;  Version: 0.96.7.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -6026,6 +5984,8 @@ Nombre de host como recurso
 Puerto:
 [Use SSL]
 Usar SSL
+[Use STARTTLS]
+Usar STARTTLS
 [Unregister]
 Anular registro
 [Expert]
@@ -6354,6 +6314,19 @@ Eventos
 Cuentas
 [Rules]
 Reglas
+#muuid {d0d8a5be-a76a-46b1-92b6-3d69924e211d}
+;============================================================
+;  File: LibreView.dll
+;  Plugin: LibreView
+;  Version: 0.1.0.1
+;  Authors: Miranda NG team
+;============================================================
+[Password:]
+Contraseña:
+[error]
+Error
+[Network]
+Red
 #muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 ;============================================================
 ;  File: LinkList.dll
@@ -6460,6 +6433,25 @@ Diverso
 ;============================================================
 [Customize]
 Personalizar
+#muuid {a7e4f9c2-1d8b-4e5a-9c3f-8b2e1d0c9a8f}
+;============================================================
+;  File: Max.dll
+;  Plugin: Max protocol
+;  Version: 0.1.0.1
+;  Authors: Miranda NG contributors
+;============================================================
+[Default group:]
+Grupo predeterminado:
+[Cancel]
+Cancelar
+[Protocols]
+Protocolos
+[Network]
+Red
+[Account]
+Cuenta
+[Unknown]
+Desconocido
 #muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
 ;============================================================
 ;  File: MenuEx.dll
@@ -6648,6 +6640,8 @@ Marco de fondo
 APAGADO
 [New]
 Nuevo
+[All files]
+Todos los archivos
 #muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
 ;============================================================
 ;  File: MsgPopup.dll
@@ -6693,7 +6687,7 @@ Mensaje con asterisco
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.10
+;  Version: 3.1.3.1
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Browse]
@@ -6941,7 +6935,7 @@ Contactos
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.6
+;  Version: 0.1.0.7
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [Add]
@@ -6976,7 +6970,7 @@ Avatares
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.2
+;  Version: 0.2.0.3
 ;  Authors: nullbie
 ;============================================================
 [Messages]
@@ -7278,8 +7272,6 @@ Iniciando sesión
 ;  Version: 0.2.2.2
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
-[None]
-Ninguno
 [&Close]
 &Cerrar
 [Appearance]
@@ -7302,6 +7294,12 @@ Alertas
 Superior
 [Notes]
 Notas
+[None]
+Ninguno
+[Executable Files]
+Archivos ejecutables
+[All Files]
+Todos los archivos
 [Plugins]
 Plugins
 [Minutes]
@@ -7546,7 +7544,7 @@ Desconocido
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.7
+;  Version: 0.3.1.2
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -8353,40 +8351,24 @@ Menú del usuario
 Ver detalles del usuario
 [&History]
 &Historial
-[View user's history (Ctrl+H)]
+[View user's history]
 Ver historial del usuario
 [&Bold]
 &Negrita
-[Make the text bold (Ctrl+B)]
-Hacer el texto negrita (Ctrl+B)
 [&Italic]
 C&ursiva
-[Make the text italicized (Ctrl+I)]
-Hacer el texto cursiva (Ctrl+I)
 [&Underline]
 S&ubrayar
-[Make the text underlined (Ctrl+U)]
-Hacer el texto subrayado (Ctrl+U)
 [&Color]
 &Color
-[Select a foreground color for the text (Ctrl+K)]
-Seleccione un color de primer plano para el texto (Ctrl+K)
 [&Background color]
 Color &de fondo
-[Select a background color for the text (Ctrl+L)]
-Seleccione un color de fondo para el texto (Ctrl+L)
 [&Room settings]
 Configu&ración de espacio
-[Control this room (Ctrl+O)]
-Controlar esta sala (Ctrl+O)
 [&Show/hide nick list]
 &Mostrar/ocultar lista de nicks
-[Show/hide the nick list (Ctrl+N)]
-Mostrar/ocultar la lista de apodos (Ctrl+N)
 [&Filter]
 &Filtro
-[Enable/disable the event filter (Ctrl+F)]
-Activar/desactivar el filtro de eventos (Ctrl+F)
 [&Message]
 &Mensaje
 [Instant messages]
@@ -8539,7 +8521,7 @@ Desconocido
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.9.0.3
+;  Version: 0.9.0.4
 ;  Authors: Merlin
 ;============================================================
 [Dialog]
@@ -8718,64 +8700,6 @@ No, no estoy aquí.
 Me estoy escondiendo de la mafia.
 [idleeeeeeee]
 libreeeeeeee
-#muuid {2925520b-6677-4658-8bad-5661d13e4692}
-;============================================================
-;  File: SkypeStatusChange.dll
-;  Plugin: Skype status change
-;  Version: 0.0.0.18
-;  Authors: Dioksin
-;============================================================
-[Skype status change according to Miranda status.]
-Cambio de estado de Skype en función del estado Miranda.
-[Synchronize status message]
-Sincronizar mensaje de estado
-[&Check any protocol or any status to exclude it from synchronization:]
-&Comprobar cualquier protocolo o cualquier estado para excluirlo de la sincronización:
-[Synchronize if current status differs from previous one]
-Sincronizar si el estado actual difiere del anterior
-[Change Skype status]
-Cambiar el estado de Skype
-[Plugins]
-Plugins
-#muuid {57e90ac6-1067-423b-8ca3-70a39d200d4f}
-;============================================================
-;  File: SkypeWeb.dll
-;  Plugin: Skype protocol (Web)
-;  Version: 0.96.6.1
-;  Authors: Miranda NG team
-;============================================================
-[Cancel]
-Cancelar
-[Password:]
-Contraseña:
-[Default group:]
-Grupo predeterminado:
-[Account]
-Cuenta
-[Place:]
-Lugar:
-[Change password]
-Cambiar contraseña
-[Text]
-Texto
-[Warning]
-Advertencia
-[&Invite user...]
-&Invitar usuario...
-[&Leave chat session]
-&Abandonar sesión de charla
-[Preview]
-Previsualizar
-[Protocols]
-Protocolos
-[None]
-Ninguno
-[Network]
-Red
-[Notifications]
-Notificaciones
-[Errors]
-Errores
 #muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;============================================================
 ;  File: SmileyAdd.dll
@@ -8801,7 +8725,7 @@ General
 ;============================================================
 ;  File: SpellChecker.dll
 ;  Plugin: Spell checker
-;  Version: 0.2.6.6
+;  Version: 0.3.1.0
 ;  Authors: Ricardo Pescuma Domenecci, Wishmaster
 ;============================================================
 [Add...]
@@ -8958,7 +8882,7 @@ Estado
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.6
+;  Version: 1.2.0.8
 ;  Authors: P Boon
 ;============================================================
 [Allows you to define the status Miranda should set on startup, configurable per account.]
@@ -9053,22 +8977,16 @@ Mostrar diálogo
 Tiempo de espera
 [s]
 s
-[Dial-up (experimental)]
-Dial-up (experimental)
-[Automatically dial on startup]
-Usar automáticamente al arranque
-[Automatically hang up on exit]
-Suspender automáticamente al salir
 [Other]
 Otro
 [Set status to offline before exit]
 Establecer estado a Fuera de línea antes de la salir
+[Show CMDL]
+Mostrar CMDL
 [Window on startup]
 Ventana al arranque
 [Set window state]
 Establecer estado de la ventana
-[Set docked]
-Establecer acoplado
 [Set window location]
 Establecer ubicación de ventana
 [Left]
@@ -9079,8 +8997,6 @@ Superior
 Establecer tamaño de ventana
 [Width]
 Ancho
-[Show CMDL]
-Mostrar CMDL
 [Height]
 Alto
 [Background color]
@@ -9217,6 +9133,8 @@ Auto fuera
 Reglas
 [Status messages]
 Mensajes de estado
+[<unknown>]
+<desconocido>
 [Set %s message for %s.]
 Establecer mensaje %s para %s.
 [<last>]
@@ -9233,8 +9151,6 @@ Cerrando en %d
 Avanzado
 [Popups]
 Ventanas emergentes
-[<unknown>]
-<desconocido>
 [default]
 por defecto
 [Hidden]
@@ -9243,10 +9159,6 @@ Oculto
 Minimizado
 [Normal]
 Normal
-[Right]
-Right
-[None]
-Ninguno
 [size: %d x %d]
 tamaño: %d x %d
 [loc: %d x %d]
@@ -9267,7 +9179,7 @@ Barra de herramientas
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -9292,23 +9204,23 @@ Usar avatares grandes
 Sesiones de mensaje
 [Connection]
 Conexión
-[Cancel]
-Cancelar
 [Save password]
 Guardar contraseña
-[Unknown error]
-Error desconocido
+[Cancel]
+Cancelar
+[Owner]
+Propietario
+[&Leave chat session]
+&Abandonar sesión de charla
 [Name]
 Nombre
 [Network]
 Red
-[Protocols]
-Protocolos
 #muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Divider:]
@@ -9467,8 +9379,6 @@ Pegar
 Seleccionar todo
 [Global]
 Global
-[Off]
-Apagado
 [&File]
 &Archivo
 [Show menu bar]
@@ -9477,18 +9387,14 @@ Mostrar barra de menú
 Mostrar barra de estado
 [Toolbar]
 Barra de herramientas
+[Bold]
+Negrita
+[Italics]
+Cursiva
+[Underlined]
+Subrayado
 [View user's history]
 Ver historial del usuario
-[Select a foreground color for the text (Ctrl+K)]
-Seleccione un color de primer plano para el texto (Ctrl+K)
-[Select a background color for the text (Ctrl+L)]
-Seleccione un color de fondo para el texto (Ctrl+L)
-[Show/hide the nick list (Ctrl+N)]
-Mostrar/ocultar la lista de apodos (Ctrl+N)
-[Enable/disable the event filter (Ctrl+F)]
-Activar/desactivar el filtro de eventos (Ctrl+F)
-[Control this room (Ctrl+O)]
-Controlar esta sala (Ctrl+O)
 [Message sessions]
 Sesiones de mensaje
 [Group chats]
@@ -9615,6 +9521,10 @@ Escribiendo notificación
 horas
 [minutes]
 minutos
+[%s: chat room (%u user)]
+%s: sala de chat (%u usuario)
+[%s: chat room (%u users)]
+%s: sala de chat (%u usuarios)
 [%s: message session]
 %s: sesión de mensaje
 [%s: message session (%u users)]
@@ -9655,11 +9565,36 @@ Contacto
 El contacto ha comenzado a escribir
 [Contact stopped typing]
 El contacto dejó de escribir
+#muuid {DCD56CEC-C61B-4275-a010-8c65c5848815}
+;============================================================
+;  File: Teams.dll
+;  Plugin: Teams protocol
+;  Version: 0.96.6.1
+;  Authors: Miranda NG team
+;============================================================
+[Default group:]
+Grupo predeterminado:
+[Account]
+Cuenta
+[Cancel]
+Cancelar
+[Warning]
+Advertencia
+[&Invite user...]
+&Invitar usuario...
+[&Leave chat session]
+&Abandonar sesión de charla
+[Network]
+Red
+[Notifications]
+Notificaciones
+[Errors]
+Errores
 #muuid {ae708252-0df8-42ba-9ef9-9acc038eeda7}
 ;============================================================
 ;  File: Telegram.dll
 ;  Plugin: Telegram protocol
-;  Version: 0.11.0.1
+;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Telegram protocol support for Miranda NG.]
@@ -9670,6 +9605,8 @@ País:
 Número de teléfono:
 [Default group:]
 Grupo predeterminado:
+[Port]
+Puerto
 [First name:]
 Primer nombre:
 [Last name:]
@@ -9694,6 +9631,8 @@ Cuenta
 Avanzado
 [General]
 General
+[Unspecified]
+<Sin especificar>
 [none]
 Ninguno
 [Errors]
@@ -10027,55 +9966,6 @@ Transliterar Último / Seleccionado
 Invertir Caso de Todo / Seleccionado
 [Invert Case Last / Selected]
 Invertir Caso de Último / Seleccionado
-#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
-;============================================================
-;  File: Twitter.dll
-;  Plugin: Twitter protocol
-;  Version: 1.3.1.7
-;  Authors: dentist, omniwolf, Thief
-;============================================================
-[Twitter protocol support for Miranda NG.]
-Compatibilidad con el protocolo Twitter para Miranda NG.
-[Default group:]
-Grupo predeterminado:
-[Username:]
-Usuario:
-[Send]
-Enviar
-[Cancel]
-Cancelar
-[sec]
-seg
-[Colors]
-Colores
-[Use Windows colors]
-Usar colores de Windows
-[Use default colors]
-Usar colores predeterminados
-[Use custom colors]
-Usar colores personalizados
-[Back]
-Atras
-[Text]
-Texto
-[Timeout]
-Retardo
-[Default]
-Por defecto
-[Custom]
-Personalizado
-[Permanent]
-Permanente
-[Preview]
-Previsualizar
-[Normal]
-Normal
-[%s (server)]
-%s (servidor)
-[Network]
-Red
-[Popups]
-Ventanas emergentes
 #muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
 ;============================================================
 ;  File: UInfoEx.dll
@@ -10307,7 +10197,7 @@ Alias
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.16.12
+;  Version: 0.1.19.7
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -10324,10 +10214,6 @@ Fotos
 Amigos
 [Groups]
 Grupos
-[E-mail or phone number:]
-Correo o número de teléfono:
-[Password:]
-Contraseña:
 [Open VKontakte site]
 Abrir sitio VKontakte
 [Advanced]
@@ -10344,6 +10230,10 @@ Cancelar
 Compartir
 [URL:]
 URL:
+[Protocols]
+Protocolos
+[VKontakte]
+VKontakte
 [Error]
 Error
 [Message read: %s]
@@ -10370,8 +10260,6 @@ Chat
 %s está escribiendo un mensaje...
 [Enter the text you see]
 Introduzca el texto que aparece
-[VKontakte]
-VKontakte
 [Network]
 Red
 [Account]
@@ -10557,7 +10445,7 @@ Plugins
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.8
+;  Version: 1.1.0.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Update]
@@ -10606,188 +10494,53 @@ Reiniciar
 Ciudad
 [Browse]
 Navegar
-[Reset to default]
-Restaurar por defecto
 [Text Files]
 Archivos de texto
 [All Files]
 Todos los archivos
-[Name]
-Nombre
-[Items]
-Elementos
-[Name:]
-Nombre:
-[Version:]
-Versión
-[bytes]
-bytes
-[Description:]
-Detalles:
-[Frame Background]
-Marco de fondo
-[Network]
-Red
-[General]
-General
-[Popups]
-Ventanas emergentes
-[Information]
-Información
-;============================================================
-;  File: Intellicast.ini
-;  Plugin: Weather
-;============================================================
-[Mon]
-Lun
-[Tue]
-Mar
-[Wed]
-Mié
-[Thu]
-Jue
-[Fri]
-Vie
-[Sat]
-Sab
-[Sun]
-Dom
-[Sunny]
-Soleado
-[Partly Sunny]
-Parcialmente soleado
-[Mostly Sunny]
-Mayormente soleado
-[Partly Cloudy]
-Parcialmente nublado
-[Mostly Cloudy]
-Mayormente nublado
-[Mostly Clear]
-Despejado
-[Feel]
-Tocar
-[Forecast Day 1]
-pronóstico día 1
-[Heat Index]
-Índice de calor
-[Wind Direction]
-Dirección del viento
-[Wind Speed]
-Velocidad del viento
 [N]
 N
-[W]
-O
-[S]
-S
-[E]
-E
-[NW]
-NO
 [NE]
 NE
+[E]
+E
+[S]
+S
 [SW]
 SO
-[SE]
-SE
-[Scattered Clouds]
-Nubes dispersas
-[North]
-Norte
-[East]
-Este
-[South]
-Sur
-[West]
-Oeste
-[Northwest]
-Noroeste
-[Northeast]
-Nordeste
-[Southwest]
-Suroeste
-[Southeast]
-Sudeste
-;============================================================
-;  File: msn.ini
-;  Plugin: Weather
-;============================================================
-[Condition]
-Condición
-[Feel]
-Tocar
-[Forecast Day 1]
-pronóstico día 1
-[Heat Index]
-Índice de calor
+[W]
+O
+[Frame Background]
+Marco de fondo
 [Wind direction]
 Dirección del viento
 [Wind speed]
 Velocidad del viento
-;============================================================
-;  File: weatherxml.ini
-;  Plugin: Weather
-;============================================================
-[E]
-E
+[Network]
+Red
+[Account]
+Cuenta
+[General]
+General
+[Popups]
+Ventanas emergentes
+[notifications]
+Notificaciones
+[Condition]
+Condición
 [Feel]
 Tocar
-[Forecast Day 1]
-pronóstico día 1
-[Heat Index]
-Índice de calor
-[Mostly Clear]
-Despejado
-[Mostly Cloudy]
-Mayormente nublado
-[Mostly Sunny]
-Mayormente soleado
-[NE]
-NE
-[NW]
-NO
-[N]
-N
-[Partly Cloudy]
-Parcialmente nublado
-[Partly Sunny]
-Parcialmente soleado
-[SE]
-SE
-[SW]
-SO
-[S]
-S
-[Sunny]
-Soleado
-[W]
-O
-[Wind Direction]
-Dirección del viento
-[Wind Speed]
-Velocidad del viento
+[Information]
+Información
 ;============================================================
-;  File: wundergrnd_intl.ini
 ;  Plugin: Weather
 ;============================================================
 [Clear]
 Limpiar
 [E]
 E
-[East]
-Este
 [Feel]
 Tocar
-[Forecast Day 1 Condition]
-Pronóstico día 1 Condición
-[Forecast Day 1 Day]
-Pronóstico día 1 Día
-[Forecast Day 1 High]
-Pronóstico día 1 Alto
-[Forecast Day 1 Low]
-Pronóstico día 1 Bajo
-[Forecast Day 1]
-pronóstico día 1
 [Heat Index]
 Índice de calor
 [Mostly Clear]
@@ -10802,12 +10555,6 @@ NE
 NO
 [N]
 N
-[North]
-Norte
-[Northeast]
-Nordeste
-[Northwest]
-Noroeste
 [Partly Cloudy]
 Parcialmente nublado
 [Partly Sunny]
@@ -10820,166 +10567,10 @@ SO
 S
 [Scattered Clouds]
 Nubes dispersas
-[South]
-Sur
-[Southeast]
-Sudeste
-[Southwest]
-Suroeste
-[W]
-O
-[West]
-Oeste
-[Wind Direction]
-Dirección del viento
-[Wind Speed]
-Velocidad del viento
-;============================================================
-;  File: wundergrnd_xml.ini
-;  Module: weather
-;============================================================
-[Clear]
-Limpiar
-[E]
-E
-[East]
-Este
-[Feel]
-Tocar
-[Forecast Day 1 Condition]
-Pronóstico día 1 Condición
-[Forecast Day 1 Day]
-Pronóstico día 1 Día
-[Forecast Day 1 High]
-Pronóstico día 1 Alto
-[Forecast Day 1 Low]
-Pronóstico día 1 Bajo
-[Forecast Day 1]
-pronóstico día 1
-[Heat Index]
-Índice de calor
-[Mostly Clear]
-Despejado
-[Mostly Cloudy]
-Mayormente nublado
-[Mostly Sunny]
-Mayormente soleado
-[NE]
-NE
-[NW]
-NO
-[N]
-N
-[North]
-Norte
-[Northeast]
-Nordeste
-[Northwest]
-Noroeste
-[Partly Cloudy]
-Parcialmente nublado
-[Partly Sunny]
-Parcialmente soleado
-[SE]
-SE
-[SW]
-SO
-[S]
-S
-[Scattered Clouds]
-Nubes dispersas
-[South]
-Sur
-[Southeast]
-Sudeste
-[Southwest]
-Suroeste
-[W]
-O
-[West]
-Oeste
-[Wind Direction]
-Dirección del viento
-[Wind Speed]
-Velocidad del viento
-;============================================================
-;  File: yweather.ini
-;  Plugin: Weather
-;============================================================
-[E]
-E
-[East]
-Este
-[Feel]
-Tocar
-[Forecast Day 1 Condition]
-Pronóstico día 1 Condición
-[Forecast Day 1 Date]
-Pronóstico día 1 Fecha
-[Forecast Day 1 Day]
-Pronóstico día 1 Día
-[Forecast Day 1 High]
-Pronóstico día 1 Alto
-[Forecast Day 1 Low]
-Pronóstico día 1 Bajo
-[Forecast Day 1]
-pronóstico día 1
-[Fri]
-Vie
-[Heat Index]
-Índice de calor
-[Mon]
-Lun
-[Mostly Clear]
-Despejado
-[Mostly Cloudy]
-Mayormente nublado
-[Mostly Sunny]
-Mayormente soleado
-[NE]
-NE
-[NW]
-NO
-[N]
-N
-[North]
-Norte
-[Northeast]
-Nordeste
-[Northwest]
-Noroeste
-[Partly Cloudy]
-Parcialmente nublado
-[Partly Sunny]
-Parcialmente soleado
-[SE]
-SE
-[SW]
-SO
-[S]
-S
-[Sat]
-Sab
-[Scattered Clouds]
-Nubes dispersas
-[South]
-Sur
-[Southeast]
-Sudeste
-[Southwest]
-Suroeste
-[Sun]
-Dom
 [Sunny]
 Soleado
-[Thu]
-Jue
-[Tue]
-Mar
 [W]
 O
-[Wed]
-Mié
 [West]
 Oeste
 [Wind Direction Degrees]
@@ -10988,6 +10579,12 @@ Grados de dirección del viento
 Dirección del viento
 [Wind Speed]
 Velocidad del viento
+[Wind direction]
+Dirección del viento
+[Wind speed]
+Velocidad del viento
+[Forecast Day 1]
+pronóstico día 1
 #muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
 ;============================================================
 ;  File: Webview.dll

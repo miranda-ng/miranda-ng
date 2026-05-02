@@ -154,8 +154,6 @@
 [Show all frames]
 [Show all title bars]
 [Hide all title bars]
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-[Contact list docking]
 [Load and apply]
 [Show metacontact protocol icons]
 [Show additional buttons]

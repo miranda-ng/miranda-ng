@@ -1,4 +1,6 @@
 [In a civil union]
+[%s has the following anniversaries:]
+[%s becomes %d years old.]
 [XMLCard]
 [DBEditor++ File]
 [Standard vCard]

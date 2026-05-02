@@ -40,11 +40,11 @@
 ;file \protocols\Max\src\main.cpp
 [Protocol icon]
 Значок протокола
+[Protocols]
+Протоколы
+;file \protocols\Max\src\max_proto.cpp
 [Forward]
 Переслать
-[Protocol icons]
-Значки протокола
-;file \protocols\Max\src\max_proto.cpp
 [Max user ID]
 Идентификатор пользователя
 [Gateway is not connected]

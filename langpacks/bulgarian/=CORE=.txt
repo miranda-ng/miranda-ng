@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.6
+;  Version: 0.96.7
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -110,8 +110,6 @@
 Заглавна лента:
 [Show drop shadow (restart required)]
 Сенки под менютата (изисква рестарт)
-[Pin to desktop]
-Прилепване към работния плот
 [Hide contact list after it has been idle for]
 Скриване на списъка след бездействие за:
 [seconds]
@@ -126,8 +124,6 @@
 Оразмеряване нагоре
 [If window is partially covered, bring to front instead of hiding]
 Извеждане на прозорецът отпред, ако е частично покрит, вместо скриване
-[Enable docking]
-Загнездване
 [Translucency options]
 Настройки за прозрачност
 [Fade contact list in/out]
@@ -261,8 +257,6 @@
 Показване броя на знаците
 [Show toolbar buttons on top row]
 Лента с инструменти на горния ред
-[Use BBCodes to send format inside messages]
-
 [Show warning when message has not been received after]
 Предупреждение, ако съобщение не е получено след
 [Send error]
@@ -725,6 +719,8 @@ OutputDebugString()
 Следните събития ще бъдат игнорирани:
 [Files]
 Файлове
+[Cloud files]
+
 [Online notification]
 Уведомяване "На линия"
 [Auth requests]
@@ -845,16 +841,14 @@ Copyright:
 в главното меню
 [Move to the status bar]
 в лентата за състояние
-[Warning!\r\nThis menu object not support user defined options.]
-Внимание!\r\nТова меню не поддържа дефиниране на елементи от потребителя.
-[Insert submenu]
-
 [Insert separator]
 Вмъкване на разделител
 [Module:]
 Модул:
 [Service:]
 Услуга:
+[ID:]
+Идентификатор (ID):
 [Default]
 Стандарт
 [Set]
@@ -969,9 +963,11 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Показване на display name на подконтакта
 [Lock name to first contact]
 
-[Choose needed logger from listed below:]
+[Choose a log viewer]
 
-[Enable custom loggers in group chats]
+[For the private conversations]
+
+[For the group chats]
 
 [Current language:]
 Текущ език:
@@ -1037,6 +1033,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Интерфейс с едно натискане
 [Always show status in tooltip]
 Показване на състоянието в подсказка
+[Hide offline users in root]
+
 [Default settings for known event types]
 Стандартни настройки за видовете събития
 [Popup]
@@ -1191,8 +1189,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Винаги ще бъдете питани за файлове, пратени от хора извън списъка ви с контакти
 [If incoming files already exist]
 Ако входящият файл вече съществува
-[Cloud files]
-
 [Download cloud files automatically]
 
 [Only if their size is less than]
@@ -1239,8 +1235,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Съобщение
 [Clear lo&g]
 Изчистване на дневника
-[Word lookup]
-Търсене на дума
+[No word to look up]
+Няма дума за търсене
 [Yandex]
 Yandex
 [Wikipedia (en)]
@@ -1387,6 +1383,8 @@ Google Translate
 Курсив
 [Underlined]
 Подчертан
+[Strikethrough]
+Зачертаване
 [Smiley button]
 Бутон "Усмивки"
 [Room history]
@@ -1574,40 +1572,44 @@ Google Translate
 Потребителско меню
 [View user's details]
 Подробности за потребителя
-[View user's history (Ctrl+H)]
-История на съобщенията (Ctrl+H)
+[View user's history]
+История на съобщенията
 [&Bold]
 Получер
-[Make the text bold (Ctrl+B)]
-Удебеляване (Ctrl+B)
+[Make the text bold]
+Удебеляване
 [&Italic]
 Курсив
-[Make the text italicized (Ctrl+I)]
-Наклоняване (Ctrl+I)
+[Make the text italicized]
+Наклоняване
 [&Underline]
 Подчертан
-[Make the text underlined (Ctrl+U)]
-Подчертаване (Ctrl+U)
+[Make the text underlined]
+Подчертаване
+[&Strikethrough]
+Зачертаване
+[Make the text strikethrough]
+Зачертаване
 [&Color]
 Цвят
-[Select a foreground color for the text (Ctrl+K)]
-Цвят на текста (Ctrl+K)
+[Select text color]
+Подчертаване
 [&Background color]
 Фонов цвят
-[Select a background color for the text (Ctrl+L)]
-Фон за текста (Ctrl+L)
+[Select background color]
+Фон за текста
 [&Room settings]
 Настройки на стаята
-[Control this room (Ctrl+O)]
-Управление на стаята (Ctrl+O)
+[Control this room]
+Управление на стаята
 [&Show/hide nick list]
 Скриване/Показване на списъка с прякори
-[Show/hide the nick list (Ctrl+N)]
-Показване/Скриване на списъка с прякори (Ctrl+N)
+[Show/hide the nick list]
+Показване/Скриване на списъка с прякори
 [&Filter]
 Филтър
-[Enable/disable the event filter (Ctrl+F)]
-Включване/Изключване на филтъра за събития (Ctrl+F)
+[Enable/disable the event filter]
+Включване/Изключване на филтъра за събития
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 
 [Instant messages]
@@ -1975,6 +1977,29 @@ Popups са изключени
 [Events and filters]
 Събития и филтри
 ;file \src\mir_app\src\clcitems.cpp
+;file \src\mir_app\src\clistcontacts.cpp
+[My custom name (not movable)]
+Зададено име (неподвижно)
+[Nick]
+Прякор
+[FirstName]
+Име
+[E-mail]
+Имейл
+[LastName]
+Фамилия
+[Username]
+Потребител
+[FirstName LastName]
+Име Фамилия
+[LastName FirstName]
+Фамилия Име
+['(Unknown contact)' (not movable)]
+"Непознат контакт" (неподвижно)
+['(Unknown contact)']
+"(Непознат контакт)"
+[Contact names]
+Имена на контактите
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
 Нова група
@@ -2013,29 +2038,6 @@ Popups са изключени
 [&Add permanently to list]
 Добавяне за постоянно в списъка
 ;file \src\mir_app\src\colorchooser.cpp
-;file \src\mir_app\src\contacts.cpp
-[My custom name (not movable)]
-Зададено име (неподвижно)
-[Nick]
-Прякор
-[FirstName]
-Име
-[E-mail]
-Имейл
-[LastName]
-Фамилия
-[Username]
-Потребител
-[FirstName LastName]
-Име Фамилия
-[LastName FirstName]
-Фамилия Име
-['(Unknown contact)' (not movable)]
-"Непознат контакт" (неподвижно)
-['(Unknown contact)']
-"(Непознат контакт)"
-[Contact names]
-Имена на контактите
 ;file \src\mir_app\src\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Грешка при надграждане структурата на профила.\nПреместването на профила "%s" в %s е невъзможно.\nВероятно вече съществува профил със същото име. Моля, разрешете проблема ръчно!
@@ -2074,6 +2076,10 @@ Popups са изключени
 Бяхте добавени от %s%s
 [Contacts: ]
 Контакти:\s
+[I]
+
+[wrote]
+
 ;file \src\mir_app\src\db_ini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Налични са системи за предотвратяване на злонамерени промени. Ще бъдете уведомени преди всяка промяна.
@@ -2111,6 +2117,8 @@ Popups са изключени
 Чат активност
 [Chat mute mode]
 
+[Reaction]
+
 [Gender]
 Пол
 [Account]
@@ -2123,11 +2131,13 @@ Popups са изключени
 
 [Attach]
 
+[Code]
+
+[Cloud file]
+
 ;file \src\mir_app\src\file.cpp
 [&File]
 Файл
-[Send file]
-Изпращане на файл
 [File from %s]
 Файл от %s
 [File &transfers...]
@@ -2157,8 +2167,6 @@ Popups са изключени
 ;file \src\mir_app\src\filerecvdlg.cpp
 [My received files]
 Получени файлове
-[View user's history]
-История на съобщенията
 [This file transfer has been canceled by the other side]
 Прехвърлянето на файла е отказано от отсрещната страна.
 [Canceled]
@@ -2411,17 +2419,11 @@ Win +\s
 Меню на групите
 [New subgroup]
 
-[Hide offline users out here]
-Скриване на контактите "Извън линия" тук
 [Disable groups]
 Без групи
 [Hide offline users in here]
 Скриване на контактите "Извън линия" тук
 ;file \src\mir_app\src\menu_options.cpp
-[New submenu]
-
-[Do you really want to delete this menu item?]
-
 [Menus]
 Менюта
 ;file \src\mir_app\src\menu_tray.cpp
@@ -2659,6 +2661,8 @@ Win +\s
 ;file \src\mir_app\src\proto_interface.cpp
 [Preview folder]
 
+[History loaded successfully]
+
 [Request authorization]
 Молба за упълномощаване
 [Grant authorization]
@@ -2804,6 +2808,8 @@ ANSI приставка
 Предупреждение
 [Blank]
 
+[Forward]
+
 [Locked status]
 Заключено състояние
 [Status icons]
@@ -2826,9 +2832,9 @@ WAV файлове
 Съобщение %s
 [Nickname]
 Прякор
-[Disable the event filter (Ctrl+F)]
+[Disable the event filter]
 
-[Enable the event filter (Ctrl+F)]
+[Enable the event filter]
 
 [In reply to]
 
@@ -2853,18 +2859,40 @@ WAV файлове
 Копиране на всичко
 [Look up '%s':]
 Търсене за "%s":
-[No word to look up]
-Няма дума за търсене
 ;file \src\mir_app\src\srmm_main.cpp
 [Are you sure to wipe the system history?]
 
 [Empty system history]
 
+[Toggle bold formatting]
+
+[Toggle italic formatting]
+
+[Toggle underline formatting]
+
+[Toggle text color]
+
+[Toggle background color]
+
+[Clear formatting]
+
+[Open history window]
+
+[Toggle filter]
+Вкл./Изкл. на филтъра
+[Toggle nick list]
+Списък с прякори (Вкл./Изкл.)
+[Channel manager]
+Настройки на канала
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Разделител>
 [Toolbar]
 Лента с инструменти
+[Custom BBCodes]
+
+[Send file]
+Изпращане на файл
 ;file \src\mir_app\src\srmm_util.cpp
 [Message from %s]
 Съобщение от %s

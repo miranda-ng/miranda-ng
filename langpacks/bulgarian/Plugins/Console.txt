@@ -67,11 +67,16 @@
 Текст
 [Background]
 Фон
-[Text Files (*.txt)]
+[Text files (*.txt)]
 Текстови файлове (*.txt)
-[All Files]
+[All files]
 Всички файлове
 [Save selection to file]
 Запис на маркираното във файл
 [Save log to file]
 Запис на дневника във файл
+;file \plugins\Console\src\init.cpp
+[Show]
+Показване
+[Hide]
+Скриване

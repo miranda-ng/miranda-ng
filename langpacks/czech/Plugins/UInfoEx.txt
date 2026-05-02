@@ -918,12 +918,14 @@ Chcete přerušit probíhající proceduru občerstvování?
 %s má dnes %s.
 [an anniversary]
 výročí
-[He/she has the following anniversaries:]
-On/ona má následující výročí:
-[He has the following anniversaries:]
-On má následující výročí:
-[She has the following anniversaries:]
-Ona má následující výročí:
+[He]
+On
+[She]
+Ona
+[He/she]
+On/ona
+[%s has the following anniversaries:]
+%s má následující výročí:
 [%d. %s today]
 %d. %s dnes
 [%d. %s tomorrow]
@@ -936,12 +938,8 @@ Ona má následující výročí:
 %s bude mít zítra narozeniny.
 [%s has birthday in %d days.]
 Přezdívka: %s, zbývá dnů: %d
-[\nHe/she becomes %d years old.]
-\nOn/ona oslaví %d. narozeniny.
-[\nHe becomes %d years old.]
-\nOn oslaví %d. narozeniny.
-[\nShe becomes %d years old.]
-\nOna oslaví %d. narozeniny.
+[%s becomes %d years old.]
+%s oslaví %d. narozeniny.
 [No anniversaries to remind of]
 Není co připomenout z výročí
 [Reminders]

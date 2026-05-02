@@ -9,7 +9,7 @@ Authors: Dagobert_78, Jerbifor, soopah
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.6
+;  Version: 0.96.7
 ;============================================================
 [Become idle if the following is left unattended:]
 Devient "Inactif" si inactivité de :
@@ -115,8 +115,6 @@ Afficher la barre de titre
 Texte du titre :
 [Show drop shadow (restart required)]
 Afficher l'ombre (redémarr. nécessaire)
-[Pin to desktop]
-Épingler au bureau
 [Hide contact list after it has been idle for]
 Cacher la liste de contacts après :
 [seconds]
@@ -785,14 +783,14 @@ Menu des Protocoles
 Déplacer au menu principal
 [Move to the status bar]
 Déplacer dans la barre de status
-[Warning!\r\nThis menu object not support user defined options.]
-        -={ Avertissement }=-\r\nCe menu ne peut être modifié.
 [Insert separator]
 Insérer un séparateur
 [Module:]
 Module :
 [Service:]
 Service :
+[ID:]
+ID :
 [Default]
 Défaut
 [Set]
@@ -1103,8 +1101,8 @@ Liste
 &Message
 [Clear lo&g]
 Effacer le journal
-[Word lookup]
-Consultation de mot
+[No word to look up]
+Aucun mot à chercher
 [Yandex]
 Yandex
 [Wikipedia (en)]
@@ -1399,34 +1397,18 @@ Ajouter le contact à la liste
 Menu Contact
 [View user's details]
 Voir les détails du contact
-[View user's history (Ctrl+H)]
-Voir l'historique (Ctrl+H)
+[View user's history]
+Voir l'historique
 [&Bold]
 &Gras
-[Make the text bold (Ctrl+B)]
-Texte en gras (Ctrl+B)
 [&Italic]
 &Italique
-[Make the text italicized (Ctrl+I)]
-Texte en italique (Ctrl+I)
 [&Underline]
 &Souligné
-[Make the text underlined (Ctrl+U)]
-Texte souligné (Ctrl+U)
 [&Color]
 &Couleur
-[Select a foreground color for the text (Ctrl+K)]
-Couleur du texte (Ctrl+K)
 [&Background color]
 &Couleur de fond
-[Select a background color for the text (Ctrl+L)]
-Couleur de fond du texte (Ctrl+L)
-[Control this room (Ctrl+O)]
-Contrôler ce salon (Ctrl+O)
-[Show/hide the nick list (Ctrl+N)]
-Afficher/cacher la liste des pseudos (Ctrl+N)
-[Enable/disable the event filter (Ctrl+F)]
-Activer/désactiver les filtres d'évènement (Ctrl+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda n'a pas pu charger le module de messagerie préinstallé, msftedit.dll est manquant. Cliquez sur "Oui" pour continuer le chargement de Miranda.
 [Instant messages]
@@ -1661,6 +1643,28 @@ Le sujet a été changé
 Changement de sujet dans %s
 [Information in %s]
 Informations dans %s
+[My custom name (not movable)]
+Le nom choisi (non déplaçable)
+[Nick]
+Pseudo
+[FirstName]
+Prénom
+[E-mail]
+Courriel
+[LastName]
+Nom
+[Username]
+ID
+[FirstName LastName]
+Prénom Nom
+[LastName FirstName]
+Nom Prénom
+['(Unknown contact)' (not movable)]
+'(Contact inconnu)' (non déplaçable)
+['(Unknown contact)']
+'(Contacts Inconnus)'
+[Contact names]
+Noms des contacts
 [New group]
 Nouveau groupe
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -1691,28 +1695,6 @@ Ce contact est sur un système de messagerie instantanée gardant les listes de 
 &Renommer
 [&Add permanently to list]
 &Ajouter à la liste
-[My custom name (not movable)]
-Le nom choisi (non déplaçable)
-[Nick]
-Pseudo
-[FirstName]
-Prénom
-[E-mail]
-Courriel
-[LastName]
-Nom
-[Username]
-ID
-[FirstName LastName]
-Prénom Nom
-[LastName FirstName]
-Nom Prénom
-['(Unknown contact)' (not movable)]
-'(Contact inconnu)' (non déplaçable)
-['(Unknown contact)']
-'(Contacts Inconnus)'
-[Contact names]
-Noms des contacts
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda tente de mettre à jour la structure de votre profil.\nIl ne peut pas déplacer le profil %s vers le nouvel emplacement %s\nCar un profil avec ce nom existe déjà. Veuillez résoudre le problème manuellement.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
@@ -1749,8 +1731,6 @@ Compte
 Icônes d'accès rapide
 [&File]
 &Fichier
-[Send file]
-Envoyer un fichier
 [File from %s]
 Fichier de %s
 [File &transfers...]
@@ -1777,8 +1757,6 @@ Fichiers exécutables
 Sécurité
 [My received files]
 Mes fichiers reçus
-[View user's history]
-Voir l'historique
 [Canceled]
 Annulé
 [%d files]
@@ -1921,8 +1899,6 @@ Veuillez taper un mot de passe
 Menu états
 [Main menu]
 Menu principal
-[Hide offline users out here]
-Cacher les Hors ligne de ce groupe
 [Disable groups]
 Désactiver les groupes
 [Hide offline users in here]
@@ -2221,12 +2197,16 @@ Copier l'URL
 Sauver sous
 [Copy all]
 Tout copier
-[No word to look up]
-Aucun mot à chercher
+[Toggle nick list]
+Masquer la liste de noms
+[Channel manager]
+Manager de canaux
 [<Separator>]
 <Séparateur>
 [Toolbar]
 Barre d'outils
+[Send file]
+Envoyer un fichier
 [Message from %s]
 Message de %s
 [Unspecified]
@@ -3166,7 +3146,7 @@ Miranda-IM ne peut ouvrir cet URL
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
-;  Version: 0.0.2.2
+;  Version: 0.0.2.3
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [Customize]
@@ -3215,8 +3195,6 @@ secondes
 Évènements d'extinction critque
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Éteindre automatiquement l'ordinateur si :
-[&Thunderstorm warning is issued (Weather)]
-Un &orage est annoncé (plugin Weather)
 [Automatic shutdown]
 Extinction Automatique
 [Select the automatic shutdown event]
@@ -4345,18 +4323,10 @@ Déplacez les utilisateur déconnecté en bas
 3ème :
 [Place offline users out of groups]
 Sortir les Hors ligne de leur groupe
-[Selection mode]
-Méthode de sélection
-[Default]
-Défaut
-[Full selection]
-Plus de choix
-[Less selection]
-Moins de choix
-[No selection]
-Aucun choix
-[Gamma correction]
-Correction gamma
+[Appearance]
+Apparence
+[Always on top]
+Toujours visible
 [Bring to front if covered]
 Réafficher si elle est cachée
 [Hide contact list after]
@@ -4375,8 +4345,6 @@ Comportement
 Verrouiller le redimensionnement manuel
 [Drag to]
 Le "Drag && Drop"
-[Easy scroll]
-Défilement fluide
 [Easy move]
 Déplacement facile
 [x100 ms]
@@ -4401,8 +4369,6 @@ Désactivé
 Afficher automatiquement
 [Always visible]
 Toujours visible
-[Dock to sides]
-Ancrer sur les côtés
 [and minimum]
 et minimum
 [Items]
@@ -4469,12 +4435,6 @@ Décalage des sous-contacts :
 Afficher l'heure uniquement si elle diffère de la mienne
 [Show contact time as row item]
 Afficher l'heure du contact dans une ligne
-[Appearance]
-Apparence
-[Always on top]
-Toujours visible
-[Pin to desktop]
-Épingler au bureau
 [Client area margins]
 Marges de la zone client
 [Thin border main window]
@@ -4489,8 +4449,6 @@ Afficher la barre de titre
 Texte du titre :
 [Tool style main window]
 Fenêtre principale style 'Outil'
-[Minimize to tray]
-Minimiser dans barre système
 [Translucency options]
 Options de transparence
 [Fade contact list in/out]
@@ -4515,6 +4473,12 @@ Mode sans surcouche
 Désactiver les skins
 [Enable Aero Glass (Vista, Win 7)]
 Activer Aero Glass (Vista, Win 7)
+[Selection mode]
+Méthode de sélection
+[Gamma correction]
+Correction gamma
+[Minimize to tray]
+Minimiser dans barre système
 [Order of items:]
 Ordre des éléments :
 [Minimum row height:]
@@ -4647,6 +4611,8 @@ Montrer toutes les barres de titres
 Cacher toutes les barres de titres
 [&Hide/show]
 &Afficher/Cacher
+[Show offline users in here]
+Afficher les contacts hors ligne de ce groupe
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Voulez-vous que le contact '%s' soit converti en metacontact et y ajouter '%s' ?
 [Converting to metacontact]
@@ -4751,8 +4717,6 @@ Nom
 Nom (utilise les options locales)
 [Last message time]
 Heure du dernier message
-[Account name]
-Nom de compte
 [Rate]
 Note
 [-Nothing-]
@@ -4763,6 +4727,14 @@ dans le tray
 derrière le bord gauche
 [Behind right edge]
 derrière le bord droit
+[Default]
+Défaut
+[Full selection]
+Plus de choix
+[Less selection]
+Moins de choix
+[No selection]
+Aucun choix
 [General]
 Général
 [Tray]
@@ -5080,8 +5052,6 @@ Cadre arrondi
 Bordures
 [Title bar text:]
 Texte du titre :
-[Pin to desktop]
-Épingler au bureau
 [Show drop shadow (restart required)]
 Afficher l'ombre (redémarr. nécessaire)
 [Hide contact list after it has been idle for]
@@ -5128,8 +5098,6 @@ Désactiver le glisser-déplacer
 Ne pas renommer les objets par double-clic
 [Show selection even when list is not focused]
 Afficher la sélection même si la liste n'est pas visible
-[Make selection highlight translucent]
-Activer la sélection translucide
 [Use full row for selection and hottracking]
 Utiliser toute la rangée pour sélection et coloriage
 [Double click on avatar opens user info]
@@ -5188,6 +5156,8 @@ Voir les effets 3D
 Afficher l'ancre de redimensionnement
 [Draw background skin]
 dessiner arrière plan skin
+[Show extended status icons]
+Afficher les icônes d'état étendu
 [Mark protocols locked from global status changes]
 Les protocoles marqués sont isolés de l'état général
 [Available view modes]
@@ -5468,8 +5438,6 @@ Montrer tous les cadres
 Montrer toutes les barres de titres
 [Hide all title bars]
 Cacher toutes les barres de titres
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-La CList ne peut être accouplé en utilisant la barre de titre et les bordures par défaut. Utilisez un toolwindow ou un modèle sans bordure à la place.
 [Load and apply]
 Charger et appliquer
 [Skins]
@@ -5589,7 +5557,7 @@ Pas encore supporté
 ;============================================================
 ;  File: CloudFile.dll
 ;  Plugin: CloudFile
-;  Version: 0.11.0.6
+;  Version: 0.12.0.1
 ;  Authors: Miranda NG team
 ;============================================================
 [General]
@@ -5661,10 +5629,14 @@ Services
 Texte
 [Background]
 Arrière-plan
-[Text Files (*.txt)]
+[Text files (*.txt)]
 Fichier texte (*.txt)
-[All Files]
+[All files]
 Tous les fichiers
+[Show]
+Afficher
+[Hide]
+Cacher
 #muuid {0324785E-74CE-4600-B781-851773B3EFC5}
 ;============================================================
 ;  File: Contacts.dll
@@ -5764,6 +5736,8 @@ Services
 Annuler
 [Refresh]
 Actualiser
+[All files]
+Tous les fichiers
 #muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
 ;============================================================
 ;  File: CSList.dll
@@ -6171,6 +6145,25 @@ Erreur à la création du répertoire de sauvegarde
 Sélectionner le répertoire de sauvegarde
 #muuid {88928401-2ce8-4568-aaa7-226141870cbf}
 ;============================================================
+;  File: DeltaChat.dll
+;  Plugin: DeltaChat protocol
+;  Version: 0.96.5.1
+;  Authors: George Hazan
+;============================================================
+[Username]
+ID
+[Password]
+Mot de passe
+[Default group:]
+Groupes :
+[Port]
+Port
+[Network]
+Réseau
+[Account]
+Compte
+#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
 ;  Version: 0.96.5.1
@@ -6208,7 +6201,7 @@ Aperçu
 ;============================================================
 ;  File: Dummy.dll
 ;  Plugin: Dummy protocol
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: Robert Pösel
 ;============================================================
 [Custom]
@@ -6269,43 +6262,6 @@ secondes
 minutes
 [Plugins]
 Plugins
-#muuid {ee0543fb-711d-4ac8-b6c0-1dda4838107e}
-;============================================================
-;  File: Facebook.dll
-;  Plugin: Facebook
-;  Version: 0.1.0.11
-;  Authors: Miranda NG Team
-;============================================================
-[Facebook protocol support for Miranda NG.]
-Support du protocole Facebook pour Miranda NG.
-[E-mail:]
-Courriel :
-[Password:]
-Passe :
-[Create a new Facebook account]
-Créer un nouveau compte Facebook
-[User details]
-Détails du contact
-[Contacts]
-Contacts
-[Default group:]
-Groupes :
-[Keep messages as unread on server]
-Conserver les messages comme non lus sur le serveur
-[Group chats]
-Groupe chats
-[Send group chat invitation]
-Envoyer des invitations de groupe de chat
-[&Invite]
-&Inviter
-[Cancel]
-Annuler
-[Network]
-Réseau
-[Account]
-Compte
-[URL]
-Lien
 #muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;============================================================
 ;  File: FavContacts.dll
@@ -6331,7 +6287,7 @@ Arrière-plan
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [Filename:]
@@ -6362,6 +6318,10 @@ Reçu
 Veuillez utiliser uniquement de l'alphanumérique sur les transferts
 [Send file]
 Envoyer un fichier
+[Perform]
+Action
+[Pause]
+Pause
 [Couldn't open a file]
 Impossible d'ouvrir le fichier
 [Size: %d bytes]
@@ -6402,8 +6362,6 @@ N'a pu obtenir la taille du fichier
 Annulé par l'usager
 [Transfer is in progress. Do you really want to close?]
 Transfert en cours. Voulez-vous vraiment annuler ?
-[Pause]
-Pause
 [Main]
 Principales
 [File As Message...]
@@ -6539,7 +6497,7 @@ Apparence
 ;============================================================
 ;  File: Folders.dll
 ;  Plugin: Custom profile folders
-;  Version: 0.2.0.2
+;  Version: 0.3.0.1
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
 [Custom folders]
@@ -6982,6 +6940,26 @@ Erreur HTTP inconnue
 Chat
 [Contact list]
 Liste de contacts
+[Import list from server]
+Importer la liste du serveur
+[Import list from text file]
+Importer la liste depuis un fichier texte
+[Remove list from server]
+Effacer la liste du serveur
+[Export list to server]
+Exporter la liste vers le serveur
+[Export list to text file]
+Exporter la liste dans un fichier texte
+[Account settings]
+Réglages du compte
+[Previous image]
+Image précédente
+[Next image]
+Image suivante
+[Save image]
+Sauver l'image
+[Delete image]
+Effacer l'image
 [Gadu-Gadu Number]
 Numéro Gadu-Gadu :
 [Female]
@@ -7006,26 +6984,6 @@ Vous avez été connecté pour ouvrir un nouveau chat.
 Toutes les conférences ignorées sont maintenant désignorées et la politique de conférence agira encore.
 [There are no ignored conferences.]
 Il n'y a pas de conférence ignorée.
-[Import list from server]
-Importer la liste du serveur
-[Import list from text file]
-Importer la liste depuis un fichier texte
-[Remove list from server]
-Effacer la liste du serveur
-[Export list to server]
-Exporter la liste vers le serveur
-[Export list to text file]
-Exporter la liste dans un fichier texte
-[Account settings]
-Réglages du compte
-[Previous image]
-Image précédente
-[Next image]
-Image suivante
-[Save image]
-Sauver l'image
-[Delete image]
-Effacer l'image
 [Image cannot be written to disk.]
 L'image n'a pu être copiée sur le disque.
 [Image from %s]
@@ -7115,26 +7073,28 @@ Votre e-mail a bien été changé.
 #muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
 ;============================================================
 ;  File: GmailNotifier.dll
-;  Plugin: Gmail Multiple Notifier
-;  Version: 1.0.1.3
-;  Authors: Mixwind
+;  Plugin: Gmail Notifier Oauth2 Edition
+;  Version: 2.0.1.1
+;  Authors: George Hazan
 ;============================================================
 [Name:]
 Nom :
-[Password:]
-Passe :
 [Add]
 Ajouter
-[Save]
-Sauver
+[Edit]
+Éditer
 [Delete]
 Effacer
+[Authorize]
+Autoriser
 [Configuration]
 Configuration
 [minutes]
 minutes
 [seconds]
 secondes
+[Cancel]
+Annuler
 [Other]
 Autre
 [Network]
@@ -7925,7 +7885,7 @@ Profil Miranda-NG/mContacts
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.96.1.4
+;  Version: 0.96.7.1
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -8530,7 +8490,7 @@ Retirer l'exception?
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.95.11.1
+;  Version: 0.96.7.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -8575,6 +8535,8 @@ Utilisez le nom de l'ordinateur
 Port :
 [Use SSL]
 Connexion SSL
+[Use STARTTLS]
+Connexion STARTTLS
 [Unregister]
 Désenregistrer
 [Expert]
@@ -9195,6 +9157,8 @@ Envoi de message
 Options du serveur
 [Disable SASL authentication (for old servers)]
 Désactiver l'authentification SASL (pour les anciens serveurs)
+[Enable stream compression]
+Activer la compression du Stream
 [Other]
 Autre
 [Show transport agents on contact list]
@@ -9779,6 +9743,21 @@ Tous les fichiers
 Comptes
 [Themes]
 Thèmes
+#muuid {d0d8a5be-a76a-46b1-92b6-3d69924e211d}
+;============================================================
+;  File: LibreView.dll
+;  Plugin: LibreView
+;  Version: 0.1.0.1
+;  Authors: Miranda NG team
+;============================================================
+[Password:]
+Passe :
+[error]
+erreur
+[Network]
+Réseau
+[%d minutes]
+%d minutes
 #muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 ;============================================================
 ;  File: LinkList.dll
@@ -9939,6 +9918,35 @@ Divers
 ;============================================================
 [Customize]
 Apparence
+#muuid {a7e4f9c2-1d8b-4e5a-9c3f-8b2e1d0c9a8f}
+;============================================================
+;  File: Max.dll
+;  Plugin: Max protocol
+;  Version: 0.1.0.1
+;  Authors: Miranda NG contributors
+;============================================================
+[Default group:]
+Groupes :
+[First name]
+Prénom
+[Last name]
+Nom
+[Phone number]
+Téléphone
+[Cancel]
+Annuler
+[Enter password]
+Entrez le passe
+[Protocols]
+Protocoles
+[Network]
+Réseau
+[Account]
+Compte
+[Unknown]
+Inconnu
+[Favorites]
+Favoris
 #muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
 ;============================================================
 ;  File: MenuEx.dll
@@ -10159,6 +10167,8 @@ Avancé
 Nouveau
 [min]
 min
+[All files]
+Tous les fichiers
 #muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
 ;============================================================
 ;  File: MsgPopup.dll
@@ -10180,7 +10190,7 @@ Popups
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.10
+;  Version: 3.1.3.1
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Export directory]
@@ -10634,7 +10644,7 @@ Notification de nouveaux évènements
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.6
+;  Version: 0.1.0.7
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [Add]
@@ -10683,7 +10693,7 @@ Avatars
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.2
+;  Version: 0.2.0.3
 ;  Authors: nullbie
 ;============================================================
 [Messages]
@@ -11179,8 +11189,6 @@ Ajout d'un Rappel
 Heure
 [Reminder Note:]
 Note de Rappel :
-[None]
-Aucun
 [&Add Reminder]
 &Ajouter le Rappel
 [&Close]
@@ -11247,6 +11255,12 @@ Haut
 Notes
 [Note text]
 Note/Info
+[None]
+Aucun
+[Executable Files]
+Fichiers exécutables
+[All Files]
+Tous les fichiers
 [Plugins]
 Plugins
 [Minutes]
@@ -11721,7 +11735,7 @@ Inconnu
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.7
+;  Version: 0.3.1.2
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -12331,8 +12345,6 @@ Ignorer ce contact
 ;  Version: 0.7.0.5
 ;  Authors: Scott Ellis, Szymon Tokarz
 ;============================================================
-[Implementation of instant messaging for the Lotus Sametime protocol.]
-Support du protocole Lotus Sametime pour Miranda NG.
 [ID:]
 ID :
 [Password:]
@@ -12630,8 +12642,6 @@ Sessions de message
 Général
 [Add contact]
 Ajouter le contact
-[User's details]
-Détails du contact
 [User's history]
 Historique du contact
 [Smiley button]
@@ -12798,34 +12808,18 @@ Menu contact
 Voir les détails du contact
 [&History]
 &Historique
-[View user's history (Ctrl+H)]
-Voir l'historique (Ctrl+H)
+[View user's history]
+Voir l'historique
 [&Bold]
 &Gras
-[Make the text bold (Ctrl+B)]
-Texte en gras (Ctrl+B)
 [&Italic]
 &Italique
-[Make the text italicized (Ctrl+I)]
-Texte en italique (Ctrl+I)
 [&Underline]
 &Souligné
-[Make the text underlined (Ctrl+U)]
-Texte souligné (Ctrl+U)
 [&Color]
 &Couleur
-[Select a foreground color for the text (Ctrl+K)]
-Couleur du texte (Ctrl+K)
 [&Background color]
 &Couleur de fond
-[Select a background color for the text (Ctrl+L)]
-Couleur de fond du texte (Ctrl+L)
-[Control this room (Ctrl+O)]
-Contrôler ce salon (Ctrl+O)
-[Show/hide the nick list (Ctrl+N)]
-Afficher/cacher la liste des pseudos (Ctrl+N)
-[Enable/disable the event filter (Ctrl+F)]
-Activer/désactiver les filtres d'évènement (Ctrl+F)
 [&Message]
 &Message
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
@@ -13078,7 +13072,7 @@ Inconnu
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.9.0.3
+;  Version: 0.9.0.4
 ;  Authors: Merlin
 ;============================================================
 [Dialog]
@@ -13347,62 +13341,6 @@ Non, absent.
 Je me cache de la mafia.
 [idleeeeeeee]
 Occupééééé
-#muuid {2925520b-6677-4658-8bad-5661d13e4692}
-;============================================================
-;  File: SkypeStatusChange.dll
-;  Plugin: Skype status change
-;  Version: 0.0.0.18
-;  Authors: Dioksin
-;============================================================
-[Plugins]
-Plugins
-#muuid {57e90ac6-1067-423b-8ca3-70a39d200d4f}
-;============================================================
-;  File: SkypeWeb.dll
-;  Plugin: Skype protocol (Web)
-;  Version: 0.96.6.1
-;  Authors: Miranda NG team
-;============================================================
-[Cancel]
-Annuler
-[Password:]
-Passe :
-[Default group:]
-Groupes :
-[Account]
-Compte
-[Others]
-Autres
-[Change password]
-Changer le mot de passe
-[Text]
-Texte
-[Skype Link Protocol]
-Raccourci du protocole Skype
-[User]
-Utilisateur
-[Warning]
-Avertissement
-[&Invite user...]
-&Inviter l'utilisateur...
-[&User]
-&Contact
-[Are you sure?]
-Etes-vous sûr?
-[Unknown event]
-Évènement inconnu
-[Preview]
-Aperçu
-[Protocols]
-Protocoles
-[None]
-Aucun
-[Network]
-Réseau
-[Notifications]
-Notifications
-[Errors]
-Erreurs
 #muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;============================================================
 ;  File: SmileyAdd.dll
@@ -13460,7 +13398,7 @@ L'expression régulière "%s" du pack de smileys "%s" est mal construite.
 ;============================================================
 ;  File: SpellChecker.dll
 ;  Plugin: Spell checker
-;  Version: 0.2.6.6
+;  Version: 0.3.1.0
 ;  Authors: Ricardo Pescuma Domenecci, Wishmaster
 ;============================================================
 [Language:]
@@ -13587,7 +13525,7 @@ Changement d'état
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.6
+;  Version: 1.2.0.8
 ;  Authors: P Boon
 ;============================================================
 [Note: Miranda NG will have to be restarted for changes to take effect.]
@@ -13668,6 +13606,8 @@ minutes en mode %s
 Absence automatique
 [Status messages]
 Messages d'état
+[<unknown>]
+<inconnu>
 [Protocol]
 Protocole
 [Closing in %d]
@@ -13690,8 +13630,6 @@ Basique
 Avancé
 [Popups]
 Popups
-[<unknown>]
-<inconnu>
 [default]
 Défaut
 [Hidden]
@@ -13700,10 +13638,6 @@ Caché
 Minimisé
 [Normal]
 Normale
-[Right]
-Droite
-[None]
-Aucun
 [unknown]
 Inconnu
 [At least one profile must exist]
@@ -13716,7 +13650,7 @@ Barre d'outils
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -13739,31 +13673,29 @@ Groupes :
 Utiliser des grands avatars
 [Message sessions]
 Sessions de message
-[Cancel]
-Annuler
 [Block]
 Bloquer
 [Enter password]
 Entrez le passe
 [Save password]
 Enregistrer le passe
+[Cancel]
+Annuler
+[Owner]
+Propriétaire
 [Playing]
 en lecture
-[Unknown error]
-Erreur inconnue
 [Name]
 Nom
 [Network]
 Réseau
-[Protocols]
-Protocoles
 [closed chat session]
 session chat fermée
 #muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Restore defaults]
@@ -13890,8 +13822,6 @@ Vous pouvez forcer ici les paramètres globaux de formatage. Utilisez "Force Off
 Mode fenêtre d'infos
 [Ignore sending timeouts]
 Ignorer l'envoi de timeouts
-[Load only actual history]
-Charger uniquement l'historique en cours
 [Use private splitter position]
 Position personnalisée du diviseur
 [Always trim message log to]
@@ -14172,14 +14102,6 @@ Envoi incertain (ignorer les délais)
 Général
 [Private]
 Privé
-[Send text formatting]
-Formatage du texte
-[This contact]
-Pour ce contact
-[Global setting]
-Paramètres généraux
-[Force off]
-Désactiver
 [Set position for this session]
 Régler la position pour cette session
 [Set and save for all sessions]
@@ -14240,14 +14162,12 @@ Sauver la position actuelle de la fenêtre
 Protocole
 [Info button]
 Info
-[Bold text]
+[Bold]
 Gras
-[Italic text]
+[Italics]
 Italique
-[Underlined text]
+[Underlined]
 Souligné
-[Strike-through text]
-Barré
 [Send message\nClick dropdown arrow for sending options]
 Envoyer le message\nCliquez sur la flèche pour les options d'envois
 [Quote last message OR selected text]
@@ -14256,16 +14176,6 @@ Citer le dernier message ou le texte sélectionné
 Options
 [View user's history]
 Voir l'historique
-[Select a foreground color for the text (Ctrl+K)]
-Couleur du texte (Ctrl+K)
-[Select a background color for the text (Ctrl+L)]
-Couleur de fond du texte (Ctrl+L)
-[Show/hide the nick list (Ctrl+N)]
-Afficher/cacher la liste des pseudos (Ctrl+N)
-[Enable/disable the event filter (Ctrl+F)]
-Activer/désactiver les filtres d'évènement (Ctrl+F)
-[Control this room (Ctrl+O)]
-Contrôler ce salon (Ctrl+O)
 [Message sessions]
 Sessions de message
 [Group chats]
@@ -14450,10 +14360,6 @@ est %s (était %s)
 Coller et envoyer
 [Send a file]
 Envoyer un fichier
-[Channel manager]
-Manager de canaux
-[Toggle nick list]
-Masquer la liste de noms
 [Copy to clipboard]
 Copier dans le Presse-Papiers
 [TabSRMM information]
@@ -14512,12 +14418,10 @@ Sauvegarde puis ferme la session
 heures
 [minutes]
 minutes
-[%s: chat room (%u user%s)]
-%s : Salon de Chat (%u contact%s)
-[%s: chat room (%u users%s)]
-%s : Salon de Chat (%u contact%s)
-[, event filter active]
-, filtre d'évènement actif
+[%s: chat room (%u user)]
+%s : Salon de chat (%u usager)
+[%s: chat room (%u users)]
+%s : Salon de chat (%u usagers)
 [%s: message session]
 %s : Session de message
 [%s: message session (%u users)]
@@ -14658,18 +14562,10 @@ Citation
 Sauver puis fermer
 [Smiley button]
 Boutons des smileys
-[Format bold]
-Gras
-[Format italic]
-Italique
-[Format underline]
-Souligné
 [Font face]
 Police
 [Font color]
 Couleur
-[Format strike-through]
-Style de barré
 [Background color]
 Couleur de fond
 [Room settings]
@@ -14730,15 +14626,48 @@ Changer le skin
 ... vous écrit un message.
 [Typing notifications]
 Notification de frappe
+[Force off]
+Désactiver
 [TabSRMM message (%s)]
 Message TabSRMM (%s)
 [There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 Il y a des messages non lus en attente de confirmation.\nSi vous fermer cette fenêtre maintenant, Miranda tentera de les renvoyer, mais sans pouvoir vous informer des éventuelles erreurs qui pourraient survenir lors de l'envoi.\nVoulez-vous vraiment fermer cette fenêtre de message ?
+#muuid {DCD56CEC-C61B-4275-a010-8c65c5848815}
+;============================================================
+;  File: Teams.dll
+;  Plugin: Teams protocol
+;  Version: 0.96.6.1
+;  Authors: Miranda NG team
+;============================================================
+[Default group:]
+Groupes :
+[Account]
+Compte
+[Cancel]
+Annuler
+[Static]
+Statique
+[User]
+Utilisateur
+[Warning]
+Avertissement
+[&Invite user...]
+&Inviter l'utilisateur...
+[&User]
+&Contact
+[Are you sure?]
+Etes-vous sûr?
+[Network]
+Réseau
+[Notifications]
+Notifications
+[Errors]
+Erreurs
 #muuid {ae708252-0df8-42ba-9ef9-9acc038eeda7}
 ;============================================================
 ;  File: Telegram.dll
 ;  Plugin: Telegram protocol
-;  Version: 0.11.0.1
+;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Telegram protocol support for Miranda NG.]
@@ -14749,6 +14678,10 @@ Pays :
 Téléphone :
 [Default group:]
 Groupes :
+[Port]
+Port
+[Secret]
+Secret
 [Software]
 Logiciel
 [First name:]
@@ -14781,6 +14714,8 @@ Compte
 Avancé
 [General]
 Général
+[Unspecified]
+Non spécifié
 [none]
 aucun
 [Errors]
@@ -15236,63 +15171,6 @@ Effacer la valeur courante (maintenant)
 ;  Version: 0.1.0.1
 ;  Authors: Mataes, tico-tico, Tim
 ;============================================================
-#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
-;============================================================
-;  File: Twitter.dll
-;  Plugin: Twitter protocol
-;  Version: 1.3.1.7
-;  Authors: dentist, omniwolf, Thief
-;============================================================
-[Twitter protocol support for Miranda NG.]
-Support du protocole Twitter pour Miranda NG.
-[Default group:]
-Groupes :
-[Username:]
-Identifiant :
-[Cancel]
-Annuler
-[Miscellaneous options]
-Options diverses
-[sec]
-secondes
-[These changes will take effect the next time you connect to the Twitter network.]
-Ces changements ne prendront effet qu'à la prochaine connexion au réseau Twitter.
-[Colors]
-Couleurs
-[Use Windows colors]
-Utiliser les couleurs Windows
-[Use default colors]
-Couleurs par défaut
-[Use custom colors]
-Couleurs personnalisées
-[Back]
-Fond
-[Text]
-Texte
-[Timeout]
-Délai du popup
-[Default]
-Défaut
-[Custom]
-Défini
-[Preview]
-Aperçu
-[Normal]
-Normale
-[%s (server)]
-%s (serveur)
-[%s (avatar)]
-%s (avatar)
-[User name]
-Utilisateur
-[Network]
-Réseau
-[Basic]
-Basique
-[Popups]
-Popups
-[%s Protocol]
-%s protocole
 #muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
 ;============================================================
 ;  File: UInfoEx.dll
@@ -15830,7 +15708,7 @@ Utilisateur
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.16.12
+;  Version: 0.1.19.7
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -15845,8 +15723,6 @@ photos
 Groupes
 [Invites]
 Invitations
-[Password:]
-Passe :
 [Advanced]
 Avancé
 [Use local time for received messages]
@@ -15865,6 +15741,8 @@ Partager
 Lien :
 [Status icon]
 Icône d'état
+[Protocols]
+Protocoles
 [Error]
 Erreur
 [Message read: %s]
@@ -16372,7 +16250,7 @@ Plugins
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.8
+;  Version: 1.1.0.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Update]
@@ -16385,8 +16263,6 @@ Page Web
 Fermer
 [Options]
 Paramètres
-[Update weather information on startup]
-Mettre à jour la météo au démarrage
 [Update weather information every]
 Mettre à jour les infos toutes les
 [minutes]
@@ -16397,8 +16273,6 @@ Considérer la Météo à jour seulement si les conditions et température sont 
 Effacer toutes les données lors d'une mise à jour.
 [Make the contact italic when weather alert is issued]
 Mettre en italique le contact quand l'alerte Météo est publiée.
-[Use weather condition as protocol status]
-Gérer les conditions météo comme les états de protocole
 [Avatar only mode]
 Mode avatar uniquement
 [Temperature]
@@ -16437,10 +16311,6 @@ Utiliser un historique interne
 Utiliser un fichier externe
 [Overwrite file upon update]
 Écraser le fichier
-[More Info URL]
-Lien d'Info
-[Weather Map]
-Carte Météo
 [Other Options]
 Autres options
 [Set as default station]
@@ -16513,24 +16383,6 @@ Lever de soleil
 Condensation
 [Humidity]
 Humidité
-[Weather Protocol INI Setup]
-Fichier INI de configuration pour Weather
-[Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
-Weather n'as pas trouvé son fichier INI de configuration. Afin de configurer Weather et ajouter des Stations Météo, choisissez parmi les choix suivants :
-[Click here to download a weather ini file from Miranda file listing]
-Cliquez ici pour télécharger ce fichier INI depuis le site de Miranda
-[Extract the weather ini file from archive to this directory]
-Extraire un fichier INI depuis une archive de ce répertoire.
-[Click here to load the data from the new ini file into memory]
-Cliquez ici pour charger les données depuis le nouveau fichier INI
-[Add new weather station and close this dialog]
-Ajout de nouvelles Stations et fermer cette fenêtre
-[Total INI files]
-Nombre de fichiers INI
-[Total memory used]
-Quantité de mémoire utilisée
-[Reload INI]
-Recharger l'INI
 [City:]
 Ville :
 [Menu]
@@ -16549,6 +16401,34 @@ Voir détails utilisateur
 Anciens réglages
 [To default]
 Par défaut
+[Weather Map]
+Carte Météo
+[Condition Changed]
+Conditions météo changées
+[Alert Issued]
+Alerte météo publiée
+[Current weather information for %s.]
+Information météo en cours pour %s.
+[%s is now the default weather station]
+%s est maintenant la station météo par défaut
+[Weather Protocol]
+Protocole Weather
+[Please try again after weather update is completed.]
+Veuillez recommencer après la MAJ terminée.
+[Weather condition was not logged.]
+Les conditions météo n'ont pas été enregistrées.
+[Text Files]
+Fichiers txt
+[All Files]
+Tous les fichiers
+[mb]
+Mo
+[in]
+Entrée
+[<unknown time>]
+<temps inconnu>
+[<Error>]
+<Erreur>
 [Invalid ID format, missing "/" (10)]
 Format ID invalide, perte de "/" (10)
 [Invalid service (11)]
@@ -16599,92 +16479,12 @@ Erreur HTTP : mauvaise passerelle (502)
 Erreur HTTP : service indisponible (503)
 [HTTP Error: Gateway timeout (504)]
 Erreur HTTP : délai d'attente de la passerelle dépassé (504)
-[Condition Changed]
-Conditions météo changées
-[Alert Issued]
-Alerte météo publiée
-[Current weather information for %s.]
-Information météo en cours pour %s.
-[%s is now the default weather station]
-%s est maintenant la station météo par défaut
-[Weather Protocol]
-Protocole Weather
-[Please try again after weather update is completed.]
-Veuillez recommencer après la MAJ terminée.
-[<Enter station name here>]
-<Entrez le nom de la Station>
-[<Enter station ID here>]
-<Entrez l'ID de la Station>
-[Weather condition was not logged.]
-Les conditions météo n'ont pas été enregistrées.
-[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
-L'adresse pour le forcast complet n'a pas été réglé. Vous pouvez le régler dans 'Modifier les réglages'.
-[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
-L'adresse pour la carte météo n'a pas été renseignées. Vous pouvez y remédier dans le menu d'édition des paramètres.
-[Get city name from ID]
-Prendre le nom de la ville d'après l'identifiant
-[Weather INI information]
-Information sur l'INI de Weather
-[View webpage]
-Site Web
-[Reset to default]
-Paramètres par défaut
-[Text Files]
-Fichiers txt
-[All Files]
-Tous les fichiers
-[mb]
-Mo
-[in]
-Entrée
-[<unknown time>]
-<temps inconnu>
-[<Error>]
-<Erreur>
 [HTTP Error %i]
 Erreur HTTP %i
 [<Enter city name here>]
 <Entrez la ville ici>
-[Error when obtaining data: %s]
-Erreur à l'obtention des données : %s
-[Name]
-Nom
-[Items]
-Objets
-[The corresponding INI file for "%s" is not found.]
-Le fichier INI correspondant à %s n'a pas été trouvé.
-[Weather INI information for "%s":]
-Information sur l'INI de Weather pour %s :
-[Name:]
-Nom :
-[Internal Name:]
-Nom Interne :
-[INI Version:]
-Version de l'ini :
-[File Name:]
-Nom de fichier :
-[Item Count:]
-Décompte d'article :
-[Memory Used:]
-Mémoire utilisée :
-[bytes]
-octets
-[Description:]
-Description :
-[Here is a list of custom variables that are currently available]
-Voici la liste des variables actuellement disponibles :
-[All update data has been reloaded.]
-Toutes les données ont bien été mise à jour.
-[Invalid ini format for: %s]
-Format ini invalide de : %s
-[No update data file is found. Please check your Plugins\\Weather directory.]
-Aucun fichier de mise à jour trouvé. Vérifiez le dossier Plugins\\Weather.
 [Weather Condition for %n as of %u]
 Conditions Météo de %n à %u
-[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-Ressenti : %f\\nPression : %p\\nVent : %i  %w\\nHumidité : %m\\nPoint de rosée : %e\\nVisibilité : %v\\n\\nLever de Soleil : %r\\nCoucher de Soleil : %y\\n\\nPrévisions sur 5 Jours :\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-%c\\nTempérature : %t\\nRessenti : %f\\nPression : %p\Vent : %i  %w\\nHumidité : %m\\nPoint de rosée : %e\\nVisibilité : %v\\n\\nLever de Soleil : %r\\nCoucher de Soleil : %y\\n\\nPrévisions sur 5 Jours :\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %n at %u :	%c, %t (Ressenti %f)	Vent : %i %w	Humidité : %m
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
@@ -16693,20 +16493,32 @@ Ressenti : %f\\nPression : %p\\nVent : %i  %w\\nHumidité : %m\\nPoint de rosée
 Température : %[Temperature]
 [%c, %t\\nToday:  High %h, Low %l]
 %c, %t\\nAujourd'hui :  maxi %h, mini %l
+[Dewpoint]
+Condensation
+[Today's high]
+Maxi du jour
+[Today's low]
+Mini du jour
+[Station ID]
+Identifiant de la station
+[Here is a list of custom variables that are currently available]
+Voici la liste des variables actuellement disponibles :
 [Weather Protocol Text Preview]
 Prévisualisation de Weather Protocole
 [Network]
 Réseau
+[Account]
+Compte
 [General]
 Général
-[Popups]
-Popups
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\tconditions courantes\n%d\tdate en cours\n%e\tpoint de condensation\n%f\ttempérature ressentie\n%h\tmaximales\n%i\tdirection du vent\n%l\tminimales\n%m\thumidité\n%n\tnom de la station\n%p\tpression\n%r\tlever du soleil\n%s\tidentifiant de la station\n%t\ttempérature\n%u\theure mise à jour\n%v\tvisibilité\n%w\tvitesse du vent\n%y\tcoucher du soleil
 [%[..]\tcustom variables]
 %[..]\tvariables personnalisées
-[Station ID]
-Identifiant de la station
+[Popups]
+Popups
+[notifications]
+Notifications
 [Update Weather]
 MAJ de Weather
 [Remove Old Data then Update]
@@ -16715,12 +16527,12 @@ Supprimer les anciennes données et mettre à jour
 Information brève
 [Read Complete Forecast]
 Lire les prévisions au complet
-[Update All Weather]
-MAJ de tout Weather
-[Remove Old Data then Update All]
-Effacer les anciennes données lors d'une MAJ totale
 [Unable to retrieve weather information for %s]
 Impossible de retrouver la météo de %s
+[High]
+Haut
+[Low]
+Bas
 [Information]
 Informations
 [Retrieving new data, please wait...]
@@ -16732,47 +16544,16 @@ Condition actuelles de %n
 [Last update on:   %u]
 Dernière mise à jour : %u
 ;============================================================
-;  File: Intellicast.ini
 ;  Plugin: Weather
 ;============================================================
-;============================================================
-;  File: msn.ini
-;  Plugin: Weather
-;============================================================
+[Clear]
+Effacer
 [High]
 Haut
 [Low]
 Bas
 [Temperature]
 Température
-;============================================================
-;  File: weatherxml.ini
-;  Plugin: Weather
-;============================================================
-;============================================================
-;  File: wundergrnd_intl.ini
-;  Plugin: Weather
-;============================================================
-[Alert]
-Alerte
-[Clear]
-Effacer
-[Min]
-min
-;============================================================
-;  File: wundergrnd_xml.ini
-;  Module: weather
-;============================================================
-[Alert]
-Alerte
-[Clear]
-Effacer
-[Min]
-min
-;============================================================
-;  File: yweather.ini
-;  Plugin: Weather
-;============================================================
 #muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
 ;============================================================
 ;  File: Webview.dll

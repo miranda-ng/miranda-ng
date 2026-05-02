@@ -26,8 +26,6 @@
 Памятаць неадпраўленыя паведамленні
 [Delete temporary contacts on closing]
 Пры ўключэнні выдаляць часавыя кантакты
-[Use BBCodes to send format inside messages]
-
 [Show warning when message has not been received after]
 Паведамляць, калі паведамленне не атрымалася адправіць на працягу
 [seconds]
@@ -369,8 +367,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Дадаць кантакт
-[User's details]
-Інфа кантакту
 [User's history]
 Гісторыя кантакту
 [Send message]
@@ -411,6 +407,8 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Курсіў
 [Underlined]
 Падкрэслены
+[Strikethrough]
+Закрэслены
 [Room history]
 Гісторыя
 [Room settings]
@@ -610,40 +608,44 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Пра кантакт
 [&History]
 Гісторыя
-[View user's history (Ctrl+H)]
-Гісторыя паведамленняў (Ctrl+H)
+[View user's history]
+Гісторыя паведамленняў
 [&Bold]
 Тлусты
-[Make the text bold (Ctrl+B)]
-Зрабіць тэкст тоўстым (Ctrl+B)
+[Make the text bold]
+Зрабіць тэкст тоўстым
 [&Italic]
 Курсіў
-[Make the text italicized (Ctrl+I)]
-Зрабіць тэкст курсівам (Ctrl+I)
+[Make the text italicized]
+Зрабіць тэкст курсівам
 [&Underline]
 Падкрэсліць
-[Make the text underlined (Ctrl+U)]
-Падкрэсліць тэкст (Ctrl+U)
+[Make the text underlined]
+Падкрэсліць тэкст
+[&Strikethrough]
+Закрэслены
+[Make the text strikethrough]
+Закрэслены
 [&Color]
 Колер
-[Select a foreground color for the text (Ctrl+K)]
-Абраць колер тэксту (Ctrl+K)
+[Select text color]
+Абраць колер тэксту
 [&Background color]
-колер фона
-[Select a background color for the text (Ctrl+L)]
-Абраць фон тэксту (Ctrl+L)
+Колер фона
+[Select background color]
+Абраць фон тэксту
 [&Room settings]
 Налады
-[Control this room (Ctrl+O)]
-Кантраляваць гэты чат (Ctrl+O)
+[Control this room]
+Кантраляваць гэты чат
 [&Show/hide nick list]
 Паказаць/Схаваць спіс мянушак
-[Show/hide the nick list (Ctrl+N)]
-Паказаць/схаваць спіс кантактаў (Ctrl+N)
+[Show/hide the nick list]
+Паказаць/схаваць спіс кантактаў
 [&Filter]
 фільтр
-[Enable/disable the event filter (Ctrl+F)]
-Уключыць/выключыць фільтр падзей (Ctrl+F)
+[Enable/disable the event filter]
+Паказаць/схаваць спіс кантактаў
 [&Message]
 &Паведамленне
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]

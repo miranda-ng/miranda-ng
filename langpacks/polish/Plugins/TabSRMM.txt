@@ -150,8 +150,6 @@ Tryb panela informacyjnego
 Pokaż awatar w oknie rozmowy
 [Ignore sending timeouts]
 Ignoruj limity czasu wysyłania
-[Load only actual history]
-Wczytaj tylko aktualną historię
 [Use private splitter position]
 Użyj prywatnej pozycji separatora
 [Always trim message log to]
@@ -608,18 +606,6 @@ Położenie podziałki
 Globalne
 [Private]
 Prywatny
-[Send text formatting]
-Wyślij formatowanie tekstu
-[BBCode]
-BBCode
-[Off]
-Wył.
-[This contact]
-Ten kontakt
-[Global setting]
-Ustawienie globalne
-[Force off]
-Wyłącz wymuszanie
 [Set position for this session]
 Ustaw położenie dla tej sesji
 [Set and save for all sessions]
@@ -697,13 +683,13 @@ Zapisz obecne położenie okna jako domyślne
 Przycisk protokołu
 [Info button]
 Przycisk info
-[Bold text]
+[Bold]
 Pogrubienie
-[Italic text]
+[Italics]
 Kursywa
-[Underlined text]
+[Underlined]
 Podkreślenie
-[Strike-through text]
+[Strikethrough]
 Przekreślenie
 [Send message\nClick dropdown arrow for sending options]
 Wyślij wiadomość
@@ -715,16 +701,16 @@ Cytuje ostatnią wiadomość lub zaznaczony tekst
 Opcje dziennika wiadomości
 [View user's history]
 Zobacz historię użytkownika
-[Select a foreground color for the text (Ctrl+K)]
-Wybierz kolor dla tekstu (Ctrl+K)
-[Select a background color for the text (Ctrl+L)]
-Wybierz kolor tła dla tekstu (Ctrl+L)
-[Show/hide the nick list (Ctrl+N)]
-Pokaż/ukryj listę użytkowników (Ctrl+N)
-[Enable/disable the event filter (Ctrl+F)]
-Włącz/wyłącz filtr zdarzeń (Ctrl+F)
-[Control this room (Ctrl+O)]
-Kontroluj ten pokój (Ctrl + O)
+[Select text color]
+Wybierz kolor dla tekstu
+[Select background color]
+Wybierz kolor tła dla tekstu
+[Show/hide the nick list]
+Pokaż/ukryj listę użytkowników
+[Enable/disable the event filter]
+Włącz/wyłącz filtr zdarzeń
+[Control this room]
+Kontroluj ten pokój
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Okno rozmowy
@@ -915,8 +901,8 @@ Migaj oknem, gdy ktoś mówi
 Migaj oknem, gdy jakieś słowo jest podświetlone
 [Create tabs or windows for highlight events]
 Utwórz kartę lub okno dla podświetlenia zdarzeń
-[Activate chat window on highlight]
-Aktywuj okno rozmowy przy podświetleniu
+[Apply tab creation rules to group chats too]
+
 [Show list of users in the chat room]
 Pokaż listę użytkowników w pokoju
 [Colorize nicknames in member list (you need to adjust colors)]
@@ -1169,14 +1155,6 @@ Pokaż wyślij do wielu
 Wyczyść okno rozmowy
 [Collapse side bar]
 Zwiń boczny pasek
-[Channel manager]
-Zarządzanie kanałem
-[Toggle filter]
-Pokaż filtr
-[Toggle nick list]
-Pokaż/ukryj listę użytkowników
-[Show server window]
-Pokaż okno serwera
 ;file \plugins\TabSRMM\src\infopanel.cpp
 [%s    Idle: %dh,%02dm]
 %s    Bezczynny: %dh,%02dm
@@ -1247,9 +1225,6 @@ Zapisane awatary TabSRMM
 Folder dziennika czatu
 [Typing notification]
 Pisanie
-;file \plugins\TabSRMM\src\modplus.cpp
-[Insert [img] tag / surround selected text with [img][/img]]
-Wklej tag [img] lub otocz zaznaczony tekst tagami [img][/img]
 ;file \plugins\TabSRMM\src\msgdialog.cpp
 [Add this contact permanently to your contact list]
 Dodaj ten kontakt na stałe do listy kontaktów
@@ -1314,12 +1289,10 @@ minut
  jest bezczynny %d %s
 [%s on %s%s]
 %s (%s)%s
-[%s: chat room (%u user%s)]
-Pokój czatowy: %s (jest %u użytkownik(ów)%s)
-[%s: chat room (%u users%s)]
-Pokój czatowy: %s (jest %u użytkownik(ów)%s)
-[, event filter active]
-, filtr zdarzeń włączony
+[%s: chat room (%u user)]
+Pokój czatowy: %s (jest %u użytkownik(ów))
+[%s: chat room (%u users)]
+Pokój czatowy: %s (jest %u użytkownik(ów))
 [%s: message session]
 %s: Rozmowa
 [%s: message session (%u users)]
@@ -1418,6 +1391,8 @@ Zachowanie okna rozmowy
 Zawsze migaj na liście kontaktów i ikoną w zasobniku przy nowej wiadomości
 [Delete temporary contacts on close]
 Usuń tymczasowe kontakty przy zamknięciu
+[Use Ctrl+arrows to scroll history in the input window]
+
 [Sending messages]
 Wysyłanie wiadomości
 [Minimize the message window on send]
@@ -1426,8 +1401,6 @@ Minimalizuj okno rozmowy po wysłaniu
 Zamknij okno rozmowy po wysłaniu
 [Enable "Paste and send" feature]
 Włącz "Wklej i wyślij" za pomocą Ctrl+D
-[Allow BBCode formatting in outgoing messages]
-Zezwól na formatowanie BBCode w wiadomościach wychodzących
 [Automatically split long messages (experimental, use with care)]
 Automatycznie rozdzielaj długie wiadomości (eksperymentalne, używaj ostrożnie)
 [Use the same splitter height for all sessions]
@@ -1571,25 +1544,23 @@ Wygląd kart
 ;file \plugins\TabSRMM\src\msgs.cpp
 [Message Log options]
 Opcje dziennika wiadomości
-[Image tag]
-Tag obrazka
 [Quote text]
 Cytuj tekst
 [Save and close]
 Zapisz i zamknij
 [Smiley button]
 Przycisk emotikon
-[Format bold]
+[Make the text bold]
 Format "pogrubienie"
-[Format italic]
+[Make the text italicized]
 Format "kursywa"
-[Format underline]
+[Make the text underlined]
 Format "podkreślenie"
 [Font face]
 Krój czcionki
 [Font color]
 Kolor czcionki
-[Format strike-through]
+[Make the text strikethrough]
 Format "przekreślenie"
 [Background color]
 Kolor tła
@@ -1644,8 +1615,6 @@ Funkcja wyłączona (używany jako nakładka)
 Okno rozmowy - IM
 [Message windows - all]
 Okno rozmowy - wszystkie
-[Message windows - group chats]
-Okno rozmowy - czaty
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Wybierz kontener dla %s
@@ -1769,6 +1738,10 @@ Kontakt pisze wiadomość
 [Contact stopped typing]
 Kontakt przestał pisać
 ;file \plugins\TabSRMM\src\userprefs.cpp
+[BBCode]
+BBCode
+[Force off]
+Wyłącz wymuszanie
 [Set messaging options for %s]
 Ustawienia opcji rozmowy dla %s
 ;file \plugins\TabSRMM\src\utils.cpp

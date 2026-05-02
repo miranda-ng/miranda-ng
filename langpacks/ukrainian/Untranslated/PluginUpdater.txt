@@ -1,6 +1,8 @@
 [Restart Miranda automatically]
 [Change platform to 32-bit]
+[Libraries]
 [Unpack operation failed with error code=%d, update terminated]
+[There are some updates available]
 [Plugin updater URI scheme]
 [Change platform to 64-bit]
 [Updates are temporarily disabled, try again later.]

@@ -918,11 +918,13 @@ Enviar e-mail
 
 [an anniversary]
 
-[He/she has the following anniversaries:]
+[He]
 
-[He has the following anniversaries:]
+[She]
 
-[She has the following anniversaries:]
+[He/she]
+
+[%s has the following anniversaries:]
 
 [%d. %s today]
 
@@ -936,11 +938,7 @@ Enviar e-mail
 
 [%s has birthday in %d days.]
 
-[\nHe/she becomes %d years old.]
-
-[\nHe becomes %d years old.]
-
-[\nShe becomes %d years old.]
+[%s becomes %d years old.]
 
 [No anniversaries to remind of]
 

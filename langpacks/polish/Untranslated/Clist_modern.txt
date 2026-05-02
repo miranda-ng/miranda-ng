@@ -1,4 +1,5 @@
 [Show groups folded]
 [Show account names]
+[Account order]
 [Contract meta]
 [Expand meta]

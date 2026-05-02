@@ -1,1 +1,3 @@
+[%s reacted with %s to message "%s" from %s]
+[%s remove reaction %s to message "%s" from %s]
 [Export history]

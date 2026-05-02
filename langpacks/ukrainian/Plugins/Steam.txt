@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -36,29 +36,43 @@
 Підключення
 [Error limit before logout:]
 
-[Captcha]
-Перевірочний код
-[Cancel]
-Скасувати
-[As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
-Для цього облікового запису ввімкнено Steam Guard, тому необхідно ввести спеціальний код, який було вислано на адресу вашої електронної пошти.
-[Go to email domain]
-Перейти до поштової скринки
 [Block]
 Заблокувати
 [Enter password]
 Введіть пароль
 [Save password]
 Зберегти пароль
+[Cancel]
+Скасувати
 [Enter the password to continue.]
 Введіть пароль для продовження.
-[Security code]
-
-[As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
-Обліковий запис захищено двохетапною авторизацією. Для надання доступу до нього введіть код, отриманий на мобільний телефон.
 ;file \protocols\Steam\src\main.cpp
+[Protocol icon]
+Значок протоколу
+[Gaming icon]
+Ігровий значок
 [Steam game]
 Гра Steam
+;file \protocols\Steam\src\steam_bbcodes.cpp
+[You were invited to play a game]
+
+[Associated application]
+
+;file \protocols\Steam\src\steam_chats.cpp
+[Owner]
+Власник
+[Participant]
+Учасник
+[total members]
+
+[online members]
+
+[chatting]
+
+[in game]
+
+[&Leave chat session]
+&Вийти з чату
 ;file \protocols\Steam\src\steam_contacts.cpp
 [Looking to play]
 Хочете грати
@@ -74,28 +88,27 @@
 %s видалений з вашого списку контактів
 [%s has added you to contact list]
 
+;file \protocols\Steam\src\steam_login.cpp
+[Enter email confimation code]
+
+[Enter the code from your authentication device]
+
 ;file \protocols\Steam\src\steam_menus.cpp
-[Steam menu chooser]
-Вибір меню Steam
 [Unblock]
 
-[Join to game]
+[Join the game]
 Приєднатися до гри
+[Join group chat]
+
 ;file \protocols\Steam\src\steam_messages.cpp
-[Unknown error]
-Невідома помилка
+[Message sending has failed with error %d]
+
 ;file \protocols\Steam\src\steam_options.cpp
 [Name]
 Ім'я
 [Network]
 Мережа
-;file \protocols\Steam\src\steam_proto.cpp
-[Protocols]
-Протоколи
-[Protocol icon]
-Значок протоколу
-[Gaming icon]
-Ігровий значок
+;file \protocols\Steam\src\steam_server.cpp
 ;file \protocols\Steam\src\steam_utils.cpp
 [closed chat session]
 закрив вікно чату

@@ -79,8 +79,6 @@ Transferencia de archivos entrantes
 [ was added.]
 
 ;file \plugins\IEView\src\ieview_main.cpp
-[Code]
-
 [RTL On]
 
 [RTL Off]
@@ -88,8 +86,6 @@ Transferencia de archivos entrantes
 [Group On]
 
 [Group Off]
-
-[Format text as code]
 
 [IEView]
 

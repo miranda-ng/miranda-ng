@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.8
+;  Version: 1.1.0.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
@@ -18,8 +18,6 @@ Strona domowa
 Zamknij
 [Options]
 Opcje
-[Update weather information on startup]
-Aktualizacja informacji o pogodzie na starcie
 [Update weather information every]
 Aktualizuj informacje o pogodzie co
 [minutes]
@@ -32,8 +30,6 @@ Usuń stare dane podczas aktualizowania
 Wyświetl kontakt kursywą jeśli ogłoszono alarm pogodowy
 [Modes]
 Tryby
-[Use weather condition as protocol status]
-Ustaw warunki pogodowe jako status protokołu
 [Avatar only mode]
 Tylko tryb awataru
 [Units]
@@ -110,12 +106,6 @@ Korzystanie z zewnętrznego pliku
 Zastąp plik po aktualizacji
 [Path:]
 Folder:
-[Link Settings]
-Ustawienia łącza
-[More Info URL]
-Więcej...
-[Weather Map]
-Mapa pogodowa
 [Other Options]
 Inne opcje
 [Set as default station]
@@ -130,8 +120,6 @@ Zmień
 Anuluj
 [Popup Options]
 Opcje powiadomień
-[Enable popups]
-Włącz powiadomienia
 [Popup only when condition changes]
 Tylko przy zmianie warunków
 [Colors]
@@ -172,6 +160,10 @@ Aktualizacje
 Alarmy
 [Errors]
 Błędy
+[Enter your personal API key from Visual Crossing Weather site]
+
+[Obtain key]
+
 [Contact List]
 Lista kontaktów
 [Brief Info Title]
@@ -208,26 +200,6 @@ Punkt rosy
 Wilgotność
 [More...]
 Więcej...
-[Weather Protocol INI Setup]
-Konfiguracja INI protokołu Weather
-[Install and load your weather ini file here]
-Zainstaluj i załaduj swój plik ini pogody tutaj
-[Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
-Protokół Weather nie może znaleźć pliku INI na komputerze. Aby ustawić plik INI i dodać stacje pogodowe, wykonaj następujące kroki:
-[Click here to download a weather ini file from Miranda file listing]
-Kliknij tutaj aby pobrać plik ini ze strony Mirandy
-[Extract the weather ini file from archive to this directory]
-Wypakuj plik ini z archiwum do tego folderu
-[Click here to load the data from the new ini file into memory]
-Kliknij tutaj żeby wczytać dane z nowego pliku ini do pamięci
-[Add new weather station and close this dialog]
-Dodaj nową stację pogodową i zamknij
-[Total INI files]
-Razem plików INI
-[Total memory used]
-Razem używanej pamięci
-[Reload INI]
-Odśwież INI
 [City:]
 Miasto:
 [Menu]
@@ -255,6 +227,58 @@ Do domyślnych
 ;file \protocols\Weather\src\stdafx.h
 [N/A]
 Niedostępny
+;file \protocols\Weather\src\weather.cpp
+[Protocol icon]
+Ikona protokołu
+[Update Disabled]
+Aktualizacja wyłączona
+[View Log]
+Pokaż raport
+[Update with Clear]
+Aktualizacja z czyszczeniem
+[View Brief]
+Pokaż krótko
+[View Complete]
+Pokaż całkowicie
+[Weather Update]
+Aktualizuj pogodę
+[Weather Map]
+Mapa pogodowa
+[Edit Settings]
+Edytuj ustawienia
+[Condition Changed]
+Warunki pogodowe uległy zmianie
+[Alert Issued]
+Ogłoszono alarm pogodowy
+;file \protocols\Weather\src\weather_addstn.cpp
+[Current weather information for %s.]
+Aktualne informacje o pogodzie dla miejscowości %s.
+[%s is now the default weather station]
+%s jest obecnie domyślną stacją meteo
+[Weather Protocol]
+Protokół pogodowy
+[Please try again after weather update is completed.]
+Proszę spróbować ponownie po aktualizacji pogody.
+;file \protocols\Weather\src\weather_contacts.cpp
+[Weather condition was not logged.]
+Nie zarejestrowano sytuacji pogodowej.
+[Browse]
+Przeglądaj
+[Text Files]
+Pliki tekstowe
+[All Files]
+Wszystkie pliki
+;file \protocols\Weather\src\weather_conv.cpp
+[mb]
+mb
+[in]
+w
+[mm]
+mm
+[<unknown time>]
+<nieznany czas>
+[<Error>]
+<Błąd>
 [Invalid ID format, missing "/" (10)]
 Nieprawidłowy format ID, brakuje "/" (10)
 [Invalid service (11)]
@@ -305,137 +329,45 @@ Błąd HTTP: Zła bramka (502)
 Błąd HTTP: Usługa niedostępna (503)
 [HTTP Error: Gateway timeout (504)]
 Błąd HTTP: Przekroczono czas oczekiwania bramki (504)
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
-%c\tstan obecny\n%d\taktualna data\n%e\tpunkt rosy\n%f\todczuwalna temp.\n%h\tdzisiejszy wyż\n%i\tkierunek wiatru\n%l\tdzisiejszy niż\n%m\twilgotność\n%n\tnazwa stacji\n%p\tciśnienie\n%r\twschód słońca\n%s\tID stacji\n%t\ttemperatura\n%u\tczas aktualizacji\n%v\twidoczność\n%w\tprędkość wiatru\n%y\tzachód słońca\n----------\n\\n\tnowa linia
-;file \protocols\Weather\src\weather.cpp
-[Enable/disable auto update]
-Włącz/wyłącz auto-aktualizacje
-[Auto Update Enabled]
-Auto-aktualizacja włączona
-[Auto Update Disabled]
-Auto-aktualizacja wyłączona
-[Protocol icon]
-Ikona protokołu
-[Update Disabled]
-Aktualizacja wyłączona
-[View Log]
-Pokaż raport
-[Update with Clear]
-Aktualizacja z czyszczeniem
-[View Brief]
-Pokaż krótko
-[View Complete]
-Pokaż całkowicie
-[Weather Update]
-Aktualizuj pogodę
-[Edit Settings]
-Edytuj ustawienia
-[Condition Changed]
-Warunki pogodowe uległy zmianie
-[Alert Issued]
-Ogłoszono alarm pogodowy
-[Weather notifications]
-Powiadomienie o pogodzie
-;file \protocols\Weather\src\weather_addstn.cpp
-[Current weather information for %s.]
-Aktualne informacje o pogodzie dla miejscowości %s.
-[%s is now the default weather station]
-%s jest obecnie domyślną stacją meteo
-[Weather Protocol]
-Protokół pogodowy
-[Please try again after weather update is completed.]
-Proszę spróbować ponownie po aktualizacji pogody.
-[<Enter station name here>]
-<Wpisz nazwę stacji tutaj>
-[<Enter station ID here>]
-<Wpisz ID stacji tutaj>
-;file \protocols\Weather\src\weather_contacts.cpp
-[Weather condition was not logged.]
-Nie zarejestrowano sytuacji pogodowej.
-[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
-Nie ustawiono adresu strony z kompletną prognozą. Możesz go ustawić w okienku edycji ustawień.
-[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
-Nie ustawiono adresu mapy pogodowej. Możesz go ustawić w okienku edycji ustawień.
-[Get city name from ID]
-Pobierz nazwę miasta z ID
-[Weather INI information]
-Informacja pogodowa INI
-[Browse]
-Przeglądaj
-[View webpage]
-Pokaż stronę internetową
-[Reset to default]
-Domyślne ustawienia
-[Text Files]
-Pliki tekstowe
-[All Files]
-Wszystkie pliki
-;file \protocols\Weather\src\weather_conv.cpp
-[mb]
-mb
-[in]
-w
-[mm]
-mm
-[<unknown time>]
-<nieznany czas>
-[<Error>]
-<Błąd>
 [HTTP Error %i]
 Błąd HTTP %i
 ;file \protocols\Weather\src\weather_data.cpp
 [<Enter city name here>]
 <Wpisz nazwę miasta tutaj>
-[Error when obtaining data: %s]
-Błąd podczas odczytywania danych: %s
-;file \protocols\Weather\src\weather_info.cpp
-[Name]
-Nazwa
-[Author]
-Autor
-[File Version]
-Wersja Pliku
-[INI Version]
-Wersja INI
-[Items]
-Obiekty
-[Display Name]
-Nazwa Wyświetlana
-[File Name]
-Nazwa Pliku
-[The corresponding INI file for "%s" is not found.]
-Zgodny plik INI dla \"%s\" nie został znaleziony.
-[Weather INI information for "%s":]
-Informacja pogodowa INI dla \"%s\":
-[Name:]
-Nazwa:
-[Internal Name:]
-Nazwa krajowa:
-[Author:]
-Autor:
-[Version:]
-Wersja:
-[INI Version:]
-Wersja INI:
-[File Name:]
-Nazwa pliku:
-[Item Count:]
-Element liczy:
-[Memory Used:]
-Pamięć używana:
-[bytes]
-bajty
-[Description:]
-Opis:
-[Here is a list of custom variables that are currently available]
-Poniżej znajduje się lista niestandardowych zmiennych, które są obecnie dostępne
-;file \protocols\Weather\src\weather_ini.cpp
-[All update data has been reloaded.]
-Wszystkie aktualizacje danych zostały przeładowane.
-[Invalid ini format for: %s]
-Niepoprawny format INI dla: %s
-[No update data file is found. Please check your Plugins\\Weather directory.]
-Nie znaleziono plików aktualizacji. Proszę sprawdzić folder Plugins\\Weather.
+[N]
+
+[NNE]
+
+[NE]
+
+[ENE]
+
+[E]
+
+[ESE]
+
+[ES]
+
+[SSE]
+
+[S]
+
+[SSW]
+
+[SW]
+
+[WSW]
+
+[W]
+
+[WNW]
+
+[WN]
+
+[NNW]
+
+[You need to obtain the personal key and enter it in the account's Options dialog]
+
 ;file \protocols\Weather\src\weather_mwin.cpp
 [Frame Font]
 Czcionka tekstu ramki
@@ -446,10 +378,10 @@ Tło ramki
 ;file \protocols\Weather\src\weather_opt.cpp
 [Weather Condition for %n as of %u]
 Warunki pogodowe dla %n na %u
-[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-Temperatura odczuwalna: %f\\nCiśnienie: %p\\nWiatr: %i  %w\\nWilgotność: %m\\nPunkt rosy: %e\\nWidoczność: %v\\n\\nWschód słońca: %r\\nZachód słońca: %y\\n\\nPrognoza na 5 dni:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-%c\\nTemperatura: %t\\nOdczuwalne: %f\\nCiśnienie: %p\\nWiatr: %i  %w\\nWilgotność: %m\\nPunkt rosy: %e\\nWidoczność: %v\\n\\nWschód Słońca: %r\\nZachód Słońca: %y\\n\\nPogoda na 5 dni:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n\\n%[Forecast Day 1]\\n\\n%[Forecast Day 2]\\n\\n%[Forecast Day 3]\\n\\n%[Forecast Day 4]\\n\\n%[Forecast Day 5]]
+Temperatura odczuwalna: %f\\nCiśnienie: %p\\nWiatr: %i  %w\\nWilgotność: %m\\nPunkt rosy: %e\\nWidoczność: %v\\n\\nWschód słońca: %r\\nZachód słońca: %y\\n\\nPrognoza na 5 dni:\\n\\n%[Forecast Day 1]\\n\\n%[Forecast Day 2]\\n\\n%[Forecast Day 3]\\n\\n%[Forecast Day 4]\\n\\n%[Forecast Day 5]
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n\\n%[Forecast Day 1]\\n\\n%[Forecast Day 2]\\n\\n%[Forecast Day 3]\\n\\n%[Forecast Day 4]\\n\\n%[Forecast Day 5]]
+%c\\nTemperatura: %t\\nOdczuwalne: %f\\nCiśnienie: %p\\nWiatr: %i  %w\\nWilgotność: %m\\nPunkt rosy: %e\\nWidoczność: %v\\n\\nWschód Słońca: %r\\nZachód Słońca: %y\\n\\nPogoda na 5 dni:\\n\\n%[Forecast Day 1]\\n\\n%[Forecast Day 2]\\n\\n%[Forecast Day 3]\\n\\n%[Forecast Day 4]\\n\\n%[Forecast Day 5]
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %n na %u:	%c, %t (odczuwalne %f)	Wiatr: %i %w	Wilgotność: %m
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
@@ -460,24 +392,61 @@ Temperatura:  %[Temperature]
 %n   (%u)
 [%c, %t\\nToday:  High %h, Low %l]
 %c, %t\\nDzisiaj:  Wyż %h, Niż %l
+[Current condition]
+
+[Current date]
+
+[Dewpoint]
+
+[Feel-like temp]
+
+[Today's high]
+Dzisiejsze maksimum
+[Wind direction]
+Kierunek wiatru
+[Today's low]
+Dzisiejsze minimum
+[Station name]
+Nazwa stacji
+[Station ID]
+ID stacji
+[Update time]
+
+[Wind speed]
+Prędkość wiatru
+[new line]
+
+[Here is a list of custom variables that are currently available]
+Poniżej znajduje się lista niestandardowych zmiennych, które są obecnie dostępne
 [Weather Protocol Text Preview]
 Podgląd tekstu protokołu pogody
 [Network]
 Protokoły
+[Account]
+Konto
 [General]
 Ogólne
 [Display]
 Wyświetlanie
-[Popups]
-Powiadomienia
 ;file \protocols\Weather\src\weather_popup.cpp
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\tstan obecny\n%d\taktualna data\n%e\tpunkt rosy\n%f\todczuwalna temp.\n%h\tdzisiejszy wyż\n%i\tkierunek wiatru\n%l\tdzisiejszy niż\n%m\twilgotność\n%n\tnazwa stacji\n%p\tciśnienie\n%r\twschód słońca\n%s\tID stacji\n%t\ttemperatura\n%u\tczas aktualizacji\n%v\twidoczność\n%w\tprędkość wiatru\n%y\tzachód słońca
 [%[..]\tcustom variables]
 %[..]\twłasne zmienne
+[Popups]
+Powiadomienia
+;file \protocols\Weather\src\weather_proto.cpp
+[notifications]
+Powiadomienia
+[Enable/disable auto update]
+Włącz/wyłącz auto-aktualizacje
+[Auto Update Enabled]
+Auto-aktualizacja włączona
+[Auto Update Disabled]
+Auto-aktualizacja wyłączona
+[Coordinates]
+Współrzędne
 ;file \protocols\Weather\src\weather_svcs.cpp
-[Station ID]
-ID stacji
 [Update Weather]
 Aktualizuj prognozę
 [Remove Old Data then Update]
@@ -486,26 +455,40 @@ Usuń stare dane i aktualizuj
 Krótka informacja
 [Read Complete Forecast]
 Pokaż całą prognozę
-[Weather]
-Pogoda
-[Enable/Disable Weather Update]
-Włącz/wyłącz aktualizacje pogodowe
-[Update All Weather]
-Aktualizuj całą pogodę
-[Remove Old Data then Update All]
-Usuń stare dane po aktualizacji
 [Display in a frame]
 Ekran w ramce
 ;file \protocols\Weather\src\weather_update.cpp
 [Unable to retrieve weather information for %s]
 Nie można pobrać informacji o pogodzie dla %s
+[New moon]
+Nów
+[Waxing crescent]
+Przed pierwszą kwadrą
+[Waxing gibbous]
+Przed pełnią
+[Waning gibbous]
+Przed ostatnią kwadrą
+[Waning crescent]
+Po ostatniej kwadrze
+[Date]
+Data
+[Condition]
+Forma
+[High]
+Wysoka
+[Low]
+Niska
+[Moon phase]
+
+[Feel]
+Odczuwalna
 ;file \protocols\Weather\src\weather_userinfo.cpp
-[No information available.\r\nPlease update weather condition first.]
-Brak dostępnych informacji.\r\nProszę zaktualizować dane pogodowe.
 [Variable]
 Zmienna
 [Information]
 Informacje
+[No information available.\r\nPlease update weather condition first.]
+Brak dostępnych informacji.\r\nProszę zaktualizować dane pogodowe.
 [Retrieving new data, please wait...]
 Pobieranie nowych danych, proszę czekać...
 [More Info]

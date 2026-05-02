@@ -156,18 +156,10 @@ Przesuwaj rozłączonych na dół
 3:
 [Place offline users out of groups]
 Umieść rozłączonych poza grupami
-[Selection mode]
-Tryb wyboru
-[Default]
-Domyślny
-[Full selection]
-Pełne zaznaczenie
-[Less selection]
-Częściowe zaznaczenie
-[No selection]
-Brak zaznaczenia
-[Gamma correction]
-Korekcja Gamma
+[Appearance]
+Personalizacja
+[Always on top]
+Zawsze na wierzchu
 [Bring to front if covered]
 Przesuń na wierzch, jeśli zakryty
 [Hide contact list after]
@@ -186,8 +178,6 @@ Zachowanie
 Zablokuj ręczną zmianę rozmiaru
 [Drag to]
 Przeciągnij do
-[Easy scroll]
-Łatwe przewijanie
 [Easy move]
 Łatwe przesuwanie
 [x100 ms]
@@ -212,8 +202,6 @@ Wyłączone
 Pokaż automatycznie
 [Always visible]
 Zawsze widoczny
-[Dock to sides]
-Dokuj do krawędzi
 [and minimum]
 minimalny
 [Items]
@@ -302,12 +290,6 @@ Wcięcie subkontaktów:
 Pokaż czas tylko wtedy, gdy różni się od bieżącego
 [Show contact time as row item]
 Pokaż czas kontaktu jako element wiersza
-[Appearance]
-Personalizacja
-[Always on top]
-Zawsze na wierzchu
-[Pin to desktop]
-Przypnij do pulpitu
 [Client area margins]
 Marginesy wewnątrz obszaru listy
 [Thin border main window]
@@ -322,8 +304,6 @@ Pokaż pasek tytułu
 Tekst paska tytułu:
 [Tool style main window]
 Styl okna narzędziowego
-[Minimize to tray]
-Minimalizuj do zasobnika
 [Translucency options]
 Opcje przezroczystości
 [Fade contact list in/out]
@@ -352,6 +332,12 @@ Tryb Non-layered
 Wyłącz silnik skórkowania
 [Enable Aero Glass (Vista, Win 7)]
 Aero Glass (Vista, Win 7)
+[Selection mode]
+Tryb wyboru
+[Gamma correction]
+Korekcja Gamma
+[Minimize to tray]
+Minimalizuj do zasobnika
 [Order of items:]
 Kolejność wyświetlania:
 [Minimum row height:]
@@ -643,8 +629,8 @@ Nazwa
 Nazwa (użyj lokalnych ustawień)
 [Last message time]
 Czas ostatniej wiadomości
-[Account name]
-Nazwa konta
+[Account order]
+
 [Rate]
 Ocena
 [Last online]
@@ -657,6 +643,14 @@ Schowaj do zasobnika
 Za lewą krawędzią
 [Behind right edge]
 Za prawą krawędzią
+[Default]
+Domyślny
+[Full selection]
+Pełne zaznaczenie
+[Less selection]
+Częściowe zaznaczenie
+[No selection]
+Brak zaznaczenia
 [General]
 Ogólne
 [Tray]

@@ -1033,6 +1033,8 @@ UIN, E-mail и т.д.
 Один щелчок
 [Always show status in tooltip]
 Всегда показывать статус в подсказке
+[Hide offline users in root]
+Скрывать отключённых пользователей в корне
 [Default settings for known event types]
 Настройки для известных типов событий
 [Popup]
@@ -2417,8 +2419,6 @@ xСтатус
 Меню групп
 [New subgroup]
 Новая подгруппа
-[Hide offline users out here]
-Скрыть отключённых вне группы
 [Disable groups]
 Отключить группы
 [Hide offline users in here]
@@ -2808,6 +2808,8 @@ ANSI плагин
 Предупреждение
 [Blank]
 Пустой
+[Forward]
+Переслать
 [Locked status]
 Заблокированный статус
 [Status icons]

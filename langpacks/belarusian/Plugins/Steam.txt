@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -36,29 +36,43 @@
 Далучэнне
 [Error limit before logout:]
 
-[Captcha]
-
-[Cancel]
-Скасаваць
-[As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
-
-[Go to email domain]
-
 [Block]
 Заблакаваць
 [Enter password]
 Увядзіце пароль
 [Save password]
 Захаваць пароль
+[Cancel]
+Скасаваць
 [Enter the password to continue.]
 
-[Security code]
-
-[As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
-
 ;file \protocols\Steam\src\main.cpp
+[Protocol icon]
+Абразок пратаколу
+[Gaming icon]
+
 [Steam game]
 
+;file \protocols\Steam\src\steam_bbcodes.cpp
+[You were invited to play a game]
+
+[Associated application]
+
+;file \protocols\Steam\src\steam_chats.cpp
+[Owner]
+Уладальнік
+[Participant]
+Удзельнік
+[total members]
+
+[online members]
+
+[chatting]
+
+[in game]
+
+[&Leave chat session]
+&Пакінуць сеанс
 ;file \protocols\Steam\src\steam_contacts.cpp
 [Looking to play]
 
@@ -74,28 +88,27 @@
 
 [%s has added you to contact list]
 
-;file \protocols\Steam\src\steam_menus.cpp
-[Steam menu chooser]
+;file \protocols\Steam\src\steam_login.cpp
+[Enter email confimation code]
 
+[Enter the code from your authentication device]
+
+;file \protocols\Steam\src\steam_menus.cpp
 [Unblock]
 
-[Join to game]
+[Join the game]
+
+[Join group chat]
 
 ;file \protocols\Steam\src\steam_messages.cpp
-[Unknown error]
-Невядомая памылка
+[Message sending has failed with error %d]
+
 ;file \protocols\Steam\src\steam_options.cpp
 [Name]
 Імя
 [Network]
 Сеціва
-;file \protocols\Steam\src\steam_proto.cpp
-[Protocols]
-Пратаколы
-[Protocol icon]
-Абразок пратаколу
-[Gaming icon]
-
+;file \protocols\Steam\src\steam_server.cpp
 ;file \protocols\Steam\src\steam_utils.cpp
 [closed chat session]
 зачыніў вакно чата

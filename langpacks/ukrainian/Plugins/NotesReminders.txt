@@ -50,18 +50,8 @@
 Дата
 [Time]
 Час
-[Repeat each day]
-
 [Reminder Note:]
 Нагадування:
-[None]
-Немає
-[Daily]
-Днів
-[Weekly]
-Тижнів
-[Monthly]
-Місяців
 [Repeat Alert Sound]
 Повторювати сигнал
 [Use Sound]
@@ -250,8 +240,12 @@
 Фон
 [Sticky Note Body]
 Вікно
-[Executable Files\0*.exe\0All Files\0*.*\0\0]
-Виконувані файли\0*.exe\0Усі файли\0*.*\0\0
+[None]
+Немає
+[Executable Files]
+Виконувані файли
+[All Files]
+Усі файли
 [Select Executable]
 Вибрати програму...
 [Plugins]
@@ -259,14 +253,22 @@
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [The specified time is invalid.]
 Зазначений час недійсний.
+[Don't repeat]
+
+[Repeat daily]
+
+[Repeat weekly]
+
+[Repeat monthly]
+
 [Minutes]
 хвилин
-[Hours]
-годин
 [The specified time is invalid due to begin of daylight saving (summer time).]
 Зазначений час недійсний через перехід на літній час.
 [Hour]
 годину
+[Hours]
+годин
 [Day]
 день
 [Days]

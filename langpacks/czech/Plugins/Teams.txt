@@ -1,0 +1,120 @@
+#muuid {DCD56CEC-C61B-4275-a010-8c65c5848815}
+;============================================================
+;  File: Teams.dll
+;  Plugin: Teams protocol
+;  Version: 0.96.6.1
+;  Authors: Miranda NG team
+;============================================================
+[Microsoft Teams protocol support for Miranda NG.]
+
+;file \protocols\Teams\res\Resource.rc
+[Login:]
+
+[Default group:]
+Výchozí skupina:
+[Logout]
+
+[Account]
+Účet
+[Teams]
+
+[Proceed]
+
+[Cancel]
+Zrušit
+[Static]
+Statický
+;file \protocols\Teams\src\main.cpp
+[Protocol icon]
+Ikona protokolu
+[Create new chat icon]
+Ikona vytvoření nového chatu
+[Block user icon]
+Ikona blokování uživatele
+[Unblock user icon]
+Ikona odblokování uživatele
+[Incoming call icon]
+Ikona příchozího hovoru
+[Notification icon]
+Ikona upozornění
+[Error icon]
+Ikona chyby
+[Action icon]
+Ikona akce
+;file \protocols\Teams\src\teams_chatrooms.cpp
+[Admin]
+Admin
+[User]
+Uživatel
+[Enter new nickname]
+Zadejte novou přezdívku
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Tato diskuse bude navždy zrušena s veškerým jejím obsahem. Tuto akci nelze vrátit zpět. Přejete si pokračovat?
+[Warning]
+Upozornění
+[&Invite user...]
+Pozvat k d&iskusi...
+[&Leave chat session]
+&Opustit diskusi
+[&Change topic...]
+&Změnit téma...
+[Kick &user]
+Vykopnout &uživatele
+[Set &role]
+Určit &roli
+[&Admin]
+&Správce
+[&User]
+&Uživatel
+[Change nick...]
+Změnit přezdívku...
+[Enter new chatroom topic]
+Zadejte nové téma diskuse
+;file \protocols\Teams\src\teams_contacts.cpp
+[(You)]
+
+[Are you sure?]
+Opravdu chcete pokračovat?
+;file \protocols\Teams\src\teams_login.cpp
+[To login into Teams you need to open '%S' in a browser and select your Teams account there.]
+
+[Enter the following code then: %s.]
+
+[Click Proceed to copy that code to clipboard and launch a browser]
+
+;file \protocols\Teams\src\teams_menus.cpp
+[Block contact]
+Zablokovat kontakt
+[Unblock contact]
+Odblokovat kontakt
+[Create new chat]
+Založit novou diskusi
+;file \protocols\Teams\src\teams_messages.cpp
+[Network error!]
+Chyba sítě!
+[Unknown error!]
+Neznámá chyba!
+;file \protocols\Teams\src\teams_options.cpp
+[<will appear after first login>]
+
+[Network]
+Sítě
+;file \protocols\Teams\src\teams_popups.cpp
+[Notifications]
+Upozornění
+[Errors]
+Chyby
+[Calls]
+Hovory
+;file \protocols\Teams\src\teams_proto.cpp
+[%s websocket connection]
+
+[Incoming call]
+Příchozí hovor
+[Incoming call canceled]
+
+[Teams ID]
+
+;file \protocols\Teams\src\teams_utils.cpp
+[wrote]
+

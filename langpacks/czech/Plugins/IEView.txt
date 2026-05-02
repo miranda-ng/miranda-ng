@@ -79,8 +79,6 @@ Odchozí přenos souboru
 [ was added.]
  byl přidán
 ;file \plugins\IEView\src\ieview_main.cpp
-[Code]
-
 [RTL On]
 
 [RTL Off]
@@ -88,8 +86,6 @@ Odchozí přenos souboru
 [Group On]
 
 [Group Off]
-
-[Format text as code]
 
 [IEView]
 IEView

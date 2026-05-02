@@ -209,3 +209,11 @@ mRadio вкл.
 макс.
 [Status Message]
 Текст за състояние
+[All files]
+Всички файлове
+[Playlist files]
+
+[BASS built-in]
+
+[All supported formats]
+

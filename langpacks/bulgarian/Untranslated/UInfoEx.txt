@@ -26,6 +26,8 @@
 [Past Work Place]
 [Past Organization]
 [In a civil union]
+[%s has the following anniversaries:]
+[%s becomes %d years old.]
 [Reminders]
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 [Importing a new meta subcontact failed!]

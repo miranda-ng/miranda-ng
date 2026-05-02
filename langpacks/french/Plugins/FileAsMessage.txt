@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [File transfer by using the messaging services - as plain text.]
@@ -43,6 +43,12 @@ Veuillez utiliser uniquement de l'alphanumérique sur les transferts
 
 [Send file]
 Envoyer un fichier
+[Perform]
+Action
+[Revive a transfer]
+
+[Pause]
+Pause
 [File already exists. Overwrite?]
 
 [Couldn't open a file]
@@ -90,8 +96,6 @@ Transfert en cours. Voulez-vous vraiment annuler ?
 ;file \plugins\FileAsMessage\src\main.cpp
 [Play]
 
-[Pause]
-Pause
 [Revive]
 
 [Stop]

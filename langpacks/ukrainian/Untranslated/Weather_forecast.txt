@@ -1,0 +1,8 @@
+[Chance Of Rain]
+[Chance Of Snow]
+[Light Rain And Snow]
+[Moon phase]
+[Partially cloudy]
+[Partially sunny]
+[Precipitation]
+[Rain Showers]

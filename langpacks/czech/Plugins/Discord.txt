@@ -40,6 +40,10 @@ Zrušit
 Odeslat pozvánku k diskusi
 [&Invite]
 &Pozvat
+[Link a device]
+
+[Open Discord application on your mobile phone, click on "Scan QR Code" in Settings and use it to read this QR code.\nA window will disappear automatically after it.]
+
 ;file \protocols\Discord\src\dispatch.cpp
 [edited at]
 
@@ -86,6 +90,8 @@ Hovor
 ;file \protocols\Discord\src\menus.cpp
 [Enter channel name]
 
+[You need to enter a captcha to join this server. Open this link in a browser.]
+
 [Enter invitation code you received]
 
 [Do you really want to leave the guild?]
@@ -124,6 +130,8 @@ Hovor
 [MFA initialization]
 
 ;file \protocols\Discord\src\options.cpp
+[Login using QR code]
+
 [Network]
 Sítě
 [Account]

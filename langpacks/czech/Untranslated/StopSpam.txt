@@ -1,2 +1,7 @@
+[Maximum number of questions to one contact (0 - for no limit):]
+[Timeout in minutes to remove temporary contacts (0 - never)]
+[Move spam contacts to the following group]
+[You haven't sent authorization request, this message was ignored]
 [Spammers made me to install small anti-spam system you are now speaking with. Please reply "nospam" without quotes and spaces if you want to contact me.]
 [StopSpam: send a message and reply to an anti-spam bot question.]
+[Spam]

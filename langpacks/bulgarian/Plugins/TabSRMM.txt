@@ -150,8 +150,6 @@
 Аватар на контакта в прозореца за съобщения
 [Ignore sending timeouts]
 
-[Load only actual history]
-Зареди само актуална история
 [Use private splitter position]
 
 [Always trim message log to]
@@ -608,18 +606,6 @@ Mаксимална ширина за лента с бутони
 Общо
 [Private]
 Частно
-[Send text formatting]
-Изпращане на форматиран текст
-[BBCode]
-
-[Off]
-Изкл.
-[This contact]
-За контакта
-[Global setting]
-Общи настройки
-[Force off]
-
 [Set position for this session]
 Задаване на позицията за разговора
 [Set and save for all sessions]
@@ -697,13 +683,13 @@ Mаксимална ширина за лента с бутони
 Бутон на протокола
 [Info button]
 Информационен бутон
-[Bold text]
-Получер
-[Italic text]
+[Bold]
+Удебеляване
+[Italics]
 Курсив
-[Underlined text]
-Подчертан текст
-[Strike-through text]
+[Underlined]
+Подчертан
+[Strikethrough]
 Зачертаване
 [Send message\nClick dropdown arrow for sending options]
 Изпращане\nНатиснете падащия триъгълник за повече опции
@@ -715,16 +701,16 @@ Mаксимална ширина за лента с бутони
 Настройки на дневника за съобщения
 [View user's history]
 История на съобщенията
-[Select a foreground color for the text (Ctrl+K)]
-Цвят на текста (Ctrl+K)
-[Select a background color for the text (Ctrl+L)]
-Фон за текста (Ctrl+L)
-[Show/hide the nick list (Ctrl+N)]
-Показване/Скриване на списъка с прякори (Ctrl+N)
-[Enable/disable the event filter (Ctrl+F)]
-Включване/Изключване на филтъра за събития (Ctrl+F)
-[Control this room (Ctrl+O)]
-Управление на стаята (Ctrl+O)
+[Select text color]
+Цвят на текста
+[Select background color]
+Фон за текста
+[Show/hide the nick list]
+Показване/Скриване на списъка с прякори
+[Enable/disable the event filter]
+Включване/Изключване на филтъра за събития
+[Control this room]
+Управление на стаята
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Разговори
@@ -915,8 +901,8 @@ UIN
 Мигане на прозореца при отличаване на дума
 [Create tabs or windows for highlight events]
 Създаване на контейнер/таб при отличаване на събитие
-[Activate chat window on highlight]
-Активиране на чат прозореца при отличаване
+[Apply tab creation rules to group chats too]
+
 [Show list of users in the chat room]
 Списък с потребители в чат стаята
 [Colorize nicknames in member list (you need to adjust colors)]
@@ -1169,14 +1155,6 @@ TabSRMM: Писане
 Изчиства дневника за съобщения
 [Collapse side bar]
 Сгъване на страничната лента
-[Channel manager]
-Настройки на канала
-[Toggle filter]
-Вкл./Изкл. на филтъра
-[Toggle nick list]
-Списък с прякори (Вкл./Изкл.)
-[Show server window]
-Показва прозореца на сървъра
 ;file \plugins\TabSRMM\src\infopanel.cpp
 [%s    Idle: %dh,%02dm]
 %s    Бездейства: %dч,%02dмин
@@ -1247,9 +1225,6 @@ TabSRMM
 
 [Typing notification]
 Уведомявания при писане
-;file \plugins\TabSRMM\src\modplus.cpp
-[Insert [img] tag / surround selected text with [img][/img]]
-Вмъкване на таг [img] / заградете текста с [img] [/img]
 ;file \plugins\TabSRMM\src\msgdialog.cpp
 [Add this contact permanently to your contact list]
 Добавяне на контакта за постоянно в списъка с контакти
@@ -1314,12 +1289,10 @@ TabSRMM
 , %d %s бездействие
 [%s on %s%s]
 Прякор: %s, Акаунт: %s%s
-[%s: chat room (%u user%s)]
-%s: Чат стая (%u потребител%s)
-[%s: chat room (%u users%s)]
-%s: Чат стая (%u потребителя%s)
-[, event filter active]
-, включен филтър на събития
+[%s: chat room (%u user)]
+%s: Чат стая (%u потребител)
+[%s: chat room (%u users)]
+%s: Чат стая (%u потребителя)
 [%s: message session]
 %s: Разговор
 [%s: message session (%u users)]
@@ -1418,6 +1391,8 @@ Latin I
 Мигане на списъка с контакти и трей иконата при ново съобщение
 [Delete temporary contacts on close]
 Изтриване на временните контакти след затваряне на прозореца
+[Use Ctrl+arrows to scroll history in the input window]
+
 [Sending messages]
 Изпращане на съобщения
 [Minimize the message window on send]
@@ -1426,8 +1401,6 @@ Latin I
 Затваряне на прозореца след изпращане
 [Enable "Paste and send" feature]
 Включване на функцията "Поставяне и изпращане"
-[Allow BBCode formatting in outgoing messages]
-Разрешаване форматиране на изходящите съобщения с BBCode
 [Automatically split long messages (experimental, use with care)]
 Автоматично разделяне на дългите съобщения (експериментално - използвайте внимателно)
 [Use the same splitter height for all sessions]
@@ -1571,25 +1544,23 @@ Latin I
 ;file \plugins\TabSRMM\src\msgs.cpp
 [Message Log options]
 Настройки на дневника за съобщения
-[Image tag]
-
 [Quote text]
 Цитат
 [Save and close]
 Запис и затваряне
 [Smiley button]
 Бутон "Усмивки"
-[Format bold]
-Удебеляване
-[Format italic]
+[Make the text bold]
+Цвят на текста
+[Make the text italicized]
 Наклоняване
-[Format underline]
+[Make the text underlined]
 Подчертаване
 [Font face]
 Тип шрифт
 [Font color]
 Цвят на шрифта
-[Format strike-through]
+[Make the text strikethrough]
 Зачертаване
 [Background color]
 Цвят на фона
@@ -1644,8 +1615,6 @@ Latin I
 Прозорци за съобщения - IM
 [Message windows - all]
 Прозорец за съобщения - всеки
-[Message windows - group chats]
-Прозорци за съобщения - групов чат
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Изберете контейнер за %s
@@ -1769,6 +1738,10 @@ Latin I
 [Contact stopped typing]
 Контакт спря да пише
 ;file \plugins\TabSRMM\src\userprefs.cpp
+[BBCode]
+
+[Force off]
+
 [Set messaging options for %s]
 Настройки на разговорите с %s
 ;file \plugins\TabSRMM\src\utils.cpp

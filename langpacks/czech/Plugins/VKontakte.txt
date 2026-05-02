@@ -2,13 +2,13 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.16.12
+;  Version: 0.1.19.7
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 VKontakte protokol pro Mirandu NG.
 ;file \protocols\VKontakte\res\resource.rc
-[Show in protocol menu ]
+[Show in protocol menu]
 
 [Create new chat]
 Založit novou diskusi
@@ -55,8 +55,6 @@ Ostatní
 [Shorten links for audio attachments]
 
 [Use non-standard popups for news and event notifications]
-
-[Add message link to messages with attachments]
 
 [Add original message version in edited message]
 
@@ -116,11 +114,9 @@ Pozvání
 
 [Accepted friend requests]
 
-[E-mail or phone number:]
-E-mail nebo telefonní číslo:
-[Password:]
-Heslo:
 [Open VKontakte site]
+
+[Token Request]
 
 [Advanced]
 Extra
@@ -158,8 +154,6 @@ Vždy upozornit všechny příchozí zprávy jako nepřečtené
 
 [as regular status only]
 
-[Login settings]
-
 [Local settings]
 
 [Contact list group:]
@@ -175,8 +169,6 @@ Vždy upozornit všechny příchozí zprávy jako nepřečtené
 [Use local time for received messages]
 Použít lokální čas počítače pro příchozí zprávy
 [Load only friends to local contact list]
-
-[Server-side delivery confirmation]
 
 [Bots challenge test]
 Kontrola robotů
@@ -233,13 +225,19 @@ Ikona přečtené zprávy
 
 [Reload messages icon]
 
+[Protocols]
+Protokoly
+[VKontakte]
+
 [Access denied! Data will not be sent or received.]
 
 [Error]
 Chyba
-[You have to validate your account before you can use VK in Miranda NG]
-
 [Error %d. Data will not be sent or received.]
+
+[Captcha processing error.]
+
+[You have to validate your account before you can use VK in Miranda NG]
 
 [One of the parameters specified was missing or invalid]
 
@@ -253,12 +251,6 @@ Chyba
 
 [Message is too long]
 
-[Enter the missing digits between %s and %s of the phone number linked to your account]
-
-[Attention!]
-
-[Enter confirmation code]
-Zadejte potvrzovací kód
 [Enter new nickname]
 Zadejte novou přezdívku
 [Message read: %s]
@@ -372,8 +364,6 @@ Upozornění
 
 [\nOriginal message:\n]
 
-[Message link]
-
 [create chat]
 
 [kick user]
@@ -429,11 +419,13 @@ Označte kontakty, které chcete pozvat do nové diskuse
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 Zadejte text, který vidíte
+[Logon for ]
+
+[To log into the VKontakte protocol, you need to authorize in the browser and copy the received address from its address bar into the field below.\nDo not change anything when copying!\nYou will have to ignore the anti-copy message that you will see in your browser. Unfortunately, Miranda NG cannot authorize you in any other way right now.]
+
 [Wall message for %s]
 
 ;file \protocols\VKontakte\src\vk_feed.cpp
-[VKontakte]
-
 [New news]
 Nové novinky
 [New notifications]
@@ -496,6 +488,8 @@ Protokol je offline
 ;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 
+[Attention!]
+
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nDo you want to continue?]
 
 [Error loading message history from server.]
@@ -505,8 +499,6 @@ Protokol je offline
 [Loading history]
 
 [Error loading message history for %s from server.]
-
-[Loading messages for %s is completed.]
 
 ;file \protocols\VKontakte\src\vk_messages.cpp
 [Me]
@@ -559,6 +551,8 @@ Provedené změny se projeví až po restartu Mirandy NG.\nPřejete si ji nyní 
 [VKontakte protocol]
 
 ;file \protocols\VKontakte\src\vk_pollserver.cpp
+[This message has been marked as spam in %s:\n]
+
 [This message has been deleted by sender in %s:\n]
 
 ;file \protocols\VKontakte\src\vk_proto.cpp
@@ -567,6 +561,8 @@ Provedené změny se projeví až po restartu Mirandy NG.\nPřejete si ji nyní 
 [Forward]
 Další
 [Reload messages]
+
+[Go to site IM]
 
 [Mark messages as read]
 
@@ -618,8 +614,6 @@ Upozornění
 [Enter new status message]
 
 ;file \protocols\VKontakte\src\vk_thread.cpp
-[Service message]
-
 [%s is listening to]
 
 [Interests]

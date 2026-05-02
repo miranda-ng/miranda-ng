@@ -20,3 +20,10 @@ Annuler
 
 [Refresh]
 Actualiser
+;file \plugins\CryptoPP\src\GPGw\gpg_main.cpp
+[GnuPG executable]
+
+[All files]
+Tous les fichiers
+[Select GnuPG executable]
+

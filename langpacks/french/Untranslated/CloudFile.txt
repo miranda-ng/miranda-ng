@@ -17,7 +17,7 @@
 [Google Drive]
 [OneDrive]
 [Yandex.Disk]
+[Upload to]
 [Upload to...]
-[Upload]
 [Upload files to...]
 [Server does not respond]

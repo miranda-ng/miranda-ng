@@ -166,8 +166,6 @@ Zaoblený rámeček
 Okraj
 [Title bar text:]
 Text v záhlaví:
-[Pin to desktop]
-Připíchnout na plochu
 [Show drop shadow (restart required)]
 Zobrazit stín (vyžaduje restart)
 [Hide contact list after it has been idle for]
@@ -216,8 +214,6 @@ Zakázat uchopení a přetáhnutí položek
 Zakázat přejmenování položek dvojím kliknutím
 [Show selection even when list is not focused]
 Zobrazit výběr i tehdy, není-li seznam aktivní
-[Make selection highlight translucent]
-Zobrazit vybrané položky průhledně
 [Use full row for selection and hottracking]
 Při výběru a hledání označit celý řádek
 [Double click on avatar opens user info]
@@ -590,11 +586,6 @@ Zobrazit všechny rámečky
 Zobrazit záhlaví rámečků
 [Hide all title bars]
 Skrýt záhlaví rámečků
-;file \plugins\Clist_nicer\src\Docking.cpp
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-Seznam kontaktů nemůže být ukotven při použití výchozího stylu záhlaví a okraje. Použijte tenký styl záhlaví nebo okno bez okraje.
-[Contact list docking]
-Ukotvení seznamu kontaktů
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Použití

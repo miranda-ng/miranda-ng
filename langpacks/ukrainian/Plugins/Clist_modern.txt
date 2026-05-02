@@ -156,18 +156,10 @@ Ctrl+ЛКМ - увімк. фільтр за протоколом, клік по 
 3-й:
 [Place offline users out of groups]
 Відключених показувати поза групами
-[Selection mode]
-Тип виділення
-[Default]
-За замовчанням
-[Full selection]
-Повне виділення
-[Less selection]
-Тільки над текстом
-[No selection]
-Не виділяти
-[Gamma correction]
-Корекція гамми
+[Appearance]
+Зовнішній вигляд
+[Always on top]
+Поверх усіх вікон
 [Bring to front if covered]
 Перемістити на передній план
 [Hide contact list after]
@@ -186,8 +178,6 @@ Ctrl+ЛКМ - увімк. фільтр за протоколом, клік по 
 Заборонити зміну розміру
 [Drag to]
 Перетягування
-[Easy scroll]
-Просте прокручування
 [Easy move]
 Просте переміщення
 [x100 ms]
@@ -212,8 +202,6 @@ x100 мс
 Автоматично
 [Always visible]
 Показувати завжди
-[Dock to sides]
-Дозволити парковку вікна
 [and minimum]
 і мінімум
 [Items]
@@ -302,12 +290,6 @@ x100 мс
 Показувати час тільки якщо він відрізняється
 [Show contact time as row item]
 Час як елемент рядка
-[Appearance]
-Зовнішній вигляд
-[Always on top]
-Поверх усіх вікон
-[Pin to desktop]
-Прикріпити до столу
 [Client area margins]
 Межі списку контактів
 [Thin border main window]
@@ -322,8 +304,6 @@ x100 мс
 Заголовок:
 [Tool style main window]
 Вікно як панель інструментів
-[Minimize to tray]
-Згортати до трею
 [Translucency options]
 Прозорість
 [Fade contact list in/out]
@@ -352,6 +332,12 @@ x100 мс
 Вимкнути скіни
 [Enable Aero Glass (Vista, Win 7)]
 Увімкнути Aero Glass (Vista, Win 7)
+[Selection mode]
+Тип виділення
+[Gamma correction]
+Корекція гамми
+[Minimize to tray]
+Згортати до трею
 [Order of items:]
 Порядок елементів:
 [Minimum row height:]
@@ -643,8 +629,8 @@ xСтатус: xПовідомлення
 Ім'я (включаючи локалізацію)
 [Last message time]
 Останнє повідомлення
-[Account name]
-Ім'я облікового запису
+[Account order]
+
 [Rate]
 Рейтинг
 [Last online]
@@ -657,6 +643,14 @@ xСтатус: xПовідомлення
 За лівий край
 [Behind right edge]
 За правий край
+[Default]
+За замовчанням
+[Full selection]
+Повне виділення
+[Less selection]
+Тільки над текстом
+[No selection]
+Не виділяти
 [General]
 Загальне
 [Tray]

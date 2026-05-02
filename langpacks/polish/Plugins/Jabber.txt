@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.95.11.1
+;  Version: 0.96.7.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -506,8 +506,6 @@ Obsługa zarządzania historią czatu
 Możliwość przekazywania informacji na temat aktywności użytkowników
 [Receives information about user activity]
 Odbiera informacje o aktywności użytkowników
-[Supports Miranda NG notes extension]
-Obsługa "notatek" w Mirandzie NG
 [Supports Roster Exchange]
 Obsługa zarządzania listą kontaktów (Roster Exchange)
 [Supports direct chat invitations (XEP-0249)]
@@ -812,8 +810,6 @@ Skonwertuj na pokój
 Zaloguj/wyloguj
 [Resolve nicks]
 Ustal nicki
-[Send note]
-Wyślij notatkę
 [AdHoc Command]
 Polecenie AdHoc
 [OpenID Request]
@@ -925,8 +921,6 @@ Wybór konta Jabber
 Dodaj do zakładek
 [Commands]
 Polecenia
-[Send Note]
-Wyślij notatkę
 [Send Presence]
 Wyślij status
 [Jabber Resource]
@@ -969,6 +963,11 @@ Brak aktywności, użyj wyboru serwera
 Najwyższy priorytet (wybór serwera)
 [Status Message]
 Opis
+;file \protocols\JabberG\src\jabber_message.cpp
+[Message redirected from: %s\r\n]
+Wiadomość przekierowana z: %s\r\n
+[Unable to decrypt a carbon copy of the encrypted outgoing message]
+Nie można odszyfrować kopii wiadomości do zaszyfrowanej wiadomości wychodzącej
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [To]
@@ -980,10 +979,6 @@ Obydwa
 [Errors]
 Błędy
 ;file \protocols\JabberG\src\jabber_notes.cpp
-[Incoming note from %s]
-Przychodząca notatka od %s
-[Send note to %s]
-Wyślij notatkę do %s
 [From: %s]
 Od: %s
 [All tags]
@@ -992,14 +987,14 @@ Wszystkie tagi
 Notatki nie są zapisywane, zamknąć okno bez wysyłania danych do serwera?
 [Are you sure?]
 Jesteś pewien?
-[Incoming note]
-Przychodząca notatka
 ;file \protocols\JabberG\src\jabber_omemo.cpp
-[Unknown device added]
+[Unknown OMEMO device added!]
+
+[(My devices)]
+
+[Trust on first use for\n%d devices]
 
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
-
-[Trust on first use]
 
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
@@ -1408,10 +1403,6 @@ Włącz otrzymywanie nastrojów
 Włącz informacje "Teraz odtwarzane"
 [Enable user activity receiving]
 Włącz otrzymywanie aktywności użytkownika
-[Receive notes]
-Odbieraj notatki
-[Automatically save received notes]
-Automatycznie zapisuj otrzymane notatki
 [Inline pictures in messages (XEP-0231)]
 Zdjęcia w treści wiadomości (XEP-0231)
 [Enable chat states sending (XEP-0085)]
@@ -1430,9 +1421,10 @@ Opcje serwera
 
 [Disable SASL authentication (for old servers)]
 Wyłącz uwierzytelnienie SASL (dla starych serwerów)
+[Enable SASL2 authentication, if present]
+
 [Enable stream compression]
 Włącz kompresje połączenia
-
 [Other]
 Inne
 [Enable remote controlling (from another resource of same JID only)]
@@ -1654,6 +1646,10 @@ Nie można zapisać listy, ponieważ jesteś rozłączony.
 [List Editor...]
 Edytuj listy...
 ;file \protocols\JabberG\src\jabber_proto.cpp
+[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
+Jestem szczęśliwym użytkownikiem Mirandy NG. Wypróbuj pobierając z https://miranda-ng.org/.
+[/me slaps %s around a bit with a large trout]
+/me delikatnie bije %s dużym pstrągiem
 [%s error notifications]
 
 [No valid OMEMO session exists]
@@ -1787,10 +1783,6 @@ Błąd: Utracono połączenie
 Żądanie instrukcji rejestracji...
 [Authentication failed for %s@%s.]
 Autoryzacja nieudana dla %s@%s.
-[Message redirected from: %s\r\n]
-Wiadomość przekierowana z: %s\r\n
-[Unable to decrypt a carbon copy of the encrypted outgoing message]
-Nie można odszyfrować kopii wiadomości do zaszyfrowanej wiadomości wychodzącej
 [Registration canceled]
 Rejestracja anulowana
 [Sending registration information...]
@@ -2257,8 +2249,3 @@ Obecnie Słucham
 Nastrój
 [Activities]
 Aktywność
-;file \protocols\JabberG\src\stdafx.h
-[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
-Jestem szczęśliwym użytkownikiem Mirandy NG. Wypróbuj pobierając z https://miranda-ng.org/.
-[/me slaps %s around a bit with a large trout]
-/me delikatnie bije %s dużym pstrągiem

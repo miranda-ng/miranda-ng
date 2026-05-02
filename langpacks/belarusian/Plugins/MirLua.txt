@@ -38,10 +38,10 @@
 ;file \plugins\MirLua\src\options.cpp
 [Common scripts]
 Агульныя скрыпты
-;file \plugins\MirLua\src\plugin.cpp
 [Services]
 Службы
-[C libs folder]
+;file \plugins\MirLua\src\plugin.cpp
+[C Libs Folder]
 
 [Scripts folder]
 Каталог скыптоў

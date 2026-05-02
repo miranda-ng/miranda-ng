@@ -166,8 +166,6 @@ CList nicer изключение
 Рамка
 [Title bar text:]
 Заглавна лента:
-[Pin to desktop]
-Прилепване към работния плот
 [Show drop shadow (restart required)]
 Сенки под менютата (изисква рестарт)
 [Hide contact list after it has been idle for]
@@ -216,8 +214,6 @@ CList nicer изключение
 Без преименуване чрез двукратно натискане
 [Show selection even when list is not focused]
 Показване на маркираното при дефокусиран списък
-[Make selection highlight translucent]
-Полупрозрачност на отличения текст
 [Use full row for selection and hottracking]
 Цялостно маркиране на ред и изтъкване
 [Double click on avatar opens user info]
@@ -590,11 +586,6 @@ CList nicer изключение
 Показване на всички заглавни ленти
 [Hide all title bars]
 Скриване на всички заглавни ленти
-;file \plugins\Clist_nicer\src\Docking.cpp
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-Загнездването на списъка е невъзможно, когато се използва стандартната заглавна лента и рамка. Използвайте рамка Tool Window или стил без рамка.
-[Contact list docking]
-Загнездване на списъка
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Зареждане и прилагане

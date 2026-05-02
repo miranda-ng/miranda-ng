@@ -156,18 +156,10 @@ Kontakty offline přesunout na konec
 3)
 [Place offline users out of groups]
 Kontakty offline umístit mimo skupiny
-[Selection mode]
-Způsob výběru
-[Default]
-Výchozí
-[Full selection]
-Celý řádek
-[Less selection]
-Část řádku
-[No selection]
-Bez výběru
-[Gamma correction]
-Gama korekce
+[Appearance]
+Vzhled
+[Always on top]
+Vždy navrchu
 [Bring to front if covered]
 Při překrytí přenést do popředí
 [Hide contact list after]
@@ -186,8 +178,6 @@ Chování
 Zamezit ruční změně velikosti
 [Drag to]
 Táhnutí myši
-[Easy scroll]
-Vylepšené rolování
 [Easy move]
 Vylepšené přesouvání
 [x100 ms]
@@ -212,8 +202,6 @@ Vypnuto
 Zobrazovat automaticky
 [Always visible]
 Vždy viditelný
-[Dock to sides]
-Dokovat u okrajů
 [and minimum]
 a minimálně
 [Items]
@@ -302,12 +290,6 @@ Odsazení podkontaktů:
 Zobrazit čas pouze když se liší od místního
 [Show contact time as row item]
 Zobrazit čas kontaktu jako položku řádku
-[Appearance]
-Vzhled
-[Always on top]
-Vždy navrchu
-[Pin to desktop]
-Připíchnout na plochu
 [Client area margins]
 Vnitřní okraje okna
 [Thin border main window]
@@ -322,8 +304,6 @@ Zobrazit záhlaví
 Text v záhlaví:
 [Tool style main window]
 Zjednodušené záhlaví okna
-[Minimize to tray]
-Minimalizovat do ozn. oblasti
 [Translucency options]
 Průhlednost
 [Fade contact list in/out]
@@ -352,6 +332,12 @@ Režim bez skinu
 Vypnout skinovací aparát
 [Enable Aero Glass (Vista, Win 7)]
 Povolit Aero Glass (Vista, Win 7)
+[Selection mode]
+Způsob výběru
+[Gamma correction]
+Gama korekce
+[Minimize to tray]
+Minimalizovat do ozn. oblasti
 [Order of items:]
 Pořadí prvků:
 [Minimum row height:]
@@ -643,8 +629,8 @@ Jméno
 Jméno (použít místní nastavení)
 [Last message time]
 Čas poslední zprávy
-[Account name]
-Název účtu
+[Account order]
+
 [Rate]
 Priorita
 [Last online]
@@ -657,6 +643,14 @@ Do oznam. oblasti
 Za levý okraj
 [Behind right edge]
 Za pravý okraj
+[Default]
+Výchozí
+[Full selection]
+Celý řádek
+[Less selection]
+Část řádku
+[No selection]
+Bez výběru
 [General]
 Obecné
 [Tray]

@@ -918,12 +918,14 @@ Web дизайн
 %s има %s днес.
 [an anniversary]
 годишнина
-[He/she has the following anniversaries:]
-Той/тя има следната годишнина:
-[He has the following anniversaries:]
-Той има следната годишнина:
-[She has the following anniversaries:]
-Тя има следната годишнина:
+[He]
+Той
+[She]
+Тя
+[He/she]
+Той/Тя
+[%s has the following anniversaries:]
+%s има следната годишнина:
 [%d. %s today]
 %d. %s днес
 [%d. %s tomorrow]
@@ -936,12 +938,8 @@ Web дизайн
 %s има рожден ден утре.
 [%s has birthday in %d days.]
 %s има рожден ден след %d дни.
-[\nHe/she becomes %d years old.]
-\nТой/тя навършва %d години.
-[\nHe becomes %d years old.]
-\nТой навършва %d години.
-[\nShe becomes %d years old.]
-\nТя навършва %d години.
+[%s becomes %d years old.]
+%s навършва %d години.
 [No anniversaries to remind of]
 Няма годишнини за напомняне
 [Reminders]

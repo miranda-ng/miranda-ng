@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.2
+;  Version: 0.2.0.3
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -41,6 +41,8 @@ Seskupovat zprávy
 [Show event direction]
 
 [Show picture preview]
+
+[Maximum preview height (in pixels)]
 
 [Template list:]
 
@@ -146,10 +148,6 @@ Odkazy
 
 [ %u KB]
 
-[I]
-
-[wrote]
-
 ;file \plugins\NewStory\src\history_control.cpp
 [Toggle bookmark]
 
@@ -158,6 +156,8 @@ Hledat
 [Search forward]
 
 [Search backward]
+
+[Open links]
 
 [Do you really want to delete selected items (%d)?]
 
@@ -263,6 +263,10 @@ Neznámá událost
 [Cancel edit]
 
 [Downloaded]
+
+[Delivered]
+
+[Remote read]
 
 [Help]
 Nápověda

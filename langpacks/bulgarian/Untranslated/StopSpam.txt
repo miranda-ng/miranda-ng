@@ -1,0 +1,5 @@
+[Maximum number of questions to one contact (0 - for no limit):]
+[Timeout in minutes to remove temporary contacts (0 - never)]
+[Move spam contacts to the following group]
+[You haven't sent authorization request, this message was ignored]
+[Spam]

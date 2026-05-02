@@ -1,5 +1,7 @@
 [Use JSON format for export]
 [Select none]
+[%s reacted with %s to message "%s" from %s]
+[%s remove reaction %s to message "%s" from %s]
 [Miranda database contains %d events]
 [Failed to open file]
 [History was saved successfully in file\r\n]

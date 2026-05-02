@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -36,29 +36,43 @@ Zobrazovat události konverzace (např. uživatel ukončil komunikaci)
 Spojení
 [Error limit before logout:]
 
-[Captcha]
-Ověřovací kód
-[Cancel]
-Zrušit
-[As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
-Z bezpečnostních důvodů musíte ověřit přístup k vašemu účtu zadáním speciálního kódu, který jsme vám právě odeslali na vaši e-mailovou adresu.
-[Go to email domain]
-Navštívit doménu e-mailu
 [Block]
 Blokovat
 [Enter password]
 Zadejte heslo
 [Save password]
 Uložit heslo
+[Cancel]
+Zrušit
 [Enter the password to continue.]
 Zadejte heslo pro pokračování.
-[Security code]
-Bezpečnostní kód
-[As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
-Z bezpečnostních důvodů musíte ověřit přístup k vašemu účtu zadáním SMS kódu, který jsme vám právě odeslali na váš mobilní telefon.
 ;file \protocols\Steam\src\main.cpp
+[Protocol icon]
+Ikona protokolu
+[Gaming icon]
+Herní ikona
 [Steam game]
 Steam hra
+;file \protocols\Steam\src\steam_bbcodes.cpp
+[You were invited to play a game]
+
+[Associated application]
+
+;file \protocols\Steam\src\steam_chats.cpp
+[Owner]
+Něco o sobě
+[Participant]
+Účastník
+[total members]
+
+[online members]
+
+[chatting]
+
+[in game]
+
+[&Leave chat session]
+&Opustit diskusi
 ;file \protocols\Steam\src\steam_contacts.cpp
 [Looking to play]
 Chci hrát
@@ -74,28 +88,27 @@ Hraje
 %s byl odebrán z vašeho seznamu kontaktů
 [%s has added you to contact list]
 %s si vás přidal do svého seznamu kontaktů
+;file \protocols\Steam\src\steam_login.cpp
+[Enter email confimation code]
+
+[Enter the code from your authentication device]
+
 ;file \protocols\Steam\src\steam_menus.cpp
-[Steam menu chooser]
-Volba nabídky Steam
 [Unblock]
 
-[Join to game]
+[Join the game]
 Přidat se do hry
+[Join group chat]
+
 ;file \protocols\Steam\src\steam_messages.cpp
-[Unknown error]
-Neznámá chyba
+[Message sending has failed with error %d]
+
 ;file \protocols\Steam\src\steam_options.cpp
 [Name]
 Jméno
 [Network]
 Sítě
-;file \protocols\Steam\src\steam_proto.cpp
-[Protocols]
-Protokoly
-[Protocol icon]
-Ikona protokolu
-[Gaming icon]
-Herní ikona
+;file \protocols\Steam\src\steam_server.cpp
 ;file \protocols\Steam\src\steam_utils.cpp
 [closed chat session]
 ukončil komunikaci

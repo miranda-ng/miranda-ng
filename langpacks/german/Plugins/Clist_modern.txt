@@ -156,18 +156,10 @@ Offline-Nutzer nach unten schieben
 3.:
 [Place offline users out of groups]
 Offline-Kontakte außerhalb der Gruppen
-[Selection mode]
-Auswahlmodus
-[Default]
-Standard
-[Full selection]
-Ganze Zeile
-[Less selection]
-Teilweise Auswahl
-[No selection]
-Keine Auswahl
-[Gamma correction]
-Gammakorrektur
+[Appearance]
+Erscheinungsbild
+[Always on top]
+Immer im Vordergrund
 [Bring to front if covered]
 Nach vorne bringen, wenn verdeckt
 [Hide contact list after]
@@ -186,8 +178,6 @@ Verhalten
 Manuelle Größenänderung deaktivieren
 [Drag to]
 Mausziehen bewirkt:
-[Easy scroll]
-Einfaches Scrollen
 [Easy move]
 Einfaches Bewegen
 [x100 ms]
@@ -212,8 +202,6 @@ Deaktiviert
 Automatisch zeigen
 [Always visible]
 Immer sichtbar
-[Dock to sides]
-An Rand einrasten (Dock)
 [and minimum]
 und Minimum
 [Items]
@@ -302,12 +290,6 @@ Unterkontakte einrücken um Pixel:
 Zeit nur anzeigen, wenn lokale Zeit anders ist
 [Show contact time as row item]
 Kontaktzeit anzeigen
-[Appearance]
-Erscheinungsbild
-[Always on top]
-Immer im Vordergrund
-[Pin to desktop]
-An den Desktop anheften
 [Client area margins]
 Randabstände Inhalt zum Rand
 [Thin border main window]
@@ -322,8 +304,6 @@ Titelleiste anzeigen
 Titelleistentext:
 [Tool style main window]
 Schmale Titelleiste
-[Minimize to tray]
-In Systemtray minimieren
 [Translucency options]
 Transparenz-Einstellungen
 [Fade contact list in/out]
@@ -352,6 +332,12 @@ Nichtlayermodus
 Skinengine deaktivieren
 [Enable Aero Glass (Vista, Win 7)]
 Aero Glass aktivieren (Windows Vista, 7)
+[Selection mode]
+Auswahlmodus
+[Gamma correction]
+Gammakorrektur
+[Minimize to tray]
+In Systemtray minimieren
 [Order of items:]
 Reihenfolge der Elemente:
 [Minimum row height:]
@@ -657,6 +643,14 @@ In Systemtray
 Hinter linken Rand
 [Behind right edge]
 Hinter rechten Rand
+[Default]
+Standard
+[Full selection]
+Ganze Zeile
+[Less selection]
+Teilweise Auswahl
+[No selection]
+Keine Auswahl
 [General]
 Allgemein
 [Tray]

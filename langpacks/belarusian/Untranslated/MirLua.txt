@@ -5,5 +5,5 @@
 [Evaluate]
 [Loaded]
 [Compile]
-[C libs folder]
+[C Libs Folder]
 [MirLua]

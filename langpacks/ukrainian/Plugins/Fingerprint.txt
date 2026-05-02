@@ -14,6 +14,8 @@
 Клієнти Miranda
 [Miranda packs overlays]
 Оверлеї збірок Miranda
+[Secure overlays]
+Оверлеї шифрування
 [Show Miranda version at Overlay#2]
 Значок версії на накладанні #2
 [Resource overlays]
@@ -24,12 +26,8 @@
 Оверлеї протоколів
 [Unicode overlay]
 Оверлей Unicode
-[Secure overlays]
-Оверлеї шифрування
 [Select protocols]
 Протоколи
-[Facebook clients]
-Клієнти Facebook
 [Gadu-Gadu clients]
 Клієнти Gadu-Gadu
 [IRC clients]
@@ -88,8 +86,6 @@ MP3-скрипт для mIRC
 Оверлей Jabber
 [VK overlay]
 Оверлей ВКонтакті
-[Skype overlay]
-Оверлей Skype
 [Gadu-Gadu v11 client]
 Gadu-Gadu v11 клієнт
 [Gadu-Gadu v10 client]

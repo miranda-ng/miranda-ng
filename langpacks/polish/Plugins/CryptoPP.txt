@@ -20,3 +20,10 @@ Anuluj
 Wtyczka GnuPG - wybierz klucz publiczny
 [Refresh]
 Odśwież
+;file \plugins\CryptoPP\src\GPGw\gpg_main.cpp
+[GnuPG executable]
+Plik Wykonywalny GnuPG
+[All files]
+Wszystkie pliki
+[Select GnuPG executable]
+Wybierz Plik Wykonywalny GnuPG

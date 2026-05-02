@@ -20,3 +20,10 @@ Abbrechen
 GnuPG-Plugin - öffentlichen Schlüssel auswählen
 [Refresh]
 Aktualisieren
+;file \plugins\CryptoPP\src\GPGw\gpg_main.cpp
+[GnuPG executable]
+
+[All files]
+Alle Dateien
+[Select GnuPG executable]
+GnuPG-Programm wählen

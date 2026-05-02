@@ -26,8 +26,6 @@ Při zavření okno pouze skrýt
 Uložit neodeslané zprávy
 [Delete temporary contacts on closing]
 Při zavření smazat dočasné kontakty
-[Use BBCodes to send format inside messages]
-
 [Show warning when message has not been received after]
 Zobrazit upozornění v případě, že zpráva nebyla doručena do
 [seconds]
@@ -369,8 +367,6 @@ Formátování záznamu
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Přidat kontakt
-[User's details]
-Osobní údaje
 [User's history]
 Historie komunikace
 [Send message]
@@ -411,6 +407,8 @@ Tučné
 Kurzíva
 [Underlined]
 Podtržené
+[Strikethrough]
+Přeškrtnutý
 [Room history]
 Historie místnosti
 [Room settings]
@@ -610,40 +608,44 @@ Nabídka kontaktu
 Zobrazit osobní údaje
 [&History]
 &Historie
-[View user's history (Ctrl+H)]
-
+[View user's history]
+Zobrazit historii
 [&Bold]
 &Tučné
-[Make the text bold (Ctrl+B)]
-Změní styl písma na tučné (Ctrl+B)
+[Make the text bold]
+Změní styl písma na tučné
 [&Italic]
 &Kurzíva
-[Make the text italicized (Ctrl+I)]
-Změní styl písma na kurzívu (Ctrl+I)
+[Make the text italicized]
+Změní styl písma na kurzívu
 [&Underline]
 Pod&tržené
-[Make the text underlined (Ctrl+U)]
-Změní styl písma na podtržené (Ctrl+U)
+[Make the text underlined]
+Změní styl písma na podtržené
+[&Strikethrough]
+&Přeškrtnutý
+[Make the text strikethrough]
+Přeškrtnutý
 [&Color]
 &Barva
-[Select a foreground color for the text (Ctrl+K)]
-Změní barvu textu (Ctrl+K)
+[Select text color]
+Změní barvu textu
 [&Background color]
 Barva &pozadí
-[Select a background color for the text (Ctrl+L)]
-Změní barvu pozadí textu (Ctrl+L)
+[Select background color]
+Změní barvu pozadí textu
 [&Room settings]
 &Správa místnosti
-[Control this room (Ctrl+O)]
-Možnosti řízení kanálu (Ctrl+O)
+[Control this room]
+Možnosti řízení kanálu
 [&Show/hide nick list]
 &Přepnout seznam účastníků
-[Show/hide the nick list (Ctrl+N)]
-Zobrazí/skryje seznam účastníků (Ctrl+N)
+[Show/hide the nick list]
+Zobrazí/skryje seznam účastníků
 [&Filter]
 &Filtr
-[Enable/disable the event filter (Ctrl+F)]
-Aktivuje/deaktivuje filtrování událostí (Ctrl+F)
+[Enable/disable the event filter]
+Aktivuje/deaktivuje filtrování událostí
 [&Message]
 &Zpráva
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]

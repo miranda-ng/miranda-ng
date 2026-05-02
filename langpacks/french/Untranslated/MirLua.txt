@@ -9,6 +9,6 @@
 [Loaded]
 [Compile]
 [Common scripts]
-[C libs folder]
+[C Libs Folder]
 [Scripts folder]
 [MirLua]

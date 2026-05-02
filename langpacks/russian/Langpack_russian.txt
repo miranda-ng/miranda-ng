@@ -2351,8 +2351,6 @@ xСтатус
 Меню групп
 [New subgroup]
 Новая подгруппа
-[Hide offline users out here]
-Скрыть отключённых вне группы
 [Disable groups]
 Отключить группы
 [Hide offline users in here]
@@ -2713,6 +2711,8 @@ ANSI плагин
 Предупреждение
 [Blank]
 Пустой
+[Forward]
+Переслать
 [Locked status]
 Заблокированный статус
 [Status icons]
@@ -16810,22 +16810,26 @@ API URL:
 Дата активации:
 [Sensor remaining:]
 Оставшееся время работы
-[Target low:]
-Нижнее целевое значение:
-[Target high:]
-Верхнее целевое значение:
 [Last update:]
 Последнее обновление:
-[LibreView]
-LibreView
 [updating...]
 обновление...
 [LibreView update failed]
 Не удалось получить данные
+[error]
+Ошибка
+[LibreView]
+LibreView
 [&Update data]
 &Обновить данные
 [Network]
 Сеть
+[falling]
+Падает
+[steady]
+Не изм.
+[rising]
+Растёт
 [N/A]
 Недоступен
 [Expired]
@@ -17275,10 +17279,10 @@ Lotus Notify
 Вход по QR-коду не удался, либо время действия кода истекло.
 [Protocol icon]
 Значок протокола
+[Protocols]
+Протоколы
 [Forward]
 Переслать
-[Protocol icons]
-Значки протокола
 [Max user ID]
 Идентификатор пользователя
 [Gateway is not connected]
@@ -30901,6 +30905,10 @@ URL:
 Переслать
 [Reload messages icon]
 Перезагрузить сообщения
+[Protocols]
+Протоколы
+[VKontakte]
+ВКонтакте
 [Access denied! Data will not be sent or received.]
 Отказ в доступе! Данные не будут приняты или отправлены.
 [Error]
@@ -31095,8 +31103,6 @@ URL:
 Чтобы подключиться к ВКонтакте, авторизуйтесь на сайте и скопируйте содержимое адресной строки браузера в расположенное ниже поле.\nНе изменяйте скопированную строку!\nНе обращайте внимание на предупреждение сайта об опасности копирования. К сожалениию, пока это единственный способ подключиться с помощью Miranda NG.
 [Wall message for %s]
 Сообщение на стену для %s
-[VKontakte]
-ВКонтакте
 [New news]
 Новости
 [New notifications]

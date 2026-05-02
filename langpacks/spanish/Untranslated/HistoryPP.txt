@@ -317,3 +317,4 @@
 [Can not apply default toolbar configuration.]
 [Up]
 [Down]
+[Select]

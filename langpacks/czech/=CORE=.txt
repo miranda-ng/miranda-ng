@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.6
+;  Version: 0.96.7
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -110,8 +110,6 @@ Zobrazit záhlaví
 Text v záhlaví:
 [Show drop shadow (restart required)]
 Zobrazit stín (vyžaduje restart)
-[Pin to desktop]
-Připíchnout na plochu
 [Hide contact list after it has been idle for]
 Skrýt seznam kontaktů, byl-li neaktivní po dobu
 [seconds]
@@ -126,8 +124,6 @@ max. však
 Zvětšovat okno směrem nahoru
 [If window is partially covered, bring to front instead of hiding]
 Je-li okno částečně zakryto, zobrazit na popředí namísto skrytí
-[Enable docking]
-Povolit dokování
 [Translucency options]
 Průhlednost
 [Fade contact list in/out]
@@ -261,8 +257,6 @@ Zobrazit tlačítko 'Poslat'
 Zobrazit počet napsaných znaků
 [Show toolbar buttons on top row]
 Zobrazit nahoře lištu s tlačítky
-[Use BBCodes to send format inside messages]
-
 [Show warning when message has not been received after]
 Zobrazit upozornění v případě, že zpráva nebyla doručena do
 [Send error]
@@ -725,6 +719,8 @@ Povolit zvuky
 Následující události budou ignorovány:
 [Files]
 Soubory
+[Cloud files]
+
 [Online notification]
 Oznámení o připojení
 [Auth requests]
@@ -845,16 +841,14 @@ Nabídky účtů
 Přesunout do hlavní nabídky
 [Move to the status bar]
 Přesunout do nabídky stavu
-[Warning!\r\nThis menu object not support user defined options.]
-Upozornění!\r\nTato nabídka nepodporuje změnu nastavení.
-[Insert submenu]
-Vložit podnabídku
 [Insert separator]
 Vložit oddělovač
 [Module:]
 Modul:
 [Service:]
 Služba:
+[ID:]
+Identifikátor:
 [Default]
 Výchozí
 [Set]
@@ -969,9 +963,11 @@ Zobrazit přezdívku podkontaktu
 Zobrazit nastavené jméno podkontaktu
 [Lock name to first contact]
 Použít jméno prvního kontaktu
-[Choose needed logger from listed below:]
+[Choose a log viewer]
 
-[Enable custom loggers in group chats]
+[For the private conversations]
+
+[For the group chats]
 
 [Current language:]
 Zvolený jazyk:
@@ -1037,6 +1033,8 @@ ms (prodleva)
 Zařídit vše jedním kliknutím myši
 [Always show status in tooltip]
 Vždy zobrazit stav v tipu
+[Hide offline users in root]
+
 [Default settings for known event types]
 Výchozí nastavení pro známé typy událostí
 [Popup]
@@ -1191,8 +1189,6 @@ Smazat dokončené přenosy po zavření okna
 Příjem souborů od lidí, kteří nejsou mezi kontakty, podléhá vždy dotazu.
 [If incoming files already exist]
 V případě, že příchozí soubor již existuje
-[Cloud files]
-
 [Download cloud files automatically]
 
 [Only if their size is less than]
@@ -1239,8 +1235,8 @@ Seznam
 &Zpráva
 [Clear lo&g]
 Vy&mazat záznam
-[Word lookup]
-Vyhledávání slova
+[No word to look up]
+Není co vyhledat
 [Yandex]
 Yandex
 [Wikipedia (en)]
@@ -1387,6 +1383,8 @@ Tučné
 Kurzíva
 [Underlined]
 Podtržené
+[Strikethrough]
+Přeškrtnutý
 [Smiley button]
 Smajlík
 [Room history]
@@ -1574,40 +1572,44 @@ Přidat do seznamu natrvalo
 Nabídka kontaktu
 [View user's details]
 Zobrazit osobní údaje
-[View user's history (Ctrl+H)]
-
+[View user's history]
+Zobrazit historii
 [&Bold]
 &Tučné
-[Make the text bold (Ctrl+B)]
-Změní styl písma na tučné (Ctrl+B)
+[Make the text bold]
+Změní styl písma na tučné
 [&Italic]
 &Kurzíva
-[Make the text italicized (Ctrl+I)]
-Změní styl písma na kurzívu (Ctrl+I)
+[Make the text italicized]
+Změní styl písma na kurzívu
 [&Underline]
 Pod&tržené
-[Make the text underlined (Ctrl+U)]
-Změní styl písma na podtržené (Ctrl+U)
+[Make the text underlined]
+Změní styl písma na podtržené
+[&Strikethrough]
+&Přeškrtnutý
+[Make the text strikethrough]
+Přeškrtnutý
 [&Color]
 &Barva
-[Select a foreground color for the text (Ctrl+K)]
-Změní barvu textu (Ctrl+K)
+[Select text color]
+Změní barvu textu
 [&Background color]
 Barva &pozadí
-[Select a background color for the text (Ctrl+L)]
-Změní barvu pozadí textu (Ctrl+L)
+[Select background color]
+Změní barvu pozadí textu
 [&Room settings]
 &Správa místnosti
-[Control this room (Ctrl+O)]
-Možnosti řízení kanálu (Ctrl+O)
+[Control this room]
+Možnosti řízení kanálu
 [&Show/hide nick list]
 &Přepnout seznam účastníků
-[Show/hide the nick list (Ctrl+N)]
-Zobrazí/skryje seznam účastníků (Ctrl+N)
+[Show/hide the nick list]
+Zobrazí/skryje seznam účastníků
 [&Filter]
 &Filtr
-[Enable/disable the event filter (Ctrl+F)]
-Aktivuje/deaktivuje filtrování událostí (Ctrl+F)
+[Enable/disable the event filter]
+Aktivuje/deaktivuje filtrování událostí
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda nemůže načíst vestavěný komunikační modul, msftedit.dll nebyl nalezen. Stiskněte 'Ano' pro pokračování ve spouštění Mirandy.
 [Instant messages]
@@ -1975,6 +1977,29 @@ Místnosti chatu
 [Events and filters]
 Události a filtry
 ;file \src\mir_app\src\clcitems.cpp
+;file \src\mir_app\src\clistcontacts.cpp
+[My custom name (not movable)]
+Upravené jméno (nelze přesunout)
+[Nick]
+Přezdívka
+[FirstName]
+Jméno
+[E-mail]
+E-mail
+[LastName]
+Příjmení
+[Username]
+Uživatel
+[FirstName LastName]
+Jméno Příjmení
+[LastName FirstName]
+Příjmení Jméno
+['(Unknown contact)' (not movable)]
+'(neznámý kontakt)' (nelze přesunout)
+['(Unknown contact)']
+'(neznámý kontakt)'
+[Contact names]
+Jména kontaktů
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
 Nová skupina
@@ -2013,29 +2038,6 @@ Př&ejmenovat
 [&Add permanently to list]
 Přid&at do seznamu natrvalo
 ;file \src\mir_app\src\colorchooser.cpp
-;file \src\mir_app\src\contacts.cpp
-[My custom name (not movable)]
-Upravené jméno (nelze přesunout)
-[Nick]
-Přezdívka
-[FirstName]
-Jméno
-[E-mail]
-E-mail
-[LastName]
-Příjmení
-[Username]
-Uživatel
-[FirstName LastName]
-Jméno Příjmení
-[LastName FirstName]
-Příjmení Jméno
-['(Unknown contact)' (not movable)]
-'(neznámý kontakt)' (nelze přesunout)
-['(Unknown contact)']
-'(neznámý kontakt)'
-[Contact names]
-Jména kontaktů
 ;file \src\mir_app\src\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda se snaží aktualizovat strukturu vašeho profilu.\nProfil %s nemůže být přesunut do nového umístění %s,\nprotože profil s tímto názvem již existuje. Vyřešte prosím tento problém ručně.
@@ -2074,6 +2076,10 @@ Miranda nedokáže rozpoznat tento profil
 %s%s si vás přidal
 [Contacts: ]
 Kontakty:\s
+[I]
+
+[wrote]
+
 ;file \src\mir_app\src\db_ini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Bezpečnostní systémy pro ochranu před škodlivými změnami jsou zapnuty a budete varování před všemi změnami.
@@ -2111,6 +2117,8 @@ Telefon/SMS
 Aktivita v chatu
 [Chat mute mode]
 
+[Reaction]
+
 [Gender]
 Pohlaví
 [Account]
@@ -2123,11 +2131,13 @@ Doplňkové ikony
 
 [Attach]
 
+[Code]
+
+[Cloud file]
+
 ;file \src\mir_app\src\file.cpp
 [&File]
 &Soubor
-[Send file]
-Poslat soubor
 [File from %s]
 Soubor od: %s
 [File &transfers...]
@@ -2157,8 +2167,6 @@ Zabezpečení
 ;file \src\mir_app\src\filerecvdlg.cpp
 [My received files]
 Moje přijaté soubory
-[View user's history]
-Zobrazit historii
 [This file transfer has been canceled by the other side]
 Přenos tohoto souboru byl přerušen druhou stranou
 [Canceled]
@@ -2411,17 +2419,11 @@ Nabídka rámečků
 Nabídka skupiny
 [New subgroup]
 
-[Hide offline users out here]
-Skrýt uživatele offline mimo skupiny
 [Disable groups]
 Vypnout skupiny
 [Hide offline users in here]
 Skrýt uživatele offline
 ;file \src\mir_app\src\menu_options.cpp
-[New submenu]
-Nová podnabídka
-[Do you really want to delete this menu item?]
-
 [Menus]
 Nabídky
 ;file \src\mir_app\src\menu_tray.cpp
@@ -2659,6 +2661,8 @@ Protokoly
 ;file \src\mir_app\src\proto_interface.cpp
 [Preview folder]
 
+[History loaded successfully]
+
 [Request authorization]
 Požádat o autorizaci
 [Grant authorization]
@@ -2804,6 +2808,8 @@ Přidat skupinu
 Upozornění
 [Blank]
 
+[Forward]
+Další
 [Locked status]
 Zamknuto
 [Status icons]
@@ -2826,9 +2832,9 @@ Soubory WAV
 &Zpráva pro '%s'
 [Nickname]
 Přezdívka
-[Disable the event filter (Ctrl+F)]
+[Disable the event filter]
 
-[Enable the event filter (Ctrl+F)]
+[Enable the event filter]
 
 [In reply to]
 
@@ -2853,18 +2859,40 @@ Uložit jako
 Zkopírovat vše
 [Look up '%s':]
 Vyhledat '%s':
-[No word to look up]
-Není co vyhledat
 ;file \src\mir_app\src\srmm_main.cpp
 [Are you sure to wipe the system history?]
 
 [Empty system history]
 
+[Toggle bold formatting]
+
+[Toggle italic formatting]
+
+[Toggle underline formatting]
+
+[Toggle text color]
+
+[Toggle background color]
+
+[Clear formatting]
+
+[Open history window]
+
+[Toggle filter]
+Přepnout filtr
+[Toggle nick list]
+Přepnout seznam uživatelů
+[Channel manager]
+Správa kanálů
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <oddělovač>
 [Toolbar]
 Lišta tlačítek
+[Custom BBCodes]
+
+[Send file]
+Poslat soubor
 ;file \src\mir_app\src\srmm_util.cpp
 [Message from %s]
 Zpráva od: %s

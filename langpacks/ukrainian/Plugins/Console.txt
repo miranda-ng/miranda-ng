@@ -67,11 +67,16 @@
 Текст
 [Background]
 Фон
-[Text Files (*.txt)]
+[Text files (*.txt)]
 Текстові файли (*.txt)
-[All Files]
+[All files]
 Усі файли
 [Save selection to file]
 Зберегти вибране
 [Save log to file]
 Зберегти журнал у файл
+;file \plugins\Console\src\init.cpp
+[Show]
+Показати
+[Hide]
+Сховати

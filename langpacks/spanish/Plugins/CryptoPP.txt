@@ -20,3 +20,10 @@ Cancelar
 GnuPG Plugin - Seleccione la clave pública
 [Refresh]
 Refrescar
+;file \plugins\CryptoPP\src\GPGw\gpg_main.cpp
+[GnuPG executable]
+
+[All files]
+Todos los archivos
+[Select GnuPG executable]
+

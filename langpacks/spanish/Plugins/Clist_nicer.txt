@@ -166,8 +166,6 @@ Fácil movimiento
 Borde
 [Title bar text:]
 Texto de la barra de título:
-[Pin to desktop]
-Pin de escritorio
 [Show drop shadow (restart required)]
 Mostrar sombra (requiere un reinicio)
 [Hide contact list after it has been idle for]
@@ -216,8 +214,6 @@ Desactivar arrastre y soltado de ítems
 Desactivar renombrado de ítems con doble clic
 [Show selection even when list is not focused]
 Mostrar selección aún si la lista no está enfocada
-[Make selection highlight translucent]
-Hacer selección resaltada translúcida
 [Use full row for selection and hottracking]
 
 [Double click on avatar opens user info]
@@ -589,11 +585,6 @@ Marcos
 [Show all title bars]
 
 [Hide all title bars]
-
-;file \plugins\Clist_nicer\src\Docking.cpp
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-
-[Contact list docking]
 
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]

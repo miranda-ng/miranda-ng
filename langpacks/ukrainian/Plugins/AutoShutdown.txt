@@ -26,8 +26,6 @@
 Критичні події автовимкнення
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Автоматично вимикати комп'ютер при таких подіях:
-[&Thunderstorm warning is issued (Weather)]
-Штормове попередження (плагін Weather)
 [Automatic shutdown]
 Автовимкнення
 [Select the automatic shutdown event]

@@ -146,7 +146,7 @@
 [3rd party frames transparent back color]
 [Name (use locale settings)]
 [Last message time]
-[Account name]
+[Account order]
 [Rate]
 [Last online]
 [-Nothing-]

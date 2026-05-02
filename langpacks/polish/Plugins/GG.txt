@@ -224,37 +224,6 @@ Nieznany błąd HTTP
 Konferencja
 [Contact list]
 Lista kontaktów
-;file \protocols\Gadu-Gadu\src\gg_proto.cpp
-[Images]
-Obrazki
-[Gadu-Gadu Number]
-Numer Gadu-Gadu
-[Female]
-Kobieta
-[Male]
-Mężczyzna
-;file \protocols\Gadu-Gadu\src\groupchat.cpp
-[Open &conference...]
-Otwórz &konferencję...
-[&Clear ignored conferences]
-&Wyczyść ignorowane
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
-%s zainicjował(a) konferencję z %d uczestnikami - %d nieznany(ch).\nChcesz dołączyć do tej konferencji?
-[%s initiated the conference.]
-%s zainicjował(a) konferencję.
-[This is my own conference.]
-To jest moja własna konferencja.
-[Participants]
-Uczestnicy
-['Unknown']
-"Nieznany"
-[You have to be connected to open new conference.]
-Musisz być połączony, żeby otworzyć nową konferencję.
-[All ignored conferences are now unignored and the conference policy will act again.]
-Wszystkie ignorowane konferencje zostały zresetowane.
-[There are no ignored conferences.]
-Nie ma ignorowanych konferencji.
-;file \protocols\Gadu-Gadu\src\icolib.cpp
 [Protocol icon]
 Ikona protokołu
 [Import list from server]
@@ -285,6 +254,36 @@ Usuń obrazek
 Wyczyść ignorowane konferencje
 [Concurrent sessions]
 Równoległe sesje
+;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+[Images]
+Obrazki
+[Gadu-Gadu Number]
+Numer Gadu-Gadu
+[Female]
+Kobieta
+[Male]
+Mężczyzna
+;file \protocols\Gadu-Gadu\src\groupchat.cpp
+[Open &conference...]
+Otwórz &konferencję...
+[&Clear ignored conferences]
+&Wyczyść ignorowane
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
+%s zainicjował(a) konferencję z %d uczestnikami - %d nieznany(ch).\nChcesz dołączyć do tej konferencji?
+[%s initiated the conference.]
+%s zainicjował(a) konferencję.
+[This is my own conference.]
+To jest moja własna konferencja.
+[Participants]
+Uczestnicy
+['Unknown']
+"Nieznany"
+[You have to be connected to open new conference.]
+Musisz być połączony, żeby otworzyć nową konferencję.
+[All ignored conferences are now unignored and the conference policy will act again.]
+Wszystkie ignorowane konferencje zostały zresetowane.
+[There are no ignored conferences.]
+Nie ma ignorowanych konferencji.
 ;file \protocols\Gadu-Gadu\src\image.cpp
 [&Image]
 Wyślij &obrazek

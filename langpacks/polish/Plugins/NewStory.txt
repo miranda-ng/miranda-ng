@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.2
+;  Version: 0.2.0.3
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -41,6 +41,8 @@ Rysuj krawędź okna
 [Show event direction]
 
 [Show picture preview]
+
+[Maximum preview height (in pixels)]
 
 [Template list:]
 Lista szablonów:
@@ -146,10 +148,6 @@ Linki
 
 [ %u KB]
 
-[I]
-
-[wrote]
-
 ;file \plugins\NewStory\src\history_control.cpp
 [Toggle bookmark]
 
@@ -158,6 +156,8 @@ Szukaj
 [Search forward]
 
 [Search backward]
+
+[Open links]
 
 [Do you really want to delete selected items (%d)?]
 
@@ -263,6 +263,10 @@ Szablon grup
 [Cancel edit]
 Anuluj edycję
 [Downloaded]
+
+[Delivered]
+
+[Remote read]
 
 [Help]
 Pomoc

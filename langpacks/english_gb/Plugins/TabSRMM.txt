@@ -27,10 +27,6 @@ Load fonts and colours provided by skin
 You can export and import all your colour and font settings here. This allows you to create a Theme file which can be shared between different profiles or with your buddies.
 [Show popups if window is minimized]
 Show popups if window is minimised
-[Select a foreground color for the text (Ctrl+K)]
-Select a foreground colour for the text (Ctrl+K)
-[Select a background color for the text (Ctrl+L)]
-Select a background colour for the text (Ctrl+L)
 [Common colors]
 Common colours
 [Window fill color]

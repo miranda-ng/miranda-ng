@@ -26,8 +26,6 @@
 Крытычныя падзеі аўтавыключэння
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Аўтаматычна выключаць камп'ютар пры наступных з'явах:
-[&Thunderstorm warning is issued (Weather)]
-Штармавое папярэджанне (Weather)
 [Automatic shutdown]
 Аўтавыключэнне
 [Select the automatic shutdown event]

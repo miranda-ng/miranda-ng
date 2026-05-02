@@ -38,10 +38,10 @@ Načíst znovu
 ;file \plugins\MirLua\src\options.cpp
 [Common scripts]
 Obecné skripty
-;file \plugins\MirLua\src\plugin.cpp
 [Services]
 Služby
-[C libs folder]
+;file \plugins\MirLua\src\plugin.cpp
+[C Libs Folder]
 Složka s knihovnami C
 [Scripts folder]
 Složka se skripty

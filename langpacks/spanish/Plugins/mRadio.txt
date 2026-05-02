@@ -209,3 +209,11 @@ Nuevo
 
 [Status Message]
 
+[All files]
+Todos los archivos
+[Playlist files]
+
+[BASS built-in]
+
+[All supported formats]
+

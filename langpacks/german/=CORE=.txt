@@ -1033,6 +1033,8 @@ ms Frequenz
 Kontaktliste mit Einfachklick öffnen
 [Always show status in tooltip]
 Immer Status als Tooltip anzeigen
+[Hide offline users in root]
+
 [Default settings for known event types]
 Standardeinstellungen für bekannte Ereignis-Typen
 [Popup]
@@ -2074,6 +2076,10 @@ Autorisierungsanfrage von %s%s: %s
 Sie wurden von %s%s hinzugefügt.
 [Contacts: ]
 Kontakte:\s
+[I]
+
+[wrote]
+geschrieben
 ;file \src\mir_app\src\db_ini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Sicherheitssysteme zum Schutz gegen bösartige Veränderungen ist vorhandenen und werden Sie vor jeder Änderung, die gemacht wird, warnen.
@@ -2413,8 +2419,6 @@ Framemenü
 Gruppenmenü
 [New subgroup]
 Neue Untergruppe
-[Hide offline users out here]
-Offline-Kontakte außerhalb ausblenden
 [Disable groups]
 Gruppenfunktion ausschalten
 [Hide offline users in here]
@@ -2804,6 +2808,8 @@ Gruppe hinzufügen
 Warnung
 [Blank]
 Leer
+[Forward]
+Später
 [Locked status]
 Gesperrter Status
 [Status icons]

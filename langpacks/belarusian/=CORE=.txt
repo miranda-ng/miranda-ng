@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.6
+;  Version: 0.96.7
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -110,8 +110,6 @@
 Загаловак вакна:
 [Show drop shadow (restart required)]
 Цень (патрэбен перазапуск)
-[Pin to desktop]
-Прымацаваць ды стала
 [Hide contact list after it has been idle for]
 Схаваць спіс, калі не актыўны на працягу:
 [seconds]
@@ -126,8 +124,6 @@
 Расцягваць угару
 [If window is partially covered, bring to front instead of hiding]
 Змясціць вакно на пярэдні план, калі яно прычынена іншымі вокнамі
-[Enable docking]
-Паркаваць
 [Translucency options]
 Налады празрыстасці
 [Fade contact list in/out]
@@ -261,8 +257,6 @@
 Паказваць лічыльнік знакаў
 [Show toolbar buttons on top row]
 Паказваць кнопкі ў верхнім радку
-[Use BBCodes to send format inside messages]
-
 [Show warning when message has not been received after]
 Паведамляць, калі паведамленне не атрымалася адправіць на працягу
 [Send error]
@@ -725,6 +719,8 @@
 Наступныя падзеі будуць праігнараваны:
 [Files]
 Файлы
+[Cloud files]
+
 [Online notification]
 Абвестка "Далучаны"
 [Auth requests]
@@ -845,16 +841,14 @@
 У галоўным меню
 [Move to the status bar]
 У панэлі статусаў
-[Warning!\r\nThis menu object not support user defined options.]
-Увага!\r\nГэтыя пункты меню не паддаюцца наладзе.
-[Insert submenu]
-
 [Insert separator]
 Уставіць падзельнік
 [Module:]
 Модуль:
 [Service:]
 Cлужба:
+[ID:]
+
 [Default]
 Змаўчанні
 [Set]
@@ -969,9 +963,11 @@ UIN, E-mail і г.д.
 Выкарыстоўваць адлюстроўванае імя
 [Lock name to first contact]
 Фіксаваць імя
-[Choose needed logger from listed below:]
+[Choose a log viewer]
 
-[Enable custom loggers in group chats]
+[For the private conversations]
+
+[For the group chats]
 
 [Current language:]
 
@@ -1037,6 +1033,8 @@ UIN, E-mail і г.д.
 Адна пстрычка
 [Always show status in tooltip]
 Заўсёды паказваць статус у падказцы
+[Hide offline users in root]
+
 [Default settings for known event types]
 Налады для вядомых тыпаў падзей
 [Popup]
@@ -1191,8 +1189,6 @@ UIN, E-mail і г.д.
 Запыт заўсёды будзе паказаны, калі чалавек не ў спісе
 [If incoming files already exist]
 Калі прыманы файл ужо існуе
-[Cloud files]
-
 [Download cloud files automatically]
 
 [Only if their size is less than]
@@ -1239,8 +1235,8 @@ UIN, E-mail і г.д.
 Паведамленне
 [Clear lo&g]
 Сцерці чат
-[Word lookup]
-Знайсці слова
+[No word to look up]
+Няма слоў для пошуку
 [Yandex]
 Яндэкс
 [Wikipedia (en)]
@@ -1387,6 +1383,8 @@ UIN, E-mail і г.д.
 Курсіў
 [Underlined]
 Падкрэслены
+[Strikethrough]
+Закрэслены
 [Smiley button]
 Смайлы
 [Room history]
@@ -1574,40 +1572,44 @@ UIN, E-mail і г.д.
 Меню кантакта
 [View user's details]
 Пра кантакт
-[View user's history (Ctrl+H)]
-Гісторыя паведамленняў (Ctrl+H)
+[View user's history]
+Гісторыя паведамленняў
 [&Bold]
 Тлусты
-[Make the text bold (Ctrl+B)]
-Зрабіць тэкст тоўстым (Ctrl+B)
+[Make the text bold]
+Зрабіць тэкст тоўстым
 [&Italic]
 Курсіў
-[Make the text italicized (Ctrl+I)]
-Зрабіць тэкст курсівам (Ctrl+I)
+[Make the text italicized]
+Зрабіць тэкст курсівам
 [&Underline]
 Падкрэсліць
-[Make the text underlined (Ctrl+U)]
-Падкрэсліць тэкст (Ctrl+U)
+[Make the text underlined]
+Падкрэсліць тэкст
+[&Strikethrough]
+Закрэслены
+[Make the text strikethrough]
+Закрэслены
 [&Color]
 Колер
-[Select a foreground color for the text (Ctrl+K)]
-Абраць колер тэксту (Ctrl+K)
+[Select text color]
+Абраць колер тэксту
 [&Background color]
 Колер фона
-[Select a background color for the text (Ctrl+L)]
-Абраць фон тэксту (Ctrl+L)
+[Select background color]
+Абраць фон тэксту
 [&Room settings]
 Налады чата
-[Control this room (Ctrl+O)]
-Кантраляваць гэты чат(Ctrl+O)
+[Control this room]
+Кантраляваць гэты чат
 [&Show/hide nick list]
 Паказаць/Схаваць спіс
-[Show/hide the nick list (Ctrl+N)]
-Паказаць/схаваць спіс кантактаў (Ctrl+N)
+[Show/hide the nick list]
+Кантраляваць гэты чат
 [&Filter]
-фільтр
-[Enable/disable the event filter (Ctrl+F)]
-Уключыць/выключыць фільтр падзей (Ctrl+F)
+Фільтр
+[Enable/disable the event filter]
+Кантраляваць гэты чат
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda не здолела загрузіць убудаваную сістэму паведамленняў, так як адсутнічае msftedit.dll. націсніце "Так" для працягу загрузкі праграмы.
 [Instant messages]
@@ -1975,6 +1977,29 @@ Miranda не здолела загрузіць убудаваную сістэм
 [Events and filters]
 Падзеі і фільтры
 ;file \src\mir_app\src\clcitems.cpp
+;file \src\mir_app\src\clistcontacts.cpp
+[My custom name (not movable)]
+Зададзенае імя (заўсёды першае)
+[Nick]
+Мянушка
+[FirstName]
+Імя
+[E-mail]
+Пошта
+[LastName]
+Прозвішча
+[Username]
+Імя карыстача
+[FirstName LastName]
+Імя Прозвішча
+[LastName FirstName]
+Прозвішча Імя
+['(Unknown contact)' (not movable)]
+'(Невядомы)' (заўсёды апошняе)
+['(Unknown contact)']
+'(Невядомы кантакт)'
+[Contact names]
+Кантакты
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
 Новы гурт
@@ -2013,29 +2038,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 [&Add permanently to list]
 Дадаць у сталы спіс
 ;file \src\mir_app\src\colorchooser.cpp
-;file \src\mir_app\src\contacts.cpp
-[My custom name (not movable)]
-Зададзенае імя (заўсёды першае)
-[Nick]
-Мянушка
-[FirstName]
-Імя
-[E-mail]
-Пошта
-[LastName]
-Прозвішча
-[Username]
-Імя карыстача
-[FirstName LastName]
-Імя Прозвішча
-[LastName FirstName]
-Прозвішча Імя
-['(Unknown contact)' (not movable)]
-'(Невядомы)' (заўсёды апошняе)
-['(Unknown contact)']
-'(Невядомы кантакт)'
-[Contact names]
-Кантакты
 ;file \src\mir_app\src\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Міранда спрабуе абнавіць профіль структуры.\nНемагчыма перамясціць профіль %s на новае месца %s,\nбо профіль з такой назвай ужо існуе. Калі ласка, вырашыце праблему ўручную.
@@ -2074,6 +2076,10 @@ Miranda не можа распазнаць гэты профіль
 Вас дадаў %s%s
 [Contacts: ]
 Кантакты:\s
+[I]
+
+[wrote]
+
 ;file \src\mir_app\src\db_ini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Сістэма бяспекі для прадухілення непажаданых змен актыўная і вы будзеце папярэджаны перад кожнай вырабленай зменай.
@@ -2111,6 +2117,8 @@ Miranda не можа распазнаць гэты профіль
 Актыўнасць у чаце
 [Chat mute mode]
 
+[Reaction]
+
 [Gender]
 Род
 [Account]
@@ -2123,11 +2131,13 @@ Miranda не можа распазнаць гэты профіль
 
 [Attach]
 
+[Code]
+
+[Cloud file]
+
 ;file \src\mir_app\src\file.cpp
 [&File]
 &Файл
-[Send file]
-Перадаць файл
 [File from %s]
 Файл ад %s
 [File &transfers...]
@@ -2157,8 +2167,6 @@ Miranda не можа распазнаць гэты профіль
 ;file \src\mir_app\src\filerecvdlg.cpp
 [My received files]
 Мае атрыманыя файлы
-[View user's history]
-Гісторыя паведамленняў
 [This file transfer has been canceled by the other side]
 
 [Canceled]
@@ -2411,17 +2419,11 @@ xСтатус
 Меню гуртоў
 [New subgroup]
 
-[Hide offline users out here]
-Схаваць адключаных па-за гуртоў
 [Disable groups]
 Адключыць гурты
 [Hide offline users in here]
 Схаваць адключаных у гурце
 ;file \src\mir_app\src\menu_options.cpp
-[New submenu]
-
-[Do you really want to delete this menu item?]
-
 [Menus]
 Меню
 ;file \src\mir_app\src\menu_tray.cpp
@@ -2659,6 +2661,8 @@ xСтатус
 ;file \src\mir_app\src\proto_interface.cpp
 [Preview folder]
 
+[History loaded successfully]
+
 [Request authorization]
 Запытаць аўтарызацыю
 [Grant authorization]
@@ -2804,6 +2808,8 @@ ANSI плагін
 Увага
 [Blank]
 
+[Forward]
+
 [Locked status]
 Блакаваны статус
 [Status icons]
@@ -2826,9 +2832,9 @@ ANSI плагін
 &Паведамленне %s
 [Nickname]
 Мянушка
-[Disable the event filter (Ctrl+F)]
+[Disable the event filter]
 
-[Enable the event filter (Ctrl+F)]
+[Enable the event filter]
 
 [In reply to]
 
@@ -2853,18 +2859,40 @@ ANSI плагін
 Капіяваць усё
 [Look up '%s':]
 Шукаць '%s':
-[No word to look up]
-Няма слоў для пошуку
 ;file \src\mir_app\src\srmm_main.cpp
 [Are you sure to wipe the system history?]
 
 [Empty system history]
 
+[Toggle bold formatting]
+
+[Toggle italic formatting]
+
+[Toggle underline formatting]
+
+[Toggle text color]
+
+[Toggle background color]
+
+[Clear formatting]
+
+[Open history window]
+
+[Toggle filter]
+Пераключыць фільтр
+[Toggle nick list]
+Спіс удзельнікаў
+[Channel manager]
+Кіраванне каналам
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Падзельнік>
 [Toolbar]
 Панэль кнопак
+[Custom BBCodes]
+
+[Send file]
+Перадаць файл
 ;file \src\mir_app\src\srmm_util.cpp
 [Message from %s]
 Паведамленне ад %s

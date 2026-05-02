@@ -224,37 +224,6 @@ Erreur HTTP inconnue
 Chat
 [Contact list]
 Liste de contacts
-;file \protocols\Gadu-Gadu\src\gg_proto.cpp
-[Images]
-
-[Gadu-Gadu Number]
-Numéro Gadu-Gadu :
-[Female]
-Femme
-[Male]
-Homme
-;file \protocols\Gadu-Gadu\src\groupchat.cpp
-[Open &conference...]
-Ouvrir un &chat...
-[&Clear ignored conferences]
-&Effacer les conférences ignorées
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
-%s a lancé une conférence avec %d participants (%d inconnus).\nVoulez-vous participez-vous?
-[%s initiated the conference.]
-%s a lancé(e) le chat.
-[This is my own conference.]
-C'est mon propre chat.
-[Participants]
-
-['Unknown']
-'Inconnu'
-[You have to be connected to open new conference.]
-Vous avez été connecté pour ouvrir un nouveau chat.
-[All ignored conferences are now unignored and the conference policy will act again.]
-Toutes les conférences ignorées sont maintenant désignorées et la politique de conférence agira encore.
-[There are no ignored conferences.]
-Il n'y a pas de conférence ignorée.
-;file \protocols\Gadu-Gadu\src\icolib.cpp
 [Protocol icon]
 
 [Import list from server]
@@ -285,6 +254,36 @@ Effacer l'image
 
 [Concurrent sessions]
 
+;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+[Images]
+
+[Gadu-Gadu Number]
+Numéro Gadu-Gadu :
+[Female]
+Femme
+[Male]
+Homme
+;file \protocols\Gadu-Gadu\src\groupchat.cpp
+[Open &conference...]
+Ouvrir un &chat...
+[&Clear ignored conferences]
+&Effacer les conférences ignorées
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
+%s a lancé une conférence avec %d participants (%d inconnus).\nVoulez-vous participez-vous?
+[%s initiated the conference.]
+%s a lancé(e) le chat.
+[This is my own conference.]
+C'est mon propre chat.
+[Participants]
+
+['Unknown']
+'Inconnu'
+[You have to be connected to open new conference.]
+Vous avez été connecté pour ouvrir un nouveau chat.
+[All ignored conferences are now unignored and the conference policy will act again.]
+Toutes les conférences ignorées sont maintenant désignorées et la politique de conférence agira encore.
+[There are no ignored conferences.]
+Il n'y a pas de conférence ignorée.
 ;file \protocols\Gadu-Gadu\src\image.cpp
 [&Image]
 

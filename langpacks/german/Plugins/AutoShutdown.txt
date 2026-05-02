@@ -26,8 +26,6 @@ Ereignisse beim Herunterfahren
 Kritische Ereignisse
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Automatisch bei einem der folgenden Ereignisse herunterfahren und ausschalten:
-[&Thunderstorm warning is issued (Weather)]
-&Gewitterwarnung ist aktiv (Wetterplugin)
 [Automatic shutdown]
 Automatisch beenden
 [Select the automatic shutdown event]

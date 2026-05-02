@@ -1,2 +1,3 @@
+[Lotus Sametime protocol support for Miranda NG.]
 [Sametime (Use old client version)]
 [Sametime (Miranda default)]

@@ -209,3 +209,11 @@ min
 max
 [Status Message]
 Zpráva stavu
+[All files]
+Všechny soubory
+[Playlist files]
+
+[BASS built-in]
+
+[All supported formats]
+

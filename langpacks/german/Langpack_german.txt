@@ -14,7 +14,7 @@ Author-email: wishmaster51 at googlemail.com
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.6
+;  Version: 0.96.7
 ;============================================================
 [Become idle if the following is left unattended:]
 Untätig werden, wenn keine Aktion innerhalb von:
@@ -120,8 +120,6 @@ Titelleiste anzeigen
 Titelleistentext:
 [Show drop shadow (restart required)]
 Schatten werfen (erfordert Neustart)
-[Pin to desktop]
-An den Desktop anheften
 [Hide contact list after it has been idle for]
 Kontaktliste verstecken nach Untätigkeit von
 [seconds]
@@ -136,8 +134,6 @@ Maximal
 Größenanpassung nach oben
 [If window is partially covered, bring to front instead of hiding]
 Teilweise verdeckte Fenster in Vordergrund bringen, anstatt sie zu verstecken
-[Enable docking]
-Andocken aktivieren
 [Translucency options]
 Transparenz-Einstellungen
 [Fade contact list in/out]
@@ -728,6 +724,8 @@ Klänge aktivieren
 Die folgenden Ereignisse werden ignoriert:
 [Files]
 Dateien
+[Cloud files]
+Cloud-Dateien
 [Online notification]
 Statusbenachrichtigungen
 [Auth requests]
@@ -848,16 +846,14 @@ Protokollmenüs
 In das Hauptmenü setzen
 [Move to the status bar]
 In die Statusleiste setzen
-[Warning!\r\nThis menu object not support user defined options.]
-Warnung!\r\nDieses Menüobjekt kann nicht vom Benutzer angepasst werden!
-[Insert submenu]
-Untermenü einfügen
 [Insert separator]
 Trennlinie einfügen
 [Module:]
 Modul:
 [Service:]
 Dienst:
+[ID:]
+ID:
 [Default]
 Standard
 [Set]
@@ -972,10 +968,12 @@ Unterkontakt-Nicknamen anzeigen
 Unterkontakt-Anzeigenamen anzeigen
 [Lock name to first contact]
 Namen auf ersten Kontakt festlegen
-[Choose needed logger from listed below:]
-Gewünschten Verlaufsbetrachter aus Liste auswählen:
-[Enable custom loggers in group chats]
-Angepassten Verlaufsbetrachter in Gruppenchats verwenden
+[Choose a log viewer]
+Verlaufsbetrachter auswählen
+[For the private conversations]
+Für private Unterhaltungen
+[For the group chats]
+Für Gruppenchats
 [Current language:]
 Aktuelle Sprache:
 [Date:]
@@ -1194,8 +1192,6 @@ Dateiübertragungen in umgekehrter Reihenfolge sortieren
 Beim Empfang von unbekannten Kontakten wird immer nachgefragt.
 [If incoming files already exist]
 Wenn eingehende Dateien bereits existieren
-[Cloud files]
-Cloud-Dateien
 [Download cloud files automatically]
 Cloud-Dateien automatisch herunterladen
 [Only if their size is less than]
@@ -1242,8 +1238,8 @@ Liste
 &Nachricht
 [Clear lo&g]
 &Verlauf löschen
-[Word lookup]
-Wort nachschlagen
+[No word to look up]
+Kein Wort zum Nachschlagen
 [Yandex]
 Yandex
 [Wikipedia (en)]
@@ -1378,6 +1374,8 @@ Fett
 Kursiv
 [Underlined]
 Unterstrichen
+[Strikethrough]
+Durchgestrichen
 [Smiley button]
 Smileybutton
 [Room history]
@@ -1559,41 +1557,45 @@ Kontakt dauerhaft zur Liste hinzufügen
 [User menu]
 Benutzermenü
 [View user's details]
-Kontaktprofil anzeigen
-[View user's history (Ctrl+H)]
-Verlauf anzeigen (Strg+H)
+Benutzerprofil anzeigen
+[View user's history]
+Benutzerverlauf anzeigen
 [&Bold]
 &Fett
-[Make the text bold (Ctrl+B)]
-Fett (Strg+B)
+[Make the text bold]
+Text fett formatieren
 [&Italic]
 &Kursiv
-[Make the text italicized (Ctrl+I)]
-Kursiv (Strg+I)
+[Make the text italicized]
+Text kursiv formatieren
 [&Underline]
-&Unterstrichen
-[Make the text underlined (Ctrl+U)]
-Unterstrichen (Strg+U)
+&Unterstreichen
+[Make the text underlined]
+Text unterstreichen
+[&Strikethrough]
+&Durchstreichen
+[Make the text strikethrough]
+Text durchstreichen
 [&Color]
 &Farbe
-[Select a foreground color for the text (Ctrl+K)]
-Schriftfarbe wählen (Strg+K)
+[Select text color]
+Textfarbe auswählen
 [&Background color]
 &Hintergrundfarbe
-[Select a background color for the text (Ctrl+L)]
-Schrifthintergrundfarbe wählen (Strg+L)
+[Select background color]
+Hintergrundfarbe auswählen
 [&Room settings]
 &Raumeinstellungen
-[Control this room (Ctrl+O)]
-Diesen Raum kontrollieren (Strg+O)
+[Control this room]
+Diesen Raum kontrollieren
 [&Show/hide nick list]
-Nickliste &anzeigen/verbergen
-[Show/hide the nick list (Ctrl+N)]
-Benutzerliste anzeigen/verstecken (Strg+N)
+Benutzerliste &anzeigen/verbergen
+[Show/hide the nick list]
+Benutzerliste anzeigen/verstecken
 [&Filter]
 &Filter
-[Enable/disable the event filter (Ctrl+F)]
-Ereignisfilter aktivieren/deaktivieren (Strg+F)
+[Enable/disable the event filter]
+Ereignisfilter aktivieren/deaktivieren
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda konnte nicht das eingebaute Nachrichtenmodul laden, msftedit.dll fehlt. Drücken Sie "Ja" um Miranda weiter laden zu können.
 [Instant messages]
@@ -1940,6 +1942,28 @@ Informationen in %s
 Chaträume
 [Events and filters]
 Ereignisse und Filter
+[My custom name (not movable)]
+Selbst gewählter Name (nicht verschiebbar)
+[Nick]
+Nick
+[FirstName]
+Vorname
+[E-mail]
+E-Mail
+[LastName]
+Nachname
+[Username]
+Benutzername
+[FirstName LastName]
+Vorname Nachname
+[LastName FirstName]
+Nachname Vorname
+['(Unknown contact)' (not movable)]
+'(Unbekannter Kontakt)' (nicht verschiebbar)
+['(Unknown contact)']
+'(Unbekannter Kontakt)'
+[Contact names]
+Kontaktnamen
 [New group]
 Neue Gruppe
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -1972,28 +1996,6 @@ Dieser Kontakt befindet sich in einem Instant-Messaging-System, welches seine Ko
 &Umbenennen
 [&Add permanently to list]
 D&auerhaft zur Kontaktliste hinzufügen
-[My custom name (not movable)]
-Selbst gewählter Name (nicht verschiebbar)
-[Nick]
-Nick
-[FirstName]
-Vorname
-[E-mail]
-E-Mail
-[LastName]
-Nachname
-[Username]
-Benutzername
-[FirstName LastName]
-Vorname Nachname
-[LastName FirstName]
-Nachname Vorname
-['(Unknown contact)' (not movable)]
-'Unbekannter Kontakt' (nicht verschiebbar)
-['(Unknown contact)']
-(Unbekannter Kontakt)
-[Contact names]
-Kontaktnamen
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda versucht, Ihre Profilstruktur anzupassen.\nEs kann Profil %s nicht an den neuen Ort %s verschieben\nweil ein anderen Profil mit diesem Namen schon existiert. Bitte lösen Sie den Konflikt manuell.
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
@@ -2030,6 +2032,8 @@ Autorisierungsanfrage von %s%s: %s
 Sie wurden von %s%s hinzugefügt.
 [Contacts: ]
 Kontakte:\s
+[wrote]
+geschrieben
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Sicherheitssysteme zum Schutz gegen bösartige Veränderungen ist vorhandenen und werden Sie vor jeder Änderung, die gemacht wird, warnen.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2064,6 +2068,8 @@ Telefon/SMS
 Chat-Aktivität
 [Chat mute mode]
 Chat-Stumm-Modus
+[Reaction]
+Reaktion
 [Gender]
 Geschlecht
 [Account]
@@ -2074,10 +2080,12 @@ Extraicons
 Chat stummschalten
 [Attach]
 Anhängen
+[Code]
+Code
+[Cloud file]
+Cloud-Datei
 [&File]
 &Datei
-[Send file]
-Datei senden
 [File from %s]
 Datei von %s
 [File &transfers...]
@@ -2104,8 +2112,6 @@ Ereignisse
 Sicherheit
 [My received files]
 Meine empfangenen Dateien
-[View user's history]
-Verlauf anzeigen
 [This file transfer has been canceled by the other side]
 Diese Dateiübertragung wurde von der anderen Seite abgebrochen.
 [Canceled]
@@ -2342,16 +2348,10 @@ Framemenü
 Gruppenmenü
 [New subgroup]
 Neue Untergruppe
-[Hide offline users out here]
-Offline-Kontakte außerhalb ausblenden
 [Disable groups]
 Gruppenfunktion ausschalten
 [Hide offline users in here]
 Offline-Kontakte hier ausblenden
-[New submenu]
-Neues Untermenü
-[Do you really want to delete this menu item?]
-Möchten Sie diesen Menüeintrag wirklich löschen?
 [Menus]
 Menüs
 [Tray menu]
@@ -2566,6 +2566,8 @@ Protokoll ist offline
 Protokolle
 [Preview folder]
 Vorschauverzeichnis
+[History loaded successfully]
+Verlauf erfolgreich geladen
 [Request authorization]
 Autorisierung anfragen
 [Grant authorization]
@@ -2706,6 +2708,8 @@ Gruppe hinzufügen
 Warnung
 [Blank]
 Leer
+[Forward]
+Später
 [Locked status]
 Gesperrter Status
 [Status icons]
@@ -2726,10 +2730,10 @@ Zitierung entfernen
 &Nachricht an %s
 [Nickname]
 Nickname
-[Disable the event filter (Ctrl+F)]
-Ereignisfilter deaktivieren (Strg+F)
-[Enable the event filter (Ctrl+F)]
-Ereignisfilter aktivieren (Strg+F)
+[Disable the event filter]
+Ereignisfilter deaktivieren
+[Enable the event filter]
+Ereignisfilter aktivieren
 [In reply to]
 In Antwort auf
 [Log viewer]
@@ -2749,17 +2753,39 @@ Speichern als
 [Copy all]
 Alles kopieren
 [Look up '%s':]
-Suche nach '%s'
-[No word to look up]
-Kein Wort zum Nachschlagen
+Suche nach '%s':
 [Are you sure to wipe the system history?]
 Möchten Sie den Systemverlauf wirklich leeren?
 [Empty system history]
 Systemverlauf leeren
+[Toggle bold formatting]
+Formatierung Fett umschalten
+[Toggle italic formatting]
+Formatierung Kursiv umschalten
+[Toggle underline formatting]
+Formatierung Unterstrichen umschalten
+[Toggle text color]
+Textfarbe umschalten
+[Toggle background color]
+Hintergrundfarbe umschalten
+[Clear formatting]
+Formatierung aufheben
+[Open history window]
+Verlaufsfenster öffnen
+[Toggle filter]
+Filter umschalten
+[Toggle nick list]
+Benutzerliste umschalten
+[Channel manager]
+Channelmanager
 [<Separator>]
 <Trennlinie>
 [Toolbar]
 Toolbar
+[Custom BBCodes]
+Eigene BBCodes
+[Send file]
+Datei senden
 [Message from %s]
 Nachricht von %s
 [Unspecified]
@@ -4473,7 +4499,7 @@ Registrierungswarnung
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
-;  Version: 0.0.2.2
+;  Version: 0.0.2.3
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
@@ -4546,8 +4572,6 @@ Ereignisse beim Herunterfahren
 Kritische Ereignisse
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Automatisch bei einem der folgenden Ereignisse herunterfahren und ausschalten:
-[&Thunderstorm warning is issued (Weather)]
-&Gewitterwarnung ist aktiv (Wetterplugin)
 [Automatic shutdown]
 Automatisch beenden
 [Select the automatic shutdown event]
@@ -5548,13 +5572,15 @@ Zeit vor der Antwort
 [Typing time depends on message length (in chars)]
 Tippzeit abhängig von Nachrichtenlänge (in Zeichen)
 [Typing and thinking time can be much longer]
-Tippen- und Bedenkzeit kann viel länger sein
+Tipp- und Bedenkzeit kann viel länger sein
 [Typing time (for a message of 4 words):]
 Tippzeit (für eine Nachricht mit 4 Worten):
 [Thinking time:]
 Bedenkzeit:
 [Engine]
 Sprachmodul
+[Base of remarks]
+Basis der Bemerkungen
 [Reload]
 Neu laden
 [Stay silent if have no good answers]
@@ -5565,16 +5591,28 @@ Antworten mit einem Kleinbuchstaben beginnen
 Antworten wie "Ich verstehe nicht" nicht verwenden
 [Message sessions]
 Nachrichtensitzungen
+[Mind Files]
+Mind-Dateien
 [All Files]
 Alle Dateien
+[Boltun/Auto Chat]
+Boltun/Auto Chat
+[Boltun/Not to Chat]
+Boltun/Nicht chatten
+[Boltun/Start Chatting]
+Botun/Chatten beginnen
 [Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!]
-Hallo, ich bin Boltun. Ich werde mit Ihnen reden, während mein Meister abwesend ist. Bitte schreiben Sie fehlerfrei.
+Hallo, ich bin Boltun. Ich werde mit Ihnen reden, während mein Meister abwesend ist. Bitte schreiben Sie fehlerfrei!
 [Boltun Error]
 Boltun Fehler
+[Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]
+Fehler beim Laden der Basis der Bemerkungen. Fehler in Zeile %d von %s (oder einige Zeilen davor).
+[Failed to save base of remarks to %s]
+Fehler beim Speichern der Basis der Bemerkungen in %s
 [General Settings]
 Allgemeine Einstellungen
 [Engine Settings]
-Programmeinstellungen
+Sprachmodul-Einstellungen
 #muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
 ;============================================================
 ;  File: BossKey.dll
@@ -6364,18 +6402,10 @@ Offline-Nutzer nach unten schieben
 3.:
 [Place offline users out of groups]
 Offline-Kontakte außerhalb der Gruppen
-[Selection mode]
-Auswahlmodus
-[Default]
-Standard
-[Full selection]
-Ganze Zeile
-[Less selection]
-Teilweise Auswahl
-[No selection]
-Keine Auswahl
-[Gamma correction]
-Gammakorrektur
+[Appearance]
+Erscheinungsbild
+[Always on top]
+Immer im Vordergrund
 [Bring to front if covered]
 Nach vorne bringen, wenn verdeckt
 [Hide contact list after]
@@ -6394,8 +6424,6 @@ Verhalten
 Manuelle Größenänderung deaktivieren
 [Drag to]
 Mausziehen bewirkt:
-[Easy scroll]
-Einfaches Scrollen
 [Easy move]
 Einfaches Bewegen
 [x100 ms]
@@ -6420,8 +6448,6 @@ Deaktiviert
 Automatisch zeigen
 [Always visible]
 Immer sichtbar
-[Dock to sides]
-An Rand einrasten (Dock)
 [and minimum]
 und Minimum
 [Items]
@@ -6510,12 +6536,6 @@ Unterkontakte einrücken um Pixel:
 Zeit nur anzeigen, wenn lokale Zeit anders ist
 [Show contact time as row item]
 Kontaktzeit anzeigen
-[Appearance]
-Erscheinungsbild
-[Always on top]
-Immer im Vordergrund
-[Pin to desktop]
-An den Desktop anheften
 [Client area margins]
 Randabstände Inhalt zum Rand
 [Thin border main window]
@@ -6530,8 +6550,6 @@ Titelleiste anzeigen
 Titelleistentext:
 [Tool style main window]
 Schmale Titelleiste
-[Minimize to tray]
-In Systemtray minimieren
 [Translucency options]
 Transparenz-Einstellungen
 [Fade contact list in/out]
@@ -6560,6 +6578,12 @@ Nichtlayermodus
 Skinengine deaktivieren
 [Enable Aero Glass (Vista, Win 7)]
 Aero Glass aktivieren (Windows Vista, 7)
+[Selection mode]
+Auswahlmodus
+[Gamma correction]
+Gammakorrektur
+[Minimize to tray]
+In Systemtray minimieren
 [Order of items:]
 Reihenfolge der Elemente:
 [Minimum row height:]
@@ -6846,8 +6870,8 @@ Name
 Name (lokale Spracheinstellungen)
 [Last message time]
 Zeitpunkt der letzten Nachricht
-[Account name]
-Kontoname
+[Account order]
+Konten-Reihenfolge
 [Rate]
 Priorität
 [Last online]
@@ -6860,6 +6884,14 @@ In Systemtray
 Hinter linken Rand
 [Behind right edge]
 Hinter rechten Rand
+[Default]
+Standard
+[Full selection]
+Ganze Zeile
+[Less selection]
+Teilweise Auswahl
+[No selection]
+Keine Auswahl
 [General]
 Allgemein
 [Tray]
@@ -7241,8 +7273,6 @@ Gerundeter Rand
 Rand
 [Title bar text:]
 Titelleistentext:
-[Pin to desktop]
-An den Desktop anheften
 [Show drop shadow (restart required)]
 Schatten werfen (erfordert Neustart)
 [Hide contact list after it has been idle for]
@@ -7291,8 +7321,6 @@ Drag&&Drop von Objekten ausschalten
 Umbenennen durch zwei Mausklicks ausschalten
 [Show selection even when list is not focused]
 Markierung immer anzeigen
-[Make selection highlight translucent]
-Transparente Markierung
 [Use full row for selection and hottracking]
 Volle Breite für Markierungen und Hervorhebungen
 [Double click on avatar opens user info]
@@ -7659,10 +7687,6 @@ Alle Frames anzeigen
 Alle Titelleisten anzeigen
 [Hide all title bars]
 Alle Titelleisten verstecken
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-CList Nicer kann nicht andocken wenn Sie die Standard Titelleiste und Umrandung benutzen. Benutzen Sie ein Bearbeitungsfenster anstatt ein randlosen Stil.
-[Contact list docking]
-Kontaktliste andocken
 [Load and apply]
 Skin laden
 [Skins]
@@ -7796,7 +7820,7 @@ Eingestochen
 ;============================================================
 ;  File: CloudFile.dll
 ;  Plugin: CloudFile
-;  Version: 0.11.0.6
+;  Version: 0.12.0.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Allows you to transfer files via cloud services.]
@@ -7845,10 +7869,10 @@ Google Drive
 OneDrive
 [Yandex.Disk]
 Yandex.Disk
+[Upload to]
+Hochladen auf
 [Upload to...]
 Hochladen auf...
-[Upload]
-Hochladen
 [None]
 Keine
 [Services]
@@ -8194,14 +8218,18 @@ Dienste
 Text
 [Background]
 Hintergrund
-[Text Files (*.txt)]
-Textdokumente (*.txt)
-[All Files]
+[Text files (*.txt)]
+Textdateien (*.txt)
+[All files]
 Alle Dateien
 [Save selection to file]
 Auswahl in Datei speichern
 [Save log to file]
 Log in Datei speichern
+[Show]
+Anzeigen
+[Hide]
+Verbergen
 #muuid {0324785E-74CE-4600-B781-851773B3EFC5}
 ;============================================================
 ;  File: Contacts.dll
@@ -8377,6 +8405,10 @@ Abbrechen
 GnuPG-Plugin - öffentlichen Schlüssel auswählen
 [Refresh]
 Aktualisieren
+[All files]
+Alle Dateien
+[Select GnuPG executable]
+GnuPG-Programm wählen
 #muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
 ;============================================================
 ;  File: CSList.dll
@@ -9296,6 +9328,53 @@ Backup-Verzeichnis auswählen
 Miranda NG [%s] Datenbanksicherung
 #muuid {88928401-2ce8-4568-aaa7-226141870cbf}
 ;============================================================
+;  File: DeltaChat.dll
+;  Plugin: DeltaChat protocol
+;  Version: 0.96.5.1
+;  Authors: George Hazan
+;============================================================
+[DeltaChat support for Miranda NG.]
+Unterstützung für DeltaChat in Miranda NG.
+[IMAP server]
+IMAP-Server
+[Username]
+Benutzername
+[Password]
+Passwort
+[Host]
+Host
+[Default group:]
+Standardgruppe:
+[Port]
+Port
+[SSL mode]
+SSL-Modus
+[SMTP server]
+SMTP-Server
+[Main icon]
+Haupticon
+[Enter QR code, received from another device]
+QR-Code vom anderen Gerät eingeben
+[Invalid or broken QR code]
+Ungültiger oder beschädigter QR-Code
+[Add chat using QR code]
+Chat über QR-Code hinzufügen
+[Copy QR to chat with me]
+QR-Code zum Chatten mit mir kopieren
+[Automatic]
+Automatisch
+[STARTTLS]
+STARTTLS
+[SSL (old)]
+SSL (alt)
+[Plain]
+Klartext
+[Network]
+Netzwerk
+[Account]
+Konto
+#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
 ;  Version: 0.96.5.1
@@ -9335,6 +9414,10 @@ Abbrechen
 Gruppenchateinladung senden
 [&Invite]
 E&inladen
+[Link a device]
+Ein Gerät verknüpfen
+[Open Discord application on your mobile phone, click on "Scan QR Code" in Settings and use it to read this QR code.\nA window will disappear automatically after it.]
+Öffne die Discord-Anwendung auf deinem Mobiltelefon, klicke in den Einstellungen auf „QR-Code scannen“ und scanne damit diesen QR-Code.\nEin Fenster wird sich anschließend automatisch schließen.
 [edited at]
 bearbeitet um
 [Change &nickname]
@@ -9377,6 +9460,8 @@ Anruf
 Anruf beendet
 [Enter channel name]
 Channelnamen eingeben
+[You need to enter a captcha to join this server. Open this link in a browser.]
+Um diesem Server beizutreten, müssen Sie ein Captcha eingeben. Öffnen Sie diesen Link in einem Browser.
 [Enter invitation code you received]
 Geben Sie den empfangenen Einladungscode ein
 [Do you really want to leave the guild?]
@@ -9413,6 +9498,8 @@ Backupcode verwenden
 Ungültiger Zwei-Faktor-Code
 [MFA initialization]
 MFA-Initialisierung
+[Login using QR code]
+Mit QR-Code anmelden
 [Network]
 Netzwerk
 [Account]
@@ -9453,7 +9540,7 @@ Vorschau
 ;============================================================
 ;  File: Dummy.dll
 ;  Plugin: Dummy protocol
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: Robert Pösel
 ;============================================================
 [Dummy protocol for Miranda NG. Could be used for holding contacts and history from deprecated protocols or for creating virtual contacts.]
@@ -9612,73 +9699,6 @@ Plugins
 Neuverbindung zu Exchange-Server erzwingen...
 [Connecting to Exchange ...]
 Mit Exchange verbinden...
-#muuid {ee0543fb-711d-4ac8-b6c0-1dda4838107e}
-;============================================================
-;  File: Facebook.dll
-;  Plugin: Facebook
-;  Version: 0.1.0.11
-;  Authors: Miranda NG Team
-;============================================================
-[Facebook protocol support for Miranda NG.]
-Facebook-Protokollunterstützung für Miranda NG.
-[E-mail:]
-E-Mail:
-[Password:]
-Passwort:
-[Create a new Facebook account]
-Ein neues Facebook-Konto erstellen
-[User details]
-Kontaktprofil
-[Contacts]
-Kontakte
-[Default group:]
-Standardgruppe:
-[Keep messages as unread on server]
-Nachrichten auf dem Server als ungelesen belassen
-[Use invisible mode after login]
-Unsichtbar-Modus nach Anmeldung verwenden
-[Load also Messenger contacts at login (not only Facebook friends)]
-Beim Anmelden auch Messenger-Kontakte laden (nicht nur Facebook-Freunde)
-[Group chats]
-Gruppenchats
-[Enable group chats]
-Gruppenchats aktivieren
-[Do not open chat windows on creation]
-Chatfenster bei der Erzeugung nicht öffnen
-[Send group chat invitation]
-Gruppenchateinladung senden
-[&Invite]
-E&inladen
-[Cancel]
-Abbrechen
-[&Invite a user]
-Benutzer e&inladen
-[&Leave/destroy chat]
-Chat ver&lassen/zerstören
-[&Kick user]
-Benutzer &kicken
-[Network]
-Netzwerk
-[Account]
-Konto
-[Connection failed with error code %d]
-Verbindung fehlgeschlagen mit Fehlercode %d
-[Participant]
-Teilnehmer
-[Sticker received]
-Sticker empfangen
-[SmileyAdd plugin required to support stickers]
-Zur Unterstützung von Stickern wird das Plugin SmileyAdd benötigt
-[URL]
-URL
-[Title]
-Titel
-[Source]
-Quelle
-[Description]
-Übersicht
-[Playable media]
-Abspielbares Medium
 #muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;============================================================
 ;  File: FavContacts.dll
@@ -9752,7 +9772,7 @@ Favorisierte Kontakte anzeigen
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [File transfer by using the messaging services - as plain text.]
@@ -9791,6 +9811,12 @@ Weitere Einstellungen unter Ereignisse -> Dateiübertragungen, Gruppe "Dateien e
 Datei empfangen
 [Send file]
 Datei senden
+[Perform]
+Ausführen
+[Revive a transfer]
+Übertragung fortsetzen
+[Pause]
+Pause
 [File already exists. Overwrite?]
 Datei existiert bereits. Überschreiben?
 [Couldn't open a file]
@@ -9837,8 +9863,6 @@ Durch Benutzer abgebrochen
 Übertragung dauert an. Möchten Sie wirklich abbrechen?
 [Play]
 Abspielen
-[Pause]
-Pause
 [Revive]
 Fortsetzen
 [Stop]
@@ -9866,6 +9890,8 @@ Fingerprint Overlay Icons
 Miranda Clients
 [Miranda packs overlays]
 Miranda Paket-Overlays
+[Secure overlays]
+Sicherheits-Overlay
 [Show Miranda version at Overlay#2]
 Miranda-Version als Overlay #2 anzeigen
 [Resource overlays]
@@ -9876,12 +9902,8 @@ Platform-Overlays
 Protokolle-Overlays
 [Unicode overlay]
 Unicode-Overlay
-[Secure overlays]
-Sicherheits-Overlay
 [Select protocols]
 Protokolle auswählen
-[Facebook clients]
-Facebook-Clients
 [Gadu-Gadu clients]
 Gadu-Gadu-Clients
 [IRC clients]
@@ -9938,8 +9960,6 @@ JGTalk overlay
 Jabber overlay
 [VK overlay]
 VK overlay
-[Skype overlay]
-Skype-Overlay
 [Gadu-Gadu v11 client]
 Gadu-Gadu v11 client
 [Gadu-Gadu v10 client]
@@ -10176,7 +10196,7 @@ Erscheinungsbild
 ;============================================================
 ;  File: Folders.dll
 ;  Plugin: Custom profile folders
-;  Version: 0.2.0.2
+;  Version: 0.3.0.1
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
 [Allows plugins to save their data to user selected folders; supports variables.]
@@ -10729,34 +10749,6 @@ Blockieren a&ufheben
 Konferenz
 [Contact list]
 Kontaktliste
-[Images]
-Bilder
-[Gadu-Gadu Number]
-Gadu-Gadu-Nummer
-[Female]
-weiblich
-[Male]
-männlich
-[Open &conference...]
-&Konferenz öffnen...
-[&Clear ignored conferences]
-Ignorierte Konferenzen löschen
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
-%s initiierte eine Konferenz mit %d Teilnehmern (%d Unbekannten).\nMöchten Sie teilnehmen?
-[%s initiated the conference.]
-%s initiierte die Konferenz.
-[This is my own conference.]
-Dies ist meine eigene Konferenz.
-[Participants]
-Teilnehmer
-['Unknown']
-'Unbekannt'
-[You have to be connected to open new conference.]
-Sie müssen verbunden sein, bevor Sie eine neue Konferenz öffnen können.
-[All ignored conferences are now unignored and the conference policy will act again.]
-Alle ignorierten Konzerenzen sind nun nicht mehr ignoriert und die Konzerenzregeln werden wieder behandelt.
-[There are no ignored conferences.]
-Es gibt keine ignorierten Konferenzen.
 [Protocol icon]
 Protokollicon
 [Import list from server]
@@ -10787,6 +10779,34 @@ Lösche Bild
 Ignorierte Konferenzen löschen
 [Concurrent sessions]
 Gleichzeitige Sitzungen
+[Images]
+Bilder
+[Gadu-Gadu Number]
+Gadu-Gadu-Nummer
+[Female]
+weiblich
+[Male]
+männlich
+[Open &conference...]
+&Konferenz öffnen...
+[&Clear ignored conferences]
+Ignorierte Konferenzen löschen
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
+%s initiierte eine Konferenz mit %d Teilnehmern (%d Unbekannten).\nMöchten Sie teilnehmen?
+[%s initiated the conference.]
+%s initiierte die Konferenz.
+[This is my own conference.]
+Dies ist meine eigene Konferenz.
+[Participants]
+Teilnehmer
+['Unknown']
+'Unbekannt'
+[You have to be connected to open new conference.]
+Sie müssen verbunden sein, bevor Sie eine neue Konferenz öffnen können.
+[All ignored conferences are now unignored and the conference policy will act again.]
+Alle ignorierten Konzerenzen sind nun nicht mehr ignoriert und die Konzerenzregeln werden wieder behandelt.
+[There are no ignored conferences.]
+Es gibt keine ignorierten Konferenzen.
 [&Image]
 B&ild
 [Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
@@ -10940,9 +10960,9 @@ Ihre E-Mail-Adresse wurde geändert.
 #muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
 ;============================================================
 ;  File: GmailNotifier.dll
-;  Plugin: Gmail Multiple Notifier
-;  Version: 1.0.1.3
-;  Authors: Mixwind
+;  Plugin: Gmail Notifier Oauth2 Edition
+;  Version: 2.0.1.1
+;  Authors: George Hazan
 ;============================================================
 [Check your Gmail inboxes locally.]
 Prüft Ihren GMail-Posteingang.
@@ -10950,14 +10970,14 @@ Prüft Ihren GMail-Posteingang.
 GMail-Account
 [Name:]
 Name:
-[Password:]
-Passwort:
 [Add]
 Hinzufügen
-[Save]
-Speichern
+[Edit]
+Bearbeiten
 [Delete]
 Löschen
+[Authorize]
+Autorisieren
 [Configuration]
 Konfiguration
 [Check Gmail inbox every]
@@ -10970,32 +10990,36 @@ Benachrichtige mit:
 Dauer:
 [seconds]
 Sekunden
-[Text|Background:]
-Text|Hintergrund:
 [On double click:]
 Bei Doppelklick:
+[Login using default browser]
+Mit Standard-Browser anmelden
+[Do nothing]
+Nichts tun
+[Run custom program]
+Eigenes Programm ausführen
 [System tray]
 Systemtray
 [Popup plugin]
 Popup-Plugin
-[Login using default browser]
-Mit Standard-Browser anmelden
-[Login using Internet Explorer]
-Mit Internet Explorer anmelden
-[Run custom program]
-Eigenes Programm ausführen
 [Use online contacts when no new mail]
 Online Kontakte bei keiner neuen Nachricht verwenden
-[Enable icon selection and icon in status bar (restart)]
-Iconauswahl und Icon in Statusleiste aktivieren (Neustart)
-[This is a shared computer so disable auto login]
-Automatische Anmeldung deaktivieren (für geteilte Computer)
+[Enable auto login]
+Automatische Anmeldung aktivieren
 [Log unread threads into database (enable history)]
 Ungelesene Nachrichten protokollieren
+[Authorization]
+Autorisierung
+[Cancel]
+Abbrechen
+[Enter authorization code:]
+Autorisierungscode eingeben:
+[To allow Miranda NG access to GMail]
+Um Miranda NG zugriff auf GoogleMail zu erlauben
+[Go to this link]
+Gehen Sie auf diesen Link
 [Checking...]
 Prüfen...
-[Can't send account data!]
-Kann Kontodaten nicht senden!
 [Wrong name or password!]
 Falscher Nutzername oder Passwort!
 [Other]
@@ -11008,6 +11032,12 @@ GmailNotifier
 Alle &GMail-Posteingänge prüfen
 [&Check Gmail inbox]
 &GMail-Posteingang prüfen
+[Enter account name]
+Geben Sie den Kontonamen ein
+[Enter your Google email]
+Geben Sie Ihre GoogleMail ein
+[Deauthorize]
+Unautorisieren
 [Network]
 Netzwerk
 #muuid {b92282ac-686b-4541-a12d-6e9971a253b7}
@@ -11022,7 +11052,7 @@ Einfacher, schneller und funktionsreicher Verlaufsbetrachter.
 [Voice calls]
 Sprachanrufe
 [Voice call]
-Sprachnachricht
+Sprachanruf
 [Sh&ow in history]
 Im Verlauf anzeigen
 [Log default]
@@ -11699,6 +11729,8 @@ Löschen
 Auf
 [Down]
 Ab
+[Select]
+Auswählen
 #muuid {f184f5a0-c198-4454-a9b4-f6e2fd534133}
 ;============================================================
 ;  File: HistoryStats.dll
@@ -13104,8 +13136,6 @@ Eingehende Dateiübertragung
  fragte Autorisierung an
 [ was added.]
  wurde hinzugefügt.
-[Code]
-Code
 [RTL On]
 RTL an
 [RTL Off]
@@ -13114,8 +13144,6 @@ RTL aus
 Gruppierung an
 [Group Off]
 Gruppierung aus
-[Format text as code]
-Text als Code formatieren
 [IEView]
 IEView
 [Default]
@@ -13384,7 +13412,7 @@ Ende
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.96.1.4
+;  Version: 0.96.7.1
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -14127,7 +14155,7 @@ Ausnahme aufheben?
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.95.11.1
+;  Version: 0.96.7.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -14624,8 +14652,6 @@ Unterstützt die Verwaltung von Chatverläufen
 Kann Informationen über die Aktivität des Benutzers veröffentlichen
 [Receives information about user activity]
 Empfängt Informationen über die Aktivität des Benutzers
-[Supports Miranda NG notes extension]
-Unterstützt die Miranda-NG-Notizenerweiterung
 [Supports Roster Exchange]
 Unterstützt Kontaktlistenaustausch
 [Supports direct chat invitations (XEP-0249)]
@@ -14922,8 +14948,6 @@ In Raum umwandeln
 An-/Abmelden
 [Resolve nicks]
 Nicks auflösen
-[Send note]
-Notiz senden
 [AdHoc Command]
 Ad-Hoc-Befehl
 [OpenID Request]
@@ -15030,8 +15054,6 @@ Jabber-Kontenauswahl
 Als Lesezeichen speichern
 [Commands]
 Befehle
-[Send Note]
-Notiz senden
 [Send Presence]
 Chatstatus setzen
 [Jabber Resource]
@@ -15074,6 +15096,10 @@ Keine Aktivität festgestellt, Auswahl durch Server
 Höchste Priorität (Auswahl durch Server)
 [Status Message]
 Statusnachricht
+[Message redirected from: %s\r\n]
+Nachricht weitergeleitet von: %s\r\n
+[Unable to decrypt a carbon copy of the encrypted outgoing message]
+Konnte eine Durchschlagskopie der verschlüsselten ausgehenden Nachricht nicht entschlüsseln
 [To]
 An
 [From]
@@ -15082,10 +15108,6 @@ Von
 Beides
 [Errors]
 Fehler
-[Incoming note from %s]
-Eingehende Notiz von %s
-[Send note to %s]
-Notiz an %s senden
 [From: %s]
 Von: %s
 [All tags]
@@ -15094,14 +15116,14 @@ Alle Schlagwörter
 Notizen wurden nicht gespeichert. Fenster schließen, ohne diese auf den Server hochzuladen?
 [Are you sure?]
 Sind Sie sich sicher?
-[Incoming note]
-Eingehende Notiz
-[Unknown device added]
-Unbekanntes Gerät hinzugefügt
+[Unknown OMEMO device added!]
+Unbekanntes OMEMO-Gerät hinzugefügt!
+[(My devices)]
+(Meine Geräte)
+[Trust on first use for\n%d devices]
+Bei erster Verwendung vertrauen für\n%d Geräte
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 OMEMO kann keine privaten Nachrichten in öffentlichen Gruppenchats verschlüsseln. Im Klartext fortfahren?
-[Trust on first use]
-Bei erster Verwendung vertrauen
 [Afar]
 Afarisch
 [Abkhazian]
@@ -15508,10 +15530,6 @@ Empfang von Stimmung aktivieren
 Empfang von Musikinformationen aktivieren
 [Enable user activity receiving]
 Empfang von Aktivität aktivieren
-[Receive notes]
-Notizen empfangen
-[Automatically save received notes]
-Empfangene Notizen automatisch speichern
 [Inline pictures in messages (XEP-0231)]
 Bilder in Nachrichten einbetten (XEP-0231)
 [Enable chat states sending (XEP-0085)]
@@ -15530,6 +15548,8 @@ Servereinstellungen
 Stream Management verwenden (XEP-0198)
 [Disable SASL authentication (for old servers)]
 SASL-Authentifizierung deaktivieren (für ältere Server)
+[Enable SASL2 authentication, if present]
+SASL2-Authentifizierung aktivieren, falls vorhanden
 [Enable stream compression]
 Datenstromkompression aktivieren
 [Other]
@@ -15750,6 +15770,10 @@ Aktive Liste oder Standardliste kann nicht gelöscht werden!
 Liste kann nicht gespeichert werden, weil Sie zurzeit offline sind.
 [List Editor...]
 Liste bearbeiten...
+[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
+Ich bin ein fröhlicher Miranda-NG-Nutzer. Sie bekommen es unter https://miranda-ng.org.
+[/me slaps %s around a bit with a large trout]
+/me schlägt %s mit einem großen Hering.
 [%s error notifications]
 %s Fehlerbenachrichtigungen
 [No valid OMEMO session exists]
@@ -15878,10 +15902,6 @@ Fehler: Verbindung unterbrochen
 Registrierungsanweisung wird empfangen...
 [Authentication failed for %s@%s.]
 Autorisierung fehlgeschlagen für %s@%s.
-[Message redirected from: %s\r\n]
-Nachricht weitergeleitet von: %s\r\n
-[Unable to decrypt a carbon copy of the encrypted outgoing message]
-Konnte eine Durchschlagskopie der verschlüsselten ausgehenden Nachricht nicht entschlüsseln
 [Registration canceled]
 Registrierung abgebrochen
 [Sending registration information...]
@@ -16344,10 +16364,6 @@ Hört gerade
 Stimmungen
 [Activities]
 Aktivitäten
-[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
-Ich bin ein fröhlicher Miranda-NG-Nutzer. Sie bekommen es unter https://miranda-ng.org.
-[/me slaps %s around a bit with a large trout]
-/me schlägt %s mit einem großen Hering.
 #muuid {D3E24A92-E2C3-440F-bc87-002Ab822abf8}
 ;============================================================
 ;  File: Jingle
@@ -16375,6 +16391,10 @@ Jingle RTP Audio
 Netzwerk
 [VoIP]
 VoIP
+[GStreamer plugin %S not found]
+GStreamer-Plugin %S nicht gefunden.
+[GStreamer plugin %S not loaded, it might require Windows 7 or later]
+GStreamer-Plugin %S nicht geladen, es könnte Windows 7 oder neuer erfordern.
 #muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;============================================================
 ;  File: KeyboardNotify.dll
@@ -16582,6 +16602,27 @@ Regeln
 Blinken
 [Themes]
 Schemas
+#muuid {d0d8a5be-a76a-46b1-92b6-3d69924e211d}
+;============================================================
+;  File: LibreView.dll
+;  Plugin: LibreView
+;  Version: 0.1.0.1
+;  Authors: Miranda NG team
+;============================================================
+[Email:]
+E-Mail:
+[Password:]
+Passwort:
+[updating...]
+Aktualisieren...
+[error]
+Fehler
+[Network]
+Netzwerk
+[N/A]
+N/A
+[%d minutes]
+%d Minuten
 #muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 ;============================================================
 ;  File: LinkList.dll
@@ -17008,6 +17049,59 @@ Fenster anziehen
 Für Scriver-Benutzer: Automatisch Strg+Taste beim Bewegen des Fenster drücken. (Nur für Scriver!)
 [Customize]
 Customize
+#muuid {a7e4f9c2-1d8b-4e5a-9c3f-8b2e1d0c9a8f}
+;============================================================
+;  File: Max.dll
+;  Plugin: Max protocol
+;  Version: 0.1.0.1
+;  Authors: Miranda NG contributors
+;============================================================
+[Default group:]
+Standardgruppe:
+[Compress files on send]
+Dateien beim Senden komprimieren
+[Link a device]
+Ein Gerät verknüpfen
+[First name]
+Vorname
+[Last name]
+Nachname
+[Phone number]
+Telefon
+[Biography]
+Biografie
+[Cancel]
+Abbrechen
+[Enter password]
+Passwort eingeben
+[ (hint: %s)]
+ (Hinweis: %s)
+[Max]
+Max
+[Protocol icon]
+Protokollicon
+[Protocols]
+Protokolle
+[Forward]
+Später
+[Message send failed]
+Senden der Nachricht fehlgeschlagen
+[Network]
+Netzwerk
+[Account]
+Konto
+[Reaction]
+Reaktion
+[SmileyAdd plugin required to support stickers]
+Zur Unterstützung von Stickern wird das Plugin SmileyAdd benötigt
+[Sticker]
+Sticker
+[Unknown]
+Unbekannt
+[wrote]
+geschrieben
+[Favorites]
+Favoriten
 #muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
 ;============================================================
 ;  File: MenuEx.dll
@@ -17501,7 +17595,7 @@ Kompilieren
 Gemeinsame Skripte
 [Services]
 Dienste
-[C libs folder]
+[C Libs Folder]
 C-Bibliotheken-Verzeichnis
 [Scripts folder]
 Skriptverzeichnis
@@ -18000,6 +18094,14 @@ Min
 Max
 [Status Message]
 Statusnachricht
+[All files]
+Alle Dateien
+[Playlist files]
+Playlist-Dateien
+[BASS built-in]
+BASS eingebaut
+[All supported formats]
+Alle unterstützten Formate
 #muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
 ;============================================================
 ;  File: MsgPopup.dll
@@ -18045,7 +18147,7 @@ Nachricht mit Information
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.10
+;  Version: 3.1.3.1
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -18162,6 +18264,10 @@ Grund      :
 Unbekanntes Datenbankereignis empfangen. Typ %d, Größe %d.
 [Unknown event type %d, size %d]
 Unbekannter Ereignistyp %d, Größe %d.
+[%s reacted with %s to message "%s" from %s]
+%s hat mit %s auf Nachricht "%s" von %s reagiert
+[%s remove reaction %s to message "%s" from %s]
+%s hat Reaktion %s auf Nachricht "%s" von %s entfernt
 [Miranda database contains %d events]
 Miranda-Datenbank enthält %d Ereignisse
 [Failed to open file]
@@ -18853,7 +18959,7 @@ Ereignis-Benachrichtigung
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.6
+;  Version: 0.1.0.7
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
@@ -19006,7 +19112,7 @@ Auto-Update de-/aktivieren
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.2
+;  Version: 0.2.0.3
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -19045,6 +19151,8 @@ Ereignisart anzeigen
 Ereignisrichtung anzeigen
 [Show picture preview]
 Bildvorschau anzeigen
+[Maximum preview height (in pixels)]
+Maximale Höhe der Vorschau (in Pixeln)
 [Template list:]
 Liste der Vorlagen:
 [Edit template:]
@@ -19147,10 +19255,6 @@ Links
 Unbenannt
 [ %u KB]
  %u KB
-[I]
-Ich
-[wrote]
-geschrieben
 [Toggle bookmark]
 Lesezeichen umschalten
 [Search]
@@ -19159,6 +19263,8 @@ Suchen
 Vorwärts suchen
 [Search backward]
 Rückwärts suchen
+[Open links]
+Links öffnen
 [Do you really want to delete selected items (%d)?]
 Möchten Sie die %d ausgewählten Einträge wirklich löschen?
 [Global history search]
@@ -19261,6 +19367,10 @@ Vorlage Gruppe
 Bearbeitung abbrechen
 [Downloaded]
 Heruntergeladen
+[Delivered]
+Zugestellt
+[Remote read]
+Gegenüber gelesen
 [Help]
 Hilfe
 [Reset to default]
@@ -20452,18 +20562,8 @@ Erinnerung hinzufügen
 Datum
 [Time]
 Zeit
-[Repeat each day]
-Täglich wiederholen
 [Reminder Note:]
 Erinnerungsnotiz:
-[None]
-Keine
-[Daily]
-Täglich
-[Weekly]
-Wöchentlich
-[Monthly]
-Monatlich
 [Repeat Alert Sound]
 Sound Alarm wiederholen
 [Use Sound]
@@ -20625,7 +20725,7 @@ Blau
 [Fuchsia]
 Fuchsia
 [Aqua]
-wasserblau
+Wasserblau
 [White]
 Weiß
 [Are you sure you want to delete this note?]
@@ -20648,22 +20748,34 @@ Sticky Notiz Überschrift
 Sticky Notiz Hintergrundfarbe
 [Sticky Note Body]
 Sticky Notiz Body
-[Executable Files\0*.exe\0All Files\0*.*\0\0]
-Ausführbare Dateien\0*.exe\0Alle Dateien\0*.*\0\0
+[None]
+Keine
+[Executable Files]
+Ausführbare Dateien
+[All Files]
+Alle Dateien
 [Select Executable]
 Ausführbare Datei auswählen
 [Plugins]
 Plugins
 [The specified time is invalid.]
 Die angegebene Zeit ist ungültig.
+[Don't repeat]
+Nicht wiederholen
+[Repeat daily]
+Täglich wiederholen
+[Repeat weekly]
+Wöchentlich wiederholen
+[Repeat monthly]
+Monatlich wiederholen
 [Minutes]
 Minuten
-[Hours]
-Stunden
 [The specified time is invalid due to begin of daylight saving (summer time).]
 Die angegebene Zeit ist ungültig wegen dem Anfang der Sommerzeit.
 [Hour]
 Stunde
+[Hours]
+Stunden
 [Day]
 Tag
 [Days]
@@ -21320,7 +21432,7 @@ Unbekannt
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.7
+;  Version: 0.3.1.2
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -21447,14 +21559,16 @@ Download vollständig. Möchten Sie zu den Plugin-Einstellungen gehen?
 Liste ist leer.
 [List loading already started!]
 Laden der Liste hat bereits begonnen!
+[Miranda NG Core]
+Miranda-NG-Kern
+[Libraries]
+Bibliotheken
 [Will be deleted!]
 Wird gelöscht!
 [Unpack operation failed with error code=%d, update terminated]
 Entpacken-Operation mit Fehlercode %d fehlgeschlagen, Update beendet.
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Aktualisierung abgeschlossen. Klicken Sie auf Ja, um Miranda neu zu starten, oder auf Nein, um einen Neustart nach dem Beenden zu machen.
-[Miranda NG Core]
-Miranda-NG-Kern
 [Deprecated!]
 Veraltet!
 [Update found!]
@@ -21473,6 +21587,8 @@ Prüfe auf neue Aktualisierungen...
 Keine Aktualisierungen gefunden.
 [Update checking already started!]
 Die Prüfung auf Aktualisierungen wurde bereits gestartet!
+[There are some updates available]
+Es sind Aktualisierungen verfügbar
 [Plugin updater URI scheme]
 PluginUpdater URI-Schema
 [Would you like to restart it now?]
@@ -22502,8 +22618,8 @@ Neustart-Plugin
 ;  Version: 0.7.0.5
 ;  Authors: Scott Ellis, Szymon Tokarz
 ;============================================================
-[Implementation of instant messaging for the Lotus Sametime protocol.]
-Implementierung von Sofortnachrichten für das Lotus-Sametime-Protokoll.
+[Lotus Sametime protocol support for Miranda NG.]
+Unterstützung für Lotus Sametime für Miranda NG.
 [Connection]
 Verbindung
 [ID:]
@@ -23255,8 +23371,6 @@ Allgemein
 Verlaufsformatierung
 [Add contact]
 Kontakt hinzufügen
-[User's details]
-Benutzerdetails
 [User's history]
 Verlauf
 [Send message]
@@ -23297,6 +23411,8 @@ Fett
 Kursiv
 [Underlined]
 Unterstrichen
+[Strikethrough]
+Durchgestrichen
 [Room history]
 Raumverlauf
 [Room settings]
@@ -23491,40 +23607,44 @@ Benutzer&details
 Benutzerdetails anzeigen
 [&History]
 &Verlauf
-[View user's history (Ctrl+H)]
-Verlauf anzeigen (Strg+H)
+[View user's history]
+Benutzerverlauf anzeigen
 [&Bold]
 &Fett
-[Make the text bold (Ctrl+B)]
-Fett (Strg+B)
+[Make the text bold]
+Text fett formatieren
 [&Italic]
 &Kursiv
-[Make the text italicized (Ctrl+I)]
-Kursiv (Strg+I)
+[Make the text italicized]
+Text kursiv formatieren
 [&Underline]
-&Unterstrichen
-[Make the text underlined (Ctrl+U)]
-Unterstrichen (Strg+U)
+&Unterstreichen
+[Make the text underlined]
+Text unterstreichen
+[&Strikethrough]
+&Durchstreichen
+[Make the text strikethrough]
+Text durchstreichen
 [&Color]
 &Farbe
-[Select a foreground color for the text (Ctrl+K)]
-Schriftfarbe wählen (Strg+K)
+[Select text color]
+Textfarbe auswählen
 [&Background color]
 &Hintergrundfarbe
-[Select a background color for the text (Ctrl+L)]
-Schrifthintergrundfarbe wählen (Strg+L)
+[Select background color]
+Hintergrundfarbe auswählen
 [&Room settings]
 &Raumeinstellungen
-[Control this room (Ctrl+O)]
-Raumeinstellungen (Strg+O)
+[Control this room]
+Diesen Raum kontrollieren
 [&Show/hide nick list]
-Nickliste &anzeigen/verbergen
-[Show/hide the nick list (Ctrl+N)]
-Benutzerliste anzeigen/verstecken (Strg+N)
+Benutzerliste &anzeigen/verbergen
+[Show/hide the nick list]
+Benutzerliste anzeigen/verstecken
 [&Filter]
 &Filter
-[Enable/disable the event filter (Ctrl+F)]
-Ereignisfilter aktivieren/deaktivieren (Strg+F)
+[Enable/disable the event filter]
+Ereignisfilter aktivieren/deaktivieren
 [&Message]
 Nachricht
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
@@ -24227,7 +24347,7 @@ Nicht untätig
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.9.0.3
+;  Version: 0.9.0.4
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -24360,6 +24480,10 @@ FTPFile-Übertragung
 %s (%i):\nKonnte Freigabe nicht dem FTP-Datei-Plugin hinzufügen.
 [Image upload]
 Bild hochladen
+[Enter your personal API key from Imageshack]
+Geben Sie Ihren persönlichen API-Schlüssel von Imageshack ein
+[API key is missing]
+API-Schlüssel fehlt
 [HTTPServer transfer]
 HTTPServer-Übertragungen
 [Could not start the HTTP Server plugin.]
@@ -24932,186 +25056,6 @@ Nein, ich bin weg.
 Ich zieh mir ne Tarnkappe auf!
 [idleeeeeeee]
 Langweilig
-#muuid {2925520b-6677-4658-8bad-5661d13e4692}
-;============================================================
-;  File: SkypeStatusChange.dll
-;  Plugin: Skype status change
-;  Version: 0.0.0.18
-;  Authors: Dioksin
-;============================================================
-[Skype status change according to Miranda status.]
-Skype-Status gemäss Miranda-Status ändern
-[Synchronize status message]
-Statusnachricht synchronisieren
-[&Check any protocol or any status to exclude it from synchronization:]
-Protokolle oder Status auswählen, die ni&cht synchronisiert werden sollen:
-[Synchronize if current status differs from previous one]
-Synchronisieren, falls aktiver Status unterschiedlich ist
-[Change Skype status]
-Skype-Status ändern
-[Plugins]
-Plugins
-#muuid {57e90ac6-1067-423b-8ca3-70a39d200d4f}
-;============================================================
-;  File: SkypeWeb.dll
-;  Plugin: Skype protocol (Web)
-;  Version: 0.96.6.1
-;  Authors: Miranda NG team
-;============================================================
-[Skype protocol support for Miranda NG. Based on new Skype for Web.]
-Unterstützung für das Skype-Protokoll in Miranda NG, basierend auf dem neuen Skype for Web.
-[Create group chat]
-Gruppenchat erstellen
-[Cancel]
-Abbrechen
-[Mark users you want to invite to a new chat]
-Markieren Sie die Benutzer, die Sie in einen neuen Chat einladen wollen
-[Invite user to chat]
-Benutzer zum Chat einladen
-[Choose one of your contacts to be invited:]
-Wählen Sie einen Kontakt aus, den Sie einladen wollen:
-[Skypename:]
-Skypename:
-[Password:]
-Passwort:
-[Default group:]
-Standardgruppe:
-[Account]
-Konto
-[Others]
-Sonstiges
-[Automatic messages synchronization]
-Automatische Nachrichtensynchronisierung
-[Use BBCode]
-BBCode verwenden
-[Place:]
-Ort:
-[Use hostname]
-Hostname verwenden
-[Change password]
-Passwort ändern
-[Set mood]
-Setze Stimmung
-[Mood]
-Stimmung
-[Text]
-Text
-[Skype Link Protocol]
-Skype-Link-Protokoll
-[Admin]
-Administrator
-[User]
-Benutzer
-[Enter new nickname]
-Neuen Nicknamen eingeben
-[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-Dieser Chat wird für immer mit seinem ganzen Inhalt zerstört. Diese Aktion kann nicht rückgängig gemacht werden. Sind Sie sich sicher?
-[Warning]
-Warnung
-[&Invite user...]
-Kontakt e&inladen...
-[&Leave chat session]
-Chatsitzung ver&lassen
-[&Change topic...]
-Thema &ändern...
-[Kick &user]
-Ben&utzer kicken
-[Set &role]
-&Rolle setzen
-[&Admin]
-&Administrator
-[&User]
-Ben&utzer
-[Change nick...]
-Nick ändern...
-[Enter new chatroom topic]
-Neues Thema für diesen Chatraum eingeben
-[Are you sure?]
-Sind Sie sich sicher?
-[Incoming call]
-Eingehender Anruf
-[Action]
-Aktion
-[Call information]
-Anrufinformation
-[File transfer information]
-Dateiübertragungsinformation
-[Moji]
-Moji
-[Unknown event]
-Unbekanntes Ereignis
-[SkypeWeb error: Invalid data!]
-SkypeWeb-Fehler: Ungültige Daten!
-[Call]
-Anrufen
-[Call missed]
-Anruf verpasst
-[Call ended (%s)]
-Anruf beendet (%s)
-[File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
-Dateiübertragung:\n\tDateiname: %s\n\tGröße: %lld Bytes\n
-[Preview]
-Vorschau
-[Full image]
-Volles Bild
-[Unknown event, please send this text for developer: "%s"]
-Unbekanntes Ereignis, bitte senden Sie diesen Text an den Entwickler: "%s"
-[Protocol icon]
-Protokollicon
-[Create new chat icon]
-"Neuen Chat erstellen"-Icon
-[Block user icon]
-"Benutzer blockieren"-Icon
-[Unblock user icon]
-"Blockierung aufheben"-Icon
-[Incoming call icon]
-"Eingehender Anruf"-Icon
-[Notification icon]
-Benachrichtigungsicon
-[Error icon]
-Fehlericon
-[Action icon]
-Aktionsicon
-[Protocols]
-Protokolle
-[Authentication failed. Invalid username.]
-Autorisierung fehlgeschlagen. Ungültiger Benutzername.
-[Authentication failed. Bad username or password.]
-Autorisierung fehlgeschlagen. Falscher Benutzername oder Passwort.
-[Too many failed authentication attempts with given username or IP.]
-Zu viele fehlgeschlagene Autorisierungsversuche mit dem angegebenen Benutzername oder der IP.
-[Authentication failed. Unknown error.]
-Autorisierung fehlgeschlagen. Unbekannter Fehler.
-[Block contact]
-Kontakt blockieren
-[Unblock contact]
-Blockierung aufheben
-[Create new chat]
-Neuen Chat erstellen
-[Unknown error!]
-Unbekannter Fehler!
-[Network error!]
-Netzwerkfehler!
-[None]
-Keine
-[Traveling]
-Reisen
-[Celebrating]
-Feiern
-[Driving]
-Fahren
-[Network]
-Netzwerk
-[Notifications]
-Benachrichtigungen
-[Errors]
-Fehler
-[Calls]
-Aufrufe
-[Incoming call canceled]
-Eingehender Anruf abgebrochen
-[Skypename]
-Skypename
 #muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;============================================================
 ;  File: SmileyAdd.dll
@@ -25211,7 +25155,7 @@ Regulärer Ausdruck "%s" in Smileypack "%s" deformiert.
 ;============================================================
 ;  File: SpellChecker.dll
 ;  Plugin: Spell checker
-;  Version: 0.2.6.6
+;  Version: 0.3.1.0
 ;  Authors: Ricardo Pescuma Domenecci, Wishmaster
 ;============================================================
 [Spell checker for the message windows. Uses Hunspell to do the checking.]
@@ -25540,7 +25484,7 @@ Status
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.6
+;  Version: 1.2.0.8
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -25657,22 +25601,16 @@ Dialog anzeigen
 Timeout
 [s]
 s
-[Dial-up (experimental)]
-Verbindungsaufbau/-abbau (experimentell)
-[Automatically dial on startup]
-Verbindung beim Start herstellen
-[Automatically hang up on exit]
-Verbindung beim Beenden trennen
 [Other]
 Sonstige
 [Set status to offline before exit]
 Vor Beenden Offlinemodus setzen
+[Show CMDL]
+Befehlszeile
 [Window on startup]
 Kontaktliste beim Start
 [Set window state]
 Fensteranzeige
-[Set docked]
-Andocken
 [Set window location]
 Fensterposition
 [Left]
@@ -25683,8 +25621,6 @@ Oben
 Fenstergröße
 [Width]
 Breite
-[Show CMDL]
-Befehlszeile
 [Height]
 Höhe
 [Background color]
@@ -25821,6 +25757,8 @@ Automatisch abwesend
 Regeln
 [Status messages]
 Statusnachrichten
+[<unknown>]
+<unbekannt>
 [Set %s message for %s.]
 Setze %s-Nachricht für %s.
 [<last>]
@@ -25867,8 +25805,6 @@ Erweitert
 Popups
 [Status manager]
 Status-Manager
-[<unknown>]
-<unbekannt>
 [default]
 Standard
 [Hidden]
@@ -25877,10 +25813,6 @@ Versteckt
 Minimiert
 [Normal]
 Normal
-[Right]
-Rechts
-[None]
-Keine
 [size: %d x %d]
 Größe: %d x %d
 [loc: %d x %d]
@@ -25901,7 +25833,7 @@ Toolbar
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -25934,32 +25866,44 @@ Chatstatusänderungen anzeigen (bspw. Benutzer hat Chatsitzung geschlossen)
 Verbindung
 [Error limit before logout:]
 Anzahl Fehler vor Abmeldung:
-[Captcha]
-Captcha
-[Cancel]
-Abbrechen
-[As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
-Als zusätzliche Sicherheitsmaßnahme müssen Sie Zugriff gewähren, indem Sie den Spezialcode, welchen wir soeben an Ihre E-Mail gesendet haben, eingeben.
-[Go to email domain]
-Gehe zur E-Mail-Domain
 [Block]
 Blockieren
 [Enter password]
 Passwort eingeben
 [Save password]
 Passwort speichern
+[Cancel]
+Abbrechen
 [Enter the password to continue.]
 Passwort eingeben um fortzufahren.
-[Security code]
-Sicherheitscode
-[As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
-Als zusätzliche Sicherungsmaßnahme müssen Sie den Zugriff bestätigen, indem Sie den per SMS auf Ihr Mobiltelefon gesendeten Code eingeben.
+[Protocol icon]
+Protokollicon
+[Gaming icon]
+Spiel-Icon
 [Steam game]
 Steam-Spiel
+[You were invited to play a game]
+Sie wurden zu einem Spiel eingeladen
+[Associated application]
+Zugeordnete Anwendung
+[Owner]
+Inhaber
+[Participant]
+Teilnehmer
+[total members]
+Mitglieder insgesamt
+[online members]
+Mitglieder online
+[chatting]
+chatten
+[in game]
+im Spiel
+[&Leave chat session]
+Chat ver&lassen
 [Looking to play]
 Auf der Suche nach einem Spiel
 [ (Non-Steam)]
- (Nicht-Stream)
+ (nicht Steam)
 [ on server %S]
  auf Server %S
 [Playing]
@@ -25970,31 +25914,29 @@ Spielen
 %s wurde aus Ihrer Kontaktliste entfernt
 [%s has added you to contact list]
 %s hat Sie zu seiner Kontaktliste hinzugefügt.
-[Steam menu chooser]
-Steam-Menüauswahl
+[Enter email confimation code]
+Geben Sie den E-Mail-Bestätigungscode ein
+[Enter the code from your authentication device]
+Geben Sie den Code Ihres Autorisierungsgerätes ein
 [Unblock]
 Bockierung aufheben
-[Join to game]
+[Join the game]
 Dem Spiel beitreten
-[Unknown error]
-Unbekannter Fehler
+[Join group chat]
+Dem Gruppenchat beitreten
+[Message sending has failed with error %d]
+Senden der Nachricht fehlgeschlagen mit Fehler %d
 [Name]
 Name
 [Network]
 Netzwerk
-[Protocols]
-Protokolle
-[Protocol icon]
-Protokollicon
-[Gaming icon]
-Spiel-Icon
 [closed chat session]
 hat das Nachrichtenfenster geschlossen
 #muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -26015,16 +25957,14 @@ Trennung:
 Vars
 [Enable protection for following accounts:]
 Schutz für folgende Konten aktivieren:
-[Do not send more than]
-Sende nicht mehr als
-[questions to one contact (0 - for no limit)]
-Fragen an den Kontakt (0 = Kein Limit)
+[Maximum number of questions to one contact (0 - for no limit):]
+Maximale Anzahl Fragen an einen Kontakt (0 - unbegrenzt)
+[Timeout in minutes to remove temporary contacts (0 - never)]
+Zeit in Minuten, um temporäre Kontakte zu entfernen (0 - niemals)
 [Enable StopSpam-StopSpam infinite talk protection]
 Stop Spam 'infinite talk'-Schutz aktivieren
 [Add contact permanently]
 Kontakt dauerhaft hinzufügen
-[Enable auth. requests blocking]
-Autorisierungsanfragen blockieren
 [Answer is not case sensitive]
 Groß-/Kleinschreibung der Antwort nicht beachten
 [Log Spammers to system history]
@@ -26219,6 +26159,8 @@ Namen, die hervorgeoben werden sollen, Platzhalter wie * und ? sind erlaubt, meh
 Hervorherbungen fur Nachrichtentext
 [Enable highlighting for message text]
 Hervorhebungen für Nachrichtentexte aktivieren
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces.]
+Wörter, die hervorgehoben werden sollen; Platzhalter wie * und ? sind erlaubt, mehrere Einträge durch Leerzeichen trennen.
 [Highlight messages containing my own nickname]
 Nachrichten, die meinen eigenen Nicknamen enthalten, hervorheben
 [&Retry]
@@ -26285,8 +26227,6 @@ Infobereichsmodus
 Avatar im Nachrichtenfenster anzeigen
 [Ignore sending timeouts]
 Zeitüberschreitungen ignorieren
-[Load only actual history]
-Lade nur aktuellen Nachrichtenverlauf
 [Use private splitter position]
 Private Splitterposition verwenden
 [Always trim message log to]
@@ -26743,18 +26683,6 @@ Splitterposition
 Global
 [Private]
 Privat
-[Send text formatting]
-Textformatierung senden
-[BBCode]
-BBCode
-[Off]
-Aus
-[This contact]
-Für diesen Kontakt
-[Global setting]
-Globale Einstellung
-[Force off]
-Niemals senden
 [Set position for this session]
 Position für diese Sitzung speichern
 [Set and save for all sessions]
@@ -26831,14 +26759,14 @@ Aktuelle Fensterposition als Standard
 Protokoll-Schaltfläche
 [Info button]
 Info-Schaltfläche
-[Bold text]
-Fetter Text
-[Italic text]
-Kursiver Text
-[Underlined text]
-Unterstrichener Text
-[Strike-through text]
-Durchgestrichener Text
+[Bold]
+Fett
+[Italics]
+Kursiv
+[Underlined]
+Unterstrichen
+[Strikethrough]
+Durchgestrichen
 [Send message\nClick dropdown arrow for sending options]
 Nachricht senden\nDropdown für Sendeoptionen
 [Close session]
@@ -26849,16 +26777,16 @@ Letzte Nachricht oder Textmarkierung zitieren
 Verlaufseinstellungen
 [View user's history]
 Verlauf anzeigen
-[Select a foreground color for the text (Ctrl+K)]
-Schriftfarbe wählen (Strg+K)
-[Select a background color for the text (Ctrl+L)]
-Schrifthintergrundfarbe wählen (Strg+L)
-[Show/hide the nick list (Ctrl+N)]
-Benutzerliste anzeigen/verstecken (Strg+N)
-[Enable/disable the event filter (Ctrl+F)]
-Ereignisfilter aktivieren/deaktivieren (Strg+F)
-[Control this room (Ctrl+O)]
-Diesen Raum kontrollieren (Strg+O)
+[Select text color]
+Textfarbe auswählen
+[Select background color]
+Hintergrundfarbe auswählen
+[Show/hide the nick list]
+Benutzerliste anzeigen/verstecken
+[Enable/disable the event filter]
+Ereignisfilter aktivieren/deaktivieren
+[Control this room]
+Diesen Raum kontrollieren
 [Message sessions]
 Nachrichtensitzungen
 [Group chats]
@@ -27047,8 +26975,8 @@ Fenster blinkt, wenn jemand schreibt
 Fenster blinkt, wenn Wort hervorgehoben wird
 [Create tabs or windows for highlight events]
 Tabs oder Fenster bei Hervorhebung aktivieren
-[Activate chat window on highlight]
-Chatfenster bei Hervorhebung aktivieren
+[Apply tab creation rules to group chats too]
+Regeln zur Erstellung von Tabs auch auf Gruppenchats anwenden
 [Show list of users in the chat room]
 Benutzerliste im Chatfenster anzeigen
 [Colorize nicknames in member list (you need to adjust colors)]
@@ -27295,14 +27223,6 @@ Mehrfach-Senden umschalten
 Nachrichtenverlauf leeren
 [Collapse side bar]
 Sidebar schließen
-[Channel manager]
-Channelmanager
-[Toggle filter]
-Filter umschalten
-[Toggle nick list]
-Nickliste umschalten
-[Show server window]
-Serverfenster anzeigen
 [%s    Idle: %dh,%02dm]
 %s    Untätig: %dh,%02dm
 [  Client: %s]
@@ -27371,8 +27291,6 @@ Gespeicherte TabSRMM Avatare
 Gruppenchats Hauptverzeichnis
 [Typing notification]
 Tippbenachrichtigungen
-[Insert [img] tag / surround selected text with [img][/img]]
-Füge [img]-Tag ein / Umschließe markierten Text mit [img][/img]
 [Add this contact permanently to your contact list]
 Kontakt dauerhaft zur Kontaktliste hinzufügen
 [Do not add this contact permanently]
@@ -27435,12 +27353,10 @@ Minute
 , %d %s untätig
 [%s on %s%s]
 %s in %s%s
-[%s: chat room (%u user%s)]
-%s: Chatraum (%u Benutzer%s)
-[%s: chat room (%u users%s)]
-%s: Chatraum (%u Benutzer%s)
-[, event filter active]
-, Ereignisfilter aktiv
+[%s: chat room (%u user)]
+%s: Chatraum (%u Benutzer)
+[%s: chat room (%u users)]
+%s: Chatraum (%u Benutzer)
 [%s: message session]
 %s: Nachrichtensitzung
 [%s: message session (%u users)]
@@ -27537,6 +27453,8 @@ Verhalten des Nachrichtenfensters
 Neue Nachrichten immer auf der Kontaktliste und im Tray blinken lassen
 [Delete temporary contacts on close]
 Temporäre Kontakte beim Schließen löschen
+[Use Ctrl+arrows to scroll history in the input window]
+Mit Strg+Pfeiltasten den Verlauf im Eingabebereich scrollen
 [Sending messages]
 Nachrichten senden
 [Minimize the message window on send]
@@ -27545,8 +27463,6 @@ Nachrichtenfenster beim Senden minimieren
 Nachrichtenfenster beim Senden schließen
 [Enable "Paste and send" feature]
 "Einfügen und Senden" Funktion aktivieren
-[Allow BBCode formatting in outgoing messages]
-BBCode-Formatierung in ausgehenden Nachrichten erlauben
 [Automatically split long messages (experimental, use with care)]
 Lange Nachrichten automatisch trennen (experimentell, Vorsicht)
 [Use the same splitter height for all sessions]
@@ -27689,26 +27605,24 @@ Laden und Übernehmen
 Fenster-Anordnung
 [Message Log options]
 Verlaufseinstellungen
-[Image tag]
-Bild Tag
 [Quote text]
 Text zitieren
 [Save and close]
 Speichern und schließen
 [Smiley button]
 Smileyschaltfläche
-[Format bold]
-Fett formatieren
-[Format italic]
-Kursiv formatieren
-[Format underline]
-Unterstrichen formatieren
+[Make the text bold]
+Text fett formatieren
+[Make the text italicized]
+Text kursiv formatieren
+[Make the text underlined]
+Text unterstrichen formatieren
 [Font face]
 Schriftart
 [Font color]
 Schriftfarbe
-[Format strike-through]
-Durchgestrichen
+[Make the text strikethrough]
+Text durchgestrichen formatieren
 [Background color]
 Hintergrundfarbe
 [Room settings]
@@ -27761,8 +27675,6 @@ Funktion deaktiviert (als Overlay)
 Nachrichtenfenster - Direktnachrichten
 [Message windows - all]
 Nachrichtenfenster - Alle
-[Message windows - group chats]
-Nachrichtenfenster - Gruppenchats
 [Select container for %s]
 Container für %s auswählen
 [You cannot delete the default container]
@@ -27875,6 +27787,10 @@ Tipphinweis
 Kontakt beginnt zu tippen
 [Contact stopped typing]
 Kontakt tippt nicht mehr
+[BBCode]
+BBCode
+[Force off]
+Niemals senden
 [Set messaging options for %s]
 Nachrichteneinstellungen für %s
 [TabSRMM message (%s)]
@@ -27901,11 +27817,120 @@ Optionsdialog schließen|Um die Änderungen, die durch den Import eines Themes i
 Skin laden|Das Laden von Farben und Schriftarten kann Einstellungen Ihres Skins überschreiben.\n\nWollen Sie fortfahren?
 [There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 Ungesendete Nachrichten warten auf Bestätigung.\nWenn Sie das Fenster nun schließen, wird Miranda weiterhin versuchen, sie zu senden; es ist aber nicht immer möglich, Sie über mögliche Übertragungsfehler zu informieren.\n\Wollen Sie das Nachrichtenfenster wirklich schließen?
+#muuid {DCD56CEC-C61B-4275-a010-8c65c5848815}
+;============================================================
+;  File: Teams.dll
+;  Plugin: Teams protocol
+;  Version: 0.96.6.1
+;  Authors: Miranda NG team
+;============================================================
+[Microsoft Teams protocol support for Miranda NG.]
+Unterstützung für das Microsoft Teams Protokoll in Miranda NG.
+[Login:]
+Anmeldung:
+[Default group:]
+Standardgruppe:
+[Logout]
+Abmelden
+[Account]
+Konto
+[Teams]
+Teams
+[Proceed]
+Fortsetzen
+[Cancel]
+Abbrechen
+[Static]
+Statisch
+[Protocol icon]
+Protokollicon
+[Create new chat icon]
+"Neuen Chat erstellen"-Icon
+[Block user icon]
+"Benutzer blockieren"-Icon
+[Unblock user icon]
+"Blockierung aufheben"-Icon
+[Incoming call icon]
+"Eingehender Anruf"-Icon
+[Notification icon]
+Benachrichtigungsicon
+[Error icon]
+Fehlericon
+[Action icon]
+Aktionsicon
+[Admin]
+Administrator
+[User]
+Benutzer
+[Enter new nickname]
+Neuen Nicknamen eingeben
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Dieser Chat wird für immer mit seinem ganzen Inhalt zerstört. Diese Aktion kann nicht rückgängig gemacht werden. Sind Sie sich sicher?
+[Warning]
+Warnung
+[&Invite user...]
+Kontakt e&inladen
+[&Leave chat session]
+Chat ver&lassen
+[&Change topic...]
+Thema &ändern...
+[Kick &user]
+Ben&utzer kicken
+[Set &role]
+Setze &Rolle
+[&Admin]
+&Administrator
+[&User]
+Ben&utzer
+[Change nick...]
+Nick ändern...
+[Enter new chatroom topic]
+Neues Thema für diesen Chatraum eingeben
+[(You)]
+(Sie)
+[Are you sure?]
+Sind Sie sich sicher?
+[To login into Teams you need to open '%S' in a browser and select your Teams account there.]
+Um sich bei Teams anzumelden, öffnen Sie '%S' in einem Browser und wählen Sie dort Ihr Teams-Konto aus.
+[Enter the following code then: %s.]
+Geben Sie anschließend den folgenden Code ein: %s.
+[Click Proceed to copy that code to clipboard and launch a browser]
+Klicken Sie auf Fortsetzen, um den Code in die Zwischenablage zu kopieren und einen Browser zu starten.
+[Block contact]
+Kontakt blockieren
+[Unblock contact]
+Blockierung aufheben
+[Create new chat]
+Neuen Chat erstellen
+[Network error!]
+Netzwerkfehler!
+[Unknown error!]
+Unbekannter Fehler!
+[<will appear after first login>]
+<erscheint nach der ersten Anmeldung>
+[Network]
+Netzwerk
+[Notifications]
+Benachrichtigungen
+[Errors]
+Fehler
+[Calls]
+Aufrufe
+[%s websocket connection]
+%s Websocket-Verbindung
+[Incoming call]
+Eingehender Anruf
+[Incoming call canceled]
+Eingehender Anruf abgebrochen
+[Teams ID]
+Teams-ID
+[wrote]
+geschrieben
 #muuid {ae708252-0df8-42ba-9ef9-9acc038eeda7}
 ;============================================================
 ;  File: Telegram.dll
 ;  Plugin: Telegram protocol
-;  Version: 0.11.0.1
+;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Telegram protocol support for Miranda NG.]
@@ -27924,10 +27949,22 @@ Chatfenster bei der Erzeugung nicht öffnen
 Abmelden
 [Compress files on send]
 Dateien beim Senden komprimieren
+[Include URL preview into message text]
+URL-Vorschau in Nachrichtentext einfügen
+[Do not store channel history in the database]
+Channel-Nachrichten nicht in Datenbank speichern
+[Delete contacts in Miranda when they are deleted from server]
+Kontakte in Miranda löschen wenn sie vom Server gelöcht werden
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 Wenn ein Kontakt Offline geht, stattdessen folgenden Status für folgende Anzahl Sekunden setzen (0 - deaktivieren)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
 Danach diesen Status setzen und nach folgender Anzahl Sekunden Offline setzen (0 - deaktivieren)
+[Host]
+Host
+[Port]
+Port
+[Secret]
+Geheim
 [Software]
 Software
 [Add phone contact]
@@ -27946,6 +27983,14 @@ Nachricht weiterleiten
 Weiterleiten
 [Add reaction]
 Reaktion hinzufügen
+[Birthday]
+Geburtstag
+[Biography]
+Biografie
+[User count]
+Anzahl Nutzer
+[Channel link]
+Link zum Channel
 [Enter email address for account verification]
 E-Mail-Adresse zur Kontenüberprüfung eingeben
 [Enter verification code received by email]
@@ -27968,6 +28013,8 @@ Ungültiges Passwort
 Die Avatar-Datei muss ein Bild im JPEG-Format sein.
 [Error setting avatar]
 Fehler beim Setzen des Avatars
+[Too many files to be sent]
+Zu viele Dateien zum Senden
 [Creator]
 Ersteller
 [Admin]
@@ -28008,22 +28055,40 @@ Konto
 Erweitert
 [Sessions]
 Sitzungen
+[%s error notifications]
+%s Fehlerbenachrichtigungen
 [Error %d: %s]
 Fehler %d: %s
 [General]
 Allgemein
+[Recording video...]
+Video aufnehmen...
+[Recording video note...]
+Videohinweis aufnehmen...
+[Recording voice note...]
+Sprachhinweis aufnehmen...
+[Uploading file...]
+Datei hochladen...
+[Uploading photo...]
+Foto hochladen...
+[Uploading video...]
+Video hochladen...
+[Uploading video note...]
+Videohinweis hochladen...
+[Uploading voice note...]
+Sprachhinweis hochladen...
 [Archive]
 Archiv
 [Saved messages]
 Gespeicherte Nachrichten
+[Service notification]
+Dienstbenachrichtigung
+[Unspecified]
+Unspezifiziert
 [none]
 Keine
-[%s error notifications]
-%s Fehlerbenachrichtigungen
 [Errors]
 Fehler
-[wrote]
-geschrieben
 [Picture]
 Bild
 [Audio]
@@ -28032,14 +28097,18 @@ Audio
 Sekunden
 [Video]
 Video
+[Video note]
+Videohinweis
 [Voice message]
 Sprachnachricht
+[wrote]
+hat geschrieben
+[Chat name was changed to %s]
+Chatname wurde zu %s geändert
 [SmileyAdd plugin required to support stickers]
 Zur Unterstützung von Stickern wird das Plugin SmileyAdd benötigt
 [You received an invoice]
 Sie haben eine Rechnung empfangen
-[Title]
-Titel
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
@@ -29171,111 +29240,6 @@ Letzten / ausgewählten umschreiben
 Alle / ausgewählte umkehren
 [Invert Case Last / Selected]
 Letzte / ausgewählte umkehren
-#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
-;============================================================
-;  File: Twitter.dll
-;  Plugin: Twitter protocol
-;  Version: 1.3.1.7
-;  Authors: dentist, omniwolf, Thief
-;============================================================
-[Twitter protocol support for Miranda NG.]
-Twitter-Unterstützung für Miranda NG.
-[Create a new Twitter account]
-Erstelle ein neues Twitterkonto
-[Default group:]
-Standardgruppe:
-[Username:]
-Benutzername:
-[<Sign in to link your Twitter account>]
-(Anmelden, um Ihr Twitterkonto zu verbinden)
-[Send Tweet]
-Tweet senden
-[Send]
-Senden
-[Cancel]
-Abbrechen
-[Miscellaneous options]
-Div. Einstellungen
-[Use group chat for Twitter feed]
-Gruppenchat für Twitter-Feed verwenden
-[Polling rate:]
-Abrufrate:
-[Once every]
-Einmal alle
-[sec]
-Sek.
-[These changes will take effect the next time you connect to the Twitter network.]
-Die Änderungen werden erst nach einer Neueinwahl ins Twitter-Netzwerk aktiv.
-[Treat tweets as messages]
-Tweets als Nachrichten behandeln
-[Enable popup notifications for tweets]
-Popupbenachrichtigungen für Tweets aktivieren
-[Colors]
-Farben
-[Use Windows colors]
-Windowsfarben verwenden
-[Use default colors]
-Standardfarben verwenden
-[Use custom colors]
-Benutzerdefiniert
-[Back]
-Hgrd.
-[Text]
-Text
-[Timeout]
-Timeout
-[Default]
-Standard
-[Custom]
-Benutzerdef.
-[Permanent]
-Dauerhaft
-[Preview]
-Vorschau
-[But not during sign-on]
-Aber nicht während der Anmeldung
-[Enter Twitter PIN]
-Twitter-PIN eingeben
-[Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
-Geben Sie die von Twitter bereitgestellte PIN ein, um die Anmeldung abzuschließen. Dies ist ein einmaliger Vorgang, bis Sie Ihr Miranda-Twitter-Konto neu erstellen.
-[Normal]
-Normal
-[%s (server)]
-%s (Server)
-[Unable to initialize Netlib for %s.]
-Kann Netlib-Verbindung für %s nicht initialisieren.
-[%s (avatar)]
-%s (Avatar)
-[Twitter (avatars)]
-Twitter (Avatare)
-[User name]
-Benutzername
-[Send Tweet...]
-Tweet senden...
-[Network]
-Netzwerk
-[Basic]
-Allgemein
-[Popups]
-Popups
-[Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
-Die maximale Grüße eines Tweets ist 140 Zeichen, und Sie verwenden %d Zeichen.
-[Twitter Icon]
-Twittericon
-[Tweet]
-Tweet
-[Reply to Tweet]
-Auf Tweet antworten
-[Visit Homepage]
-Homepage besuchen
-[First tweet from new contact]
-Erster Tweet eines neuen Kontaktes
-[New tweet]
-Neuer Tweet
-[Reply...]
-Antworten...
-[%s Protocol]
-%s-Protokoll
 #muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
 ;============================================================
 ;  File: UInfoEx.dll
@@ -30169,12 +30133,14 @@ Möchten Sie die derzeitige Aktualisierung abbrechen?
 %s hat heute %s.
 [an anniversary]
 ein Jahrestag
-[He/she has the following anniversaries:]
-Er/Sie hat folgende Jahrestage:
-[He has the following anniversaries:]
-Er hat folgende Jahrestage:
-[She has the following anniversaries:]
-Sie hat folgende Jahrestage:
+[He]
+Er
+[She]
+Sie
+[He/she]
+Er/Sie
+[%s has the following anniversaries:]
+%s hat die folgenden Jahrestage
 [%d. %s today]
 %d. %s heute
 [%d. %s tomorrow]
@@ -30187,12 +30153,8 @@ Sie hat folgende Jahrestage:
 %s hat morgen Geburtstag.
 [%s has birthday in %d days.]
 %s hat in %d Tagen Geburtstag.
-[\nHe/she becomes %d years old.]
-\nEr/Sie wird %d Jahre alt.
-[\nHe becomes %d years old.]
-\nEr wird %d Jahre alt.
-[\nShe becomes %d years old.]
-\nSie wird %d Jahre alt.
+[%s becomes %d years old.]
+%s wird %d Jahre alt.
 [No anniversaries to remind of]
 Es gibt keine Jahrestage in absehbarer Zeit.
 [Reminders]
@@ -30655,12 +30617,12 @@ Speichert nur Variable y als x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.16.12
+;  Version: 0.1.19.7
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 VKontakte-Protokoll für Miranda NG.
-[Show in protocol menu ]
+[Show in protocol menu]
 Im Protokollmenü anzeigen
 [Create new chat]
 Neuen Chat erstellen
@@ -30708,8 +30670,6 @@ Sticker als Smileys darstellen
 Links für Audioanhänge abkürzen
 [Use non-standard popups for news and event notifications]
 Nicht-Standard-Popups für Neuigkeiten und Ereignisbenachrichtigungen verwenden
-[Add message link to messages with attachments]
-Nachrichtenlink zu Nachrichten mit Anhängen hinzufügen
 [Add original message version in edited message]
 Originalversion der Nachricht in bearbeiteten Nachrichten hinzufügen
 [News and event notifications]
@@ -30768,12 +30728,10 @@ Reposts
 In Beiträgen erwähnt
 [Accepted friend requests]
 Angenommene Freundesanfragen
-[E-mail or phone number:]
-E-Mail oder Telefonnummer:
-[Password:]
-Passwort:
 [Open VKontakte site]
 VKontakte-Seite öffnen
+[Token Request]
+Tokenanfrage
 [Advanced]
 Erweitert
 [Do not open chat windows on creation]
@@ -30810,8 +30768,6 @@ Als regulärer Status für unbekannte Musik, sonst Audiostatus
 Nur als Audiostatus
 [as regular status only]
 Nur als regulärer Status
-[Login settings]
-Anmeldeeinstellungen
 [Local settings]
 Lokale Einstellungen
 [Contact list group:]
@@ -30828,8 +30784,6 @@ Letzte Nachrichten laden wenn Nachrichtenfenster offen und lokaler Verlauf leer 
 Lokale Zeit für empfangene Nachrichten verwenden
 [Load only friends to local contact list]
 Nur Freunde in lokale Kontaktliste laden
-[Server-side delivery confirmation]
-Serverseitige Empfangsbestätigungen
 [Bots challenge test]
 Bot-Challenge-Test
 [Instruction:]
@@ -30884,14 +30838,20 @@ Nachrichten-als-gelesen-markieren-Icon
 Weiterleiten-Icon
 [Reload messages icon]
 Nachricht-neu-Laden-Icon
+[Protocols]
+Protokolle
+[VKontakte]
+VKontakte
 [Access denied! Data will not be sent or received.]
 Zugriff verweigert! Daten werden nicht gesendet oder empfangen!
 [Error]
 Fehler
-[You have to validate your account before you can use VK in Miranda NG]
-Sie müssen Ihr Konto verifizieren bevor Sie VK in Miranda NG verwenden können.
 [Error %d. Data will not be sent or received.]
 Fehler %d. Daten werden weder gesendet noch empfangen.
+[Captcha processing error.]
+Fehler beim Verarbeiten des Captchas.
+[You have to validate your account before you can use VK in Miranda NG]
+Sie müssen Ihr Konto verifizieren bevor Sie VK in Miranda NG verwenden können.
 [One of the parameters specified was missing or invalid]
 Einer der angegebenen Parameter fehlte oder war ungültig.
 [Access to adding post denied]
@@ -30904,12 +30864,6 @@ Nachrichten können nicht an Benutzer ohne vorherige Unterhaltung gesendet werde
 Nachrichten können nicht an diesen Benutzer wegen seiner Privatsphäre-Einstellungen gesendet werden.
 [Message is too long]
 Nachricht ist zu lang.
-[Enter the missing digits between %s and %s of the phone number linked to your account]
-Geben Sie die fehlenden Ziffern zwischen %s und %s der mit Ihrem Konto verknüpften Telefonnummer ein.
-[Attention!]
-Achtung!
-[Enter confirmation code]
-Bestätigungscode eingeben
 [Enter new nickname]
 Neuen Nicknamen eingeben
 [Message read: %s]
@@ -31022,8 +30976,6 @@ Warnung
 Nachricht bearbeitet (aktualisiert %s):\n
 [\nOriginal message:\n]
 \nOriginalnachricht:\n
-[Message link]
-Nachrichtenlink
 [create chat]
 Chat erstellt
 [kick user]
@@ -31078,10 +31030,12 @@ Kontakte auswählen, die Sie in einen neuen Chat einladen wollen
 Titel des neuen Chats:
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
+[Logon for ]
+Anmeldung für\s
+[To log into the VKontakte protocol, you need to authorize in the browser and copy the received address from its address bar into the field below.\nDo not change anything when copying!\nYou will have to ignore the anti-copy message that you will see in your browser. Unfortunately, Miranda NG cannot authorize you in any other way right now.]
+Zur Anmeldung beim VKontakte-Protokoll müssen Sie sich im Browser autorisieren und die erhaltene Adresse aus der Adressleiste in das Feld darunter kopieren.\nÄndern Sie beim Kopieren nichts!\nIgnorieren Sie die Kopierschutzmeldung, die in Ihrem Browser angezeigt wird. Leider kann Miranda NG Sie derzeit nicht anders autorisieren.
 [Wall message for %s]
 Pinnwandnachricht für %s
-[VKontakte]
-VKontakte
 [New news]
 Neue Neuigkeiten
 [New notifications]
@@ -31142,6 +31096,8 @@ Ungültige Dateigröße
 Unbekannter Fehler aufgetreten
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Möchten Sie wirklich alle Nachrichten von vk.com neu laden?\nDer lokale Verlauf des Kontaktes wird gelöscht und vom Server neu geladen.\nDas kann lange dauern.\nMöchten Sie fortfahren?
+[Attention!]
+Achtung!
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nDo you want to continue?]
 Sind Sie sich sicher, dass Sie alle Nachrichten für alle Kontakte von vk.com laden wollen?\nDer lokale Verlauf Ihrer Kontakte wird gelöscht und vom Server neu geladen.\nDies kann sehr lange Zeit dauern und/oder die Miranda-Datenbank beschädigen.\nMöchten Sie fortfahren?
 [Error loading message history from server.]
@@ -31152,8 +31108,6 @@ Nachrichten für alle Kontakte wurden komplett geladen.
 Verlauf laden
 [Error loading message history for %s from server.]
 Fehler beim Laden des Nachrichtenverlaufes von %s vom Server.
-[Loading messages for %s is completed.]
-Laden der Nachrichten von %s ist fertig.
 [Me]
 Ich
 [Network]
@@ -31202,6 +31156,8 @@ Beim Tippen
 Diese Änderungen werden erst nach einem Neustart von Miranda NG wirksam.\nMöchten Sie es jetzt neu starten?
 [VKontakte protocol]
 VKontakte-Protokoll
+[This message has been marked as spam in %s:\n]
+Diese Nachricht wurde als Spam markiert um %s:\n
 [This message has been deleted by sender in %s:\n]
 Diese Nachricht wurde vom Absender um %s gelöscht:\n
 [Newsfeed & notification event]
@@ -31210,6 +31166,8 @@ Newsfeed- und Benachrichtigungsereignis
 Weiterleiten
 [Reload messages]
 Nachrichten neu laden
+[Go to site IM]
+Gehe zu IM auf Seite
 [Mark messages as read]
 Nachrichten als gelesen markieren
 [Send message to user's wall]
@@ -31258,8 +31216,6 @@ Lade Statusnachricht von vk.com.\nDies kann einige Zeit dauern.
 Warten...
 [Enter new status message]
 Neue Statusnachricht eingeben
-[Service message]
-Dienstnachricht
 [%s is listening to]
 %s hört gerade
 [Interests]
@@ -32261,7 +32217,7 @@ Plugins
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.8
+;  Version: 1.1.0.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
@@ -32276,8 +32232,6 @@ Webseite
 Schließen
 [Options]
 Einstellungen
-[Update weather information on startup]
-Wetter-Informationen beim Start aktualisieren
 [Update weather information every]
 Wetter-Informationen aktualisieren alle
 [minutes]
@@ -32290,8 +32244,6 @@ Beim Aktualisieren alte Daten löschen
 Kontakt kursiv darstellen, wenn ein Wetteralarm auftritt
 [Modes]
 Modi
-[Use weather condition as protocol status]
-Wetterlage als Protokollstatus verwenden
 [Avatar only mode]
 Nur Avatarmodus
 [Units]
@@ -32368,12 +32320,6 @@ Externe Datei verwenden
 Bei Aktualis. Datei überschreib.
 [Path:]
 Pfad:
-[Link Settings]
-Link-Einstellungen
-[More Info URL]
-Mehr-Infos-URL
-[Weather Map]
-Wetter-Karte
 [Other Options]
 Andere Einstellungen
 [Set as default station]
@@ -32388,8 +32334,6 @@ Popups für diese Station deaktivieren
 Abbrechen
 [Popup Options]
 Popup-Einstellungen
-[Enable popups]
-Popups aktivieren
 [Popup only when condition changes]
 Popups nur bei Wetteränderung
 [Colors]
@@ -32430,6 +32374,10 @@ Updates
 Hinweis
 [Errors]
 Fehler
+[Enter your personal API key from Visual Crossing Weather site]
+Geben Sie Ihren persönlichen API-Schlüssel vom Wetterdienst Visual Crossing ein.
+[Obtain key]
+Schlüssel erhalten
 [Contact List]
 Kontaktliste
 [Brief Info Title]
@@ -32466,26 +32414,6 @@ Taupunkt
 Luftfeuchtigkeit
 [More...]
 Mehr...
-[Weather Protocol INI Setup]
-Wetter-Protokoll-INI-Einrichtung
-[Install and load your weather ini file here]
-Installieren und laden Sie hier die Wetter-INI-Dateien
-[Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
-Das Wetter-Protokoll kann keine INI-Datei auf dem Rechner finden. Um eine INI-Datei und eine Wetterstation einzustellen, befolgen Sie diese Schritte:
-[Click here to download a weather ini file from Miranda file listing]
-Klicken Sie hier, um eine INI-Datei aus der Miranda-Dateiliste zu laden
-[Extract the weather ini file from archive to this directory]
-Extrahieren Sie die Datei vom Archiv in dieses Verzeichnis
-[Click here to load the data from the new ini file into memory]
-Klicken Sie hier, um die Daten aus der neuen INI-Datei in den Speicher zu laden
-[Add new weather station and close this dialog]
-Füge neue Wetterstation hinzu und schließe Dialog
-[Total INI files]
-Alle INI-Dateien
-[Total memory used]
-Gesamte Speichernutzung
-[Reload INI]
-INI neu laden
 [City:]
 Stadt:
 [Menu]
@@ -32512,6 +32440,54 @@ Auf alte Einstellungen
 Auf Standard
 [N/A]
 N/A
+[Protocol icon]
+Protokollicon
+[Update Disabled]
+Aktualisieren deakt.
+[View Log]
+Log anzeigen
+[Update with Clear]
+Daten entf. und aktualisieren
+[View Brief]
+Kurz-Information
+[View Complete]
+Komplette Vorhersage
+[Weather Update]
+Wetter-Update
+[Weather Map]
+Wetter-Karte
+[Edit Settings]
+Einstellungen bearbeiten
+[Condition Changed]
+Wetterlage hat sich geändert
+[Alert Issued]
+Wetteralarm ausgelöst
+[Current weather information for %s.]
+Momentane Wetter-Informationen für %s.
+[%s is now the default weather station]
+%s ist jetzt die Standard-Wetterstation
+[Weather Protocol]
+Wetter-Protokoll
+[Please try again after weather update is completed.]
+Bitte versuchen Sie es erneut nachdem die Aktualisierung beendet ist.
+[Weather condition was not logged.]
+Wetterlage wurde nicht aufgezeichnet.
+[Browse]
+Durchsuchen
+[Text Files]
+Textdateien
+[All Files]
+Alle Dateien
+[mb]
+mb
+[in]
+in
+[mm]
+mm
+[<unknown time>]
+<unbekannte Zeit>
+[<Error>]
+<Fehler>
 [Invalid ID format, missing "/" (10)]
 Ungültiges ID-Format, fehlendes "/" (10)
 [Invalid service (11)]
@@ -32562,130 +32538,44 @@ HTTP-Fehler: Falsches Gateway (502)
 HTTP-Fehler: Dienst nicht verfügbar (503)
 [HTTP Error: Gateway timeout (504)]
 HTTP-Fehler: Gateway-Zeitüberschreitung (504)
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
-%c\tmomentane Lage\n%d\taktuelles Datum\n%e\tTaupunkt\n%f\tgefühlte Temp.\n%h\tHöchsttemperatur\n%i\tWindrichtung\n%l\tgeringste Temp.\n%m\tLuftfeuchtigkeit\n%n\tStations-Name\n%p\tDruck\n%r\tSonnenaufgang\n%s\tStations-ID\n%t\tTemperatur\n%u\tAktualis.-Zeit\n%v\tSicht\n%w\tWind-Geschwind.\n%y\tSonnenuntergang\n----------\n\\n\tneue Zeile
-[Enable/disable auto update]
-Automatische Aktualisierung (de-)aktivieren
-[Auto Update Enabled]
-Autom. Aktualisierung aktiviert
-[Auto Update Disabled]
-Autom. Aktualisierung deaktiviert
-[Protocol icon]
-Protokollicon
-[Update Disabled]
-Aktualisieren deakt.
-[View Log]
-Log anzeigen
-[Update with Clear]
-Daten entf. und aktualisieren
-[View Brief]
-Kurz-Information
-[View Complete]
-Komplette Vorhersage
-[Weather Update]
-Wetter-Update
-[Edit Settings]
-Einstellungen bearbeiten
-[Condition Changed]
-Wetterlage hat sich geändert
-[Alert Issued]
-Wetteralarm ausgelöst
-[Weather notifications]
-Wetter-Hinweis
-[Current weather information for %s.]
-Momentane Wetter-Informationen für %s.
-[%s is now the default weather station]
-%s ist jetzt die Standard-Wetterstation
-[Weather Protocol]
-Wetter-Protokoll
-[Please try again after weather update is completed.]
-Bitte versuchen Sie es erneut nachdem die Aktualisierung beendet ist.
-[<Enter station name here>]
-<Stations-Name hier eintragen>
-[<Enter station ID here>]
-<Stations-ID hier eintragen>
-[Weather condition was not logged.]
-Wetterlage wurde nicht aufgezeichnet.
-[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
-Für die komplette Vorhersage ist keine URL angegeben. Sie können unter "Einstellungen bearbeiten" eine URL setzen.
-[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
-Für die Wetterkarte ist keine URL angegeben. Sie können unter "Einstellungen bearbeiten" eine URL setzen.
-[Get city name from ID]
-Stadt-Namen aus ID beziehen
-[Weather INI information]
-Wetter-INI-Informationen
-[Browse]
-Durchsuchen
-[View webpage]
-Webseite anzeigen
-[Reset to default]
-Zurücksetzen auf Standard
-[Text Files]
-Textdateien
-[All Files]
-Alle Dateien
-[mb]
-mb
-[in]
-in
-[mm]
-mm
-[<unknown time>]
-<unbekannte Zeit>
-[<Error>]
-<Fehler>
 [HTTP Error %i]
 HTTP-Fehler %i
 [<Enter city name here>]
 <Stadt-Name hier eingeben>
-[Error when obtaining data: %s]
-Fehler beim Datenerhalt: %s
-[Name]
-Name
-[Author]
-Autor
-[File Version]
-Dateiversion
-[INI Version]
-INI-Version
-[Items]
-Einträge
-[Display Name]
-Angezeigter Name
-[File Name]
-Dateiname
-[The corresponding INI file for "%s" is not found.]
-Die dazugehörige INI-Datei für "%s" wurde nicht gefunden.
-[Weather INI information for "%s":]
-Wetter-INI-Information für "%s":
-[Name:]
-Name:
-[Internal Name:]
-Interner Name:
-[Author:]
-Autor:
-[Version:]
-Version:
-[INI Version:]
-INI-Version:
-[File Name:]
-Dateiname:
-[Item Count:]
-Item-Anzahl:
-[Memory Used:]
-Genutzter Speicher:
-[bytes]
-Bytes
-[Description:]
-Beschreibung:
-[Here is a list of custom variables that are currently available]
-Hier ist eine Liste von Variablen, die momentan verfügbar sind
-[All update data has been reloaded.]
-Alle aktualisierten Daten wurden geladen.
-[Invalid ini format for: %s]
-Falsches INI-Format für: %s
-[No update data file is found. Please check your Plugins\\Weather directory.]
-Keine Aktualisierungs-Datei gefunden. Prüfen Sie bitte Ihr "plugins\\weather" Verzeichnis.
+[N]
+N
+[NNE]
+NNO
+[NE]
+NO
+[ENE]
+ONO
+[E]
+O
+[ESE]
+OSO
+[ES]
+OS
+[SSE]
+SSO
+[S]
+S
+[SSW]
+SSW
+[SW]
+SW
+[WSW]
+WSW
+[W]
+W
+[WNW]
+WNW
+[WN]
+WN
+[NNW]
+NNW
+[You need to obtain the personal key and enter it in the account's Options dialog]
+Sie müssen Ihren persönlichen Schlüssel erhalten und diesen in dem Einstellungsdialog eingeben.
 [Frame Font]
 Frame-Schrift
 [Frame Title Font]
@@ -32694,10 +32584,10 @@ Frame-Titel-Schrift
 Frame-Hintergrund
 [Weather Condition for %n as of %u]
 Wetterlage für %n von %u
-[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-Gefühlt wie: %f\\nLuftdruck: %p\\nWind: %i  %w\\nLuftfeuchtigkeit: %m\\nTaupunkt: %e\\nSichtweite: %v\\n\\nSonnenaufgang: %r\\nSonnenuntergang: %y\\n\\n5 Tage-Vorhersage:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-%c\\nTemperatur: %t\\ngefühlt wie: %f\\nLuftdruck: %p\\nWind: %i  %w\\nLuftfeuchtigkeit: %m\\nTaupunkt: %e\\nSichtweite: %v\\n\\nSonnenaufgang: %r\\nSonnenuntergang: %y\\n\\n5 Tage-Vorhersage:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n\\n%[Forecast Day 1]\\n\\n%[Forecast Day 2]\\n\\n%[Forecast Day 3]\\n\\n%[Forecast Day 4]\\n\\n%[Forecast Day 5]]
+Gefühlt wie: %f\\nLuftdruck: %p\\nWind: %i  %w\\nLuftfeuchtigkeit: %m\\nTaupunkt: %e\\nSichtweite: %v\\n\\nSonnenaufgang: %r\\nSonnenuntergang: %y\\n\\n5 Tage-Vorhersage:\\n\\n%[Forecast Day 1]\\n\\n%[Forecast Day 2]\\n\\n%[Forecast Day 3]\\n\\n%[Forecast Day 4]\\n\\n%[Forecast Day 5]
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n\\n%[Forecast Day 1]\\n\\n%[Forecast Day 2]\\n\\n%[Forecast Day 3]\\n\\n%[Forecast Day 4]\\n\\n%[Forecast Day 5]]
+%c\\nTemperatur: %t\\ngefühlt wie: %f\\nLuftdruck: %p\\nWind: %i  %w\\nLuftfeuchtigkeit: %m\\nTaupunkt: %e\\nSichtweite: %v\\n\\nSonnenaufgang: %r\\nSonnenuntergang: %y\\n\\n5 Tage-Vorhersage:\\n\\n%[Forecast Day 1]\\n\\n%[Forecast Day 2]\\n\\n%[Forecast Day 3]\\n\\n%[Forecast Day 4]\\n\\n%[Forecast Day 5]
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %n um %u:	%c, %t (gefühlt %f)	Wind: %i %w	Feuchtigkeit: %m
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
@@ -32708,22 +32598,58 @@ Temperatur: %[Temperatur]
 %n   (%u)
 [%c, %t\\nToday:  High %h, Low %l]
 %c, %t\\nHeute:  max. %h, min. %l
+[Current condition]
+Aktuelle Lage
+[Current date]
+Aktuelles Datum
+[Dewpoint]
+Taupunkt
+[Feel-like temp]
+Gefühlte Temperatur
+[Today's high]
+Heutiges Hoch
+[Wind direction]
+Windrichtung
+[Today's low]
+Heutiges Tief
+[Station name]
+Stationsname:
+[Station ID]
+Stations-ID
+[Update time]
+Aktualisierungszeit
+[Wind speed]
+Windgeschwindigkeit
+[new line]
+Neue Zeile
+[Here is a list of custom variables that are currently available]
+Hier ist eine Liste von Variablen, die momentan verfügbar sind
 [Weather Protocol Text Preview]
 Wetter-Protokoll Textvorschau
 [Network]
 Netzwerk
+[Account]
+Konto
 [General]
 Allgemein
 [Display]
 Anzeige
-[Popups]
-Popups
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\tmomentane Lage\n%d\taktuelles Datum\n%e\tTaupunkt\n%f\tgefühlte Temperatur\n%h\tHöchsttemperatur\n%i\tWindrichtung\n%l\tgeringste Temperatur\n%m\tLuftfeuchtigkeit\n%n\tStations-Name\n%p\tDruck\n%r\tSonnenaufgang\n%s\tStations-ID\n%t\tTemperatur\n%u\tAktualisierungs-Zeit\n%v\tSicht\n%w\tWind-Geschwindigkeit\n%y\tSonnenuntergang
 [%[..]\tcustom variables]
 %[..]\tBenutzerdefinierte Variablen
-[Station ID]
-Stations-ID
+[Popups]
+Popups
+[notifications]
+Benachrichtigung
+[Enable/disable auto update]
+Automatische Aktualisierung (de-)aktivieren
+[Auto Update Enabled]
+Autom. Aktualisierung aktiviert
+[Auto Update Disabled]
+Autom. Aktualisierung deaktiviert
+[Coordinates]
+Koordinaten
 [Update Weather]
 Wetter aktualisieren
 [Remove Old Data then Update]
@@ -32732,24 +32658,38 @@ Alte Daten entfernen und aktualisieren
 Kurz-Information
 [Read Complete Forecast]
 Komplette Vorhersage lesen
-[Weather]
-Wetter
-[Enable/Disable Weather Update]
-Wetteraktualisierung (de-)aktivieren
-[Update All Weather]
-Alle Wetter-Stationen aktualisieren
-[Remove Old Data then Update All]
-Alte Daten entfernen und alle aktualisieren
 [Display in a frame]
 Als Frame anzeigen
 [Unable to retrieve weather information for %s]
 Wetter-Informationen können für %s nicht empfangen werden.
-[No information available.\r\nPlease update weather condition first.]
-Keine Informationen verfügbar.\r\nBitte aktualisieren Sie zunächst die Wetterbedingungen.
+[New moon]
+Neumond
+[Waxing crescent]
+Zunehmender Halbmond
+[Waxing gibbous]
+Zunehmender Mond
+[Waning gibbous]
+Abnehmender Mond
+[Waning crescent]
+Abnehmender Halbmond
+[Date]
+Datum
+[Condition]
+Bedingung
+[High]
+Hoch
+[Low]
+Tief
+[Moon phase]
+Mondphase
+[Feel]
+Gefühlt
 [Variable]
 Variable
 [Information]
 Information
+[No information available.\r\nPlease update weather condition first.]
+Keine Informationen verfügbar.\r\nBitte aktualisieren Sie zunächst die Wetterbedingungen.
 [Retrieving new data, please wait...]
 Empfange neue Daten, bitte warten...
 [More Info]
@@ -32759,29 +32699,138 @@ Momentane Lage für %n
 [Last update on:   %u]
 Letzte Aktualisierung am:   %u
 ;============================================================
-;  File: Intellicast.ini
 ;  Plugin: Weather
 ;============================================================
 [Ceiling]
-Aufgehend
-[Mon]
-Mo
-[Tue]
-Di
-[Wed]
-Mi
-[Thu]
-Do
-[Fri]
-Fr
-[Sat]
-Sa
-[Sun]
-So
-[Full]
-Bedeckt
+Decke
+[Clear]
+Klar
+[Cloudy]
+Wolkig
+[Day Length]
+Tageslänge
+[ENE]
+ONO
+[ESE]
+OSO
+[E]
+O
+[Elevation]
+Elevation
+[Feel]
+gefühlt
+[Fog]
+Nebel
+[Full Moon]
+Vollmond
+[Heat Index]
+gefühlte Temperatur
+[High]
+Hoch
+[Low]
+Tief
+[Moon phase]
+Mondphase
+[Moon]
+Mond
+[Moonrise]
+Mondaufgang
+[Moonset]
+Monduntergang
+[Mostly Clear]
+Meist klar
+[Mostly Cloudy]
+Meist wolkig
+[Mostly Sunny]
+Meist sonnig
+[NE]
+NO
+[NNE]
+NNO
+[NNW]
+NNW
+[NW]
+NW
+[N]
+N
+[New Moon]
+Neumond
+[Night]
+Nacht
+[Observatory]
+Station
+[Pressure Tendency]
+Luftdrucktendenz
+[Rain 100% Chance Of Precipitation]
+Regen 100% Niederschlagswahrscheinlichkeit
+[Rain 20% Chance Of Precipitation]
+Regen 20% Niederschlagswahrscheinlichkeit
+[Rain 40% Chance Of Precipitation]
+Regen 40% Niederschlagswahrscheinlichkeit
+[Rain 50% Chance Of Precipitation]
+Regen 50% Niederschlagswahrscheinlichkeit
+[Rain 60% Chance Of Precipitation]
+Regen 60% Niederschlagswahrscheinlichkeit
+[Rain 70% Chance Of Precipitation]
+Regen 70% Niederschlagswahrscheinlichkeit
+[Rain 80% Chance Of Precipitation]
+Regen 80% Niederschlagswahrscheinlichkeit
+[Rain 90% Chance Of Precipitation]
+Regen 90% Niederschlagswahrscheinlichkeit
+[Rain And Snow]
+Regen und Schnee
+[Rain]
+Regen
+[SE]
+SO
+[SSE]
+SSO
+[SSW]
+SSW
+[SW]
+SW
+[S]
+S
+[Smoke]
+Rauch
+[Snow 100% Chance Of Precipitation]
+Schnee 100% Niederschlagswahrscheinlichkeit
+[Snow 20% Chance Of Precipitation]
+Schnee 20% Niederschlagswahrscheinlichkeit
+[Snow 30% Chance Of Precipitation]
+Schnee 30% Niederschlagswahrscheinlichkeit
+[Snow 40% Chance Of Precipitation]
+Schnee 40% Niederschlagswahrscheinlichkeit
+[Snow 50% Chance Of Precipitation]
+Schnee 50% Niederschlagswahrscheinlichkeit
+[Snow 60% Chance Of Precipitation]
+Schnee 60% Niederschlagswahrscheinlichkeit
+[Snow 70% Chance Of Precipitation]
+Schnee 70% Niederschlagswahrscheinlichkeit
+[Snow 80% Chance Of Precipitation]
+Schnee 80% Niederschlagswahrscheinlichkeit
+[Snow 90% Chance Of Precipitation]
+Schnee 90% Niederschlagswahrscheinlichkeit
+[Snow]
+Schnee
+[Stable]
+Stabil
 [Sunny]
 Sonnig
+[Temperature]
+Temperatur
+[UV Index]
+UV-Index
+[UVI]
+UVI
+[UV]
+UV
+[WNW]
+WNW
+[WSW]
+WSW
+[W]
+W
 [Waning Crescent]
 Abnehmender Halbmond
 [Waning Gibbous]
@@ -32790,242 +32839,20 @@ Abnehmender Mond
 Zunehmender Halbmond
 [Waxing Gibbous]
 Zunehmender Mond
-[Last Quarter]
-Letztes Viertel
-[First Quarter]
-Erstes Viertel
-[Partly Sunny]
-Teils sonnig
-[Mostly Sunny]
-Meist sonnig
-[Partly Cloudy]
-Teils wolkig
-[Mostly Cloudy]
-Meist wolkig
-[Mostly Clear]
-Meist klar
-[Scattered Thunderstorms]
-Vereinzelte Gewitter
-[Feel]
-gefühlt
-[Forecast Day 1]
-Vorhersage Tag 1
-[Forecast Day 2]
-Vorhersage Tag 2
-[Forecast Day 3]
-Vorhersage Tag 3
-[Forecast Day 4]
-Vorhersage Tag 4
-[Forecast Day 5]
-Vorhersage Tag 5
-[Forecast Day 6]
-Vorhersage Tag 6
-[Forecast Day 7]
-Vorhersage Tag 7
-[Forecast Day 8]
-Vorhersage Tag 8
-[Forecast Day 9]
-Vorhersage Tag 9
-[Forecast Day 10]
-Vorhersage Tag 10
-[Forecast today]
-Vorhersage heute
-[Heat Index]
-gefühlte Temperatur
-[Moon]
-Mondphase
-[MoonRise]
-Mondaufgang
-[MoonSet]
-Monduntergang
-[Update1]
-Update1
-[Update2]
-Update2
-[Wind Chill]
-Windchill
+[West]
+West
+[Wind Direction DEG]
+Windrichtung (Grad)
+[Wind Direction Degrees]
+Windrichtung (Grad)
 [Wind Direction]
 Windrichtung
 [Wind Speed]
 Windgeschwindigkeit
-[N]
-N
-[W]
-W
-[S]
-S
-[E]
-O
-[NW]
-NW
-[NE]
-NE
-[SW]
-SW
-[SE]
-SO
-[NNW]
-NNW
-[NNE]
-NNO
-[SSW]
-SSW
-[SSE]
-SSO
-[ENE]
-ONO
-[WSW]
-WSW
-[WNW]
-WNW
-[ESE]
-OSO
-[WindDir1]
-WindDir1
-[WindDir2]
-WindDir2
-[Broken Clouds]
-Gebrochene Wolken
-[Scattered Clouds]
-Vereinzelte Wolken
-[North]
-Nord
-[East]
-Ost
-[South]
-Süd
-[West]
-West
-[Northwest]
-Nordwest
-[Northeast]
-Nordost
-[Southwest]
-Südwest
-[Southeast]
-Südost
-;============================================================
-;  File: msn.ini
-;  Plugin: Weather
-;============================================================
-[Condition]
-Bedingung
-[Feel]
-gefühlt
-[Forecast Day 1]
-Vorhersage Tag 1
-[Forecast Day 2]
-Vorhersage Tag 2
-[Forecast Day 3]
-Vorhersage Tag 3
-[Forecast Day 4]
-Vorhersage Tag 4
-[Forecast Day 5]
-Vorhersage Tag 5
-[Forecast Day 6]
-Vorhersage Tag 6
-[Forecast Day 7]
-Vorhersage Tag 7
-[Forecast Day 8]
-Vorhersage Tag 8
-[Forecast Day 9]
-Vorhersage Tag 9
-[Heat Index]
-gefühlte Temperatur
-[High]
-Hoch
-[Light Rain And Snow]
-Leichter Regen und Schauer
-[Low]
-Gering
-[Moon phase]
-Mondphase
-[Moonrise]
-Mondaufgang
-[Moonset]
-Monduntergang
-[Precipitation]
-Niederschlag
-[Rain Showers]
-Regenschauer
-[Temperature]
-Temperatur
-[UV Index]
-UV-Index
 [Wind direction]
 Windrichtung
 [Wind speed]
 Windgeschwindigkeit
-;============================================================
-;  File: weatherxml.ini
-;  Plugin: Weather
-;============================================================
-[AM Rain]
-Vormittags Regen
-[Am Clouds / Pm Sun]
-vormittags wolkig, nachmittags Sonne
-[Am Light Rain]
-vormittags leichter Regen
-[Am Rain / Snow Showers]
-vormittags Regen-/Schneeschauer
-[Am Rain / Snow]
-Vormittags Regen/Schnee
-[Am Rain]
-Vormittags Regen
-[Am Showers / Wind]
-vormittags Schauer/Wind
-[Am Showers]
-vormittags Schauer
-[Am Snow Showers / Wind]
-vormittags Schneeschauer / Wind
-[Am Snow Showers]
-vormittags Schneeschauer
-[Am Snow]
-Vormittags Schnee
-[Am T-Storms]
-Vormittags Gewitter
-[Clear / Wind]
-Klar/Wind
-[Clouds Early / Clearing Late]
-anfangs bewölkt, später aufklarend
-[Cloudy / Wind]
-bewölkt/windig
-[Cloudy / Windy]
-Wolkig/Windig
-[Cloudy And Windy]
-wolkig/windig
-[Cloudy]
-Wolkig
-[Drifting Snow]
-Schneetreiben
-[ENE]
-ONO
-[ESE]
-OSO
-[E]
-O
-[Fair And Windy]
-heiter/windig
-[Fair]
-heiter
-[Feel]
-gefühlt
-[Few Showers / Wind]
-geringe Schauer/Wind
-[Few Showers]
-geringe Schauer
-[Few Snow Showers]
-wenige Schneeschauer
-[First Quarter]
-erstes Viertel
-[Fog / Windy]
-Nebel/windig
-[Fog And Windy]
-Nebel/windig
-[Fog Late]
-Später Nebel
-[Fog]
-Nebel
 [Forecast Day 0]
 Vorhersage Tag 0
 [Forecast Day 1]
@@ -33046,1478 +32873,6 @@ Vorhersage Tag 7
 Vorhersage Tag 8
 [Forecast Day 9]
 Vorhersage Tag 9
-[Forecast Update VAR]
-Forcast Update VAR
-[Forecast Update]
-Vorhersage aktualisiert
-[Freezing Rain / Windy]
-Gefrierender Regen/windig
-[Full Moon]
-Vollmond
-[Haze]
-Dunst
-[Heat Index]
-gefühlte Temperatur
-[Heavy Rain / Wind]
-Schwerer Regen / Wind
-[Heavy Rain]
-Schwerer Regen
-[Heavy Snow And Windy]
-Starker Schneefall und windig
-[Heavy Snow Shower]
-Schwerer Schneeschauer
-[Heavy Snow]
-starker Schneefall
-[Isolated T-Storms / Wind]
-Isolierte Gewitter/Wind
-[Isolated T-Storms]
-örtlich Gewitter
-[Jun]
-Jun
-[Last Quarter]
-letztes Viertel
-[Latitude]
-Breitengrad
-[Light Drizzle And Fog]
-leichter Niesel/Nebel
-[Light Drizzle And Windy]
-leichter Niesel/windig
-[Light Drizzle]
-leichter Niesel
-[Light Freezing Rain / Fog]
-Leicht gefrierender Regen/Nebel
-[Light Freezing Rain / Windy]
-Leicht gefrierender Regen/Windig
-[Light Rain / Wind Early]
-Leichter Regen/Früher Wind
-[Light Rain / Wind]
-leichter Regen/windig
-[Light Rain / Windy]
-Leichter Regen/windig
-[Light Rain And Windy]
-leicher Regen und windig
-[Light Rain Early]
-anfangs leichter Regen
-[Light Rain Late]
-später leichter Regen
-[Light Rain Shower And Windy]
-Leichter Regenschauer und windig
-[Light Rain Shower]
-leichter Schauer
-[Light Rain With Thunder]
-Leichter Regen mit Donner
-[Light Rain]
-Leichter Regen
-[Light Showers Rain]
-Leichte Regenschauer
-[Light Snow And Windy]
-Leichter Schneefall und windig
-[Light Snow Early]
-anfangs leichter Schneefall
-[Light Snow Late]
-später leichter Schneefall
-[Light Snow Shower And Windy]
-leichter Schneeschauer/windig
-[Light Snow Shower]
-leichte Schneeschauer
-[Light Snow]
-leichter Schneefall
-[Light Thunderstorm Rain]
-Leichte Gewitterregen
-[Local Time]
-Lokale Zeit
-[Longitude]
-Längengrad
-[Mist]
-Nebelschleier
-[Moderate]
-mäßig
-[Moon]
-Mondphase
-[Mostly Clear]
-Meist klar
-[Mostly Cloudy / Wind]
-Meist wolkig/windig
-[Mostly Cloudy And Windy]
-überwiegend wolkig/windig
-[Mostly Cloudy]
-Meist wolkig
-[Mostly Sunny / Wind]
-Meist sonnig/Wind
-[Mostly Sunny]
-überwiegend sonnig
-[N/A%]
-n.v.%
-[N/a]
-n.v.
-[NE]
-NE
-[NNE]
-NNO
-[NNW]
-NNW
-[NW]
-NW
-[N]
-N
-[New Moon]
-Neumond
-[Night]
-Nachts
-[Observatory]
-Station
-[Overcast]
-trüb
-[Partly Cloudy / Wind]
-Teilweise wolkig/Wind
-[Partly Cloudy / Windy]
-Teilweise wolkig/Wind
-[Partly Cloudy And Windy]
-teils wolkig/windig
-[Partly Cloudy]
-Teils wolkig
-[Partly Sunny]
-Teils sonnig
-[Pm Light Rain]
-nachmittags leichter Regen
-[Pm Rain / Wind]
-Nachmittags Regen / Wind
-[Pm Rain]
-Regen/Früher Wind
-[Pm Showers / Wind]
-Regen/Hagel/Wind
-[Pm Showers]
-nachmittags Schauer
-[Pm Snow Showers]
-nachmittags Schneeschauer
-[Pm Snow]
-Schnee/Früher Wind
-[Pm T-Storms]
-nachmittags Gewitter
-[Pressure Tendency]
-Luftdrucktendenz
-[Rain / Freezing Rain / Wind]
-Regen / Gefrierender Regen / Wind
-[Rain / Snow / Wind]
-Schneeregen / Wind
-[Rain / Snow Late]
-Schwerer Regen
-[Rain / Snow Showers Early]
-anfangs Regen-/Schneeschauer
-[Rain / Snow Showers Late]
-später Regen-/Schneeschauer
-[Rain / Snow Showers]
-Regen-/Schneeschauer
-[Rain / Snow]
-Schneeregen
-[Rain / Thunder]
-Regen/Donner
-[Rain / Wind Early]
-Später Regen
-[Rain / Wind]
-Leichter Regen/früher Wind
-[Rain And Snow]
-Schneeregen
-[Rain Early]
-Schwerer Regen/Wind
-[Rain Late]
-Wilkig/windig
-[Rain Shower]
-Regenschauer
-[Rain To Snow]
-in Schnee übergehender Regen
-[Rain]
-Regen
-[SE]
-SO
-[SSE]
-SSO
-[SSW]
-SSW
-[SW]
-SW
-[S]
-S
-[Scattered Showers]
-vereinzelt Schauer
-[Scattered Snow Showers]
-vereinzelt Schneeschauer
-[Scattered T-Storms / Wind]
-Leichter Hagel/windig
-[Scattered T-Storms]
-vereinzelt Gewitter
-[Shallow Fog]
-Seichter Nebel
-[Showers / Wind Late]
-Leichter Hagel/Nebel
-[Showers / Wind]
-Schauer/windig
-[Showers Early]
-anfangs Schauer
-[Showers Late]
-später Schauer
-[Showers Rain]
-Regenschauer
-[Showers]
-Schauer
-[Sleet And Windy]
-Graupel/windig
-[Sleet]
-Graupel
-[Smoke]
-Smog
-[Snow / Wind Early]
-Schnee / Früher Wind
-[Snow / Wind]
-Schnee / Wind
-[Snow / Windy]
-Schnee/windig
-[Snow And Sleet]
-Schnee und Graupel
-[Snow Early]
-anfangs Schneefall
-[Snow Shower / Wind]
-Schneeschauer/Wind
-[Snow Shower And Windy]
-Schneeschauer/windig
-[Snow Shower]
-Schneeschauer
-[Snow Showers / Wind Early]
-Schneeschauer / Wind früh
-[Snow Showers Early]
-anfangs Schneeschauer
-[Snow Showers Late]
-später Schneeschauer
-[Snow To Rain]
-In Regen übergehender Schnee
-[Snow To Wintry Mix]
-Nebel/windig
-[Snow]
-Schnee
-[Sunny / Wind]
-Teilweise wolkig/windig
-[Sunny / Windy]
-Sonnig/windig
-[Sunny]
-sonnig
-[T-Storm]
-Gewitter
-[T-Storms Early]
-Frühe Gewitter
-[T-Storms Late]
-Späte Gewitter
-[T-Storms]
-Gewitter
-[Thunder In The Vicinity]
-Gewitter in der Umgebung
-[Thunderstorm Rain]
-Gewitterregen
-[Thunderstorm]
-Gewitter
-[UV Index]
-UV-Index
-[UVI]
-UVI
-[UV]
-UV
-[Update VAR]
-Update VAR
-[WNW]
-WNW
-[WSW]
-WSW
-[W]
-W
-[Waning Crescent]
-abnehmend
-[Waning Gibbous]
-abnehmender Mond
-[Waxing Crescent]
-zunehmend
-[Waxing Gibbous]
-zunehmender Mond
-[Wind Direction DEG]
-Windrichtung (Grad)
-[Wind Direction]
-Windrichtung
-[Wind Speed]
-Windgeschwindigkeit
-[WindDir]
-Windrichtung
-[Wintry Mix / Wind]
-Winterlich/Wind
-[falling]
-fallend
-[rising]
-steigend
-[steady]
-gleichbleibend
-;============================================================
-;  File: wundergrnd_intl.ini
-;  Plugin: Weather
-;============================================================
-[Alert]
-Alarm
-[Blowing Snow]
-Schneesturm
-[Chance Of A Thunderstorm 20% Chance Of Precipitation]
-Wahrscheinlichkeit von Gewitter, 20% Niederschlagswahrscheinlichkeit
-[Chance Of Rain 20% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 20% Niederschlagswahrscheinlichkeit
-[Chance Of Rain 30% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 30% Niederschlagswahrscheinlichkeit
-[Chance Of Rain 40% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 40% Niederschlagswahrscheinlichkeit
-[Chance Of Rain 50% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 50% Niederschlagswahrscheinlichkeit
-[Chance Of Rain 60% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 60% Niederschlagswahrscheinlichkeit
-[Chance Of Rain 70% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 70% Niederschlagswahrscheinlichkeit
-[Chance Of Rain 80% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 80% Niederschlagswahrscheinlichkeit
-[Chance Of Snow 20% Chance Of Precipitation]
-Wahrscheinlichkeit von Schnee, 20% Niederschlagswahrscheinlichkeit
-[Chance Of Snow 30% Chance Of Precipitation]
-Wahrscheinlichkeit von Schnee, 30% Niederschlagswahrscheinlichkeit
-[Chance Of Snow 40% Chance Of Precipitation]
-Wahrscheinlichkeit von Schnee, 40% Niederschlagswahrscheinlichkeit
-[Chance Of Snow 50% Chance Of Precipitation]
-Wahrscheinlichkeit von Schnee, 50% Niederschlagswahrscheinlichkeit
-[Chance Of Snow 60% Chance Of Precipitation]
-Wahrscheinlichkeit von Schnee, 60% Niederschlagswahrscheinlichkeit
-[Chance Of Snow 70% Chance Of Precipitation]
-Wahrscheinlichkeit von Schnee, 70% Niederschlagswahrscheinlichkeit
-[Chance Of Snow 80% Chance Of Precipitation]
-Wahrscheinlichkeit von Schnee, 80% Niederschlagswahrscheinlichkeit
-[Chance Of T-Storms 20% Chance Of Precipitation]
-Wahrscheinlichkeit von Gewittern, 20% Niederschlagswahrscheinlichkeit
-[Chance Of T-Storms 30% Chance Of Precipitation]
-Wahrscheinlichkeit von Gewittern, 30% Niederschlagswahrscheinlichkeit
-[Chance Of T-Storms 40% Chance Of Precipitation]
-Wahrscheinlichkeit von Gewittern, 40% Niederschlagswahrscheinlichkeit
-[Chance Of T-Storms 50% Chance Of Precipitation]
-Wahrscheinlichkeit von Gewittern, 50% Niederschlagswahrscheinlichkeit
-[Chance Of T-Storms 60% Chance Of Precipitation]
-Wahrscheinlichkeit von Gewittern, 60% Niederschlagswahrscheinlichkeit
-[Chance Of T-Storms 70% Chance Of Precipitation]
-Wahrscheinlichkeit von Gewittern, 70% Niederschlagswahrscheinlichkeit
-[Chance Of T-Storms 80% Chance Of Precipitation]
-Wahrscheinlichkeit von Gewittern, 80% Niederschlagswahrscheinlichkeit
-[Chance Of T-Storms 90% Chance Of Precipitation]
-Wahrscheinlichkeit von Gewittern, 90% Niederschlagswahrscheinlichkeit
-[Chance Rain 40% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 40% Niederschlagswahrscheinlichkeit
-[Chance Rain 50% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 50% Niederschlagswahrscheinlichkeit
-[Chance Rain 80% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 80% Niederschlagswahrscheinlichkeit
-[Chance Rain 90% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 90% Niederschlagswahrscheinlichkeit
-[Clear]
-Klar
-[Cloudy]
-Wolkig
-[Day Length Diff]
-Tageslängenunterschied
-[Day Length]
-Tagesdauer
-[Drizzle Fog]
-Nieselregen Nebel
-[Drizzle Mist]
-Sprühregen Nebel
-[Drizzle]
-Nieselregen
-[ENE]
-ONO
-[ESE]
-OSO
-[E]
-O
-[East]
-Ost
-[Elevation]
-Elevation
-[Falling]
-Fallend
-[Feel]
-gefühlt
-[First Quarter]
-Erstes Viertel
-[Fog]
-Nebel
-[Forecast Day 1 Condition]
-Vorhersage Tag 1 Bedingungen
-[Forecast Day 1 Day]
-Vorhersage Tag 1 Tag
-[Forecast Day 1 High]
-Vorhersage Tag 1 Höchstwerte
-[Forecast Day 1 Low]
-Vorhersage Tag 1 Tiefstwerte
-[Forecast Day 1 Night Text]
-Vorhersage Tag 1 Nacht
-[Forecast Day 1 Text]
-Vorhersage Tag 1 Text
-[Forecast Day 1]
-Vorhersage Tag 1
-[Forecast Day 2 Condition]
-Vorhersage Tag 2 Bedingungen
-[Forecast Day 2 Day]
-Vorhersage Tag 2 Tag
-[Forecast Day 2 High]
-Vorhersage Tag 2 Höchstwerte
-[Forecast Day 2 Low]
-Vorhersage Tag 2 Tiefstwerte
-[Forecast Day 2 Night Text]
-Vorhersage Tag 2 Nacht
-[Forecast Day 2 Text]
-Vorhersage Tag 2 Text
-[Forecast Day 2]
-Vorhersage Tag 2
-[Forecast Day 3 Condition]
-Vorhersage Tag 3 Bedingungen
-[Forecast Day 3 Day]
-Vorhersage Tag 3 Tag
-[Forecast Day 3 High]
-Vorhersage Tag 3 Höchstwerte
-[Forecast Day 3 Low]
-Vorhersage Tag 3 Tiefstwerte
-[Forecast Day 3 Night Text]
-Vorhersage Tag 3 Nacht
-[Forecast Day 3 Text]
-Vorhersage Tag 3 Text
-[Forecast Day 3]
-Vorhersage Tag 3
-[Forecast Day 4 Condition]
-Vorhersage Tag 4 Bedingungen
-[Forecast Day 4 Day]
-Vorhersage Tag 4 Tag
-[Forecast Day 4 High]
-Vorhersage Tag 4 Höchstwerte
-[Forecast Day 4 Low]
-Vorhersage Tag 4 Tiefstwerte
-[Forecast Day 4 Night Text]
-Vorhersage Tag 4 Nacht
-[Forecast Day 4 Text]
-Vorhersage Tag 4 Text
-[Forecast Day 4]
-Vorhersage Tag 4
-[Forecast Day 5 Condition]
-Vorhersage Tag 5 Bedingungen
-[Forecast Day 5 Day]
-Vorhersage Tag 5 Tag
-[Forecast Day 5 High]
-Vorhersage Tag 5 Höchstwerte
-[Forecast Day 5 Low]
-Vorhersage Tag 5 Tiefstwerte
-[Forecast Day 5 Night Text]
-Vorhersage Tag 5 Nacht
-[Forecast Day 5 Text]
-Vorhersage Tag 5 Text
-[Forecast Day 5]
-Vorhersage Tag 5
-[Freezing Drizzle Mist]
-Gefrierender Nieselregen Dunst
-[Freezing Drizzle]
-Gefrierender Niesel
-[Freezing Fog]
-Gefrierender Nebel
-[Freezing Rain Mist]
-Gefrierender Regendunst
-[Freezing Rain]
-gefrierender Regen
-[Friday]
-Freitag
-[Full Moon]
-Vollmond
-[Haze]
-Dunst
-[Heat Index]
-gefühlte Temperatur
-[Heavy Blowing Snow]
-Schweres Schneesturm
-[Heavy Fog]
-Dichter Nebel
-[Heavy Rain Showers]
-Starke Regenschauer
-[Heavy Showers Snow Blowing Snow]
-Schwere Schauer, Schnee, Schneesturm
-[Heavy Showers Snow Heavy Blowing Snow]
-Schwere Schneeschauer,Schwerer Schneesturm
-[Heavy Showers Snow Mist]
-Schwere Schauer, Schneedunst
-[Heavy Showers Snow]
-schwere Schneeschauer
-[Heavy Snow Showers]
-Starke Schneestürme
-[Heavy Snow]
-starker Schneefall
-[Heavy Thunderstorm Rain]
-Schweres Gewitterregen
-[Ice Crystals Mist]
-Eiskristall Nebel
-[Ice Pellets 30% Chance Of Precipitation]
-Eisgraupel, 30% Niederschlagswahrscheinlichkeit
-[Ice Pellets 40% Chance Of Precipitation]
-Eisgraupel, 40% Niederschlagswahrscheinlichkeit
-[Ice Pellets 50% Chance Of Precipitation]
-Eisgraupel, 50% Niederschlagswahrscheinlichkeit
-[Ice Pellets 60% Chance Of Precipitation]
-Eisgraupel, 60% Niederschlagswahrscheinlichkeit
-[Ice Pellets 70% Chance Of Precipitation]
-Eisgraupel, 70% Niederschlagswahrscheinlichkeit
-[Ice Pellets 80% Chance Of Precipitation]
-Eisgraupel, 80% Niederschlagswahrscheinlichkeit
-[Ice Pellets 90% Chance Of Precipitation]
-Eisgraupel, 90% Niederschlagswahrscheinlichkeit
-[Ice Pellets]
-Eisgraupel
-[Last Quarter]
-Letztes Viertel
-[Latitude]
-Breitengrad
-[Light Blowing Snow]
-Leichtes Schneesturm
-[Light Drizzle Mist]
-Leichter Graupel/Nebel
-[Light Drizzle]
-leichter Niesel
-[Light Fog]
-Leichter Nebel
-[Light Freezing Drizzle Mist]
-Leichter gefrierender Graupel/Nebel
-[Light Freezing Drizzle Snow]
-Leicht gefrierender Nieselschnee
-[Light Freezing Drizzle]
-Leichter, überfrierender Niesel
-[Light Freezing Rain Mist]
-Leichter Frostregen,Dunst
-[Light Freezing Rain]
-Leichter Frostregen
-[Light Ice Pellets]
-leichte Eisgraupel
-[Light Rain Fog]
-Leichter Regennebel
-[Light Rain Mist]
-leichter Regennebel
-[Light Rain Showers]
-Leichte Regenschauer
-[Light Rain Snow Mist]
-Leichter Regenschneedunst
-[Light Rain Snow]
-leichter Schneeregen
-[Light Rain]
-leichter Regen
-[Light Showers Rain Mist]
-Leichter Regenschauer/Nebel
-[Light Showers Rain]
-Leichte Regenschauer
-[Light Showers Showers Rain]
-Leichte Schauer, Regenschauer
-[Light Showers Snow Blowing Snow]
-Leichte Schauer, Schnee, Schneesturm
-[Light Showers Snow Light Blowing Snow]
-Leichte Schneeschauer, leichtes Schneesturm
-[Light Showers Snow Mist]
-Leichte Schauer, Schneenebel
-[Light Showers Snow Rain Mist]
-Leichte Schauer, Regenschneedunst
-[Light Showers Snow Rain]
-leichte Schneeregenschauer
-[Light Showers Snow]
-Leichte Schneeschauer
-[Light Snow 30% Chance Of Precipitation]
-Leichter Schnee, 30% Niederschlagswahrscheinlichkeit
-[Light Snow Blowing Snow]
-Leichter Schnee, Schneesturm
-[Light Snow Grains]
-leichte Schneekörner
-[Light Snow Light Blowing Snow]
-Leichter Schnee, Leichter Schneesturm
-[Light Snow Mist]
-leichter Schneenebel
-[Light Snow Rain]
-Leichter Schneeregen
-[Light Snow Shallow Fog]
-Leichter Schnee,dünner Nebel
-[Light Snow Showers]
-leichte Schneeschauer
-[Light Snow]
-leichter Schneefall
-[Light Thunderstorm Rain]
-Leichte Gewitterregen
-[Light Thunderstorm]
-Leichtes Unwetter
-[Local Time]
-Lokale Zeit
-[Longitude]
-Längengrad
-[Max]
-Max.
-[Min]
-Min.
-[Mist]
-Nebelschleier
-[Monday]
-Montag
-[Moon]
-Mondphase
-[Moonrise]
-Mondaufgang
-[Moonset]
-Monduntergang
-[Mostly Clear]
-Meist klar
-[Mostly Cloudy]
-Meist wolkig
-[Mostly Sunny]
-überwiegend sonnig
-[N/a]
-n.v.
-[NE]
-NE
-[NNE]
-NNO
-[NNW]
-NNW
-[NW]
-NW
-[N]
-N
-[New Moon]
-Neumond
-[North]
-Nord
-[Northeast]
-Nordost
-[Northwest]
-Nordwest
-[Overcast]
-trüb
-[Partial Fog]
-Teils neblig
-[Partly Cloudy]
-Teils wolkig
-[Partly Sunny]
-Teils sonnig
-[Patches Fog]
-Leichter Nebel
-[Pressure Change]
-Druckänderung
-[Rain 100% Chance Of Precipitation]
-Regen, 100% Niederschlagswahrscheinlichkeit
-[Rain 20% Chance Of Precipitation]
-Regen, 20% Niederschlagswahrscheinlichkeit
-[Rain 40% Chance Of Precipitation]
-Regen, 40% Niederschlagswahrscheinlichkeit
-[Rain 50% Chance Of Precipitation]
-Regen, 50% Niederschlagswahrscheinlichkeit
-[Rain 60% Chance Of Precipitation]
-Regen, 60% Niederschlagswahrscheinlichkeit
-[Rain 70% Chance Of Precipitation]
-Regen, 70% Niederschlagswahrscheinlichkeit
-[Rain 80% Chance Of Precipitation]
-Regen, 80% Niederschlagswahrscheinlichkeit
-[Rain 90% Chance Of Precipitation]
-Regen, 90% Niederschlagswahrscheinlichkeit
-[Rain Fog]
-Regendunst
-[Rain]
-Regen
-[Rising]
-Steigend
-[SE]
-SO
-[SSE]
-SSO
-[SSW]
-SSW
-[SW]
-SW
-[S]
-S
-[Saturday]
-Samstag
-[Scattered Clouds]
-Vereinzelte Wolken
-[Shallow Fog]
-Seichter Nebel
-[Showers Rain Snow]
-Schauer Regen Schnee
-[Showers Rain]
-Regenschauer
-[Showers Showers Rain]
-Schwere Regenschauer
-[Showers Snow Blowing Snow]
-Schauer,Schnee,Schneesturm
-[Showers Snow Heavy Blowing Snow]
-Schneeschauer, schweres Schneesturm
-[Showers Snow Rain]
-Schauer, Schneeregen
-[Showers Snow]
-Schneeschauer
-[Smoke]
-Smog
-[Snow 100% Chance Of Precipitation]
-Schnee, 100% Niederschlagswahrscheinlichkeit
-[Snow 20% Chance Of Precipitation]
-Schnee, 20% Niederschlagswahrscheinlichkeit
-[Snow 30% Chance Of Precipitation]
-Schnee, 30% Niederschlagswahrscheinlichkeit
-[Snow 40% Chance Of Precipitation]
-Schnee, 40% Niederschlagswahrscheinlichkeit
-[Snow 50% Chance Of Precipitation]
-Schnee, 50% Niederschlagswahrscheinlichkeit
-[Snow 60% Chance Of Precipitation]
-Schnee, 60% Niederschlagswahrscheinlichkeit
-[Snow 70% Chance Of Precipitation]
-Schnee, 70% Niederschlagswahrscheinlichkeit
-[Snow 80% Chance Of Precipitation]
-Schnee, 80% Niederschlagswahrscheinlichkeit
-[Snow 90% Chance Of Precipitation]
-Schnee, 60% Niederschlagswahrscheinlichkeit
-[Snow Blowing Snow]
-Schnee,Schneesturm
-[Snow Freezing Rain]
-Schnee, gefrierender Regen
-[Snow Grains]
-Schneekörner
-[Snow Heavy Blowing Snow]
-Schnee, Schweres Schneesturm
-[Snow Mist]
-Schneedunst
-[Snow Rain Mist]
-Schneeregendunst
-[Snow Rain]
-Schneeregen
-[Snow Showers 30% Chance Of Precipitation]
-Schneeschauer, 30% Niederschlagswahrscheinlichkeit
-[Snow Showers 40% Chance Of Precipitation]
-Schneeschauer, 40% Niederschlagswahrscheinlichkeit
-[Snow Showers 50% Chance Of Precipitation]
-Schneeschauer, 50% Niederschlagswahrscheinlichkeit
-[Snow Showers 60% Chance Of Precipitation]
-Schneeschauer, 60% Niederschlagswahrscheinlichkeit
-[Snow Showers 70% Chance Of Precipitation]
-Schneeschauer, 70% Niederschlagswahrscheinlichkeit
-[Snow Showers 80% Chance Of Precipitation]
-Schneeschauer, 80% Niederschlagswahrscheinlichkeit
-[Snow Showers]
-Schneeschauer
-[Snow]
-Schnee
-[South]
-Süd
-[Southeast]
-Südost
-[Southwest]
-Südwest
-[Stable]
-Stabil
-[Steady]
-Ruhig
-[Sunday]
-Sonntag
-[T-Storms 100% Chance Of Precipitation]
-Gewitter, 100% Niederschlagswahrscheinlichkeit
-[T-Storms 30% Chance Of Precipitation]
-Gewitter, 30% Niederschlagswahrscheinlichkeit
-[T-Storms 40% Chance Of Precipitation]
-Gewitter, 40% Niederschlagswahrscheinlichkeit
-[T-Storms 50% Chance Of Precipitation]
-Gewitter, 50% Niederschlagswahrscheinlichkeit
-[T-Storms 60% Chance Of Precipitation]
-Gewitter, 60% Niederschlagswahrscheinlichkeit
-[T-Storms 70% Chance Of Precipitation]
-Gewitter, 70% Niederschlagswahrscheinlichkeit
-[T-Storms 80% Chance Of Precipitation]
-Gewitter, 80% Niederschlagswahrscheinlichkeit
-[T-Storms 90% Chance Of Precipitation]
-Gewitter, 90% Niederschlagswahrscheinlichkeit
-[Thunderstorm Rain]
-Gewitterregen
-[Thunderstorm]
-Gewitter
-[Thunderstorms And Rain]
-Unwetter und Regen
-[Thursday]
-Donnerstag
-[Tuesday]
-Dienstag
-[UV Index]
-UV-Index
-[Var]
-Var
-[Visible Light Length]
-Sichtbare Lichtlänge
-[WNW]
-WNW
-[WSW]
-WSW
-[W]
-W
-[Waning Crescent]
-abnehmend
-[Waning Gibbous]
-abnehmender Mond
-[Waxing Crescent]
-zunehmend
-[Waxing Gibbous]
-zunehmender Mond
-[Wednesday]
-Mittwoch
-[West]
-West
-[Wind Direction DEG]
-Windrichtung (Grad)
-[Wind Direction]
-Windrichtung
-[Wind Gust]
-Windböe
-[Wind Speed]
-Windgeschwindigkeit
-[longer]
-länger
-[of the Moon is Illuminated]
-des Mondes ist beleuchtet
-[shorter]
-kürzer
-;============================================================
-;  File: wundergrnd_xml.ini
-;  Module: weather
-;============================================================
-[Alert]
-Alarm
-[Blowing Snow]
-Schneesturm
-[Chance Of A Thunderstorm 20% Chance Of Precipitation]
-Wahrscheinlichkeit von Gewitter, 20% Niederschlagswahrscheinlichkeit
-[Chance Of Rain 20% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 20% Niederschlagswahrscheinlichkeit
-[Chance Of Rain 30% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 30% Niederschlagswahrscheinlichkeit
-[Chance Of Rain 40% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 40% Niederschlagswahrscheinlichkeit
-[Chance Of Rain 50% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 50% Niederschlagswahrscheinlichkeit
-[Chance Of Rain 60% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 60% Niederschlagswahrscheinlichkeit
-[Chance Of Rain 70% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 70% Niederschlagswahrscheinlichkeit
-[Chance Of Rain 80% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 80% Niederschlagswahrscheinlichkeit
-[Chance Of Rain]
-Wahrscheinlichkeit von Regen
-[Chance Of Snow 20% Chance Of Precipitation]
-Wahrscheinlichkeit von Schnee, 20% Niederschlagswahrscheinlichkeit
-[Chance Of Snow 30% Chance Of Precipitation]
-Wahrscheinlichkeit von Schnee, 30% Niederschlagswahrscheinlichkeit
-[Chance Of Snow 40% Chance Of Precipitation]
-Wahrscheinlichkeit von Schnee, 40% Niederschlagswahrscheinlichkeit
-[Chance Of Snow 50% Chance Of Precipitation]
-Wahrscheinlichkeit von Schnee, 50% Niederschlagswahrscheinlichkeit
-[Chance Of Snow 60% Chance Of Precipitation]
-Wahrscheinlichkeit von Schnee, 60% Niederschlagswahrscheinlichkeit
-[Chance Of Snow 70% Chance Of Precipitation]
-Wahrscheinlichkeit von Schnee, 70% Niederschlagswahrscheinlichkeit
-[Chance Of Snow 80% Chance Of Precipitation]
-Wahrscheinlichkeit von Schnee, 80% Niederschlagswahrscheinlichkeit
-[Chance Of Snow]
-Wahrscheinlichkeit von Schnee
-[Chance Of T-Storms 20% Chance Of Precipitation]
-Wahrscheinlichkeit von Gewittern, 20% Niederschlagswahrscheinlichkeit
-[Chance Of T-Storms 30% Chance Of Precipitation]
-Wahrscheinlichkeit von Gewittern, 30% Niederschlagswahrscheinlichkeit
-[Chance Of T-Storms 40% Chance Of Precipitation]
-Wahrscheinlichkeit von Gewittern, 40% Niederschlagswahrscheinlichkeit
-[Chance Of T-Storms 50% Chance Of Precipitation]
-Wahrscheinlichkeit von Gewittern, 50% Niederschlagswahrscheinlichkeit
-[Chance Of T-Storms 60% Chance Of Precipitation]
-Wahrscheinlichkeit von Gewittern, 60% Niederschlagswahrscheinlichkeit
-[Chance Of T-Storms 70% Chance Of Precipitation]
-Wahrscheinlichkeit von Gewittern, 70% Niederschlagswahrscheinlichkeit
-[Chance Of T-Storms 80% Chance Of Precipitation]
-Wahrscheinlichkeit von Gewittern, 80% Niederschlagswahrscheinlichkeit
-[Chance Of T-Storms 90% Chance Of Precipitation]
-Wahrscheinlichkeit von Gewittern, 90% Niederschlagswahrscheinlichkeit
-[Chance Rain 40% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 40% Niederschlagswahrscheinlichkeit
-[Chance Rain 50% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 50% Niederschlagswahrscheinlichkeit
-[Chance Rain 80% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 80% Niederschlagswahrscheinlichkeit
-[Chance Rain 90% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 90% Niederschlagswahrscheinlichkeit
-[Clear]
-Klar
-[Cloudy]
-Wolkig
-[Day Length Diff]
-Tageslängenunterschied
-[Day Length]
-Tagesdauer
-[Drizzle Fog]
-Nieselregen Nebel
-[Drizzle Mist]
-Nieselregen Dunst
-[Drizzle]
-Nieselregen
-[ENE]
-ONO
-[ESE]
-OSO
-[E]
-O
-[East]
-Ost
-[Elevation]
-Elevation
-[Falling]
-Fallend
-[Feel]
-gefühlt
-[First Quarter]
-Erstes Viertel
-[Fog]
-Nebel
-[Forecast Day 1 Condition]
-Vorhersage Tag 1 Bedingungen
-[Forecast Day 1 Day]
-Vorhersage Tag 1 Tag
-[Forecast Day 1 High]
-Vorhersage Tag 1 Höchstwerte
-[Forecast Day 1 Low]
-Vorhersage Tag 1 Tiefstwerte
-[Forecast Day 1 Night Text]
-Vorhersage Tag 1 Nacht
-[Forecast Day 1 Text]
-Vorhersage Tag 1 Text
-[Forecast Day 1]
-Vorhersage Tag 1
-[Forecast Day 2 Condition]
-Vorhersage Tag 2 Bedingungen
-[Forecast Day 2 Day]
-Vorhersage Tag 2 Tag
-[Forecast Day 2 High]
-Vorhersage Tag 2 Höchstwerte
-[Forecast Day 2 Low]
-Vorhersage Tag 2 Tiefstwerte
-[Forecast Day 2 Night Text]
-Vorhersage Tag 2 Nacht
-[Forecast Day 2 Text]
-Vorhersage Tag 2 Text
-[Forecast Day 2]
-Vorhersage Tag 2
-[Forecast Day 3 Condition]
-Vorhersage Tag 3 Bedingungen
-[Forecast Day 3 Day]
-Vorhersage Tag 3 Tag
-[Forecast Day 3 High]
-Vorhersage Tag 3 Höchstwerte
-[Forecast Day 3 Low]
-Vorhersage Tag 3 Tiefstwerte
-[Forecast Day 3 Night Text]
-Vorhersage Tag 3 Nacht
-[Forecast Day 3 Text]
-Vorhersage Tag 3 Text
-[Forecast Day 3]
-Vorhersage Tag 3
-[Forecast Day 4 Condition]
-Vorhersage Tag 4 Bedingungen
-[Forecast Day 4 Day]
-Vorhersage Tag 4 Tag
-[Forecast Day 4 High]
-Vorhersage Tag 4 Höchstwerte
-[Forecast Day 4 Low]
-Vorhersage Tag 4 Tiefstwerte
-[Forecast Day 4 Night Text]
-Vorhersage Tag 4 Nacht
-[Forecast Day 4 Text]
-Vorhersage Tag 4 Text
-[Forecast Day 4]
-Vorhersage Tag 4
-[Forecast Day 5 Condition]
-Vorhersage Tag 5 Bedingungen
-[Forecast Day 5 Day]
-Vorhersage Tag 5 Tag
-[Forecast Day 5 High]
-Vorhersage Tag 5 Höchstwerte
-[Forecast Day 5 Low]
-Vorhersage Tag 5 Tiefstwerte
-[Forecast Day 5 Night Text]
-Vorhersage Tag 5 Nacht
-[Forecast Day 5 Text]
-Vorhersage Tag 5 Text
-[Forecast Day 5]
-Vorhersage Tag 5
-[Freezing Drizzle Mist]
-Gefrierender Nieselregen Dunst
-[Freezing Drizzle]
-Gefrierender Niesel
-[Freezing Fog]
-Gefrierender Nebel
-[Freezing Rain Mist]
-Gefrierender Regendunst
-[Freezing Rain]
-gefrierender Regen
-[Friday]
-Freitag
-[Full Moon]
-Vollmond
-[Haze]
-Dunst
-[Heat Index]
-gefühlte Temperatur
-[Heavy Blowing Snow]
-Schweres Schneesturm
-[Heavy Fog]
-Dichter Nebel
-[Heavy Rain Showers]
-Starke Regenschauer
-[Heavy Showers Snow Blowing Snow]
-Schwere Schauer, Schnee, Schneesturm
-[Heavy Showers Snow Heavy Blowing Snow]
-Schwere Schneeschauer,Schwerer Schneesturm
-[Heavy Showers Snow Mist]
-Schwere Schauer, Schneedunst
-[Heavy Showers Snow]
-schwere Schneeschauer
-[Heavy Snow Showers]
-Starke Schneestürme
-[Heavy Snow]
-starker Schneefall
-[Heavy Thunderstorm Rain]
-Schweres Gewitterregen
-[Ice Crystals Mist]
-Eiskristall Nebel
-[Ice Pellets 30% Chance Of Precipitation]
-Eisgraupel, 30% Niederschlagswahrscheinlichkeit
-[Ice Pellets 40% Chance Of Precipitation]
-Eisgraupel, 40% Niederschlagswahrscheinlichkeit
-[Ice Pellets 50% Chance Of Precipitation]
-Eisgraupel, 50% Niederschlagswahrscheinlichkeit
-[Ice Pellets 60% Chance Of Precipitation]
-Eisgraupel, 60% Niederschlagswahrscheinlichkeit
-[Ice Pellets 70% Chance Of Precipitation]
-Eisgraupel, 70% Niederschlagswahrscheinlichkeit
-[Ice Pellets 80% Chance Of Precipitation]
-Eisgraupel, 80% Niederschlagswahrscheinlichkeit
-[Ice Pellets 90% Chance Of Precipitation]
-Eisgraupel, 90% Niederschlagswahrscheinlichkeit
-[Ice Pellets]
-Eisgraupel
-[Last Quarter]
-Letztes Viertel
-[Latitude]
-Breitengrad
-[Light Blowing Snow]
-Leichtes Schneesturm
-[Light Drizzle Mist]
-Leichter Graupel/Nebel
-[Light Drizzle]
-leichter Niesel
-[Light Fog]
-Leichter Nebel
-[Light Freezing Drizzle Mist]
-Leichter gefrierender Graupel/Nebel
-[Light Freezing Drizzle Snow]
-Leicht gefrierender Nieselschnee
-[Light Freezing Drizzle]
-Leichter, überfrierender Niesel
-[Light Freezing Rain Mist]
-Leichter Frostregen,Dunst
-[Light Freezing Rain]
-Leichter Frostregen
-[Light Ice Pellets]
-leichte Eisgraupel
-[Light Rain Fog]
-Leichter Regennebel
-[Light Rain Mist]
-leichter Regennebel
-[Light Rain Showers]
-Leichte Regenschauer
-[Light Rain Snow Mist]
-Leichter Regenschneedunst
-[Light Rain Snow]
-leichter Schneeregen
-[Light Rain]
-Leichter Regen
-[Light Showers Rain Mist]
-Leichter Regenschauer/Nebel
-[Light Showers Rain]
-Leichte Regenschauer
-[Light Showers Showers Rain]
-Leichte Schauer, Regenschauer
-[Light Showers Snow Blowing Snow]
-Leichte Schauer, Schnee, Schneesturm
-[Light Showers Snow Light Blowing Snow]
-Leichte Schneeschauer, leichtes Schneesturm
-[Light Showers Snow Mist]
-Leichte Schauer, Schneenebel
-[Light Showers Snow Rain Mist]
-Leichte Schauer, Regenschneedunst
-[Light Showers Snow Rain]
-leichte Schneeregenschauer
-[Light Showers Snow]
-Leichte Schneeschauer
-[Light Snow 30% Chance Of Precipitation]
-Leichter Schnee, 30% Niederschlagswahrscheinlichkeit
-[Light Snow Blowing Snow]
-Leichter Schnee, Schneesturm
-[Light Snow Grains]
-leichte Schneekörner
-[Light Snow Light Blowing Snow]
-Leichter Schnee, Leichter Schneesturm
-[Light Snow Mist]
-leichter Schneenebel
-[Light Snow Rain]
-Leichter Schneeregen
-[Light Snow Shallow Fog]
-Leichter Schnee,dünner Nebel
-[Light Snow Showers]
-leichte Schneeschauer
-[Light Snow]
-leichter Schneefall
-[Light Thunderstorm Rain]
-Leichte Gewitterregen
-[Light Thunderstorm]
-Leichtes Unwetter
-[Local Time]
-Lokale Zeit
-[longer]
-länger
-[Longitude]
-Längengrad
-[Max]
-Max
-[Min]
-Min
-[Mist]
-Nebelschleier
-[Monday]
-Montag
-[Moon]
-Mondphase
-[Moonrise]
-Mondaufgang
-[Moonset]
-Monduntergang
-[Mostly Clear]
-Meist klar
-[Mostly Cloudy]
-Meist wolkig
-[Mostly Sunny]
-Meist sonnig
-[N/a]
-n.v.
-[NE]
-NE
-[NNE]
-NNO
-[NNW]
-NNW
-[NW]
-NW
-[N]
-N
-[New Moon]
-Neumond
-[North]
-Nord
-[Northeast]
-Nordost
-[Northwest]
-Nordwest
-[of the Moon is Illuminated]
-des Mondes ist beleuchtet
-[Overcast]
-trüb
-[Partial Fog]
-Teils neblig
-[Partly Cloudy]
-Teils wolkig
-[Partly Sunny]
-Teils sonnig
-[Patches Fog]
-Leichter Nebel
-[Pressure Change]
-Druckänderung
-[Rain 100% Chance Of Precipitation]
-Regen, 100% Niederschlagswahrscheinlichkeit
-[Rain 20% Chance Of Precipitation]
-Regen, 20% Niederschlagswahrscheinlichkeit
-[Rain 40% Chance Of Precipitation]
-Regen, 40% Niederschlagswahrscheinlichkeit
-[Rain 50% Chance Of Precipitation]
-Regen, 50% Niederschlagswahrscheinlichkeit
-[Rain 60% Chance Of Precipitation]
-Regen, 60% Niederschlagswahrscheinlichkeit
-[Rain 70% Chance Of Precipitation]
-Regen, 70% Niederschlagswahrscheinlichkeit
-[Rain 80% Chance Of Precipitation]
-Regen, 80% Niederschlagswahrscheinlichkeit
-[Rain 90% Chance Of Precipitation]
-Regen, 90% Niederschlagswahrscheinlichkeit
-[Rain Fog]
-Regendunst
-[Rain]
-Regen
-[Rising]
-Steigend
-[SE]
-SO
-[SSE]
-SSO
-[SSW]
-SSW
-[SW]
-SW
-[S]
-S
-[Saturday]
-Samstag
-[Scattered Clouds]
-Vereinzelte Wolken
-[Shallow Fog]
-Seichter Nebel
-[shorter]
-kürzer
-[Showers Rain Snow]
-Schauer Regen Schnee
-[Showers Rain]
-Regenschauer
-[Showers Showers Rain]
-Schwere Regenschauer
-[Showers Snow Blowing Snow]
-Schauer,Schnee,Schneesturm
-[Showers Snow Heavy Blowing Snow]
-Schneeschauer, schweres Schneesturm
-[Showers Snow Rain]
-Schauer, Schneeregen
-[Showers Snow]
-Schneeschauer
-[Smoke]
-Smog
-[Snow 100% Chance Of Precipitation]
-Schnee, 100% Niederschlagswahrscheinlichkeit
-[Snow 20% Chance Of Precipitation]
-Schnee, 20% Niederschlagswahrscheinlichkeit
-[Snow 30% Chance Of Precipitation]
-Schnee, 30% Niederschlagswahrscheinlichkeit
-[Snow 40% Chance Of Precipitation]
-Schnee, 40% Niederschlagswahrscheinlichkeit
-[Snow 50% Chance Of Precipitation]
-Schnee, 50% Niederschlagswahrscheinlichkeit
-[Snow 60% Chance Of Precipitation]
-Schnee, 60% Niederschlagswahrscheinlichkeit
-[Snow 70% Chance Of Precipitation]
-Schnee, 70% Niederschlagswahrscheinlichkeit
-[Snow 80% Chance Of Precipitation]
-Schnee, 80% Niederschlagswahrscheinlichkeit
-[Snow 90% Chance Of Precipitation]
-Schnee, 90% Niederschlagswahrscheinlichkeit
-[Snow Blowing Snow]
-Schnee,Schneesturm
-[Snow Freezing Rain]
-Schnee, gefrierender Regen
-[Snow Grains]
-Schneekörner
-[Snow Heavy Blowing Snow]
-Schnee, Schweres Schneesturm
-[Snow Mist]
-Schneedunst
-[Snow Rain Mist]
-Schneeregendunst
-[Snow Rain]
-Schneeregen
-[Snow Showers 30% Chance Of Precipitation]
-Schneeschauer, 30% Niederschlagswahrscheinlichkeit
-[Snow Showers 40% Chance Of Precipitation]
-Schneeschauer, 40% Niederschlagswahrscheinlichkeit
-[Snow Showers 50% Chance Of Precipitation]
-Schneeschauer, 50% Niederschlagswahrscheinlichkeit
-[Snow Showers 60% Chance Of Precipitation]
-Schneeschauer, 60% Niederschlagswahrscheinlichkeit
-[Snow Showers 70% Chance Of Precipitation]
-Schneeschauer, 70% Niederschlagswahrscheinlichkeit
-[Snow Showers 80% Chance Of Precipitation]
-Schneeschauer, 80% Niederschlagswahrscheinlichkeit
-[Snow Showers]
-Schneeschauer
-[Snow]
-Schnee
-[South]
-Süd
-[Southeast]
-Südost
-[Southwest]
-Südwest
-[Stable]
-Stabil
-[Steady]
-Ruhig
-[Sunday]
-Sonntag
-[T-Storms 100% Chance Of Precipitation]
-Gewitter, 100% Niederschlagswahrscheinlichkeit
-[T-Storms 30% Chance Of Precipitation]
-Gewitter, 30% Niederschlagswahrscheinlichkeit
-[T-Storms 40% Chance Of Precipitation]
-Gewitter, 40% Niederschlagswahrscheinlichkeit
-[T-Storms 50% Chance Of Precipitation]
-Gewitter, 50% Niederschlagswahrscheinlichkeit
-[T-Storms 60% Chance Of Precipitation]
-Gewitter, 60% Niederschlagswahrscheinlichkeit
-[T-Storms 70% Chance Of Precipitation]
-Gewitter, 70% Niederschlagswahrscheinlichkeit
-[T-Storms 80% Chance Of Precipitation]
-Gewitter, 80% Niederschlagswahrscheinlichkeit
-[T-Storms 90% Chance Of Precipitation]
-Gewitter, 90% Niederschlagswahrscheinlichkeit
-[Thunderstorm Rain]
-Gewitterregen
-[Thunderstorm]
-Gewitter
-[Thunderstorms And Rain]
-Unwetter und Regen
-[Thursday]
-Donnerstag
-[Tuesday]
-Dienstag
-[UV Index]
-UV-Index
-[Var]
-Var
-[Visible Light Length]
-Sichtbare Lichtlänge
-[WNW]
-WNW
-[WSW]
-WSW
-[W]
-W
-[Waning Crescent]
-Abnehmender Halbmond
-[Waning Gibbous]
-Abnehmender Mond
-[Waxing Crescent]
-Zunehmender Halbmond
-[Waxing Gibbous]
-Zunehmender Mond
-[Wednesday]
-Mittwoch
-[West]
-West
-[Wind Direction DEG]
-Windrichtung (Grad)
-[Wind Direction]
-Windrichtung
-[Wind Gust]
-Windböe
-[Wind Speed]
-Windgeschwindigkeit
-;============================================================
-;  File: yweather.ini
-;  Plugin: Weather
-;============================================================
-[ENE]
-ONO
-[ESE]
-OSO
-[E]
-O
-[East]
-Ost
-[Feel]
-gefühlt
-[Forecast Day 1 Condition]
-Vorhersage Tag 1 Bedingungen
-[Forecast Day 1 Date]
-Vorhersage Tag 1 Datum
-[Forecast Day 1 Day]
-Vorhersage Tag 1 Tag
-[Forecast Day 1 High]
-Vorhersage Tag 1 Höchstwerte
-[Forecast Day 1 Low]
-Vorhersage Tag 1 Tiefstwerte
-[Forecast Day 1]
-Vorhersage Tag 1
-[Fri]
-Fr
-[Heat Index]
-gefühlte Temperatur
-[Mon]
-Mo
-[Mostly Clear]
-überwiegend klar
-[Mostly Cloudy]
-überwiegend bewölkt
-[Mostly Sunny]
-überwiegend sonnig
-[NE]
-NE
-[NNE]
-NNO
-[NNW]
-NNW
-[NW]
-NW
-[N]
-N
-[North]
-Nord
-[Northeast]
-Nordost
-[Northwest]
-Nordwest
-[Partly Cloudy]
-teils bewölkt
-[Partly Sunny]
-teils sonnig
-[SE]
-SO
-[SSE]
-SSO
-[SSW]
-SSW
-[SW]
-SW
-[S]
-S
-[Sat]
-Sa
-[Scattered Clouds]
-Vereinzelte Wolken
-[South]
-Süd
-[Southeast]
-Südost
-[Southwest]
-Südwest
-[Sun]
-So
-[Sunny]
-sonnig
-[Thu]
-Do
-[Tue]
-Di
-[WNW]
-WNW
-[WSW]
-WSW
-[W]
-W
-[Wed]
-Mi
-[West]
-West
-[Wind Direction Degrees]
-Windrichtung Grad
-[Wind Direction]
-Windrichtung
-[Wind Speed]
-Windgeschwindigkeit
 #muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
 ;============================================================
 ;  File: Webview.dll
@@ -34904,6 +33259,12 @@ SuperAdministrator
 Administrator
 [Participant]
 Teilnehmer
+[Incoming call]
+Eingehender Anruf
+[Call rejected]
+Anruf abgelehnt
+[Call ended]
+Anruf beendet
 [WhatsApp (HTTP)]
 WhatsApp (HTTP)
 [Do you really want to log out from account? You will have to link your devices again.]

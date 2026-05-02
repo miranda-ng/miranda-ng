@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.95.11.1
+;  Version: 0.96.7.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -506,8 +506,6 @@ Unterstützt die Verwaltung von Chatverläufen
 Kann Informationen über die Aktivität des Benutzers veröffentlichen
 [Receives information about user activity]
 Empfängt Informationen über die Aktivität des Benutzers
-[Supports Miranda NG notes extension]
-Unterstützt die Miranda-NG-Notizenerweiterung
 [Supports Roster Exchange]
 Unterstützt Kontaktlistenaustausch
 [Supports direct chat invitations (XEP-0249)]
@@ -812,8 +810,6 @@ In Raum umwandeln
 An-/Abmelden
 [Resolve nicks]
 Nicks auflösen
-[Send note]
-Notiz senden
 [AdHoc Command]
 Ad-Hoc-Befehl
 [OpenID Request]
@@ -925,8 +921,6 @@ Jabber-Kontenauswahl
 Als Lesezeichen speichern
 [Commands]
 Befehle
-[Send Note]
-Notiz senden
 [Send Presence]
 Chatstatus setzen
 [Jabber Resource]
@@ -969,6 +963,11 @@ Keine Aktivität festgestellt, Auswahl durch Server
 Höchste Priorität (Auswahl durch Server)
 [Status Message]
 Statusnachricht
+;file \protocols\JabberG\src\jabber_message.cpp
+[Message redirected from: %s\r\n]
+Nachricht weitergeleitet von: %s\r\n
+[Unable to decrypt a carbon copy of the encrypted outgoing message]
+Konnte eine Durchschlagskopie der verschlüsselten ausgehenden Nachricht nicht entschlüsseln
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [To]
@@ -980,10 +979,6 @@ Beides
 [Errors]
 Fehler
 ;file \protocols\JabberG\src\jabber_notes.cpp
-[Incoming note from %s]
-Eingehende Notiz von %s
-[Send note to %s]
-Notiz an %s senden
 [From: %s]
 Von: %s
 [All tags]
@@ -992,8 +987,6 @@ Alle Schlagwörter
 Notizen wurden nicht gespeichert. Fenster schließen, ohne diese auf den Server hochzuladen?
 [Are you sure?]
 Sind Sie sich sicher?
-[Incoming note]
-Eingehende Notiz
 ;file \protocols\JabberG\src\jabber_omemo.cpp
 [Unknown OMEMO device added!]
 Unbekanntes OMEMO-Gerät hinzugefügt!
@@ -1410,10 +1403,6 @@ Empfang von Stimmung aktivieren
 Empfang von Musikinformationen aktivieren
 [Enable user activity receiving]
 Empfang von Aktivität aktivieren
-[Receive notes]
-Notizen empfangen
-[Automatically save received notes]
-Empfangene Notizen automatisch speichern
 [Inline pictures in messages (XEP-0231)]
 Bilder in Nachrichten einbetten (XEP-0231)
 [Enable chat states sending (XEP-0085)]
@@ -1657,6 +1646,10 @@ Liste kann nicht gespeichert werden, weil Sie zurzeit offline sind.
 [List Editor...]
 Liste bearbeiten...
 ;file \protocols\JabberG\src\jabber_proto.cpp
+[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
+Ich bin ein fröhlicher Miranda-NG-Nutzer. Sie bekommen es unter https://miranda-ng.org.
+[/me slaps %s around a bit with a large trout]
+/me schlägt %s mit einem großen Hering.
 [%s error notifications]
 %s Fehlerbenachrichtigungen
 [No valid OMEMO session exists]
@@ -1790,10 +1783,6 @@ Fehler: Verbindung unterbrochen
 Registrierungsanweisung wird empfangen...
 [Authentication failed for %s@%s.]
 Autorisierung fehlgeschlagen für %s@%s.
-[Message redirected from: %s\r\n]
-Nachricht weitergeleitet von: %s\r\n
-[Unable to decrypt a carbon copy of the encrypted outgoing message]
-Konnte eine Durchschlagskopie der verschlüsselten ausgehenden Nachricht nicht entschlüsseln
 [Registration canceled]
 Registrierung abgebrochen
 [Sending registration information...]
@@ -2260,8 +2249,3 @@ Hört gerade
 Stimmungen
 [Activities]
 Aktivitäten
-;file \protocols\JabberG\src\stdafx.h
-[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
-Ich bin ein fröhlicher Miranda-NG-Nutzer. Sie bekommen es unter https://miranda-ng.org.
-[/me slaps %s around a bit with a large trout]
-/me schlägt %s mit einem großen Hering.

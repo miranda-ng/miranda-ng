@@ -26,8 +26,6 @@ Události pro ukončení
 Závažné události pro ukončení
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Automaticky ukončit operační systém a vypnout počítač, nastane-li jedna z následujících variant:
-[&Thunderstorm warning is issued (Weather)]
-Varování před bouřkou (Wea&ther)
 [Automatic shutdown]
 Automatické ukončení
 [Select the automatic shutdown event]

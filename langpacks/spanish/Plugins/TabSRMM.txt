@@ -150,8 +150,6 @@ Cancelar
 
 [Ignore sending timeouts]
 
-[Load only actual history]
-
 [Use private splitter position]
 
 [Always trim message log to]
@@ -608,18 +606,6 @@ Seleccionar todo
 Global
 [Private]
 
-[Send text formatting]
-
-[BBCode]
-
-[Off]
-Apagado
-[This contact]
-
-[Global setting]
-
-[Force off]
-
 [Set position for this session]
 
 [Set and save for all sessions]
@@ -697,13 +683,13 @@ Barra de herramientas
 
 [Info button]
 
-[Bold text]
-
-[Italic text]
-
-[Underlined text]
-
-[Strike-through text]
+[Bold]
+Negrita
+[Italics]
+Cursiva
+[Underlined]
+Subrayado
+[Strikethrough]
 
 [Send message\nClick dropdown arrow for sending options]
 
@@ -715,16 +701,16 @@ Barra de herramientas
 
 [View user's history]
 Ver historial del usuario
-[Select a foreground color for the text (Ctrl+K)]
-Seleccione un color de primer plano para el texto (Ctrl+K)
-[Select a background color for the text (Ctrl+L)]
-Seleccione un color de fondo para el texto (Ctrl+L)
-[Show/hide the nick list (Ctrl+N)]
-Mostrar/ocultar la lista de apodos (Ctrl+N)
-[Enable/disable the event filter (Ctrl+F)]
-Activar/desactivar el filtro de eventos (Ctrl+F)
-[Control this room (Ctrl+O)]
-Controlar esta sala (Ctrl+O)
+[Select text color]
+
+[Select background color]
+Seleccione un color de fondo
+[Show/hide the nick list]
+Mostrar/ocultar la lista de apodos
+[Enable/disable the event filter]
+Activar/desactivar el filtro de eventos
+[Control this room]
+Controlar esta sala
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Sesiones de mensaje
@@ -915,7 +901,7 @@ Parpadear ventana cuando alguien habla
 Parpadear ventana cuando se resalta una palabra
 [Create tabs or windows for highlight events]
 
-[Activate chat window on highlight]
+[Apply tab creation rules to group chats too]
 
 [Show list of users in the chat room]
 Mostrar lista de usuarios en la sala de chat
@@ -1169,14 +1155,6 @@ Pegar y Enviar
 
 [Collapse side bar]
 
-[Channel manager]
-
-[Toggle filter]
-
-[Toggle nick list]
-
-[Show server window]
-
 ;file \plugins\TabSRMM\src\infopanel.cpp
 [%s    Idle: %dh,%02dm]
 
@@ -1247,9 +1225,6 @@ Avatares
 
 [Typing notification]
 Escribiendo notificación
-;file \plugins\TabSRMM\src\modplus.cpp
-[Insert [img] tag / surround selected text with [img][/img]]
-
 ;file \plugins\TabSRMM\src\msgdialog.cpp
 [Add this contact permanently to your contact list]
 
@@ -1314,12 +1289,10 @@ minutos
 
 [%s on %s%s]
 
-[%s: chat room (%u user%s)]
-
-[%s: chat room (%u users%s)]
-
-[, event filter active]
-
+[%s: chat room (%u user)]
+%s: sala de chat (%u usuario)
+[%s: chat room (%u users)]
+%s: sala de chat (%u usuarios)
 [%s: message session]
 %s: sesión de mensaje
 [%s: message session (%u users)]
@@ -1418,6 +1391,8 @@ minutos
 
 [Delete temporary contacts on close]
 
+[Use Ctrl+arrows to scroll history in the input window]
+
 [Sending messages]
 
 [Minimize the message window on send]
@@ -1425,8 +1400,6 @@ Minimizar la ventana de mensaje al enviar
 [Close the message window on send]
 Cerrar la ventana de mensaje al enviar
 [Enable "Paste and send" feature]
-
-[Allow BBCode formatting in outgoing messages]
 
 [Automatically split long messages (experimental, use with care)]
 
@@ -1571,25 +1544,23 @@ Notificación de escritura
 ;file \plugins\TabSRMM\src\msgs.cpp
 [Message Log options]
 
-[Image tag]
-
 [Quote text]
 
 [Save and close]
 
 [Smiley button]
 Botón de emoticono
-[Format bold]
+[Make the text bold]
 
-[Format italic]
+[Make the text italicized]
 
-[Format underline]
+[Make the text underlined]
 
 [Font face]
 
 [Font color]
 
-[Format strike-through]
+[Make the text strikethrough]
 
 [Background color]
 Color de fondo
@@ -1643,8 +1614,6 @@ Registro de mensaje
 [Message windows - IM]
 
 [Message windows - all]
-
-[Message windows - group chats]
 
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
@@ -1769,6 +1738,10 @@ El contacto ha comenzado a escribir
 [Contact stopped typing]
 El contacto dejó de escribir
 ;file \plugins\TabSRMM\src\userprefs.cpp
+[BBCode]
+
+[Force off]
+
 [Set messaging options for %s]
 
 ;file \plugins\TabSRMM\src\utils.cpp

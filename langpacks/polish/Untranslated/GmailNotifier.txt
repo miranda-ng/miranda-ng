@@ -1,0 +1,5 @@
+[Enable auto login]
+[To allow Miranda NG access to GMail]
+[Enter account name]
+[Enter your Google email]
+[Deauthorize]

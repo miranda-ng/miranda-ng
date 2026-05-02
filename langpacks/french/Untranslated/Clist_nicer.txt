@@ -14,5 +14,4 @@
 [You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
 [Contact list local time]
 [&Collapsed]
-[Contact list docking]
 [Draw sunken frame]

@@ -2,13 +2,13 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.16.12
+;  Version: 0.1.19.7
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Zapewnia obsługę protokołu VKontakte w Mirandzie NG.
 ;file \protocols\VKontakte\res\resource.rc
-[Show in protocol menu ]
+[Show in protocol menu]
 Pokazuje w menu protokołu
 [Create new chat]
 Utwórz nowy czat
@@ -56,8 +56,6 @@ Przetwarzaj naklejki jako uśmieszki
 Skracaj linki do załączników audio
 [Use non-standard popups for news and event notifications]
 Używaj niestandardowych powiadomień dla  aktualności i zdarzeń
-[Add message link to messages with attachments]
-Dodawaj wiadomość z linkiem w przypadku wiadomości z załącznikiem
 [Add original message version in edited message]
 
 [News and event notifications]
@@ -116,12 +114,10 @@ Udostępnienia
 Wspomnienia w komentarzach
 [Accepted friend requests]
 Zaakceptowane prośby znajomości
-[E-mail or phone number:]
-E-mail lub numer telefonu:
-[Password:]
-Hasło:
 [Open VKontakte site]
 Otwórz stronę VKontakte
+[Token Request]
+
 [Advanced]
 Zaawansowane
 [Do not open chat windows on creation]
@@ -158,8 +154,6 @@ Jako zwykły status dla muzyki nieznanej, w przeciwnym razie status audio
 Tylko jako status audio
 [as regular status only]
 Tylko jako zwykły status
-[Login settings]
-Opcje logowania
 [Local settings]
 Ustawienia lokalne
 [Contact list group:]
@@ -176,8 +170,6 @@ Załaduj ostatnie wiadomości przy otwarciu okna wiadomości i pustej lokalnej h
 Używaj czasu lokalnego dla odebranych wiadomości
 [Load only friends to local contact list]
 Wczytuj do lokalnej listy kontaktów wyłącznie znajomych
-[Server-side delivery confirmation]
-Potwierdzenie dostarczenia ze strony serwera
 [Bots challenge test]
 Test sprawdzający obecność botów
 [Instruction:]
@@ -233,14 +225,20 @@ Ikona odczytania wiadomości
 
 [Reload messages icon]
 
+[Protocols]
+Protokoły
+[VKontakte]
+VKontakte
 [Access denied! Data will not be sent or received.]
 Odmowa dostępu! Dane nie będą wysyłane, ani odbierane.
 [Error]
 Błąd
-[You have to validate your account before you can use VK in Miranda NG]
-Musisz aktywować swoje konto zanim użyjesz VK w Mirandzie NG
 [Error %d. Data will not be sent or received.]
 Błąd %d. Dane nie zostaną wysłane lub odebrane.
+[Captcha processing error.]
+
+[You have to validate your account before you can use VK in Miranda NG]
+Musisz aktywować swoje konto zanim użyjesz VK w Mirandzie NG
 [One of the parameters specified was missing or invalid]
 Brakuje jednego z określonych parametrów lub jest on nieprawidłowy
 [Access to adding post denied]
@@ -253,12 +251,6 @@ Nie można wysłać wiadomości do blokowanych użytkowników
 Nie można wysłać wiadomości do tego użytkownika ze względu na jego ustawienia prywatności
 [Message is too long]
 Wiadomość jest za długa
-[Enter the missing digits between %s and %s of the phone number linked to your account]
-Wprowadź brakujące kropki pomiędzy %s i %s numeru telefonu połączonego z Twoim kontem
-[Attention!]
-Uwaga!
-[Enter confirmation code]
-Wprowadź kod weryfikacyjny
 [Enter new nickname]
 Wprowadź nowy nick
 [Message read: %s]
@@ -372,8 +364,6 @@ Ostrzeżenie
 
 [\nOriginal message:\n]
 
-[Message link]
-Link wiadomości
 [create chat]
 stwórz czat
 [kick user]
@@ -429,11 +419,13 @@ Nazwa nowego czatu:
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 Wprowadź tekst, który widzisz
+[Logon for ]
+
+[To log into the VKontakte protocol, you need to authorize in the browser and copy the received address from its address bar into the field below.\nDo not change anything when copying!\nYou will have to ignore the anti-copy message that you will see in your browser. Unfortunately, Miranda NG cannot authorize you in any other way right now.]
+
 [Wall message for %s]
 Post na tablicy dla %s
 ;file \protocols\VKontakte\src\vk_feed.cpp
-[VKontakte]
-VKontakte
 [New news]
 Nowe aktualności
 [New notifications]
@@ -496,6 +488,8 @@ Wystąpił nieznany błąd
 ;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Czy na pewno chcesz ponownie załadować wszystkie wiadomości z vk.com?\nLokalna historia kontaktu zostanie usunięta i ponownie załadowana z serwera.\nTo może zająć dużo czasu.\nCzy chcesz kontynuować?
+[Attention!]
+Uwaga!
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nDo you want to continue?]
 
 [Error loading message history from server.]
@@ -506,8 +500,6 @@ Zakończono pobieranie wiadomości dla wszystkich kontaktów.
 Pobieranie historii
 [Error loading message history for %s from server.]
 
-[Loading messages for %s is completed.]
-Zakończono pobieranie wiadomości dla %s.
 ;file \protocols\VKontakte\src\vk_messages.cpp
 [Me]
 Ja
@@ -559,6 +551,8 @@ Te zmiany zostaną wprowadzone po ponownym uruchomieniu Mirandy NG.\nCzy chcesz 
 [VKontakte protocol]
 Protokół VKontakte
 ;file \protocols\VKontakte\src\vk_pollserver.cpp
+[This message has been marked as spam in %s:\n]
+
 [This message has been deleted by sender in %s:\n]
 
 ;file \protocols\VKontakte\src\vk_proto.cpp
@@ -567,6 +561,8 @@ Zdarzenie powiadomień kanału aktualności
 [Forward]
 
 [Reload messages]
+
+[Go to site IM]
 
 [Mark messages as read]
 Oznacz wiadomości jako przeczytane
@@ -618,8 +614,6 @@ Oczekiwanie...
 [Enter new status message]
 Wprowadź nowy opis
 ;file \protocols\VKontakte\src\vk_thread.cpp
-[Service message]
-
 [%s is listening to]
 %s słucha
 [Interests]

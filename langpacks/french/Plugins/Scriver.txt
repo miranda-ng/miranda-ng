@@ -26,8 +26,6 @@ Cacher les fenêtres à la fermeture
 Se rappeler des messages non envoyés
 [Delete temporary contacts on closing]
 Supprimer les contacts temporaires à la fermeture
-[Use BBCodes to send format inside messages]
-
 [Show warning when message has not been received after]
 M'alerter quand le message n'a pas été reçu après
 [seconds]
@@ -369,8 +367,6 @@ Général
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Ajouter le contact
-[User's details]
-Détails du contact
 [User's history]
 Historique du contact
 [Send message]
@@ -411,6 +407,8 @@ Gras
 Italique
 [Underlined]
 Souligné
+[Strikethrough]
+Barré
 [Room history]
 Historique du salon
 [Room settings]
@@ -610,40 +608,44 @@ Menu contact
 Voir les détails du contact
 [&History]
 &Historique
-[View user's history (Ctrl+H)]
-Voir l'historique (Ctrl+H)
+[View user's history]
+Voir l'historique
 [&Bold]
 &Gras
-[Make the text bold (Ctrl+B)]
-Texte en gras (Ctrl+B)
+[Make the text bold]
+Texte en gras
 [&Italic]
 &Italique
-[Make the text italicized (Ctrl+I)]
-Texte en italique (Ctrl+I)
+[Make the text italicized]
+Texte en italique
 [&Underline]
 &Souligné
-[Make the text underlined (Ctrl+U)]
-Texte souligné (Ctrl+U)
+[Make the text underlined]
+Texte souligné
+[&Strikethrough]
+&Barré
+[Make the text strikethrough]
+Style de barré
 [&Color]
 &Couleur
-[Select a foreground color for the text (Ctrl+K)]
-Couleur du texte (Ctrl+K)
+[Select text color]
+Couleur du texte
 [&Background color]
 &Couleur de fond
-[Select a background color for the text (Ctrl+L)]
-Couleur de fond du texte (Ctrl+L)
+[Select background color]
+Couleur de fond du texte
 [&Room settings]
 
-[Control this room (Ctrl+O)]
-Contrôler ce salon (Ctrl+O)
+[Control this room]
+Contrôler ce salon
 [&Show/hide nick list]
 
-[Show/hide the nick list (Ctrl+N)]
-Afficher/cacher la liste des pseudos (Ctrl+N)
+[Show/hide the nick list]
+Afficher/cacher la liste des pseudos
 [&Filter]
 
-[Enable/disable the event filter (Ctrl+F)]
-Activer/désactiver les filtres d'évènement (Ctrl+F)
+[Enable/disable the event filter]
+Activer/désactiver les filtres d'évènement
 [&Message]
 &Message
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]

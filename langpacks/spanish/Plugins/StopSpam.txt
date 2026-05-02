@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -24,21 +24,23 @@ Divisor:
 
 [Enable protection for following accounts:]
 
-[Do not send more than]
+[Maximum number of questions to one contact (0 - for no limit):]
 
-[questions to one contact (0 - for no limit)]
+[Timeout in minutes to remove temporary contacts (0 - never)]
 
 [Enable StopSpam-StopSpam infinite talk protection]
 
 [Add contact permanently]
 
-[Enable auth. requests blocking]
-
 [Answer is not case sensitive]
 
 [Log Spammers to system history]
 
+[Move spam contacts to the following group]
+
 ;file \plugins\StopSpamPlus\src\events.cpp
+[You haven't sent authorization request, this message was ignored]
+
 [StopSpam automatic message:\r\n]
 
 ;file \plugins\StopSpamPlus\src\options.cpp
@@ -61,4 +63,7 @@ Cuentas
 
 ;file \plugins\StopSpamPlus\src\stdafx.h
 [StopSpam]
+
+;file \plugins\StopSpamPlus\src\stopspam.cpp
+[Spam]
 

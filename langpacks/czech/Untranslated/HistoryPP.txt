@@ -56,3 +56,4 @@
 [%d min]
 [Unused]
 [Can not apply default toolbar configuration.]
+[Select]

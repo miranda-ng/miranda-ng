@@ -2,13 +2,13 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.16.12
+;  Version: 0.1.19.7
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Падтрымка пратаколу ВКонтакте ў Miranda NG.
 ;file \protocols\VKontakte\res\resource.rc
-[Show in protocol menu ]
+[Show in protocol menu]
 
 [Create new chat]
 Стварыць чат
@@ -55,8 +55,6 @@
 [Shorten links for audio attachments]
 Пакарочаныя спасылкі для аўдыё
 [Use non-standard popups for news and event notifications]
-
-[Add message link to messages with attachments]
 
 [Add original message version in edited message]
 
@@ -116,12 +114,10 @@
 
 [Accepted friend requests]
 
-[E-mail or phone number:]
-Пошта ці нумар тэлефона:
-[Password:]
-Пароль:
 [Open VKontakte site]
 Адкрыць старонку ВКонтакте
+[Token Request]
+
 [Advanced]
 Дадаткова
 [Do not open chat windows on creation]
@@ -158,8 +154,6 @@
 
 [as regular status only]
 
-[Login settings]
-Налады уваходу
 [Local settings]
 Лакальныя налады
 [Contact list group:]
@@ -176,8 +170,6 @@
 
 [Load only friends to local contact list]
 
-[Server-side delivery confirmation]
-Падцверджанне дастаўкі з боку сервера
 [Bots challenge test]
 Абарона ад ботаў
 [Instruction:]
@@ -233,13 +225,19 @@
 
 [Reload messages icon]
 
+[Protocols]
+Пратаколы
+[VKontakte]
+Вконтакте
 [Access denied! Data will not be sent or received.]
 
 [Error]
 Памылка
-[You have to validate your account before you can use VK in Miranda NG]
-
 [Error %d. Data will not be sent or received.]
+
+[Captcha processing error.]
+
+[You have to validate your account before you can use VK in Miranda NG]
 
 [One of the parameters specified was missing or invalid]
 
@@ -252,12 +250,6 @@
 [Can't send messages to this user due to their privacy settings]
 
 [Message is too long]
-
-[Enter the missing digits between %s and %s of the phone number linked to your account]
-
-[Attention!]
-
-[Enter confirmation code]
 
 [Enter new nickname]
 
@@ -372,8 +364,6 @@
 
 [\nOriginal message:\n]
 
-[Message link]
-
 [create chat]
 
 [kick user]
@@ -429,11 +419,13 @@
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 Увядзіце тэкст, які бачыце
+[Logon for ]
+
+[To log into the VKontakte protocol, you need to authorize in the browser and copy the received address from its address bar into the field below.\nDo not change anything when copying!\nYou will have to ignore the anti-copy message that you will see in your browser. Unfortunately, Miranda NG cannot authorize you in any other way right now.]
+
 [Wall message for %s]
 
 ;file \protocols\VKontakte\src\vk_feed.cpp
-[VKontakte]
-Вконтакте
 [New news]
 
 [New notifications]
@@ -496,6 +488,8 @@
 ;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 
+[Attention!]
+
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nDo you want to continue?]
 
 [Error loading message history from server.]
@@ -505,8 +499,6 @@
 [Loading history]
 
 [Error loading message history for %s from server.]
-
-[Loading messages for %s is completed.]
 
 ;file \protocols\VKontakte\src\vk_messages.cpp
 [Me]
@@ -559,6 +551,8 @@
 [VKontakte protocol]
 
 ;file \protocols\VKontakte\src\vk_pollserver.cpp
+[This message has been marked as spam in %s:\n]
+
 [This message has been deleted by sender in %s:\n]
 
 ;file \protocols\VKontakte\src\vk_proto.cpp
@@ -567,6 +561,8 @@
 [Forward]
 
 [Reload messages]
+
+[Go to site IM]
 
 [Mark messages as read]
 Пазначыць павеламленні прачытанымі
@@ -618,8 +614,6 @@
 [Enter new status message]
 
 ;file \protocols\VKontakte\src\vk_thread.cpp
-[Service message]
-
 [%s is listening to]
 
 [Interests]

@@ -1,1 +1,4 @@
 [bass.dll not found! Choose bass.dll path manually]
+[Playlist files]
+[BASS built-in]
+[All supported formats]

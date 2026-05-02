@@ -166,3 +166,4 @@
 [Always LTR]
 [Unused]
 [Can not apply default toolbar configuration.]
+[Select]

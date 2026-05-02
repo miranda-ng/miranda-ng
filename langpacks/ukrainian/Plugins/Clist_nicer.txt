@@ -166,8 +166,6 @@
 Рамка
 [Title bar text:]
 Заголовок:
-[Pin to desktop]
-Прикріпити до столу
 [Show drop shadow (restart required)]
 Увімкнути тінь (потрібен перезапуск)
 [Hide contact list after it has been idle for]
@@ -216,8 +214,6 @@
 Вимкнути перейменування при двокліку
 [Show selection even when list is not focused]
 Виділяти навіть якщо вікно неактивне
-[Make selection highlight translucent]
-Напівпрозоре виділення
 [Use full row for selection and hottracking]
 Використовувати виділення всього рядка
 [Double click on avatar opens user info]
@@ -590,11 +586,6 @@
 Показати назви
 [Hide all title bars]
 Сховати назви
-;file \plugins\Clist_nicer\src\Docking.cpp
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-Неможливо паркувати список контактів при використанні кордону і заголовка за замовчанням. Використовуйте стиль "Без кордонів" або "Панель".
-[Contact list docking]
-Дозволити парковку вікна
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Завантажити та застосувати

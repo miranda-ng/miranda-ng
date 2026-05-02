@@ -918,12 +918,14 @@ Czy chcesz anulować aktualną procedurę odświeżania?
 %s ma %s dziś.
 [an anniversary]
 rocznica
-[He/she has the following anniversaries:]
-On/ona ma następujące rocznice:
-[He has the following anniversaries:]
-On ma następujące rocznice:
-[She has the following anniversaries:]
-Ona ma następujące rocznice:
+[He]
+On
+[She]
+Ona
+[He/she]
+On/Ona
+[%s has the following anniversaries:]
+%s ma następujące rocznice:
 [%d. %s today]
 %d. %s dzisiaj
 [%d. %s tomorrow]
@@ -936,12 +938,8 @@ Ona ma następujące rocznice:
 %s ma jutro urodziny.
 [%s has birthday in %d days.]
 %s ma urodziny w przeciągu %d dni.
-[\nHe/she becomes %d years old.]
-\nOn/ona będzie mieć %d lat.
-[\nHe becomes %d years old.]
-\nOn będzie mieć %d lat.
-[\nShe becomes %d years old.]
-\nOna będzie mieć %d lat.
+[%s becomes %d years old.]
+%s będzie mieć %d lat.
 [No anniversaries to remind of]
 Brak rocznic do przypomnienia
 [Reminders]

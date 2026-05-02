@@ -1,0 +1,779 @@
+;============================================================
+;  Plugin: Weather
+;============================================================
+[AM Rain]
+Deszcz przed południem
+[Am Clouds / Pm Sun]
+Rano chmury, popołudniu słońce
+[Am Light Rain]
+Rano delikatne opady
+[Am Rain / Snow Showers]
+Rano Deszcz / Przelotne opady śniegu
+[Am Rain / Snow]
+Przed południem Deszcz / Śnieg
+[Am Rain]
+Deszcz przed południem
+[Am Showers / Wind]
+Rano przelotne opady/Wiatr
+[Am Showers]
+Rano opady deszczu
+[Am Snow Showers / Wind]
+Rano przelotne opady śniegu / Wiatr
+[Am Snow Showers]
+Przelotne opady śniegu rano
+[Am Snow]
+Do południa śnieg
+[Am T-Storms]
+Przed Południem Burze
+[Blowing Snow]
+Zawieje śnieżne
+[Broken Clouds]
+Pochmurnie
+[Ceiling]
+Pułap chmur
+[Chance Of A Thunderstorm 20% Chance Of Precipitation]
+Szanse na burze 20% szanse opadów atmosferycznych
+[Chance Of Rain 20% Chance Of Precipitation]
+Możliwe opady deszczu 20%, możliwość opadów
+[Chance Of Rain 30% Chance Of Precipitation]
+Możliwe opady deszczu 30%, możliwość opadów
+[Chance Of Rain 40% Chance Of Precipitation]
+Możliwe opady deszczu 40% ,możliwość opadów
+[Chance Of Rain 50% Chance Of Precipitation]
+Możliwe opady deszczu 50%, możliwość opadów
+[Chance Of Rain 60% Chance Of Precipitation]
+Możliwe opady deszczu 60%, możliwość opadów
+[Chance Of Rain 70% Chance Of Precipitation]
+Możliwe opady deszczu 70%, możliwość opadów
+[Chance Of Rain 80% Chance Of Precipitation]
+Możliwe opady deszczu 80%, możliwość opadów
+[Chance Of Rain]
+
+[Chance Of Snow 20% Chance Of Precipitation]
+Możliwe opady śniegu 20%, możliwość opadów
+[Chance Of Snow 30% Chance Of Precipitation]
+Możliwe opady śniegu 30%, możliwość opadów
+[Chance Of Snow 40% Chance Of Precipitation]
+Możliwe opady śniegu 40%, możliwość opadów
+[Chance Of Snow 50% Chance Of Precipitation]
+Możliwe opady śniegu 50%, możliwość opadów
+[Chance Of Snow 60% Chance Of Precipitation]
+Szanse opadów śniegu 60% szans opadów atmosferycznych
+[Chance Of Snow 70% Chance Of Precipitation]
+Szanse opadów śniegu 70% szans opadów atmosferycznych
+[Chance Of Snow 80% Chance Of Precipitation]
+Szanse opadów śniegu 80% szans opadów atmosferycznych
+[Chance Of Snow]
+
+[Chance Of T-Storms 20% Chance Of Precipitation]
+Możliwa burza z piorunami 20%, możliwość opadów
+[Chance Of T-Storms 30% Chance Of Precipitation]
+Możliwa burza z piorunami 30%, możliwość opadów
+[Chance Of T-Storms 40% Chance Of Precipitation]
+Możliwa burza z piorunami 40%, możliwość opadów
+[Chance Of T-Storms 50% Chance Of Precipitation]
+Możliwa burza z piorunami 50%, możliwość opadów
+[Chance Of T-Storms 60% Chance Of Precipitation]
+Możliwa burza z piorunami 60%, możliwość opadów
+[Chance Of T-Storms 70% Chance Of Precipitation]
+Szanse na burze z piorunami 70% szans opadów atmosferycznych
+[Chance Of T-Storms 80% Chance Of Precipitation]
+Szanse na burze z piorunami 80% szans opadów atmosferycznych
+[Chance Of T-Storms 90% Chance Of Precipitation]
+Szanse na burze z piorunami 90% szans opadów atmosferycznych
+[Chance Rain 40% Chance Of Precipitation]
+Szanse opadów deszczu 50% szans opadów atmosferycznych
+[Chance Rain 50% Chance Of Precipitation]
+Szanse opadów deszczu 50% szans opadów atmosferycznych
+[Chance Rain 80% Chance Of Precipitation]
+Szanse opadów deszczu 80% szans opadów atmosferycznych
+[Chance Rain 90% Chance Of Precipitation]
+Szanse opadów deszczu 90% szans opadów atmosferycznych
+[Clear / Wind]
+Pogodnie / Wiatr
+[Clear]
+Wyczyść
+[Clouds Early / Clearing Late]
+Wcześnie chmury / Późno rozjaśnienie
+[Cloudy / Wind]
+Pochmurno/Wiatr
+[Cloudy / Windy]
+Pochmurnie / Wietrznie
+[Cloudy And Windy]
+Pochmurno i wietrznie
+[Cloudy]
+Pochmurno
+[Day Length]
+Długość dnia
+[Drifting Snow]
+Śnieżyca
+[Drizzle Fog]
+Mżawka mgła
+[Drizzle Mist]
+Skropiona mżawka
+[Drizzle]
+Mżawka
+[ENE]
+wschodnio-północny wschód
+[ESE]
+wschodnio-południowy wschód
+[E]
+wschód
+[Elevation]
+Podwyższenie ciśnienia
+[Fair / Windy]
+Pogodnie / Wietrznie
+[Fair And Windy]
+Jasno i wietrznie
+[Fair]
+Jasno
+[Falling]
+Spadające
+[Feel]
+Odczuwalna
+[Few Showers / Wind]
+Nieliczne przelotne opady / Wiatr
+[Few Showers]
+Nieliczne, przelotne opady
+[Few Snow Showers]
+Nieliczne, przelotne opady śniegu
+[First Quarter]
+Pierwsza kwadra
+[Fog / Windy]
+Mgła / Wietrznie
+[Fog And Windy]
+Mgła oraz wietrznie
+[Fog Late]
+Mgła Późno
+[Fog]
+Mgła
+[Freezing Drizzle / Windy]
+Marznąca mżawka / wietrznie
+[Freezing Drizzle Mist]
+Zimna mżawka
+[Freezing Drizzle]
+Zimna mżawka
+[Freezing Fog]
+Zimna mgła
+[Freezing Rain / Windy]
+Marznący deszcz / Wietrznie
+[Freezing Rain Mist]
+Zimny deszcz
+[Freezing Rain]
+Zimny deszcz
+[Full Moon]
+Pełnia
+[Full]
+Pełnia
+[Haze]
+Mgiełka
+[Heat Index]
+Wskaźnik upałów
+[Heavy Blowing Snow]
+Intensywne zawieje śnieżne
+[Heavy Fog]
+Gęsta mgła
+[Heavy Rain / Wind]
+Mocny Deszcz / Wiatr
+[Heavy Rain Showers]
+Ostre opady deszczu
+[Heavy Rain]
+Mocny Deszcz
+[Heavy Showers Snow Blowing Snow]
+Ciężkie opady śniegu, zawieje śnieżne
+[Heavy Showers Snow Heavy Blowing Snow]
+Ciężkie opady śniegu, ciężkie zawieje śnieżne
+[Heavy Showers Snow Mist]
+Ciężkie opady śniegu
+[Heavy Showers Snow]
+Ulewne, przejściowe opady śniegu
+[Heavy Snow And Windy]
+Duże opady śniegu oraz wietrznie
+[Heavy Snow Shower]
+Intensywne opady śniegu
+[Heavy Snow Showers]
+Mocne opady śniegu
+[Heavy Snow]
+Ciężkie opady śniegu
+[Heavy T-Storm]
+Silna burza z piorunami
+[Heavy T-Storms]
+Silne burze z piorunami
+[Heavy Thunderstorm Rain]
+Burza, ciężkie opady deszczu
+[High]
+Wysoka
+[Ice Crystals Mist]
+Marznąca mgła
+[Ice Crystals]
+Kryształy lodu
+[Ice Pellets 30% Chance Of Precipitation]
+Sople lodu 30% szans opadów
+[Ice Pellets 40% Chance Of Precipitation]
+Sople lodu 40% szans opadów
+[Ice Pellets 50% Chance Of Precipitation]
+Sople Lodu 50% szans opadów
+[Ice Pellets 60% Chance Of Precipitation]
+Sople Lodu 60% szans opadów
+[Ice Pellets 70% Chance Of Precipitation]
+Sople lodu 70% szans opadów
+[Ice Pellets 80% Chance Of Precipitation]
+Sople lodu 80% szans opadów
+[Ice Pellets 90% Chance Of Precipitation]
+Sople lodu 90% szans na opady
+[Ice Pellets]
+Grad zimowy
+[Isolated T-Storms / Wind]
+Izolowane Burze / Wiatr
+[Isolated T-Storms]
+Lokalne burze z piorunami
+[Light Blowing Snow]
+Delikatny podmuch wiatru ze śniegiem
+[Light Drizzle And Fog]
+Delikatna mżawka oraz mgła
+[Light Drizzle And Windy]
+Delikatna mżawka oraz wietrznie
+[Light Drizzle Fog]
+Lekka mżawka
+[Light Drizzle Mist Patches Fog]
+Delikatna Mżawka Mgliście Mgła
+[Light Drizzle Mist]
+Lekka mgła, mżawka
+[Light Drizzle]
+Lekka mżawka
+[Light Fog]
+Lekka mgła
+[Light Freezing Drizzle Light Snow Grains Mist]
+Lekki, zimny, ziarnisty śnieg
+[Light Freezing Drizzle Light Snow]
+Zimny śnieg, lekka mżawka
+[Light Freezing Drizzle Mist]
+Lekka, zimna mżawka
+[Light Freezing Drizzle Snow]
+Lekki zimny śnieg
+[Light Freezing Drizzle]
+Lekka, zimna mżawka
+[Light Freezing Rain / Fog]
+Delikatny Marznący Deszcz / Mgła
+[Light Freezing Rain / Windy]
+Delikatny Marznący Deszcz / Wietrznie
+[Light Freezing Rain Light Showers Snow Mist]
+Zimne opady deszczu, lekka mgła
+[Light Freezing Rain Light Showers Snow]
+Zimne opady deszczu, lekki śnieżek
+[Light Freezing Rain Light Snow]
+Lekki ziemny deszcz, lekki śnieg
+[Light Freezing Rain Mist]
+Zimny deszcz
+[Light Freezing Rain]
+Lekki, zimny deszcz
+[Light Ice Pellets Mist]
+Delikatna mgiełka grad zimowy
+[Light Ice Pellets]
+Lekki marznący deszcz
+[Light Low Drifting Snow]
+Lekka śnieżyca
+[Light Rain / Fog]
+Delikatny deszcz / Mgła
+[Light Rain / Freezing Rain]
+Delikatny deszcz / Marznący deszcz
+[Light Rain / Wind Early]
+Delikatny deszcz / Wiatr wcześnie
+[Light Rain / Wind]
+Delikatny deszcz / Wiatr
+[Light Rain / Windy]
+Delikatny deszcz / Wietrznie
+[Light Rain And Snow]
+
+[Light Rain And Windy]
+Delikatny deszcz oraz wietrznie
+[Light Rain Early]
+Wcześnie delikatny deszcz
+[Light Rain Fog]
+Delikatny deszcz mgła
+[Light Rain Late]
+Późno delikatne opady
+[Light Rain Mist]
+Lekka mgła, deszcz
+[Light Rain Shower And Windy]
+Delikatne opady oraz wietrznie
+[Light Rain Shower]
+Lekki, przelotny deszcz
+[Light Rain Showers]
+Lekkie przelotne opady deszczu
+[Light Rain Snow Mist]
+Lekki deszcz ze śniegiem
+[Light Rain Snow]
+Lekkie deszcz ze śniegiem
+[Light Rain With Thunder]
+Delikatne opady z wyładowaniami atmosferycznymi
+[Light Rain]
+Lekki deszcz
+[Light Showers Rain Mist]
+Lekkie przelotne opady deszczu
+[Light Showers Rain Snow Mist]
+Delikatne opady deszczu i śniegu mżawka
+[Light Showers Rain Snow]
+Delikatne opady deszczu i śniegu
+[Light Showers Rain]
+Lekkie przelotne opady deszczu
+[Light Showers Showers Rain]
+Lekkie opady deszczu
+[Light Showers Snow Blowing Snow]
+Lekkie opady śniegu, zawieje śnieżne
+[Light Showers Snow Light Blowing Snow]
+Lekkie opady śniegu, zawieje śnieżne
+[Light Showers Snow Low Drifting Snow]
+Lekkie opady śniegu, zamiecie śniegu
+[Light Showers Snow Mist]
+Lekkie przejściowe opady śniegu
+[Light Showers Snow Rain Mist]
+Lekkie opady deszczu ze śniegiem
+[Light Showers Snow Rain]
+Lekkie opady śniegu z deszczem
+[Light Showers Snow]
+Lekkie opady śniegu
+[Light Snow / Fog]
+Przelotne opady śniegu / Mgła
+[Light Snow 30% Chance Of Precipitation]
+Delikatne opady śniegu 30% szans opadów
+[Light Snow And Windy]
+Lekki śnieżek i wietrznie
+[Light Snow Blowing Snow]
+Lekkie zawieje śnieżne
+[Light Snow Early]
+Wcześnie delikatne opady śniegu
+[Light Snow Freezing Fog]
+Delikatny Śnieg Zamrożona Mgła
+[Light Snow Grains Mist]
+Lekki ziarnisty śnieg, mgła
+[Light Snow Grains]
+Lekki ziarnisty śnieg
+[Light Snow Late]
+Późno delikatne opady śniegu
+[Light Snow Light Blowing Snow]
+Lekkie zawieje śnieżne, śnieg
+[Light Snow Low Drifting Snow Mist]
+Lekki śnieżek, zamiecie śniegu
+[Light Snow Low Drifting Snow]
+Lekkie zamiecie śnieżne
+[Light Snow Mist]
+Lekki śnieżek
+[Light Snow Rain]
+Delikatny deszcz ze śniegiem
+[Light Snow Shallow Fog]
+Lekkie opady śniegu, płytka mgła
+[Light Snow Shower And Windy]
+Delikatne opady śniegu oraz wietrznie
+[Light Snow Shower]
+Delikatne opady śniegu
+[Light Snow Showers]
+Lekkie przejściowe opady śniegu
+[Light Snow]
+Lekkie opady śniegu
+[Light Thunderstorm Rain]
+Lekka burza z opadami
+[Light Thunderstorm]
+Lekka burza
+[Local Time]
+Czas lokalny
+[Low Drifting Snow Mist]
+Lekkie zamiecie śnieżne
+[Low Drifting Snow]
+Zamiecie śnieżne
+[Low]
+Niska
+[Mist]
+Mgła
+[Moderate]
+Umiarkowany
+[Moon phase]
+
+[Moon]
+Księżyc
+[Moonrise]
+Księżyc - wschód
+[Moonset]
+Księżyc - zachód
+[Mostly Clear]
+W większości przejrzyście
+[Mostly Cloudy / Wind]
+Przeważnie pochmurno/Wiatr
+[Mostly Cloudy And Windy]
+Przeważnie pochmurno i wietrznie
+[Mostly Cloudy]
+W większości pochmurnie
+[Mostly Sunny / Wind]
+Przewaga słońca / Wiatr
+[Mostly Sunny]
+W większości słonecznie
+[NE]
+północny wschód
+[NNE]
+północno-północny wschód
+[NNW]
+północno-północny zachód
+[NW]
+północny zachód
+[N]
+północ
+[New Moon]
+Nów
+[Night]
+Noc
+[Observatory]
+Obserwatorium
+[Overcast]
+Pochmurno
+[Partial Fog]
+częściowo zamglone
+[Partially cloudy]
+
+[Partially sunny]
+
+[Partly Cloudy / Wind]
+Częściowe zachmurzenie / Wiatr
+[Partly Cloudy / Windy]
+Częściowe zachmurzenie / Wietrznie
+[Partly Cloudy And Windy]
+Częściowe zachmurzenie oraz wiatr
+[Partly Cloudy]
+Częściowe zachmurzenie
+[Partly Sunny]
+Małe zachmurzenie
+[Patches Fog Mist]
+Cienka warstwa mgły
+[Patches Fog]
+Zamglenia
+[Pm Light Rain]
+Popołudniu delikatne opady
+[Pm Rain / Snow]
+Popołudniu deszcz / Śnieg
+[Pm Rain / Wind]
+Popołudniu deszcz / Wiatr
+[Pm Rain]
+Deszcz popołudniu
+[Pm Showers / Wind]
+Popołudniu ulewy / Wiatr
+[Pm Showers]
+Popołudniu przelotne opady deszczu
+[Pm Snow Showers]
+Przelotne opady śniegu popołudniu
+[Pm Snow]
+Śnieg popołudniu
+[Pm T-Storms]
+Popołudniu burze z piorunami
+[Precipitation]
+
+[Pressure Change]
+Zmiana ciśnienia
+[Pressure Tendency]
+Ciśnienie
+[Rain / Freezing Rain / Wind]
+Deszcz / Marznący deszcz / Wiatr
+[Rain / Freezing Rain]
+Deszcz / Marznący deszcz
+[Rain / Snow / Wind]
+Deszcz / Śnieg / Wiatr
+[Rain / Snow Early]
+Deszcz / Śnieg wcześnie
+[Rain / Snow Late]
+Deszcz / Śnieg późno
+[Rain / Snow Showers Early]
+Wcześnie deszcz / Przelotne opady śniegu
+[Rain / Snow Showers Late]
+Deszcz / Przelotne opady śniegu późno
+[Rain / Snow Showers]
+Deszcz / Przelotne opady śniegu
+[Rain / Snow]
+Deszcz / Śnieg
+[Rain / Thunder]
+Deszcz / Wyładowania atmosferyczne
+[Rain / Wind Early]
+Deszcz / Wiatr wcześnie
+[Rain / Wind]
+Deszcz / Wiatr
+[Rain 100% Chance Of Precipitation]
+Deszcz 100%, możliwość opadów
+[Rain 20% Chance Of Precipitation]
+Deszcz 20% szans opadów atmosferycznych
+[Rain 40% Chance Of Precipitation]
+Deszcz 40% szans opadów atmosferycznych
+[Rain 50% Chance Of Precipitation]
+Deszcz 50%, możliwość opadów
+[Rain 60% Chance Of Precipitation]
+Deszcz 60%, możliwość opadów
+[Rain 70% Chance Of Precipitation]
+Deszcz 70%, możliwość opadów
+[Rain 80% Chance Of Precipitation]
+Deszcz 80%, możliwość opadów
+[Rain 90% Chance Of Precipitation]
+Deszcz 90%, możliwość opadów
+[Rain And Snow]
+Śnieg z deszczem
+[Rain Early]
+Deszcz wcześnie
+[Rain Fog]
+Mgła deszczu
+[Rain Late]
+Deszcz późno
+[Rain Mist]
+Mżawka
+[Rain Shower]
+Ulewa
+[Rain Showers]
+
+[Rain To Snow]
+Deszcz przechodzący w śnieg
+[Rain]
+Deszcz
+[Rising]
+Rosnące
+[SE]
+południowy wschód
+[SSE]
+południowo-południowy wschód
+[SSW]
+południowo-południowy zachód
+[SW]
+południowy zachód
+[S]
+południe
+[Sand]
+Piasek
+[Scattered Clouds]
+Mało chmur
+[Scattered Showers]
+Rozsiane opady deszczu
+[Scattered Snow Showers]
+Rozproszone, przelotne opady śniegu
+[Scattered T-Storms / Wind]
+Rozsiane burze / Wiatr
+[Scattered T-Storms]
+Rozsiane burze z piorunami
+[Scattered Thunderstorms]
+Gdzieniegdzie burze
+[Shallow Fog]
+Cienka warstwa mgły
+[Showers / Wind Late]
+Ulewy / Wiatr późno
+[Showers / Wind]
+Przelotne opady / Wiatr
+[Showers Early]
+Wcześnie przelotne opady deszczu
+[Showers In The Vicinity]
+Ulewy w okolicy
+[Showers Late]
+Późno przelotne opady
+[Showers Rain Snow]
+Opady deszczu ze śniegiem
+[Showers Rain]
+Przelotne opady deszczu
+[Showers Showers Rain]
+Opady deszczu
+[Showers Snow Blowing Snow]
+Opady śniegu Zawieje śnieżne
+[Showers Snow Heavy Blowing Snow]
+Opady śniegu, ciężkie zawieje śnieżne
+[Showers Snow Low Drifting Snow]
+Opady śniegu, lekki zamiecie śnieżne
+[Showers Snow Mist]
+Opady śniegu, mżawka
+[Showers Snow Rain]
+Opady deszczu ze śniegiem
+[Showers Snow]
+Przejściowe opady śniegu
+[Showers]
+Przelotny deszcz
+[Sleet And Windy]
+Deszcz ze śniegiem i wietrznie
+[Sleet]
+Deszcz ze śniegiem
+[Smoke]
+Dymy
+[Snow / Wind Early]
+Śnieg / Wiatr wcześnie
+[Snow / Wind]
+Śnieg / Wiatr
+[Snow / Windy]
+Śnieg / Wietrznie
+[Snow 100% Chance Of Precipitation]
+Śnieg 100% szans opadów
+[Snow 20% Chance Of Precipitation]
+Śnieg 20% szans opadów atmosferycznych
+[Snow 30% Chance Of Precipitation]
+Śnieg 30% szans opadów atmosferycznych
+[Snow 40% Chance Of Precipitation]
+Śnieg 40% szans opadów atmosferycznych
+[Snow 50% Chance Of Precipitation]
+Śnieg 50%, możliwość opadów
+[Snow 60% Chance Of Precipitation]
+Śnieg 60% szans opadów atmosferycznych
+[Snow 70% Chance Of Precipitation]
+Śnieg 70% szans opadów atmosferycznych
+[Snow 80% Chance Of Precipitation]
+Śnieg 80% szans opadów atmosferycznych
+[Snow 90% Chance Of Precipitation]
+Śnieg 90% szans opadów atmosferycznych
+[Snow And Sleet]
+Deszcz ze śniegiem i śnieg
+[Snow Blowing Snow]
+Zawieje śnieżne
+[Snow Early]
+Wcześnie opady śniegu
+[Snow Freezing Rain Mist]
+Mżawka zamarzający deszcz ze śniegiem
+[Snow Freezing Rain]
+Zimny deszcz śniegu
+[Snow Grains]
+Śnieg ziarnisty
+[Snow Heavy Blowing Snow]
+Intensywny śnieg, zawieje śnieżne
+[Snow Mist]
+Drobna śnieżyca
+[Snow Rain Mist]
+Mżawka deszcz ze śniegiem
+[Snow Rain]
+Śnieg z deszczem
+[Snow Shower / Wind]
+Przelotne opady śniegu / Wiatr
+[Snow Shower And Windy]
+Przelotne opady śniegu oraz wietrznie
+[Snow Shower]
+Przelotne opady śniegu
+[Snow Showers / Wind Early]
+Przelotne opady śniegu / Wiatr wcześnie
+[Snow Showers 30% Chance Of Precipitation]
+Opady śniegu 30% szans opadów
+[Snow Showers 40% Chance Of Precipitation]
+Opady śniegu 40% szans opadów
+[Snow Showers 50% Chance Of Precipitation]
+Opady śniegu 50% szans opadów
+[Snow Showers 60% Chance Of Precipitation]
+Opady śniegu 60% szans opadów
+[Snow Showers 70% Chance Of Precipitation]
+Opady śniegu 70% szans opadów
+[Snow Showers 80% Chance Of Precipitation]
+Opady śniegu 80% szans opadów
+[Snow Showers Early]
+Wcześnie przelotne opady śniegu
+[Snow Showers Late]
+Późno przelotne opady śniegu
+[Snow Showers]
+Opady śniegu
+[Snow To Rain]
+Śnieg przechodzący w deszcz
+[Snow To Wintry Mix]
+Śnieg przechodzący w deszcz ze śniegiem
+[Snow]
+Śnieg
+[Stable]
+Stabilna
+[Steady]
+Stały
+[Sunny / Wind]
+Słonecznie / Wiatr
+[Sunny / Windy]
+Słonecznie / Wietrznie
+[Sunny]
+Słonecznie
+[T-Showers Early]
+Ulewy i burze wcześnie
+[T-Showers]
+Ulewy z piorunami
+[T-Storm]
+Burza z piorunami
+[T-Storms 100% Chance Of Precipitation]
+Burza z piorunami 100%, możliwość opadów
+[T-Storms 30% Chance Of Precipitation]
+Burze z piorunami 30% szans opadów atmosferycznych
+[T-Storms 40% Chance Of Precipitation]
+Burza z piorunami 40%, możliwość opadów
+[T-Storms 50% Chance Of Precipitation]
+Burza z piorunami 50%, możliwość opadów
+[T-Storms 60% Chance Of Precipitation]
+Burza z piorunami 60%, możliwość opadów
+[T-Storms 70% Chance Of Precipitation]
+Burza z piorunami 70%, możliwość opadów
+[T-Storms 80% Chance Of Precipitation]
+Burza z piorunami 80%, możliwość opadów
+[T-Storms 90% Chance Of Precipitation]
+Burza z piorunami 90%, możliwość opadów
+[T-Storms Early]
+Burze wcześnie
+[T-Storms Late]
+Izolowane burze późno
+[T-Storms]
+Burze z piorunami
+[Temperature]
+Temperatura
+[Thunder In The Vicinity]
+Wyładowania atmosferyczne w okolicy
+[Thunderstorm Rain]
+Burza z opadami
+[Thunderstorm]
+Burza
+[Thunderstorms And Rain]
+Burze i deszcz
+[UV Index]
+Index UV
+[UVI]
+UVI
+[UV]
+UV
+[Visible Light Length]
+Widoczna długość światła
+[WNW]
+zachodnio-północny zachód
+[WSW]
+zachodnio-południowy zachód
+[W]
+zachód
+[Waning Crescent]
+Po ostatniej kwadrze
+[Waning Gibbous]
+Przed ostatnią kwadrą
+[Waxing Crescent]
+Przed pierwszą kwadrą
+[Waxing Gibbous]
+Przed pełnią
+[West]
+Zachód
+[Wind Chill]
+Temperatura odczuwalna
+[Wind Direction DEG]
+Kierunek wiatru DEG
+[Wind Direction Degrees]
+Kierunek wiatru w stopniach
+[Wind Direction]
+Kierunek wiatru
+[Wind Gust]
+Porywy wiatru
+[Wind Speed]
+Prędkość wiatru
+[Wind direction]
+Kierunek wiatru
+[Wind speed]
+Prędkość wiatru
+[Wintry Mix / Wind]
+Deszcz ze śniegiem / Wiatr
+[Forecast Day 0]
+Prognoza dzień 0
+[Forecast Day 1]
+Prognoza dzień 1
+[Forecast Day 2]
+Prognoza dzień 2
+[Forecast Day 3]
+Prognoza dzień 3
+[Forecast Day 4]
+Prognoza dzień 4
+[Forecast Day 5]
+Prognoza dzień 5
+[Forecast Day 6]
+Prognoza dzień 6
+[Forecast Day 7]
+Prognoza dzień 7
+[Forecast Day 8]
+Prognoza dzień 8
+[Forecast Day 9]
+Prognoza dzień 9

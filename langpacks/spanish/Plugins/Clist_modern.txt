@@ -156,18 +156,10 @@ Mover usuario fuera de línea al final
 3ro:
 [Place offline users out of groups]
 Coloca los usuarios sin conexión de grupos
-[Selection mode]
-Modo de selección
-[Default]
-Por defecto
-[Full selection]
-Selección completa
-[Less selection]
-Menos selección
-[No selection]
-Sin selección
-[Gamma correction]
-Corrección de gama
+[Appearance]
+Apariencia
+[Always on top]
+Siempre en primer plano
 [Bring to front if covered]
 Traer al frente si está cubierto
 [Hide contact list after]
@@ -186,8 +178,6 @@ Comportamiento
 Bloqueo de cambio de tamaño manual
 [Drag to]
 Arrastrar a
-[Easy scroll]
-Desplazamiento fácil
 [Easy move]
 Movimiento fácil
 [x100 ms]
@@ -212,8 +202,6 @@ Desabilitado
 Mostrar de forma automática
 [Always visible]
 Siempre visible
-[Dock to sides]
-Acoplar a los lados
 [and minimum]
 y mínimo
 [Items]
@@ -302,12 +290,6 @@ Icono de la bandeja de sistema
 
 [Show contact time as row item]
 
-[Appearance]
-Apariencia
-[Always on top]
-Siempre en primer plano
-[Pin to desktop]
-Pin de escritorio
 [Client area margins]
 
 [Thin border main window]
@@ -322,8 +304,6 @@ Mostrar barra de título
 Texto de la barra de título:
 [Tool style main window]
 Estilo de ventana de herramientas principal
-[Minimize to tray]
-Minimizar a la bandeja
 [Translucency options]
 Opciones de translucidez
 [Fade contact list in/out]
@@ -352,6 +332,12 @@ Esquinas redondeadas
 
 [Enable Aero Glass (Vista, Win 7)]
 
+[Selection mode]
+Modo de selección
+[Gamma correction]
+Corrección de gama
+[Minimize to tray]
+Minimizar a la bandeja
 [Order of items:]
 
 [Minimum row height:]
@@ -643,7 +629,7 @@ Nombre
 
 [Last message time]
 
-[Account name]
+[Account order]
 
 [Rate]
 
@@ -657,6 +643,14 @@ Nombre
 
 [Behind right edge]
 
+[Default]
+Por defecto
+[Full selection]
+Selección completa
+[Less selection]
+Menos selección
+[No selection]
+Sin selección
 [General]
 General
 [Tray]

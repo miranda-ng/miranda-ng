@@ -34,26 +34,42 @@ API URL:
 Дата активации:
 [Sensor remaining:]
 Оставшееся время работы
-[Target low:]
-Нижнее целевое значение:
-[Target high:]
-Верхнее целевое значение:
 [Last update:]
 Последнее обновление:
-;file \protocols\LibreView\src\account.cpp
-[LibreView]
-LibreView
 ;file \protocols\LibreView\src\check.cpp
 [updating...]
 обновление...
 [LibreView update failed]
 Не удалось получить данные
+[error]
+ошибка
 ;file \protocols\LibreView\src\main.cpp
+[LibreView]
+LibreView
 [&Update data]
 &Обновить данные
 ;file \protocols\LibreView\src\options.cpp
 [Network]
 Сеть
+;file \protocols\LibreView\src\proto.cpp
+[Login failed]
+Не удалось войти
+[Login Error]
+Ошибка входа
+[falling quickly]
+быстро падает
+[falling]
+падает
+[steady]
+не меняется
+[rising]
+растёт
+[rising quickly]
+быстро растёт
+[trend unknown]
+динамика неизвестна
+[Failed to connect to LibreView server. Please check your internet connection and try again.]
+Не удалось соединиться с сервером LibreView. Проверьте наличие доступа в сеть и попробуйте снова.
 ;file \protocols\LibreView\src\userinfo.cpp
 [N/A]
 Недоступен

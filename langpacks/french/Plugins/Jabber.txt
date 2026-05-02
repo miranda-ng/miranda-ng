@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.95.11.1
+;  Version: 0.96.7.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -506,8 +506,6 @@ Liens
 
 [Receives information about user activity]
 
-[Supports Miranda NG notes extension]
-
 [Supports Roster Exchange]
 
 [Supports direct chat invitations (XEP-0249)]
@@ -812,8 +810,6 @@ Détails personnels
 
 [Resolve nicks]
 
-[Send note]
-
 [AdHoc Command]
 
 [OpenID Request]
@@ -925,8 +921,6 @@ Liste des admins
 Ajouter aux favoris
 [Commands]
 Commandes
-[Send Note]
-
 [Send Presence]
 
 [Jabber Resource]
@@ -969,6 +963,11 @@ Listes confidentielle
 Haute priorité (choix du serveur)
 [Status Message]
 
+;file \protocols\JabberG\src\jabber_message.cpp
+[Message redirected from: %s\r\n]
+
+[Unable to decrypt a carbon copy of the encrypted outgoing message]
+
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [To]
@@ -980,10 +979,6 @@ les 2
 [Errors]
 Erreurs
 ;file \protocols\JabberG\src\jabber_notes.cpp
-[Incoming note from %s]
-
-[Send note to %s]
-
 [From: %s]
 De : %s
 [All tags]
@@ -992,14 +987,14 @@ De : %s
 
 [Are you sure?]
 Etes-vous sûr?
-[Incoming note]
-
 ;file \protocols\JabberG\src\jabber_omemo.cpp
-[Unknown device added]
+[Unknown OMEMO device added!]
+
+[(My devices)]
+
+[Trust on first use for\n%d devices]
 
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
-
-[Trust on first use]
 
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
@@ -1408,10 +1403,6 @@ Envoi de message
 
 [Enable user activity receiving]
 
-[Receive notes]
-
-[Automatically save received notes]
-
 [Inline pictures in messages (XEP-0231)]
 
 [Enable chat states sending (XEP-0085)]
@@ -1430,9 +1421,10 @@ Options du serveur
 
 [Disable SASL authentication (for old servers)]
 Désactiver l'authentification SASL (pour les anciens serveurs)
+[Enable SASL2 authentication, if present]
+
 [Enable stream compression]
 Activer la compression du Stream
-
 [Other]
 Autre
 [Enable remote controlling (from another resource of same JID only)]
@@ -1654,6 +1646,10 @@ Aucune liste sélectionnée
 [List Editor...]
 
 ;file \protocols\JabberG\src\jabber_proto.cpp
+[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
+
+[/me slaps %s around a bit with a large trout]
+
 [%s error notifications]
 
 [No valid OMEMO session exists]
@@ -1786,10 +1782,6 @@ Erreur : Connexion perdue
 [Requesting registration instruction...]
 
 [Authentication failed for %s@%s.]
-
-[Message redirected from: %s\r\n]
-
-[Unable to decrypt a carbon copy of the encrypted outgoing message]
 
 [Registration canceled]
 
@@ -2256,9 +2248,4 @@ Activité : %s
 [Moods]
 
 [Activities]
-
-;file \protocols\JabberG\src\stdafx.h
-[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
-
-[/me slaps %s around a bit with a large trout]
 

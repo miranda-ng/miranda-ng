@@ -50,18 +50,8 @@ Přidat připomínku
 Datum
 [Time]
 Čas
-[Repeat each day]
-
 [Reminder Note:]
 Obsah připomínky
-[None]
----
-[Daily]
-Každý den
-[Weekly]
-Co týden
-[Monthly]
-Co měsíc
 [Repeat Alert Sound]
 
 [Use Sound]
@@ -250,8 +240,12 @@ Pozn. text
 
 [Sticky Note Body]
 
-[Executable Files\0*.exe\0All Files\0*.*\0\0]
-
+[None]
+---
+[Executable Files]
+Spustitelné soubory
+[All Files]
+Všechny soubory
 [Select Executable]
 
 [Plugins]
@@ -259,14 +253,22 @@ Doplňky
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [The specified time is invalid.]
 
+[Don't repeat]
+
+[Repeat daily]
+
+[Repeat weekly]
+
+[Repeat monthly]
+
 [Minutes]
 minut
-[Hours]
-hodin
 [The specified time is invalid due to begin of daylight saving (summer time).]
 
 [Hour]
 hodina
+[Hours]
+hodin
 [Day]
 den
 [Days]

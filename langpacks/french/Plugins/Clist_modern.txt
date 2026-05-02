@@ -156,18 +156,10 @@ Déplacez les utilisateur déconnecté en bas
 3ème :
 [Place offline users out of groups]
 Sortir les Hors ligne de leur groupe
-[Selection mode]
-Méthode de sélection
-[Default]
-Défaut
-[Full selection]
-Plus de choix
-[Less selection]
-Moins de choix
-[No selection]
-Aucun choix
-[Gamma correction]
-Correction gamma
+[Appearance]
+Apparence
+[Always on top]
+Toujours visible
 [Bring to front if covered]
 Réafficher si elle est cachée
 [Hide contact list after]
@@ -186,8 +178,6 @@ Comportement
 Verrouiller le redimensionnement manuel
 [Drag to]
 Le "Drag && Drop"
-[Easy scroll]
-Défilement fluide
 [Easy move]
 Déplacement facile
 [x100 ms]
@@ -212,8 +202,6 @@ Désactivé
 Afficher automatiquement
 [Always visible]
 Toujours visible
-[Dock to sides]
-Ancrer sur les côtés
 [and minimum]
 et minimum
 [Items]
@@ -302,12 +290,6 @@ Décalage des sous-contacts :
 Afficher l'heure uniquement si elle diffère de la mienne
 [Show contact time as row item]
 Afficher l'heure du contact dans une ligne
-[Appearance]
-Apparence
-[Always on top]
-Toujours visible
-[Pin to desktop]
-Épingler au bureau
 [Client area margins]
 Marges de la zone client
 [Thin border main window]
@@ -322,8 +304,6 @@ Afficher la barre de titre
 Texte du titre :
 [Tool style main window]
 Fenêtre principale style 'Outil'
-[Minimize to tray]
-Minimiser dans barre système
 [Translucency options]
 Options de transparence
 [Fade contact list in/out]
@@ -352,6 +332,12 @@ Mode sans surcouche
 Désactiver les skins
 [Enable Aero Glass (Vista, Win 7)]
 Activer Aero Glass (Vista, Win 7)
+[Selection mode]
+Méthode de sélection
+[Gamma correction]
+Correction gamma
+[Minimize to tray]
+Minimiser dans barre système
 [Order of items:]
 Ordre des éléments :
 [Minimum row height:]
@@ -508,7 +494,6 @@ Cacher toutes les barres de titres
 &Afficher/Cacher
 [Show offline users in here]
 Afficher les contacts hors ligne de ce groupe
-
 ;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
 [Last seen]
 
@@ -644,8 +629,8 @@ Nom
 Nom (utilise les options locales)
 [Last message time]
 Heure du dernier message
-[Account name]
-Nom de compte
+[Account order]
+
 [Rate]
 Note
 [Last online]
@@ -658,6 +643,14 @@ dans le tray
 derrière le bord gauche
 [Behind right edge]
 derrière le bord droit
+[Default]
+Défaut
+[Full selection]
+Plus de choix
+[Less selection]
+Moins de choix
+[No selection]
+Aucun choix
 [General]
 Général
 [Tray]

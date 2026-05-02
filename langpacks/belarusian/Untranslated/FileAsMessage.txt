@@ -1,1 +1,2 @@
 [Receive file]
+[Revive a transfer]

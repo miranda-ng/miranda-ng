@@ -26,8 +26,6 @@
 Критични събития
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Автоматично изключване на компютъра когато:
-[&Thunderstorm warning is issued (Weather)]
-Прогнозата показва буреносна буря (Weather)
 [Automatic shutdown]
 Автоматично изключване
 [Select the automatic shutdown event]

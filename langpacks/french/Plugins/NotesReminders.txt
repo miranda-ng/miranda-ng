@@ -50,18 +50,8 @@ Ajout d'un Rappel
 
 [Time]
 Heure
-[Repeat each day]
-
 [Reminder Note:]
 Note de Rappel :
-[None]
-Aucun
-[Daily]
-
-[Weekly]
-
-[Monthly]
-
 [Repeat Alert Sound]
 
 [Use Sound]
@@ -250,8 +240,12 @@ Note/Info
 
 [Sticky Note Body]
 
-[Executable Files\0*.exe\0All Files\0*.*\0\0]
-
+[None]
+Aucun
+[Executable Files]
+Fichiers exécutables
+[All Files]
+Tous les fichiers
 [Select Executable]
 
 [Plugins]
@@ -259,14 +253,22 @@ Plugins
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [The specified time is invalid.]
 
+[Don't repeat]
+
+[Repeat daily]
+
+[Repeat weekly]
+
+[Repeat monthly]
+
 [Minutes]
 Minutes
-[Hours]
-Heures
 [The specified time is invalid due to begin of daylight saving (summer time).]
 
 [Hour]
 
+[Hours]
+Heures
 [Day]
 jour
 [Days]

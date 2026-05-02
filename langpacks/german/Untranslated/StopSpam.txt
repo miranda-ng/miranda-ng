@@ -1,0 +1,3 @@
+[Move spam contacts to the following group]
+[You haven't sent authorization request, this message was ignored]
+[Spam]

@@ -1,3 +1,5 @@
 [Restart Miranda automatically]
+[Libraries]
 [Unpack operation failed with error code=%d, update terminated]
+[There are some updates available]
 [Updates are temporarily disabled, try again later.]

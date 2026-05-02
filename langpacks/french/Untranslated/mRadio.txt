@@ -94,3 +94,6 @@
 [bass.dll not found! Choose bass.dll path manually]
 [max]
 [Status Message]
+[Playlist files]
+[BASS built-in]
+[All supported formats]

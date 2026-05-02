@@ -457,12 +457,6 @@ Kurz-Information
 Komplette Vorhersage lesen
 [Display in a frame]
 Als Frame anzeigen
-[Enable/Disable Weather Update]
-Wetteraktualisierung (de-)aktivieren
-[Update All Weather]
-Alle Wetter-Stationen aktualisieren
-[Remove Old Data then Update All]
-Alte Daten entfernen und alle aktualisieren
 ;file \protocols\Weather\src\weather_update.cpp
 [Unable to retrieve weather information for %s]
 Wetter-Informationen können für %s nicht empfangen werden.

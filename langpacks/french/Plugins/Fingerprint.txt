@@ -14,6 +14,8 @@
 
 [Miranda packs overlays]
 
+[Secure overlays]
+
 [Show Miranda version at Overlay#2]
 
 [Resource overlays]
@@ -24,11 +26,7 @@
 
 [Unicode overlay]
 
-[Secure overlays]
-
 [Select protocols]
-
-[Facebook clients]
 
 [Gadu-Gadu clients]
 
@@ -87,8 +85,6 @@
 [Jabber overlay]
 
 [VK overlay]
-
-[Skype overlay]
 
 [Gadu-Gadu v11 client]
 

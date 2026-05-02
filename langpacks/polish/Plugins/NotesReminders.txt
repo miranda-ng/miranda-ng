@@ -50,18 +50,8 @@ Dodaj przypomnienie
 Data
 [Time]
 Czas
-[Repeat each day]
-Powtarzaj codziennie
 [Reminder Note:]
 Treść notatki:
-[None]
-Brak
-[Daily]
-Dziennie
-[Weekly]
-Tygodniowo
-[Monthly]
-Miesięcznie
 [Repeat Alert Sound]
 Powtarzaj dźwięk powiadomienia
 [Use Sound]
@@ -250,8 +240,12 @@ Opis notatki
 Kolor tła notatki
 [Sticky Note Body]
 Treść notatki
-[Executable Files\0*.exe\0All Files\0*.*\0\0]
-Pliki wykonywalne\0*.exe\0Wszystkie pliki \0*.*\0\0
+[None]
+Brak
+[Executable Files]
+Pliki wykonywalne
+[All Files]
+Wszystkie pliki
 [Select Executable]
 Wybierz plik wykonywalny
 [Plugins]
@@ -259,14 +253,22 @@ Wtyczki
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [The specified time is invalid.]
 Podany czas jest niepoprawny.
+[Don't repeat]
+
+[Repeat daily]
+
+[Repeat weekly]
+
+[Repeat monthly]
+
 [Minutes]
 Minut
-[Hours]
-Godzin
 [The specified time is invalid due to begin of daylight saving (summer time).]
 Podany czas jest niepoprawny z powodu rozpoczęcia czasu letniego.
 [Hour]
 Godzina
+[Hours]
+Godzin
 [Day]
 Dzień
 [Days]

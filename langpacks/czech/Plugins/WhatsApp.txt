@@ -43,6 +43,13 @@ Něco o sobě
 Admin
 [Participant]
 Účastník
+;file \protocols\WhatsApp\src\iq.cpp
+[Incoming call]
+Příchozí hovor
+[Call rejected]
+
+[Call ended]
+
 ;file \protocols\WhatsApp\src\main.cpp
 [WhatsApp (HTTP)]
 

@@ -1,0 +1,2 @@
+[Enter your personal API key from Imageshack]
+[API key is missing]

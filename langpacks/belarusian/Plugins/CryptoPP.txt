@@ -20,3 +20,10 @@ ID кантакта
 GnuPG плагін - Абярыце адкрыты ключ:
 [Refresh]
 Абнавіць
+;file \plugins\CryptoPP\src\GPGw\gpg_main.cpp
+[GnuPG executable]
+
+[All files]
+Усе файлы
+[Select GnuPG executable]
+

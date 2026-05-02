@@ -224,37 +224,6 @@ HTTP невідома помилка
 Конференція
 [Contact list]
 Список контактів
-;file \protocols\Gadu-Gadu\src\gg_proto.cpp
-[Images]
-Зображення
-[Gadu-Gadu Number]
-Номер Gadu-Gadu
-[Female]
-Жіноча
-[Male]
-Чоловіча
-;file \protocols\Gadu-Gadu\src\groupchat.cpp
-[Open &conference...]
-&Відкрити конференцію...
-[&Clear ignored conferences]
-&Очистити ігноровані конференції
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
-%s почав конференцію з %d учасниками (%d невідомих).\nВзяти участь?
-[%s initiated the conference.]
-%s почав конференцію.
-[This is my own conference.]
-Це моя конференція.
-[Participants]
-Учасники
-['Unknown']
-"Невідомо"
-[You have to be connected to open new conference.]
-Ви повинні бути підключені, щоб починати конференції.
-[All ignored conferences are now unignored and the conference policy will act again.]
-Список ігнорованих конференцій очищено. Використовується загальна політика конференцій.
-[There are no ignored conferences.]
-Ігнорованих конференцій немає.
-;file \protocols\Gadu-Gadu\src\icolib.cpp
 [Protocol icon]
 Значок протоколу
 [Import list from server]
@@ -285,6 +254,36 @@ HTTP невідома помилка
 Очистити ігноровані конференції
 [Concurrent sessions]
 Поточні сесії
+;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+[Images]
+Зображення
+[Gadu-Gadu Number]
+Номер Gadu-Gadu
+[Female]
+Жіноча
+[Male]
+Чоловіча
+;file \protocols\Gadu-Gadu\src\groupchat.cpp
+[Open &conference...]
+&Відкрити конференцію...
+[&Clear ignored conferences]
+&Очистити ігноровані конференції
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
+%s почав конференцію з %d учасниками (%d невідомих).\nВзяти участь?
+[%s initiated the conference.]
+%s почав конференцію.
+[This is my own conference.]
+Це моя конференція.
+[Participants]
+Учасники
+['Unknown']
+"Невідомо"
+[You have to be connected to open new conference.]
+Ви повинні бути підключені, щоб починати конференції.
+[All ignored conferences are now unignored and the conference policy will act again.]
+Список ігнорованих конференцій очищено. Використовується загальна політика конференцій.
+[There are no ignored conferences.]
+Ігнорованих конференцій немає.
 ;file \protocols\Gadu-Gadu\src\image.cpp
 [&Image]
 Зображення

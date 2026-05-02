@@ -79,8 +79,6 @@ Eingehende Dateiübertragung
 [ was added.]
  wurde hinzugefügt.
 ;file \plugins\IEView\src\ieview_main.cpp
-[Code]
-Code
 [RTL On]
 RTL an
 [RTL Off]
@@ -89,8 +87,6 @@ RTL aus
 Gruppierung an
 [Group Off]
 Gruppierung aus
-[Format text as code]
-Text als Code formatieren
 [IEView]
 IEView
 ;file \plugins\IEView\src\Options.cpp

@@ -20,3 +20,10 @@ ID користувача
 Плагін GnuPG - Виберіть публічний ключ
 [Refresh]
 Оновити
+;file \plugins\CryptoPP\src\GPGw\gpg_main.cpp
+[GnuPG executable]
+Виконуваний файл GnuPG
+[All files]
+Усі файли
+[Select GnuPG executable]
+Вибір виконуваного файлу GnuPG

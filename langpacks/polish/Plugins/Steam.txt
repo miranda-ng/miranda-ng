@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -36,29 +36,43 @@ Wyświetlaj zdarzenia stanu czatu (np. rozmówca zakończył sesję rozmowy)
 Połączenie
 [Error limit before logout:]
 Limit błędów przed wylogowaniem:
-[Captcha]
-Kod Captcha
-[Cancel]
-Anuluj
-[As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
-Jako środek bezpieczeństwa dodanego konta, będziesz musiał udzielić dostępu podając specjalny kod, który właśnie wysłaliśmy na twój adres e-mail.
-[Go to email domain]
-Przejdź do domeny e-mail
 [Block]
 Zablokuj
 [Enter password]
 Wprowadź hasło
 [Save password]
 Zapisz hasło
+[Cancel]
+Anuluj
 [Enter the password to continue.]
 Wprowadź hasło, by kontynuować.
-[Security code]
-Kod bezpieczeństwa
-[As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
-Jako dodatkowy środek bezpieczeństwa na koncie, musisz przyznać dostęp, wprowadzając kod SMS, który właśnie wysłaliśmy na Twój telefon komórkowy.
 ;file \protocols\Steam\src\main.cpp
+[Protocol icon]
+Ikona protokołu
+[Gaming icon]
+Ikona grania
 [Steam game]
 Gra Steam
+;file \protocols\Steam\src\steam_bbcodes.cpp
+[You were invited to play a game]
+
+[Associated application]
+
+;file \protocols\Steam\src\steam_chats.cpp
+[Owner]
+Właściciel
+[Participant]
+Uczestnik
+[total members]
+
+[online members]
+
+[chatting]
+
+[in game]
+
+[&Leave chat session]
+&Opuść pokój
 ;file \protocols\Steam\src\steam_contacts.cpp
 [Looking to play]
 Szuka partnera do gry
@@ -74,28 +88,27 @@ Gra
 %s został usunięty z listy kontaktów
 [%s has added you to contact list]
 %s dodał(a) Cię do kontaktów
+;file \protocols\Steam\src\steam_login.cpp
+[Enter email confimation code]
+
+[Enter the code from your authentication device]
+
 ;file \protocols\Steam\src\steam_menus.cpp
-[Steam menu chooser]
-Wybór menu Steam
 [Unblock]
 Odblokuj
-[Join to game]
+[Join the game]
 Dołącz do gry
+[Join group chat]
+
 ;file \protocols\Steam\src\steam_messages.cpp
-[Unknown error]
-Nieznany błąd
+[Message sending has failed with error %d]
+
 ;file \protocols\Steam\src\steam_options.cpp
 [Name]
 Nazwa
 [Network]
 Sieć
-;file \protocols\Steam\src\steam_proto.cpp
-[Protocols]
-Protokoły
-[Protocol icon]
-Ikona protokołu
-[Gaming icon]
-Ikona grania
+;file \protocols\Steam\src\steam_server.cpp
 ;file \protocols\Steam\src\steam_utils.cpp
 [closed chat session]
 rozmówca zakończył sesję rozmowy

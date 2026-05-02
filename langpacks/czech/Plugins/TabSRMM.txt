@@ -82,7 +82,6 @@ Zvýraznění textu zprávy
 Povolit zvýraznění textu zprávy
 [Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces.]
 Slova ke zvýraznění, zástupné znaky jako * a ? jsou povoleny, jednotlivé položky se oddělují mezerami.
-
 [Highlight messages containing my own nickname]
 Zvýraznit zprávy obsahující vlastní přezdívku
 ;file \plugins\TabSRMM\res\msgwindow.rc
@@ -151,8 +150,6 @@ Režim info panel
 Zobrazit avatar v komunikačním okně
 [Ignore sending timeouts]
 Neupozorňovat na vypršení času doručení
-[Load only actual history]
-Načíst pouze aktuální historii
 [Use private splitter position]
 Použít soukromý oddělovač
 [Always trim message log to]
@@ -609,18 +606,6 @@ Pozice oddělovače
 Globální
 [Private]
 Soukromý
-[Send text formatting]
-Formátování textu
-[BBCode]
-BBCode
-[Off]
-Vyp
-[This contact]
-Tento kontakt
-[Global setting]
-Globální nastavení
-[Force off]
-Vždy vypnout
 [Set position for this session]
 Nastavit pozici pro tento rozhovor
 [Set and save for all sessions]
@@ -698,14 +683,14 @@ Použít umístění okna jako výchozí
 Tlačítko protokolu
 [Info button]
 Informace o kontaktu
-[Bold text]
-Tučný text
-[Italic text]
+[Bold]
+Tučné
+[Italics]
 Kurzíva
-[Underlined text]
-Podtržený text
-[Strike-through text]
-Přeškrtnutý text
+[Underlined]
+Podtržené
+[Strikethrough]
+Přeškrtnutý
 [Send message\nClick dropdown arrow for sending options]
 Poslat zprávu\nKliknutím na šipku zobrazíte možnosti odeslání
 [Close session]
@@ -716,16 +701,16 @@ Citovat poslední zprávu NEBO vybraný text
 Možnosti záznamu komunikace
 [View user's history]
 Zobrazit historii
-[Select a foreground color for the text (Ctrl+K)]
-Změní barvu textu (Ctrl+K)
-[Select a background color for the text (Ctrl+L)]
-Změní barvu pozadí textu (Ctrl+L)
-[Show/hide the nick list (Ctrl+N)]
-Zobrazí/skryje seznam účastníků (Ctrl+N)
-[Enable/disable the event filter (Ctrl+F)]
-Aktivuje/deaktivuje filtrování událostí (Ctrl+F)
-[Control this room (Ctrl+O)]
-Možnosti řízení kanálu (Ctrl+O)
+[Select text color]
+&Přeškrtnutý
+[Select background color]
+Změní barvu pozadí textu
+[Show/hide the nick list]
+Zobrazí/skryje seznam účastníků
+[Enable/disable the event filter]
+Aktivuje/deaktivuje filtrování událostí
+[Control this room]
+Možnosti řízení kanálu
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Komunikace
@@ -916,8 +901,8 @@ Zablikat oknem při napsání zprávy
 Zablikat oknem při zvýraznění slova
 [Create tabs or windows for highlight events]
 Vytvořit panely nebo okna při zvýraznění
-[Activate chat window on highlight]
-Aktivovat okno chatu při zvýraznění
+[Apply tab creation rules to group chats too]
+
 [Show list of users in the chat room]
 Zobrazit seznam uživatelů v místnosti
 [Colorize nicknames in member list (you need to adjust colors)]
@@ -1170,14 +1155,6 @@ Přepnout odesílání více uživatelům
 Vymazat záznam komunikace
 [Collapse side bar]
 Skrýt boční lištu
-[Channel manager]
-Správa kanálů
-[Toggle filter]
-Přepnout filtr
-[Toggle nick list]
-Přepnout seznam uživatelů
-[Show server window]
-Zobrazit okno serveru
 ;file \plugins\TabSRMM\src\infopanel.cpp
 [%s    Idle: %dh,%02dm]
 %s    Nečinný: %dh,%02dm
@@ -1248,9 +1225,6 @@ Avatary
 
 [Typing notification]
 Upozornění na psaní zprávy
-;file \plugins\TabSRMM\src\modplus.cpp
-[Insert [img] tag / surround selected text with [img][/img]]
-Vložit značku [img] / uzavřít vybraný text do [img][/img]
 ;file \plugins\TabSRMM\src\msgdialog.cpp
 [Add this contact permanently to your contact list]
 Přidat tento kontakt do seznamu natrvalo
@@ -1315,12 +1289,10 @@ minuta
 , %d %s nečinný
 [%s on %s%s]
 %s v síti %s%s
-[%s: chat room (%u user%s)]
-%s: místnost (účastníků: %u)
-[%s: chat room (%u users%s)]
-%s: místnost (účastníků: %u)
-[, event filter active]
-, filtr událostí aktivní
+[%s: chat room (%u user)]
+%s: kanál (účastníků: %u)
+[%s: chat room (%u users)]
+%s: kanál (účastníků: %u)
 [%s: message session]
 %s: rozhovor
 [%s: message session (%u users)]
@@ -1419,6 +1391,8 @@ Chování komunikačního okna
 Vždy blikat v seznamu kontaktů a v oznam. oblasti při nové zprávě
 [Delete temporary contacts on close]
 Smazat dočasné kontakty po zavření okna
+[Use Ctrl+arrows to scroll history in the input window]
+
 [Sending messages]
 Odesílání zpráv
 [Minimize the message window on send]
@@ -1427,8 +1401,6 @@ Minimalizovat okno kliknutím na 'Poslat'
 Zavřít okno kliknutím na 'Poslat'
 [Enable "Paste and send" feature]
 Povolit funkci "Vložit a poslat"
-[Allow BBCode formatting in outgoing messages]
-Povolit formátování pomocí BBCode v odchozích zprávách
 [Automatically split long messages (experimental, use with care)]
 Automaticky rozdělovat příliš dlouhé zprávy (experimentální fce)
 [Use the same splitter height for all sessions]
@@ -1572,26 +1544,24 @@ Rozvržení okna
 ;file \plugins\TabSRMM\src\msgs.cpp
 [Message Log options]
 Možnosti záznamu komunikace
-[Image tag]
-Tag obrázku
 [Quote text]
 Citovat text
 [Save and close]
 Uložit a zavřít
 [Smiley button]
 Smajlík
-[Format bold]
+[Make the text bold]
 Tučně
-[Format italic]
+[Make the text italicized]
 Kurzíva
-[Format underline]
+[Make the text underlined]
 Podtrhnout
 [Font face]
 Písmo
 [Font color]
 Barva písma
-[Format strike-through]
-Přeškrtnutý text
+[Make the text strikethrough]
+Přeškrtnutý
 [Background color]
 Barva pozadí
 [Room settings]
@@ -1645,8 +1615,6 @@ Funkce zakázána (použito jako překrytí)
 Komunikační okna - klasické rozhovory
 [Message windows - all]
 Komunikační okna - všechny rozhovory
-[Message windows - group chats]
-Komunikační okna - skupinové rozhovory
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Vyberte kontejner pro %s
@@ -1770,6 +1738,10 @@ Kontakt začal psát
 [Contact stopped typing]
 Kontakt přestal psát
 ;file \plugins\TabSRMM\src\userprefs.cpp
+[BBCode]
+BBCode
+[Force off]
+Vždy vypnout
 [Set messaging options for %s]
 Nastavení komunikace pro kontakt %s
 ;file \plugins\TabSRMM\src\utils.cpp

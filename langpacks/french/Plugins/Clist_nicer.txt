@@ -166,8 +166,6 @@ Cadre arrondi
 Bordures
 [Title bar text:]
 Texte du titre :
-[Pin to desktop]
-Épingler au bureau
 [Show drop shadow (restart required)]
 Afficher l'ombre (redémarr. nécessaire)
 [Hide contact list after it has been idle for]
@@ -216,8 +214,6 @@ Désactiver le glisser-déplacer
 Ne pas renommer les objets par double-clic
 [Show selection even when list is not focused]
 Afficher la sélection même si la liste n'est pas visible
-[Make selection highlight translucent]
-Activer la sélection translucide
 [Use full row for selection and hottracking]
 Utiliser toute la rangée pour sélection et coloriage
 [Double click on avatar opens user info]
@@ -590,11 +586,6 @@ Montrer tous les cadres
 Montrer toutes les barres de titres
 [Hide all title bars]
 Cacher toutes les barres de titres
-;file \plugins\Clist_nicer\src\Docking.cpp
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-La CList ne peut être accouplé en utilisant la barre de titre et les bordures par défaut. Utilisez un toolwindow ou un modèle sans bordure à la place.
-[Contact list docking]
-
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Charger et appliquer

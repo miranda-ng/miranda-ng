@@ -38,10 +38,10 @@
 ;file \plugins\MirLua\src\options.cpp
 [Common scripts]
 Загальні скрипти
-;file \plugins\MirLua\src\plugin.cpp
 [Services]
 Служби
-[C libs folder]
+;file \plugins\MirLua\src\plugin.cpp
+[C Libs Folder]
 Папка з бібліотеками C
 [Scripts folder]
 Папка зі скриптами

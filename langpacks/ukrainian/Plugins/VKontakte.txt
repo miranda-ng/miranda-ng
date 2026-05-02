@@ -2,14 +2,14 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.16.12
+;  Version: 0.1.19.7
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Підтримка протоколу ВКонтакті в Miranda NG.
 ;file \protocols\VKontakte\res\resource.rc
-[Show in protocol menu ]
-Показувати в меню протоколу\s
+[Show in protocol menu]
+Показувати в меню протоколу
 [Create new chat]
 Створити новий чат
 [Status message]
@@ -56,8 +56,6 @@
 Скорочувати посилання для аудіовкладень
 [Use non-standard popups for news and event notifications]
 Нестандартні спливаючі вікна для новин і подій
-[Add message link to messages with attachments]
-
 [Add original message version in edited message]
 
 [News and event notifications]
@@ -116,12 +114,10 @@
 Згадування в коментарях
 [Accepted friend requests]
 Підтверджені запити дружби
-[E-mail or phone number:]
-Пошта або номер телефону:
-[Password:]
-Пароль:
 [Open VKontakte site]
 Відкрити сторінку ВКонтакті
+[Token Request]
+
 [Advanced]
 Додатково
 [Do not open chat windows on creation]
@@ -158,8 +154,6 @@
 тільки як аудіостатус
 [as regular status only]
 тільки як звичайний статус
-[Login settings]
-Налаштування входу
 [Local settings]
 Локальні налаштування
 [Contact list group:]
@@ -176,8 +170,6 @@
 Місцевий час для прийнятих повідомлень
 [Load only friends to local contact list]
 
-[Server-side delivery confirmation]
-Підтвердження доставки зі сторони серверу
 [Bots challenge test]
 Захист від ботів
 [Instruction:]
@@ -233,14 +225,20 @@
 
 [Reload messages icon]
 
+[Protocols]
+Протоколи
+[VKontakte]
+ВКонтакті
 [Access denied! Data will not be sent or received.]
 Відмовлено в доступі! Дані не передаватимуться і не прийматимуться.
 [Error]
 Помилка
-[You have to validate your account before you can use VK in Miranda NG]
-Перед користуванням протоколом ВКонтакті в Miranda NG необхідно підтвердити свій обліковий запис
 [Error %d. Data will not be sent or received.]
 Помилка %d. Дані не передаватимуться і не прийматимуться.
+[Captcha processing error.]
+
+[You have to validate your account before you can use VK in Miranda NG]
+Перед користуванням протоколом ВКонтакті в Miranda NG необхідно підтвердити свій обліковий запис
 [One of the parameters specified was missing or invalid]
 Один із заданих параметрів відсутній або неправильний
 [Access to adding post denied]
@@ -253,12 +251,6 @@
 
 [Message is too long]
 
-[Enter the missing digits between %s and %s of the phone number linked to your account]
-Введіть цифри, пропущені між %s і %s у телефонному номері, прив'язаному до вашого облікового запису
-[Attention!]
-Увага!
-[Enter confirmation code]
-Введіть код підтвердження
 [Enter new nickname]
 Введіть нове ім'я
 [Message read: %s]
@@ -372,8 +364,6 @@
 
 [\nOriginal message:\n]
 
-[Message link]
-
 [create chat]
 створив(ла) чат
 [kick user]
@@ -429,11 +419,13 @@
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 Введіть текст, який бачите
+[Logon for ]
+
+[To log into the VKontakte protocol, you need to authorize in the browser and copy the received address from its address bar into the field below.\nDo not change anything when copying!\nYou will have to ignore the anti-copy message that you will see in your browser. Unfortunately, Miranda NG cannot authorize you in any other way right now.]
+
 [Wall message for %s]
 Повідомлення на стіну %s
 ;file \protocols\VKontakte\src\vk_feed.cpp
-[VKontakte]
-ВКонтакті
 [New news]
 Новини
 [New notifications]
@@ -496,6 +488,8 @@ ID отримувача помилковий або невідомий
 ;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Ви впевнені, що хочете завантажити всі повідомлення з сайту vk.com?\nЛокальну історію контакту буде видалено і завантажено з сервера. Це може забрати багато часу.\nПродовжити?
+[Attention!]
+Увага!
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nDo you want to continue?]
 
 [Error loading message history from server.]
@@ -506,8 +500,6 @@ ID отримувача помилковий або невідомий
 Завантаження історії
 [Error loading message history for %s from server.]
 Помилка при завантаженні повідомлень для %s з сервера.
-[Loading messages for %s is completed.]
-Завершено завантаження повідомлень для %s.
 ;file \protocols\VKontakte\src\vk_messages.cpp
 [Me]
 Я
@@ -559,6 +551,8 @@ ID отримувача помилковий або невідомий
 [VKontakte protocol]
 Протокол ВКонтакті
 ;file \protocols\VKontakte\src\vk_pollserver.cpp
+[This message has been marked as spam in %s:\n]
+
 [This message has been deleted by sender in %s:\n]
 
 ;file \protocols\VKontakte\src\vk_proto.cpp
@@ -567,6 +561,8 @@ ID отримувача помилковий або невідомий
 [Forward]
 
 [Reload messages]
+
+[Go to site IM]
 
 [Mark messages as read]
 Позначити повідомлення як прочитані
@@ -618,8 +614,6 @@ ID отримувача помилковий або невідомий
 [Enter new status message]
 Введіть нове статусне повідомлення
 ;file \protocols\VKontakte\src\vk_thread.cpp
-[Service message]
-Сервісне повідомлення
 [%s is listening to]
 
 [Interests]

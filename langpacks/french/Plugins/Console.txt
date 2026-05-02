@@ -67,11 +67,16 @@ Services
 Texte
 [Background]
 Arrière-plan
-[Text Files (*.txt)]
+[Text files (*.txt)]
 Fichier texte (*.txt)
-[All Files]
+[All files]
 Tous les fichiers
 [Save selection to file]
 
 [Save log to file]
 
+;file \plugins\Console\src\init.cpp
+[Show]
+Afficher
+[Hide]
+Cacher

@@ -150,8 +150,6 @@ Mode fenêtre d'infos
 
 [Ignore sending timeouts]
 Ignorer l'envoi de timeouts
-[Load only actual history]
-Charger uniquement l'historique en cours
 [Use private splitter position]
 Position personnalisée du diviseur
 [Always trim message log to]
@@ -608,18 +606,6 @@ Envoi incertain (ignorer les délais)
 Général
 [Private]
 Privé
-[Send text formatting]
-Formatage du texte
-[BBCode]
-
-[Off]
-
-[This contact]
-Pour ce contact
-[Global setting]
-Paramètres généraux
-[Force off]
-Désactiver
 [Set position for this session]
 Régler la position pour cette session
 [Set and save for all sessions]
@@ -697,13 +683,13 @@ Sauver la position actuelle de la fenêtre
 Protocole
 [Info button]
 Info
-[Bold text]
+[Bold]
 Gras
-[Italic text]
+[Italics]
 Italique
-[Underlined text]
+[Underlined]
 Souligné
-[Strike-through text]
+[Strikethrough]
 Barré
 [Send message\nClick dropdown arrow for sending options]
 Envoyer le message\nCliquez sur la flèche pour les options d'envois
@@ -715,16 +701,16 @@ Citer le dernier message ou le texte sélectionné
 Options
 [View user's history]
 Voir l'historique
-[Select a foreground color for the text (Ctrl+K)]
-Couleur du texte (Ctrl+K)
-[Select a background color for the text (Ctrl+L)]
-Couleur de fond du texte (Ctrl+L)
-[Show/hide the nick list (Ctrl+N)]
-Afficher/cacher la liste des pseudos (Ctrl+N)
-[Enable/disable the event filter (Ctrl+F)]
-Activer/désactiver les filtres d'évènement (Ctrl+F)
-[Control this room (Ctrl+O)]
-Contrôler ce salon (Ctrl+O)
+[Select text color]
+Couleur du texte
+[Select background color]
+Couleur de fond du texte
+[Show/hide the nick list]
+Afficher/cacher la liste des pseudos
+[Enable/disable the event filter]
+Activer/désactiver les filtres d'évènement
+[Control this room]
+Contrôler ce salon
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Sessions de message
@@ -915,7 +901,7 @@ Fenêtre clignotante quand quelqu'un parle
 Fenêtre clignotante quand un mot est surligné
 [Create tabs or windows for highlight events]
 
-[Activate chat window on highlight]
+[Apply tab creation rules to group chats too]
 
 [Show list of users in the chat room]
 Voir la liste des présents d'un salon
@@ -1169,14 +1155,6 @@ Envoyer un fichier
 
 [Collapse side bar]
 
-[Channel manager]
-Manager de canaux
-[Toggle filter]
-
-[Toggle nick list]
-Masquer la liste de noms
-[Show server window]
-
 ;file \plugins\TabSRMM\src\infopanel.cpp
 [%s    Idle: %dh,%02dm]
 
@@ -1247,9 +1225,6 @@ Avatars
 
 [Typing notification]
 Notification de frappe
-;file \plugins\TabSRMM\src\modplus.cpp
-[Insert [img] tag / surround selected text with [img][/img]]
-
 ;file \plugins\TabSRMM\src\msgdialog.cpp
 [Add this contact permanently to your contact list]
 Ajouter ce contact à votre liste
@@ -1314,12 +1289,10 @@ minutes
 
 [%s on %s%s]
 
-[%s: chat room (%u user%s)]
-%s : Salon de Chat (%u contact%s)
-[%s: chat room (%u users%s)]
-%s : Salon de Chat (%u contact%s)
-[, event filter active]
-, filtre d'évènement actif
+[%s: chat room (%u user)]
+%s : Salon de Chat (%u contact)
+[%s: chat room (%u users)]
+%s : Salon de Chat (%u contact)
 [%s: message session]
 %s : Session de message
 [%s: message session (%u users)]
@@ -1418,6 +1391,8 @@ Comportement de la fenêtre des messages
 Toujours clignoter la liste de contacts et le Systray pour les nouveaux messages
 [Delete temporary contacts on close]
 Effacer les contacts provisoires en fermant
+[Use Ctrl+arrows to scroll history in the input window]
+
 [Sending messages]
 Envoi de messages
 [Minimize the message window on send]
@@ -1425,8 +1400,6 @@ Réduire la fenêtre à l'envoi
 [Close the message window on send]
 Fermer la fenêtre à l'envoi
 [Enable "Paste and send" feature]
-
-[Allow BBCode formatting in outgoing messages]
 
 [Automatically split long messages (experimental, use with care)]
 Couper automatiquement les longs messages (expérimental, utiliser avec précaution)
@@ -1571,25 +1544,23 @@ Charger et appliquer
 ;file \plugins\TabSRMM\src\msgs.cpp
 [Message Log options]
 Options
-[Image tag]
-
 [Quote text]
 Citation
 [Save and close]
 Sauver puis fermer
 [Smiley button]
 Boutons des smileys
-[Format bold]
+[Make the text bold]
 Gras
-[Format italic]
+[Make the text italicized]
 Italique
-[Format underline]
+[Make the text underlined]
 Souligné
 [Font face]
 Police
 [Font color]
 Couleur
-[Format strike-through]
+[Make the text strikethrough]
 Style de barré
 [Background color]
 Couleur de fond
@@ -1643,8 +1614,6 @@ Historique récent
 [Message windows - IM]
 
 [Message windows - all]
-
-[Message windows - group chats]
 
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
@@ -1769,6 +1738,10 @@ Notification de frappe
 [Contact stopped typing]
 
 ;file \plugins\TabSRMM\src\userprefs.cpp
+[BBCode]
+
+[Force off]
+Désactiver
 [Set messaging options for %s]
 
 ;file \plugins\TabSRMM\src\utils.cpp

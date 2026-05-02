@@ -224,37 +224,6 @@ Blockieren a&ufheben
 Konferenz
 [Contact list]
 Kontaktliste
-;file \protocols\Gadu-Gadu\src\gg_proto.cpp
-[Images]
-Bilder
-[Gadu-Gadu Number]
-Gadu-Gadu-Nummer
-[Female]
-weiblich
-[Male]
-männlich
-;file \protocols\Gadu-Gadu\src\groupchat.cpp
-[Open &conference...]
-&Konferenz öffnen...
-[&Clear ignored conferences]
-Ignorierte Konferenzen löschen
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
-%s initiierte eine Konferenz mit %d Teilnehmern (%d Unbekannten).\nMöchten Sie teilnehmen?
-[%s initiated the conference.]
-%s initiierte die Konferenz.
-[This is my own conference.]
-Dies ist meine eigene Konferenz.
-[Participants]
-Teilnehmer
-['Unknown']
-'Unbekannt'
-[You have to be connected to open new conference.]
-Sie müssen verbunden sein, bevor Sie eine neue Konferenz öffnen können.
-[All ignored conferences are now unignored and the conference policy will act again.]
-Alle ignorierten Konzerenzen sind nun nicht mehr ignoriert und die Konzerenzregeln werden wieder behandelt.
-[There are no ignored conferences.]
-Es gibt keine ignorierten Konferenzen.
-;file \protocols\Gadu-Gadu\src\icolib.cpp
 [Protocol icon]
 Protokollicon
 [Import list from server]
@@ -285,6 +254,36 @@ Lösche Bild
 Ignorierte Konferenzen löschen
 [Concurrent sessions]
 Gleichzeitige Sitzungen
+;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+[Images]
+Bilder
+[Gadu-Gadu Number]
+Gadu-Gadu-Nummer
+[Female]
+weiblich
+[Male]
+männlich
+;file \protocols\Gadu-Gadu\src\groupchat.cpp
+[Open &conference...]
+&Konferenz öffnen...
+[&Clear ignored conferences]
+Ignorierte Konferenzen löschen
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
+%s initiierte eine Konferenz mit %d Teilnehmern (%d Unbekannten).\nMöchten Sie teilnehmen?
+[%s initiated the conference.]
+%s initiierte die Konferenz.
+[This is my own conference.]
+Dies ist meine eigene Konferenz.
+[Participants]
+Teilnehmer
+['Unknown']
+'Unbekannt'
+[You have to be connected to open new conference.]
+Sie müssen verbunden sein, bevor Sie eine neue Konferenz öffnen können.
+[All ignored conferences are now unignored and the conference policy will act again.]
+Alle ignorierten Konzerenzen sind nun nicht mehr ignoriert und die Konzerenzregeln werden wieder behandelt.
+[There are no ignored conferences.]
+Es gibt keine ignorierten Konferenzen.
 ;file \protocols\Gadu-Gadu\src\image.cpp
 [&Image]
 B&ild

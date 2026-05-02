@@ -23,13 +23,7 @@ Text colour
 Background colour
 [Window: Minimize]
 Window: Minimise
-[Make the text italicized (Ctrl+I)]
-Make the text italicised (Ctrl+I)
 [&Color]
 &Colour
-[Select a foreground color for the text (Ctrl+K)]
-Select a foreground colour for the text (Ctrl+K)
 [&Background color]
 &Background colour
-[Select a background color for the text (Ctrl+L)]
-Select a background colour for the text (Ctrl+L)

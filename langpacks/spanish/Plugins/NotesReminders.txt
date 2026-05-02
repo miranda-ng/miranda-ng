@@ -50,17 +50,7 @@
 
 [Time]
 
-[Repeat each day]
-
 [Reminder Note:]
-
-[None]
-Ninguno
-[Daily]
-
-[Weekly]
-
-[Monthly]
 
 [Repeat Alert Sound]
 
@@ -250,8 +240,12 @@ Notas
 
 [Sticky Note Body]
 
-[Executable Files\0*.exe\0All Files\0*.*\0\0]
-
+[None]
+Ninguno
+[Executable Files]
+Archivos ejecutables
+[All Files]
+Todos los archivos
 [Select Executable]
 
 [Plugins]
@@ -259,14 +253,22 @@ Plugins
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [The specified time is invalid.]
 
+[Don't repeat]
+
+[Repeat daily]
+
+[Repeat weekly]
+
+[Repeat monthly]
+
 [Minutes]
 Minutos
-[Hours]
-Horas
 [The specified time is invalid due to begin of daylight saving (summer time).]
 
 [Hour]
 
+[Hours]
+Horas
 [Day]
 
 [Days]

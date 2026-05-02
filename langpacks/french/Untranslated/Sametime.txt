@@ -1,3 +1,4 @@
+[Lotus Sametime protocol support for Miranda NG.]
 [Connection]
 [Server name:]
 [Client ID and version]

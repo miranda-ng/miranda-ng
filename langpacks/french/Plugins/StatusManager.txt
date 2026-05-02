@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.6
+;  Version: 1.2.0.8
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -120,21 +120,15 @@ ms
 Délai du popup
 [s]
 
-[Dial-up (experimental)]
-
-[Automatically dial on startup]
-
-[Automatically hang up on exit]
-
 [Other]
 Autre
 [Set status to offline before exit]
 
+[Show CMDL]
+
 [Window on startup]
 
 [Set window state]
-
-[Set docked]
 
 [Set window location]
 
@@ -146,8 +140,6 @@ Haut
 
 [Width]
 Largeur
-[Show CMDL]
-
 [Height]
 hauteur
 [Background color]
@@ -285,6 +277,9 @@ Absence automatique
 
 [Status messages]
 Messages d'état
+;file \plugins\StatusManager\src\commonstatus.cpp
+[<unknown>]
+<inconnu>
 ;file \plugins\StatusManager\src\confirmdialog.cpp
 [Set %s message for %s.]
 
@@ -336,8 +331,6 @@ Popups
 [Status manager]
 
 ;file \plugins\StatusManager\src\ss_options.cpp
-[<unknown>]
-<inconnu>
 [default]
 Défaut
 [Hidden]
@@ -346,10 +339,6 @@ Caché
 Minimisé
 [Normal]
 Normale
-[Right]
-Droite
-[None]
-Aucun
 [size: %d x %d]
 
 [loc: %d x %d]

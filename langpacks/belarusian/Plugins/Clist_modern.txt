@@ -156,18 +156,10 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 3-ці:
 [Place offline users out of groups]
 Адключаных паказваць па-за гуртамі
-[Selection mode]
-Тып вылучэння
-[Default]
-Змаўчанні
-[Full selection]
-Поўнае вылучэнне
-[Less selection]
-Толькі над тэкстам
-[No selection]
-Не вылучаць
-[Gamma correction]
-Карэкцыя гамы
+[Appearance]
+Знешні выгляд
+[Always on top]
+Па-над усімі вокнамі
 [Bring to front if covered]
 Перасоўваць на пярэдні план
 [Hide contact list after]
@@ -186,8 +178,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Забараніць змену памеру
 [Drag to]
 Перацягванне
-[Easy scroll]
-Простая прагортка
 [Easy move]
 Простае перасоўванне
 [x100 ms]
@@ -212,8 +202,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Аўтаматычна
 [Always visible]
 Заўсёды бачны
-[Dock to sides]
-Паркаваць
 [and minimum]
 і мінімум
 [Items]
@@ -302,12 +290,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Паказваць час, толькі калі яно адрозніваецца
 [Show contact time as row item]
 Час як элемент радка
-[Appearance]
-Знешні выгляд
-[Always on top]
-Па-над усімі вокнамі
-[Pin to desktop]
-Прымацаваць ды стала
 [Client area margins]
 Межы спісу кантактаў
 [Thin border main window]
@@ -322,8 +304,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Загаловак вакна:
 [Tool style main window]
 Стыль панэлі загалоўка
-[Minimize to tray]
-Схаваць у сістэмны латок
 [Translucency options]
 Налады празрыстасці
 [Fade contact list in/out]
@@ -352,6 +332,12 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Выключыць скіны
 [Enable Aero Glass (Vista, Win 7)]
 Стыль Аэро (Vista, Win 7)
+[Selection mode]
+Тып вылучэння
+[Gamma correction]
+Карэкцыя гамы
+[Minimize to tray]
+Схаваць у сістэмны латок
 [Order of items:]
 Парадак элементаў:
 [Minimum row height:]
@@ -643,8 +629,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Імя (уключаючы лакалізацыю)
 [Last message time]
 Апошняе паведамленне
-[Account name]
-Імя ўліковага запісу
+[Account order]
+
 [Rate]
 Рэйтынг
 [Last online]
@@ -657,6 +643,14 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 За левы край
 [Behind right edge]
 За правы край
+[Default]
+Змаўчанні
+[Full selection]
+Поўнае вылучэнне
+[Less selection]
+Толькі над тэкстам
+[No selection]
+Не вылучаць
 [General]
 Агульнае
 [Tray]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.95.11.1
+;  Version: 0.96.7.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -506,8 +506,6 @@ xHTML-формат повідомлень чату
 Повідомлення про активність користувача
 [Receives information about user activity]
 Прийом інформації про заняття користувача
-[Supports Miranda NG notes extension]
-Підтримка нотаток Miranda NG
 [Supports Roster Exchange]
 Підтримка Roster Exchange
 [Supports direct chat invitations (XEP-0249)]
@@ -812,8 +810,6 @@ xHTML-формат повідомлень чату
 Увійти/Вийти
 [Resolve nicks]
 Визначити ніки
-[Send note]
-Надіслати нотатку
 [AdHoc Command]
 Команда AdHoc
 [OpenID Request]
@@ -925,8 +921,6 @@ xHTML-формат повідомлень чату
 Додати в закладки
 [Commands]
 Команди
-[Send Note]
-Відправити нотатку
 [Send Presence]
 Відправити присутність
 [Jabber Resource]
@@ -969,6 +963,11 @@ xHTML-формат повідомлень чату
 Найвищий пріоритет (за вибором сервера)
 [Status Message]
 Статусне повідомлення
+;file \protocols\JabberG\src\jabber_message.cpp
+[Message redirected from: %s\r\n]
+
+[Unable to decrypt a carbon copy of the encrypted outgoing message]
+
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [To]
@@ -980,10 +979,6 @@ xHTML-формат повідомлень чату
 [Errors]
 Помилки
 ;file \protocols\JabberG\src\jabber_notes.cpp
-[Incoming note from %s]
-Вхідна нотатка від %s
-[Send note to %s]
-Надіслати нотатку %s
 [From: %s]
 Від: %s
 [All tags]
@@ -992,14 +987,14 @@ xHTML-формат повідомлень чату
 Нотатки не збережені, закрити вікно без завантаження нотаток на сервер?
 [Are you sure?]
 Ви впевнені?
-[Incoming note]
-Вхідна нотатка
 ;file \protocols\JabberG\src\jabber_omemo.cpp
-[Unknown device added]
+[Unknown OMEMO device added!]
+
+[(My devices)]
+
+[Trust on first use for\n%d devices]
 
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
-
-[Trust on first use]
 
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
@@ -1408,10 +1403,6 @@ xHTML-формат повідомлень чату
 Увімкнути прийом мелодій
 [Enable user activity receiving]
 Увімкнути прийом занять
-[Receive notes]
-Приймати нотатки
-[Automatically save received notes]
-Автоматично зберігати прийняті нотатки
 [Inline pictures in messages (XEP-0231)]
 
 [Enable chat states sending (XEP-0085)]
@@ -1430,9 +1421,10 @@ xHTML-формат повідомлень чату
 
 [Disable SASL authentication (for old servers)]
 Відключити аутентифікацію SASL (старі сервери)
+[Enable SASL2 authentication, if present]
+
 [Enable stream compression]
 Стискати потік
-
 [Other]
 Інше
 [Enable remote controlling (from another resource of same JID only)]
@@ -1654,6 +1646,10 @@ Hipchat
 [List Editor...]
 Редактор списків...
 ;file \protocols\JabberG\src\jabber_proto.cpp
+[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
+Я використовую Miranda NG (https://miranda-ng.org/)
+[/me slaps %s around a bit with a large trout]
+/me торохнув %s веслом по голові
 [%s error notifications]
 
 [No valid OMEMO session exists]
@@ -1787,10 +1783,6 @@ XML (кодування UTF-8)
 Запит реєстраційної інструкції...
 [Authentication failed for %s@%s.]
 Аутентифікація не пройшла для %s@%s.
-[Message redirected from: %s\r\n]
-
-[Unable to decrypt a carbon copy of the encrypted outgoing message]
-
 [Registration canceled]
 
 [Sending registration information...]
@@ -2257,8 +2249,3 @@ Jabber vCard: редагування телефону
 Настрої
 [Activities]
 Заняття
-;file \protocols\JabberG\src\stdafx.h
-[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
-Я використовую Miranda NG (https://miranda-ng.org/)
-[/me slaps %s around a bit with a large trout]
-/me торохнув %s веслом по голові

@@ -166,8 +166,6 @@ Gerundeter Rand
 Rand
 [Title bar text:]
 Titelleistentext:
-[Pin to desktop]
-An den Desktop anheften
 [Show drop shadow (restart required)]
 Schatten werfen (erfordert Neustart)
 [Hide contact list after it has been idle for]
@@ -216,8 +214,6 @@ Drag&&Drop von Objekten ausschalten
 Umbenennen durch zwei Mausklicks ausschalten
 [Show selection even when list is not focused]
 Markierung immer anzeigen
-[Make selection highlight translucent]
-Transparente Markierung
 [Use full row for selection and hottracking]
 Volle Breite für Markierungen und Hervorhebungen
 [Double click on avatar opens user info]
@@ -590,11 +586,6 @@ Alle Frames anzeigen
 Alle Titelleisten anzeigen
 [Hide all title bars]
 Alle Titelleisten verstecken
-;file \plugins\Clist_nicer\src\Docking.cpp
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-CList Nicer kann nicht andocken wenn Sie die Standard Titelleiste und Umrandung benutzen. Benutzen Sie ein Bearbeitungsfenster anstatt ein randlosen Stil.
-[Contact list docking]
-Kontaktliste andocken
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Skin laden

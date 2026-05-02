@@ -7,6 +7,8 @@
 [Email transfer]
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
 [Image upload]
+[Enter your personal API key from Imageshack]
+[API key is missing]
 [HTTPServer transfer]
 [Edit on]
 [BBCode link]

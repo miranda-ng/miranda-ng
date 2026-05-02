@@ -1,9 +1,9 @@
 #muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
 ;============================================================
 ;  File: GmailNotifier.dll
-;  Plugin: Gmail Multiple Notifier
-;  Version: 1.0.1.3
-;  Authors: Mixwind
+;  Plugin: Gmail Notifier Oauth2 Edition
+;  Version: 2.0.1.1
+;  Authors: George Hazan
 ;============================================================
 [Check your Gmail inboxes locally.]
 Перевірка вхідної пошти Gmail.
@@ -12,14 +12,14 @@
 Обліковий запис Gmail
 [Name:]
 Ім'я:
-[Password:]
-Пароль:
 [Add]
 Додати
-[Save]
-Зберегти
+[Edit]
+Редагувати
 [Delete]
 Видалити
+[Authorize]
+Авторизувати
 [Configuration]
 Конфігурація
 [Check Gmail inbox every]
@@ -32,33 +32,37 @@
 Тривалість:
 [seconds]
 секунд
-[Text|Background:]
-Текст|Фон:
 [On double click:]
 Подв. клік:
+[Login using default browser]
+Запустити браузер за замовчанням
+[Do nothing]
+Нічого не робити
+[Run custom program]
+Запустити вказану програму
 [System tray]
 Трей
 [Popup plugin]
 Спливаючі вікна
-[Login using default browser]
-Запустити браузер за замовчанням
-[Login using Internet Explorer]
-Запустити Internet Explorer
-[Run custom program]
-Запустити вказану програму
 [Use online contacts when no new mail]
 Показувати контакти, коли немає нової пошти
-[Enable icon selection and icon in status bar (restart)]
-Значки протоколу в панелі статусів (потрібен перезапуск)
-[This is a shared computer so disable auto login]
-Вимкнути автоперевірку пошти
+[Enable auto login]
+
 [Log unread threads into database (enable history)]
 Записувати непрочитане в базу (вмикає збереження історії)
+[Authorization]
+Авторизація
+[Cancel]
+Скасувати
+[Enter authorization code:]
+
+[To allow Miranda NG access to GMail]
+
+[Go to this link]
+Перейдіть на сайт
 ;file \protocols\GmailNotifier\src\check.cpp
 [Checking...]
 Перевірка...
-[Can't send account data!]
-Не можу відправити дані облікового запису!
 [Wrong name or password!]
 Неправильне ім'я користувача або пароль!
 ;file \protocols\GmailNotifier\src\main.cpp
@@ -73,5 +77,11 @@ Gmail: нова пошта
 [&Check Gmail inbox]
 Перевірити скриньку Gmail
 ;file \protocols\GmailNotifier\src\options.cpp
+[Enter account name]
+
+[Enter your Google email]
+
+[Deauthorize]
+
 [Network]
 Мережа
