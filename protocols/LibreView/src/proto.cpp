@@ -9,6 +9,7 @@ static const wchar_t* TrendToText(int trend);
 static const wchar_t* TrendToArrow(int trend);
 void UpdateContactDisplay(MCONTACT hContact);
 static void AddHistoryEvent(MCONTACT hContact, const CMStringW &timestamp);
+void InitGraphMenu();
 
 static void AddLibreHeaders(MHttpRequest &request, const CLibreViewProto *pAcc = nullptr)
 {
@@ -503,6 +504,14 @@ bool CLibreViewProto::FetchGlucose()
 	CMStringW statusMsg(FORMAT, L"%s, %s", trendText.c_str(), timestampBuf);
 	db_set_ws(m_hContact, "CList", "StatusMsg", statusMsg);
 	ProtoBroadcastAck(m_hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)statusMsg.c_str());
+
+	// Store graphData for later use in graph
+	JSONNode graphDataArray = data["graphData"];
+	if (!graphDataArray.empty()) {
+		lastGraphData = graphDataArray;
+		// Also store in database for persistence
+		setString(m_hContact, "GraphData", graphDataArray.write().c_str());
+	}
 
 	setWord(m_hContact, "Status", ID_STATUS_ONLINE);
 	return true;

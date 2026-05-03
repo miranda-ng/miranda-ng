@@ -28,6 +28,7 @@
   <ItemGroup>
     <ClCompile Include="src\proto.cpp" />
     <ClCompile Include="src\check.cpp" />
+    <ClCompile Include="src\graph.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\stdafx.cxx">

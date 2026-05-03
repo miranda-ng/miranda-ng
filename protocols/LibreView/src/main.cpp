@@ -5,6 +5,8 @@ CMPlugin g_plugin;
 HNETLIBUSER hNetlibUser;
 UINT_PTR hTimer;
 
+void InitGraphMenu();
+
 static HGENMENU g_hContactMenuUpdate = nullptr;
 
 static PLUGININFOEX pluginInfoEx =
@@ -85,6 +87,7 @@ int CMPlugin::Load()
 
 	HookEvent(ME_USERINFO_INITIALISE, UserInfoInit);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
+	InitGraphMenu();
 	RestartTimer();
 	return 0;
 }

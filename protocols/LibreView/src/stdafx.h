@@ -7,6 +7,7 @@
 #include <m_clc.h>
 #include <m_clist.h>
 #include <m_database.h>
+#include <m_fontservice.h>
 #include <m_history.h>
 #include <m_ignore.h>
 #include <m_json.h>
@@ -54,6 +55,7 @@ public:
 	MCONTACT m_hContact;
 	CMStringA szToken, szAccountHash, szPatientId, szApiUrl, szMinVersion;
 	time_t tsLastUpdate = 0;
+	JSONNode lastGraphData;
 
 	bool Login();
 	bool FetchConnections();
