@@ -120,6 +120,18 @@ public:
 private:
 	void DrawGraph()
 	{
+		// Update m_useMgdl from current settings
+		CLibreViewProto *ppro = nullptr;
+		for (auto &it : g_plugin.g_arInstances) {
+			if (it->m_hContact != 0) {
+				ppro = it;
+				break;
+			}
+		}
+		if (ppro) {
+			m_useMgdl = ppro->DisplayUnits == 1;
+		}
+		
 		HDC hdc = GetDC(m_hwnd);
 		RECT rc;
 		GetClientRect(m_hwnd, &rc);
@@ -174,6 +186,9 @@ private:
 		if (valueRange < 0.1) valueRange = 1.0; // avoid division by zero
 		maxValue += valueRange * 0.1;
 		
+		// Convert maxValue for grid calculation in mg/dL mode
+		double displayMaxValue = m_useMgdl ? maxValue * 18.0 : maxValue;
+		
 		// Get font and colors from FontService using LOGFONTW
 		LOGFONTW lf = {};
 		memset(&lf, 0, sizeof(lf));
@@ -217,16 +232,16 @@ private:
 		HPEN hOldPen = (HPEN)SelectObject(hdc, hGridPen);
 		
 		// Horizontal grid lines and Y axis labels with fixed steps
-		// Step in mmol/L: 1 mmol/L = 18 mg/dL for mg/dL mode, 3 mmol/L for mmol/L mode
-		double step = m_useMgdl ? 1.0 : 3.0;  // 1 mmol/L (18 mg/dL) or 3 mmol/L
-		double maxGridValue = ((int)(maxValue / step) + 1) * step;  // Round up to next step
+		// Step in mmol/L: 3 mmol/L for both modes (54 mg/dL for mg/dL mode)
+		double step = m_useMgdl ? 54.0 : 3.0;  // 54 mg/dL (3 mmol/L) or 3 mmol/L
+		double maxGridValue = ((int)(displayMaxValue / step) + 1) * step;  // Round up to next step
 		int lineCount = (int)(maxGridValue / step) + 1;
 		
 		for (int i = 0; i < lineCount && i <= 10; i++) {
 			double value = i * step;
-			if (value > maxValue * 1.1) break;  // Don't draw beyond graph area
+			if (value > displayMaxValue * 1.1) break;  // Don't draw beyond graph area
 			
-			int y = graphBottom - (int)((value - minValue) / (maxValue - minValue) * graphHeight);
+			int y = graphBottom - (int)((value - minValue) / (displayMaxValue - minValue) * graphHeight);
 			if (y < graphTop || y > graphBottom) continue;
 			
 			MoveToEx(hdc, graphLeft, y, nullptr);
@@ -236,9 +251,9 @@ private:
 			if (i > 0) {
 				CMStringW label;
 				if (m_useMgdl) {
-					label.Format(L"%.0f", value * 18.0);
+					label.Format(L"%.0f", value);  // value is already in mg/dL
 				} else {
-					label.Format(L"%.1f", value);
+					label.Format(L"%.1f", value);  // value is in mmol/L
 				}
 				
 				RECT textRect = {0, y - 10, graphLeft - 5, y + 10};
@@ -335,9 +350,11 @@ private:
 			SelectObject(hdc, hSmoothPen);
 			for (size_t i = 1; i < m_data.size(); i++) {
 				int x1 = graphLeft + (int)((double)(m_data[i-1].timestamp - minTime) / (maxTime - minTime) * graphWidth);
-				int y1 = graphBottom - (int)((m_data[i-1].value - minValue) / (maxValue - minValue) * graphHeight);
+				double value1 = m_useMgdl ? m_data[i-1].value * 18.0 : m_data[i-1].value;
+				double value2 = m_useMgdl ? m_data[i].value * 18.0 : m_data[i].value;
+				int y1 = graphBottom - (int)((value1 - minValue) / (displayMaxValue - minValue) * graphHeight);
 				int x2 = graphLeft + (int)((double)(m_data[i].timestamp - minTime) / (maxTime - minTime) * graphWidth);
-				int y2 = graphBottom - (int)((m_data[i].value - minValue) / (maxValue - minValue) * graphHeight);
+				int y2 = graphBottom - (int)((value2 - minValue) / (displayMaxValue - minValue) * graphHeight);
 				
 				// Draw anti-aliased line
 				MoveToEx(hdc, x1, y1, nullptr);
@@ -348,9 +365,11 @@ private:
 			SelectObject(hdc, hLinePen);
 			for (size_t i = 1; i < m_data.size(); i++) {
 				int x1 = graphLeft + (int)((double)(m_data[i-1].timestamp - minTime) / (maxTime - minTime) * graphWidth);
-				int y1 = graphBottom - (int)((m_data[i-1].value - minValue) / (maxValue - minValue) * graphHeight);
+				double value1 = m_useMgdl ? m_data[i-1].value * 18.0 : m_data[i-1].value;
+				double value2 = m_useMgdl ? m_data[i].value * 18.0 : m_data[i].value;
+				int y1 = graphBottom - (int)((value1 - minValue) / (displayMaxValue - minValue) * graphHeight);
 				int x2 = graphLeft + (int)((double)(m_data[i].timestamp - minTime) / (maxTime - minTime) * graphWidth);
-				int y2 = graphBottom - (int)((m_data[i].value - minValue) / (maxValue - minValue) * graphHeight);
+				int y2 = graphBottom - (int)((value2 - minValue) / (displayMaxValue - minValue) * graphHeight);
 				
 				MoveToEx(hdc, x1, y1, nullptr);
 				LineTo(hdc, x2, y2);
@@ -360,7 +379,8 @@ private:
 			SelectObject(hdc, hPointPen);
 			for (const auto& point : m_data) {
 				int x = graphLeft + (int)((double)(point.timestamp - minTime) / (maxTime - minTime) * graphWidth);
-				int y = graphBottom - (int)((point.value - minValue) / (maxValue - minValue) * graphHeight);
+				double value = m_useMgdl ? point.value * 18.0 : point.value;
+				int y = graphBottom - (int)((value - minValue) / (displayMaxValue - minValue) * graphHeight);
 				
 				HBRUSH hOldBrush = (HBRUSH)SelectObject(hdc, hPointBrush);
 				Ellipse(hdc, x - 3, y - 3, x + 3, y + 3);  // Smaller points (radius 3)
