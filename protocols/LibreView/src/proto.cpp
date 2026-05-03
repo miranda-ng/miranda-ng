@@ -9,6 +9,7 @@ static const wchar_t* TrendToText(int trend);
 static const wchar_t* TrendToArrow(int trend);
 void UpdateContactDisplay(MCONTACT hContact);
 static void AddHistoryEvent(MCONTACT hContact, const CMStringW &timestamp);
+void InitGraphMenu();
 
 static void AddLibreHeaders(MHttpRequest &request, const CLibreViewProto *pAcc = nullptr)
 {
@@ -76,7 +77,6 @@ CLibreViewProto::CLibreViewProto(const char *protoName, const wchar_t *userName)
 	DisplayUnits(m_szModuleName, "DisplayUnits", db_get_dw(0, MODULENAME, "DisplayUnits", 0)),
 	WriteHistory(m_szModuleName, "WriteHistory", db_get_b(0, MODULENAME, "WriteHistory", 0) != 0)
 {
-	m_hProtoIcon = Skin_LoadProtoIcon(MODULENAME, ID_STATUS_ONLINE);
 	EnsureAccount();
 
 	// Check if login/password exist but contact doesn't - create contact
@@ -482,8 +482,8 @@ bool CLibreViewProto::FetchGlucose()
 		ClearAuth();
 		return false;
 	}
-	bool isLow = measurement["isLow"].as_bool();
-	bool isHigh = measurement["isHigh"].as_bool();
+	// bool isLow = measurement["isLow"].as_bool();
+	// bool isHigh = measurement["isHigh"].as_bool();
 	CMStringW timestamp = measurement["Timestamp"].as_mstring();
 	uint32_t timestampUnix = ParseLibreTimestamp(timestamp);
 	
@@ -496,7 +496,6 @@ bool CLibreViewProto::FetchGlucose()
 	setDword(m_hContact, "GlucoseUnits", glucoseUnits);
 	setWString(m_hContact, "Timestamp", timestamp); // Save raw timestamp
 
-
 	UpdateContactDisplay(m_hContact);
 	AddHistoryEvent(m_hContact, timestamp);
 
@@ -505,6 +504,14 @@ bool CLibreViewProto::FetchGlucose()
 	CMStringW statusMsg(FORMAT, L"%s, %s", trendText.c_str(), timestampBuf);
 	db_set_ws(m_hContact, "CList", "StatusMsg", statusMsg);
 	ProtoBroadcastAck(m_hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)statusMsg.c_str());
+
+	// Store graphData for later use in graph
+	JSONNode graphDataArray = data["graphData"];
+	if (!graphDataArray.empty()) {
+		lastGraphData = graphDataArray;
+		// Also store in database for persistence
+		setString(m_hContact, "GraphData", graphDataArray.write().c_str());
+	}
 
 	setWord(m_hContact, "Status", ID_STATUS_ONLINE);
 	return true;

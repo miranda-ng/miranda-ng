@@ -436,12 +436,12 @@ int CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
 	auto szDescr = to_string(*pFunc);
 	debugLogA("Sending query %d:\n%s", queryId, szDescr.c_str());
 
-	m_pClientManager->send(m_iClientId, queryId, TD::object_ptr<TD::Function>(pFunc));
-
 	if (pHandler) {
 		mir_cslock lck(m_csRequests);
 		m_arRequests.insert(new TG_REQUEST(queryId, pHandler));
 	}
+
+	m_pClientManager->send(m_iClientId, queryId, TD::object_ptr<TD::Function>(pFunc));
 	return queryId;
 }
 
@@ -455,12 +455,12 @@ int CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandle
 	auto szDescr = to_string(*pFunc);
 	debugLogA("Sending full query %d:\n%s", queryId, szDescr.c_str());
 
-	m_pClientManager->send(m_iClientId, queryId, TD::object_ptr<TD::Function>(pFunc));
-
 	if (pHandler) {
 		mir_cslock lck(m_csRequests);
 		m_arRequests.insert(new TG_REQUEST_FULL(queryId, pHandler, pUserInfo));
 	}
+
+	m_pClientManager->send(m_iClientId, queryId, TD::object_ptr<TD::Function>(pFunc));
 	return queryId;
 }
 

@@ -19,3 +19,6 @@
 #define IDC_UNIT_MGDL                   1021
 #define IDC_SENSOR_REMAINING            1022
 #define IDC_WRITE_HISTORY               1023
+#define IDC_FONT_COLOR                  1024
+#define IDC_BG_COLOR                    1025
+#define IDD_GRAPH                       103

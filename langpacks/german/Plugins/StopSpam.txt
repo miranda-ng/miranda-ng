@@ -37,10 +37,10 @@ Groß-/Kleinschreibung der Antwort nicht beachten
 [Log Spammers to system history]
 Spammer in den Systemverlauf eintragen
 [Move spam contacts to the following group]
-
+Spam-Kontakte in folgende Gruppe verschieben
 ;file \plugins\StopSpamPlus\src\events.cpp
 [You haven't sent authorization request, this message was ignored]
-
+Sie haben keine Autorisierungsanfrage gesendet, diese Nachricht wurde ignoriert.
 [StopSpam automatic message:\r\n]
 Automatische StopSpam-Nachricht:\r\n
 ;file \plugins\StopSpamPlus\src\options.cpp
@@ -66,4 +66,4 @@ Glückwunsch! Sie haben gerade den Mensch-/Robotertest bestanden. Nun können Si
 StopSpam
 ;file \plugins\StopSpamPlus\src\stopspam.cpp
 [Spam]
-
+Spam
