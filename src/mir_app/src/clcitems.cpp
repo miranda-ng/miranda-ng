@@ -259,14 +259,9 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 		}
 	}
 
-	if (checkHideOffline) {
-		if (Clist_IsHiddenMode(dat, status) && (style & CLS_HIDEOFFLINE || group->bHideOffline)) {
-			if (updateTotalCount)
-				group->totalMembers++;
-			return;
-		}
-	}
-	g_clistApi.pfnAddContactToGroup(dat, group, hContact);
+	if (!checkHideOffline || !Clist_IsHiddenMode(dat, status) || !((style & CLS_HIDEOFFLINE) || group->bHideOffline))
+		g_clistApi.pfnAddContactToGroup(dat, group, hContact);
+	
 	if (updateTotalCount)
 		group->totalMembers++;
 }
