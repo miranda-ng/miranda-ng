@@ -148,10 +148,17 @@ void WhatsAppProto::RemoveCachedSettings()
 
 void WhatsAppProto::OnCacheInit()
 {
+	std::vector<MCONTACT> toBeDeleted;
+
 	for (auto &cc : AccContacts()) {
 		CMStringA szId(getMStringA(cc, DBKEY_ID));
 		if (szId.IsEmpty())
 			continue;
+
+		if (isLidUser(szId)) {
+			toBeDeleted.push_back(cc);
+			continue;
+		}
 
 		if (m_szJid == szId)
 			m_ownContact = cc;
@@ -164,6 +171,9 @@ void WhatsAppProto::OnCacheInit()
 		if (p->lid)
 			m_arLids.insert(p);
 	}
+
+	for (auto &cc : toBeDeleted)
+		db_delete_contact(cc);
 }
 
 void WhatsAppProto::OnErase()
