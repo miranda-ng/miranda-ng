@@ -76,7 +76,6 @@ CLibreViewProto::CLibreViewProto(const char *protoName, const wchar_t *userName)
 	DisplayUnits(m_szModuleName, "DisplayUnits", db_get_dw(0, MODULENAME, "DisplayUnits", 0)),
 	WriteHistory(m_szModuleName, "WriteHistory", db_get_b(0, MODULENAME, "WriteHistory", 0) != 0)
 {
-	m_hProtoIcon = Skin_LoadProtoIcon(MODULENAME, ID_STATUS_ONLINE);
 	EnsureAccount();
 
 	// Check if login/password exist but contact doesn't - create contact
@@ -482,8 +481,8 @@ bool CLibreViewProto::FetchGlucose()
 		ClearAuth();
 		return false;
 	}
-	bool isLow = measurement["isLow"].as_bool();
-	bool isHigh = measurement["isHigh"].as_bool();
+	// bool isLow = measurement["isLow"].as_bool();
+	// bool isHigh = measurement["isHigh"].as_bool();
 	CMStringW timestamp = measurement["Timestamp"].as_mstring();
 	uint32_t timestampUnix = ParseLibreTimestamp(timestamp);
 	
@@ -495,7 +494,6 @@ bool CLibreViewProto::FetchGlucose()
 	setDword(m_hContact, "TrendArrow", trend);
 	setDword(m_hContact, "GlucoseUnits", glucoseUnits);
 	setWString(m_hContact, "Timestamp", timestamp); // Save raw timestamp
-
 
 	UpdateContactDisplay(m_hContact);
 	AddHistoryEvent(m_hContact, timestamp);
