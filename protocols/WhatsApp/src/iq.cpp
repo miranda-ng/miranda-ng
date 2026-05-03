@@ -32,8 +32,17 @@ void WhatsAppProto::OnAccountSync(const WANode &node)
 
 void WhatsAppProto::OnIqBlockList(const WANode &node)
 {
+	auto *list = node.getChild("list");
+	bool bLidMode = !mir_strcmp(list->getAttr("addressing_mode"), "lid");
+
 	for (auto &it : node.getChild("list")->getChildren()) {
-		auto *pUser = AddUser(it->getAttr("jid"), false);
+		WAUser *pUser;
+		if (bLidMode) {
+			pUser = AddUser(it->getAttr("pn_jid"), false);
+			if (auto *pszLid = it->getAttr("lid"))
+				SetLid(pUser, pszLid);
+		}
+		else pUser = AddUser(it->getAttr("jid"), false);
 		Contact::Hide(pUser->hContact);
 	}
 }
