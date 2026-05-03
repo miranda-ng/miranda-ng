@@ -66,7 +66,7 @@ static int our_select(curl_socket_t maxfd,   /* highest socket number */
   if((!fds_read || fds_read->fd_count == 0) &&
      (!fds_write || fds_write->fd_count == 0) &&
      (!fds_err || fds_err->fd_count == 0)) {
-    /* no sockets, just wait */
+    /* no sockets, wait */
     return curlx_wait_ms(timeout_ms);
   }
 #endif
@@ -75,17 +75,17 @@ static int our_select(curl_socket_t maxfd,   /* highest socket number */
 
 #ifdef USE_WINSOCK
   /* Winsock select() must not be called with an fd_set that contains zero
-    fd flags, or it will return WSAEINVAL. But, it also cannot be called
-    with no fd_sets at all!  From the documentation:
+     fd flags, or it will return WSAEINVAL. It also cannot be called with
+     no fd_sets at all!  From the documentation:
 
-    Any two of the parameters, readfds, writefds, or exceptfds, can be
-    given as null. At least one must be non-null, and any non-null
-    descriptor set must contain at least one handle to a socket.
+     Any two of the parameters, readfds, writefds, or exceptfds, can be
+     given as null. At least one must be non-null, and any non-null
+     descriptor set must contain at least one handle to a socket.
 
-    It is unclear why Winsock does not just handle this for us instead of
-    calling this an error. Luckily, with Winsock, we can _also_ ask how
-    many bits are set on an fd_set. So, let's just check it beforehand.
-  */
+     It is unclear why Winsock does not handle this for us instead of
+     calling this an error. Luckily, with Winsock, we can _also_ ask how
+     many bits are set on an fd_set. Therefore, let's check it beforehand.
+   */
   return select((int)maxfd + 1,
                 fds_read && fds_read->fd_count ? fds_read : NULL,
                 fds_write && fds_write->fd_count ? fds_write : NULL,
@@ -128,7 +128,7 @@ int Curl_socket_check(curl_socket_t readfd0, /* two sockets to read from */
 
   if((readfd0 == CURL_SOCKET_BAD) && (readfd1 == CURL_SOCKET_BAD) &&
      (writefd == CURL_SOCKET_BAD)) {
-    /* no sockets, just wait */
+    /* no sockets, wait */
     return curlx_wait_ms(timeout_ms);
   }
 
@@ -223,7 +223,7 @@ int Curl_poll(struct pollfd ufds[], unsigned int nfds, timediff_t timeout_ms)
     }
   }
   if(fds_none) {
-    /* no sockets, just wait */
+    /* no sockets, wait */
     return curlx_wait_ms(timeout_ms);
   }
 
@@ -274,7 +274,7 @@ int Curl_poll(struct pollfd ufds[], unsigned int nfds, timediff_t timeout_ms)
     if(ufds[i].fd == CURL_SOCKET_BAD)
       continue;
     VERIFY_SOCK(ufds[i].fd);
-    if(ufds[i].events & (POLLIN |POLLOUT |POLLPRI |
+    if(ufds[i].events & (POLLIN | POLLOUT | POLLPRI |
                          POLLRDNORM | POLLWRNORM | POLLRDBAND)) {
       if(ufds[i].fd > maxfd)
         maxfd = ufds[i].fd;
@@ -568,7 +568,6 @@ CURLcode Curl_pollset_change(struct Curl_easy *data,
   DEBUGASSERT(ps->init == CURL_EASY_POLLSET_MAGIC);
 #endif
 
-  (void)data;
   DEBUGASSERT(VALID_SOCK(sock));
   if(!VALID_SOCK(sock))
     return CURLE_BAD_FUNCTION_ARGUMENT;
@@ -637,19 +636,25 @@ CURLcode Curl_pollset_set(struct Curl_easy *data,
                           bool do_in, bool do_out)
 {
   return Curl_pollset_change(data, ps, sock,
-                             (do_in ? CURL_POLL_IN : 0)|
+                             (do_in ? CURL_POLL_IN : 0) |
                              (do_out ? CURL_POLL_OUT : 0),
-                             (!do_in ? CURL_POLL_IN : 0)|
+                             (!do_in ? CURL_POLL_IN : 0) |
                              (!do_out ? CURL_POLL_OUT : 0));
 }
 
+/*
+ * Return values:
+ *   -1 = error
+ *    0 = timeout
+ *    N = number of structures with non zero revent fields
+ */
 int Curl_pollset_poll(struct Curl_easy *data,
                       struct easy_pollset *ps,
                       timediff_t timeout_ms)
 {
   struct pollfd *pfds;
   unsigned int i, npfds;
-  int result;
+  int rc;
 
   (void)data;
   DEBUGASSERT(data);
@@ -678,9 +683,9 @@ int Curl_pollset_poll(struct Curl_easy *data,
     }
   }
 
-  result = Curl_poll(pfds, npfds, timeout_ms);
+  rc = Curl_poll(pfds, npfds, timeout_ms);
   curlx_free(pfds);
-  return result;
+  return rc;
 }
 
 void Curl_pollset_check(struct Curl_easy *data,

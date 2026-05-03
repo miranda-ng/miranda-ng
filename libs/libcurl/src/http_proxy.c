@@ -34,7 +34,6 @@
 #include "cf-h1-proxy.h"
 #include "cf-h2-proxy.h"
 #include "connect.h"
-#include "transfer.h"
 #include "vauth/vauth.h"
 #include "curlx/strparse.h"
 
@@ -165,7 +164,7 @@ static CURLcode dynhds_add_custom(struct Curl_easy *data,
 
 void Curl_http_proxy_get_destination(struct Curl_cfilter *cf,
                                      const char **phostname,
-                                     int *pport, bool *pipv6_ip)
+                                     uint16_t *pport, bool *pipv6_ip)
 {
   DEBUGASSERT(cf);
   DEBUGASSERT(cf->conn);
@@ -184,10 +183,7 @@ void Curl_http_proxy_get_destination(struct Curl_cfilter *cf,
   else
     *pport = cf->conn->remote_port;
 
-  if(*phostname != cf->conn->host.name)
-    *pipv6_ip = (strchr(*phostname, ':') != NULL);
-  else
-    *pipv6_ip = cf->conn->bits.ipv6_ip;
+  *pipv6_ip = (strchr(*phostname, ':') != NULL);
 }
 
 struct cf_proxy_ctx {
@@ -203,14 +199,14 @@ CURLcode Curl_http_proxy_create_CONNECT(struct httpreq **preq,
   struct cf_proxy_ctx *ctx = cf->ctx;
   const char *hostname = NULL;
   char *authority = NULL;
-  int port;
+  uint16_t port;
   bool ipv6_ip;
   CURLcode result;
   struct httpreq *req = NULL;
 
   Curl_http_proxy_get_destination(cf, &hostname, &port, &ipv6_ip);
 
-  authority = curl_maprintf("%s%s%s:%d", ipv6_ip ? "[" : "", hostname,
+  authority = curl_maprintf("%s%s%s:%u", ipv6_ip ? "[" : "", hostname,
                             ipv6_ip ? "]" : "", port);
   if(!authority) {
     result = CURLE_OUT_OF_MEMORY;
@@ -237,9 +233,9 @@ CURLcode Curl_http_proxy_create_CONNECT(struct httpreq **preq,
       goto out;
   }
 
-  if(data->state.aptr.proxyuserpwd) {
+  if(data->req.proxyuserpwd) {
     result = Curl_dynhds_h1_cadd_line(&req->headers,
-                                      data->state.aptr.proxyuserpwd);
+                                      data->req.proxyuserpwd);
     if(result)
       goto out;
   }
@@ -380,7 +376,6 @@ static void http_proxy_cf_destroy(struct Curl_cfilter *cf,
 {
   struct cf_proxy_ctx *ctx = cf->ctx;
 
-  (void)data;
   CURL_TRC_CF(data, cf, "destroy");
   curlx_free(ctx);
 }
@@ -396,7 +391,7 @@ static void http_proxy_cf_close(struct Curl_cfilter *cf,
 
 struct Curl_cftype Curl_cft_http_proxy = {
   "HTTP-PROXY",
-  CF_TYPE_IP_CONNECT | CF_TYPE_PROXY,
+  CF_TYPE_IP_CONNECT | CF_TYPE_PROXY | CF_TYPE_SETUP,
   0,
   http_proxy_cf_destroy,
   http_proxy_cf_connect,

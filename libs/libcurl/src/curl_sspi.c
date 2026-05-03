@@ -26,7 +26,7 @@
 #ifdef USE_WINDOWS_SSPI
 
 #include "curl_sspi.h"
-#include "strdup.h"
+#include "curlx/strdup.h"
 #include "curlx/multibyte.h"
 
 /* Pointer to SSPI dispatch table */
@@ -198,9 +198,9 @@ CURLcode Curl_create_sspi_identity(const char *userp, const char *passwdp,
 void Curl_sspi_free_identity(SEC_WINNT_AUTH_IDENTITY *identity)
 {
   if(identity) {
-    Curl_safefree(identity->User);
-    Curl_safefree(identity->Password);
-    Curl_safefree(identity->Domain);
+    curlx_safefree(identity->User);
+    curlx_safefree(identity->Password);
+    curlx_safefree(identity->Domain);
   }
 }
 

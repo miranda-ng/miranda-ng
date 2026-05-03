@@ -139,7 +139,7 @@ CURLcode Curl_output_ntlm(struct Curl_easy *data, bool proxy)
 
   if(proxy) {
 #ifndef CURL_DISABLE_PROXY
-    allocuserpwd = &data->state.aptr.proxyuserpwd;
+    allocuserpwd = &data->req.proxyuserpwd;
     userp = data->state.aptr.proxyuser;
     passwdp = data->state.aptr.proxypasswd;
     service = data->set.str[STRING_PROXY_SERVICE_NAME] ?
@@ -152,7 +152,7 @@ CURLcode Curl_output_ntlm(struct Curl_easy *data, bool proxy)
 #endif
   }
   else {
-    allocuserpwd = &data->state.aptr.userpwd;
+    allocuserpwd = &data->req.userpwd;
     userp = data->state.aptr.user;
     passwdp = data->state.aptr.passwd;
     service = data->set.str[STRING_SERVICE_NAME] ?
@@ -176,9 +176,9 @@ CURLcode Curl_output_ntlm(struct Curl_easy *data, bool proxy)
 #ifdef USE_WINDOWS_SSPI
   if(!Curl_pSecFn) {
     /* not thread-safe and leaks - use curl_global_init() to avoid */
-    CURLcode err = Curl_sspi_global_init();
+    result = Curl_sspi_global_init();
     if(!Curl_pSecFn)
-      return err;
+      return result;
   }
 #ifdef SECPKG_ATTR_ENDPOINT_BINDINGS
   ntlm->sslContext = conn->sslContext;
@@ -242,7 +242,7 @@ CURLcode Curl_output_ntlm(struct Curl_easy *data, bool proxy)
       data->info.proxyauthpicked = CURLAUTH_NTLM;
     else
       data->info.httpauthpicked = CURLAUTH_NTLM;
-    Curl_safefree(*allocuserpwd);
+    curlx_safefree(*allocuserpwd);
     authp->done = TRUE;
     break;
   }

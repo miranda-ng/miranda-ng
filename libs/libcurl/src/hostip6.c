@@ -44,6 +44,7 @@
 
 #include "urldata.h"
 #include "cfilters.h"
+#include "curl_addrinfo.h"
 #include "curl_trc.h"
 #include "hostip.h"
 #include "url.h"
@@ -51,23 +52,6 @@
 #include "connect.h"
 
 #ifdef CURLRES_SYNCH
-
-#ifdef DEBUG_ADDRINFO
-static void dump_addrinfo(const struct Curl_addrinfo *ai)
-{
-  curl_mprintf("dump_addrinfo:\n");
-  for(; ai; ai = ai->ai_next) {
-    char buf[INET6_ADDRSTRLEN];
-    curl_mprintf("    fam %2d, CNAME %s, ",
-                 ai->ai_family,
-                 ai->ai_canonname ? ai->ai_canonname : "<none>");
-    Curl_printable_address(ai, buf, sizeof(buf));
-    curl_mprintf("%s\n", buf);
-  }
-}
-#else
-#define dump_addrinfo(x) Curl_nop_stmt
-#endif
 
 /*
  * Curl_sync_getaddrinfo() when built IPv6-enabled (non-threading and
@@ -79,9 +63,10 @@ static void dump_addrinfo(const struct Curl_addrinfo *ai)
  * Curl_freeaddrinfo(), nothing else.
  */
 struct Curl_addrinfo *Curl_sync_getaddrinfo(struct Curl_easy *data,
+                                            uint8_t dns_queries,
                                             const char *hostname,
-                                            int port,
-                                            int ip_version)
+                                            uint16_t port,
+                                            uint8_t transport)
 {
   struct addrinfo hints;
   struct Curl_addrinfo *res;
@@ -93,14 +78,12 @@ struct Curl_addrinfo *Curl_sync_getaddrinfo(struct Curl_easy *data,
 #endif
   int pf = PF_INET;
 
-  if((ip_version != CURL_IPRESOLVE_V4) && Curl_ipv6works(data))
-    /* The stack seems to be IPv6-enabled */
+  if(dns_queries & CURL_DNSQ_AAAA)
     pf = PF_UNSPEC;
 
   memset(&hints, 0, sizeof(hints));
   hints.ai_family = pf;
-  hints.ai_socktype =
-    (Curl_conn_get_transport(data, data->conn) == TRNSPRT_TCP) ?
+  hints.ai_socktype = (transport == TRNSPRT_TCP) ?
     SOCK_STREAM : SOCK_DGRAM;
 
 #ifndef USE_RESOLVE_ON_IPS
@@ -129,8 +112,6 @@ struct Curl_addrinfo *Curl_sync_getaddrinfo(struct Curl_easy *data,
   if(port) {
     Curl_addrinfo_set_port(res, port);
   }
-
-  dump_addrinfo(res);
 
   return res;
 }

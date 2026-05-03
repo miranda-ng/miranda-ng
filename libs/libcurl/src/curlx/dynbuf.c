@@ -21,10 +21,10 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "../curl_setup.h"
+#include "curl_setup.h"
 
-#include "dynbuf.h"
-#include "../curl_printf.h"
+#include "curlx/dynbuf.h"
+#include "curl_printf.h"
 
 #define MIN_FIRST_ALLOC 32
 
@@ -57,7 +57,7 @@ void curlx_dyn_free(struct dynbuf *s)
 {
   DEBUGASSERT(s);
   DEBUGASSERT(s->init == DYNINIT);
-  Curl_safefree(s->bufr);
+  curlx_safefree(s->bufr);
   s->leng = s->allc = 0;
 }
 
@@ -102,8 +102,6 @@ static CURLcode dyn_nappend(struct dynbuf *s,
   }
 
   if(a != s->allc) {
-    /* this logic is not using Curl_saferealloc() to make the tool not have to
-       include that as well when it uses this code */
     void *p = curlx_realloc(s->bufr, a);
     if(!p) {
       curlx_dyn_free(s);
@@ -136,7 +134,7 @@ void curlx_dyn_reset(struct dynbuf *s)
 
 /*
  * Specify the size of the tail to keep (number of bytes from the end of the
- * buffer). The rest will be dropped.
+ * buffer). The rest is dropped.
  */
 CURLcode curlx_dyn_tail(struct dynbuf *s, size_t trail)
 {
@@ -207,7 +205,7 @@ CURLcode curlx_dyn_vaddf(struct dynbuf *s, const char *fmt, va_list ap)
 
   if(str) {
     CURLcode result = dyn_nappend(s, (const unsigned char *)str, strlen(str));
-    curlx_free(str);
+    curl_free(str);
     return result;
   }
   /* If we failed, we cleanup the whole buffer and return error */

@@ -25,6 +25,7 @@
  ***************************************************************************/
 #include "curl_setup.h"
 
+#include "curl_threads.h"
 #include "cookie.h"
 #include "psl.h"
 #include "urldata.h"
@@ -36,19 +37,29 @@ struct Curl_ssl_scache;
 #define CURL_GOOD_SHARE 0x7e117a1e
 #define GOOD_SHARE_HANDLE(x) ((x) && (x)->magic == CURL_GOOD_SHARE)
 
-#define CURL_SHARE_KEEP_CONNECT(s)    \
-        ((s) && ((s)->specifier & (1 << CURL_LOCK_DATA_CONNECT)))
+#define CURL_SHARE_KEEP_CONNECT(s)                          \
+  ((s) && ((s)->specifier & (1 << CURL_LOCK_DATA_CONNECT)))
 
 /* this struct is libcurl-private, do not export details */
 struct Curl_share {
   unsigned int magic; /* CURL_GOOD_SHARE */
   unsigned int specifier;
-  volatile unsigned int dirty;
 
+  uint32_t ref_count;
+#ifdef USE_MUTEX
+   /* do `ref_count` and `has_been_shared` checks using this mutex. */
+  curl_mutex_t lock;
+  int has_been_shared;
+#else
+  /* this only ever goes from FALSE -> TRUE once. We need to check
+   * this without being able to use the `lockfunc`. */
+  volatile int has_been_shared;
+#endif
   curl_lock_function lockfunc;
   curl_unlock_function unlockfunc;
   void *clientdata;
   struct Curl_easy *admin;
+
   struct cpool cpool;
   struct Curl_dnscache dnscache; /* DNS cache */
 #if !defined(CURL_DISABLE_HTTP) && !defined(CURL_DISABLE_COOKIES)
@@ -65,13 +76,17 @@ struct Curl_share {
 #endif
 };
 
-CURLSHcode Curl_share_lock(struct Curl_easy *, curl_lock_data,
-                           curl_lock_access);
-CURLSHcode Curl_share_unlock(struct Curl_easy *, curl_lock_data);
+CURLSHcode Curl_share_lock(struct Curl_easy *data, curl_lock_data type,
+                           curl_lock_access accesstype);
+CURLSHcode Curl_share_unlock(struct Curl_easy *data, curl_lock_data type);
 
 /* convenience macro to check if this handle is using a shared SSL spool */
-#define CURL_SHARE_ssl_scache(data) (data->share &&                     \
-                                    (data->share->specifier &           \
+#define CURL_SHARE_ssl_scache(data) ((data)->share &&                    \
+                                    ((data)->share->specifier &          \
                                      (1 << CURL_LOCK_DATA_SSL_SESSION)))
+
+CURLcode Curl_share_easy_unlink(struct Curl_easy *data);
+CURLcode Curl_share_easy_link(struct Curl_easy *data,
+                              struct Curl_share *share);
 
 #endif /* HEADER_CURL_SHARE_H */

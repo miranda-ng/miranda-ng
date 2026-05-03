@@ -275,9 +275,6 @@
     <ClCompile Include="src\imap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\inet_pton.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\ldap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -479,9 +476,6 @@
     <ClCompile Include="src\strcase.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\strdup.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\strerror.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -528,6 +522,33 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\vssh\vssh.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\curlx\inet_pton.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dnscache.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\thrdpool.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\thrdqueue.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cf-dns.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\curlx\basename.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\curlx\snprintf.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\curlx\strdup.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1001,6 +1022,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ws.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curlx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

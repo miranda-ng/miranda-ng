@@ -85,7 +85,7 @@ void *Curl_hash_add(struct Curl_hash *h, void *key, size_t key_len, void *p);
 void *Curl_hash_add2(struct Curl_hash *h, void *key, size_t key_len, void *p,
                      Curl_hash_elem_dtor dtor);
 int Curl_hash_delete(struct Curl_hash *h, void *key, size_t key_len);
-void *Curl_hash_pick(struct Curl_hash *, void *key, size_t key_len);
+void *Curl_hash_pick(struct Curl_hash *h, void *key, size_t key_len);
 
 void Curl_hash_destroy(struct Curl_hash *h);
 size_t Curl_hash_count(struct Curl_hash *h);
@@ -97,8 +97,8 @@ size_t curlx_str_key_compare(void *k1, size_t key1_len, void *k2,
                              size_t key2_len);
 void Curl_hash_start_iterate(struct Curl_hash *hash,
                              struct Curl_hash_iterator *iter);
-struct Curl_hash_element *
-Curl_hash_next_element(struct Curl_hash_iterator *iter);
+struct Curl_hash_element *Curl_hash_next_element(
+  struct Curl_hash_iterator *iter);
 
 void Curl_hash_print(struct Curl_hash *h, void (*func)(void *));
 

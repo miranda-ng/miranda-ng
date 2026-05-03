@@ -23,7 +23,7 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "../curl_setup.h"
+#include "curl_setup.h"
 
 #if !defined(CURL_DISABLE_HTTP) && defined(USE_QUICHE)
 
@@ -38,7 +38,7 @@ void Curl_quiche_ver(char *p, size_t len);
 CURLcode Curl_cf_quiche_create(struct Curl_cfilter **pcf,
                                struct Curl_easy *data,
                                struct connectdata *conn,
-                               const struct Curl_addrinfo *ai);
+                               struct Curl_sockaddr_ex *addr);
 
 #endif
 

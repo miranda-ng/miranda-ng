@@ -23,16 +23,16 @@
  * RFC4178 Simple and Protected GSS-API Negotiation Mechanism
  *
  ***************************************************************************/
-#include "../curl_setup.h"
+#include "curl_setup.h"
 
 #if defined(HAVE_GSSAPI) && defined(USE_SPNEGO)
 
-#include "vauth.h"
-#include "../curlx/base64.h"
-#include "../curl_gssapi.h"
-#include "../curl_trc.h"
+#include "vauth/vauth.h"
+#include "curlx/base64.h"
+#include "curl_gssapi.h"
+#include "curl_trc.h"
 
-#if defined(__GNUC__) && defined(__APPLE__)
+#if defined(CURL_HAVE_DIAG) && defined(__APPLE__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
@@ -171,7 +171,7 @@ CURLcode Curl_auth_decode_spnego_message(struct Curl_easy *data,
                                            NULL);
 
   /* Free the decoded challenge as it is not required anymore */
-  Curl_safefree(input_token.value);
+  curlx_safefree(input_token.value);
 
   nego->status = major_status;
   if(GSS_ERROR(major_status)) {
@@ -211,7 +211,7 @@ CURLcode Curl_auth_decode_spnego_message(struct Curl_easy *data,
  * data        [in]     - The session handle.
  * nego        [in/out] - The Negotiate data struct being used and modified.
  * outptr      [in/out] - The address where a pointer to newly allocated memory
- *                        holding the result will be stored upon completion.
+ *                        holding the result is stored upon completion.
  * outlen      [out]    - The length of the output message.
  *
  * Returns CURLE_OK on success.
@@ -288,7 +288,7 @@ void Curl_auth_cleanup_spnego(struct negotiatedata *nego)
   nego->havemultiplerequests = FALSE;
 }
 
-#if defined(__GNUC__) && defined(__APPLE__)
+#if defined(CURL_HAVE_DIAG) && defined(__APPLE__)
 #pragma GCC diagnostic pop
 #endif
 

@@ -33,11 +33,11 @@
 #include <idn2.h>
 
 #if defined(_WIN32) && defined(UNICODE)
-#define IDN2_LOOKUP(name, host, flags)                                  \
+#define IDN2_LOOKUP(name, host, flags)                           \
   idn2_lookup_u8((const uint8_t *)name, (uint8_t **)host, flags)
 #else
-#define IDN2_LOOKUP(name, host, flags)                          \
-  idn2_lookup_ul((const char *)name, (char **)host, flags)
+#define IDN2_LOOKUP(name, host, flags)                         \
+  idn2_lookup_ul((const char *)(name), (char **)(host), flags)
 #endif
 #endif /* USE_LIBIDN2 */
 
@@ -142,20 +142,6 @@ static CURLcode mac_ascii_to_idn(const char *in, char **out)
 
 #ifdef USE_WIN32_IDN
 /* using Windows kernel32 and normaliz libraries. */
-
-#if (!defined(_WIN32_WINNT) || _WIN32_WINNT < _WIN32_WINNT_VISTA) && \
-  (!defined(WINVER) || WINVER < 0x600)
-WINBASEAPI int WINAPI IdnToAscii(DWORD dwFlags,
-                                 const WCHAR *lpUnicodeCharStr,
-                                 int cchUnicodeChar,
-                                 WCHAR *lpASCIICharStr,
-                                 int cchASCIIChar);
-WINBASEAPI int WINAPI IdnToUnicode(DWORD dwFlags,
-                                   const WCHAR *lpASCIICharStr,
-                                   int cchASCIIChar,
-                                   WCHAR *lpUnicodeCharStr,
-                                   int cchUnicodeChar);
-#endif
 
 #define IDN_MAX_LENGTH 255
 
@@ -362,7 +348,7 @@ CURLcode Curl_idn_encode(const char *puny, char **output)
  */
 void Curl_free_idnconverted_hostname(struct hostname *host)
 {
-  Curl_safefree(host->encalloc);
+  curlx_safefree(host->encalloc);
 }
 
 #endif /* USE_IDN */

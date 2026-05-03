@@ -23,12 +23,13 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "../curl_setup.h"
+#include "curl_setup.h"
 
 #ifdef USE_GNUTLS
 
 #include <gnutls/gnutls.h>
-#include "../curlx/timeval.h"
+
+#include "curlx/timeval.h"
 
 #ifdef HAVE_GNUTLS_SRP
 /* the function exists */
@@ -88,7 +89,7 @@ CURLcode Curl_gtls_ctx_init(struct gtls_ctx *gctx,
                             struct Curl_cfilter *cf,
                             struct Curl_easy *data,
                             struct ssl_peer *peer,
-                            const struct alpn_spec *alpns,
+                            const struct alpn_spec *alpns_requested,
                             Curl_gtls_ctx_setup_cb *cb_setup,
                             void *cb_user_data,
                             void *ssl_user_data,

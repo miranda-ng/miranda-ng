@@ -28,53 +28,6 @@
 /*               Hand crafted config file for Windows               */
 /* ================================================================ */
 
-/* Define some minimum and default build targets for Visual Studio */
-#ifdef _MSC_VER
-   /* VS2012 default target settings and minimum build target check. */
-#  if _MSC_VER >= 1700
-     /* The minimum and default build targets for VS2012 are Vista and 8,
-        respectively, unless Update 1 is installed and the v110_xp toolset
-        is chosen. */
-#    ifdef _USING_V110_SDK71_
-#      define VS2012_MIN_TARGET 0x0501  /* XP */
-#      define VS2012_DEF_TARGET 0x0501  /* XP */
-#    else
-#      define VS2012_MIN_TARGET 0x0600  /* Vista */
-#      define VS2012_DEF_TARGET 0x0602  /* 8 */
-#    endif
-
-#    ifndef _WIN32_WINNT
-#    define _WIN32_WINNT VS2012_DEF_TARGET
-#    endif
-#    ifndef WINVER
-#    define WINVER VS2012_DEF_TARGET
-#    endif
-#    if (_WIN32_WINNT < VS2012_MIN_TARGET) || (WINVER < VS2012_MIN_TARGET)
-#      ifdef _USING_V110_SDK71_
-#        error VS2012 does not support build targets prior to Windows XP
-#      else
-#        error VS2012 does not support build targets prior to Windows Vista
-#      endif
-#    endif
-   /* VS2010 default target settings and minimum build target check. */
-#  else
-     /* VS2010 default build target is Windows 7 (0x0601).
-        We override default target to be Windows XP. */
-#    define VS2010_MIN_TARGET 0x0501  /* XP */
-#    define VS2010_DEF_TARGET 0x0501  /* XP */
-
-#    ifndef _WIN32_WINNT
-#    define _WIN32_WINNT VS2010_DEF_TARGET
-#    endif
-#    ifndef WINVER
-#    define WINVER VS2010_DEF_TARGET
-#    endif
-#    if (_WIN32_WINNT < VS2010_MIN_TARGET) || (WINVER < VS2010_MIN_TARGET)
-#      error VS2010 does not support build targets prior to Windows XP
-#    endif
-#  endif
-#endif /* _MSC_VER */
-
 /* ---------------------------------------------------------------- */
 /*                          HEADER FILES                            */
 /* ---------------------------------------------------------------- */
@@ -138,11 +91,6 @@
 /* Define if you have the closesocket function. */
 #define HAVE_CLOSESOCKET 1
 
-/* Define if you have the ftruncate function. */
-#ifdef __MINGW32__
-#define HAVE_FTRUNCATE 1
-#endif
-
 /* Define to 1 if you have the `getpeername' function. */
 #define HAVE_GETPEERNAME 1
 
@@ -172,12 +120,6 @@
 
 /* Define if you have the setlocale function. */
 #define HAVE_SETLOCALE 1
-
-/* Define if you have the setmode function. */
-#define HAVE_SETMODE 1
-
-/* Define if you have the _setmode function. */
-#define HAVE__SETMODE 1
 
 /* Define if you have the socket function. */
 #define HAVE_SOCKET 1
@@ -211,9 +153,6 @@
 
 /* Define to the type of arg 1 for send. */
 #define SEND_TYPE_ARG1 SOCKET
-
-/* Define to the type qualifier of arg 2 for send. */
-#define SEND_QUAL_ARG2 const
 
 /* Define to the type of arg 2 for send. */
 #define SEND_TYPE_ARG2 char *
@@ -340,16 +279,16 @@
 /* ---------------------------------------------------------------- */
 
 /*
- * Undefine both USE_ARES and USE_THREADS_WIN32 for synchronous DNS.
+ * Undefine both USE_ARES and USE_RESOLV_THREADED for synchronous DNS.
  */
 
 /* Default define to enable threaded asynchronous DNS lookups. */
 #if !defined(USE_SYNC_DNS) && !defined(USE_ARES) && \
-    !defined(USE_THREADS_WIN32)
-#  define USE_THREADS_WIN32 1
+  !defined(USE_RESOLV_THREADED)
+#  define USE_RESOLV_THREADED 1
 #endif
 
-#if defined(USE_ARES) && defined(USE_THREADS_WIN32)
+#if defined(USE_ARES) && defined(USE_RESOLV_THREADED)
 #  error "Only one DNS lookup specialty may be defined at most"
 #endif
 
@@ -358,18 +297,15 @@
 /* ---------------------------------------------------------------- */
 
 #ifndef CURL_WINDOWS_UWP
-#undef HAVE_LDAP_URL_PARSE
-#define HAVE_LDAP_SSL 1
+#define HAVE_LDAP_SSL  1
 #define USE_WIN32_LDAP 1
-#endif
 
 /* if SSL is enabled */
 #define USE_OPENSSL 1
 
 /* Define to use the Windows crypto library. */
-#ifndef CURL_WINDOWS_UWP
 #define USE_WIN32_CRYPTO
-#endif
+#endif /* CURL_WINDOWS_UWP */
 
 /* Define to use Unix sockets. */
 #define USE_UNIX_SOCKETS

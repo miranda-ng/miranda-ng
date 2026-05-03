@@ -28,9 +28,9 @@ include Makefile.inc
 
 CMAKE_DIST = CMakeLists.txt curl_config-cmake.h.in
 
-EXTRA_DIST = config-mac.h config-os400.h config-plan9.h config-riscos.h \
-  config-win32.h curl_config.h.in $(LIB_RCFILES) libcurl.def            \
-  $(CMAKE_DIST) Makefile.soname optiontable.pl
+EXTRA_DIST = config-mac.h config-os400.h config-riscos.h config-win32.h         \
+  curl_config.h.in $(LIB_RCFILES) libcurl.def $(CMAKE_DIST) Makefile.soname     \
+  optiontable.pl
 
 lib_LTLIBRARIES = libcurl.la
 
@@ -58,6 +58,7 @@ CFLAGS += @CURL_CFLAG_EXTRAS@
 
 AM_CPPFLAGS = -I$(top_srcdir)/include   \
               -I$(top_builddir)/lib     \
+              -I$(top_srcdir)/lib       \
               -I$(srcdir)
 
 # Prevent LIBS from being used for all link targets
@@ -65,9 +66,6 @@ LIBS = $(BLANK_AT_MAKETIME)
 
 if DEBUGBUILD
 AM_CPPFLAGS += -DDEBUGBUILD
-endif
-if CURLDEBUG
-AM_CPPFLAGS += -DCURLDEBUG
 endif
 AM_CPPFLAGS += -DBUILDING_LIBCURL
 
@@ -146,8 +144,7 @@ CS_1 =
 CS_ = $(CS_0)
 
 checksrc:
-	$(CHECKSRC)(@PERL@ $(top_srcdir)/scripts/checksrc.pl -D$(srcdir) \
-	$(CSOURCES) $(HHEADERS))
+	$(CHECKSRC)(@PERL@ $(top_srcdir)/scripts/checksrc.pl -D$(srcdir) $(CSOURCES) $(HHEADERS))
 
 if NOT_CURL_CI
 if DEBUGBUILD
@@ -167,20 +164,22 @@ UNITV_ = $(UNITV_0)
 $(UNITPROTOS): $(CSOURCES)
 	$(UNIT_V)(cd $(srcdir) && @PERL@ ../scripts/extract-unit-protos $(CSOURCES)) > $(top_builddir)/lib/$(UNITPROTOS)
 
-# disable the tests that are mostly causing false positives
-TIDYFLAGS := -checks=-clang-analyzer-security.insecureAPI.bzero,-clang-analyzer-optin.performance.Padding,-clang-analyzer-security.ArrayBound,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling -quiet
+_tidy_cflags =
+TIDYFLAGS =
 if CURL_WERROR
-TIDYFLAGS += --warnings-as-errors=*
+TIDYFLAGS += '--warnings-as-errors=*'
 endif
-
-TIDY := clang-tidy
+if CLANG
+_tidy_cflags += $(CFLAGS)
+endif
 
 tidy:
 	(_csources=`echo ' $(CSOURCES)' | sed -E -e 's/ +$$//' -e 's/ +/ /g' -e 's| | $(srcdir)/|g'`; \
-	$(TIDY) $$_csources $(TIDYFLAGS) $(CURL_CLANG_TIDYFLAGS) -- $(AM_CPPFLAGS) $(CPPFLAGS) -DHAVE_CONFIG_H)
+	@CLANG_TIDY@ --config-file=$(top_srcdir)/.clang-tidy.yml $(TIDYFLAGS) $(CURL_CLANG_TIDYFLAGS) $$_csources \
+	  -- $(AM_CPPFLAGS) $(CPPFLAGS) -DHAVE_CONFIG_H $(_tidy_cflags))
 
 optiontable:
-	@PERL@ $(srcdir)/optiontable.pl < $(top_srcdir)/include/curl/curl.h > $(srcdir)/easyoptions.c
+	@PERL@ $(srcdir)/optiontable.pl $(top_srcdir)/include/curl/curl.h > $(srcdir)/easyoptions.c
 
 if HAVE_WINDRES
 .rc.lo:

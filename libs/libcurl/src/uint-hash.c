@@ -107,7 +107,7 @@ static void uint32_hash_elem_link(struct uint_hash *h,
   ++h->size;
 }
 
-#define CURL_UINT32_HASH_SLOT(h, id) h->table[uint32_hash_hash(id, h->slots)]
+#define CURL_UINT32_HASH_SLOT(h, id) h->table[uint32_hash_hash(id, (h)->slots)]
 #define CURL_UINT32_HASH_SLOT_ADDR(h, id) &CURL_UINT32_HASH_SLOT(h, id)
 
 bool Curl_uint32_hash_set(struct uint_hash *h, uint32_t id, void *value)
@@ -181,7 +181,9 @@ void *Curl_uint32_hash_get(struct uint_hash *h, uint32_t id)
   return NULL;
 }
 
-static void uint_hash_clear(struct uint_hash *h)
+/* @unittest 1616 */
+UNITTEST void uint_hash_clear(struct uint_hash *h);
+UNITTEST void uint_hash_clear(struct uint_hash *h)
 {
   if(h && h->table) {
     struct uint_hash_entry *he, **he_anchor;
@@ -198,19 +200,12 @@ static void uint_hash_clear(struct uint_hash *h)
   }
 }
 
-#ifdef UNITTESTS
-UNITTEST void Curl_uint32_hash_clear(struct uint_hash *h)
-{
-  uint_hash_clear(h);
-}
-#endif
-
 void Curl_uint32_hash_destroy(struct uint_hash *h)
 {
   DEBUGASSERT(h->init == CURL_UINT32_HASHINIT);
   if(h->table) {
     uint_hash_clear(h);
-    Curl_safefree(h->table);
+    curlx_safefree(h->table);
   }
   DEBUGASSERT(h->size == 0);
   h->slots = 0;

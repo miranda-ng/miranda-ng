@@ -41,16 +41,16 @@ void r_freeaddrinfo(struct addrinfo *cahead)
 }
 
 struct context {
-  struct ares_addrinfo *result;
+  struct ares_addrinfo *addr;
 };
 
 static void async_addrinfo_cb(void *userp, int status, int timeouts,
-                              struct ares_addrinfo *result)
+                              struct ares_addrinfo *addr)
 {
   struct context *ctx = (struct context *)userp;
   (void)timeouts;
   if(ARES_SUCCESS == status) {
-    ctx->result = result;
+    ctx->addr = addr;
   }
 }
 
@@ -67,8 +67,8 @@ static struct addrinfo *mk_getaddrinfo(const struct ares_addrinfo *aihead)
   for(ai = aihead->nodes; ai != NULL; ai = ai->ai_next) {
     size_t ss_size;
     size_t namelen = name ? strlen(name) + 1 : 0;
-    /* ignore elements with unsupported address family, */
-    /* settle family-specific sockaddr structure size.  */
+    /* ignore elements with unsupported address family,
+       settle family-specific sockaddr structure size. */
     if(ai->ai_family == AF_INET)
       ss_size = sizeof(struct sockaddr_in);
     else if(ai->ai_family == AF_INET6)
@@ -90,8 +90,8 @@ static struct addrinfo *mk_getaddrinfo(const struct ares_addrinfo *aihead)
       return NULL;
     }
 
-    /* copy each structure member individually, member ordering, */
-    /* size, or padding might be different for each platform.    */
+    /* copy each structure member individually, member ordering,
+       size, or padding might be different for each platform. */
 
     ca->ai_flags     = ai->ai_flags;
     ca->ai_family    = ai->ai_family;
@@ -184,11 +184,11 @@ int r_getaddrinfo(const char *node,
   /* Wait until no more requests are left to be processed */
   ares_queue_wait_empty(channel, -1);
 
-  if(ctx.result) {
+  if(ctx.addr) {
     /* convert the c-ares version */
-    *res = mk_getaddrinfo(ctx.result);
+    *res = mk_getaddrinfo(ctx.addr);
     /* free the old */
-    ares_freeaddrinfo(ctx.result);
+    ares_freeaddrinfo(ctx.addr);
   }
   else
     rc = EAI_NONAME; /* got nothing */

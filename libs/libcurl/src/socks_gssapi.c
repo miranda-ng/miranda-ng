@@ -33,9 +33,9 @@
 #include "connect.h"
 #include "curlx/nonblock.h"
 #include "socks.h"
-#include "strdup.h"
+#include "curlx/strdup.h"
 
-#if defined(__GNUC__) && defined(__APPLE__)
+#if defined(CURL_HAVE_DIAG) && defined(__APPLE__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
@@ -106,7 +106,7 @@ CURLcode Curl_SOCKS5_gssapi_negotiate(struct Curl_cfilter *cf,
   CURLcode code;
   size_t actualread;
   size_t nwritten;
-  int result;
+  CURLcode result;
   OM_uint32 gss_major_status, gss_minor_status, gss_status;
   OM_uint32 gss_ret_flags;
   int gss_conf_state, gss_enc;
@@ -135,7 +135,7 @@ CURLcode Curl_SOCKS5_gssapi_negotiate(struct Curl_cfilter *cf,
   /* prepare service name */
   if(strchr(serviceptr, '/')) {
     service.length = serviceptr_length;
-    service.value = Curl_memdup(serviceptr, service.length);
+    service.value = curlx_memdup(serviceptr, service.length);
     if(!service.value)
       return CURLE_OUT_OF_MEMORY;
 
@@ -156,7 +156,7 @@ CURLcode Curl_SOCKS5_gssapi_negotiate(struct Curl_cfilter *cf,
                                        GSS_C_NT_HOSTBASED_SERVICE, &server);
   }
 
-  Curl_safefree(service.value);
+  curlx_safefree(service.value);
   service.length = 0;
 
   if(check_gss_err(data, gss_major_status,
@@ -168,8 +168,8 @@ CURLcode Curl_SOCKS5_gssapi_negotiate(struct Curl_cfilter *cf,
 
   (void)curlx_nonblock(sock, FALSE);
 
-  /* As long as we need to keep sending some context info, and there is no  */
-  /* errors, keep sending it...                                            */
+  /* As long as we need to keep sending some context info, and there is no
+   * errors, keep sending it... */
   for(;;) {
     gss_major_status = Curl_gss_init_sec_context(data,
                                                  &gss_minor_status,
@@ -183,12 +183,12 @@ CURLcode Curl_SOCKS5_gssapi_negotiate(struct Curl_cfilter *cf,
                                                  &gss_ret_flags);
 
     if(gss_token != GSS_C_NO_BUFFER) {
-      Curl_safefree(gss_recv_token.value);
+      curlx_safefree(gss_recv_token.value);
       gss_recv_token.length = 0;
     }
     if(check_gss_err(data, gss_major_status,
                      gss_minor_status, "gss_init_sec_context") ||
-       /* the size needs to fit in a 16 bit field */
+       /* the size needs to fit in a 16-bit field */
        (gss_send_token.length > 0xffff)) {
       gss_release_name(&gss_status, &server);
       gss_release_buffer(&gss_status, &gss_send_token);
@@ -228,7 +228,7 @@ CURLcode Curl_SOCKS5_gssapi_negotiate(struct Curl_cfilter *cf,
     if(gss_major_status != GSS_S_CONTINUE_NEEDED)
       break;
 
-    /* analyse response */
+    /* analyze response */
 
     /*   GSS-API response looks like
      * +----+------+-----+----------------+
@@ -266,6 +266,13 @@ CURLcode Curl_SOCKS5_gssapi_negotiate(struct Curl_cfilter *cf,
     memcpy(&us_length, socksreq + 2, sizeof(short));
     us_length = ntohs(us_length);
 
+    if(!us_length) {
+      failf(data, "Invalid zero-length GSS-API authentication token.");
+      gss_release_name(&gss_status, &server);
+      Curl_gss_delete_sec_context(&gss_status, &gss_context, NULL);
+      return CURLE_COULDNT_CONNECT;
+    }
+
     gss_recv_token.length = us_length;
     gss_recv_token.value = curlx_malloc(gss_recv_token.length);
     if(!gss_recv_token.value) {
@@ -283,7 +290,7 @@ CURLcode Curl_SOCKS5_gssapi_negotiate(struct Curl_cfilter *cf,
     if(result || (actualread != us_length)) {
       failf(data, "Failed to receive GSS-API authentication token.");
       gss_release_name(&gss_status, &server);
-      Curl_safefree(gss_recv_token.value);
+      curlx_safefree(gss_recv_token.value);
       gss_recv_token.length = 0;
       Curl_gss_delete_sec_context(&gss_status, &gss_context, NULL);
       return CURLE_COULDNT_CONNECT;
@@ -317,7 +324,7 @@ CURLcode Curl_SOCKS5_gssapi_negotiate(struct Curl_cfilter *cf,
   }
 
   infof(data, "SOCKS5 server authenticated user %.*s with GSS-API.",
-        (int)gss_send_token.length, (char *)gss_send_token.value);
+        (int)gss_send_token.length, (const char *)gss_send_token.value);
 
   gss_release_name(&gss_status, &gss_client_name);
   gss_release_buffer(&gss_status, &gss_send_token);
@@ -374,7 +381,7 @@ CURLcode Curl_SOCKS5_gssapi_negotiate(struct Curl_cfilter *cf,
   }
   else {
     gss_send_token.length = 1;
-    gss_send_token.value = Curl_memdup(&gss_enc, gss_send_token.length);
+    gss_send_token.value = curlx_memdup(&gss_enc, gss_send_token.length);
     if(!gss_send_token.value) {
       Curl_gss_delete_sec_context(&gss_status, &gss_context, NULL);
       return CURLE_OUT_OF_MEMORY;
@@ -385,14 +392,14 @@ CURLcode Curl_SOCKS5_gssapi_negotiate(struct Curl_cfilter *cf,
                                 &gss_conf_state, &gss_w_token);
 
     if(check_gss_err(data, gss_major_status, gss_minor_status, "gss_wrap")) {
-      Curl_safefree(gss_send_token.value);
+      curlx_safefree(gss_send_token.value);
       gss_send_token.length = 0;
       gss_release_buffer(&gss_status, &gss_w_token);
       Curl_gss_delete_sec_context(&gss_status, &gss_context, NULL);
       failf(data, "Failed to wrap GSS-API encryption value into token.");
       return CURLE_COULDNT_CONNECT;
     }
-    Curl_safefree(gss_send_token.value);
+    curlx_safefree(gss_send_token.value);
     gss_send_token.length = 0;
 
     us_length = htons((unsigned short)gss_w_token.length);
@@ -453,6 +460,12 @@ CURLcode Curl_SOCKS5_gssapi_negotiate(struct Curl_cfilter *cf,
   memcpy(&us_length, socksreq + 2, sizeof(short));
   us_length = ntohs(us_length);
 
+  if(!us_length) {
+    failf(data, "Invalid zero-length GSS-API encryption token.");
+    Curl_gss_delete_sec_context(&gss_status, &gss_context, NULL);
+    return CURLE_COULDNT_CONNECT;
+  }
+
   gss_recv_token.length = us_length;
   gss_recv_token.value = curlx_malloc(gss_recv_token.length);
   if(!gss_recv_token.value) {
@@ -464,7 +477,7 @@ CURLcode Curl_SOCKS5_gssapi_negotiate(struct Curl_cfilter *cf,
 
   if(result || (actualread != us_length)) {
     failf(data, "Failed to receive GSS-API encryption type.");
-    Curl_safefree(gss_recv_token.value);
+    curlx_safefree(gss_recv_token.value);
     gss_recv_token.length = 0;
     Curl_gss_delete_sec_context(&gss_status, &gss_context, NULL);
     return CURLE_COULDNT_CONNECT;
@@ -476,14 +489,14 @@ CURLcode Curl_SOCKS5_gssapi_negotiate(struct Curl_cfilter *cf,
                                   0, GSS_C_QOP_DEFAULT);
 
     if(check_gss_err(data, gss_major_status, gss_minor_status, "gss_unwrap")) {
-      Curl_safefree(gss_recv_token.value);
+      curlx_safefree(gss_recv_token.value);
       gss_recv_token.length = 0;
       gss_release_buffer(&gss_status, &gss_w_token);
       Curl_gss_delete_sec_context(&gss_status, &gss_context, NULL);
       failf(data, "Failed to unwrap GSS-API encryption value into token.");
       return CURLE_COULDNT_CONNECT;
     }
-    Curl_safefree(gss_recv_token.value);
+    curlx_safefree(gss_recv_token.value);
     gss_recv_token.length = 0;
 
     if(gss_w_token.length != 1) {
@@ -501,21 +514,21 @@ CURLcode Curl_SOCKS5_gssapi_negotiate(struct Curl_cfilter *cf,
     if(gss_recv_token.length != 1) {
       failf(data, "Invalid GSS-API encryption response length (%zu).",
             gss_recv_token.length);
-      Curl_safefree(gss_recv_token.value);
+      curlx_safefree(gss_recv_token.value);
       gss_recv_token.length = 0;
       Curl_gss_delete_sec_context(&gss_status, &gss_context, NULL);
       return CURLE_COULDNT_CONNECT;
     }
 
     memcpy(socksreq, gss_recv_token.value, gss_recv_token.length);
-    Curl_safefree(gss_recv_token.value);
+    curlx_safefree(gss_recv_token.value);
     gss_recv_token.length = 0;
   }
 
   (void)curlx_nonblock(sock, TRUE);
 
   infof(data, "SOCKS5 access with%s protection granted.",
-        (socksreq[0] == 0) ? "out GSS-API data":
+        (socksreq[0] == 0) ? "out GSS-API data" :
         ((socksreq[0] == 1) ? " GSS-API integrity" :
          " GSS-API confidentiality"));
 
@@ -526,7 +539,7 @@ CURLcode Curl_SOCKS5_gssapi_negotiate(struct Curl_cfilter *cf,
   return CURLE_OK;
 }
 
-#if defined(__GNUC__) && defined(__APPLE__)
+#if defined(CURL_HAVE_DIAG) && defined(__APPLE__)
 #pragma GCC diagnostic pop
 #endif
 

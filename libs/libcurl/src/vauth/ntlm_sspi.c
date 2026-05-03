@@ -21,14 +21,14 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "../curl_setup.h"
+#include "curl_setup.h"
 
 #if defined(USE_WINDOWS_SSPI) && defined(USE_NTLM)
 
-#include "vauth.h"
-#include "../curl_ntlm_core.h"
-#include "../curl_trc.h"
-#include "../strdup.h"
+#include "vauth/vauth.h"
+#include "curl_ntlm_core.h"
+#include "curl_trc.h"
+#include "curlx/strdup.h"
 
 /*
  * Curl_auth_is_ntlm_supported()
@@ -191,25 +191,21 @@ CURLcode Curl_auth_create_ntlm_type1_message(struct Curl_easy *data,
  * Returns CURLE_OK on success.
  */
 CURLcode Curl_auth_decode_ntlm_type2_message(struct Curl_easy *data,
-                                             const struct bufref *type2,
+                                             const struct bufref *type2ref,
                                              struct ntlmdata *ntlm)
 {
-#ifdef CURL_DISABLE_VERBOSE_STRINGS
-  (void)data;
-#endif
-
   /* Ensure we have a valid type-2 message */
-  if(!Curl_bufref_len(type2)) {
+  if(!Curl_bufref_len(type2ref)) {
     infof(data, "NTLM handshake failure (empty type-2 message)");
     return CURLE_BAD_CONTENT_ENCODING;
   }
 
   /* Store the challenge for later use */
-  ntlm->input_token = Curl_memdup0(Curl_bufref_ptr(type2),
-                                   Curl_bufref_len(type2));
+  ntlm->input_token = curlx_memdup0(Curl_bufref_ptr(type2ref),
+                                    Curl_bufref_len(type2ref));
   if(!ntlm->input_token)
     return CURLE_OUT_OF_MEMORY;
-  ntlm->input_token_len = Curl_bufref_len(type2);
+  ntlm->input_token_len = Curl_bufref_len(type2ref);
 
   return CURLE_OK;
 }
@@ -244,9 +240,6 @@ CURLcode Curl_auth_create_ntlm_type3_message(struct Curl_easy *data,
   SECURITY_STATUS status;
   unsigned long attrs;
 
-#ifdef CURL_DISABLE_VERBOSE_STRINGS
-  (void)data;
-#endif
   (void)passwdp;
   (void)userp;
 
@@ -262,7 +255,7 @@ CURLcode Curl_auth_create_ntlm_type3_message(struct Curl_easy *data,
   /* ssl context comes from schannel.
    * When extended protection is used in IIS server,
    * we have to pass a second SecBuffer to the SecBufferDesc
-   * otherwise IIS will not pass the authentication (401 response).
+   * otherwise IIS does not pass the authentication (401 response).
    * Minimum supported version is Windows 7.
    * https://learn.microsoft.com/security-updates/SecurityAdvisories/2009/973811
    */
@@ -348,13 +341,13 @@ void Curl_auth_cleanup_ntlm(struct ntlmdata *ntlm)
   ntlm->p_identity = NULL;
 
   /* Free the input and output tokens */
-  Curl_safefree(ntlm->input_token);
-  Curl_safefree(ntlm->output_token);
+  curlx_safefree(ntlm->input_token);
+  curlx_safefree(ntlm->output_token);
 
   /* Reset any variables */
   ntlm->token_max = 0;
 
-  Curl_safefree(ntlm->spn);
+  curlx_safefree(ntlm->spn);
 }
 
 #endif /* USE_WINDOWS_SSPI && USE_NTLM */

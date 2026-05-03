@@ -25,14 +25,14 @@
  ***************************************************************************/
 CURLcode Curl_rand_bytes(struct Curl_easy *data,
 #ifdef DEBUGBUILD
-                         bool allow_env_override,
+                         bool env_override,
 #endif
                          unsigned char *rnd, size_t num);
 
 #ifdef DEBUGBUILD
-#define Curl_rand(a, b, c) Curl_rand_bytes((a), TRUE, (b), (c))
+#define Curl_rand(a, b, c) Curl_rand_bytes(a, TRUE, b, c)
 #else
-#define Curl_rand(a, b, c) Curl_rand_bytes((a), (b), (c))
+#define Curl_rand(a, b, c) Curl_rand_bytes(a, b, c)
 #endif
 
 /*

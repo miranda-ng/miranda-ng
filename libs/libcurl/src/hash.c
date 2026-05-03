@@ -155,7 +155,7 @@ static void hash_elem_link(struct Curl_hash *h,
   ++h->size;
 }
 
-#define CURL_HASH_SLOT(x, y, z)      x->table[x->hash_func(y, z, x->slots)]
+#define CURL_HASH_SLOT(x, y, z)      x->table[(x)->hash_func(y, z, (x)->slots)]
 #define CURL_HASH_SLOT_ADDR(x, y, z) &CURL_HASH_SLOT(x, y, z)
 
 void *Curl_hash_add2(struct Curl_hash *h, void *key, size_t key_len, void *p,
@@ -177,7 +177,7 @@ void *Curl_hash_add2(struct Curl_hash *h, void *key, size_t key_len, void *p,
     if(h->comp_func(he->key, he->key_len, key, key_len)) {
       /* existing key entry, overwrite by clearing old pointer */
       hash_elem_clear_ptr(h, he);
-      he->ptr = (void *)p;
+      he->ptr = p;
       he->dtor = dtor;
       return p;
     }
@@ -265,7 +265,7 @@ void Curl_hash_destroy(struct Curl_hash *h)
   DEBUGASSERT(h->init == HASHINIT);
   if(h->table) {
     Curl_hash_clean(h);
-    Curl_safefree(h->table);
+    curlx_safefree(h->table);
   }
   DEBUGASSERT(h->size == 0);
   h->slots = 0;
@@ -359,8 +359,8 @@ void Curl_hash_start_iterate(struct Curl_hash *hash,
 #endif
 }
 
-struct Curl_hash_element *
-Curl_hash_next_element(struct Curl_hash_iterator *iter)
+struct Curl_hash_element *Curl_hash_next_element(
+  struct Curl_hash_iterator *iter)
 {
   struct Curl_hash *h;
   DEBUGASSERT(iter->init == ITERINIT);

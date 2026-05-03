@@ -55,7 +55,7 @@
 #define CURL_ALIGN8
 #endif
 
-#if defined(__GNUC__) && defined(__APPLE__)
+#if defined(CURL_HAVE_DIAG) && defined(__APPLE__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
@@ -93,20 +93,20 @@ struct stub_gss_ctx_id_t_desc {
   char creds[250];
 };
 
-static OM_uint32
-stub_gss_init_sec_context(OM_uint32 *min,
-                          gss_cred_id_t initiator_cred_handle,
-                          struct stub_gss_ctx_id_t_desc **context,
-                          gss_name_t target_name,
-                          const gss_OID mech_type,
-                          OM_uint32 req_flags,
-                          OM_uint32 time_req,
-                          const gss_channel_bindings_t input_chan_bindings,
-                          gss_buffer_desc *input_token,
-                          gss_OID *actual_mech_type,
-                          gss_buffer_desc *output_token,
-                          OM_uint32 *ret_flags,
-                          OM_uint32 *time_rec)
+static OM_uint32 stub_gss_init_sec_context(
+  OM_uint32 *min,
+  gss_cred_id_t initiator_cred_handle,
+  struct stub_gss_ctx_id_t_desc **context,
+  gss_name_t target_name,
+  const gss_OID mech_type,
+  OM_uint32 req_flags,
+  OM_uint32 time_req,
+  const gss_channel_bindings_t input_chan_bindings,
+  gss_buffer_desc *input_token,
+  gss_OID *actual_mech_type,
+  gss_buffer_desc *output_token,
+  OM_uint32 *ret_flags,
+  OM_uint32 *time_rec)
 {
   struct stub_gss_ctx_id_t_desc *ctx = NULL;
 
@@ -283,10 +283,10 @@ stub_gss_init_sec_context(OM_uint32 *min,
   return GSS_S_CONTINUE_NEEDED;
 }
 
-static OM_uint32
-stub_gss_delete_sec_context(OM_uint32 *min,
-                            struct stub_gss_ctx_id_t_desc **context,
-                            gss_buffer_t output_token)
+static OM_uint32 stub_gss_delete_sec_context(
+  OM_uint32 *min,
+  struct stub_gss_ctx_id_t_desc **context,
+  gss_buffer_t output_token)
 {
   (void)output_token;
 
@@ -384,6 +384,7 @@ OM_uint32 Curl_gss_delete_sec_context(OM_uint32 *min,
   return gss_delete_sec_context(min, context, output_token);
 }
 
+#ifdef CURLVERBOSE
 #define GSS_LOG_BUFFER_LEN 1024
 static size_t display_gss_error(OM_uint32 status, int type,
                                 char *buf, size_t len)
@@ -437,13 +438,10 @@ void Curl_gss_log_error(struct Curl_easy *data, const char *prefix,
   display_gss_error(minor, GSS_C_MECH_CODE, buf, len);
 
   infof(data, "%s%s", prefix, buf);
-#ifdef CURL_DISABLE_VERBOSE_STRINGS
-  (void)data;
-  (void)prefix;
-#endif
 }
+#endif /* CURLVERBOSE */
 
-#if defined(__GNUC__) && defined(__APPLE__)
+#if defined(CURL_HAVE_DIAG) && defined(__APPLE__)
 #pragma GCC diagnostic pop
 #endif
 

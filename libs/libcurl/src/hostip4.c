@@ -43,6 +43,7 @@
 #endif
 
 #include "urldata.h"
+#include "curl_addrinfo.h"
 #include "curl_trc.h"
 #include "hostip.h"
 #include "url.h"
@@ -67,16 +68,15 @@
  *
  */
 struct Curl_addrinfo *Curl_sync_getaddrinfo(struct Curl_easy *data,
+                                            uint8_t dns_queries,
                                             const char *hostname,
-                                            int port,
-                                            int ip_version)
+                                            uint16_t port,
+                                            uint8_t transport)
 {
   struct Curl_addrinfo *ai = NULL;
 
-  (void)ip_version;
-#ifdef CURL_DISABLE_VERBOSE_STRINGS
-  (void)data;
-#endif
+  (void)dns_queries;
+  (void)transport;
 
   ai = Curl_ipv4_resolve_r(hostname, port);
   if(!ai)
@@ -87,7 +87,8 @@ struct Curl_addrinfo *Curl_sync_getaddrinfo(struct Curl_easy *data,
 #endif /* CURLRES_SYNCH */
 #endif /* CURLRES_IPV4 */
 
-#if defined(CURLRES_IPV4) && !defined(CURLRES_ARES) && !defined(CURLRES_AMIGA)
+#if defined(CURLRES_IPV4) && !defined(USE_RESOLV_ARES) && \
+  !defined(CURLRES_AMIGA)
 
 /*
  * Curl_ipv4_resolve_r() - ipv4 thread-safe resolver function.
@@ -97,7 +98,7 @@ struct Curl_addrinfo *Curl_sync_getaddrinfo(struct Curl_easy *data,
  *
  */
 struct Curl_addrinfo *Curl_ipv4_resolve_r(const char *hostname,
-                                          int port)
+                                          uint16_t port)
 {
 #if !(defined(HAVE_GETADDRINFO) && defined(HAVE_GETADDRINFO_THREADSAFE)) && \
   defined(HAVE_GETHOSTBYNAME_R_3)
@@ -279,4 +280,4 @@ struct Curl_addrinfo *Curl_ipv4_resolve_r(const char *hostname,
 
   return ai;
 }
-#endif /* CURLRES_IPV4 && !CURLRES_ARES && !CURLRES_AMIGA */
+#endif /* CURLRES_IPV4 && !USE_RESOLV_ARES && !CURLRES_AMIGA */

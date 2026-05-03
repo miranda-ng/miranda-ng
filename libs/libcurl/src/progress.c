@@ -30,20 +30,17 @@
 #include "transfer.h"
 #include "curlx/strcopy.h"
 
-/* check rate limits within this many recent milliseconds, at minimum. */
-#define MIN_RATE_LIMIT_PERIOD 3000
-
 #ifndef CURL_DISABLE_PROGRESS_METER
 /* Provide a string that is 7 letters long (plus the zero byte).
 
-   Unit test 1636.
+   @unittest 1636
 */
 UNITTEST void time2str(char *r, size_t rsize, curl_off_t seconds);
 UNITTEST void time2str(char *r, size_t rsize, curl_off_t seconds)
 {
   curl_off_t h;
   if(seconds <= 0) {
-    curlx_strcopy(r, rsize, "       ", 7);
+    curlx_strcopy(r, rsize, STRCONST("       "));
     return;
   }
   h = seconds / 3600;
@@ -76,7 +73,7 @@ UNITTEST void time2str(char *r, size_t rsize, curl_off_t seconds)
         if(y <= 99999)
           curl_msnprintf(r, rsize, "%6" FMT_OFF_T "y", y);
         else
-          curlx_strcopy(r, rsize, ">99999y", 7);
+          curlx_strcopy(r, rsize, STRCONST(">99999y"));
       }
     }
   }
@@ -86,7 +83,7 @@ UNITTEST void time2str(char *r, size_t rsize, curl_off_t seconds)
    but never longer than 6 columns (+ one zero byte).
    Add suffix k, M, G when suitable...
 
-   Unit test 1636
+   @unittest 1636
 */
 UNITTEST char *max6out(curl_off_t bytes, char *max6, size_t mlen);
 UNITTEST char *max6out(curl_off_t bytes, char *max6, size_t mlen)
@@ -130,8 +127,10 @@ static void pgrs_speedinit(struct Curl_easy *data)
 }
 
 /*
- * @unittest: 1606
+ * @unittest 1606
  */
+UNITTEST CURLcode pgrs_speedcheck(struct Curl_easy *data,
+                                  const struct curltime *pnow);
 UNITTEST CURLcode pgrs_speedcheck(struct Curl_easy *data,
                                   const struct curltime *pnow)
 {
@@ -152,11 +151,9 @@ UNITTEST CURLcode pgrs_speedcheck(struct Curl_easy *data,
 
         if(howlong >= data->set.low_speed_time * 1000) {
           /* too long */
-          failf(data,
-                "Operation too slow. "
-                "Less than %ld bytes/sec transferred the last %ld seconds",
-                data->set.low_speed_limit,
-                data->set.low_speed_time);
+          failf(data, "Operation too slow. Less than %" FMT_OFF_T
+                " bytes/sec transferred the last %u seconds",
+                data->set.low_speed_limit, data->set.low_speed_time);
           return CURLE_OPERATION_TIMEDOUT;
         }
       }
@@ -182,7 +179,6 @@ const struct curltime *Curl_pgrs_now(struct Curl_easy *data)
 }
 
 /*
-
    New proposed interface, 9th of February 2000:
 
    pgrsStartNow() - sets start time
@@ -192,7 +188,6 @@ const struct curltime *Curl_pgrs_now(struct Curl_easy *data)
    pgrsSetUploadCounter() - amount of data currently uploaded
    pgrsUpdate() - show progress
    pgrsDone() - transfer complete
-
 */
 
 int Curl_pgrsDone(struct Curl_easy *data)
@@ -218,6 +213,7 @@ void Curl_pgrsReset(struct Curl_easy *data)
   Curl_pgrsSetUploadSize(data, -1);
   Curl_pgrsSetDownloadSize(data, -1);
   data->progress.speeder_c = 0; /* reset speed records */
+  data->progress.deliver = 0;
   pgrs_speedinit(data);
 }
 
@@ -245,7 +241,6 @@ void Curl_pgrsSendPause(struct Curl_easy *data, bool enable)
 }
 
 /*
- *
  * Curl_pgrsTimeWas(). Store the timestamp time at the given label.
  */
 void Curl_pgrsTimeWas(struct Curl_easy *data, timerid timer,
@@ -292,8 +287,8 @@ void Curl_pgrsTimeWas(struct Curl_easy *data, timerid timer,
   case TIMER_STARTTRANSFER:
     delta = &data->progress.t_starttransfer;
     /* prevent updating t_starttransfer unless:
-     *   1) this is the first time we are setting t_starttransfer
-     *   2) a redirect has occurred since the last time t_starttransfer was set
+     *   1. this is the first time we are setting t_starttransfer
+     *   2. a redirect has occurred since the last time t_starttransfer was set
      * This prevents repeated invocations of the function from incorrectly
      * changing the t_starttransfer time.
      */
@@ -323,7 +318,6 @@ void Curl_pgrsTimeWas(struct Curl_easy *data, timerid timer,
 }
 
 /*
- *
  * Curl_pgrsTime(). Store the current time at the given label. This fetches a
  * fresh "now" and returns it.
  *
@@ -346,6 +340,25 @@ void Curl_pgrsStartNow(struct Curl_easy *data)
   /* the sizes are unknown at start */
   p->dl_size_known = FALSE;
   p->ul_size_known = FALSE;
+}
+
+/* check that the 'delta' amount of bytes are okay to deliver to the
+   application, or return error if not. */
+CURLcode Curl_pgrs_deliver_check(struct Curl_easy *data, size_t delta)
+{
+  if(data->set.max_filesize &&
+     ((curl_off_t)delta > data->set.max_filesize - data->progress.deliver)) {
+    failf(data, "Would have exceeded max file size");
+    return CURLE_FILESIZE_EXCEEDED;
+  }
+  return CURLE_OK;
+}
+
+/* this counts how much data is delivered to the application, which
+   in compressed cases may differ from downloaded amount */
+void Curl_pgrs_deliver_inc(struct Curl_easy *data, size_t delta)
+{
+  data->progress.deliver += delta;
 }
 
 void Curl_pgrs_download_inc(struct Curl_easy *data, size_t delta)
@@ -421,7 +434,7 @@ static bool progress_calc(struct Curl_easy *data,
 {
   struct Progress * const p = &data->progress;
   int i_next, i_oldest, i_latest;
-  timediff_t duration_ms;
+  timediff_t duration_us;
   curl_off_t amount;
 
   /* The time spent so far (from the start) in microseconds */
@@ -472,21 +485,19 @@ static bool progress_calc(struct Curl_easy *data,
   /* How much we transferred between oldest and current records */
   amount = p->speed_amount[i_latest] - p->speed_amount[i_oldest];
   /* How long this took */
-  duration_ms = curlx_ptimediff_ms(&p->speed_time[i_latest],
+  duration_us = curlx_ptimediff_us(&p->speed_time[i_latest],
                                    &p->speed_time[i_oldest]);
-  if(duration_ms <= 0)
-    duration_ms = 1;
+  if(duration_us <= 0)
+    duration_us = 1;
 
-  if(amount > (CURL_OFF_T_MAX / 1000)) {
+  if(amount > (CURL_OFF_T_MAX / 1000000)) {
     /* the 'amount' value is bigger than would fit in 64 bits if
-       multiplied with 1000, so we use the double math for this */
+       multiplied with 1000000, so we use the double math for this */
     p->current_speed =
-      (curl_off_t)(((double)amount * 1000.0) / (double)duration_ms);
+      (curl_off_t)(((double)amount * 1000000.0) / (double)duration_us);
   }
   else {
-    /* the 'amount' value is small enough to fit within 32 bits even
-       when multiplied with 1000 */
-    p->current_speed = amount * 1000 / duration_ms;
+    p->current_speed = amount * 1000000 / duration_us;
   }
 
   if((p->lastshow == pnow->tv_sec) && !data->req.done)
@@ -609,8 +620,7 @@ static void progress_meter(struct Curl_easy *data)
   /* we flush the output stream to make it appear as soon as possible */
   fflush(data->set.err);
 }
-#else
- /* progress bar disabled */
+#else /* CURL_DISABLE_PROGRESS_METER */
 #define progress_meter(x) Curl_nop_stmt
 #endif
 
@@ -621,18 +631,18 @@ static void progress_meter(struct Curl_easy *data)
 static CURLcode pgrsupdate(struct Curl_easy *data, bool showprogress)
 {
   if(!data->progress.hide) {
+    int rc;
     if(data->set.fxferinfo) {
-      int result;
       /* There is a callback set, call that */
       Curl_set_in_callback(data, TRUE);
-      result = data->set.fxferinfo(data->set.progress_client,
-                                   data->progress.dl.total_size,
-                                   data->progress.dl.cur_size,
-                                   data->progress.ul.total_size,
-                                   data->progress.ul.cur_size);
+      rc = data->set.fxferinfo(data->set.progress_client,
+                               data->progress.dl.total_size,
+                               data->progress.dl.cur_size,
+                               data->progress.ul.total_size,
+                               data->progress.ul.cur_size);
       Curl_set_in_callback(data, FALSE);
-      if(result != CURL_PROGRESSFUNC_CONTINUE) {
-        if(result) {
+      if(rc != CURL_PROGRESSFUNC_CONTINUE) {
+        if(rc) {
           failf(data, "Callback aborted");
           return CURLE_ABORTED_BY_CALLBACK;
         }
@@ -640,17 +650,16 @@ static CURLcode pgrsupdate(struct Curl_easy *data, bool showprogress)
       }
     }
     else if(data->set.fprogress) {
-      int result;
       /* The older deprecated callback is set, call that */
       Curl_set_in_callback(data, TRUE);
-      result = data->set.fprogress(data->set.progress_client,
-                                   (double)data->progress.dl.total_size,
-                                   (double)data->progress.dl.cur_size,
-                                   (double)data->progress.ul.total_size,
-                                   (double)data->progress.ul.cur_size);
+      rc = data->set.fprogress(data->set.progress_client,
+                               (double)data->progress.dl.total_size,
+                               (double)data->progress.dl.cur_size,
+                               (double)data->progress.ul.total_size,
+                               (double)data->progress.ul.cur_size);
       Curl_set_in_callback(data, FALSE);
-      if(result != CURL_PROGRESSFUNC_CONTINUE) {
-        if(result) {
+      if(rc != CURL_PROGRESSFUNC_CONTINUE) {
+        if(rc) {
           failf(data, "Callback aborted");
           return CURLE_ABORTED_BY_CALLBACK;
         }

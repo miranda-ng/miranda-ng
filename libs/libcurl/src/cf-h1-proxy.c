@@ -31,7 +31,6 @@
 #include "http.h"
 #include "http1.h"
 #include "http_proxy.h"
-#include "url.h"
 #include "select.h"
 #include "progress.h"
 #include "cfilters.h"
@@ -39,7 +38,6 @@
 #include "connect.h"
 #include "curl_trc.h"
 #include "strcase.h"
-#include "transfer.h"
 #include "curlx/strparse.h"
 
 
@@ -106,8 +104,8 @@ static CURLcode tunnel_init(struct Curl_cfilter *cf,
 {
   struct h1_tunnel_state *ts;
 
-  if(cf->conn->handler->flags & PROTOPT_NOTCPPROXY) {
-    failf(data, "%s cannot be done over CONNECT", cf->conn->handler->scheme);
+  if(cf->conn->scheme->flags & PROTOPT_NOTCPPROXY) {
+    failf(data, "%s cannot be done over CONNECT", cf->conn->scheme->name);
     return CURLE_UNSUPPORTED_PROTOCOL;
   }
 
@@ -173,8 +171,8 @@ static void h1_tunnel_go_state(struct Curl_cfilter *cf,
                                 proxy */
     /* If a proxy-authorization header was used for the proxy, then we should
        make sure that it is not accidentally used for the document request
-       after we have connected. So let's free and clear it here. */
-    Curl_safefree(data->state.aptr.proxyuserpwd);
+       after we have connected. Let's thus free and clear it here. */
+    curlx_safefree(data->req.proxyuserpwd);
     break;
   }
 }
@@ -208,10 +206,9 @@ static CURLcode start_CONNECT(struct Curl_cfilter *cf,
   int http_minor;
   CURLcode result;
 
-  /* This only happens if we have looped here due to authentication
-     reasons, and we do not really use the newly cloned URL here
-     then. Just free it. */
-  Curl_safefree(data->req.newurl);
+  /* This only happens if we have looped here due to authentication reasons,
+     and we do not really use the newly cloned URL here then. Free it. */
+  curlx_safefree(data->req.newurl);
 
   result = Curl_http_proxy_create_CONNECT(&req, cf, data, 1);
   if(result)
@@ -241,7 +238,7 @@ static CURLcode send_CONNECT(struct Curl_cfilter *cf,
                              struct h1_tunnel_state *ts,
                              bool *done)
 {
-  uint8_t *buf = curlx_dyn_uptr(&ts->request_data);
+  const uint8_t *buf = curlx_dyn_uptr(&ts->request_data);
   size_t request_len = curlx_dyn_len(&ts->request_data);
   size_t blen = request_len;
   CURLcode result = CURLE_OK;
@@ -262,7 +259,7 @@ static CURLcode send_CONNECT(struct Curl_cfilter *cf,
 
   DEBUGASSERT(blen >= nwritten);
   ts->nsent += nwritten;
-  Curl_debug(data, CURLINFO_HEADER_OUT, (char *)buf, nwritten);
+  Curl_debug(data, CURLINFO_HEADER_OUT, (const char *)buf, nwritten);
 
 out:
   if(result)
@@ -342,8 +339,8 @@ static CURLcode on_resp_header(struct Curl_cfilter *cf,
           ISDIGIT(header[9]) && ISDIGIT(header[10]) && ISDIGIT(header[11]) &&
           !ISDIGIT(header[12])) {
     /* store the HTTP code from the proxy */
-    data->info.httpproxycode = k->httpcode = (header[9] - '0') * 100 +
-      (header[10] - '0') * 10 + (header[11] - '0');
+    data->info.httpproxycode = k->httpcode = ((header[9] - '0') * 100) +
+      ((header[10] - '0') * 10) + (header[11] - '0');
   }
   return result;
 }
@@ -353,9 +350,9 @@ static CURLcode single_header(struct Curl_cfilter *cf,
                               struct h1_tunnel_state *ts)
 {
   CURLcode result = CURLE_OK;
-  char *linep = curlx_dyn_ptr(&ts->rcvbuf);
+  const char *linep = curlx_dyn_ptr(&ts->rcvbuf);
   size_t line_len = curlx_dyn_len(&ts->rcvbuf); /* bytes in this line */
-  struct SingleRequest *k = &data->req;
+  const struct SingleRequest *k = &data->req;
   int writetype;
   ts->headerlines++;
 
@@ -452,7 +449,7 @@ static CURLcode recv_CONNECT_resp(struct Curl_cfilter *cf,
 
     if(!nread) {
       if(data->set.proxyauth && data->state.authproxy.avail &&
-         data->state.aptr.proxyuserpwd) {
+         data->req.proxyuserpwd) {
         /* proxy auth was requested and there was proxy auth available,
            then deem this as "mere" proxy disconnect */
         ts->close_connection = TRUE;
@@ -468,17 +465,7 @@ static CURLcode recv_CONNECT_resp(struct Curl_cfilter *cf,
 
     if(ts->keepon == KEEPON_IGNORE) {
       /* This means we are currently ignoring a response-body */
-
-      if(ts->cl) {
-        /* A Content-Length based body: simply count down the counter
-           and make sure to break out of the loop when we are done! */
-        ts->cl--;
-        if(ts->cl <= 0) {
-          ts->keepon = KEEPON_DONE;
-          break;
-        }
-      }
-      else if(ts->chunked_encoding) {
+      if(ts->chunked_encoding) {
         /* chunked-encoded body, so we need to do the chunked dance
            properly to know when the end of the body is reached */
         size_t consumed = 0;
@@ -492,6 +479,15 @@ static CURLcode recv_CONNECT_resp(struct Curl_cfilter *cf,
           /* we are done reading chunks! */
           infof(data, "chunk reading DONE");
           ts->keepon = KEEPON_DONE;
+        }
+      }
+      else if(ts->cl) {
+        /* A Content-Length based body: count down the counter
+           and make sure to break out of the loop when we are done! */
+        ts->cl--;
+        if(ts->cl <= 0) {
+          ts->keepon = KEEPON_DONE;
+          break;
         }
       }
       continue;
@@ -531,7 +527,7 @@ static CURLcode recv_CONNECT_resp(struct Curl_cfilter *cf,
     if(byte != 0x0a)
       continue;
     else {
-      char *linep = curlx_dyn_ptr(&ts->rcvbuf);
+      const char *linep = curlx_dyn_ptr(&ts->rcvbuf);
       size_t hlen = curlx_dyn_len(&ts->rcvbuf);
       if(hlen && ISNEWLINE(linep[0])) {
         /* end of headers */
@@ -571,7 +567,7 @@ static CURLcode H1_CONNECT(struct Curl_cfilter *cf,
 
   do {
 
-    if(Curl_timeleft_ms(data, TRUE) < 0) {
+    if(Curl_timeleft_ms(data) < 0) {
       failf(data, "Proxy CONNECT aborted due to timeout");
       result = CURLE_OPERATION_TIMEDOUT;
       goto out;
@@ -600,6 +596,8 @@ static CURLcode H1_CONNECT(struct Curl_cfilter *cf,
       /* read what is there */
       CURL_TRC_CF(data, cf, "CONNECT receive");
       result = recv_CONNECT_resp(cf, data, ts, &done);
+      if(result)
+        CURL_TRC_CF(data, cf, "error receiving CONNECT response: %d", result);
       if(!result)
         result = Curl_pgrsUpdate(data);
       /* error or not complete yet. return for more multi-multi */
@@ -645,10 +643,10 @@ static CURLcode H1_CONNECT(struct Curl_cfilter *cf,
   DEBUGASSERT(ts->tunnel_state == H1_TUNNEL_RESPONSE);
   if(data->info.httpproxycode / 100 != 2) {
     /* a non-2xx response and we have no next URL to try. */
-    Curl_safefree(data->req.newurl);
+    curlx_safefree(data->req.newurl);
     h1_tunnel_go_state(cf, ts, H1_TUNNEL_FAILED, data);
     failf(data, "CONNECT tunnel failed, response %d", data->req.httpcode);
-    return CURLE_RECV_ERROR;
+    return CURLE_COULDNT_CONNECT;
   }
   /* 2xx response, SUCCESS! */
   h1_tunnel_go_state(cf, ts, H1_TUNNEL_ESTABLISHED, data);
@@ -692,7 +690,7 @@ static CURLcode cf_h1_proxy_connect(struct Curl_cfilter *cf,
   result = H1_CONNECT(cf, data, ts);
   if(result)
     goto out;
-  Curl_safefree(data->state.aptr.proxyuserpwd);
+  curlx_safefree(data->req.proxyuserpwd);
 
 out:
   *done = (result == CURLE_OK) && tunnel_is_established(cf->ctx);

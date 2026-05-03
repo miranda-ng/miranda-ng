@@ -38,13 +38,13 @@
 #if defined(_WIN32_WINNT) && _WIN32_WINNT >= _WIN32_WINNT_VISTA && \
   !defined(CURL_WINDOWS_UWP)
 #  define HAVE_WIN_BCRYPTGENRANDOM
-#  include <bcrypt.h>
+#include <bcrypt.h>
 #  ifdef _MSC_VER
 #    pragma comment(lib, "bcrypt.lib")
 #  endif
-#  ifndef STATUS_SUCCESS
-#  define STATUS_SUCCESS ((NTSTATUS)0x00000000L)
-#  endif
+#ifndef STATUS_SUCCESS
+#define STATUS_SUCCESS ((NTSTATUS)0x00000000L)
+#endif
 #elif defined(USE_WIN32_CRYPTO)
 #  include <wincrypt.h>
 #  ifdef _MSC_VER
@@ -228,12 +228,6 @@ CURLcode Curl_rand_hex(struct Curl_easy *data, unsigned char *rnd, size_t num)
   CURLcode result = CURLE_BAD_FUNCTION_ARGUMENT;
   unsigned char buffer[128];
   DEBUGASSERT(num > 1);
-
-#ifdef __clang_analyzer__
-  /* This silences a scan-build warning about accessing this buffer with
-     uninitialized memory. */
-  memset(buffer, 0, sizeof(buffer));
-#endif
 
   if((num / 2 >= sizeof(buffer)) || !(num & 1)) {
     /* make sure it fits in the local buffer and that it is an odd number! */

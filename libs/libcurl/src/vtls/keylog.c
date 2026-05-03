@@ -21,28 +21,24 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "../curl_setup.h"
+#include "curl_setup.h"
+#include "vtls/keylog.h"
 
-#if defined(USE_OPENSSL) || \
-  defined(USE_GNUTLS) || \
-  defined(USE_WOLFSSL) || \
-  (defined(USE_NGTCP2) && defined(USE_NGHTTP3)) || \
-  defined(USE_QUICHE) || \
+#if defined(USE_OPENSSL) || defined(USE_GNUTLS) || defined(USE_WOLFSSL) || \
   defined(USE_RUSTLS)
 
-#include "keylog.h"
-#include "../escape.h"
-#include "../curlx/fopen.h"
+#include "escape.h"
+#include "curlx/fopen.h"
 
 /* The fp for the open SSLKEYLOGFILE, or NULL if not open */
 static FILE *keylog_file_fp;
+/* Used for verbose logging */
+static char *keylog_file_name;
 
 void Curl_tls_keylog_open(void)
 {
-  char *keylog_file_name;
-
   if(!keylog_file_fp) {
-    keylog_file_name = curl_getenv("SSLKEYLOGFILE");
+    keylog_file_name = getenv("SSLKEYLOGFILE");
     if(keylog_file_name) {
       keylog_file_fp = curlx_fopen(keylog_file_name, FOPEN_APPENDTEXT);
       if(keylog_file_fp) {
@@ -56,7 +52,6 @@ void Curl_tls_keylog_open(void)
           keylog_file_fp = NULL;
         }
       }
-      Curl_safefree(keylog_file_name);
     }
   }
 }
@@ -72,6 +67,11 @@ void Curl_tls_keylog_close(void)
 bool Curl_tls_keylog_enabled(void)
 {
   return keylog_file_fp != NULL;
+}
+
+const char *Curl_tls_keylog_file_name(void)
+{
+  return keylog_file_name;
 }
 
 bool Curl_tls_keylog_write_line(const char *line)
@@ -107,8 +107,9 @@ bool Curl_tls_keylog_write(const char *label,
                          const unsigned char *secret, size_t secretlen)
 {
   size_t pos, i;
-  unsigned char line[KEYLOG_LABEL_MAXLEN + 1 + 2 * CLIENT_RANDOM_SIZE + 1 +
-                     2 * SECRET_MAXLEN + 1 + 1];
+  unsigned char line[KEYLOG_LABEL_MAXLEN + 1 +
+                     (2 * CLIENT_RANDOM_SIZE) + 1 +
+                     (2 * SECRET_MAXLEN) + 1 + 1];
 
   if(!keylog_file_fp) {
     return FALSE;
@@ -144,4 +145,16 @@ bool Curl_tls_keylog_write(const char *label,
   return TRUE;
 }
 
-#endif /* TLS or QUIC backend */
+#else /* TLS backend */
+
+bool Curl_tls_keylog_enabled(void)
+{
+  return FALSE;
+}
+
+const char *Curl_tls_keylog_file_name(void)
+{
+  return NULL;
+}
+
+#endif  /* TLS backend */

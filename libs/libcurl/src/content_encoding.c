@@ -31,13 +31,13 @@
 #endif
 
 #ifdef HAVE_BROTLI
-#if defined(__GNUC__) || defined(__clang__)
+#ifdef CURL_HAVE_DIAG
 /* Ignore -Wvla warnings in brotli headers */
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wvla"
 #endif
 #include <brotli/decode.h>
-#if defined(__GNUC__) || defined(__clang__)
+#ifdef CURL_HAVE_DIAG
 #pragma GCC diagnostic pop
 #endif
 #endif
@@ -193,7 +193,7 @@ static CURLcode inflate_stream(struct Curl_easy *data,
       done = FALSE;
       break;
     case Z_BUF_ERROR:
-      /* No more data to flush: just exit loop. */
+      /* No more data to flush: exit loop. */
       break;
     case Z_STREAM_END:
       result = process_trailer(data, zp);
@@ -600,9 +600,7 @@ static const struct Curl_cwtype * const general_unencoders[] = {
 
 /* supported content decoders only for transfer encodings */
 static const struct Curl_cwtype * const transfer_unencoders[] = {
-#ifndef CURL_DISABLE_HTTP
   &Curl_httpchunk_unencoder,
-#endif
   NULL
 };
 
@@ -624,6 +622,9 @@ char *Curl_get_content_encodings(void)
         result = curlx_dyn_add(&enc, ce->name);
     }
   }
+  if(!result && !curlx_dyn_len(&enc))
+    result = curlx_dyn_add(&enc, CONTENT_ENCODING_DEFAULT);
+
   if(!result)
     return curlx_dyn_ptr(&enc);
   return NULL;
@@ -679,8 +680,8 @@ static const struct Curl_cwtype *find_unencode_writer(const char *name,
     for(cep = transfer_unencoders; *cep; cep++) {
       const struct Curl_cwtype *ce = *cep;
       if((curl_strnequal(name, ce->name, len) && !ce->name[len]) ||
-         (ce->alias && curl_strnequal(name, ce->alias, len)
-                    && !ce->alias[len]))
+         (ce->alias && curl_strnequal(name, ce->alias, len) &&
+          !ce->alias[len]))
         return ce;
     }
   }
@@ -750,7 +751,7 @@ CURLcode Curl_build_unencoding_stack(struct Curl_easy *data,
       }
 
       if(Curl_cwriter_count(data, phase) + 1 >= MAX_ENCODE_STACK) {
-        failf(data, "Reject response due to more than %u content encodings",
+        failf(data, "Reject response due to more than %d content encodings",
               MAX_ENCODE_STACK);
         return CURLE_BAD_CONTENT_ENCODING;
       }

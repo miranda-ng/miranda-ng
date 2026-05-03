@@ -21,19 +21,19 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "../curl_setup.h"
+#include "curl_setup.h"
 
-#include "strcopy.h"
+#include "curlx/strcopy.h"
 
 /*
  * curlx_strcopy() is a replacement for strcpy.
  *
  * Provide the target buffer @dest and size of the target buffer @dsize, If
  * the source string @src with its *string length* @slen fits in the target
- * buffer it will be copied there - including storing a null terminator.
+ * buffer it is copied there - including storing a null terminator.
  *
  * If the target buffer is too small, the copy is not performed but if the
- * target buffer has a non-zero size it will get a null terminator stored.
+ * target buffer has a non-zero size it gets a null terminator stored.
  */
 void curlx_strcopy(char *dest,      /* destination buffer */
                    size_t dsize,    /* size of target buffer */

@@ -39,13 +39,14 @@
 
 #ifdef USE_ARES
 #include <ares.h>
-#include <ares_version.h> /* really old c-ares did not include it by itself */
 #endif
 
 #include "urldata.h"
-#include "asyn.h"
+#include "connect.h"
+#include "curl_trc.h"
 #include "hostip.h"
 #include "multiif.h"
+#include "progress.h"
 #include "select.h"
 #include "url.h"
 
@@ -54,10 +55,21 @@
  **********************************************************************/
 #ifdef CURLRES_ASYNCH
 
+timediff_t Curl_async_timeleft_ms(struct Curl_easy *data,
+                                  struct Curl_resolv_async *async)
+{
+  if(async->timeout_ms) {
+    timediff_t elapsed_ms =
+      curlx_ptimediff_ms(Curl_pgrs_now(data), &async->start);
+    return async->timeout_ms - elapsed_ms;
+  }
+  return Curl_timeleft_ms(data);
+}
+
 #ifdef USE_ARES
 
-#if ARES_VERSION < 0x010600
-#error "requires c-ares 1.6.0 or newer"
+#if ARES_VERSION < 0x011000
+#error "requires c-ares 1.16.0 or newer"
 #endif
 
 /*
@@ -72,12 +84,8 @@ CURLcode Curl_ares_pollset(struct Curl_easy *data,
                            ares_channel channel,
                            struct easy_pollset *ps)
 {
-  struct timeval maxtime = { CURL_TIMEOUT_RESOLVE, 0 };
-  struct timeval timebuf;
   curl_socket_t sockets[16];  /* ARES documented limit */
   unsigned int bitmap, i;
-  struct timeval *timeout;
-  timediff_t milli;
   CURLcode result = CURLE_OK;
 
   DEBUGASSERT(channel);
@@ -98,13 +106,31 @@ CURLcode Curl_ares_pollset(struct Curl_easy *data,
     if(result)
       return result;
   }
-
-  timeout = ares_timeout(channel, &maxtime, &timebuf);
-  if(!timeout)
-    timeout = &maxtime;
-  milli = curlx_tvtoms(timeout);
-  Curl_expire(data, milli, EXPIRE_ASYNC_NAME);
   return result;
+}
+
+timediff_t Curl_ares_timeout_ms(struct Curl_easy *data,
+                                struct Curl_resolv_async *async,
+                                ares_channel channel)
+{
+  timediff_t async_timeout_ms;
+
+  DEBUGASSERT(channel);
+  if(!channel)
+    return -1;
+
+  async_timeout_ms = Curl_async_timeleft_ms(data, async);
+  if((async_timeout_ms > 0) && (async_timeout_ms < INT_MAX)) {
+    struct timeval timebuf;
+    struct timeval *timeout;
+    struct timeval end = { (int)async_timeout_ms / 1000,
+                           ((int)async_timeout_ms % 1000) * 1000 };
+
+    timeout = ares_timeout(channel, &end, &timebuf);
+    if(timeout)
+      return curlx_tvtoms(timeout);
+  }
+  return async_timeout_ms;
 }
 
 /*
@@ -156,7 +182,7 @@ int Curl_ares_perform(ares_channel channel, timediff_t timeout_ms)
     nfds = 0;
 
   if(!nfds)
-    /* Call ares_process() unconditionally here, even if we simply timed out
+    /* Call ares_process() unconditionally here, even if we timed out
        above, as otherwise the ares name resolve will not timeout! */
     ares_process_fd(channel, ARES_SOCKET_BAD, ARES_SOCKET_BAD);
   else {
@@ -179,32 +205,61 @@ int Curl_ares_perform(ares_channel channel, timediff_t timeout_ms)
 
 #include "doh.h"
 
-void Curl_async_shutdown(struct Curl_easy *data)
+void Curl_async_shutdown(struct Curl_easy *data,
+                         struct Curl_resolv_async *async)
 {
-#ifdef CURLRES_ARES
-  Curl_async_ares_shutdown(data);
+  if(async) {
+    CURL_TRC_DNS(data, "[%u] shutdown async", async->id);
+    async->shutdown = TRUE;
+#ifdef USE_RESOLV_ARES
+    Curl_async_ares_shutdown(data, async);
 #endif
-#ifdef CURLRES_THREADED
-  Curl_async_thrdd_shutdown(data);
+#ifdef USE_RESOLV_THREADED
+    Curl_async_thrdd_shutdown(data, async);
 #endif
 #ifndef CURL_DISABLE_DOH
-  Curl_doh_cleanup(data);
+    Curl_doh_cleanup(data, async);
 #endif
-  Curl_safefree(data->state.async.hostname);
+  }
 }
 
-void Curl_async_destroy(struct Curl_easy *data)
+void Curl_async_destroy(struct Curl_easy *data,
+                        struct Curl_resolv_async *async)
 {
-#ifdef CURLRES_ARES
-  Curl_async_ares_destroy(data);
+  if(async) {
+    CURL_TRC_DNS(data, "[%u] destroy async", async->id);
+    async->shutdown = TRUE;
+#ifdef USE_RESOLV_ARES
+    Curl_async_ares_destroy(data, async);
 #endif
-#ifdef CURLRES_THREADED
-  Curl_async_thrdd_destroy(data);
+#ifdef USE_RESOLV_THREADED
+    Curl_async_thrdd_destroy(data, async);
 #endif
 #ifndef CURL_DISABLE_DOH
-  Curl_doh_cleanup(data);
+    Curl_doh_cleanup(data, async);
 #endif
-  Curl_safefree(data->state.async.hostname);
+    curlx_safefree(async);
+  }
+}
+
+CURLcode Curl_async_failed(struct Curl_easy *data,
+                           struct Curl_resolv_async *async,
+                           const char *detail)
+{
+  const char *host_or_proxy = "host";
+  CURLcode result = CURLE_COULDNT_RESOLVE_HOST;
+
+#ifndef CURL_DISABLE_PROXY
+  if(async->for_proxy) {
+    host_or_proxy = "proxy";
+    result = CURLE_COULDNT_RESOLVE_PROXY;
+  }
+#endif
+
+  failf(data, "Could not resolve %s: %s%s%s%s",
+        host_or_proxy, async->hostname,
+        detail ? " (" : "", detail ? detail : "", detail ? ")" : "");
+  return result;
 }
 
 #endif /* USE_CURL_ASYNC */

@@ -23,12 +23,12 @@
  * RFC4752 The Kerberos V5 ("GSSAPI") SASL Mechanism
  *
  ***************************************************************************/
-#include "../curl_setup.h"
+#include "curl_setup.h"
 
 #if defined(USE_WINDOWS_SSPI) && defined(USE_KERBEROS5)
 
-#include "vauth.h"
-#include "../curl_trc.h"
+#include "vauth/vauth.h"
+#include "curl_trc.h"
 
 /*
  * Curl_auth_is_gssapi_supported()
@@ -259,10 +259,6 @@ CURLcode Curl_auth_create_gssapi_security_message(struct Curl_easy *data,
   SecPkgContext_Sizes sizes;
   SECURITY_STATUS status;
 
-#ifdef CURL_DISABLE_VERBOSE_STRINGS
-  (void)data;
-#endif
-
   /* Ensure we have a valid challenge message */
   DEBUGASSERT(chlg);
   if(!Curl_bufref_len(chlg)) {
@@ -322,8 +318,8 @@ CURLcode Curl_auth_create_gssapi_security_message(struct Curl_easy *data,
 
   /* Process the maximum message size the server can receive */
   if(max_size > 0) {
-    /* The server has told us it supports a maximum receive buffer, however, as
-       we do not require one unless we are encrypting data, we tell the server
+    /* The server has told us it supports a maximum receive buffer, but as we
+       do not require one unless we are encrypting data, we tell the server
        our receive buffer is zero. */
     max_size = 0;
   }
@@ -448,8 +444,8 @@ void Curl_auth_cleanup_gssapi(struct kerberos5data *krb5)
   krb5->p_identity = NULL;
 
   /* Free the SPN and output token */
-  Curl_safefree(krb5->spn);
-  Curl_safefree(krb5->output_token);
+  curlx_safefree(krb5->spn);
+  curlx_safefree(krb5->output_token);
 
   /* Reset any variables */
   krb5->token_max = 0;

@@ -23,7 +23,7 @@
  ***************************************************************************/
 #include "curl_setup.h"
 
-#ifdef CURLDEBUG
+#ifdef CURL_MEMDEBUG
 
 #include <stddef.h>  /* for offsetof() */
 
@@ -32,7 +32,7 @@
 #include "curlx/fopen.h"  /* for CURLX_FOPEN_LOW(), CURLX_FREOPEN_LOW() */
 
 #ifdef USE_BACKTRACE
-#include "backtrace.h"
+#include <backtrace.h>
 #endif
 
 struct memdebug {
@@ -65,14 +65,14 @@ static struct backtrace_state *btstate;
 static char membuf[10000];
 static size_t memwidx = 0; /* write index */
 
-#if defined(USE_THREADS_POSIX) || defined(USE_THREADS_WIN32)
+#ifdef USE_MUTEX
 static bool dbg_mutex_init = 0;
 static curl_mutex_t dbg_mutex;
 #endif
 
 static bool curl_dbg_lock(void)
 {
-#if defined(USE_THREADS_POSIX) || defined(USE_THREADS_WIN32)
+#ifdef USE_MUTEX
   if(dbg_mutex_init) {
     Curl_mutex_acquire(&dbg_mutex);
     return TRUE;
@@ -83,7 +83,7 @@ static bool curl_dbg_lock(void)
 
 static void curl_dbg_unlock(bool was_locked)
 {
-#if defined(USE_THREADS_POSIX) || defined(USE_THREADS_WIN32)
+#ifdef USE_MUTEX
   if(was_locked)
     Curl_mutex_release(&dbg_mutex);
 #else
@@ -99,6 +99,7 @@ static void curl_dbg_log_locked(const char *format, ...) CURL_PRINTF(1, 2);
    _exit() comes after the atexit handlers are called. curl/curl#6620 */
 static void curl_dbg_cleanup(void)
 {
+  bool locked = curl_dbg_lock();
   if(curl_dbg_logfile &&
      curl_dbg_logfile != stderr &&
      curl_dbg_logfile != stdout) {
@@ -108,13 +109,15 @@ static void curl_dbg_cleanup(void)
     fclose(curl_dbg_logfile);
   }
   curl_dbg_logfile = NULL;
-#if defined(USE_THREADS_POSIX) || defined(USE_THREADS_WIN32)
+  curl_dbg_unlock(locked);
+#ifdef USE_MUTEX
   if(dbg_mutex_init) {
     Curl_mutex_destroy(&dbg_mutex);
     dbg_mutex_init = FALSE;
   }
 #endif
 }
+
 #ifdef USE_BACKTRACE
 static void error_bt_callback(void *data, const char *message,
                               int error_number)
@@ -156,7 +159,7 @@ void curl_dbg_memdebug(const char *logname)
       setbuf(curl_dbg_logfile, (char *)NULL);
 #endif
   }
-#if defined(USE_THREADS_POSIX) || defined(USE_THREADS_WIN32)
+#ifdef USE_MUTEX
   if(!dbg_mutex_init) {
     dbg_mutex_init = TRUE;
     Curl_mutex_init(&dbg_mutex);
@@ -218,7 +221,7 @@ void *curl_dbg_malloc(size_t wantedsize, int line, const char *source)
   /* alloc at least 64 bytes */
   size = sizeof(struct memdebug) + wantedsize;
 
-  mem = (Curl_cmalloc)(size);
+  mem = Curl_cmalloc(size);
   if(mem) {
     mem->size = wantedsize;
   }
@@ -248,7 +251,7 @@ void *curl_dbg_calloc(size_t wanted_elements, size_t wanted_size,
   user_size = wanted_size * wanted_elements;
   size = sizeof(struct memdebug) + user_size;
 
-  mem = (Curl_ccalloc)(1, size);
+  mem = Curl_ccalloc(1, size);
   if(mem)
     mem->size = user_size;
 
@@ -343,7 +346,7 @@ void *curl_dbg_realloc(void *ptr, size_t wantedsize,
 #  pragma warning(pop)
 #endif
 
-  mem = (Curl_crealloc)(mem, size);
+  mem = Curl_crealloc(mem, size);
   if(source)
     curl_dbg_log_locked("MEM %s:%d realloc(%p, %zu) = %p\n",
                         source, line, (void *)ptr, wantedsize,
@@ -379,7 +382,7 @@ void curl_dbg_free(void *ptr, int line, const char *source)
 #endif
 
     /* free for real */
-    (Curl_cfree)(mem);
+    Curl_cfree(mem);
   }
 }
 
@@ -496,8 +499,7 @@ ALLOC_FUNC
 FILE *curl_dbg_fdopen(int filedes, const char *mode,
                       int line, const char *source)
 {
-  /* !checksrc! disable BANNEDFUNC 1 */
-  FILE *res = fdopen(filedes, mode);
+  FILE *res = CURLX_FDOPEN_LOW(filedes, mode);
   if(source)
     curl_dbg_log("FILE %s:%d fdopen(\"%d\",\"%s\") = %p\n",
                  source, line, filedes, mode, (void *)res);
@@ -574,4 +576,4 @@ void curl_dbg_log(const char *format, ...)
   curl_dbg_unlock(was_locked);
 }
 
-#endif /* CURLDEBUG */
+#endif /* CURL_MEMDEBUG */

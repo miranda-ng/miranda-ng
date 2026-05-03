@@ -217,13 +217,13 @@ CURLcode Curl_output_negotiate(struct Curl_easy *data,
 
     if(proxy) {
 #ifndef CURL_DISABLE_PROXY
-      curlx_free(data->state.aptr.proxyuserpwd);
-      data->state.aptr.proxyuserpwd = userp;
+      curlx_free(data->req.proxyuserpwd);
+      data->req.proxyuserpwd = userp;
 #endif
     }
     else {
-      curlx_free(data->state.aptr.userpwd);
-      data->state.aptr.userpwd = userp;
+      curlx_free(data->req.userpwd);
+      data->req.userpwd = userp;
     }
 
     curlx_free(base64);
@@ -233,19 +233,19 @@ CURLcode Curl_output_negotiate(struct Curl_easy *data,
     }
 
     *state = GSS_AUTHSENT;
-  #ifdef HAVE_GSSAPI
+#ifdef HAVE_GSSAPI
     if(neg_ctx->status == GSS_S_COMPLETE ||
        neg_ctx->status == GSS_S_CONTINUE_NEEDED) {
       *state = GSS_AUTHDONE;
     }
-  #else
-  #ifdef USE_WINDOWS_SSPI
+#else
+#ifdef USE_WINDOWS_SSPI
     if(neg_ctx->status == SEC_E_OK ||
        neg_ctx->status == SEC_I_CONTINUE_NEEDED) {
       *state = GSS_AUTHDONE;
     }
-  #endif
-  #endif
+#endif
+#endif
   }
 
   if(*state == GSS_AUTHDONE || *state == GSS_AUTHSUCC) {

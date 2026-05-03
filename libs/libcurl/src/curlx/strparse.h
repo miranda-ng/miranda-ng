@@ -23,7 +23,7 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "../curl_setup.h"
+#include "curl_setup.h"
 
 #define STRE_OK       0
 #define STRE_BIG      1
@@ -44,6 +44,7 @@ struct Curl_str {
 
 void curlx_str_init(struct Curl_str *out);
 void curlx_str_assign(struct Curl_str *out, const char *str, size_t len);
+void curlx_str_trim(struct Curl_str *out, size_t len);
 
 #define curlx_str(x)    ((x)->str)
 #define curlx_strlen(x) ((x)->len)
@@ -98,7 +99,8 @@ int curlx_str_cmp(struct Curl_str *str, const char *check);
 
 int curlx_str_nudge(struct Curl_str *str, size_t num);
 
-int curlx_str_cspn(const char **linep, struct Curl_str *out, const char *cspn);
+int curlx_str_cspn(const char **linep, struct Curl_str *out,
+                   const char *reject);
 void curlx_str_trimblanks(struct Curl_str *out);
 void curlx_str_passblanks(const char **linep);
 

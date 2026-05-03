@@ -28,6 +28,7 @@
 #include "cfilters.h"
 #include "multiif.h"
 
+#include "cf-dns.h"
 #include "cf-socket.h"
 #include "connect.h"
 #include "http2.h"
@@ -194,6 +195,42 @@ void Curl_failf(struct Curl_easy *data, const char *fmt, ...)
   }
 }
 
+void Curl_reset_fail(struct Curl_easy *data)
+{
+  if(data->set.errorbuffer)
+    data->set.errorbuffer[0] = 0;
+  data->state.errorbuf = FALSE;
+}
+
+#ifdef CURLVERBOSE
+struct curl_trc_feat Curl_trc_feat_multi = {
+  "MULTI",
+  CURL_LOG_LVL_NONE,
+};
+struct curl_trc_feat Curl_trc_feat_read = {
+  "READ",
+  CURL_LOG_LVL_NONE,
+};
+struct curl_trc_feat Curl_trc_feat_write = {
+  "WRITE",
+  CURL_LOG_LVL_NONE,
+};
+struct curl_trc_feat Curl_trc_feat_dns = {
+  "DNS",
+  CURL_LOG_LVL_NONE,
+};
+struct curl_trc_feat Curl_trc_feat_timer = {
+  "TIMER",
+  CURL_LOG_LVL_NONE,
+};
+#ifdef USE_THREADS
+struct curl_trc_feat Curl_trc_feat_threads = {
+  "THREADS",
+  CURL_LOG_LVL_NONE,
+};
+#endif
+#endif
+
 #ifndef CURL_DISABLE_VERBOSE_STRINGS
 
 static void trc_infof(struct Curl_easy *data,
@@ -248,26 +285,18 @@ void Curl_trc_cf_infof(struct Curl_easy *data, const struct Curl_cfilter *cf,
   }
 }
 
-struct curl_trc_feat Curl_trc_feat_multi = {
-  "MULTI",
-  CURL_LOG_LVL_NONE,
-};
-struct curl_trc_feat Curl_trc_feat_read = {
-  "READ",
-  CURL_LOG_LVL_NONE,
-};
-struct curl_trc_feat Curl_trc_feat_write = {
-  "WRITE",
-  CURL_LOG_LVL_NONE,
-};
-struct curl_trc_feat Curl_trc_feat_dns = {
-  "DNS",
-  CURL_LOG_LVL_NONE,
-};
-struct curl_trc_feat Curl_trc_feat_timer = {
-  "TIMER",
-  CURL_LOG_LVL_NONE,
-};
+void Curl_trc_feat_infof(struct Curl_easy *data,
+                         struct curl_trc_feat *feat,
+                         const char *fmt, ...)
+{
+  DEBUGASSERT(feat);
+  if(Curl_trc_ft_is_verbose(data, feat)) {
+    va_list ap;
+    va_start(ap, fmt);
+    trc_infof(data, feat, NULL, 0, fmt, ap);
+    va_end(ap);
+  }
+}
 
 static const char * const Curl_trc_timer_names[] = {
   "100_TIMEOUT",
@@ -327,7 +356,6 @@ static const char * const Curl_trc_mstate_names[] = {
   "PENDING",
   "SETUP",
   "CONNECT",
-  "RESOLVING",
   "CONNECTING",
   "PROTOCONNECT",
   "PROTOCONNECTING",
@@ -485,7 +513,7 @@ void Curl_trc_ws(struct Curl_easy *data, const char *fmt, ...)
 }
 #endif /* !CURL_DISABLE_WEBSOCKETS && !CURL_DISABLE_HTTP */
 
-#define TRC_CT_NONE        (0)
+#define TRC_CT_NONE        0
 #define TRC_CT_PROTOCOL    (1 << 0)
 #define TRC_CT_NETWORK     (1 << 1)
 #define TRC_CT_PROXY       (1 << 2)
@@ -503,6 +531,9 @@ static struct trc_feat_def trc_feats[] = {
   { &Curl_trc_feat_write,     TRC_CT_NONE },
   { &Curl_trc_feat_dns,       TRC_CT_NETWORK },
   { &Curl_trc_feat_timer,     TRC_CT_NETWORK },
+#ifdef USE_THREADS
+  { &Curl_trc_feat_threads,   TRC_CT_NONE },
+#endif
 #ifndef CURL_DISABLE_FTP
   { &Curl_trc_feat_ftp,       TRC_CT_PROTOCOL },
 #endif
@@ -526,6 +557,7 @@ struct trc_cft_def {
 };
 
 static struct trc_cft_def trc_cfts[] = {
+  { &Curl_cft_dns,            TRC_CT_NETWORK },
   { &Curl_cft_tcp,            TRC_CT_NETWORK },
   { &Curl_cft_udp,            TRC_CT_NETWORK },
   { &Curl_cft_unix,           TRC_CT_NETWORK },
@@ -578,7 +610,7 @@ static void trc_apply_level_by_name(struct Curl_str *token, int lvl)
   }
 }
 
-static void trc_apply_level_by_category(int category, int lvl)
+static void trc_apply_level_by_category(unsigned int category, int lvl)
 {
   size_t i;
 

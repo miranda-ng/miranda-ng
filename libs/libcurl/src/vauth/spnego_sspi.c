@@ -23,14 +23,14 @@
  * RFC4178 Simple and Protected GSS-API Negotiation Mechanism
  *
  ***************************************************************************/
-#include "../curl_setup.h"
+#include "curl_setup.h"
 
 #if defined(USE_WINDOWS_SSPI) && defined(USE_SPNEGO)
 
-#include "vauth.h"
-#include "../curlx/base64.h"
-#include "../curl_trc.h"
-#include "../strerror.h"
+#include "vauth/vauth.h"
+#include "curlx/base64.h"
+#include "curl_trc.h"
+#include "strerror.h"
 
 /*
  * Curl_auth_is_spnego_supported()
@@ -94,10 +94,6 @@ CURLcode Curl_auth_decode_spnego_message(struct Curl_easy *data,
   SecBufferDesc chlg_desc;
   SecBufferDesc resp_desc;
   unsigned long attrs;
-
-#ifdef CURL_DISABLE_VERBOSE_STRINGS
-  (void)data;
-#endif
 
   if(nego->context && nego->status == SEC_E_OK) {
     /* We finished successfully our part of authentication, but server
@@ -196,7 +192,7 @@ CURLcode Curl_auth_decode_spnego_message(struct Curl_easy *data,
     /* ssl context comes from Schannel.
      * When extended protection is used in IIS server,
      * we have to pass a second SecBuffer to the SecBufferDesc
-     * otherwise IIS will not pass the authentication (401 response).
+     * otherwise IIS does not pass the authentication (401 response).
      * Minimum supported version is Windows 7.
      * https://learn.microsoft.com/security-updates/SecurityAdvisories/2009/973811
      */
@@ -282,7 +278,7 @@ CURLcode Curl_auth_decode_spnego_message(struct Curl_easy *data,
  * data        [in]     - The session handle.
  * nego        [in/out] - The Negotiate data struct being used and modified.
  * outptr      [in/out] - The address where a pointer to newly allocated memory
- *                        holding the result will be stored upon completion.
+ *                        holding the result is stored upon completion.
  * outlen      [out]    - The length of the output message.
  *
  * Returns CURLE_OK on success.
@@ -333,8 +329,8 @@ void Curl_auth_cleanup_spnego(struct negotiatedata *nego)
   nego->p_identity = NULL;
 
   /* Free the SPN and output token */
-  Curl_safefree(nego->spn);
-  Curl_safefree(nego->output_token);
+  curlx_safefree(nego->spn);
+  curlx_safefree(nego->output_token);
 
   /* Reset any variables */
   nego->status = 0;

@@ -28,6 +28,8 @@
 #if !defined(CURL_DISABLE_HTTP) && !defined(CURL_DISABLE_HSTS)
 #include "llist.h"
 
+#define MAX_HSTS_ENTRIES 10000
+
 #if defined(DEBUGBUILD) || defined(UNITTESTS)
 extern time_t deltatime;
 #endif
@@ -49,7 +51,7 @@ struct hsts {
 struct hsts *Curl_hsts_init(void);
 void Curl_hsts_cleanup(struct hsts **hp);
 CURLcode Curl_hsts_parse(struct hsts *h, const char *hostname,
-                         const char *sts);
+                         const char *header);
 struct stsentry *Curl_hsts(struct hsts *h, const char *hostname,
                            size_t hlen, bool subdomain);
 CURLcode Curl_hsts_save(struct Curl_easy *data, struct hsts *h,

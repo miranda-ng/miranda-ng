@@ -37,16 +37,6 @@ typedef enum {
   HTTPREQ_HEAD
 } Curl_HttpReq;
 
-/* When redirecting transfers. */
-typedef enum {
-  FOLLOW_NONE,  /* not used within the function, just a placeholder to
-                   allow initing to this */
-  FOLLOW_FAKE,  /* only records stuff, not actually following */
-  FOLLOW_RETRY, /* set if this is a request retry as opposed to a real
-                   redirect following */
-  FOLLOW_REDIR /* a full true redirect */
-} followtype;
-
 #define CURL_HTTP_V1x   (1 << 0)
 #define CURL_HTTP_V2x   (1 << 1)
 #define CURL_HTTP_V3x   (1 << 2)
@@ -55,15 +45,7 @@ typedef unsigned char http_majors;
 
 #ifndef CURL_DISABLE_HTTP
 
-#ifdef USE_HTTP3
-#include <stdint.h>
-#endif
-
-extern const struct Curl_handler Curl_handler_http;
-
-#ifdef USE_SSL
-extern const struct Curl_handler Curl_handler_https;
-#endif
+extern const struct Curl_protocol Curl_protocol_http;
 
 struct dynhds;
 
@@ -107,13 +89,14 @@ CURLcode Curl_dynhds_add_custom(struct Curl_easy *data, bool is_connect,
 void Curl_http_to_fold(struct dynbuf *bf);
 
 void Curl_http_method(struct Curl_easy *data,
-                      const char **method, Curl_HttpReq *);
+                      const char **method, Curl_HttpReq *reqp);
 
 /* protocol-specific functions set up to be called by the main engine */
 CURLcode Curl_http_setup_conn(struct Curl_easy *data,
                               struct connectdata *conn);
 CURLcode Curl_http(struct Curl_easy *data, bool *done);
-CURLcode Curl_http_done(struct Curl_easy *data, CURLcode, bool premature);
+CURLcode Curl_http_done(struct Curl_easy *data,
+                        CURLcode status, bool premature);
 CURLcode Curl_http_doing_pollset(struct Curl_easy *data,
                                  struct easy_pollset *ps);
 CURLcode Curl_http_perform_pollset(struct Curl_easy *data,
@@ -202,14 +185,14 @@ CURLcode Curl_http_write_resp_hds(struct Curl_easy *data,
  *
  * @returns CURLcode
  */
-CURLcode
-Curl_http_output_auth(struct Curl_easy *data,
-                      struct connectdata *conn,
-                      const char *request,
-                      Curl_HttpReq httpreq,
-                      const char *path,
-                      bool proxytunnel); /* TRUE if this is the request setting
-                                            up the proxy tunnel */
+CURLcode Curl_http_output_auth(struct Curl_easy *data,
+                               struct connectdata *conn,
+                               const char *request,
+                               Curl_HttpReq httpreq,
+                               const char *path,
+                               bool proxytunnel); /* TRUE if this is
+                                                     the request setting up
+                                                     the proxy tunnel */
 
 /* Decode HTTP status code string. */
 CURLcode Curl_http_decode_status(int *pstatus, const char *s, size_t len);

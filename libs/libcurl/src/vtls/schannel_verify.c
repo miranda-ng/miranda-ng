@@ -27,30 +27,31 @@
  * Source file for Schannel-specific certificate verification. This code should
  * only be invoked by code in schannel.c.
  */
-#include "../curl_setup.h"
+#include "curl_setup.h"
 
 #ifdef USE_SCHANNEL
+
 #ifndef USE_WINDOWS_SSPI
-#error "cannot compile SCHANNEL support without SSPI."
+#error "cannot compile Schannel support without SSPI."
 #endif
 
-#include "schannel.h"
-#include "schannel_int.h"
+#include "vtls/schannel.h"
+#include "vtls/schannel_int.h"
 
-#include "../curlx/fopen.h"
-#include "../curlx/inet_pton.h"
-#include "vtls.h"
-#include "vtls_int.h"
-#include "../curl_trc.h"
-#include "../strerror.h"
-#include "../curlx/winapi.h"
-#include "../curlx/multibyte.h"
-#include "hostcheck.h"
-#include "../curlx/version_win32.h"
+#include "vtls/hostcheck.h"
+#include "vtls/vtls.h"
+#include "vtls/vtls_int.h"
+#include "curl_trc.h"
+#include "strerror.h"
+#include "curlx/fopen.h"
+#include "curlx/inet_pton.h"
+#include "curlx/multibyte.h"
+#include "curlx/version_win32.h"
+#include "curlx/winapi.h"
 
 #define BACKEND ((struct schannel_ssl_backend_data *)connssl->backend)
 
-#define MAX_CAFILE_SIZE 1048576 /* 1 MiB */
+#define MAX_CAFILE_SIZE (1024 * 1024) /* 1 MiB */
 #define BEGIN_CERT      "-----BEGIN CERTIFICATE-----"
 #define END_CERT        "\n-----END CERTIFICATE-----"
 
@@ -261,7 +262,7 @@ static CURLcode add_certs_file_to_store(HCERTSTORE trust_store,
 
   /*
    * Read the CA file completely into memory before parsing it. This
-   * optimizes for the common case where the CA file will be relatively
+   * optimizes for the common case where the CA file is relatively
    * small ( < 1 MiB ).
    */
   ca_file_handle = curlx_CreateFile(ca_file,
@@ -289,7 +290,7 @@ static CURLcode add_certs_file_to_store(HCERTSTORE trust_store,
   }
 
   if(file_size.QuadPart > MAX_CAFILE_SIZE) {
-    failf(data, "schannel: CA file exceeds max size of %u bytes",
+    failf(data, "schannel: CA file exceeds max size of %d bytes",
           MAX_CAFILE_SIZE);
     result = CURLE_SSL_CACERT_BADFILE;
     goto cleanup;
@@ -335,7 +336,7 @@ cleanup:
   if(ca_file_handle != INVALID_HANDLE_VALUE) {
     CloseHandle(ca_file_handle);
   }
-  Curl_safefree(ca_file_buffer);
+  curlx_safefree(ca_file_buffer);
 
   return result;
 }
@@ -365,7 +366,7 @@ static DWORD cert_get_name_string(struct Curl_easy *data,
 #ifndef CERT_NAME_SEARCH_ALL_NAMES_FLAG
 #define CERT_NAME_SEARCH_ALL_NAMES_FLAG 0x2
 #endif
-    /* CertGetNameString will provide the 8-bit character string without
+    /* CertGetNameString provides the 8-bit character string without
      * any decoding */
     DWORD name_flags =
       CERT_NAME_DISABLE_IE4_UTF8_FLAG | CERT_NAME_SEARCH_ALL_NAMES_FLAG;
@@ -438,24 +439,22 @@ static DWORD cert_get_name_string(struct Curl_easy *data,
 static bool get_num_host_info(struct num_ip_data *ip_blob, LPCSTR hostname)
 {
   struct in_addr ia;
-  struct in6_addr ia6;
-  bool result = FALSE;
-
   int res = curlx_inet_pton(AF_INET, hostname, &ia);
   if(res) {
     ip_blob->size = sizeof(struct in_addr);
     memcpy(&ip_blob->bData.ia, &ia, sizeof(struct in_addr));
-    result = TRUE;
+    return TRUE;
   }
   else {
+    struct in6_addr ia6;
     res = curlx_inet_pton(AF_INET6, hostname, &ia6);
     if(res) {
       ip_blob->size = sizeof(struct in6_addr);
       memcpy(&ip_blob->bData.ia6, &ia6, sizeof(struct in6_addr));
-      result = TRUE;
+      return TRUE;
     }
   }
-  return result;
+  return FALSE;
 }
 
 static bool get_alt_name_info(struct Curl_easy *data,
@@ -463,20 +462,19 @@ static bool get_alt_name_info(struct Curl_easy *data,
                               PCERT_ALT_NAME_INFO *alt_name_info,
                               LPDWORD alt_name_info_size)
 {
-  bool result = FALSE;
   PCERT_INFO cert_info = NULL;
   PCERT_EXTENSION extension = NULL;
   CRYPT_DECODE_PARA decode_para = { sizeof(CRYPT_DECODE_PARA), NULL, NULL };
 
   if(!ctx) {
     failf(data, "schannel: Null certificate context.");
-    return result;
+    return FALSE;
   }
 
   cert_info = ctx->pCertInfo;
   if(!cert_info) {
     failf(data, "schannel: Null certificate info.");
-    return result;
+    return FALSE;
   }
 
   extension = CertFindExtension(szOID_SUBJECT_ALT_NAME2,
@@ -484,7 +482,7 @@ static bool get_alt_name_info(struct Curl_easy *data,
                                 cert_info->rgExtension);
   if(!extension) {
     failf(data, "schannel: CertFindExtension() returned no extension.");
-    return result;
+    return FALSE;
   }
 
   if(!CryptDecodeObjectEx(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING,
@@ -496,11 +494,10 @@ static bool get_alt_name_info(struct Curl_easy *data,
                           alt_name_info,
                           alt_name_info_size)) {
     failf(data, "schannel: CryptDecodeObjectEx() returned no alternate name "
-                "information.");
-    return result;
+          "information.");
+    return FALSE;
   }
-  result = TRUE;
-  return result;
+  return TRUE;
 }
 
 /* Verify the server's hostname */
@@ -572,7 +569,7 @@ CURLcode Curl_verify_host(struct Curl_cfilter *cf, struct Curl_easy *data)
       goto cleanup;
     }
 
-    /* CertGetNameString guarantees that the returned name will not contain
+    /* CertGetNameString guarantees that the returned name does not contain
      * embedded null bytes. This appears to be undocumented behavior.
      */
     cert_hostname_buff = (LPTSTR)curlx_malloc(len * sizeof(TCHAR));
@@ -650,7 +647,7 @@ CURLcode Curl_verify_host(struct Curl_cfilter *cf, struct Curl_easy *data)
 
 cleanup:
   LocalFree(alt_name_info);
-  Curl_safefree(cert_hostname_buff);
+  curlx_safefree(cert_hostname_buff);
 
   if(pCertContextServer)
     CertFreeCertificateContext(pCertContextServer);
@@ -763,7 +760,7 @@ CURLcode Curl_verify_certificate(struct Curl_cfilter *cf,
       else
         engine_config.cbSize = sizeof(struct cert_chain_engine_config_win7);
 
-      /* CertCreateCertificateChainEngine will check the expected size of the
+      /* CertCreateCertificateChainEngine checks the expected size of the
        * CERT_CHAIN_ENGINE_CONFIG structure and fail if the specified size
        * does not match the expected size. When this occurs, it indicates that
        * CAINFO is not supported on the version of Windows in use.

@@ -1,5 +1,5 @@
-#ifndef HEADER_CURL_SSH_H
-#define HEADER_CURL_SSH_H
+#ifndef HEADER_CURL_VSSH_SSH_H
+#define HEADER_CURL_VSSH_SSH_H
 /***************************************************************************
  *                                  _   _ ____  _
  *  Project                     ___| | | |  _ \| |
@@ -23,7 +23,13 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "../curl_setup.h"
+#include "curl_setup.h"
+#include "urldata.h"
+
+extern const struct Curl_protocol Curl_protocol_sftp;
+extern const struct Curl_protocol Curl_protocol_scp;
+
+#ifdef USE_SSH
 
 #ifdef USE_LIBSSH2
 #include <libssh2.h>
@@ -153,7 +159,7 @@ struct ssh_conn {
   int secondCreateDirs;         /* counter use by the code to see if the
                                    second attempt has been made to change
                                    to/create a directory */
-  int waitfor;                  /* KEEP_RECV/KEEP_SEND bits overriding
+  int waitfor;                  /* REQ_IO_RECV/REQ_IO_SEND bits overriding
                                    pollset given flags */
   char *slash_pos;              /* used by the SFTP_CREATE_DIRS state */
 
@@ -230,10 +236,16 @@ struct ssh_conn {
 
 #endif /* USE_LIBSSH2 */
 
-#ifdef USE_SSH
+#ifdef CURLVERBOSE
+const char *Curl_ssh_statename(sshstate state);
+#else
+#define Curl_ssh_statename(x) ""
+#endif
+void Curl_ssh_set_state(struct Curl_easy *data,
+                        struct ssh_conn *sshc,
+                        sshstate nowstate);
 
-extern const struct Curl_handler Curl_handler_scp;
-extern const struct Curl_handler Curl_handler_sftp;
+#define myssh_to(x, y, z) Curl_ssh_set_state(x, y, z)
 
 /* generic SSH backend functions */
 CURLcode Curl_ssh_init(void);
@@ -241,11 +253,10 @@ void Curl_ssh_cleanup(void);
 void Curl_ssh_version(char *buffer, size_t buflen);
 void Curl_ssh_attach(struct Curl_easy *data,
                      struct connectdata *conn);
-#else
-/* for non-SSH builds */
+#else /* !USE_SSH */
 #define Curl_ssh_cleanup()
 #define Curl_ssh_attach(x, y)
 #define Curl_ssh_init() 0
-#endif
+#endif /* USE_SSH */
 
 #endif /* HEADER_CURL_SSH_H */

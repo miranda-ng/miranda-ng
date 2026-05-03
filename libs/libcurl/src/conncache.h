@@ -68,7 +68,7 @@ void Curl_cpool_init(struct cpool *cpool,
                      size_t size);
 
 /* Destroy all connections and free all members */
-void Curl_cpool_destroy(struct cpool *connc);
+void Curl_cpool_destroy(struct cpool *cpool);
 
 /* Init the transfer to be used within its connection pool.
  * Assigns `data->id`. */
@@ -84,8 +84,8 @@ CURLcode Curl_cpool_add(struct Curl_easy *data,
 
 /**
  * Return if the pool has reached its configured limits for adding
- * the given connection. Will try to discard the oldest, idle
- * connections to make space.
+ * the given connection. Try to discard the oldest, idle connections
+ * to make space.
  */
 #define CPOOL_LIMIT_OK     0
 #define CPOOL_LIMIT_DEST   1
@@ -98,7 +98,7 @@ typedef bool Curl_cpool_conn_match_cb(struct connectdata *conn,
                                       void *userdata);
 
 /* Act on the result of the find, may override it. */
-typedef bool Curl_cpool_done_match_cb(bool result, void *userdata);
+typedef bool Curl_cpool_done_match_cb(void *userdata);
 
 /**
  * Find a connection in the pool matching `destination`.

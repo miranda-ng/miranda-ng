@@ -30,45 +30,28 @@
 #include "curl_sha256.h"
 
 #ifdef USE_MBEDTLS
-  #include <mbedtls/version.h>
-  #if MBEDTLS_VERSION_NUMBER < 0x03020000
-    #error "mbedTLS 3.2.0 or later required"
-  #endif
-  #include <psa/crypto_config.h>
-  #if defined(PSA_WANT_ALG_SHA_256) && PSA_WANT_ALG_SHA_256  /* mbedTLS 4+ */
-    #define USE_MBEDTLS_SHA256
-  #endif
+#include <mbedtls/version.h>
+#if MBEDTLS_VERSION_NUMBER < 0x03020000
+#error "mbedTLS 3.2.0 or later required"
 #endif
-
-#ifdef USE_OPENSSL
-#include <openssl/evp.h>
-#elif defined(USE_GNUTLS)
-#include <nettle/sha.h>
-#elif defined(USE_MBEDTLS_SHA256)
-#include <psa/crypto.h>
-#elif (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && \
-              (__MAC_OS_X_VERSION_MAX_ALLOWED >= 1040)) || \
-      (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && \
-              (__IPHONE_OS_VERSION_MAX_ALLOWED >= 20000))
-#include <CommonCrypto/CommonDigest.h>
-#define AN_APPLE_OS
-#elif defined(USE_WIN32_CRYPTO)
-#include <wincrypt.h>
+#include <psa/crypto_config.h>
 #endif
 
 /* Please keep the SSL backend-specific #if branches in this order:
  *
  * 1. USE_OPENSSL
- * 2. USE_GNUTLS
- * 3. USE_MBEDTLS
- * 4. USE_COMMON_CRYPTO
- * 5. USE_WIN32_CRYPTO
+ * 2. USE_WOLFSSL
+ * 3. USE_GNUTLS
+ * 4. USE_MBEDTLS
+ * 5. USE_COMMON_CRYPTO
+ * 6. USE_WIN32_CRYPTO
  *
  * This ensures that the same SSL branch gets activated throughout this source
  * file even if multiple backends are enabled at the same time.
  */
 
 #ifdef USE_OPENSSL
+#include <openssl/evp.h>
 
 struct ossl_sha256_ctx {
   EVP_MD_CTX *openssl_ctx;
@@ -104,7 +87,33 @@ static void my_sha256_final(unsigned char *digest, void *in)
   EVP_MD_CTX_destroy(ctx->openssl_ctx);
 }
 
+#elif defined(USE_WOLFSSL)
+#include <wolfssl/options.h>
+#include <wolfssl/wolfcrypt/sha256.h>
+
+typedef struct wc_Sha256 my_sha256_ctx;
+
+static CURLcode my_sha256_init(void *in)
+{
+  if(wc_InitSha256(in))
+    return CURLE_FAILED_INIT;
+  return CURLE_OK;
+}
+
+static void my_sha256_update(void *in,
+                             const unsigned char *data,
+                             unsigned int length)
+{
+  (void)wc_Sha256Update(in, data, (word32)length);
+}
+
+static void my_sha256_final(unsigned char *digest, void *in)
+{
+  (void)wc_Sha256Final(in, digest);
+}
+
 #elif defined(USE_GNUTLS)
+#include <nettle/sha.h>
 
 typedef struct sha256_ctx my_sha256_ctx;
 
@@ -126,7 +135,9 @@ static void my_sha256_final(unsigned char *digest, void *ctx)
   sha256_digest(ctx, SHA256_DIGEST_SIZE, digest);
 }
 
-#elif defined(USE_MBEDTLS_SHA256)
+#elif defined(USE_MBEDTLS) && \
+  defined(PSA_WANT_ALG_SHA_256) && PSA_WANT_ALG_SHA_256  /* mbedTLS 4+ */
+#include <psa/crypto.h>
 
 typedef psa_hash_operation_t my_sha256_ctx;
 
@@ -152,7 +163,12 @@ static void my_sha256_final(unsigned char *digest, void *ctx)
                         &actual_length);
 }
 
-#elif defined(AN_APPLE_OS)
+#elif (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && \
+              (__MAC_OS_X_VERSION_MAX_ALLOWED >= 1040)) || \
+      (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && \
+              (__IPHONE_OS_VERSION_MAX_ALLOWED >= 20000))
+#include <CommonCrypto/CommonDigest.h>
+
 typedef CC_SHA256_CTX my_sha256_ctx;
 
 static CURLcode my_sha256_init(void *ctx)
@@ -174,17 +190,13 @@ static void my_sha256_final(unsigned char *digest, void *ctx)
 }
 
 #elif defined(USE_WIN32_CRYPTO)
+#include <wincrypt.h>
 
 struct sha256_ctx {
   HCRYPTPROV hCryptProv;
   HCRYPTHASH hHash;
 };
 typedef struct sha256_ctx my_sha256_ctx;
-
-/* Offered when targeting Vista (XP SP2+) */
-#ifndef CALG_SHA_256
-#define CALG_SHA_256 0x0000800c
-#endif
 
 static CURLcode my_sha256_init(void *in)
 {
@@ -243,41 +255,23 @@ static void my_sha256_final(unsigned char *digest, void *in)
     (a)[0] = (unsigned char)((((unsigned long)(val)) >> 24) & 0xff); \
     (a)[1] = (unsigned char)((((unsigned long)(val)) >> 16) & 0xff); \
     (a)[2] = (unsigned char)((((unsigned long)(val)) >>  8) & 0xff); \
-    (a)[3] = (unsigned char) (((unsigned long)(val)) & 0xff);        \
+    (a)[3] = (unsigned char)(((unsigned long)(val)) & 0xff);         \
   } while(0)
 
-#ifdef HAVE_LONGLONG
-#define WPA_PUT_BE64(a, val)                                      \
-  do {                                                            \
-    (a)[0] = (unsigned char)(((unsigned long long)(val)) >> 56);  \
-    (a)[1] = (unsigned char)(((unsigned long long)(val)) >> 48);  \
-    (a)[2] = (unsigned char)(((unsigned long long)(val)) >> 40);  \
-    (a)[3] = (unsigned char)(((unsigned long long)(val)) >> 32);  \
-    (a)[4] = (unsigned char)(((unsigned long long)(val)) >> 24);  \
-    (a)[5] = (unsigned char)(((unsigned long long)(val)) >> 16);  \
-    (a)[6] = (unsigned char)(((unsigned long long)(val)) >>  8);  \
-    (a)[7] = (unsigned char)(((unsigned long long)(val)) & 0xff); \
+#define WPA_PUT_BE64(a, val)                            \
+  do {                                                  \
+    (a)[0] = (unsigned char)(((uint64_t)(val)) >> 56);  \
+    (a)[1] = (unsigned char)(((uint64_t)(val)) >> 48);  \
+    (a)[2] = (unsigned char)(((uint64_t)(val)) >> 40);  \
+    (a)[3] = (unsigned char)(((uint64_t)(val)) >> 32);  \
+    (a)[4] = (unsigned char)(((uint64_t)(val)) >> 24);  \
+    (a)[5] = (unsigned char)(((uint64_t)(val)) >> 16);  \
+    (a)[6] = (unsigned char)(((uint64_t)(val)) >>  8);  \
+    (a)[7] = (unsigned char)(((uint64_t)(val)) & 0xff); \
   } while(0)
-#else
-#define WPA_PUT_BE64(a, val)                                    \
-  do {                                                          \
-    (a)[0] = (unsigned char)(((unsigned __int64)(val)) >> 56);  \
-    (a)[1] = (unsigned char)(((unsigned __int64)(val)) >> 48);  \
-    (a)[2] = (unsigned char)(((unsigned __int64)(val)) >> 40);  \
-    (a)[3] = (unsigned char)(((unsigned __int64)(val)) >> 32);  \
-    (a)[4] = (unsigned char)(((unsigned __int64)(val)) >> 24);  \
-    (a)[5] = (unsigned char)(((unsigned __int64)(val)) >> 16);  \
-    (a)[6] = (unsigned char)(((unsigned __int64)(val)) >>  8);  \
-    (a)[7] = (unsigned char)(((unsigned __int64)(val)) & 0xff); \
-  } while(0)
-#endif
 
 struct sha256_state {
-#ifdef HAVE_LONGLONG
-  unsigned long long length;
-#else
-  unsigned __int64 length;
-#endif
+  uint64_t length;
   unsigned long state[8], curlen;
   unsigned char buf[64];
 };
@@ -307,7 +301,7 @@ static const unsigned long K[64] = {
 
 #define Sha256_Ch(x, y, z)  (z ^ (x & (y ^ z)))
 #define Sha256_Maj(x, y, z) (((x | y) & z) | (x & y))
-#define Sha256_S(x, n)      RORc((x), (n))
+#define Sha256_S(x, n)      RORc(x, n)
 #define Sha256_R(x, n)      (((x) & 0xFFFFFFFFUL) >> (n))
 
 #define Sigma0(x)         (Sha256_S(x, 2) ^ Sha256_S(x, 13) ^ Sha256_S(x, 22))
@@ -315,7 +309,7 @@ static const unsigned long K[64] = {
 #define Gamma0(x)         (Sha256_S(x, 7) ^ Sha256_S(x, 18) ^ Sha256_R(x, 3))
 #define Gamma1(x)         (Sha256_S(x, 17) ^ Sha256_S(x, 19) ^ Sha256_R(x, 10))
 
-/* Compress 512-bits */
+/* Compress 512 bits */
 static int sha256_compress(struct sha256_state *md, const unsigned char *buf)
 {
   unsigned long S[8], W[64];
@@ -325,7 +319,7 @@ static int sha256_compress(struct sha256_state *md, const unsigned char *buf)
   for(i = 0; i < 8; i++) {
     S[i] = md->state[i];
   }
-  /* copy the state into 512-bits into W[0..15] */
+  /* copy the state into 512 bits into W[0..15] */
   for(i = 0; i < 16; i++)
     W[i] = WPA_GET_BE32(buf + (4 * i));
   /* fill W[16..63] */
@@ -448,7 +442,7 @@ static void my_sha256_final(unsigned char *out, void *ctx)
    */
   if(md->curlen > 56) {
     while(md->curlen < 64) {
-      md->buf[md->curlen++] = (unsigned char)0;
+      md->buf[md->curlen++] = 0;
     }
     sha256_compress(md, md->buf);
     md->curlen = 0;
@@ -456,7 +450,7 @@ static void my_sha256_final(unsigned char *out, void *ctx)
 
   /* Pad up to 56 bytes of zeroes */
   while(md->curlen < 56) {
-    md->buf[md->curlen++] = (unsigned char)0;
+    md->buf[md->curlen++] = 0;
   }
 
   /* Store length */
@@ -484,14 +478,19 @@ static void my_sha256_final(unsigned char *out, void *ctx)
  * Returns CURLE_OK on success.
  */
 CURLcode Curl_sha256it(unsigned char *output, const unsigned char *input,
-                       const size_t length)
+                       size_t len)
 {
   CURLcode result;
   my_sha256_ctx ctx;
 
   result = my_sha256_init(&ctx);
   if(!result) {
-    my_sha256_update(&ctx, input, curlx_uztoui(length));
+    do {
+      unsigned int ilen = (unsigned int)CURLMIN(len, UINT_MAX);
+      my_sha256_update(&ctx, input, ilen);
+      len -= ilen;
+      input += ilen;
+    } while(len);
     my_sha256_final(output, &ctx);
   }
   return result;

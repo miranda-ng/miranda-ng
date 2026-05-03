@@ -31,7 +31,7 @@
 #include "transfer.h"
 #include "cw-out.h"
 #include "cw-pause.h"
-
+#include "progress.h"
 
 /**
  * OVERALL DESIGN of this client writer
@@ -99,22 +99,6 @@ struct cw_out_ctx {
   struct cw_out_buf *buf;
   BIT(paused);
   BIT(errored);
-};
-
-static CURLcode cw_out_write(struct Curl_easy *data,
-                             struct Curl_cwriter *writer, int type,
-                             const char *buf, size_t nbytes);
-static void cw_out_close(struct Curl_easy *data, struct Curl_cwriter *writer);
-static CURLcode cw_out_init(struct Curl_easy *data,
-                            struct Curl_cwriter *writer);
-
-const struct Curl_cwtype Curl_cwt_out = {
-  "cw-out",
-  NULL,
-  cw_out_init,
-  cw_out_write,
-  cw_out_close,
-  sizeof(struct cw_out_ctx)
 };
 
 static CURLcode cw_out_init(struct Curl_easy *data,
@@ -198,6 +182,8 @@ static CURLcode cw_out_cb_write(struct cw_out_ctx *ctx,
   size_t nwritten;
   CURLcode result;
 
+  NOVERBOSE((void)otype);
+
   DEBUGASSERT(data->conn);
   *pnwritten = 0;
   Curl_set_in_callback(data, TRUE);
@@ -206,11 +192,11 @@ static CURLcode cw_out_cb_write(struct cw_out_ctx *ctx,
   CURL_TRC_WRITE(data, "[OUT] wrote %zu %s bytes -> %zu",
                  blen, (otype == CW_OUT_HDS) ? "header" : "body",
                  nwritten);
-  if(CURL_WRITEFUNC_PAUSE == nwritten) {
-    if(data->conn->handler->flags & PROTOPT_NONETWORK) {
+  if(nwritten == CURL_WRITEFUNC_PAUSE) {
+    if(data->conn->scheme->flags & PROTOPT_NONETWORK) {
       /* Protocols that work without network cannot be paused. This is
-         actually only FILE:// just now, and it cannot pause since the
-         transfer is not done using the "normal" procedure. */
+         actually only FILE:// now, and it cannot pause since the transfer is
+         not done using the "normal" procedure. */
       failf(data, "Write callback asked for PAUSE when not supported");
       return CURLE_WRITE_ERROR;
     }
@@ -219,13 +205,13 @@ static CURLcode cw_out_cb_write(struct cw_out_ctx *ctx,
     result = Curl_xfer_pause_recv(data, TRUE);
     return result ? result : CURLE_AGAIN;
   }
-  else if(CURL_WRITEFUNC_ERROR == nwritten) {
+  else if(nwritten == CURL_WRITEFUNC_ERROR) {
     failf(data, "client returned ERROR on write of %zu bytes", blen);
     return CURLE_WRITE_ERROR;
   }
   else if(nwritten != blen) {
     failf(data, "Failure writing output to destination, "
-          "passed %zu returned %zd", blen, nwritten);
+          "passed %zu returned %zu", blen, nwritten);
     return CURLE_WRITE_ERROR;
   }
   *pnwritten = nwritten;
@@ -242,8 +228,8 @@ static CURLcode cw_out_ptr_flush(struct cw_out_ctx *ctx,
   curl_write_callback wcb = NULL;
   void *wcb_data;
   size_t max_write, min_write;
-  size_t wlen, nwritten;
-  CURLcode result;
+  size_t wlen, nwritten = 0;
+  CURLcode result = CURLE_OK;
 
   /* If we errored once, we do not invoke the client callback again */
   if(ctx->errored)
@@ -267,10 +253,15 @@ static CURLcode cw_out_ptr_flush(struct cw_out_ctx *ctx,
       if(!flush_all && blen < min_write)
         break;
       wlen = max_write ? CURLMIN(blen, max_write) : blen;
-      result = cw_out_cb_write(ctx, data, wcb, wcb_data, otype,
-                               buf, wlen, &nwritten);
+      if(otype == CW_OUT_BODY)
+        result = Curl_pgrs_deliver_check(data, wlen);
+      if(!result)
+        result = cw_out_cb_write(ctx, data, wcb, wcb_data, otype,
+                                 buf, wlen, &nwritten);
       if(result)
         return result;
+      if(otype == CW_OUT_BODY)
+        Curl_pgrs_deliver_inc(data, nwritten);
       *pconsumed += nwritten;
       blen -= nwritten;
       buf += nwritten;
@@ -364,8 +355,8 @@ static CURLcode cw_out_append(struct cw_out_ctx *ctx,
   }
 
   /* if we do not have a buffer, or it is of another type, make a new one.
-   * And for CW_OUT_HDS always make a new one, so we "replay" headers
-   * exactly as they came in */
+   * For CW_OUT_HDS always make a new one, so we "replay" headers exactly
+   * as they came in */
   if(!ctx->buf || (ctx->buf->type != otype) || (otype == CW_OUT_HDS)) {
     struct cw_out_buf *cwbuf = cw_out_buf_create(otype);
     if(!cwbuf)
@@ -455,6 +446,15 @@ static CURLcode cw_out_write(struct Curl_easy *data,
   return CURLE_OK;
 }
 
+const struct Curl_cwtype Curl_cwt_out = {
+  "cw-out",
+  NULL,
+  cw_out_init,
+  cw_out_write,
+  cw_out_close,
+  sizeof(struct cw_out_ctx)
+};
+
 bool Curl_cw_out_is_paused(struct Curl_easy *data)
 {
   struct Curl_cwriter *cw_out;
@@ -465,7 +465,7 @@ bool Curl_cw_out_is_paused(struct Curl_easy *data)
     return FALSE;
 
   ctx = (struct cw_out_ctx *)cw_out;
-  return ctx->paused;
+  return (bool)ctx->paused;
 }
 
 static CURLcode cw_out_flush(struct Curl_easy *data,

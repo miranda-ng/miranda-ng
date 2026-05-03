@@ -69,7 +69,7 @@ CURLcode Curl_output_digest(struct Curl_easy *data,
 {
   CURLcode result;
   unsigned char *path = NULL;
-  char *tmp = NULL;
+  const char *tmp = NULL;
   char *response;
   size_t len;
   bool have_chlg;
@@ -91,7 +91,7 @@ CURLcode Curl_output_digest(struct Curl_easy *data,
     return CURLE_NOT_BUILT_IN;
 #else
     digest = &data->state.proxydigest;
-    allocuserpwd = &data->state.aptr.proxyuserpwd;
+    allocuserpwd = &data->req.proxyuserpwd;
     userp = data->state.aptr.proxyuser;
     passwdp = data->state.aptr.proxypasswd;
     authp = &data->state.authproxy;
@@ -99,13 +99,13 @@ CURLcode Curl_output_digest(struct Curl_easy *data,
   }
   else {
     digest = &data->state.digest;
-    allocuserpwd = &data->state.aptr.userpwd;
+    allocuserpwd = &data->req.userpwd;
     userp = data->state.aptr.user;
     passwdp = data->state.aptr.passwd;
     authp = &data->state.authhost;
   }
 
-  Curl_safefree(*allocuserpwd);
+  curlx_safefree(*allocuserpwd);
 
   /* not set means empty */
   if(!userp)
@@ -125,7 +125,7 @@ CURLcode Curl_output_digest(struct Curl_easy *data,
     return CURLE_OK;
   }
 
-  /* So IE browsers < v7 cut off the URI part at the query part when they
+  /* IE browsers < v7 cut off the URI part at the query part when they
      evaluate the MD5 and some (IIS?) servers work with them so we may need to
      do the Digest IE-style. Note that the different ways cause different MD5
      sums to get sent.
