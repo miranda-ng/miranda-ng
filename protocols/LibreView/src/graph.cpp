@@ -310,7 +310,7 @@ private:
 						st.wMonth = tmCurrent->tm_mon + 1;
 						st.wDay = tmCurrent->tm_mday;
 						st.wHour = tmCurrent->tm_hour;
-						st.wMinute = tmCurrent->tm_min;
+						st.wMinute = 0;
 						st.wSecond = 0;
 						st.wMilliseconds = 0;
 						st.wDayOfWeek = tmCurrent->tm_wday;
