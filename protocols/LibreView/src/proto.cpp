@@ -522,20 +522,23 @@ bool CLibreViewProto::FetchGlucose()
 	setDword(m_hContact, "GlucoseUnits", glucoseUnits);
 	setWString(m_hContact, "Timestamp", timestamp);
 
-	UpdateContactDisplay(m_hContact);
-	AddHistoryEvent(m_hContact, timestamp);
+	// Create StatusMsg first so UpdateContactDisplay can access it
+	CMStringW statusMsg = trendText;
 
-	wchar_t timestampBuf[64];
-	TimeZone_PrintTimeStamp(nullptr, timestampUnix, L"d t", timestampBuf, _countof(timestampBuf), 0);
-	CMStringW statusMsg(FORMAT, L"%s, %s", trendText.c_str(), timestampBuf);
+	// Force status update to refresh StatusMsg display
+	setWord(m_hContact, "Status", ID_STATUS_ONLINE);
+
+	UpdateContactDisplay(m_hContact);
+	
+	// Set StatusMsg at very end after all other operations
 	db_set_ws(m_hContact, "CList", "StatusMsg", statusMsg);
-	ProtoBroadcastAck(m_hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)statusMsg.c_str());
+	AddHistoryEvent(m_hContact, timestamp);
 
 		JSONNode graphDataArray = data["graphData"];
 	if (!graphDataArray.empty()) {
+		lastGraphData = graphDataArray;
 		setString(m_hContact, "GraphData", graphDataArray.write().c_str());
 	}
 
-	setWord(m_hContact, "Status", ID_STATUS_ONLINE);
 	return true;
 }
