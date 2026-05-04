@@ -302,6 +302,31 @@ static CMStringW FormatGlucoseValue(double value)
 	return result;
 }
 
+static CMStringW ConvertGlucoseForDisplay(const CMStringW &originalValue, bool bApiMgdl, bool bUseMgdl)
+{
+	if (originalValue.IsEmpty())
+		return CMStringW();
+	
+	double value = _wtof(originalValue.c_str());
+	
+	if (bApiMgdl && bUseMgdl) {
+		// API mg/dL -> Display mg/dL (no conversion)
+		return FormatGlucoseValue(value);
+	}
+	else if (bApiMgdl && !bUseMgdl) {
+		// API mg/dL -> Display mmol/L (convert)
+		return FormatGlucoseValue(value / 18.0);
+	}
+	else if (!bApiMgdl && bUseMgdl) {
+		// API mmol/L -> Display mg/dL (convert)
+		return FormatGlucoseValue(value * 18.0);
+	}
+	else {
+		// API mmol/L -> Display mmol/L (no conversion)
+		return FormatGlucoseValue(value);
+	}
+}
+
 static CMStringW GetGlucoseDbText(MCONTACT hContact, const char *pszSetting)
 {
 	CLibreViewProto *ppro = g_plugin.getInstance(hContact);
@@ -342,27 +367,17 @@ void UpdateContactDisplay(MCONTACT hContact)
 	CLibreViewProto *ppro = g_plugin.getInstance(hContact);
 	const bool bUseMgdl = ppro && ppro->DisplayUnits == 1;
 
-	// Compute Value from stored mmol string
-	CMStringW valueMmolText = GetGlucoseDbText(hContact, "Value");
-	CMStringW valueText;
-	if (!valueMmolText.IsEmpty()) {
-		if (bUseMgdl) {
-			// Convert mmol to mg/dL
-			double valueMmol = _wtof(valueMmolText.c_str());
-			valueText = FormatGlucoseValue(valueMmol * 18.0);
-		}
-		else {
-			valueText = valueMmolText;
-		}
-	}
+	// Get API units from database
+	const int apiUnits = ppro ? ppro->getDword(hContact, "GlucoseUnits", 0) : 0;
+	const bool bApiMgdl = apiUnits == 1;
+
+	// Get stored original API value and convert for display
+	CMStringW originalValueText = GetGlucoseDbText(hContact, "Value");
+	CMStringW valueText = ConvertGlucoseForDisplay(originalValueText, bApiMgdl, bUseMgdl);
 
 	const wchar_t *pwszUnit = GetLocalizedUnit(bUseMgdl);
 	int trendValue = ppro->getDword(hContact, "TrendArrow", 0);
 	CMStringW trendArrow(TrendToArrow(trendValue));
-
-	if (!valueText.IsEmpty())
-		ppro->setWString(hContact, "Value", valueText);
-
 
 	// Get account name from Nick (always set to account name)
 	CMStringW title = ppro->getMStringW(hContact, "Nick");
@@ -390,15 +405,21 @@ static void AddHistoryEvent(MCONTACT hContact, const CMStringW &timestamp)
 	if (!lastTimestamp.IsEmpty() && !mir_wstrcmp(lastTimestamp, timestamp))
 		return;
 
-	CMStringW valueText = GetGlucoseDbText(hContact, "Value");
-	if (valueText.IsEmpty())
+	CMStringW originalValueText = GetGlucoseDbText(hContact, "Value");
+	if (originalValueText.IsEmpty())
 		return;
 
 	const bool bUseMgdl = ppro->DisplayUnits == 1;
+	const int apiUnits = ppro->getDword(hContact, "GlucoseUnits", 0);
+	const bool bApiMgdl = apiUnits == 1;
 	const wchar_t *pwszUnit = GetLocalizedUnit(bUseMgdl);
 	int trendValue = ppro->getDword(hContact, "TrendArrow", 0);
 	CMStringW trendArrow(TrendToArrow(trendValue));
-	CMStringW message(FORMAT, L"%s %s", valueText.c_str(), pwszUnit);
+	
+	// Get original API value and convert for history
+	CMStringW historyValueText = ConvertGlucoseForDisplay(originalValueText, bApiMgdl, bUseMgdl);
+	
+	CMStringW message(FORMAT, L"%s %s", historyValueText.c_str(), pwszUnit);
 	if (!trendArrow.IsEmpty())
 		message.AppendFormat(L" (%s)", trendArrow.c_str());
 	T2Utf utfMessage(message);
@@ -482,19 +503,24 @@ bool CLibreViewProto::FetchGlucose()
 		ClearAuth();
 		return false;
 	}
-	// bool isLow = measurement["isLow"].as_bool();
-	// bool isHigh = measurement["isHigh"].as_bool();
-	CMStringW timestamp = measurement["Timestamp"].as_mstring();
+		CMStringW timestamp = measurement["Timestamp"].as_mstring();
 	uint32_t timestampUnix = ParseLibreTimestamp(timestamp);
 	
 	CMStringW trendText(TranslateW(TrendToText(trend)));
 	CMStringW trendArrow(TrendToArrow(trend));
-	CMStringW valueMmolText = FormatGlucoseValue(valueMmol);
-
-	setWString(m_hContact, "Value", valueMmolText);
+	
+	// Store original API value (in original units)
+	CMStringW originalValueText;
+	if (bApiMgdl) {
+		originalValueText = FormatGlucoseValue(valueMgdl);
+	} else {
+		originalValueText = FormatGlucoseValue(valueMmol);
+	}
+	
+	setWString(m_hContact, "Value", originalValueText);
 	setDword(m_hContact, "TrendArrow", trend);
 	setDword(m_hContact, "GlucoseUnits", glucoseUnits);
-	setWString(m_hContact, "Timestamp", timestamp); // Save raw timestamp
+	setWString(m_hContact, "Timestamp", timestamp);
 
 	UpdateContactDisplay(m_hContact);
 	AddHistoryEvent(m_hContact, timestamp);
@@ -505,11 +531,8 @@ bool CLibreViewProto::FetchGlucose()
 	db_set_ws(m_hContact, "CList", "StatusMsg", statusMsg);
 	ProtoBroadcastAck(m_hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)statusMsg.c_str());
 
-	// Store graphData for later use in graph
-	JSONNode graphDataArray = data["graphData"];
+		JSONNode graphDataArray = data["graphData"];
 	if (!graphDataArray.empty()) {
-		lastGraphData = graphDataArray;
-		// Also store in database for persistence
 		setString(m_hContact, "GraphData", graphDataArray.write().c_str());
 	}
 

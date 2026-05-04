@@ -55,7 +55,6 @@ public:
 	MCONTACT m_hContact;
 	CMStringA szToken, szAccountHash, szPatientId, szApiUrl, szMinVersion;
 	time_t tsLastUpdate = 0;
-	JSONNode lastGraphData;
 
 	bool Login();
 	bool FetchConnections();

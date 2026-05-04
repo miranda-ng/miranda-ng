@@ -5,6 +5,7 @@
 uint32_t ParseLibreTimestamp(const CMStringW &timestamp);
 
 static HGENMENU g_hContactMenuGraph = nullptr;
+static HWND g_hGraphWindow = nullptr; // Track open graph window
 
 // Register graph font in Customize -> Fonts and Colors
 void RegisterGraphFont()
@@ -85,6 +86,9 @@ public:
 		SetWindowTextA(m_hwnd, m_title);
 		m_hoverIndex = -1;
 		
+		// Track this window globally
+		g_hGraphWindow = m_hwnd;
+		
 		// Create tooltip window
 		m_hToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, nullptr, 
 			WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
@@ -111,6 +115,11 @@ public:
 	
 	void OnDestroy() override
 	{
+		// Clear global window handle
+		if (g_hGraphWindow == m_hwnd) {
+			g_hGraphWindow = nullptr;
+		}
+		
 		if (m_hToolTip) {
 			DestroyWindow(m_hToolTip);
 			m_hToolTip = nullptr;
@@ -120,6 +129,18 @@ public:
 private:
 	void DrawGraph()
 	{
+		// Update m_useMgdl from current settings
+		CLibreViewProto *ppro = nullptr;
+		for (auto &it : g_plugin.g_arInstances) {
+			if (it->m_hContact != 0) {
+				ppro = it;
+				break;
+			}
+		}
+		if (ppro) {
+			m_useMgdl = ppro->DisplayUnits == 1;
+		}
+		
 		HDC hdc = GetDC(m_hwnd);
 		RECT rc;
 		GetClientRect(m_hwnd, &rc);
@@ -174,6 +195,9 @@ private:
 		if (valueRange < 0.1) valueRange = 1.0; // avoid division by zero
 		maxValue += valueRange * 0.1;
 		
+		// Convert maxValue for grid calculation in mg/dL mode
+		double displayMaxValue = m_useMgdl ? maxValue * 18.0 : maxValue;
+		
 		// Get font and colors from FontService using LOGFONTW
 		LOGFONTW lf = {};
 		memset(&lf, 0, sizeof(lf));
@@ -217,16 +241,16 @@ private:
 		HPEN hOldPen = (HPEN)SelectObject(hdc, hGridPen);
 		
 		// Horizontal grid lines and Y axis labels with fixed steps
-		// Step in mmol/L: 1 mmol/L = 18 mg/dL for mg/dL mode, 3 mmol/L for mmol/L mode
-		double step = m_useMgdl ? 1.0 : 3.0;  // 1 mmol/L (18 mg/dL) or 3 mmol/L
-		double maxGridValue = ((int)(maxValue / step) + 1) * step;  // Round up to next step
+		// Step in mmol/L: 3 mmol/L (50 mg/dL for mg/dL mode)
+		double step = m_useMgdl ? 50.0 : 3.0;  // 50 mg/dL or 3 mmol/L
+		double maxGridValue = ((int)(displayMaxValue / step) + 1) * step;  // Round up to next step
 		int lineCount = (int)(maxGridValue / step) + 1;
 		
-		for (int i = 0; i < lineCount && i <= 10; i++) {
+		for (int i = 0; i < lineCount; i++) {
 			double value = i * step;
-			if (value > maxValue * 1.1) break;  // Don't draw beyond graph area
+			if (value > displayMaxValue * 1.1) break;  // Don't draw beyond graph area
 			
-			int y = graphBottom - (int)((value - minValue) / (maxValue - minValue) * graphHeight);
+			int y = graphBottom - (int)((value - minValue) / (displayMaxValue - minValue) * graphHeight);
 			if (y < graphTop || y > graphBottom) continue;
 			
 			MoveToEx(hdc, graphLeft, y, nullptr);
@@ -236,9 +260,9 @@ private:
 			if (i > 0) {
 				CMStringW label;
 				if (m_useMgdl) {
-					label.Format(L"%.0f", value * 18.0);
+					label.Format(L"%.0f", value);  // value is already in mg/dL
 				} else {
-					label.Format(L"%.1f", value);
+					label.Format(L"%.1f", value);  // value is in mmol/L
 				}
 				
 				RECT textRect = {0, y - 10, graphLeft - 5, y + 10};
@@ -335,9 +359,11 @@ private:
 			SelectObject(hdc, hSmoothPen);
 			for (size_t i = 1; i < m_data.size(); i++) {
 				int x1 = graphLeft + (int)((double)(m_data[i-1].timestamp - minTime) / (maxTime - minTime) * graphWidth);
-				int y1 = graphBottom - (int)((m_data[i-1].value - minValue) / (maxValue - minValue) * graphHeight);
+				double value1 = m_useMgdl ? m_data[i-1].value * 18.0 : m_data[i-1].value;
+				double value2 = m_useMgdl ? m_data[i].value * 18.0 : m_data[i].value;
+				int y1 = graphBottom - (int)((value1 - minValue) / (displayMaxValue - minValue) * graphHeight);
 				int x2 = graphLeft + (int)((double)(m_data[i].timestamp - minTime) / (maxTime - minTime) * graphWidth);
-				int y2 = graphBottom - (int)((m_data[i].value - minValue) / (maxValue - minValue) * graphHeight);
+				int y2 = graphBottom - (int)((value2 - minValue) / (displayMaxValue - minValue) * graphHeight);
 				
 				// Draw anti-aliased line
 				MoveToEx(hdc, x1, y1, nullptr);
@@ -348,9 +374,11 @@ private:
 			SelectObject(hdc, hLinePen);
 			for (size_t i = 1; i < m_data.size(); i++) {
 				int x1 = graphLeft + (int)((double)(m_data[i-1].timestamp - minTime) / (maxTime - minTime) * graphWidth);
-				int y1 = graphBottom - (int)((m_data[i-1].value - minValue) / (maxValue - minValue) * graphHeight);
+				double value1 = m_useMgdl ? m_data[i-1].value * 18.0 : m_data[i-1].value;
+				double value2 = m_useMgdl ? m_data[i].value * 18.0 : m_data[i].value;
+				int y1 = graphBottom - (int)((value1 - minValue) / (displayMaxValue - minValue) * graphHeight);
 				int x2 = graphLeft + (int)((double)(m_data[i].timestamp - minTime) / (maxTime - minTime) * graphWidth);
-				int y2 = graphBottom - (int)((m_data[i].value - minValue) / (maxValue - minValue) * graphHeight);
+				int y2 = graphBottom - (int)((value2 - minValue) / (displayMaxValue - minValue) * graphHeight);
 				
 				MoveToEx(hdc, x1, y1, nullptr);
 				LineTo(hdc, x2, y2);
@@ -360,7 +388,8 @@ private:
 			SelectObject(hdc, hPointPen);
 			for (const auto& point : m_data) {
 				int x = graphLeft + (int)((double)(point.timestamp - minTime) / (maxTime - minTime) * graphWidth);
-				int y = graphBottom - (int)((point.value - minValue) / (maxValue - minValue) * graphHeight);
+				double value = m_useMgdl ? point.value * 18.0 : point.value;
+				int y = graphBottom - (int)((value - minValue) / (displayMaxValue - minValue) * graphHeight);
 				
 				HBRUSH hOldBrush = (HBRUSH)SelectObject(hdc, hPointBrush);
 				Ellipse(hdc, x - 3, y - 3, x + 3, y + 3);  // Smaller points (radius 3)
@@ -519,7 +548,6 @@ static std::vector<GraphDataPoint> ParseGraphData(const JSONNode& graphData)
 			CMStringW timestamp = item["Timestamp"].as_mstring();
 			point.timestamp = ParseLibreTimestamp(timestamp);
 			point.value = item["Value"].as_float();
-			point.trendArrow = item["TrendArrow"].as_int();
 			
 			if (point.timestamp > 0 && point.value > 0) {
 				result.push_back(point);
@@ -535,20 +563,30 @@ static void GraphThreadFunc(void *param)
 	CLibreViewProto *ppro = g_plugin.getInstance(hContact);
 	if (!ppro) return;
 	
-	// Get graphData from memory or database (no API call)
+	// Get graphData from database only
 	std::vector<GraphDataPoint> graphData;
-	if (!ppro->lastGraphData.empty()) {
-		graphData = ParseGraphData(ppro->lastGraphData);
+	CMStringA storedGraphData = ppro->getMStringA(hContact, "GraphData");
+	if (!storedGraphData.IsEmpty()) {
+		JSONNode jsonData = JSONNode::parse(storedGraphData.c_str());
+		if (!jsonData.empty()) {
+			graphData = ParseGraphData(jsonData);
+		}
 	}
 	
-	// If no data in memory, try to load from database
-	if (graphData.empty()) {
-		CMStringA storedGraphData = ppro->getMStringA(hContact, "GraphData");
-		if (!storedGraphData.IsEmpty()) {
-			JSONNode jsonData = JSONNode::parse(storedGraphData.c_str());
-			if (!jsonData.empty()) {
-				graphData = ParseGraphData(jsonData);
-			}
+	// Add current Value as last point if available
+	CMStringW currentValue = ppro->getMStringW(hContact, "Value");
+	CMStringW currentTimestamp = ppro->getMStringW(hContact, "Timestamp");
+	
+	if (!currentValue.IsEmpty() && !currentTimestamp.IsEmpty()) {
+		GraphDataPoint currentPoint;
+		currentPoint.value = _wtof(currentValue.c_str());
+		currentPoint.timestamp = ParseLibreTimestamp(currentTimestamp);
+		
+		// Add to graph data if not duplicate (check last point)
+		if (graphData.empty() || 
+			graphData.back().timestamp != currentPoint.timestamp ||
+			graphData.back().value != currentPoint.value) {
+			graphData.push_back(currentPoint);
 		}
 	}
 	
@@ -568,6 +606,14 @@ static void GraphThreadFunc(void *param)
 	}
 	
 	bool useMgdl = ppro->DisplayUnits == 1;
+	
+	// Check if graph window is already open
+	if (g_hGraphWindow && IsWindow(g_hGraphWindow)) {
+		// Focus existing window instead of creating new one
+		SetForegroundWindow(g_hGraphWindow);
+		ShowWindow(g_hGraphWindow, SW_RESTORE);
+		return;
+	}
 	
 	// Show dialog in main thread
 	GraphDialogParams *params = new GraphDialogParams;
