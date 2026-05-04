@@ -12,7 +12,7 @@ mkdir distr/stable/x%tp%/Plugins/
 
 option batch abort
 put %Arch%\Icons\*.zip distr/stable/x%tp%/Icons/
-put %Arch%\Libs\*.zip distr/x%tp%/Libs/
+put %Arch%\Libs\*.zip distr/stable/x%tp%/Libs/
 put %Arch%\Languages\lang*.zip distr/stable/x%tp%/Languages/
 put %Arch%\Plugins\*.zip distr/stable/x%tp%/Plugins/
 put %Arch%\miranda%tp%.zip distr/stable/x%tp%/
