@@ -232,12 +232,12 @@ private:
 		HPEN hOldPen = (HPEN)SelectObject(hdc, hGridPen);
 		
 		// Horizontal grid lines and Y axis labels with fixed steps
-		// Step in mmol/L: 3 mmol/L for both modes (54 mg/dL for mg/dL mode)
-		double step = m_useMgdl ? 54.0 : 3.0;  // 54 mg/dL (3 mmol/L) or 3 mmol/L
+		// Step in mmol/L: 3 mmol/L (50 mg/dL for mg/dL mode)
+		double step = m_useMgdl ? 50.0 : 3.0;  // 50 mg/dL or 3 mmol/L
 		double maxGridValue = ((int)(displayMaxValue / step) + 1) * step;  // Round up to next step
 		int lineCount = (int)(maxGridValue / step) + 1;
 		
-		for (int i = 0; i < lineCount && i <= 10; i++) {
+		for (int i = 0; i < lineCount; i++) {
 			double value = i * step;
 			if (value > displayMaxValue * 1.1) break;  // Don't draw beyond graph area
 			
