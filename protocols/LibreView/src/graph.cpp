@@ -5,6 +5,7 @@
 uint32_t ParseLibreTimestamp(const CMStringW &timestamp);
 
 static HGENMENU g_hContactMenuGraph = nullptr;
+static HWND g_hGraphWindow = nullptr; // Track open graph window
 
 // Register graph font in Customize -> Fonts and Colors
 void RegisterGraphFont()
@@ -85,6 +86,9 @@ public:
 		SetWindowTextA(m_hwnd, m_title);
 		m_hoverIndex = -1;
 		
+		// Track this window globally
+		g_hGraphWindow = m_hwnd;
+		
 		// Create tooltip window
 		m_hToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, nullptr, 
 			WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
@@ -111,6 +115,11 @@ public:
 	
 	void OnDestroy() override
 	{
+		// Clear global window handle
+		if (g_hGraphWindow == m_hwnd) {
+			g_hGraphWindow = nullptr;
+		}
+		
 		if (m_hToolTip) {
 			DestroyWindow(m_hToolTip);
 			m_hToolTip = nullptr;
@@ -310,7 +319,7 @@ private:
 						st.wMonth = tmCurrent->tm_mon + 1;
 						st.wDay = tmCurrent->tm_mday;
 						st.wHour = tmCurrent->tm_hour;
-						st.wMinute = 0;
+						st.wMinute = tmCurrent->tm_min;
 						st.wSecond = 0;
 						st.wMilliseconds = 0;
 						st.wDayOfWeek = tmCurrent->tm_wday;
@@ -539,7 +548,6 @@ static std::vector<GraphDataPoint> ParseGraphData(const JSONNode& graphData)
 			CMStringW timestamp = item["Timestamp"].as_mstring();
 			point.timestamp = ParseLibreTimestamp(timestamp);
 			point.value = item["Value"].as_float();
-			point.trendArrow = item["TrendArrow"].as_int();
 			
 			if (point.timestamp > 0 && point.value > 0) {
 				result.push_back(point);
@@ -555,20 +563,30 @@ static void GraphThreadFunc(void *param)
 	CLibreViewProto *ppro = g_plugin.getInstance(hContact);
 	if (!ppro) return;
 	
-	// Get graphData from memory or database (no API call)
+	// Get graphData from database only
 	std::vector<GraphDataPoint> graphData;
-	if (!ppro->lastGraphData.empty()) {
-		graphData = ParseGraphData(ppro->lastGraphData);
+	CMStringA storedGraphData = ppro->getMStringA(hContact, "GraphData");
+	if (!storedGraphData.IsEmpty()) {
+		JSONNode jsonData = JSONNode::parse(storedGraphData.c_str());
+		if (!jsonData.empty()) {
+			graphData = ParseGraphData(jsonData);
+		}
 	}
 	
-	// If no data in memory, try to load from database
-	if (graphData.empty()) {
-		CMStringA storedGraphData = ppro->getMStringA(hContact, "GraphData");
-		if (!storedGraphData.IsEmpty()) {
-			JSONNode jsonData = JSONNode::parse(storedGraphData.c_str());
-			if (!jsonData.empty()) {
-				graphData = ParseGraphData(jsonData);
-			}
+	// Add current Value as last point if available
+	CMStringW currentValue = ppro->getMStringW(hContact, "Value");
+	CMStringW currentTimestamp = ppro->getMStringW(hContact, "Timestamp");
+	
+	if (!currentValue.IsEmpty() && !currentTimestamp.IsEmpty()) {
+		GraphDataPoint currentPoint;
+		currentPoint.value = _wtof(currentValue.c_str());
+		currentPoint.timestamp = ParseLibreTimestamp(currentTimestamp);
+		
+		// Add to graph data if not duplicate (check last point)
+		if (graphData.empty() || 
+			graphData.back().timestamp != currentPoint.timestamp ||
+			graphData.back().value != currentPoint.value) {
+			graphData.push_back(currentPoint);
 		}
 	}
 	
@@ -588,6 +606,14 @@ static void GraphThreadFunc(void *param)
 	}
 	
 	bool useMgdl = ppro->DisplayUnits == 1;
+	
+	// Check if graph window is already open
+	if (g_hGraphWindow && IsWindow(g_hGraphWindow)) {
+		// Focus existing window instead of creating new one
+		SetForegroundWindow(g_hGraphWindow);
+		ShowWindow(g_hGraphWindow, SW_RESTORE);
+		return;
+	}
 	
 	// Show dialog in main thread
 	GraphDialogParams *params = new GraphDialogParams;

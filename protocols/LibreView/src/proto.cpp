@@ -533,7 +533,6 @@ bool CLibreViewProto::FetchGlucose()
 
 		JSONNode graphDataArray = data["graphData"];
 	if (!graphDataArray.empty()) {
-		lastGraphData = graphDataArray;
 		setString(m_hContact, "GraphData", graphDataArray.write().c_str());
 	}
 
