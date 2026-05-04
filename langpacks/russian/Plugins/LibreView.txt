@@ -61,7 +61,7 @@ LibreView
 [falling]
 падает
 [steady]
-не меняется
+стабилен
 [rising]
 растёт
 [rising quickly]
