@@ -496,6 +496,9 @@ bool CLibreViewProto::FetchGlucose()
 	setDword(m_hContact, "GlucoseUnits", glucoseUnits);
 	setWString(m_hContact, "Timestamp", timestamp);
 
+	// Refresh graph if open (event 2: new Value arrives)
+	RefreshGraphWindow();
+
 	// Create StatusMsg first so UpdateContactDisplay can access it
 	CMStringW statusMsg = trendText;
 
@@ -509,8 +512,11 @@ bool CLibreViewProto::FetchGlucose()
 	AddHistoryEvent(m_hContact, timestamp);
 
 	JSONNode graphDataArray = data["graphData"];
-	if (!graphDataArray.empty())
+	if (!graphDataArray.empty()) {
 		setString(m_hContact, "GraphData", graphDataArray.write().c_str());
+		// Refresh graph if open (event 1: new GraphData arrives)
+		RefreshGraphWindow();
+	}
 
 	return true;
 }

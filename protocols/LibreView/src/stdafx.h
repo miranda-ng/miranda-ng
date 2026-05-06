@@ -39,6 +39,7 @@ void UpdateContactDisplay(MCONTACT);
 void RestartTimer();
 int UserInfoInit(WPARAM, LPARAM);
 uint32_t ParseLibreTimestamp(const CMStringW &timestamp);
+void RefreshGraphWindow();
 static inline CMStringW ConvertGlucoseForDisplay(const CMStringW &originalValue, bool bApiMgdl, bool bUseMgdl)
 {
 	if (originalValue.IsEmpty())

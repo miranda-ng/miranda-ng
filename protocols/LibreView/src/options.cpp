@@ -84,6 +84,9 @@ public:
 		m_proto->DisplayUnits = radMgdl.IsChecked() ? 1 : 0;
 		UpdateContactDisplay(m_proto->m_hContact);
 
+		// Refresh graph if open (event 3: DisplayUnits setting changes)
+		RefreshGraphWindow();
+
 		RestartTimer();
 		return true;
 	}

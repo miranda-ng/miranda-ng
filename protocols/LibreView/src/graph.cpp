@@ -6,6 +6,7 @@ uint32_t ParseLibreTimestamp(const CMStringW &timestamp);
 
 static HGENMENU g_hContactMenuGraph = nullptr;
 static HWND g_hGraphWindow = nullptr; // Track open graph window
+#define WM_REFRESH_GRAPH (WM_USER + 100)
 
 // Register graph font in Customize -> Fonts and Colors
 void RegisterGraphFont()
@@ -59,6 +60,38 @@ struct GraphDataPoint {
 	int trendArrow;
 };
 
+static std::vector<GraphDataPoint> ParseGraphData(const JSONNode& graphData, bool useMgdl)
+{
+	std::vector<GraphDataPoint> result;
+	
+		for (auto &item : graphData) {
+			GraphDataPoint point = {};
+			
+			CMStringW timestamp = item["Timestamp"].as_mstring();
+			point.timestamp = ParseLibreTimestamp(timestamp);
+			
+			// Use appropriate value field based on display units
+			if (useMgdl) {
+				// Use ValueInMgPerDl if available, otherwise convert Value
+				double valueMgdl = item["ValueInMgPerDl"].as_float();
+				if (valueMgdl > 0) {
+					point.value = valueMgdl;
+				} else {
+					point.value = item["Value"].as_float() * 18.0;
+				}
+			} else {
+				// Use Value (mmol/L) directly
+				point.value = item["Value"].as_float();
+			}
+			
+			if (point.timestamp > 0 && point.value > 0) {
+				result.push_back(point);
+			}
+		}
+	
+	return result;
+}
+
 struct GraphDialogParams {
 	CMStringW title;
 	std::vector<GraphDataPoint> data;
@@ -76,7 +109,7 @@ class CGraphDialog : public CDlgBase
 	
 public:
 	CGraphDialog(const CMStringW& title, const std::vector<GraphDataPoint>& data, bool useMgdl) 
-		: CDlgBase(g_plugin, IDD_GRAPH), m_data(data), m_useMgdl(useMgdl) 
+		: CDlgBase(g_plugin, IDD_GRAPH), m_data(data), m_useMgdl(useMgdl)
 	{
 		m_title = ptrA(mir_utf8encodeW(title.c_str()));
 	}
@@ -124,6 +157,73 @@ public:
 			DestroyWindow(m_hToolTip);
 			m_hToolTip = nullptr;
 		}
+	}
+
+	void RefreshData()
+	{
+		CLibreViewProto *ppro = nullptr;
+		MCONTACT hContact = 0;
+		for (auto &it : g_plugin.g_arInstances) {
+			if (it->m_hContact != 0) {
+				ppro = it;
+				hContact = it->m_hContact;
+				break;
+			}
+		}
+		if (!ppro || !hContact) return;
+		
+		// Update m_useMgdl from current settings
+		m_useMgdl = ppro->DisplayUnits == 1;
+		
+		// Reload graphData from database
+		std::vector<GraphDataPoint> newGraphData;
+		CMStringA storedGraphData = ppro->getMStringA(hContact, "GraphData");
+		if (!storedGraphData.IsEmpty()) {
+			JSONNode jsonData = JSONNode::parse(storedGraphData.c_str());
+			if (!jsonData.empty()) {
+				newGraphData = ParseGraphData(jsonData, m_useMgdl);
+			}
+		}
+		
+		// Add current Value as last point if available
+		CMStringW currentValue = ppro->getMStringW(hContact, "Value");
+		CMStringW currentTimestamp = ppro->getMStringW(hContact, "Timestamp");
+		
+		if (!currentValue.IsEmpty() && !currentTimestamp.IsEmpty()) {
+			GraphDataPoint currentPoint;
+			
+			// Get API units from database
+			const int apiUnits = ppro->getDword(hContact, "GlucoseUnits", 0);
+			const bool bApiMgdl = apiUnits == 1;
+			const bool bUseMgdl = ppro->DisplayUnits == 1;
+			
+			// Convert original API value to display units for graph
+			if (bApiMgdl && !bUseMgdl) {
+				// API mg/dL -> Display mmol/L (convert)
+				currentPoint.value = _wtof(currentValue.c_str()) / 18.0;
+			}
+			else if (!bApiMgdl && bUseMgdl) {
+				// API mmol/L -> Display mg/dL (convert)
+				currentPoint.value = _wtof(currentValue.c_str()) * 18.0;
+			}
+			else {
+				// No conversion needed
+				currentPoint.value = _wtof(currentValue.c_str());
+			}
+			
+			currentPoint.timestamp = ParseLibreTimestamp(currentTimestamp);
+			
+			// Add to graph data if not duplicate (check last point)
+			if (newGraphData.empty() || 
+				newGraphData.back().timestamp != currentPoint.timestamp ||
+				newGraphData.back().value != currentPoint.value) {
+				newGraphData.push_back(currentPoint);
+			}
+		}
+		
+		// Update data and redraw
+		m_data = newGraphData;
+		InvalidateRect(m_hwnd, nullptr, TRUE);
 	}
 
 private:
@@ -388,6 +488,10 @@ private:
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch (msg) {
+		case WM_REFRESH_GRAPH:
+			RefreshData();
+			return TRUE;
+
 		case WM_PAINT:
 			{
 				PAINTSTRUCT ps;
@@ -518,38 +622,6 @@ private:
 	}
 };
 
-static std::vector<GraphDataPoint> ParseGraphData(const JSONNode& graphData, bool useMgdl)
-{
-	std::vector<GraphDataPoint> result;
-	
-		for (auto &item : graphData) {
-			GraphDataPoint point = {};
-			
-			CMStringW timestamp = item["Timestamp"].as_mstring();
-			point.timestamp = ParseLibreTimestamp(timestamp);
-			
-			// Use appropriate value field based on display units
-			if (useMgdl) {
-				// Use ValueInMgPerDl if available, otherwise convert Value
-				double valueMgdl = item["ValueInMgPerDl"].as_float();
-				if (valueMgdl > 0) {
-					point.value = valueMgdl;
-				} else {
-					point.value = item["Value"].as_float() * 18.0;
-				}
-			} else {
-				// Use Value (mmol/L) directly
-				point.value = item["Value"].as_float();
-			}
-			
-			if (point.timestamp > 0 && point.value > 0) {
-				result.push_back(point);
-			}
-		}
-	
-	return result;
-}
-
 static void GraphThreadFunc(void *param)
 {
 	MCONTACT hContact = (MCONTACT)(uintptr_t)param;
@@ -656,6 +728,13 @@ static int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	Menu_ShowItem(g_hContactMenuGraph, g_plugin.getInstance(hContact) != nullptr);
 	return 0;
+}
+
+void RefreshGraphWindow()
+{
+	if (g_hGraphWindow && IsWindow(g_hGraphWindow)) {
+		SendMessage(g_hGraphWindow, WM_REFRESH_GRAPH, 0, 0);
+	}
 }
 
 void InitGraphMenu()
