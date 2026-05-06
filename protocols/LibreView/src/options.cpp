@@ -20,7 +20,7 @@ public:
 		CreateLink(edtInterval, m_proto->UpdateInterval);
 		CreateLink(chkWriteHistory, m_proto->WriteHistory);
 
-		// radMmol.OnChange = radMgdl.OnChange = Callback(this, &COptionsDlg::onChange_Units);
+		radMmol.OnChange = radMgdl.OnChange = Callback(this, &COptionsDlg::onChange_Units);
 	}
 
 	bool OnInitDialog() override

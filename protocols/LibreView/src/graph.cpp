@@ -195,8 +195,8 @@ private:
 		if (valueRange < 0.1) valueRange = 1.0; // avoid division by zero
 		maxValue += valueRange * 0.1;
 		
-		// Convert maxValue for grid calculation in mg/dL mode
-		double displayMaxValue = m_useMgdl ? maxValue * 18.0 : maxValue;
+		// Use maxValue directly for grid calculation (data is already in correct units)
+		double displayMaxValue = maxValue;
 		
 		// Get font and colors from FontService using LOGFONTW
 		LOGFONTW lf = {};
@@ -221,10 +221,8 @@ private:
 		COLORREF pointsColor = Colour_GetW(L"LibreView", L"Graph Points");
 		
 		// Fill the entire client area with background color FIRST
-		RECT clientRect;
-		GetClientRect(m_hwnd, &clientRect);
 		HBRUSH hBgBrush = CreateSolidBrush(bgColor);
-		FillRect(hdc, &clientRect, hBgBrush);
+		FillRect(hdc, &rc, hBgBrush);
 		DeleteObject(hBgBrush);
 		
 		// Create font from settings
@@ -319,7 +317,7 @@ private:
 						st.wMonth = tmCurrent->tm_mon + 1;
 						st.wDay = tmCurrent->tm_mday;
 						st.wHour = tmCurrent->tm_hour;
-						st.wMinute = tmCurrent->tm_min;
+						st.wMinute = 0;
 						st.wSecond = 0;
 						st.wMilliseconds = 0;
 						st.wDayOfWeek = tmCurrent->tm_wday;
@@ -350,32 +348,15 @@ private:
 		if (m_data.size() > 1) {
 			HPEN hLinePen = CreatePen(PS_SOLID, 2, lineColor);  // Configurable line color
 			HPEN hPointPen = CreatePen(PS_SOLID, 1, pointsColor);   // Configurable points border
-			HPEN hSmoothPen = CreatePen(PS_SOLID, 1, RGB(100, 100, 100)); // Lighter gray for smoothing
 			HBRUSH hPointBrush = CreateSolidBrush(pointsColor);   // Configurable points fill
 			
 			SelectObject(hdc, hLinePen);
 			
-			// Draw smoothed lines
-			SelectObject(hdc, hSmoothPen);
-			for (size_t i = 1; i < m_data.size(); i++) {
-				int x1 = graphLeft + (int)((double)(m_data[i-1].timestamp - minTime) / (maxTime - minTime) * graphWidth);
-				double value1 = m_useMgdl ? m_data[i-1].value * 18.0 : m_data[i-1].value;
-				double value2 = m_useMgdl ? m_data[i].value * 18.0 : m_data[i].value;
-				int y1 = graphBottom - (int)((value1 - minValue) / (displayMaxValue - minValue) * graphHeight);
-				int x2 = graphLeft + (int)((double)(m_data[i].timestamp - minTime) / (maxTime - minTime) * graphWidth);
-				int y2 = graphBottom - (int)((value2 - minValue) / (displayMaxValue - minValue) * graphHeight);
-				
-				// Draw anti-aliased line
-				MoveToEx(hdc, x1, y1, nullptr);
-				LineTo(hdc, x2, y2);
-			}
-			
 			// Draw main line - configurable color
-			SelectObject(hdc, hLinePen);
 			for (size_t i = 1; i < m_data.size(); i++) {
 				int x1 = graphLeft + (int)((double)(m_data[i-1].timestamp - minTime) / (maxTime - minTime) * graphWidth);
-				double value1 = m_useMgdl ? m_data[i-1].value * 18.0 : m_data[i-1].value;
-				double value2 = m_useMgdl ? m_data[i].value * 18.0 : m_data[i].value;
+				double value1 = m_data[i-1].value;
+				double value2 = m_data[i].value;
 				int y1 = graphBottom - (int)((value1 - minValue) / (displayMaxValue - minValue) * graphHeight);
 				int x2 = graphLeft + (int)((double)(m_data[i].timestamp - minTime) / (maxTime - minTime) * graphWidth);
 				int y2 = graphBottom - (int)((value2 - minValue) / (displayMaxValue - minValue) * graphHeight);
@@ -388,7 +369,7 @@ private:
 			SelectObject(hdc, hPointPen);
 			for (const auto& point : m_data) {
 				int x = graphLeft + (int)((double)(point.timestamp - minTime) / (maxTime - minTime) * graphWidth);
-				double value = m_useMgdl ? point.value * 18.0 : point.value;
+				double value = point.value;
 				int y = graphBottom - (int)((value - minValue) / (displayMaxValue - minValue) * graphHeight);
 				
 				HBRUSH hOldBrush = (HBRUSH)SelectObject(hdc, hPointBrush);
@@ -398,7 +379,6 @@ private:
 			
 			DeleteObject(hLinePen);
 			DeleteObject(hPointPen);
-			DeleteObject(hSmoothPen);
 			DeleteObject(hPointBrush);
 		}
 		
@@ -437,7 +417,7 @@ private:
 						// Format value with localized units
 						CMStringW valueStr;
 						if (m_useMgdl) {
-							valueStr.Format(L"%.0f %s", point.value * 18.0, TranslateT("mg/dL"));
+							valueStr.Format(L"%.0f %s", point.value, TranslateT("mg/dL"));
 						} else {
 							valueStr.Format(L"%.1f %s", point.value, TranslateT("mmol/L"));
 						}
@@ -538,7 +518,7 @@ private:
 	}
 };
 
-static std::vector<GraphDataPoint> ParseGraphData(const JSONNode& graphData)
+static std::vector<GraphDataPoint> ParseGraphData(const JSONNode& graphData, bool useMgdl)
 {
 	std::vector<GraphDataPoint> result;
 	
@@ -547,7 +527,20 @@ static std::vector<GraphDataPoint> ParseGraphData(const JSONNode& graphData)
 			
 			CMStringW timestamp = item["Timestamp"].as_mstring();
 			point.timestamp = ParseLibreTimestamp(timestamp);
-			point.value = item["Value"].as_float();
+			
+			// Use appropriate value field based on display units
+			if (useMgdl) {
+				// Use ValueInMgPerDl if available, otherwise convert Value
+				double valueMgdl = item["ValueInMgPerDl"].as_float();
+				if (valueMgdl > 0) {
+					point.value = valueMgdl;
+				} else {
+					point.value = item["Value"].as_float() * 18.0;
+				}
+			} else {
+				// Use Value (mmol/L) directly
+				point.value = item["Value"].as_float();
+			}
 			
 			if (point.timestamp > 0 && point.value > 0) {
 				result.push_back(point);
@@ -563,13 +556,15 @@ static void GraphThreadFunc(void *param)
 	CLibreViewProto *ppro = g_plugin.getInstance(hContact);
 	if (!ppro) return;
 	
+	bool useMgdl = ppro->DisplayUnits == 1;
+	
 	// Get graphData from database only
 	std::vector<GraphDataPoint> graphData;
 	CMStringA storedGraphData = ppro->getMStringA(hContact, "GraphData");
 	if (!storedGraphData.IsEmpty()) {
 		JSONNode jsonData = JSONNode::parse(storedGraphData.c_str());
 		if (!jsonData.empty()) {
-			graphData = ParseGraphData(jsonData);
+			graphData = ParseGraphData(jsonData, useMgdl);
 		}
 	}
 	
@@ -579,7 +574,26 @@ static void GraphThreadFunc(void *param)
 	
 	if (!currentValue.IsEmpty() && !currentTimestamp.IsEmpty()) {
 		GraphDataPoint currentPoint;
-		currentPoint.value = _wtof(currentValue.c_str());
+		
+		// Get API units from database
+		const int apiUnits = ppro ? ppro->getDword(hContact, "GlucoseUnits", 0) : 0;
+		const bool bApiMgdl = apiUnits == 1;
+		const bool bUseMgdl = ppro && ppro->DisplayUnits == 1;
+		
+		// Convert original API value to display units for graph
+		if (bApiMgdl && !bUseMgdl) {
+			// API mg/dL -> Display mmol/L (convert)
+			currentPoint.value = _wtof(currentValue.c_str()) / 18.0;
+		}
+		else if (!bApiMgdl && bUseMgdl) {
+			// API mmol/L -> Display mg/dL (convert)
+			currentPoint.value = _wtof(currentValue.c_str()) * 18.0;
+		}
+		else {
+			// No conversion needed
+			currentPoint.value = _wtof(currentValue.c_str());
+		}
+		
 		currentPoint.timestamp = ParseLibreTimestamp(currentTimestamp);
 		
 		// Add to graph data if not duplicate (check last point)
@@ -604,8 +618,6 @@ static void GraphThreadFunc(void *param)
 	} else {
 		title = TranslateT("Glucose History");
 	}
-	
-	bool useMgdl = ppro->DisplayUnits == 1;
 	
 	// Check if graph window is already open
 	if (g_hGraphWindow && IsWindow(g_hGraphWindow)) {

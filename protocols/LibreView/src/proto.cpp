@@ -302,30 +302,6 @@ static CMStringW FormatGlucoseValue(double value)
 	return result;
 }
 
-static CMStringW ConvertGlucoseForDisplay(const CMStringW &originalValue, bool bApiMgdl, bool bUseMgdl)
-{
-	if (originalValue.IsEmpty())
-		return CMStringW();
-
-	double value = _wtof(originalValue.c_str());
-
-	if (bApiMgdl && bUseMgdl) {
-		// API mg/dL -> Display mg/dL (no conversion)
-		return FormatGlucoseValue(value);
-	}
-	else if (bApiMgdl && !bUseMgdl) {
-		// API mg/dL -> Display mmol/L (convert)
-		return FormatGlucoseValue(value / 18.0);
-	}
-	else if (!bApiMgdl && bUseMgdl) {
-		// API mmol/L -> Display mg/dL (convert)
-		return FormatGlucoseValue(value * 18.0);
-	}
-	else {
-		// API mmol/L -> Display mmol/L (no conversion)
-		return FormatGlucoseValue(value);
-	}
-}
 
 static CMStringW GetGlucoseDbText(MCONTACT hContact, const char *pszSetting)
 {
@@ -504,7 +480,6 @@ bool CLibreViewProto::FetchGlucose()
 		return false;
 	}
 	CMStringW timestamp = measurement["Timestamp"].as_mstring();
-	// uint32_t timestampUnix = ParseLibreTimestamp(timestamp);
 
 	CMStringW trendText(TranslateW(TrendToText(trend)));
 	CMStringW trendArrow(TrendToArrow(trend));

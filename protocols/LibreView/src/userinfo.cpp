@@ -1,41 +1,5 @@
 #include "stdafx.h"
 
-static CMStringW ConvertGlucoseForDisplay(const CMStringW &originalValue, bool bApiMgdl, bool bUseMgdl)
-{
-	if (originalValue.IsEmpty())
-		return CMStringW();
-	
-	double value = _wtof(originalValue.c_str());
-	
-	if (bApiMgdl && bUseMgdl) {
-		// API mg/dL -> Display mg/dL (no conversion)
-		CMStringW result(FORMAT, L"%.1f", value);
-		if (result.Right(2) == L".0")
-			result.Truncate(result.GetLength() - 2);
-		return result;
-	}
-	else if (bApiMgdl && !bUseMgdl) {
-		// API mg/dL -> Display mmol/L (convert)
-		CMStringW result(FORMAT, L"%.1f", value / 18.0);
-		if (result.Right(2) == L".0")
-			result.Truncate(result.GetLength() - 2);
-		return result;
-	}
-	else if (!bApiMgdl && bUseMgdl) {
-		// API mmol/L -> Display mg/dL (convert)
-		CMStringW result(FORMAT, L"%.1f", value * 18.0);
-		if (result.Right(2) == L".0")
-			result.Truncate(result.GetLength() - 2);
-		return result;
-	}
-	else {
-		// API mmol/L -> Display mmol/L (no conversion)
-		CMStringW result(FORMAT, L"%.1f", value);
-		if (result.Right(2) == L".0")
-			result.Truncate(result.GetLength() - 2);
-		return result;
-	}
-}
 
 static CMStringW GetDbText(MCONTACT hContact, const char *pszSetting, const wchar_t *pwszDefault = L"")
 {
@@ -140,7 +104,6 @@ public:
 		// Parse and format last update timestamp
 		CMStringW rawTimestamp = GetDbText(m_hContact, "Timestamp");
 		if (!rawTimestamp.IsEmpty()) {
-			extern uint32_t ParseLibreTimestamp(const CMStringW &timestamp); // Forward declaration
 			uint32_t timestampUnix = ParseLibreTimestamp(rawTimestamp);
 			if (timestampUnix) {
 				wchar_t timestampBuf[64];
