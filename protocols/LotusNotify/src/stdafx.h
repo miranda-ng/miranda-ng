@@ -1,60 +1,121 @@
 #pragma once
 
-
-// Windows headers
 #include <windows.h>
-#include <commctrl.h>
-#include <assert.h>
+#include <time.h>
 
-// Miranda headers
-//LotusNotify.h
-
-#include <m_core.h>
 #include <newpluginapi.h>
-#include <m_clistint.h>
-#include <m_skin.h>
+#include <m_clc.h>
+#include <m_clist.h>
+#include <m_database.h>
+#include <m_fontservice.h>
+#include <m_history.h>
+#include <m_ignore.h>
+#include <m_json.h>
 #include <m_langpack.h>
+#include <m_netlib.h>
 #include <m_options.h>
 #include <m_popup.h>
-#include <m_utils.h>
+#include <m_protoint.h>
+#include <m_protocols.h>
 #include <m_protosvc.h>
-#include <m_system.h>
-#include <m_netlib.h>
+#include <m_skin.h>
+#include <m_timezones.h>
+#include <m_userinfo.h>
+#include <m_utils.h>
 
-// Notesapi headers
-#define W32
-#if defined(_WIN64)
-#define _AMD64_
-#endif
-#include "cnotesapi/include/global.h"
-#include "cnotesapi/include/osmisc.h"
-#include "cnotesapi/include/nsfdb.h"
-#include "cnotesapi/include/nsfsearc.h"
-#include "cnotesapi/include/names.h"
-#include "cnotesapi/include/osenv.h"
-#include "cnotesapi/include/extmgr.h"
-#include "cnotesapi/include/bsafeerr.h"
-#include "cnotesapi/include/nsferr.h"
+#include "resource.h"
 
-BOOL checkNotesIniFile(BOOL bInfo);
-void decodeServer(char *tmp);
-void deleteElements();
-void LoadSettings();
-void ErMsgByLotusCode(STATUS erno);
+#define MODULENAME "LibreView"
+#define DEFAULT_API_URL "https://api.libreview.ru"
+#define DEFAULT_API_VERSION "4.16.0"
 
-#define MAX_SETTING_STR 512
-#define MAX_FIELD 256
-#define STATUS_COUNT 9
+class CLibreViewProto;
 
-#define MODULENAME "LotusNotify"
+extern HNETLIBUSER hNetlibUser;
+extern UINT_PTR hTimer;
 
-extern char settingServer[MAX_SETTING_STR], settingServerSec[MAX_SETTING_STR], settingDatabase[MAX_SETTING_STR];
-extern char settingCommand[MAX_SETTING_STR], settingParameters[MAX_SETTING_STR], settingPassword[MAX_SETTING_STR];
-extern wchar_t settingFilterSubject[MAX_SETTING_STR], settingFilterSender[MAX_SETTING_STR], settingFilterTo[MAX_SETTING_STR];
+void Check_ThreadFunc(void *);
+void UpdateContactDisplay(MCONTACT);
+void RestartTimer();
+int UserInfoInit(WPARAM, LPARAM);
+uint32_t ParseLibreTimestamp(const CMStringW &timestamp);
+void RefreshGraphWindow();
+static inline CMStringW ConvertGlucoseForDisplay(const CMStringW &originalValue, bool bApiMgdl, bool bUseMgdl)
+{
+	if (originalValue.IsEmpty())
+		return CMStringW();
+	
+	double value = _wtof(originalValue.c_str());
+	
+	if (bApiMgdl && bUseMgdl) {
+		// API mg/dL -> Display mg/dL (no conversion)
+		CMStringW result(FORMAT, L"%.0f", value);
+		return result;
+	}
+	else if (bApiMgdl && !bUseMgdl) {
+		// API mg/dL -> Display mmol/L (convert)
+		CMStringW result(FORMAT, L"%.1f", value / 18.0);
+		if (result.Right(2) == L".0")
+			result.Truncate(result.GetLength() - 2);
+		return result;
+	}
+	else if (!bApiMgdl && bUseMgdl) {
+		// API mmol/L -> Display mg/dL (convert)
+		CMStringW result(FORMAT, L"%.0f", value * 18.0);
+		return result;
+	}
+	else {
+		// API mmol/L -> Display mmol/L (no conversion)
+		CMStringW result(FORMAT, L"%.1f", value);
+		if (result.Right(2) == L".0")
+			result.Truncate(result.GetLength() - 2);
+		return result;
+	}
+}
 
-extern COLORREF settingBgColor, settingFgColor;
-extern int settingInterval, settingInterval1;
-extern uint32_t settingNewestID;
-extern uint8_t settingSetColours, settingShowError, settingIniAnswer, settingIniCheck;
-extern uint8_t settingOnceOnly, settingNonClickedOnly, settingNewest, settingEvenNonClicked, settingKeepConnection;
-extern BOOL settingStatus[STATUS_COUNT];
+class CLibreViewProto : public PROTO<CLibreViewProto>
+{
+	mir_cs csLock;
+	bool bChecking = false;
+
+public:
+	CLibreViewProto(const char*, const wchar_t*);
+	~CLibreViewProto();
+
+	CMOption<uint32_t> UpdateInterval;
+	CMOption<uint32_t> DisplayUnits;
+	CMOption<bool> WriteHistory;
+
+	MCONTACT m_hContact;
+	CMStringA szToken, szAccountHash, szPatientId, szApiUrl, szMinVersion;
+	time_t tsLastUpdate = 0;
+
+	bool Login();
+	bool FetchConnections();
+	bool FetchGlucose();
+	void ClearAuth();
+
+	void CheckAccount();
+	void EnsureAccount();
+	MCONTACT EnsureAccountContact();
+
+	INT_PTR __cdecl Update(WPARAM, LPARAM);
+	int __cdecl OptInit(WPARAM, LPARAM);
+
+	INT_PTR GetCaps(int type, MCONTACT hContact = 0) override;
+	int SetStatus(int iNewStatus) override;
+	void OnModulesLoaded() override;
+	void OnShutdown() override;
+};
+
+typedef CProtoDlgBase<CLibreViewProto> CLibreViewDlgBase;
+
+struct CMPlugin : public ACCPROTOPLUGIN<CLibreViewProto>
+{
+	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
+};
+
+extern CMPlugin g_plugin;
