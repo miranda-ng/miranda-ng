@@ -13,7 +13,7 @@ void InitGraphMenu();
 
 static void AddLibreHeaders(MHttpRequest &request, const CLibreViewProto *pAcc = nullptr)
 {
-	request.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_REDIRECT | NLHRF_SSL;
+	request.flags = NLHRF_HTTP11 | NLHRF_REDIRECT | NLHRF_SSL | NLHRF_NODUMP;
 	request.AddHeader("Accept-Encoding", "gzip");
 	request.AddHeader("Cache-Control", "no-cache");
 	request.AddHeader("Connection", "Keep-Alive");
