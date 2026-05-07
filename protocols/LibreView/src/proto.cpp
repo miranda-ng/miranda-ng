@@ -454,11 +454,10 @@ bool CLibreViewProto::FetchGlucose()
 	if (!lastName.IsEmpty())
 		setWString(m_hContact, "LastName", lastName);
 
-	uint32_t sensorActivationLocal = connection["sensor"]["a"].as_int();
-	if (sensorActivationLocal) {
-		// API returns local time, convert to UTC using timezone offset
-		time_t utcTime = sensorActivationLocal + _timezone;
-		setDword(m_hContact, "SensorActivationTime", (uint32_t)utcTime);
+	uint32_t sensorActivationTime = connection["sensor"]["a"].as_int();
+	if (sensorActivationTime) {
+		// API returns GMT/UTC time, store as-is
+		setDword(m_hContact, "SensorActivationTime", sensorActivationTime);
 	}
 
 	JSONNode measurement = connection["glucoseMeasurement"];
