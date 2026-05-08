@@ -676,12 +676,6 @@ static void GraphThreadFunc(void *param)
 		}
 	}
 	
-	// If no data, show message
-	if (graphData.empty()) {
-		PUShowMessageW(TranslateT("No graph data available"), SM_NOTIFY);
-		return;
-	}
-	
 	// Build title as "Nick: Glucose history"
 	CMStringW nick = ppro->getMStringW(hContact, "Nick");
 	CMStringW title;
