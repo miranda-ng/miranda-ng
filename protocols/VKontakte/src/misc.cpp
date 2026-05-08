@@ -1111,8 +1111,8 @@ CMStringW CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC, MCO
 	if (!jnPhoto)
 		return wszRes;
 
-	CVKImageSizeItem vkSizes[9];
-	CMStringW wszPriorSize = L"smpqrxyzw", wszPreviewLink;
+	CVKImageSizeItem vkSizes[10];
+	CMStringW wszPriorSize = L"sompqrxyzw", wszPreviewLink = L"";
 	int iMaxSize = 0;
 	int iPreviewHeight = 300;
 
