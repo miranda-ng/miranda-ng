@@ -15,7 +15,7 @@ Authors: Yevgeny, YurasiK, Yury A. Marcinchick
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.7
+;  Version: 0.96.8
 ;============================================================
 [Become idle if the following is left unattended:]
 Перейти в режим ожидания, если неактивны:
@@ -1039,6 +1039,8 @@ UIN, E-mail и т.д.
 Один щелчок
 [Always show status in tooltip]
 Всегда показывать статус в подсказке
+[Hide offline users in root]
+Скрывать отключённых пользователей в корне
 [Default settings for known event types]
 Настройки для известных типов событий
 [Popup]
@@ -16779,11 +16781,9 @@ Scroll
 ;============================================================
 ;  File: LibreView.dll
 ;  Plugin: LibreView
-;  Version: 0.1.0.1
+;  Version: 0.1.1.0
 ;  Authors: Miranda NG team
 ;============================================================
-[Retrieves glucose data from LibreView service and displays it in your contact list.]
-Запрос и отображение в списке контактов информации о содержание сахара в крови с сервиса LibreView.
 [Email:]
 Почта:
 [Password:]
@@ -16803,13 +16803,11 @@ API URL:
 [Write data to history]
 Записывать в историю
 [Patient:]
-Пациент
-[Current glucose:]
-Текущий показатель:
+Пациент:
 [Sensor activation:]
 Дата активации:
 [Sensor remaining:]
-Оставшееся время работы
+Оставшееся время:
 [Last update:]
 Последнее обновление:
 [updating...]
@@ -16817,23 +16815,35 @@ API URL:
 [LibreView update failed]
 Не удалось получить данные
 [error]
-Ошибка
+ошибка
 [LibreView]
 LibreView
 [&Update data]
 &Обновить данные
 [Network]
 Сеть
+[Login failed]
+Не удалось войти
+[Login error]
+Ошибка входа
+[falling quickly]
+быстро снижается
 [falling]
 Падает
 [steady]
-Не изм.
+стабилен
 [rising]
-Растёт
+растёт
+[rising quickly]
+быстро растёт
+[trend unknown]
+динамика неизвестна
+[Failed to connect to LibreView server. Please check your internet connection and try again.]
+Не удалось соединиться с сервером LibreView. Проверьте наличие доступа в сеть и попробуйте снова.
 [N/A]
 Недоступен
 [Expired]
-Истёк
+Истекло
 [%d days %d hours]
 %d дней %d часов
 [%d hours %d minutes]
