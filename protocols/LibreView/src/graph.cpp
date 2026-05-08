@@ -185,12 +185,12 @@ public:
 			}
 		}
 		
-		// Add current Value as last point if available
-		CMStringW currentValue = ppro->getMStringW(hContact, "Value");
-		CMStringW currentTimestamp = ppro->getMStringW(hContact, "Timestamp");
+		// Add Value as last point if available
+		CMStringW lastValue = ppro->getMStringW(hContact, "Value");
+		CMStringW lastTimestamp = ppro->getMStringW(hContact, "Timestamp");
 		
-		if (!currentValue.IsEmpty() && !currentTimestamp.IsEmpty()) {
-			GraphDataPoint currentPoint;
+		if (!lastValue.IsEmpty() && !lastTimestamp.IsEmpty()) {
+			GraphDataPoint lastPoint;
 			
 			// Get API units from database
 			const int apiUnits = ppro->getDword(hContact, "GlucoseUnits", 0);
@@ -200,24 +200,24 @@ public:
 			// Convert original API value to display units for graph
 			if (bApiMgdl && !bUseMgdl) {
 				// API mg/dL -> Display mmol/L (convert)
-				currentPoint.value = _wtof(currentValue.c_str()) / 18.0;
+				lastPoint.value = _wtof(lastValue.c_str()) / 18.0;
 			}
 			else if (!bApiMgdl && bUseMgdl) {
 				// API mmol/L -> Display mg/dL (convert)
-				currentPoint.value = _wtof(currentValue.c_str()) * 18.0;
+				lastPoint.value = _wtof(lastValue.c_str()) * 18.0;
 			}
 			else {
 				// No conversion needed
-				currentPoint.value = _wtof(currentValue.c_str());
+				lastPoint.value = _wtof(lastValue.c_str());
 			}
 			
-			currentPoint.timestamp = ParseLibreTimestamp(currentTimestamp);
+			lastPoint.timestamp = ParseLibreTimestamp(lastTimestamp);
 			
 			// Add to graph data if not duplicate (check last point)
 			if (newGraphData.empty() || 
-				newGraphData.back().timestamp != currentPoint.timestamp ||
-				newGraphData.back().value != currentPoint.value) {
-				newGraphData.push_back(currentPoint);
+				newGraphData.back().timestamp != lastPoint.timestamp ||
+				newGraphData.back().value != lastPoint.value) {
+				newGraphData.push_back(lastPoint);
 			}
 		}
 		
@@ -640,12 +640,12 @@ static void GraphThreadFunc(void *param)
 		}
 	}
 	
-	// Add current Value as last point if available
-	CMStringW currentValue = ppro->getMStringW(hContact, "Value");
-	CMStringW currentTimestamp = ppro->getMStringW(hContact, "Timestamp");
+	// Add Value as last point if available
+	CMStringW lastValue = ppro->getMStringW(hContact, "Value");
+	CMStringW lastTimestamp = ppro->getMStringW(hContact, "Timestamp");
 	
-	if (!currentValue.IsEmpty() && !currentTimestamp.IsEmpty()) {
-		GraphDataPoint currentPoint;
+	if (!lastValue.IsEmpty() && !lastTimestamp.IsEmpty()) {
+		GraphDataPoint lastPoint;
 		
 		// Get API units from database
 		const int apiUnits = ppro ? ppro->getDword(hContact, "GlucoseUnits", 0) : 0;
@@ -655,24 +655,24 @@ static void GraphThreadFunc(void *param)
 		// Convert original API value to display units for graph
 		if (bApiMgdl && !bUseMgdl) {
 			// API mg/dL -> Display mmol/L (convert)
-			currentPoint.value = _wtof(currentValue.c_str()) / 18.0;
+			lastPoint.value = _wtof(lastValue.c_str()) / 18.0;
 		}
 		else if (!bApiMgdl && bUseMgdl) {
 			// API mmol/L -> Display mg/dL (convert)
-			currentPoint.value = _wtof(currentValue.c_str()) * 18.0;
+			lastPoint.value = _wtof(lastValue.c_str()) * 18.0;
 		}
 		else {
 			// No conversion needed
-			currentPoint.value = _wtof(currentValue.c_str());
+			lastPoint.value = _wtof(lastValue.c_str());
 		}
 		
-		currentPoint.timestamp = ParseLibreTimestamp(currentTimestamp);
+		lastPoint.timestamp = ParseLibreTimestamp(lastTimestamp);
 		
 		// Add to graph data if not duplicate (check last point)
 		if (graphData.empty() || 
-			graphData.back().timestamp != currentPoint.timestamp ||
-			graphData.back().value != currentPoint.value) {
-			graphData.push_back(currentPoint);
+			graphData.back().timestamp != lastPoint.timestamp ||
+			graphData.back().value != lastPoint.value) {
+			graphData.push_back(lastPoint);
 		}
 	}
 	

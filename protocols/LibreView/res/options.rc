@@ -35,8 +35,8 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Patient:",IDC_STATIC,10,18,90,9,0,WS_EX_RIGHT
     LTEXT           "",IDC_PATIENT,104,18,198,9
-    LTEXT           "Current glucose:",IDC_STATIC,10,34,90,9,0,WS_EX_RIGHT
-    LTEXT           "",IDC_CURRENT,104,34,198,9
+    LTEXT           "Last glucose:",IDC_STATIC,10,34,90,9,0,WS_EX_RIGHT
+    LTEXT           "",IDC_LAST_GLUCOSE,104,34,198,9
     LTEXT           "Sensor activation:",IDC_STATIC,10,50,90,9,0,WS_EX_RIGHT
     LTEXT           "",IDC_SENSOR_ACTIVATION,104,50,198,9
     LTEXT           "Sensor remaining:",IDC_STATIC,10,66,90,9,0,WS_EX_RIGHT

@@ -12,7 +12,7 @@
 #define IDC_STATIC_INTERVAL             1012
 #define IDC_STATIC_MINUTES              1013
 #define IDC_PATIENT                     1014
-#define IDC_CURRENT                     1015
+#define IDC_LAST_GLUCOSE                1015
 #define IDC_SENSOR_ACTIVATION           1016
 #define IDC_LAST_UPDATE                 1019
 #define IDC_UNIT_MMOL                   1020

@@ -73,24 +73,25 @@ public:
 		if (patient.IsEmpty())
 			patient = TranslateT("LibreView");
 
+		SetDlgItemText(m_hwnd, IDC_PATIENT, patient);
+
 		CMStringW originalValue = GetDbText(m_hContact, "Value");
 		CLibreViewProto *ppro = g_plugin.getInstance(m_hContact);
 		const bool bUseMgdl = ppro && ppro->DisplayUnits == 1;
-	
+
 		// Get API units from database
 		const int apiUnits = ppro ? ppro->getDword(m_hContact, "GlucoseUnits", 0) : 0;
 		const bool bApiMgdl = apiUnits == 1;
-	
+
 		// Convert original API value to display units
 		CMStringW displayValue = ConvertGlucoseForDisplay(originalValue, bApiMgdl, bUseMgdl);
-	
-		const wchar_t *pwszUnit = GetLocalizedUnitByKey(bUseMgdl ? L"mg/dL" : L"mmol/L");
-		CMStringW current;
-		if (!displayValue.IsEmpty())
-			current.Format(L"%s %s", displayValue.c_str(), pwszUnit);
 
-		SetDlgItemText(m_hwnd, IDC_PATIENT, patient);
-		SetDlgItemText(m_hwnd, IDC_CURRENT, current);
+		const wchar_t *pwszUnit = GetLocalizedUnitByKey(bUseMgdl ? L"mg/dL" : L"mmol/L");
+		CMStringW lastValue;
+		if (!displayValue.IsEmpty())
+			lastValue.Format(L"%s %s", displayValue.c_str(), pwszUnit);
+
+		SetDlgItemText(m_hwnd, IDC_LAST_GLUCOSE, lastValue);
 		uint32_t activationTime = ppro ? ppro->getDword(m_hContact, "SensorActivationTime", 0) : 0;
 		if (activationTime) {
 			wchar_t buf[64];
