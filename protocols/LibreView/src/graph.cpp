@@ -682,13 +682,13 @@ static void GraphThreadFunc(void *param)
 		return;
 	}
 	
-	// Build title as "Nick: Glucose History"
+	// Build title as "Nick: Glucose history"
 	CMStringW nick = ppro->getMStringW(hContact, "Nick");
 	CMStringW title;
 	if (!nick.IsEmpty()) {
-		title.Format(L"%s: %s", nick.c_str(), TranslateT("Glucose History"));
+		title.Format(L"%s: %s", nick.c_str(), TranslateT("Glucose history"));
 	} else {
-		title = TranslateT("Glucose History");
+		title = TranslateT("Glucose history");
 	}
 	
 	// Check if graph window is already open
@@ -746,7 +746,7 @@ void InitGraphMenu()
 	SET_UID(mi, 0x82c22dbc, 0x9768, 0x4c1c, 0x9d, 0x72, 0x8d, 0x63, 0x3f, 0xf0, 0xe1, 0xae);
 	mi.position = -0x7FFFFFFF + 1;
 	mi.hIcolibItem = Skin_GetProtoIcon(MODULENAME, ID_STATUS_ONLINE);
-	mi.name.a = LPGEN("&Glucose History");
+	mi.name.a = LPGEN("&Glucose history");
 	mi.pszService = MODULENAME "/Graph";
 	g_hContactMenuGraph = Menu_AddContactMenuItem(&mi);
 	

@@ -218,7 +218,7 @@ bool CLibreViewProto::Login()
 				errorMsg = TranslateT("Login failed");
 
 			// Show popup notification
-			PUShowMessageW(CMStringW(FORMAT, L"%s: %s", TranslateT("Login Error"), errorMsg.c_str()), SM_ERROR);
+			PUShowMessageW(CMStringW(FORMAT, L"%s: %s", TranslateT("Login error"), errorMsg.c_str()), SM_ERROR);
 			return false;
 		}
 
