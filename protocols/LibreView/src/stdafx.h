@@ -49,9 +49,7 @@ static inline CMStringW ConvertGlucoseForDisplay(const CMStringW &originalValue,
 	
 	if (bApiMgdl && bUseMgdl) {
 		// API mg/dL -> Display mg/dL (no conversion)
-		CMStringW result(FORMAT, L"%.1f", value);
-		if (result.Right(2) == L".0")
-			result.Truncate(result.GetLength() - 2);
+		CMStringW result(FORMAT, L"%.0f", value);
 		return result;
 	}
 	else if (bApiMgdl && !bUseMgdl) {
@@ -63,9 +61,7 @@ static inline CMStringW ConvertGlucoseForDisplay(const CMStringW &originalValue,
 	}
 	else if (!bApiMgdl && bUseMgdl) {
 		// API mmol/L -> Display mg/dL (convert)
-		CMStringW result(FORMAT, L"%.1f", value * 18.0);
-		if (result.Right(2) == L".0")
-			result.Truncate(result.GetLength() - 2);
+		CMStringW result(FORMAT, L"%.0f", value * 18.0);
 		return result;
 	}
 	else {
