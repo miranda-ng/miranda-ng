@@ -75,7 +75,8 @@ CLibreViewProto::CLibreViewProto(const char *protoName, const wchar_t *userName)
 	PROTO<CLibreViewProto>(protoName, userName),
 	UpdateInterval(m_szModuleName, "UpdateInterval", db_get_dw(0, MODULENAME, "UpdateInterval", 5)),
 	DisplayUnits(m_szModuleName, "DisplayUnits", db_get_dw(0, MODULENAME, "DisplayUnits", 0)),
-	WriteHistory(m_szModuleName, "WriteHistory", db_get_b(0, MODULENAME, "WriteHistory", 0) != 0)
+	WriteHistory(m_szModuleName, "WriteHistory", db_get_b(0, MODULENAME, "WriteHistory", 0) != 0),
+	Offset(m_szModuleName, "Offset", 0)
 {
 	EnsureAccount();
 
@@ -346,10 +347,11 @@ void UpdateContactDisplay(MCONTACT hContact)
 	// Get API units from database
 	const int apiUnits = ppro ? ppro->getDword(hContact, "GlucoseUnits", 0) : 0;
 	const bool bApiMgdl = apiUnits == 1;
+	const int offset = ppro ? ppro->Offset : 0;
 
 	// Get stored original API value and convert for display
 	CMStringW originalValueText = GetGlucoseDbText(hContact, "Value");
-	CMStringW valueText = ConvertGlucoseForDisplay(originalValueText, bApiMgdl, bUseMgdl);
+	CMStringW valueText = ConvertGlucoseForDisplay(originalValueText, bApiMgdl, bUseMgdl, offset);
 
 	const wchar_t *pwszUnit = GetLocalizedUnit(bUseMgdl);
 	int trendValue = ppro->getDword(hContact, "TrendArrow", 0);
@@ -388,12 +390,13 @@ static void AddHistoryEvent(MCONTACT hContact, const CMStringW &timestamp)
 	const bool bUseMgdl = ppro->DisplayUnits == 1;
 	const int apiUnits = ppro->getDword(hContact, "GlucoseUnits", 0);
 	const bool bApiMgdl = apiUnits == 1;
+	const int offset = ppro->Offset;
 	const wchar_t *pwszUnit = GetLocalizedUnit(bUseMgdl);
 	int trendValue = ppro->getDword(hContact, "TrendArrow", 0);
 	CMStringW trendArrow(TrendToArrow(trendValue));
 
 	// Get original API value and convert for history
-	CMStringW historyValueText = ConvertGlucoseForDisplay(originalValueText, bApiMgdl, bUseMgdl);
+	CMStringW historyValueText = ConvertGlucoseForDisplay(originalValueText, bApiMgdl, bUseMgdl, offset);
 
 	CMStringW message(FORMAT, L"%s %s", historyValueText.c_str(), pwszUnit);
 	if (!trendArrow.IsEmpty())

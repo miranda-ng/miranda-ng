@@ -2,7 +2,7 @@
 
 class COptionsDlg : public CLibreViewDlgBase
 {
-	CCtrlEdit edtEmail, edtPassword, edtApiUrl, edtInterval;
+	CCtrlEdit edtEmail, edtPassword, edtApiUrl, edtInterval, edtOffset;
 	CCtrlCheck radMmol, radMgdl;
 	CCtrlCheck chkWriteHistory;
 
@@ -13,6 +13,7 @@ public:
 		edtPassword(this, IDC_PASSWORD),
 		edtApiUrl(this, IDC_APIURL),
 		edtInterval(this, IDC_INTERVAL),
+		edtOffset(this, IDC_OFFSET),
 		radMmol(this, IDC_UNIT_MMOL),
 		radMgdl(this, IDC_UNIT_MGDL),
 		chkWriteHistory(this, IDC_WRITE_HISTORY)
@@ -30,6 +31,12 @@ public:
 			radMgdl.SetState(true);
 		else
 			radMmol.SetState(true);
+		
+		// Load offset value (convert from uint32_t to int for display)
+		int offsetValue = (int)m_proto->Offset;
+		CMStringW wszOffset(FORMAT, L"%d", offsetValue);
+		edtOffset.SetText(wszOffset);
+		
 		OnChange();
 		return true;
 	}
@@ -82,9 +89,19 @@ public:
 		m_proto->ClearAuth();
 
 		m_proto->DisplayUnits = radMgdl.IsChecked() ? 1 : 0;
+		
+		// Parse and save offset value
+		ptrW wszOffset(edtOffset.GetText());
+		if (!mir_wstrlen(wszOffset)) {
+			m_proto->Offset = 0;
+		}
+		else {
+			m_proto->Offset = _wtoi(wszOffset);
+		}
+		
 		UpdateContactDisplay(m_proto->m_hContact);
 
-		// Refresh graph if open (event 3: DisplayUnits setting changes)
+		// Refresh graph if open (event 3: DisplayUnits or Offset setting changes)
 		RefreshGraphWindow();
 
 		RestartTimer();

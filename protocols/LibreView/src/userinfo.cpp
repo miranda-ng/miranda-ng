@@ -82,9 +82,10 @@ public:
 		// Get API units from database
 		const int apiUnits = ppro ? ppro->getDword(m_hContact, "GlucoseUnits", 0) : 0;
 		const bool bApiMgdl = apiUnits == 1;
+		const int offset = ppro ? ppro->Offset : 0;
 
 		// Convert original API value to display units
-		CMStringW displayValue = ConvertGlucoseForDisplay(originalValue, bApiMgdl, bUseMgdl);
+		CMStringW displayValue = ConvertGlucoseForDisplay(originalValue, bApiMgdl, bUseMgdl, offset);
 
 		const wchar_t *pwszUnit = GetLocalizedUnitByKey(bUseMgdl ? L"mg/dL" : L"mmol/L");
 		CMStringW lastValue;

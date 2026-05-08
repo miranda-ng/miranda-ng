@@ -60,7 +60,7 @@ struct GraphDataPoint {
 	int trendArrow;
 };
 
-static std::vector<GraphDataPoint> ParseGraphData(const JSONNode& graphData, bool useMgdl)
+static std::vector<GraphDataPoint> ParseGraphData(const JSONNode& graphData, bool useMgdl, bool bApiMgdl, int offset)
 {
 	std::vector<GraphDataPoint> result;
 	
@@ -70,18 +70,32 @@ static std::vector<GraphDataPoint> ParseGraphData(const JSONNode& graphData, boo
 			CMStringW timestamp = item["Timestamp"].as_mstring();
 			point.timestamp = ParseLibreTimestamp(timestamp);
 			
-			// Use appropriate value field based on display units
+			// Get raw value from appropriate field based on API units
+			double rawValue;
+			if (bApiMgdl) {
+				rawValue = item["ValueInMgPerDl"].as_float();
+			} else {
+				rawValue = item["Value"].as_float();
+			}
+			
+			// Apply offset BEFORE unit conversion (in API units)
+			rawValue += (double)offset;
+			
+			// Convert to display units
 			if (useMgdl) {
-				// Use ValueInMgPerDl if available, otherwise convert Value
-				double valueMgdl = item["ValueInMgPerDl"].as_float();
-				if (valueMgdl > 0) {
-					point.value = valueMgdl;
+				// Display in mg/dL
+				if (bApiMgdl) {
+					point.value = rawValue;
 				} else {
-					point.value = item["Value"].as_float() * 18.0;
+					point.value = rawValue * 18.0;
 				}
 			} else {
-				// Use Value (mmol/L) directly
-				point.value = item["Value"].as_float();
+				// Display in mmol/L
+				if (bApiMgdl) {
+					point.value = rawValue / 18.0;
+				} else {
+					point.value = rawValue;
+				}
 			}
 			
 			if (point.timestamp > 0 && point.value > 0) {
@@ -175,13 +189,18 @@ public:
 		// Update m_useMgdl from current settings
 		m_useMgdl = ppro->DisplayUnits == 1;
 		
+		// Get API units and offset from database
+		const int apiUnits = ppro->getDword(hContact, "GlucoseUnits", 0);
+		const bool bApiMgdl = apiUnits == 1;
+		int offset = ppro->Offset;
+		
 		// Reload graphData from database
 		std::vector<GraphDataPoint> newGraphData;
 		CMStringA storedGraphData = ppro->getMStringA(hContact, "GraphData");
 		if (!storedGraphData.IsEmpty()) {
 			JSONNode jsonData = JSONNode::parse(storedGraphData.c_str());
 			if (!jsonData.empty()) {
-				newGraphData = ParseGraphData(jsonData, m_useMgdl);
+				newGraphData = ParseGraphData(jsonData, m_useMgdl, bApiMgdl, offset);
 			}
 		}
 		
@@ -192,31 +211,31 @@ public:
 		if (!lastValue.IsEmpty() && !lastTimestamp.IsEmpty()) {
 			GraphDataPoint lastPoint;
 			
-			// Get API units from database
-			const int apiUnits = ppro->getDword(hContact, "GlucoseUnits", 0);
-			const bool bApiMgdl = apiUnits == 1;
 			const bool bUseMgdl = ppro->DisplayUnits == 1;
 			
-			// Convert original API value to display units for graph
+			// Apply offset to original API value, then convert to display units
+			double rawValue = _wtof(lastValue.c_str()) + (double)offset;
+			
+			// Convert to display units for graph
 			if (bApiMgdl && !bUseMgdl) {
 				// API mg/dL -> Display mmol/L (convert)
-				lastPoint.value = _wtof(lastValue.c_str()) / 18.0;
+				lastPoint.value = rawValue / 18.0;
 			}
 			else if (!bApiMgdl && bUseMgdl) {
 				// API mmol/L -> Display mg/dL (convert)
-				lastPoint.value = _wtof(lastValue.c_str()) * 18.0;
+				lastPoint.value = rawValue * 18.0;
 			}
 			else {
 				// No conversion needed
-				lastPoint.value = _wtof(lastValue.c_str());
+				lastPoint.value = rawValue;
 			}
 			
 			lastPoint.timestamp = ParseLibreTimestamp(lastTimestamp);
 			
-			// Add to graph data if not duplicate (check last point)
-			if (newGraphData.empty() || 
+			// Add to graph data if not duplicate and value is positive (check last point)
+			if (lastPoint.value > 0 && (newGraphData.empty() || 
 				newGraphData.back().timestamp != lastPoint.timestamp ||
-				newGraphData.back().value != lastPoint.value) {
+				newGraphData.back().value != lastPoint.value)) {
 				newGraphData.push_back(lastPoint);
 			}
 		}
@@ -630,13 +649,18 @@ static void GraphThreadFunc(void *param)
 	
 	bool useMgdl = ppro->DisplayUnits == 1;
 	
+	// Get API units and offset from database
+	const int apiUnits = ppro->getDword(hContact, "GlucoseUnits", 0);
+	const bool bApiMgdl = apiUnits == 1;
+	double offset = ppro->Offset;
+	
 	// Get graphData from database only
 	std::vector<GraphDataPoint> graphData;
 	CMStringA storedGraphData = ppro->getMStringA(hContact, "GraphData");
 	if (!storedGraphData.IsEmpty()) {
 		JSONNode jsonData = JSONNode::parse(storedGraphData.c_str());
 		if (!jsonData.empty()) {
-			graphData = ParseGraphData(jsonData, useMgdl);
+			graphData = ParseGraphData(jsonData, useMgdl, bApiMgdl, offset);
 		}
 	}
 	
@@ -646,32 +670,31 @@ static void GraphThreadFunc(void *param)
 	
 	if (!lastValue.IsEmpty() && !lastTimestamp.IsEmpty()) {
 		GraphDataPoint lastPoint;
-		
-		// Get API units from database
-		const int apiUnits = ppro ? ppro->getDword(hContact, "GlucoseUnits", 0) : 0;
-		const bool bApiMgdl = apiUnits == 1;
 		const bool bUseMgdl = ppro && ppro->DisplayUnits == 1;
 		
-		// Convert original API value to display units for graph
+		// Apply offset to original API value, then convert to display units
+		double rawValue = _wtof(lastValue.c_str()) + (double)offset;
+		
+		// Convert to display units for graph
 		if (bApiMgdl && !bUseMgdl) {
 			// API mg/dL -> Display mmol/L (convert)
-			lastPoint.value = _wtof(lastValue.c_str()) / 18.0;
+			lastPoint.value = rawValue / 18.0;
 		}
 		else if (!bApiMgdl && bUseMgdl) {
 			// API mmol/L -> Display mg/dL (convert)
-			lastPoint.value = _wtof(lastValue.c_str()) * 18.0;
+			lastPoint.value = rawValue * 18.0;
 		}
 		else {
 			// No conversion needed
-			lastPoint.value = _wtof(lastValue.c_str());
+			lastPoint.value = rawValue;
 		}
 		
 		lastPoint.timestamp = ParseLibreTimestamp(lastTimestamp);
 		
-		// Add to graph data if not duplicate (check last point)
-		if (graphData.empty() || 
+		// Add to graph data if not duplicate and value is positive (check last point)
+		if (lastPoint.value > 0 && (graphData.empty() || 
 			graphData.back().timestamp != lastPoint.timestamp ||
-			graphData.back().value != lastPoint.value) {
+			graphData.back().value != lastPoint.value)) {
 			graphData.push_back(lastPoint);
 		}
 	}
