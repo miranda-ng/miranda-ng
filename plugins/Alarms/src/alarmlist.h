@@ -57,18 +57,23 @@ public:
 	int size() {return count;}
 
 	ALARM &at(int index) {
+		static ALARM empty = {};
+
+		if (head == nullptr || count <= 0)
+			return empty;
+
 		int i = 0;
 		Node *current = head;
 		while(i < index && i < count && current) {
 			current = current->next;
 			i++;
 		}
-		return current->alarm;
+		return current ? current->alarm : empty;
 	}
 
 	void reset() {it_current = head;}
 	ALARM *current() {return (it_current ? &it_current->alarm : nullptr);}
-	void next() {it_current = it_current->next;}
+	void next() {if (it_current) it_current = it_current->next;}
 	void erase() {
 		if (it_current) {
 			if (it_current->next) it_current->next->prev = it_current->prev;
