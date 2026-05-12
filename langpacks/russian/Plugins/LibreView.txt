@@ -24,6 +24,10 @@ API URL:
 ммоль/л
 [mg/dL]
 мг/дл
+[Offset:]
+Смещение:
+[(added before unit conversion)]
+(добавляется до преобразования единиц измерения)
 [Write data to history]
 Записывать в историю
 [Patient:]

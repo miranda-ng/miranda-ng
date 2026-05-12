@@ -16784,6 +16784,8 @@ Scroll
 ;  Version: 0.1.1.0
 ;  Authors: Miranda NG team
 ;============================================================
+[Retrieves blood glucose data from LibreView service and displays it in your contact list.]
+Запрос и отображение в списке контактов информации о содержание глюкозы в крови с сервиса LibreView.
 [Email:]
 Почта:
 [Password:]
@@ -16804,18 +16806,26 @@ API URL:
 Записывать в историю
 [Patient:]
 Пациент:
+[Last glucose:]
+Последний показатель:
 [Sensor activation:]
 Дата активации:
 [Sensor remaining:]
 Оставшееся время:
 [Last update:]
 Последнее обновление:
+[Glucose history]
+История
 [updating...]
 обновление...
 [LibreView update failed]
 Не удалось получить данные
 [error]
 ошибка
+[No data available]
+Нет данных
+[&Glucose history]
+&История
 [LibreView]
 LibreView
 [&Update data]
@@ -16829,7 +16839,7 @@ LibreView
 [falling quickly]
 быстро снижается
 [falling]
-Падает
+снижается
 [steady]
 стабилен
 [rising]
@@ -30694,7 +30704,7 @@ x, и сохраняет y, как переменную с именем x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.19.7
+;  Version: 0.1.19.8
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
