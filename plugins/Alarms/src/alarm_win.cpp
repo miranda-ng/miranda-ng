@@ -239,7 +239,6 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				KillTimer(hwndDlg, ID_TIMER_SOUND);
 				if (wd) {
 					if (wd->alarm) {
-						free_alarm_data(wd->alarm);
 						delete wd->alarm;
 					}
 					delete wd;

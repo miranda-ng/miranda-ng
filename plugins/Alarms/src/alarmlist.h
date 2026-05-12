@@ -7,114 +7,41 @@
 
 #include "m_alarms.h"
 
-void free_alarm_data(ALARM *alarm);
+struct ALARM
+{
+	ALARM()
+	{
+		memset(this, 0, sizeof(*this));
+	}
 
-void copy_alarm_data(ALARM *dest, ALARM *src);
+	ALARM(const ALARM &p)
+	{
+		szTitle = mir_wstrdup(p.szTitle);
+		szDesc = mir_wstrdup(p.szDesc);
+		szCommand = mir_wstrdup(p.szCommand);
+		szCommandParams = mir_wstrdup(p.szCommandParams);
+		memcpy(&id, &p.id, FIELD_OFFSET(ALARM, szTitle));
+	}
+
+	unsigned short id;
+	Occurrence occurrence;
+	BOOL snoozer = 0;
+	SYSTEMTIME time;
+	unsigned short action;
+	uint8_t sound_num;
+	int flags, day_mask;
+
+	ptrW szTitle, szDesc;
+	ptrW szCommand;
+	ptrW szCommandParams;
+};
+
+int CompareAlarms(const ALARM *a1, const ALARM *a2);
 
 int MinutesInFuture(SYSTEMTIME time, Occurrence occ, int selected_days = 0);
 void TimeForMinutesInFuture(int mins, SYSTEMTIME *time);
 
-static bool operator<(const ALARM &a1, const ALARM &a2) {
-	return MinutesInFuture(a1.time, a1.occurrence, a1.day_mask) < MinutesInFuture(a2.time, a2.occurrence, a2.day_mask); // less-than inverted 'cause we want ascending order
-}
-
-class AlarmList {
-public:
-	AlarmList(): head(nullptr), tail(nullptr), count(0) {}
-
-	virtual ~AlarmList() {clear();}
-
-	void sort() {
-		if (count < 2) return;
-
-		Node *c1 = head, *c2;
-		// bubble sort...hey, i'm lazy :)
-		while(c1) {
-			c2 = c1->next;
-			while(c2) {
-				if (c2->alarm < c1->alarm) {
-					swap (c1, c2);
-				}
-				c2 = c2->next;
-			}
-			c1 = c1->next;
-		}
-	}
-
-	void clear() {
-		Node *current;
-		while(head) {
-			current = head;
-			head = head->next;
-			free_alarm_data(&current->alarm);
-			delete current;
-		}
-		count = 0;
-		tail = nullptr;
-		reset();
-	}
-
-	int size() {return count;}
-
-	ALARM &at(int index) {
-		int i = 0;
-		Node *current = head;
-		while(i < index && i < count && current) {
-			current = current->next;
-			i++;
-		}
-		return current->alarm;
-	}
-
-	void reset() {it_current = head;}
-	ALARM *current() {return (it_current ? &it_current->alarm : nullptr);}
-	void next() {it_current = it_current->next;}
-	void erase() {
-		if (it_current) {
-			if (it_current->next) it_current->next->prev = it_current->prev;
-			if (it_current->prev) it_current->prev->next = it_current->next;
-
-			if (tail == it_current) tail = tail->prev;
-			if (head == it_current) head = head->next;
-
-			free_alarm_data(&it_current->alarm);
-			delete it_current;
-			count--;
-			reset();
-		}
-	}
-
-	// copies the alarm into the list
-	void push_back(ALARM *alarm) {
-		Node *nn = new Node;
-		memset(&nn->alarm, 0, sizeof(ALARM));
-		copy_alarm_data(&nn->alarm, alarm);
-
-		nn->prev = tail;
-		if (tail) tail->next = nn;
-		tail = nn;
-
-		if (!head) head = tail;
-		count++;
-	}
-
-protected:
-	class Node {
-	public:
-		Node(): next(nullptr), prev(nullptr) {}
-		ALARM alarm;
-		Node *next, *prev;
-	};
-
-	Node *head, *tail, *it_current;
-	int count;
-
-	void swap(Node *n1, Node *n2) {
-		ALARM temp = n1->alarm;
-		n1->alarm = n2->alarm;
-		n2->alarm = temp;
-	}
-};
+typedef OBJLIST<ALARM> AlarmList;
 
 //extern AlarmList alarms;
 
@@ -139,7 +66,6 @@ void GetPluginTime(SYSTEMTIME *t);
 
 // increase 'time' to next occurrence
 bool UpdateAlarm(SYSTEMTIME &time, Occurrence occ, int selected_days = 0);
-
 
 const ULARGE_INTEGER mult = { 600000000, 0}; // number of 100 microsecond blocks in a minute
 

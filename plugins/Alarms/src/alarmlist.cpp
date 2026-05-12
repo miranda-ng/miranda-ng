@@ -1,6 +1,11 @@
 #include "stdafx.h"
 
-AlarmList alarms;
+int CompareAlarms(const ALARM *a1, const ALARM *a2)
+{
+	return MinutesInFuture(a1->time, a1->occurrence, a1->day_mask) - MinutesInFuture(a2->time, a2->occurrence, a2->day_mask);
+}
+
+AlarmList alarms(1, CompareAlarms);
 mir_cs alarm_cs;
 
 unsigned short next_alarm_id = 1; // 0 is used for invalid id
@@ -15,32 +20,6 @@ HANDLE hAlarmTriggeredEvent;
 bool startup = true;
 
 bool is_idle = false;
-
-void free_alarm_data(ALARM *alarm)
-{
-	mir_free(alarm->szTitle); alarm->szTitle = nullptr;
-	mir_free(alarm->szDesc); alarm->szDesc = nullptr;
-	mir_free(alarm->szCommand); alarm->szCommand = nullptr;
-	mir_free(alarm->szCommandParams); alarm->szCommandParams = nullptr;
-}
-
-void copy_alarm_data(ALARM *dest, ALARM *src)
-{
-	dest->action = src->action;
-	dest->flags = src->flags;
-	dest->day_mask = src->day_mask;
-	dest->id = src->id;
-	dest->occurrence = src->occurrence;
-	dest->snoozer = src->snoozer;
-	dest->sound_num = src->sound_num;
-	dest->time = src->time;
-
-	free_alarm_data(dest);
-	dest->szTitle = mir_wstrdup(src->szTitle);
-	dest->szDesc = mir_wstrdup(src->szDesc);
-	dest->szCommand = mir_wstrdup(src->szCommand);
-	dest->szCommandParams = mir_wstrdup(src->szCommandParams);
-}
 
 void GetPluginTime(SYSTEMTIME *t)
 {
@@ -232,108 +211,105 @@ void LoadAlarms()
 	int num_alarms = g_plugin.getWord("Count", 0);
 	char buff[256];
 	DBVARIANT dbv;
-	ALARM alarm;
 	SYSTEMTIME now;
 	GetLocalTime(&now);
 
 	mir_cslock lck(alarm_cs);
-	alarms.clear();
+	alarms.destroy();
 
 	for (int i = 0; i < num_alarms; i++) {
-		memset(&alarm, 0, sizeof(ALARM));
+		auto alarm = new ALARM;
 
 		mir_snprintf(buff, "Title%d", i);
 		if (!g_plugin.getWString(buff, &dbv)) {
-			alarm.szTitle = mir_wstrdup(dbv.pwszVal);
+			alarm->szTitle = mir_wstrdup(dbv.pwszVal);
 			db_free(&dbv);
 		}
 		mir_snprintf(buff, "Desc%d", i);
 		if (!g_plugin.getWString(buff, &dbv)) {
-			alarm.szDesc = mir_wstrdup(dbv.pwszVal);
+			alarm->szDesc = mir_wstrdup(dbv.pwszVal);
 			db_free(&dbv);
 		}
 		mir_snprintf(buff, "Occ%d", i);
-		alarm.occurrence = (Occurrence)g_plugin.getWord(buff, 0);
+		alarm->occurrence = (Occurrence)g_plugin.getWord(buff, 0);
 
 		mir_snprintf(buff, "STHour%d", i);
-		alarm.time.wHour = g_plugin.getWord(buff, 0);
+		alarm->time.wHour = g_plugin.getWord(buff, 0);
 		mir_snprintf(buff, "STMinute%d", i);
-		alarm.time.wMinute = g_plugin.getWord(buff, 0);
+		alarm->time.wMinute = g_plugin.getWord(buff, 0);
 		mir_snprintf(buff, "STSecond%d", i);
-		alarm.time.wSecond = g_plugin.getWord(buff, 0);
+		alarm->time.wSecond = g_plugin.getWord(buff, 0);
 
-		switch (alarm.occurrence) {
-
+		switch (alarm->occurrence) {
 		case OC_ONCE:
 			mir_snprintf(buff, "STYear%d", i);
-			alarm.time.wYear = g_plugin.getWord(buff, 0);
+			alarm->time.wYear = g_plugin.getWord(buff, 0);
 			mir_snprintf(buff, "STMonth%d", i);
-			alarm.time.wMonth = g_plugin.getWord(buff, 0);
+			alarm->time.wMonth = g_plugin.getWord(buff, 0);
 			mir_snprintf(buff, "STDay%d", i);
-			alarm.time.wDay = g_plugin.getWord(buff, 0);
+			alarm->time.wDay = g_plugin.getWord(buff, 0);
 			break;
 		case OC_WEEKLY:
 			mir_snprintf(buff, "STDayOfWeek%d", i);
-			alarm.time.wDayOfWeek = g_plugin.getWord(buff, 0);
+			alarm->time.wDayOfWeek = g_plugin.getWord(buff, 0);
 			break;
 		case OC_WEEKDAYS:
 			break;
 		case OC_SELECTED_DAYS:
 			mir_snprintf(buff, "SelectedDays%d", i);
-			alarm.day_mask = g_plugin.getDword(buff, alarm.day_mask);
+			alarm->day_mask = g_plugin.getDword(buff, alarm->day_mask);
 			break;
 		case OC_DAILY:
 			break;
 		case OC_MONTHLY:
 			mir_snprintf(buff, "STDay%d", i);
-			alarm.time.wDay = g_plugin.getWord(buff, 0);
+			alarm->time.wDay = g_plugin.getWord(buff, 0);
 			break;
 		case OC_YEARLY:
 			mir_snprintf(buff, "STMonth%d", i);
-			alarm.time.wMonth = g_plugin.getWord(buff, 0);
+			alarm->time.wMonth = g_plugin.getWord(buff, 0);
 			mir_snprintf(buff, "STDay%d", i);
-			alarm.time.wDay = g_plugin.getWord(buff, 0);
+			alarm->time.wDay = g_plugin.getWord(buff, 0);
 			break;
 		}
 
-		if (UpdateAlarm(alarm.time, alarm.occurrence, alarm.day_mask)) {
+		if (UpdateAlarm(alarm->time, alarm->occurrence, alarm->day_mask)) {
 			mir_snprintf(buff, "ActionFlags%d", i);
-			alarm.action = (unsigned short)g_plugin.getDword(buff, AAF_POPUP | AAF_SOUND);
-			if (alarm.action & AAF_COMMAND) {
+			alarm->action = (unsigned short)g_plugin.getDword(buff, AAF_POPUP | AAF_SOUND);
+			if (alarm->action & AAF_COMMAND) {
 				mir_snprintf(buff, "ActionCommand%d", i);
 				if (!g_plugin.getWString(buff, &dbv)) {
-					alarm.szCommand = mir_wstrdup(dbv.pwszVal);
+					alarm->szCommand = mir_wstrdup(dbv.pwszVal);
 					db_free(&dbv);
 					mir_snprintf(buff, "ActionParams%d", i);
 					if (!g_plugin.getWString(buff, &dbv)) {
-						alarm.szCommandParams = mir_wstrdup(dbv.pwszVal);
+						alarm->szCommandParams = mir_wstrdup(dbv.pwszVal);
 						db_free(&dbv);
 					}
 				}
 			}
 
 			mir_snprintf(buff, "SoundNum%d", i);
-			alarm.sound_num = (int)g_plugin.getByte(buff, 1);
+			alarm->sound_num = (int)g_plugin.getByte(buff, 1);
 
 			mir_snprintf(buff, "Snoozer%d", i);
-			alarm.snoozer = g_plugin.getByte(buff, 0) == 1;
+			alarm->snoozer = g_plugin.getByte(buff, 0) == 1;
 
 			mir_snprintf(buff, "Hidden%d", i);
-			alarm.flags |= (g_plugin.getByte(buff, 0) == 1 ? ALF_HIDDEN : 0);
+			alarm->flags |= (g_plugin.getByte(buff, 0) == 1 ? ALF_HIDDEN : 0);
 
 			mir_snprintf(buff, "Suspended%d", i);
-			alarm.flags |= (g_plugin.getByte(buff, 0) == 1 ? ALF_SUSPENDED : 0);
+			alarm->flags |= (g_plugin.getByte(buff, 0) == 1 ? ALF_SUSPENDED : 0);
 
 			mir_snprintf(buff, "NoStartup%d", i);
-			alarm.flags |= (g_plugin.getByte(buff, 0) == 1 ? ALF_NOSTARTUP : 0);
+			alarm->flags |= (g_plugin.getByte(buff, 0) == 1 ? ALF_NOSTARTUP : 0);
 
 			mir_snprintf(buff, "Flags%d", i);
-			alarm.flags = g_plugin.getDword(buff, alarm.flags);
+			alarm->flags = g_plugin.getDword(buff, alarm->flags);
 
-			alarm.id = next_alarm_id++;
-			alarms.push_back(&alarm);
+			alarm->id = next_alarm_id++;
+			alarms.insert(alarm);
 		}
-		free_alarm_data(&alarm);
 	}
 }
 
@@ -381,7 +357,6 @@ int db_enum_settings_sub_cb(const char *szSetting, void *lParam)
 
 void SaveAlarms()
 {
-	int index = 0;
 	char buff[256];
 
 	mir_cslock lck(alarm_cs);
@@ -399,99 +374,99 @@ void SaveAlarms()
 		}
 	}
 
-
-	ALARM *i;
-	for (alarms.reset(); i = alarms.current(); alarms.next(), index++) {
+	int index = 0;
+	for (auto &it : alarms) {
 		mir_snprintf(buff, "Title%d", index);
-		g_plugin.setWString(buff, i->szTitle);
+		g_plugin.setWString(buff, it->szTitle);
 		mir_snprintf(buff, "Desc%d", index);
-		g_plugin.setWString(buff, i->szDesc);
+		g_plugin.setWString(buff, it->szDesc);
 		mir_snprintf(buff, "Occ%d", index);
-		g_plugin.setWord(buff, i->occurrence);
+		g_plugin.setWord(buff, it->occurrence);
 
 		mir_snprintf(buff, "STHour%d", index);
-		g_plugin.setWord(buff, i->time.wHour);
+		g_plugin.setWord(buff, it->time.wHour);
 		mir_snprintf(buff, "STMinute%d", index);
-		g_plugin.setWord(buff, i->time.wMinute);
+		g_plugin.setWord(buff, it->time.wMinute);
 		mir_snprintf(buff, "STSecond%d", index);
-		g_plugin.setWord(buff, i->time.wSecond);
+		g_plugin.setWord(buff, it->time.wSecond);
 
-		switch (i->occurrence) {
+		switch (it->occurrence) {
 		case OC_DAILY:
 			break;
 		case OC_WEEKDAYS:
 			break;
 		case OC_SELECTED_DAYS:
 			mir_snprintf(buff, "SelectedDays%d", index);
-			g_plugin.setDword(buff, i->day_mask);
+			g_plugin.setDword(buff, it->day_mask);
 			break;
 		case OC_WEEKLY:
 			mir_snprintf(buff, "STDayOfWeek%d", index);
-			g_plugin.setWord(buff, i->time.wDayOfWeek);
+			g_plugin.setWord(buff, it->time.wDayOfWeek);
 			break;
 
 		case OC_ONCE:
 			mir_snprintf(buff, "STYear%d", index);
-			g_plugin.setWord(buff, i->time.wYear);
+			g_plugin.setWord(buff, it->time.wYear);
 		case OC_YEARLY:
 			mir_snprintf(buff, "STMonth%d", index);
-			g_plugin.setWord(buff, i->time.wMonth);
+			g_plugin.setWord(buff, it->time.wMonth);
 		case OC_MONTHLY:
 			mir_snprintf(buff, "STDay%d", index);
-			g_plugin.setWord(buff, i->time.wDay);
+			g_plugin.setWord(buff, it->time.wDay);
 			break;
 		}
 		mir_snprintf(buff, "ActionFlags%d", index);
-		g_plugin.setDword(buff, i->action);
-		if (i->action & AAF_COMMAND) {
-			if (mir_wstrlen(i->szCommand)) {
+		g_plugin.setDword(buff, it->action);
+		if (it->action & AAF_COMMAND) {
+			if (mir_wstrlen(it->szCommand)) {
 				mir_snprintf(buff, "ActionCommand%d", index);
-				g_plugin.setWString(buff, i->szCommand);
-				if (mir_wstrlen(i->szCommandParams)) {
+				g_plugin.setWString(buff, it->szCommand);
+				if (mir_wstrlen(it->szCommandParams)) {
 					mir_snprintf(buff, "ActionParams%d", index);
-					g_plugin.setWString(buff, i->szCommandParams);
+					g_plugin.setWString(buff, it->szCommandParams);
 				}
 			}
 		}
 
 		mir_snprintf(buff, "SoundNum%d", index);
-		g_plugin.setByte(buff, i->sound_num);
+		g_plugin.setByte(buff, it->sound_num);
 
 		mir_snprintf(buff, "Snoozer%d", index);
-		g_plugin.setByte(buff, i->snoozer ? 1 : 0);
+		g_plugin.setByte(buff, it->snoozer ? 1 : 0);
 
 		mir_snprintf(buff, "Flags%d", index);
-		g_plugin.setDword(buff, i->flags);
+		g_plugin.setDword(buff, it->flags);
+		index++;
 	}
 	g_plugin.setWord("Count", index);
 }
 
 void copy_list(AlarmList &copy)
 {
-	copy.clear();
-	ALARM *i;
+	copy.destroy();
+
 	mir_cslock lck(alarm_cs);
-	for (alarms.reset(); i = alarms.current(); alarms.next())
-		copy.push_back(i);
+	for (auto &it : alarms)
+		copy.insert(new ALARM(*it));
 }
 
 void copy_list(AlarmList &copy, SYSTEMTIME &start, SYSTEMTIME &end)
 {
-	copy.clear();
-	ALARM *i;
+	copy.destroy();
+
 	mir_cslock lck(alarm_cs);
-	for (alarms.reset(); i = alarms.current(); alarms.next())
-		if (IsBetween(i->time, start, end))
-			copy.push_back(i);
+	for (auto &it : alarms)
+		if (IsBetween(it->time, start, end))
+			copy.insert(new ALARM(*it));
 }
 
 void set_list(AlarmList &copy)
 {
 	mir_cslock lck(alarm_cs);
-	alarms.clear();
-	ALARM *i;
-	for (copy.reset(); i = copy.current(); copy.next())
-		alarms.push_back(i);
+	alarms.destroy();
+
+	for (auto &it : copy)
+		alarms.insert(new ALARM(*it));
 
 	SaveAlarms();
 }
@@ -501,41 +476,33 @@ void append_to_list(ALARM *alarm)
 	mir_cslock lck(alarm_cs);
 	if (!alarm->id)
 		alarm->id = next_alarm_id++;
-	alarms.push_back(alarm);
+	alarms.insert(alarm);
 
 	SaveAlarms();
 }
 
 void alter_alarm_list(ALARM *alarm)
 {
-	bool found = false;
 	mir_cslock lck(alarm_cs);
 	if (alarm->id != 0) {
-		ALARM *i;
-		for (alarms.reset(); i = alarms.current(); alarms.next()) {
-			if (i->id == alarm->id) {
-				copy_alarm_data(i, alarm);
-				found = true;
-				break;
+		for (auto &it : alarms) {
+			if (it->id == alarm->id) {
+				*it = *alarm;
+				SaveAlarms();
+				return;
 			}
 		}
 	}
-	if (!found) {
-		if (!alarm->id)
-			alarm->id = next_alarm_id++;
-		alarms.push_back(alarm);
-	}
 
-	SaveAlarms();
+	append_to_list(alarm);	
 }
 
 void remove(unsigned short alarm_id)
 {
 	mir_cslock lck(alarm_cs);
-	ALARM *i;
-	for (alarms.reset(); i = alarms.current(); alarms.next()) {
-		if (i->id == alarm_id) {
-			alarms.erase();
+	for (auto &it: alarms.rev_iter()) {
+		if (it->id == alarm_id) {
+			alarms.remove(alarms.indexOf(&it));
 			break;
 		}
 	}
@@ -546,10 +513,10 @@ void remove(unsigned short alarm_id)
 void suspend(unsigned short alarm_id)
 {
 	mir_cslock lck(alarm_cs);
-	ALARM *i;
-	for (alarms.reset(); i = alarms.current(); alarms.next()) {
-		if (i->id == alarm_id && i->occurrence != OC_ONCE) {
-			i->flags |= ALF_SUSPENDED;
+
+	for (auto &it : alarms) {
+		if (it->id == alarm_id && it->occurrence != OC_ONCE) {
+			it->flags |= ALF_SUSPENDED;
 			break;
 		}
 	}
@@ -600,10 +567,8 @@ static LRESULT CALLBACK PopupAlarmDlgProc(HWND hWnd, UINT message, WPARAM wParam
 
 	case UM_FREEPLUGINDATA:
 		ALARM *mpd = (ALARM *)PUGetPluginData(hWnd);
-		if (mpd > 0) {
-			free_alarm_data(mpd);
+		if (mpd > 0)
 			delete mpd;
-		}
 		return TRUE;
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
@@ -611,9 +576,7 @@ static LRESULT CALLBACK PopupAlarmDlgProc(HWND hWnd, UINT message, WPARAM wParam
 
 void ShowPopup(ALARM *alarm)
 {
-	ALARM *data = new ALARM;
-	memset(data, 0, sizeof(ALARM));
-	copy_alarm_data(data, alarm);
+	ALARM *data = new ALARM(*alarm);
 
 	POPUPDATAW ppd;
 	ppd.lchIcon = hIconMenuSet;
@@ -662,9 +625,7 @@ void DoAlarm(ALARM *alarm)
 				HWND hwndDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ALARM), GetDesktopWindow(), DlgProcAlarm);
 				WindowList_Add(hAlarmWindowList, hwndDlg, 0);
 
-				ALARM *data = new ALARM;
-				memset(data, 0, sizeof(ALARM));
-				copy_alarm_data(data, alarm);
+				ALARM *data = new ALARM(*alarm);
 				SendMessage(hwndDlg, WMU_SETALARM, 0, (LPARAM)data);
 				if (is_idle || !options.aw_dontstealfocus)
 					ShowWindow(hwndDlg, SW_SHOW);
@@ -700,32 +661,35 @@ void CheckAlarms()
 	GetLocalTime(&time);
 
 	// put triggered alarms in another list - so we don't keep the critical section locked for longer than necessary
-	AlarmList triggered_list, remove_list;
+	LIST<ALARM> triggered_list(1);
+	std::list<int> remove_list;
 
 	mir_cslock lck(alarm_cs);
-	ALARM *i;
-	for (alarms.reset(); i = alarms.current(); alarms.next()) {
-		if (!UpdateAlarm(i->time, i->occurrence, i->day_mask)) {
+	for (auto &it : alarms) {
+		if (!UpdateAlarm(it->time, it->occurrence, it->day_mask)) {
 			// somehow an expired one-off alarm is in our list
-			remove_list.push_back(i);
+			remove_list.push_back(it->id);
 			continue;
 		}
 
-		switch (i->occurrence) {
+		switch (it->occurrence) {
 		case OC_ONCE:
-			if (IsBetween(i->time, last_check, time)) {
-				if (!startup || !(i->flags & ALF_NOSTARTUP)) triggered_list.push_back(i);
+			if (IsBetween(it->time, last_check, time)) {
+				if (!startup || !(it->flags & ALF_NOSTARTUP))
+					triggered_list.insert(it);
+				
 				// erase and fix iterator - alarm has now been triggered and has therefore expired
-				remove_list.push_back(i);
+				remove_list.push_back(it->id);
 			}
 			break;
 
 		default:
-			if (IsBetween(i->time, last_check, time)) {
-				if (i->flags & ALF_SUSPENDED)
-					i->flags = i->flags & ~ALF_SUSPENDED;
+			if (IsBetween(it->time, last_check, time)) {
+				if (it->flags & ALF_SUSPENDED)
+					it->flags &= ~ALF_SUSPENDED;
 				else
-					if (!startup || !(i->flags & ALF_NOSTARTUP)) triggered_list.push_back(i);
+					if (!startup || !(it->flags & ALF_NOSTARTUP))
+						triggered_list.insert(it);
 			}
 			break;
 		}
@@ -736,10 +700,10 @@ void CheckAlarms()
 
 	startup = false;
 
-	for (triggered_list.reset(); i = triggered_list.current(); triggered_list.next())
-		DoAlarm(i);
-	for (remove_list.reset(); i = remove_list.current(); remove_list.next())
-		remove(i->id);
+	for (auto &it: triggered_list)
+		DoAlarm(it);
+	for (auto &it: remove_list)
+		remove(it);
 }
 
 VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
@@ -750,7 +714,7 @@ VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 INT_PTR AddAlarmService(WPARAM, LPARAM lParam)
 {
 	ALARMINFO *alarm_info = (ALARMINFO *)lParam;
-	ALARM alarm = { 0 };
+	ALARM alarm;
 	alarm.action = alarm_info->action;
 	alarm.flags = alarm_info->flags;
 	alarm.id = next_alarm_id++;
