@@ -801,7 +801,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,77,166,10
     CONTROL         "Enable icon blinking",IDC_ENABLE_ICON_BLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,89,166,10
     CONTROL         "Search works as filter",IDC_FILTER_SEARCH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,101,166,10
-    CTEXT           "'Hide offline' means to hide:",IDC_STATIC,183,14,105,8
+    CTEXT           "'Hide offline' means to hide:",IDC_STATIC,173,14,121,8
     CONTROL         "",IDC_HIDEOFFLINEOPTS,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NONEVENHEIGHT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,183,24,105,104
     GROUPBOX        "Tray",IDC_STATIC,6,135,289,77
     CONTROL         "Enable icon blinking",IDC_ENABLE_TRAY_BLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,148,276,10
