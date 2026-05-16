@@ -86,15 +86,13 @@ BOOL RowHeight::Alloc(ClcData *dat, int size)
 }
 
 // Calc and store max row height
-int RowHeight::getMaxRowHeight(ClcData *dat, const HWND hwnd)
+int RowHeight::getMaxRowHeight(ClcData *dat)
 {
-	int max_height = 0;
-	uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
-
 	int contact_fonts[] = { FONTID_CONTACTS, FONTID_INVIS, FONTID_OFFLINE, FONTID_NOTONLIST, FONTID_OFFINVIS };
 	int other_fonts[] = { FONTID_GROUPS, FONTID_GROUPCOUNTS, FONTID_DIVIDERS };
 
 	// Get contact font size
+	int max_height = 0;
 	for (auto &it : contact_fonts)
 		if (max_height < dat->fontInfo[it].fontHeight)
 			max_height = dat->fontInfo[it].fontHeight;
@@ -112,7 +110,7 @@ int RowHeight::getMaxRowHeight(ClcData *dat, const HWND hwnd)
 		max_height = max(max_height, cfg::dat.avatarSize + cfg::dat.avatarPadding);
 
 	// Checkbox size
-	if (style & CLS_CHECKBOXES || style & CLS_GROUPCHECKBOXES)
+	if (dat->style & CLS_CHECKBOXES || dat->style & CLS_GROUPCHECKBOXES)
 		max_height = max(max_height, dat->checkboxSize);
 
 	//max_height += 2 * dat->row_border;
@@ -121,15 +119,12 @@ int RowHeight::getMaxRowHeight(ClcData *dat, const HWND hwnd)
 	max_height += cfg::dat.bRowSpacing;
 
 	dat->rowHeight = max_height;
-
 	return max_height;
 }
 
 // Calc and store row height for all items in the list
-void RowHeight::calcRowHeights(ClcData *dat, HWND hwnd)
+void RowHeight::calcRowHeights(ClcData *dat)
 {
-	uint32_t dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
-
 	// Draw lines
 	ClcGroup *group = &dat->list;
 	group->scanIndex = 0;
@@ -150,7 +145,7 @@ void RowHeight::calcRowHeights(ClcData *dat, HWND hwnd)
 		line_num++;
 
 		// Calc row height
-		getRowHeight(dat, cc, line_num, dwStyle);
+		getRowHeight(dat, cc, line_num);
 
 		if (cc->type == CLCIT_GROUP && cc->group->bExpanded) {
 			group = cc->group;

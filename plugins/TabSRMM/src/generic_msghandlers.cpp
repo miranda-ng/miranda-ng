@@ -567,7 +567,7 @@ HWND CMsgDialog::DM_CreateClist()
 	SetWindowLongPtr(hwndClist, GWL_EXSTYLE, GetWindowLongPtr(hwndClist, GWL_EXSTYLE) | (CLS_EX_NOSMOOTHSCROLLING | CLS_EX_NOTRANSLUCENTSEL));
 
 	if (!g_plugin.bAllowOfflineMultisend)
-		SetWindowLongPtr(hwndClist, GWL_STYLE, GetWindowLongPtr(hwndClist, GWL_STYLE) | CLS_HIDEOFFLINE);
+		SendMessage(hwndClist, CLM_SETSTYLE, SendMessage(hwndClist, CLM_GETSTYLE, 0, 0) | CLS_HIDEOFFLINE, 0);
 
 	if (hItem)
 		SendMessage(hwndClist, CLM_SETCHECKMARK, (WPARAM)hItem, 1);

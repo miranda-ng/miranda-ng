@@ -223,8 +223,7 @@ public:
 		hMarked = g_plugin.getIcon(IDD_SESSION_CHECKED);
 		hNotMarked = g_plugin.getIcon(IDD_SESSION_UNCHECKED);
 
-		SetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE,
-				GetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
+		m_clist.SetStyle(m_clist.GetStyle() | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
 		m_clist.SetExStyle(CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT);
 		m_clist.AutoRebuild();
 

@@ -473,7 +473,7 @@ public:
 		cii.pszText = TranslateT("** Unknown contacts **");
 		hItemUnknown = clist.AddInfoItem(&cii);
 
-		SetWindowLongPtr(clist.GetHwnd(), GWL_STYLE, GetWindowLongPtr(clist.GetHwnd(), GWL_STYLE) | (CLS_SHOWHIDDEN) | (CLS_NOHIDEOFFLINE));
+		clist.SetStyle(clist.GetStyle() | CLS_SHOWHIDDEN | CLS_NOHIDEOFFLINE);
 		ResetCList();
 
 		clist.OnListRebuilt = Callback(this, &COptionTypingDlg::RebuildList);

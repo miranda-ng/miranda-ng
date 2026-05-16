@@ -72,7 +72,6 @@ int fnHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contac
 	ClcContact *hitcontact = nullptr;
 	ClcGroup *hitgroup = nullptr;
 	int indent, i;
-	uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	if (flags)
 		*flags = 0;
@@ -116,9 +115,9 @@ int fnHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contac
 		return hit;
 	}
 	int checkboxWidth = 0;
-	if (style & CLS_CHECKBOXES && hitcontact->type == CLCIT_CONTACT)
+	if (dat->style & CLS_CHECKBOXES && hitcontact->type == CLCIT_CONTACT)
 		checkboxWidth = dat->checkboxSize + 2;
-	if (style & CLS_GROUPCHECKBOXES && hitcontact->type == CLCIT_GROUP)
+	if (dat->style & CLS_GROUPCHECKBOXES && hitcontact->type == CLCIT_GROUP)
 		checkboxWidth = dat->checkboxSize + 2;
 	if (hitcontact->type == CLCIT_INFO && hitcontact->flags & CLCIIF_CHECKBOX)
 		checkboxWidth = dat->checkboxSize + 2;
@@ -271,7 +270,7 @@ void fnRecalcScrollBar(HWND hwnd, ClcData *dat)
 	si.nPage = clRect.bottom;
 	si.nPos = dat->yScroll;
 
-	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CONTACTLIST) {
+	if (dat->style & CLS_CONTACTLIST) {
 		if (!dat->bNoVScrollbar)
 			SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
 	}
@@ -721,6 +720,8 @@ MIR_APP_DLL(void) Clist_GetFontSetting(int i, LOGFONT *lf, COLORREF *colour)
 
 void fnLoadClcOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 {
+	dat->style = GetWindowLong(hwnd, GWL_STYLE);
+
 	dat->rowHeight = db_get_b(0, "CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT);
 	dat->leftMargin = db_get_b(0, "CLC", "LeftMargin", CLCDEFAULT_LEFTMARGIN);
 	dat->exStyle = db_get_dw(0, "CLC", "ExStyle", Clist_GetDefaultExStyle());

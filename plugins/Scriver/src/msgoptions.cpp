@@ -717,7 +717,7 @@ public:
 		cii.pszText = TranslateT("** Unknown contacts **");
 		hItemUnknown = m_list.AddInfoItem(&cii);
 
-		SetWindowLongPtr(m_list.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_list.GetHwnd(), GWL_STYLE) | CLS_SHOWHIDDEN | CLS_NOHIDEOFFLINE);
+		m_list.SetStyle(m_list.GetStyle() | CLS_SHOWHIDDEN | CLS_NOHIDEOFFLINE);
 		onResetClist(0);
 
 		chkTypingBalloon.SetState(!g_plugin.bShowTypingClist);

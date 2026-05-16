@@ -93,7 +93,7 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 		dat->fontInfo[HIWORD(lParam)].hFont = (HFONT)wParam;
 		dat->fontInfo[HIWORD(lParam)].changed = 1;
 
-		RowHeight::getMaxRowHeight(dat, hwnd);
+		RowHeight::getMaxRowHeight(dat);
 
 		if (LOWORD(lParam))
 			InvalidateRect(hwnd, nullptr, FALSE);

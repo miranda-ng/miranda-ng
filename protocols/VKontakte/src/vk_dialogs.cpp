@@ -263,8 +263,7 @@ CVkUserListForm::CVkUserListForm(CVkProto* proto, CMStringW _wszMessage, CMStrin
 
 bool CVkUserListForm::OnInitDialog()
 {
-	SetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE)
-		| CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE);
+	m_clc.SetStyle(m_clc.GetStyle() | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE);
 	m_clc.SendMsg(CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
 
 	ResetListOptions();

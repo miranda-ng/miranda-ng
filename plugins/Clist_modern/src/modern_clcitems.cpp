@@ -380,8 +380,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 
 	// default hidden state, always respect it.
 	if (Contact::IsHidden(hContact)) {
-		uint32_t dwStyle = GetWindowLong(dat->hWnd, GWL_STYLE);
-		if (dat->bMetaExpanding && (dwStyle & CLS_SHOWHIDDEN) && pdnce->m_bIsSub)
+		if (dat->bMetaExpanding && (dat->style & CLS_SHOWHIDDEN) && pdnce->m_bIsSub)
 			return -1;
 
 		return 1;

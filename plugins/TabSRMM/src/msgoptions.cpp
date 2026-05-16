@@ -963,8 +963,7 @@ public:
 		cii.pszText = TranslateT("** Unknown contacts **");
 		hItemUnknown = m_clist.AddInfoItem(&cii);
 
-		DWORD dwStyle = GetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE);
-		SetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE, dwStyle | CLS_SHOWHIDDEN | CLS_USEGROUPS | CLS_GROUPCHECKBOXES | CLS_NOHIDEOFFLINE);
+		m_clist.SetStyle(m_clist.GetStyle() | CLS_SHOWHIDDEN | CLS_USEGROUPS | CLS_GROUPCHECKBOXES | CLS_NOHIDEOFFLINE);
 		ResetCList();
 
 		CheckDlgButton(m_hwnd, IDC_SHOWNOTIFY, g_plugin.getByte(SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING) ? BST_CHECKED : BST_UNCHECKED);

@@ -1276,7 +1276,7 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wPara
 		flags = contact->flags;
 	}
 	Clist_DeleteItemFromTree(hwnd, wParam);
-	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !Contact::IsHidden(wParam)) {
+	if (dat->style & CLS_SHOWHIDDEN || !Contact::IsHidden(wParam)) {
 		g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
 		if (Clist_FindItem(hwnd, dat, wParam, &contact)) {
 			memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
@@ -1311,8 +1311,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 
 	int nHiddenStatus = CLVM_GetContactHiddenStatus(wParam, szProto, dat);
 
-	uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
-	bool isVisiblebyFilter = (((style & CLS_SHOWHIDDEN) && nHiddenStatus != -1) || !nHiddenStatus);
+	bool isVisiblebyFilter = (((dat->style & CLS_SHOWHIDDEN) && nHiddenStatus != -1) || !nHiddenStatus);
 	bool ifVisibleByClui = !Clist_IsHiddenMode(dat, status);
 	bool isVisible = (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) ? true : ifVisibleByClui;
 	bool isIconChanged = Clist_GetContactIcon(wParam) != LOWORD(lParam);
@@ -1327,7 +1326,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 		if (shouldShow && db_is_contact(wParam)) {
 			if (dat->selection >= 0 && g_clistApi.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
 				hSelItem = Clist_ContactToHItem(selcontact);
-			g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, (style & CLS_CONTACTLIST) == 0, 0);
+			g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, (dat->style & CLS_CONTACTLIST) == 0, 0);
 			needRepaint = TRUE;
 			Clist_FindItem(hwnd, dat, wParam, &contact);
 			if (contact) {
@@ -1343,13 +1342,13 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 		if (contact && contact->iImage == lParam)
 			return 0;
 
-		if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->bHideOffline) && clcItemNotHiddenOffline(group, contact))
+		if (!shouldShow && !(dat->style & CLS_NOHIDEOFFLINE) && (dat->style & CLS_HIDEOFFLINE || group->bHideOffline) && clcItemNotHiddenOffline(group, contact))
 			shouldShow = TRUE;
 
-		if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && ((style & CLS_HIDEOFFLINE) || group->bHideOffline)) { // CLVM changed
+		if (!shouldShow && !(dat->style & CLS_NOHIDEOFFLINE) && ((dat->style & CLS_HIDEOFFLINE) || group->bHideOffline)) { // CLVM changed
 			if (dat->selection >= 0 && g_clistApi.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
 				hSelItem = Clist_ContactToHItem(selcontact);
-			Clist_RemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
+			Clist_RemoveItemFromGroup(hwnd, group, contact, (dat->style & CLS_CONTACTLIST) == 0);
 			needRepaint = TRUE;
 			dat->bNeedsResort = true;
 		}
@@ -1473,7 +1472,7 @@ static LRESULT clcOnIntmNotOnListChanged(ClcData *dat, HWND hwnd, UINT msg, WPAR
 
 static LRESULT clcOnIntmScrollBarChanged(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM)
 {
-	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CONTACTLIST) {
+	if (dat->style & CLS_CONTACTLIST) {
 		if (dat->bNoVScrollbar)
 			ShowScrollBar(hwnd, SB_VERT, FALSE);
 		else

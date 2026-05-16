@@ -407,7 +407,7 @@ HWND ClcGetButtonWindow(int ctrlid);
 
 // clcpaint.c
 void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint);
-void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int indent, int y, struct ClcData *dat, int index, HWND hwnd, uint32_t style, RECT *clRect, BOOL *bFirstNGdrawn, int groupCountsFontTopShift, int rowHeight);
+void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int indent, int y, struct ClcData *dat, int index, HWND hwnd, RECT *clRect, BOOL *bFirstNGdrawn, int groupCountsFontTopShift, int rowHeight);
 void Reload3dBevelColors();
 void ReloadThemedOptions();
 void SetButtonToSkinned();

@@ -344,7 +344,7 @@ static BOOL mirror_rtl, mirror_always, mirror_rtltext;
 uint8_t savedCORNER = -1;
 int  g_padding_y = 0;
 
-void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int indent, int y, struct ClcData *dat, int index, HWND hwnd, uint32_t style, RECT *clRect, BOOL *bFirstNGdrawn, int groupCountsFontTopShift, int rowHeight)
+void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int indent, int y, struct ClcData *dat, int index, HWND hwnd, RECT *clRect, BOOL *bFirstNGdrawn, int groupCountsFontTopShift, int rowHeight)
 {
 	SIZE textSize = { 0 }, countsSize = { 0 }, spaceSize = { 0 };
 	int fontHeight;
@@ -450,7 +450,7 @@ set_bg_l:
 	}
 
 	int checkboxWidth;
-	if ((style & CLS_CHECKBOXES && type == CLCIT_CONTACT) || (style & CLS_GROUPCHECKBOXES && type == CLCIT_GROUP) || (type == CLCIT_INFO && flags & CLCIIF_CHECKBOX))
+	if ((dat->style & CLS_CHECKBOXES && type == CLCIT_CONTACT) || (dat->style & CLS_GROUPCHECKBOXES && type == CLCIT_GROUP) || (type == CLCIT_INFO && flags & CLCIIF_CHECKBOX))
 		checkboxWidth = dat->checkboxSize + 2;
 	else
 		checkboxWidth = 0;
@@ -1193,11 +1193,10 @@ void SkinDrawBg(HWND hwnd, HDC hdc)
 void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 {
 	RECT clRect;
-	uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	int grey = 0;
 	BOOL bFirstNGdrawn = FALSE;
 	int line_num = -1;
-	COLORREF tmpbkcolour = style & CLS_CONTACTLIST ? (dat->bUseWindowsColours ? GetSysColor(COLOR_3DFACE) : dat->bkColour) : dat->bkColour;
+	COLORREF tmpbkcolour = (dat->style & CLS_CONTACTLIST) ? (dat->bUseWindowsColours ? GetSysColor(COLOR_3DFACE) : dat->bkColour) : dat->bkColour;
 	selBlend = db_get_b(0, "CLCExt", "EXBK_SelBlend", 1);
 	g_inCLCpaint = TRUE;
 	g_focusWnd = GetFocus();
@@ -1232,7 +1231,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 	g_center = db_get_b(0, "CLCExt", "EXBK_CenterGroupnames", 0) && !dat->bisEmbedded;
 	g_ignoreselforgroups = db_get_b(0, "CLC", "IgnoreSelforGroups", 0);
 
-	if (dat->greyoutFlags & Clist_ClcStatusToPf2(my_status) || style & WS_DISABLED)
+	if (dat->greyoutFlags & Clist_ClcStatusToPf2(my_status) || GetWindowLong(hwnd, GWL_STYLE) & WS_DISABLED)
 		grey = 1;
 	else if (GetFocus() != hwnd && dat->greyoutFlags & GREYF_UNFOCUS)
 		grey = 1;
@@ -1352,7 +1351,7 @@ bgdone:
 	group->scanIndex = 0;
 
 	if (dat->row_heights == nullptr)
-		RowHeight::calcRowHeights(dat, hwnd);
+		RowHeight::calcRowHeights(dat);
 
 	group = &dat->list;
 	group->scanIndex = 0;
@@ -1400,8 +1399,8 @@ bgdone:
 		if (y > rcPaint->top - dat->row_heights[line_num] && y <= rcPaint->bottom) {
 			if (cc->ace == (struct AVATARCACHEENTRY*) - 1)
 				cc->ace = (struct AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)cc->hContact, 0);
-			RowHeight::getRowHeight(dat, cc, line_num, style);
-			PaintItem(hdcMem, group, cc, indent, y, dat, index, hwnd, style, &clRect, &bFirstNGdrawn, groupCountsFontTopShift, dat->row_heights[line_num]);
+			RowHeight::getRowHeight(dat, cc, line_num);
+			PaintItem(hdcMem, group, cc, indent, y, dat, index, hwnd, &clRect, &bFirstNGdrawn, groupCountsFontTopShift, dat->row_heights[line_num]);
 		}
 		index++;
 		y += dat->row_heights[line_num];

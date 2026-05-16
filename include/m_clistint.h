@@ -156,7 +156,7 @@ struct ClcDataBase : public MZeroedObject
 	int gammaCorrection;
 	uint32_t greyoutFlags;			  //see m_clc.h
 	uint32_t offlineModes;
-	uint32_t exStyle;
+	uint32_t style, exStyle;
 	POINT ptInfoTip;
 	int infoTipTimeout;
 	uint32_t hInfoTipItem;

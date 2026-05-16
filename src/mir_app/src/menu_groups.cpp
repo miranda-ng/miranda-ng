@@ -111,7 +111,7 @@ INT_PTR FreeOwnerDataGroupMenu(WPARAM, LPARAM lParam)
 
 static INT_PTR HideGroupsHelper(WPARAM, LPARAM)
 {
-	int newVal = !(GetWindowLongPtr(g_clistApi.hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
+	int newVal = !(SendMessage(g_clistApi.hwndContactTree, CLM_GETSTYLE, 0, 0) & CLS_HIDEEMPTYGROUPS);
 	db_set_b(0, "CList", "HideEmptyGroups", (uint8_t)newVal);
 	SendMessage(g_clistApi.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
 	return newVal;
@@ -119,7 +119,7 @@ static INT_PTR HideGroupsHelper(WPARAM, LPARAM)
 
 static INT_PTR UseGroupsHelper(WPARAM, LPARAM)
 {
-	int newVal = !(GetWindowLongPtr(g_clistApi.hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
+	int newVal = !(SendMessage(g_clistApi.hwndContactTree, CLM_GETSTYLE, 0, 0) & CLS_USEGROUPS);
 	Clist::bUseGroups = newVal;
 	SendMessage(g_clistApi.hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
 	return newVal;
@@ -181,7 +181,7 @@ static int OnBuildGroupMenu(WPARAM wParam, LPARAM)
 	Menu_SetChecked(hmiHideOfflineUsers, Clist::bHideOffline);
 	Menu_SetChecked(hmiHideOfflineUsersOutHere, Clist::bHideOfflineRoot);
 
-	uint32_t dwStyle = GetWindowLongPtr(g_clistApi.hwndContactTree, GWL_STYLE);
+	uint32_t dwStyle = SendMessage(g_clistApi.hwndContactTree, CLM_GETSTYLE, 0, 0);
 	Menu_SetChecked(hmiHideEmptyGroups, (dwStyle & CLS_HIDEEMPTYGROUPS) != 0);
 	Menu_SetChecked(hmiDisableGroups, (dwStyle & CLS_USEGROUPS) == 0);
 

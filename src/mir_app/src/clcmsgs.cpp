@@ -211,6 +211,13 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 		dat->exStyle |= wParam;
 		break;
 
+	case CLM_GETSTYLE:
+		return dat->style;
+
+	case CLM_SETSTYLE:
+		dat->style = wParam;
+		break;
+
 	case CLM_GETNEXTITEM:
 		if (wParam == CLGN_ROOT) {
 			if (dat->list.cl.getCount())
@@ -387,12 +394,12 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 
 	case CLM_SETHIDEEMPTYGROUPS:
 		{
-			BOOL oldVal = ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) != 0);
+			BOOL oldVal = (dat->style & CLS_HIDEEMPTYGROUPS) != 0;
 			BOOL newVal = (wParam != 0);
 			if (newVal)
-				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_HIDEEMPTYGROUPS);
+				dat->style |= CLS_HIDEEMPTYGROUPS;
 			else
-				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
+				dat->style &= ~CLS_HIDEEMPTYGROUPS;
 
 			if (newVal != oldVal)
 				Clist_InitAutoRebuild(hwnd);
@@ -429,9 +436,9 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 
 	case CLM_SETUSEGROUPS:
 		if (wParam)
-			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_USEGROUPS);
+			dat->style |= CLS_USEGROUPS;
 		else
-			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_USEGROUPS);
+			dat->style &= ~CLS_USEGROUPS;
 		Clist_InitAutoRebuild(hwnd);
 		break;
 	}

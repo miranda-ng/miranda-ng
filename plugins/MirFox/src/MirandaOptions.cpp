@@ -308,7 +308,7 @@ static void setAllChildIcons(HWND hwndList, HANDLE hFirstItem, int iColumn, int 
  */
 static void resetListOptions(HWND hwndList)
 {
-	SetWindowLongPtr(hwndList, GWL_STYLE, GetWindowLongPtr(hwndList, GWL_STYLE) & ~CLS_SHOWHIDDEN);
+	SendMessage(hwndList, CLM_SETSTYLE, SendMessage(hwndList, CLM_GETSTYLE, 0, 0) & ~CLS_SHOWHIDDEN, 0);
 }
 
 

@@ -44,7 +44,6 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, ClcContact *hitcontac
 {
 	RECT clRect;
 	int right, checkboxWidth, width;
-	uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	SIZE textSize;
 	HDC hdc;
 	HFONT hFont;
@@ -64,9 +63,9 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, ClcContact *hitcontac
 		return hit;
 	}
 	checkboxWidth = 0;
-	if (style & CLS_CHECKBOXES && hitcontact->type == CLCIT_CONTACT)
+	if (dat->style & CLS_CHECKBOXES && hitcontact->type == CLCIT_CONTACT)
 		checkboxWidth = dat->checkboxSize + 2;
-	if (style & CLS_GROUPCHECKBOXES && hitcontact->type == CLCIT_GROUP)
+	if (dat->style & CLS_GROUPCHECKBOXES && hitcontact->type == CLCIT_GROUP)
 		checkboxWidth = dat->checkboxSize + 2;
 	if (hitcontact->type == CLCIT_INFO && hitcontact->flags & CLCIIF_CHECKBOX)
 		checkboxWidth = dat->checkboxSize + 2;
@@ -141,7 +140,6 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 	SIZE textSize;
 	RECT clRect;
 	HFONT hFont;
-	uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	uint8_t mirror_mode = cfg::dat.bUseDCMirroring;
 
 	if (flags)
@@ -206,9 +204,9 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 		return hit;
 	}
 	checkboxWidth = 0;
-	if (style & CLS_CHECKBOXES && hitcontact->type == CLCIT_CONTACT)
+	if (dat->style & CLS_CHECKBOXES && hitcontact->type == CLCIT_CONTACT)
 		checkboxWidth = dat->checkboxSize + 2;
-	if (style & CLS_GROUPCHECKBOXES && hitcontact->type == CLCIT_GROUP)
+	if (dat->style & CLS_GROUPCHECKBOXES && hitcontact->type == CLCIT_GROUP)
 		checkboxWidth = dat->checkboxSize + 2;
 	if (hitcontact->type == CLCIT_INFO && hitcontact->flags & CLCIIF_CHECKBOX)
 		checkboxWidth = dat->checkboxSize + 2;
@@ -338,7 +336,7 @@ void RecalcScrollBar(HWND hwnd, struct ClcData *dat)
 	if (dat->bLockScrollbar)
 		return;
 
-	RowHeight::calcRowHeights(dat, hwnd);
+	RowHeight::calcRowHeights(dat);
 
 	RECT clRect;
 	GetClientRect(hwnd, &clRect);
@@ -351,7 +349,7 @@ void RecalcScrollBar(HWND hwnd, struct ClcData *dat)
 	si.nPage = clRect.bottom;
 	si.nPos = dat->yScroll;
 
-	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CONTACTLIST) {
+	if (dat->style & CLS_CONTACTLIST) {
 		if (!dat->bNoVScrollbar) {
 			if (cfg::dat.bSkinnedScrollbar && !dat->bisEmbedded)
 				CoolSB_SetScrollInfo(hwnd, SB_VERT, &si, TRUE);

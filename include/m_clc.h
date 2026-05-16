@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CLISTCONTROL_CLASSW L"CListControl"
 
 // styles
-#define CLS_MANUALUPDATE           0x0001 // todo
 #define CLS_SHOWHIDDEN             0x0002
 #define CLS_HIDEOFFLINE            0x0004 // hides all offline users
 #define CLS_CHECKBOXES             0x0008
@@ -147,6 +146,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CLM_SETOFFLINEMODES   (CLM_FIRST+43)   //for 'hide offline', wParam = PF2_ flags and MODEF_OFFLINE
 #define CLM_GETEXSTYLE        (CLM_FIRST+44)   //returns CLS_EX_ flags
 #define CLM_SETEXSTYLE        (CLM_FIRST+45)   //wParam = CLS_EX_ flags
+#define CLM_GETSTYLE          (CLM_FIRST+46)   //returns CLS_* flags
+#define CLM_SETSTYLE          (CLM_FIRST+47)   //wParam = CLS_* flags
 
 typedef struct {
 	int cbSize;

@@ -140,7 +140,7 @@ ClcContact* AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hCo
 void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 {
 	RowHeight::Clear(dat);
-	RowHeight::getMaxRowHeight(dat, hwnd);
+	RowHeight::getMaxRowHeight(dat);
 
 	dat->SelectMode = db_get_b(0, "CLC", "SelectMode", 0);
 

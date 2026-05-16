@@ -282,7 +282,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				flags = contact->flags;
 			}
 			Clist_DeleteItemFromTree(hwnd, wParam);
-			if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus(wParam, nullptr, dat)) {
+			if (dat->style & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus(wParam, nullptr, dat)) {
 				g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
 				if (Clist_FindItem(hwnd, dat, wParam, &contact)) {
 					memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
@@ -318,7 +318,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			else
 				status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 
-			int shouldShow = (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN ||
+			int shouldShow = (dat->style & CLS_SHOWHIDDEN ||
 				!CLVM_GetContactHiddenStatus(hContact, szProto, dat)) && ((cfg::dat.bFilterEffective ? TRUE : !Clist_IsHiddenMode(dat, status)) ||
 				Clist_GetContactIcon(hContact) != lParam); // XXX CLVM changed - this means an offline msg is flashing, so the contact should be shown
 
@@ -337,10 +337,9 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			}
 			else {
 				// item in list already
-				uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 				if (contact->iImage == (uint16_t)lParam)
 					break;
-				if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->bHideOffline || cfg::dat.bFilterEffective)) {        // CLVM changed
+				if (!shouldShow && !(dat->style & CLS_NOHIDEOFFLINE) && (dat->style & CLS_HIDEOFFLINE || group->bHideOffline || cfg::dat.bFilterEffective)) {        // CLVM changed
 					if (dat->selection >= 0 && g_clistApi.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
 						hSelItem = Clist_ContactToHItem(selcontact);
 					Clist_RemoveItemFromGroup(hwnd, group, contact, 0);

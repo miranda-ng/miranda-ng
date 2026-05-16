@@ -331,7 +331,6 @@ static int other_fonts[] = { FONTID_OPENGROUPS, FONTID_OPENGROUPCOUNTS, FONTID_C
 int RowHeights_GetMaxRowHeight(ClcData *dat, HWND hwnd)
 {
 	int max_height = 0;
-	uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	if (!dat->text_ignore_size_for_row_height) {
 		// Get contact font size
@@ -370,7 +369,7 @@ int RowHeights_GetMaxRowHeight(ClcData *dat, HWND hwnd)
 		max_height = max(max_height, dat->avatars_maxheight_size);
 
 	// Checkbox size
-	if (style & CLS_CHECKBOXES || style & CLS_GROUPCHECKBOXES)
+	if (dat->style & CLS_CHECKBOXES || dat->style & CLS_GROUPCHECKBOXES)
 		max_height = max(max_height, dat->checkboxSize);
 
 	// Icon size
@@ -459,7 +458,6 @@ int RowHeights_GetRowHeight(ClcData *dat, HWND hwnd, ClcContact *contact, int it
 	if (!dat->row_variable_height)
 		return dat->rowHeight;
 
-	uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	//TODO replace futher code with new rowheight definition
 	BOOL selected = ((item == dat->selection) && (dat->hwndRenameEdit != nullptr || dat->bShowSelAlways || (dat->exStyle & CLS_EX_SHOWSELALWAYS) || g_clcPainter.IsForegroundWindow(hwnd)) && contact->type != CLCIT_DIVIDER);
 	BOOL minimalistic = (g_clcPainter.CheckMiniMode(dat, selected));
@@ -498,7 +496,7 @@ int RowHeights_GetRowHeight(ClcData *dat, HWND hwnd, ClcContact *contact, int it
 		height = max(height, dat->avatars_maxheight_size);
 
 	// Checkbox size
-	if (contact->isCheckBox(style))
+	if (contact->isCheckBox(dat->style))
 		height = max(height, dat->checkboxSize);
 
 	// Icon size

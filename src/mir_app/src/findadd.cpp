@@ -496,7 +496,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					if (protoCaps & PF1_NUMERICUSERID)
 						SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PROTOID), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PROTOID), GWL_STYLE) | ES_NUMBER);
 					else
-						SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PROTOID), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PROTOID), GWL_STYLE)&~ES_NUMBER);
+						SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PROTOID), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PROTOID), GWL_STYLE) & ~ES_NUMBER);
 				}
 			}
 

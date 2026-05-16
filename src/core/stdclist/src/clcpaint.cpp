@@ -91,10 +91,9 @@ static void __inline SetHotTrackColour(HDC hdc, struct ClcData *dat)
 
 void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 {
-	uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	int status = Clist_GetGeneralizedStatus();
 	// yes I know about GetSysColorBrush()
-	COLORREF tmpbkcolour = style & CLS_CONTACTLIST ? (dat->bUseWindowsColours ? GetSysColor(COLOR_3DFACE) : dat->bkColour) : dat->bkColour;
+	COLORREF tmpbkcolour = dat->style & CLS_CONTACTLIST ? (dat->bUseWindowsColours ? GetSysColor(COLOR_3DFACE) : dat->bkColour) : dat->bkColour;
 	
 	int minHeight = 16;
 	for (int i = 0; i < FONTID_LAST; i++)
@@ -105,7 +104,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 		dat->rowHeight = minHeight;
 
 	int grey;
-	if (dat->greyoutFlags & Clist_ClcStatusToPf2(status) || style & WS_DISABLED)
+	if (dat->greyoutFlags & Clist_ClcStatusToPf2(status) || GetWindowLong(hwnd, GWL_STYLE) & WS_DISABLED)
 		grey = 1;
 	else if (GetFocus() != hwnd && dat->greyoutFlags & GREYF_UNFOCUS)
 		grey = 1;
@@ -133,7 +132,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 	groupCountsFontTopShift -= tm.tmAscent;
 
 	HBRUSH hBrushAlternateGrey = nullptr;
-	if (style & CLS_GREYALTERNATE)
+	if (dat->style & CLS_GREYALTERNATE)
 		hBrushAlternateGrey = CreateSolidBrush(GetNearestColor(hdcMem, RGB(GetRValue(tmpbkcolour) - 10, GetGValue(tmpbkcolour) - 10, GetBValue(tmpbkcolour) - 10)));
 
 	int fontHeight;
@@ -234,7 +233,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			int width, checkboxWidth;
 
 			// alternating grey
-			if (style & CLS_GREYALTERNATE && index & 1) {
+			if (dat->style & CLS_GREYALTERNATE && index & 1) {
 				RECT rc;
 				rc.top = y;
 				rc.bottom = rc.top + dat->rowHeight;
@@ -276,7 +275,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 				}
 			}
 
-			if ((style & CLS_CHECKBOXES && cc->type == CLCIT_CONTACT) || (style & CLS_GROUPCHECKBOXES && cc->type == CLCIT_GROUP) || (cc->type == CLCIT_INFO && cc->flags & CLCIIF_CHECKBOX))
+			if ((dat->style & CLS_CHECKBOXES && cc->type == CLCIT_CONTACT) || (dat->style & CLS_GROUPCHECKBOXES && cc->type == CLCIT_GROUP) || (cc->type == CLCIT_INFO && cc->flags & CLCIIF_CHECKBOX))
 				checkboxWidth = dat->checkboxSize + 2;
 			else
 				checkboxWidth = 0;

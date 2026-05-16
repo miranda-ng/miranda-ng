@@ -737,6 +737,7 @@ public:
 	int        GetItemType(HANDLE hItem) const;
 	HANDLE     GetNextItem(HANDLE hItem, uint32_t flags) const;
 	HANDLE     GetSelection() const;
+	uint32_t   GetStyle() const;
 	HANDLE     HitTest(int x, int y, uint32_t *hitTest) const;
 	void       SelectItem(HANDLE hItem);
 	void       SetBkColor(COLORREF clBack);
@@ -750,6 +751,7 @@ public:
 	void       SetHideEmptyGroups(bool state);
 	void       SetHideOfflineRoot(bool state);
 	void       SetOfflineModes(uint32_t modes);
+	void       SetStyle(uint32_t dwStyle);
 	void       SetUseGroups(bool state);
 
 	struct TEventInfo

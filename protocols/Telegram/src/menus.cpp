@@ -91,8 +91,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		SetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE,
-			GetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE) | CLS_SHOWHIDDEN | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
+		m_clist.SetStyle(m_clist.GetStyle() | CLS_SHOWHIDDEN | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
 		m_clist.SendMsg(CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
 		ResetListOptions(&m_clist);
 		FilterList(&m_clist);
