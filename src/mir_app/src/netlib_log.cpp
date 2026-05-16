@@ -131,6 +131,7 @@ public:
 
 	bool OnInitDialog() override
 	{
+		SetForegroundWindow(m_hwnd);
 		logOptions.hwndOpts = m_hwnd;
 
 		CheckDlgButton(m_hwnd, IDC_TOFILE, logOptions.toFile ? BST_CHECKED : BST_UNCHECKED);
@@ -300,11 +301,19 @@ public:
 	}
 };
 
-void NetlibLogShowOptions(void)
+void NetlibLogShowOptions(MWindow hwndOwner)
 {
-	if (logOptions.hwndOpts == nullptr)
-		(new CLogOptionsDlg())->Create();
-	SetForegroundWindow(logOptions.hwndOpts);
+	if (logOptions.hwndOpts) {
+		SetForegroundWindow(logOptions.hwndOpts);
+		return;
+	}
+
+	if (hwndOwner) {
+		auto *pDlg = new CLogOptionsDlg();
+		pDlg->SetParent(hwndOwner);
+		pDlg->Create();
+	}
+	else CLogOptionsDlg().DoModal();
 }
 
 static INT_PTR ShowOptions(WPARAM, LPARAM)
@@ -562,9 +571,6 @@ void NetlibLogInit(void)
 	hLogEvent = CreateHookableEvent(ME_NETLIB_FASTDUMP);
 
 	InitLog();
-
-	if (db_get_b(0, "Netlib", "ShowLogOptsAtStart", 0))
-		NetlibLogShowOptions();
 
 	ptrW szBuf(db_get_wsa(0, "Netlib", "RunAtStart"));
 	if (szBuf) {
