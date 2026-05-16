@@ -165,11 +165,9 @@ struct CIrcProto : public PROTO<CIrcProto>
 	CMStringW m_statusMessage;
 	int      m_iTempCheckTime;
 
-	CIrcSessionInfo m_sessionInfo;
 	SESSION_INFO *m_pServer;
 
 	int       m_portCount;
-	uint32_t  m_bConnectRequested;
 	uint32_t  m_bConnectThreadRunning;
 
 	HGENMENU    hMenuQuick, hMenuServer, hMenuJoin, hMenuNick, hMenuList;
@@ -307,7 +305,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	void DisconnectAllDCCSessions(bool Shutdown);
 	void CheckDCCTimeout(void);
 
-	bool Connect(const CIrcSessionInfo &info);
+	bool Connect(CIrcSessionInfo &info);
 	void Disconnect(void);
 	void KillIdent(void);
 

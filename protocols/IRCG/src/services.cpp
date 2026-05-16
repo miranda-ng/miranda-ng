@@ -886,36 +886,47 @@ void __cdecl CIrcProto::ConnectServerThread(void*)
 	Thread_SetName("IRC: ConnectServer");
 
 	InterlockedIncrement((long *)&m_bConnectThreadRunning);
-	InterlockedIncrement((long *)&m_bConnectRequested);
-	while (!Miranda_IsTerminated() && m_bConnectRequested > 0) {
-		while (m_bConnectRequested > 0)
-			InterlockedDecrement((long *)&m_bConnectRequested);
-		if (IsConnected()) {
-			Sleep(200);
-			Disconnect();
-		}
 
-		m_info.bNickFlag = false;
-		int Temp = m_iStatus;
-		m_iStatus = ID_STATUS_CONNECTING;
-		bHandleNickErr = true;
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)Temp, ID_STATUS_CONNECTING);
+	if (IsConnected()) {
+		Sleep(200);
+		Disconnect();
+	}
+
+	m_info.bNickFlag = false;
+	int Temp = m_iStatus;
+	m_iStatus = ID_STATUS_CONNECTING;
+	bHandleNickErr = true;
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)Temp, ID_STATUS_CONNECTING);
+	Sleep(100);
+
+	CIrcSessionInfo m_sessionInfo;
+	m_portCount = atoi(m_portStart);
+	m_sessionInfo.sServer = GetWord(m_serverName, 0);
+	m_sessionInfo.iPort = m_portCount;
+	m_sessionInfo.sNick = m_nick;
+	m_sessionInfo.sUserID = m_userID;
+	m_sessionInfo.sFullName = m_name;
+	m_sessionInfo.sPassword = m_password;
+	m_sessionInfo.bIdentServer = ((m_ident) ? (true) : (false));
+	m_sessionInfo.iIdentServerPort = _wtoi(m_identPort);
+	m_sessionInfo.sIdentServerType = m_identSystem;
+	m_sessionInfo.m_iSSL = m_iSSL;
+	{
+		mir_cslock lock(m_csSession);
+		while (!Connect(m_sessionInfo))
+			;
+	}
+
+	if (IsConnected()) {
+		if (m_mySpecifiedHost[0])
+			ForkThread(&CIrcProto::ResolveIPThread, new IPRESOLVE(m_mySpecifiedHost, IP_MANUAL));
+	}
+	else {
+		Temp = m_iDesiredStatus;
+		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)Temp, ID_STATUS_OFFLINE);
 		Sleep(100);
-		{
-			mir_cslock lock(m_csSession);
-			Connect(m_sessionInfo);
-		}
-		if (IsConnected()) {
-			if (m_mySpecifiedHost[0])
-				ForkThread(&CIrcProto::ResolveIPThread, new IPRESOLVE(m_mySpecifiedHost, IP_MANUAL));
-		}
-		else {
-			Temp = m_iDesiredStatus;
-			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
-			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)Temp, ID_STATUS_OFFLINE);
-			Sleep(100);
-		}
 	}
 
 	InterlockedDecrement((long *)&m_bConnectThreadRunning);
@@ -932,18 +943,6 @@ void __cdecl CIrcProto::DisconnectServerThread(void*)
 
 void CIrcProto::ConnectToServer(void)
 {
-	m_portCount = atoi(m_portStart);
-	m_sessionInfo.sServer = GetWord(m_serverName, 0);
-	m_sessionInfo.iPort = m_portCount;
-	m_sessionInfo.sNick = m_nick;
-	m_sessionInfo.sUserID = m_userID;
-	m_sessionInfo.sFullName = m_name;
-	m_sessionInfo.sPassword = m_password;
-	m_sessionInfo.bIdentServer = ((m_ident) ? (true) : (false));
-	m_sessionInfo.iIdentServerPort = _wtoi(m_identPort);
-	m_sessionInfo.sIdentServerType = m_identSystem;
-	m_sessionInfo.m_iSSL = m_iSSL;
-
 	bPerformDone = false;
 	bTempDisableCheck = false;
 	bTempForceCheck = false;
@@ -955,11 +954,9 @@ void CIrcProto::ConnectToServer(void)
 
 	if (!m_bConnectThreadRunning)
 		ForkThread(&CIrcProto::ConnectServerThread, nullptr);
-	else if (m_bConnectRequested < 1)
-		InterlockedIncrement((long *)&m_bConnectRequested);
 
 	wchar_t szTemp[300];
-	mir_snwprintf(szTemp, L"\033%s %c%s%c (%S: %u)", TranslateT("Connecting to"), irc::BOLD, m_tszUserName, irc::BOLD, m_sessionInfo.sServer.c_str(), m_sessionInfo.iPort);
+	mir_snwprintf(szTemp, L"\033%s %c%s%c (%S: %u)", TranslateT("Connecting to"), irc::BOLD, m_tszUserName, irc::BOLD, m_serverName, m_portCount);
 	DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, nullptr, szTemp, nullptr, nullptr, NULL, true, false);
 }
 
