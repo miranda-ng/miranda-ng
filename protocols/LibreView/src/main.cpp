@@ -67,8 +67,18 @@ void RestartTimer()
 	hTimer = SetTimer(nullptr, 0, 60000, TimerProc);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static IconItem iconList[] =
+{
+	{ LPGEN("Main icon"),    "main",  IDI_MAIN  },
+	{ LPGEN("Graph viewer"), "graph", IDI_GRAPH },
+};
+
 int CMPlugin::Load()
 {
+	g_plugin.registerIcon(LPGEN("Protocols") "/" MODULENAME, iconList, MODULENAME);
+
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
 	nlu.szSettingsModule = MODULENAME;
@@ -80,7 +90,7 @@ int CMPlugin::Load()
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x82c22dbb, 0x9768, 0x4c1c, 0x9d, 0x72, 0x8d, 0x63, 0x3f, 0xf0, 0xe1, 0xad);
 	mi.position = -0x7FFFFFFF;
-	mi.hIcolibItem = Skin_GetProtoIcon(MODULENAME, ID_STATUS_ONLINE);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_MAIN);
 	mi.name.a = LPGEN("&Update data");
 	mi.pszService = MODULENAME "/Update";
 	g_hContactMenuUpdate = Menu_AddContactMenuItem(&mi);

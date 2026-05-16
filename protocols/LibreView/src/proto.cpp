@@ -1,16 +1,5 @@
 #include "stdafx.h"
 
-// Forward declarations
-uint32_t ParseLibreTimestamp(const CMStringW &timestamp);
-static CMStringW FormatGlucoseValue(double value);
-static CMStringW GetGlucoseDbText(MCONTACT hContact, const char *pszSetting);
-static const wchar_t* GetLocalizedUnit(bool bUseMgdl);
-static const wchar_t* TrendToText(int trend);
-static const wchar_t* TrendToArrow(int trend);
-void UpdateContactDisplay(MCONTACT hContact);
-static void AddHistoryEvent(MCONTACT hContact, const CMStringW &timestamp);
-void InitGraphMenu();
-
 static void AddLibreHeaders(MHttpRequest &request, const CLibreViewProto *pAcc = nullptr)
 {
 	request.flags = NLHRF_HTTP11 | NLHRF_REDIRECT | NLHRF_SSL | NLHRF_NODUMP;

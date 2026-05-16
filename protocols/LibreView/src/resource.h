@@ -2,6 +2,8 @@
 
 #define IDD_OPT                         101
 #define IDD_USERINFO                    102
+#define IDI_MAIN                        103
+#define IDI_GRAPH                       104
 #define IDC_EMAIL                       1004
 #define IDC_PASSWORD                    1005
 #define IDC_APIURL                      1006
