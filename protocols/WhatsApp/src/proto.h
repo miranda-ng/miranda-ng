@@ -433,6 +433,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnReceiveFailure(const WANode &node);
 	void OnReceiveInfo(const WANode &node);
 	void OnReceiveMessage(const WANode &node);
+	void OnReceivePresence(const WANode &node);
 	void OnReceiveReceipt(const WANode &node);
 	void OnServerSync(const WANode &node);
 	void OnStreamError(const WANode &node);
