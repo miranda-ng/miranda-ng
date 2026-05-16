@@ -553,8 +553,9 @@ void WhatsAppProto::OnReceivePresence(const WANode &node)
 			if (mir_strcmp(pszSeen, "deny"))
 				setDword(pUser->hContact, "LastSeen", atoi(pszSeen));
 
-		SendAck(node);
 	}
+
+	SendAck(node);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
