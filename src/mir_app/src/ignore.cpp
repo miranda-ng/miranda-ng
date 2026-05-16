@@ -268,9 +268,13 @@ public:
 	{
 		for (auto &hContact : Contacts()) {
 			HANDLE hItem = m_clist.FindContact(hContact);
-			if (hItem)
-				SaveItemValue(hContact, "Mask1", GetItemMask(hItem));
-			Contact::Hide(hContact, !m_clist.GetCheck(hItem));
+			if (!hItem)
+				continue;
+
+			SaveItemValue(hContact, "Mask1", GetItemMask(hItem));
+
+			if (!db_mc_isSub(hContact))
+				Contact::Hide(hContact, !m_clist.GetCheck(hItem));
 		}
 
 		SaveGroupValue(m_clist.GetNextItem(0, CLGN_ROOT));
