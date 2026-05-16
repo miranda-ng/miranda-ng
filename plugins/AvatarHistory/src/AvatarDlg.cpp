@@ -79,6 +79,9 @@ int OpenAvatarDialog(MCONTACT hContact, char* fn)
 	}
 
 	AvatarDialogData *avdlg = (AvatarDialogData*)calloc(1, sizeof(AvatarDialogData));
+	if (avdlg == nullptr)
+		return 1;
+
 	avdlg->hContact = hContact;
 	if (fn == nullptr)
 		avdlg->fn[0] = '\0';
