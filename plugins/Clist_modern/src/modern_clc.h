@@ -219,9 +219,8 @@ struct ClcData : public ClcDataBase
 {
 	uint8_t HiLightMode;
 	uint8_t doubleClickExpand;
-	uint8_t IsMetaContactsEnabled;
 	time_t last_tick_time;
-	bool bForceInDialog, bPlaceOfflineToRoot, bMetaIgnoreEmptyExtra, bMetaExpanding;
+	bool bForceInDialog, bPlaceOfflineToRoot, bMetaIgnoreEmptyExtra, bMetaExpanding, bMetaContactsEnabled;
 	int  subIndent;
 	int  rightMargin, topMargin, bottomMargin;
 	HBITMAP hMenuBackground;

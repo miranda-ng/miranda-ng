@@ -580,7 +580,7 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 		dat->MenuBmpUse = db_get_w(0, "Menu", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}
 
-	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd, GWL_STYLE)&CLS_MANUALUPDATE)) && db_get_b(0, META_PROTO, "Enabled", 1);
+	dat->bMetaContactsEnabled = (!(GetWindowLongPtr(hwnd, GWL_STYLE)&CLS_MANUALUPDATE)) && db_get_b(0, META_PROTO, "Enabled", 1);
 
 	if (g_clistApi.hwndContactTree == nullptr || dat->hWnd == g_clistApi.hwndContactTree)
 		dat->bMetaIgnoreEmptyExtra = db_get_b(0, "CLC", "MetaIgnoreEmptyExtra", SETTING_METAIGNOREEMPTYEXTRA_DEFAULT) != 0;
