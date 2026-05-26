@@ -104,8 +104,11 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 	xmlTitleNode->SetAttribute("id", 1); xmlTitleNode->SetText(_caption != nullptr ? _caption : L"Miranda NG");
 
 	if (_text) {
+		CMStringW wszText(_text);
+		RemoveBbcodes(wszText, true);
+
 		TiXmlElement *xmlTextNode = doc.NewElement("text"); xmlBindingNode->InsertEndChild(xmlTextNode);
-		xmlTextNode->SetAttribute("id", 2); xmlTextNode->SetText(_text);
+		xmlTextNode->SetAttribute("id", 2); xmlTextNode->SetText(wszText);
 	}
 
 	tinyxml2::XMLPrinter printer(0, true);

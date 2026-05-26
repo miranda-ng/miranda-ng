@@ -279,6 +279,11 @@ EXTERN_C MIR_CORE_DLL(int) Utils_AssertInsideScreen(RECT *rc);
 
 EXTERN_C MIR_CORE_DLL(int) Utils_CorrectFontSize(int iFontSize);
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// removes BBCodes from a string
+
+MIR_CORE_DLL(void) RemoveBbcodes(CMStringW &wszText, bool bStripUrl);
+
 /************************ Colour Picker Control (0.1.2.1+) **********************/
 
 #define WNDCLASS_COLOURPICKER  "ColourPicker"

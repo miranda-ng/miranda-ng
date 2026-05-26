@@ -1595,3 +1595,4 @@ _IsWine@0 @1817 NONAME
 ?SetChild@CDlgBase@@QAEXXZ @1820 NONAME
 ?SetStyle@CCtrlClc@@QAEXI@Z @1821 NONAME
 ?GetStyle@CCtrlClc@@QBEIXZ @1822 NONAME
+?RemoveBbcodes@@YGXAAV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@_N@Z @1823 NONAME

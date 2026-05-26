@@ -635,3 +635,93 @@ MIR_CORE_DLL(time_t) Utils_IsoToUnixTime(const char *stamp)
 	t -= _timezone;
 	return (t >= 0) ? t : 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct
+{
+	wchar_t *pStart, *pEnd;
+	size_t cbStart, cbEnd;
+}
+static bbcodes[] =
+{
+	{ L"[b]", nullptr },
+	{ L"[/b]", nullptr },
+	{ L"[i]", nullptr },
+	{ L"[/i]", nullptr },
+	{ L"[u]", nullptr },
+	{ L"[/u]", nullptr },
+	{ L"[s]", nullptr },
+	{ L"[/s]", nullptr },
+
+	{ L"[color=", L"[/color]" },
+	{ L"[bkcolor=", L"[/bkcolor]" },
+
+	{ L"[c0]", nullptr },
+	{ L"[c1]", nullptr },
+	{ L"[c2]", nullptr },
+	{ L"[c3]", nullptr },
+	{ L"[c4]", nullptr },
+	{ L"[c5]", nullptr },
+	{ L"[c6]", nullptr },
+
+	{ L"[$hicon=", L"$]" },
+
+	{ L"[url]", L"[/url]" },
+	{ L"[url=", L"[/url]", },
+	{ L"[img]", L"[/img]" },
+	{ L"[img=", L"[/img]" },
+};
+
+MIR_CORE_DLL(void) RemoveBbcodes(CMStringW &wszText, bool bStripUrl)
+{
+	if (wszText.IsEmpty())
+		return;
+
+	if (bbcodes[0].cbStart == 0)
+		for (auto &it : bbcodes) {
+			it.cbStart = wcslen(it.pStart);
+			if (it.pEnd)
+				it.cbEnd = wcslen(it.pEnd);
+		}
+
+	for (int idx = wszText.Find('[', 0); idx != -1; idx = wszText.Find('[', idx)) {
+		bool bFound = false;
+		for (auto &it : bbcodes) {
+			if (wcsncmp(wszText.c_str() + idx, it.pStart, it.cbStart))
+				continue;
+			if (!bStripUrl && it.pEnd && it.pEnd[0] == '[')
+				continue;
+
+			bool isUrl = false;
+			int lIndex = idx + (int)it.cbStart, rIndex = 0;
+			if (wszText[lIndex - 1] == '=') {
+				rIndex = wszText.Find(']', lIndex);
+				isUrl = wszText.Mid(idx + 1, 3) == L"url";
+				if (isUrl) {
+					wszText.SetAt(rIndex, ' ');
+					rIndex = 0;
+				}
+				else rIndex -= lIndex - 1;
+			}
+
+			wszText.Delete(idx, (int)it.cbStart + rIndex);
+
+			if (it.pEnd) {
+				int idx2 = wszText.Find(it.pEnd, idx);
+				if (idx2 != -1)
+					wszText.Delete(idx2, (int)it.cbEnd);
+			}
+
+			if (isUrl)
+				wszText.Insert(idx, L" ");
+
+			bFound = true;
+			break;
+		}
+
+		// just an occasional square bracket? skip it
+		if (!bFound)
+			idx++;
+	}
+}
