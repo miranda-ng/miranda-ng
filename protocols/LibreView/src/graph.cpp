@@ -114,7 +114,7 @@ struct GraphDialogParams {
 
 class CGraphDialog : public CDlgBase
 {
-	CMStringA m_title;
+	CMStringW m_title;
 	std::vector<GraphDataPoint> m_data;
 	bool m_useMgdl;
 	HWND m_hToolTip;
@@ -122,15 +122,14 @@ class CGraphDialog : public CDlgBase
 	int m_hoverIndex;
 	
 public:
-	CGraphDialog(const CMStringW& title, const std::vector<GraphDataPoint>& data, bool useMgdl) 
-		: CDlgBase(g_plugin, IDD_GRAPH), m_data(data), m_useMgdl(useMgdl)
+	CGraphDialog(const CMStringW &title, const std::vector<GraphDataPoint> &data, bool useMgdl) :
+		CDlgBase(g_plugin, IDD_GRAPH), m_data(data), m_useMgdl(useMgdl), m_title(title)
 	{
-		m_title = ptrA(mir_utf8encodeW(title.c_str()));
 	}
 
 	bool OnInitDialog() override
 	{
-		SetWindowTextA(m_hwnd, m_title);
+		SetWindowTextW(m_hwnd, m_title);
 		m_hoverIndex = -1;
 		
 		// Track this window globally
