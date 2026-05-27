@@ -561,6 +561,8 @@ MCONTACT CMaxProto::EnsureUserContact(const char *szUid, const wchar_t *wszFirst
 		return 0;
 
 	MCONTACT hContact = FindContactByMaxUid(szUid);
+	bool bNewContact = (hContact == 0);
+
 	if (!hContact) {
 		hContact = db_add_contact();
 		Proto_AddToContact(hContact, m_szModuleName);
@@ -593,7 +595,12 @@ MCONTACT CMaxProto::EnsureUserContact(const char *szUid, const wchar_t *wszFirst
 		setWord(hContact, "Status", (GetStatus() == ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
 	}
 
-	Clist_SetGroup(hContact, GetDefaultGroupW());
+	// Only set group for new contacts
+	// This preserves manual group assignments made by the user
+	if (bNewContact) {
+		Clist_SetGroup(hContact, GetDefaultGroupW());
+	}
+
 	return hContact;
 }
 
