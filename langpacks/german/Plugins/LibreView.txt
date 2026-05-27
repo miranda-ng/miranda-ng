@@ -2,11 +2,11 @@
 ;============================================================
 ;  File: LibreView.dll
 ;  Plugin: LibreView
-;  Version: 0.1.0.1
+;  Version: 0.1.1.0
 ;  Authors: Miranda NG team
 ;============================================================
-[Retrieves glucose data from LibreView service and displays it in your contact list.]
-Ruft Glukosedaten vom LibreView-Dienst ab und zeigt sie in Ihrer Kontaktliste an.
+[Retrieves blood glucose data from LibreView service and displays it in your contact list.]
+Ruft Blut-Glukosedaten vom LibreView-Dienst ab und zeigt sie in Ihrer Kontaktliste an.
 ;file \protocols\LibreView\res\options.rc
 [Email:]
 E-Mail:
@@ -24,18 +24,24 @@ Anzeige-Einheiten:
 mmol/L
 [mg/dL]
 mg/dL
+[Offset:]
+Abweichung:
+[(added before unit conversion)]
+(wird vor Einheiten-Umrechnung angewendet)
 [Write data to history]
 Daten im Verlauf speichern
 [Patient:]
 Patient:
-[Current glucose:]
-Aktuelle Glukose:
+[Last glucose:]
+Letzte Glukose:
 [Sensor activation:]
 Sensor Aktivierung:
 [Sensor remaining:]
 Sensor verbleibend:
 [Last update:]
 Zuletzt aktualisiert:
+[Glucose history]
+Glukoseverlauf
 ;file \protocols\LibreView\src\check.cpp
 [updating...]
 Aktualisieren...
@@ -43,7 +49,18 @@ Aktualisieren...
 Aktualisieren von LibreView fehlgeschlagen
 [error]
 Fehler
+;file \protocols\LibreView\src\graph.cpp
+[No data available]
+Keine Daten verfügbar
+[&Glucose history]
+&Glukoseverlauf
 ;file \protocols\LibreView\src\main.cpp
+[Main icon]
+Haupticon
+[Graph viewer]
+Graph-Betrachter
+[Protocols]
+Protokolle
 [LibreView]
 LibreView
 [&Update data]
@@ -54,7 +71,7 @@ Netzwerk
 ;file \protocols\LibreView\src\proto.cpp
 [Login failed]
 Anmeldung fehlgeschlagen
-[Login Error]
+[Login error]
 Anmeldefehler
 [falling quickly]
 Schnell fallend
