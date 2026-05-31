@@ -392,7 +392,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		break;
 
 	case INTM_CONTACTADDED:
-		g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
+		g_clistApi.pfnAddContactToTree(dat, wParam, 1, 1);
 		Clist_NotifyNewContact(hwnd, wParam);
 		SortClcByTimer(hwnd);
 		break;
@@ -410,7 +410,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			if (dbcws->value.type == DBVT_DELETED || dbcws->value.bVal == 0) {
 				if (Clist_FindItem(hwnd, dat, wParam, nullptr))
 					break;
-				g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
+				g_clistApi.pfnAddContactToTree(dat, wParam, 1, 1);
 				Clist_NotifyNewContact(hwnd, wParam);
 			}
 			else Clist_DeleteItemFromTree(hwnd, wParam);
@@ -433,7 +433,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			Clist_DeleteItemFromTree(hwnd, wParam);
 			if (dat->style & CLS_SHOWHIDDEN || !Contact::IsHidden(wParam)) {
 				NMCLISTCONTROL nm;
-				g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
+				g_clistApi.pfnAddContactToTree(dat, wParam, 1, 1);
 				if (Clist_FindItem(hwnd, dat, wParam, &contact)) {
 					memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
 					if (flags & CONTACTF_CHECKED)
@@ -473,7 +473,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				if (shouldShow && db_is_contact(wParam)) {
 					if (dat->selection >= 0 && g_clistApi.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
 						hSelItem = Clist_ContactToHItem(selcontact);
-					g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, (dat->style & CLS_CONTACTLIST) == 0, 0);
+					g_clistApi.pfnAddContactToTree(dat, wParam, (dat->style & CLS_CONTACTLIST) == 0, 0);
 					Clist_FindItem(hwnd, dat, wParam, &contact);
 					if (contact) {
 						contact->iImage = (uint16_t)lParam;

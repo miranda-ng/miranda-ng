@@ -283,7 +283,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			}
 			Clist_DeleteItemFromTree(hwnd, wParam);
 			if (dat->style & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus(wParam, nullptr, dat)) {
-				g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
+				g_clistApi.pfnAddContactToTree(dat, wParam, 1, 1);
 				if (Clist_FindItem(hwnd, dat, wParam, &contact)) {
 					memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
 					if (flags & CONTACTF_CHECKED)
@@ -326,7 +326,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				if (shouldShow && db_is_contact(wParam)) {
 					if (dat->selection >= 0 && g_clistApi.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
 						hSelItem = Clist_ContactToHItem(selcontact);
-					g_clistApi.pfnAddContactToTree(hwnd, dat, hContact, 0, 0);
+					g_clistApi.pfnAddContactToTree(dat, hContact, 0, 0);
 					recalcScrollBar = 1;
 					Clist_FindItem(hwnd, dat, hContact, &contact);
 					if (contact) {

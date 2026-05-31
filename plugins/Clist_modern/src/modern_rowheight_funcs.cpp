@@ -328,7 +328,7 @@ static int contact_fonts[] = {
 
 static int other_fonts[] = { FONTID_OPENGROUPS, FONTID_OPENGROUPCOUNTS, FONTID_CLOSEDGROUPS, FONTID_CLOSEDGROUPCOUNTS, FONTID_DIVIDERS, FONTID_CONTACT_TIME };
 
-int RowHeights_GetMaxRowHeight(ClcData *dat, HWND hwnd)
+int RowHeights_GetMaxRowHeight(ClcData *dat)
 {
 	int max_height = 0;
 

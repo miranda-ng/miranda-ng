@@ -54,7 +54,7 @@ int fnGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup 
 ClcContact* fnFindItem(uint32_t dwItem, ClcContact *contact);
 
 /* clcitems.c */
-ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers);
+ClcGroup* fnAddGroup(ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers);
 
 ClcContact* fnAddInfoItemToGroup(ClcGroup *group, int flags, const wchar_t *pszText);
 ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact);
@@ -65,7 +65,7 @@ void fnFreeContact(ClcContact *p);
 
 void FreeGroup(ClcGroup *group);
 
-void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
+void fnAddContactToTree(ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
 void fnRebuildEntireList(HWND hwnd, ClcData *dat);
 int  fnGetGroupContentsCount(ClcGroup *group, int visibleOnly);
 void fnSortCLC(HWND hwnd, ClcData *dat, int useInsertionSort);
@@ -196,7 +196,7 @@ struct CGroupInternal
 	void save();
 };
 
-void Clist_RebuildGroups(HWND hwnd, ClcData *dat);
+void Clist_RebuildGroups(MWindow hwnd, ClcData *dat);
 
 uint32_t Clist_GroupGetIgnore(MGROUP hGroup, bool *bHidden);
 void Clist_GroupSetIgnore(MGROUP hGroup, uint32_t mask, bool bHidden);

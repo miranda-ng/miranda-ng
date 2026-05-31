@@ -46,14 +46,14 @@ void ShowHide(bool bShow);
 int  ClcShutdown(WPARAM wParam, LPARAM lParam);
 
 CListEvent* AddEvent(CLISTEVENT *cle);
-ClcGroup*   AddGroup(HWND hwnd, struct ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers);
+ClcGroup*   AddGroup(ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers);
 
-ClcContact* AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact);
+ClcContact* AddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact);
 ClcContact* AddInfoItemToGroup(ClcGroup *group, int flags, const wchar_t *pszText);
-LRESULT     ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT     ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 int         RemoveEvent(CListEvent *);
 INT_PTR     TrayIconProcessMessage(WPARAM wParam, LPARAM lParam);
-void        RecalcScrollBar(HWND hwnd, struct ClcData *dat);
+void        RecalcScrollBar(HWND hwnd, ClcData *dat);
 
 LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

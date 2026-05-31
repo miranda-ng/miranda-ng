@@ -1277,7 +1277,7 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wPara
 	}
 	Clist_DeleteItemFromTree(hwnd, wParam);
 	if (dat->style & CLS_SHOWHIDDEN || !Contact::IsHidden(wParam)) {
-		g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
+		g_clistApi.pfnAddContactToTree(dat, wParam, 1, 1);
 		if (Clist_FindItem(hwnd, dat, wParam, &contact)) {
 			memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
 			if (flags & CONTACTF_CHECKED)
@@ -1326,7 +1326,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 		if (shouldShow && db_is_contact(wParam)) {
 			if (dat->selection >= 0 && g_clistApi.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
 				hSelItem = Clist_ContactToHItem(selcontact);
-			g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, (dat->style & CLS_CONTACTLIST) == 0, 0);
+			g_clistApi.pfnAddContactToTree(dat, wParam, (dat->style & CLS_CONTACTLIST) == 0, 0);
 			needRepaint = TRUE;
 			Clist_FindItem(hwnd, dat, wParam, &contact);
 			if (contact) {

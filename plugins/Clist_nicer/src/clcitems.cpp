@@ -59,9 +59,9 @@ ClcContact* AddInfoItemToGroup(ClcGroup *group, int flags, const wchar_t *pszTex
 	return p;
 }
 
-ClcGroup *AddGroup(HWND hwnd, struct ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers)
+ClcGroup* AddGroup(ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers)
 {
-	ClcGroup *p = coreCli.pfnAddGroup(hwnd, dat, szName, flags, groupId, calcTotalMembers);
+	ClcGroup *p = coreCli.pfnAddGroup(dat, szName, flags, groupId, calcTotalMembers);
 	if (p && p->parent)
 		RTL_DetectGroupName(p->parent->cl[p->parent->cl.getCount() - 1]);
 

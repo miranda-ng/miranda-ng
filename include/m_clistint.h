@@ -345,14 +345,14 @@ struct CLIST_INTERFACE
 
 	/* clcitems.c */
 	ClcContact*    (*pfnCreateClcContact)(void);
-	ClcGroup*      (*pfnAddGroup)(HWND hwnd, ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers);
+	ClcGroup*      (*pfnAddGroup)(ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers);
 	
 	void           (*pfnFreeContact)(ClcContact *contact);
 				      
 	ClcContact*    (*pfnAddInfoItemToGroup)(ClcGroup *group, int flags, const wchar_t *pszText);
 	ClcContact*    (*pfnAddContactToGroup)(ClcData *dat, ClcGroup *group, MCONTACT hContact);
 				      
-	void           (*pfnAddContactToTree)(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
+	void           (*pfnAddContactToTree)(ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
 	void           (*pfnRebuildEntireList)(HWND hwnd, ClcData *dat);
 	int            (*pfnGetGroupContentsCount)(ClcGroup *group, int visibleOnly);
 	void           (*pfnSortCLC)(HWND hwnd, ClcData *dat, int useInsertionSort);

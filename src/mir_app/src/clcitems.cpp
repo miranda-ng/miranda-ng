@@ -40,7 +40,7 @@ ClcContact* Clist_AddItemToGroup(ClcGroup *group, int iAboveItem)
 	return newItem;
 }
 
-ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers)
+ClcGroup* fnAddGroup(ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers)
 {
 	dat->bNeedsResort = true;
 	if (!(dat->style & CLS_USEGROUPS))
@@ -210,7 +210,7 @@ ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact
 	return cc;
 }
 
-void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)
+void fnAddContactToTree(ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)
 {
 	uint16_t status = ID_STATUS_OFFLINE;
 	char *szProto = Proto_GetBaseAccountName(hContact);
@@ -227,7 +227,7 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 	if (wszGroup == nullptr)
 		group = &dat->list;
 	else {
-		group = g_clistApi.pfnAddGroup(hwnd, dat, wszGroup, (uint32_t)-1, 0, 0);
+		group = g_clistApi.pfnAddGroup(dat, wszGroup, (uint32_t)-1, 0, 0);
 		if (group == nullptr) {
 			MGROUP hGroup = Clist_GroupCreate(NULL, wszGroup);
 
@@ -251,9 +251,9 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 
 				size_t len = mir_wstrlen(szGroupName);
 				if (!wcsncmp(szGroupName, wszGroup, len) && wszGroup[len] == '\\')
-					g_clistApi.pfnAddGroup(hwnd, dat, szGroupName, groupFlags, i, 1);
+					g_clistApi.pfnAddGroup(dat, szGroupName, groupFlags, i, 1);
 			}
-			group = g_clistApi.pfnAddGroup(hwnd, dat, wszGroup, groupFlags, hGroup, 1);
+			group = g_clistApi.pfnAddGroup(dat, wszGroup, groupFlags, hGroup, 1);
 		}
 	}
 
@@ -356,7 +356,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 			if (tszGroupName == nullptr)
 				group = &dat->list;
 			else {
-				group = g_clistApi.pfnAddGroup(hwnd, dat, tszGroupName, (uint32_t)-1, 0, 0);
+				group = g_clistApi.pfnAddGroup(dat, tszGroupName, (uint32_t)-1, 0, 0);
 				if (group == nullptr && dat->style & CLS_SHOWHIDDEN)
 					group = &dat->list;
 			}

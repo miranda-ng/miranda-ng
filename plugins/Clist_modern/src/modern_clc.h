@@ -321,7 +321,7 @@ int   cliGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGro
 ClcContact* cli_AddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact);
 int   cliIsVisibleContact(ClcCacheEntry *pce, ClcGroup *group);
 void  cliRebuildEntireList(HWND hwnd, ClcData *dat);
-void  cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
+void  cli_AddContactToTree(ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
 void  cli_SortCLC(HWND hwnd, ClcData *dat, int useInsertionSort);
 int   GetNewSelection(ClcGroup *group, int selection, int direction);
 

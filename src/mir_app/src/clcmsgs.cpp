@@ -35,7 +35,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 
 	switch (msg) {
 	case CLM_ADDCONTACT:
-		g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, 1, 0);
+		g_clistApi.pfnAddContactToTree(dat, wParam, 1, 0);
 		g_clistApi.pfnRecalcScrollBar(hwnd, dat);
 		g_clistApi.pfnSortCLC(hwnd, dat, 1);
 		break;
@@ -46,7 +46,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 			wchar_t *szName = Clist_GroupGetName(wParam, &groupFlags);
 			if (szName == nullptr)
 				break;
-			g_clistApi.pfnAddGroup(hwnd, dat, szName, groupFlags, wParam, 0);
+			g_clistApi.pfnAddGroup(dat, szName, groupFlags, wParam, 0);
 			g_clistApi.pfnRecalcScrollBar(hwnd, dat);
 		}
 		break;

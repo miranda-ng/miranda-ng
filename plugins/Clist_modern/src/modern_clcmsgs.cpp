@@ -53,7 +53,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 		dat->fontModernInfo[HIWORD(lParam)].hFont = (HFONT)wParam;
 		dat->fontModernInfo[HIWORD(lParam)].changed = 1;
 
-		RowHeights_GetMaxRowHeight(dat, hwnd);
+		RowHeights_GetMaxRowHeight(dat);
 
 		if (LOWORD(lParam))
 			cliInvalidateRect(hwnd, nullptr, FALSE);

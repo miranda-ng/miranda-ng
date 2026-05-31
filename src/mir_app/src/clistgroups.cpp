@@ -106,7 +106,7 @@ void Clist_RebuildGroups(HWND hwnd, ClcData *dat)
 {
 	for (auto &it: arByIds)
 		if (hwnd != g_clistApi.hwndContactTree || !it->bHidden)
-			g_clistApi.pfnAddGroup(hwnd, dat, it->groupName, it->flags, it->groupId+1, 0);
+			g_clistApi.pfnAddGroup(dat, it->groupName, it->flags, it->groupId+1, 0);
 }
 
 void Clist_GroupAdded(MGROUP hGroup)

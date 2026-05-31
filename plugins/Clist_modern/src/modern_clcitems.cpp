@@ -159,7 +159,7 @@ ClcContact* cli_AddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hConta
 	return cc;
 }
 
-void cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)
+void cli_AddContactToTree(ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)
 {
 	ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 	if (dat->bMetaContactsEnabled && pdnce->m_bIsSub)
@@ -168,11 +168,11 @@ void cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int update
 	if (!dat->bMetaContactsEnabled && !mir_strcmp(pdnce->szProto, META_PROTO))
 		return;
 
-	corecli.pfnAddContactToTree(hwnd, dat, hContact, updateTotalCount, checkHideOffline);
+	corecli.pfnAddContactToTree(dat, hContact, updateTotalCount, checkHideOffline);
 
 	ClcGroup *group;
 	ClcContact *cont;
-	if (Clist_FindItem(hwnd, dat, hContact, &cont, &group))
+	if (Clist_FindItem(0, dat, hContact, &cont, &group))
 		_LoadDataToContact(cont, pdnce, group, dat, hContact);
 }
 
@@ -229,7 +229,7 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 
 	ImageArray_Clear(&dat->avatar_cache);
 	RowHeights_Clear(dat);
-	RowHeights_GetMaxRowHeight(dat, hwnd);
+	RowHeights_GetMaxRowHeight(dat);
 
 	MCONTACT hSelected = SaveSelection(dat);
 	dat->selection = -1;
