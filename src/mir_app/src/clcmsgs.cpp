@@ -81,7 +81,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 		break;
 
 	case CLM_DELETEITEM:
-		Clist_DeleteItemFromTree(hwnd, wParam);
+		Clist_DeleteItemFromTree(dat, wParam);
 		g_clistApi.pfnSortCLC(hwnd, dat, 1);
 		g_clistApi.pfnRecalcScrollBar(hwnd, dat);
 		break;

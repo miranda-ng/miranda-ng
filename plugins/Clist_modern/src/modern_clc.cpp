@@ -1275,7 +1275,7 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wPara
 		memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
 		flags = contact->flags;
 	}
-	Clist_DeleteItemFromTree(hwnd, wParam);
+	Clist_DeleteItemFromTree(dat, wParam);
 	if (dat->style & CLS_SHOWHIDDEN || !Contact::IsHidden(wParam)) {
 		g_clistApi.pfnAddContactToTree(dat, wParam, 1, 1);
 		if (Clist_FindItem(dat, wParam, &contact)) {

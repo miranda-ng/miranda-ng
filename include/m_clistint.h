@@ -268,7 +268,7 @@ MIR_APP_DLL(int)       Clist_ClcStatusToPf2(int status);
 MIR_APP_DLL(uint32_t)  Clist_ContactToHItem(ClcContact *contact);
 MIR_APP_DLL(HANDLE)    Clist_ContactToItemHandle(ClcContact *contact, uint32_t *nmFlags);
 MIR_APP_DLL(void)      Clist_DeleteFromContactList(HWND hwnd, ClcData *dat);
-MIR_APP_DLL(void)      Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem);
+MIR_APP_DLL(void)      Clist_DeleteItemFromTree(ClcData *dat, MCONTACT hItem);
 MIR_APP_DLL(void)      Clist_DoSelectionDefaultAction(HWND hwnd, ClcData *dat);
 MIR_APP_DLL(void)      Clist_DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
 MIR_APP_DLL(void)      Clist_EndRename(ClcData *dat, int save);

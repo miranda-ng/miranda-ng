@@ -288,9 +288,8 @@ MIR_APP_DLL(ClcGroup*) Clist_RemoveItemFromGroup(ClcData *dat, ClcGroup *group, 
 	return group;
 }
 
-MIR_APP_DLL(void) Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
+MIR_APP_DLL(void) Clist_DeleteItemFromTree(ClcData *dat, MCONTACT hItem)
 {
-	ClcData *dat = (ClcData*)GetWindowLongPtr(hwnd, 0);
 	dat->bNeedsResort = true;
 
 	// if a contact is found in our contact list, remove it from its group and detach from cache
