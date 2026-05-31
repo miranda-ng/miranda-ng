@@ -139,7 +139,7 @@ void QSMainDlg::AdvancedFilter()
 
 	for (auto &it : m_rows) {
 		bool bShow = (szFilterProto == nullptr) || !mir_strcmp(szFilterProto, it->szProto);
-		if (bShow && !bShowOffline && it->status == ID_STATUS_OFFLINE)
+		if (bShow && !m_bShowOffline && it->status == ID_STATUS_OFFLINE)
 			bShow = false;
 
 		if (it->bPattern) {
@@ -570,14 +570,14 @@ void QSMainDlg::ShowContactMenu(MCONTACT hContact, int col)
 
 			srvhandle = CreateServiceFunctionObjParam("QS/Dummy", &ColChangeFunc, this, col);
 
-			if (mnuhandle == nullptr) {
+			if (m_hMenuItem == nullptr) {
 				CMenuItem mi(&g_plugin);
 				SET_UID(mi, 0xD384A798, 0x5D4C, 0x48B4, 0xB3, 0xE2, 0x30, 0x04, 0x6E, 0xD6, 0xF4, 0x81);
 				mi.name.a = LPGEN("Change setting through QS");
 				mi.pszService = "QS/Dummy";
-				mnuhandle = Menu_AddContactMenuItem(&mi);
+				m_hMenuItem = Menu_AddContactMenuItem(&mi);
 			}
-			else Menu_ModifyItem(mnuhandle, 0, INVALID_HANDLE_VALUE, 0);
+			else Menu_ModifyItem(m_hMenuItem, 0, INVALID_HANDLE_VALUE, 0);
 		}
 	}
 
@@ -599,7 +599,7 @@ void QSMainDlg::ShowContactMenu(MCONTACT hContact, int col)
 	if (srvhandle)
 		DestroyServiceFunction(srvhandle);
 	if (bDoit)
-		Menu_ShowItem(mnuhandle, false);
+		Menu_ShowItem(m_hMenuItem, false);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

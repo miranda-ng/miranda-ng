@@ -379,7 +379,6 @@ QSMainDlg::QSMainDlg(const wchar_t *pwszPattern) :
 bool QSMainDlg::OnInitDialog()
 {
 	g_pDlg = this;
-	mnuhandle = 0;
 
 	SetCaption(TranslateT("Quick Search"));
 
@@ -398,7 +397,7 @@ bool QSMainDlg::OnInitDialog()
 
 	szFilterProto = nullptr; // display all protocols
 	if (g_plugin.m_flags & QSO_SHOWOFFLINE)
-		bShowOffline = true;
+		m_bShowOffline = true;
 
 	chkColorize.SetState((g_plugin.m_flags & QSO_COLORIZE) != 0);
 
@@ -474,8 +473,8 @@ bool QSMainDlg::OnInitDialog()
 
 void QSMainDlg::OnDestroy()
 {
-	if (mnuhandle)
-		Menu_RemoveItem(mnuhandle);
+	if (m_hMenuItem)
+		Menu_RemoveItem(m_hMenuItem);
 
 	UnhookEvent(hAdd);
 	UnhookEvent(hDelete);
@@ -524,12 +523,14 @@ int QSMainDlg::Resizer(UTILRESIZECONTROL *urc)
 
 INT_PTR QSMainDlg::OnContactAdded(UINT, WPARAM hContact, LPARAM)
 {
-	auto *pRow = new CRowItem(hContact, this);
-	m_rows.insert(pRow);
-	AddContactToList(hContact, pRow);
-	ProcessLine(pRow);
-	Sort();
-	UpdateSB();
+	if (m_bShowOffline || Contact::GetStatus(hContact) != ID_STATUS_OFFLINE) {
+		auto *pRow = new CRowItem(hContact, this);
+		m_rows.insert(pRow);
+		AddContactToList(hContact, pRow);
+		ProcessLine(pRow);
+		Sort();
+		UpdateSB();
+	}
 	return 0;
 }
 
@@ -633,7 +634,7 @@ INT_PTR QSMainDlg::OnMouseMove(UINT, WPARAM, LPARAM lParam)
 INT_PTR QSMainDlg::OnKeydown(UINT, WPARAM wParam, LPARAM)
 {
 	if (wParam == VK_F5)
-		PostMessage(m_hwnd, WM_COMMAND, IDC_REFRESH, 0);
+		btnRefresh.Click();
 	return 0;
 }
 
@@ -670,11 +671,11 @@ void QSMainDlg::onChange_ShowOffline(CCtrlCheck *)
 {
 	if (chkShowOffline.IsChecked()) {
 		g_plugin.m_flags |= QSO_SHOWOFFLINE;
-		bShowOffline = true;
+		m_bShowOffline = true;
 	}
 	else {
 		g_plugin.m_flags &= ~QSO_SHOWOFFLINE;
-		bShowOffline = false;
+		m_bShowOffline = false;
 	}
 	
 	AdvancedFilter();

@@ -355,7 +355,7 @@ class QSMainDlg : public CDlgBase
 	int tableColumns = 0;
 	HICON hIconF = 0, hIconM = 0;
 	HANDLE hAdd, hDelete, hChange;
-	HGENMENU mnuhandle = 0;
+	HGENMENU m_hMenuItem = 0;
 
 	// patterns
 	struct Pattern {
@@ -370,7 +370,7 @@ class QSMainDlg : public CDlgBase
 	OBJLIST<Pattern> m_patterns;
 	ptrW m_wszPatternBuf;
 
-	bool bShowOffline;
+	bool m_bShowOffline;
 	char *szFilterProto = nullptr;
 
 	bool CheckPattern(CRowItem *pRow);
