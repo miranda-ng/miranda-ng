@@ -68,8 +68,6 @@ static bool sttContactPayloadSaysRemoved(const JSONNode &c)
 	const char *s = st.as_string().c_str();
 	if (!mir_strcmpi(s, "REMOVED"))
 		return true;
-	if (!mir_strcmpi(s, "DELETED"))
-		return true;
 	return false;
 }
 
@@ -1164,18 +1162,16 @@ void CMaxProto::ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *
 			const JSONNode &c = contacts[i];
 			CMStringA cuid = sttJsonIdStr(c["id"]);
 			if (cuid.IsEmpty())
-				cuid = sttJsonIdStr(c["contactId"]);
-			if (cuid.IsEmpty())
-				cuid = sttJsonIdStr(c["userId"]);
-			if (cuid.IsEmpty())
 				continue;
 			if (sttContactPayloadSaysRemoved(c)) {
 				RemoveMaxUserContact(cuid.c_str());
 				continue;
 			}
-			sttPushUniqueUid(allowedUids, cuid);
-			sttPushUniqueUid(contactBookFromSync, cuid);
-			MergeContactJson(contacts[i]);
+			if (c["flags"].as_int() & 512) {
+				sttPushUniqueUid(allowedUids, cuid);
+				sttPushUniqueUid(contactBookFromSync, cuid);
+				MergeContactJson(contacts[i]);
+			}
 		}
 	}
 	else if (contacts.type() == JSON_NODE) {
@@ -1186,20 +1182,44 @@ void CMaxProto::ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *
 			if (key != nullptr && key[0])
 				cuid = key;
 			if (cuid.IsEmpty())
-				cuid = sttJsonIdStr(c["id"]);
-			if (cuid.IsEmpty())
-				cuid = sttJsonIdStr(c["contactId"]);
-			if (cuid.IsEmpty())
-				cuid = sttJsonIdStr(c["userId"]);
-			if (cuid.IsEmpty())
 				continue;
 			if (sttContactPayloadSaysRemoved(c)) {
 				RemoveMaxUserContact(cuid.c_str());
 				continue;
 			}
-			sttPushUniqueUid(allowedUids, cuid);
-			sttPushUniqueUid(contactBookFromSync, cuid);
-			MergeContactJson(c, (key && key[0]) ? key : nullptr);
+			if (c["flags"].as_int() & 512) {
+				sttPushUniqueUid(allowedUids, cuid);
+				sttPushUniqueUid(contactBookFromSync, cuid);
+				MergeContactJson(c, (key && key[0]) ? key : nullptr);
+			}
+		}
+	}
+
+	// For dialog peers not in phone contacts, merge contact data now to avoid "User {uid}" stub.
+	if (contacts.type() == JSON_ARRAY && chats.type() == JSON_ARRAY) {
+		for (unsigned ci = 0; ci < chats.size(); ci++) {
+			const JSONNode &chat = chats[ci];
+			CMStringA chatId = sttResolveDialogChatId(chat);
+			if (chatId.IsEmpty())
+				continue;
+			CMStringA typ(chat["type"].type() != JSON_NULL ? chat["type"].as_string().c_str() : "");
+			if (!sttTypeIsDialog(typ))
+				continue;
+			CMStringA peerUid = sttPickDialogPeerUid(this, chat, myUid);
+			if (peerUid.IsEmpty() || peerUid == myUid)
+				continue;
+			// Check if peer is in contacts array but not yet merged (no flags & 512).
+			if (!sttUidInContactsArray(contacts, peerUid.c_str()))
+				continue;
+			// Find the contact node and merge its data (if not already done by flags & 512 branch).
+			for (unsigned j = 0; j < contacts.size(); j++) {
+				CMStringA cid = sttJsonIdStr(contacts[j]["id"]);
+				if (cid == peerUid) {
+					if (!(contacts[j]["flags"].as_int() & 512))
+						MergeContactJson(contacts[j]);
+					break;
+				}
+			}
 		}
 	}
 
