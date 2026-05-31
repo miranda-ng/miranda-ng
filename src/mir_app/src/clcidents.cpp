@@ -88,7 +88,7 @@ ClcContact* fnFindItem(uint32_t dwItem, ClcContact *cc)
 	return nullptr;
 }
 
-MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, uint32_t dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible)
+MIR_APP_DLL(bool) Clist_FindItem(ClcData *dat, uint32_t dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible, HWND hwnd)
 {
 	int index = 0;
 	bool nowVisible = true;

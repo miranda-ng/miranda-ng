@@ -296,7 +296,7 @@ MIR_APP_DLL(void) Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 	// if a contact is found in our contact list, remove it from its group and detach from cache
 	ClcGroup *group;
 	ClcContact *contact;
-	if (Clist_FindItem(hwnd, dat, hItem, &contact, &group)) {
+	if (Clist_FindItem(dat, hItem, &contact, &group)) {
 		Clist_RemoveItemFromGroup(dat, group, contact, 1);
 		contact->pce = &nullpce;
 		return;
@@ -564,7 +564,7 @@ void fnSortCLC(HWND hwnd, ClcData *dat, int useInsertionSort)
 
 		if (hSelItem) {
 			ClcGroup *selgroup;
-			if (Clist_FindItem(hwnd, dat, hSelItem, &selcontact, &selgroup))
+			if (Clist_FindItem(dat, hSelItem, &selcontact, &selgroup))
 				dat->selection = g_clistApi.pfnGetRowsPriorTo(dat, selgroup, selgroup->cl.indexOf(selcontact));
 		}
 
@@ -686,7 +686,7 @@ MIR_APP_DLL(void) Clist_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 			group = &dat->list;
 		else {
 			ClcContact *contact;
-			if (!Clist_FindItem(hwnd, dat, it->parentId | HCONTACT_ISGROUP, &contact))
+			if (!Clist_FindItem(dat, it->parentId | HCONTACT_ISGROUP, &contact))
 				continue;
 			group = contact->group;
 		}

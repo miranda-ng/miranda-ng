@@ -274,7 +274,7 @@ MIR_APP_DLL(void)      Clist_DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICO
 MIR_APP_DLL(void)      Clist_EndRename(ClcData *dat, int save);
 MIR_APP_DLL(void)      Clist_EnsureVisible(HWND hwnd, ClcData *dat, int iItem, int partialOk);
 MIR_APP_DLL(int)       Clist_EventsProcessTrayDoubleClick(int index);
-MIR_APP_DLL(bool)      Clist_FindItem(HWND hwnd, ClcData *dat, uint32_t dwItem, ClcContact **contact, ClcGroup **subgroup = 0, int *isVisible = 0);
+MIR_APP_DLL(bool)      Clist_FindItem(ClcData *dat, uint32_t dwItem, ClcContact **contact, ClcGroup **subgroup = 0, int *isVisible = 0, HWND hwnd = 0);
 MIR_APP_DLL(uint32_t)  Clist_GetDefaultExStyle(void);
 MIR_APP_DLL(int)       Clist_GetEventCount(void);
 MIR_APP_DLL(void)      Clist_GetFontSetting(int i, LOGFONT *lf, COLORREF *colour);

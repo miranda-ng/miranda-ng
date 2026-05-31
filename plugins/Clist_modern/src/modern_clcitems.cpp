@@ -172,7 +172,7 @@ void cli_AddContactToTree(ClcData *dat, MCONTACT hContact, int updateTotalCount,
 
 	ClcGroup *group;
 	ClcContact *cont;
-	if (Clist_FindItem(0, dat, hContact, &cont, &group))
+	if (Clist_FindItem(dat, hContact, &cont, &group))
 		_LoadDataToContact(cont, pdnce, group, dat, hContact);
 }
 
@@ -196,7 +196,7 @@ int RestoreSelection(ClcData *dat, MCONTACT hSelected)
 {
 	ClcGroup *selgroup = nullptr;
 	ClcContact *selcontact = nullptr;
-	if (!hSelected || !Clist_FindItem(dat->hWnd, dat, hSelected, &selcontact, &selgroup)) {
+	if (!hSelected || !Clist_FindItem(dat, hSelected, &selcontact, &selgroup)) {
 		dat->selection = -1;
 		return dat->selection;
 	}
