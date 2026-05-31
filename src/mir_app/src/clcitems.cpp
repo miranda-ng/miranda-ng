@@ -297,7 +297,6 @@ MIR_APP_DLL(void) Clist_DeleteItemFromTree(ClcData *dat, MCONTACT hItem)
 	ClcContact *contact;
 	if (Clist_FindItem(dat, hItem, &contact, &group)) {
 		Clist_RemoveItemFromGroup(dat, group, contact, 1);
-		contact->pce = &nullpce;
 		return;
 	}
 
