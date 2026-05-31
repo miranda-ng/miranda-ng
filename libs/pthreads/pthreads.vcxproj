@@ -67,5 +67,4 @@
   <ItemGroup>
     <ClCompile Include="src\pthread.c" />
   </ItemGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
