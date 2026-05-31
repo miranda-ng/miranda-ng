@@ -289,7 +289,7 @@ MIR_APP_DLL(void)      Clist_LoadContactTree(void);
 MIR_APP_DLL(void)      Clist_NotifyNewContact(HWND hwnd, MCONTACT hContact);
 MIR_APP_DLL(void)      Clist_RecalculateGroupCheckboxes(ClcData *dat);
 MIR_APP_DLL(int)       Clist_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent);
-MIR_APP_DLL(ClcGroup*) Clist_RemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
+MIR_APP_DLL(ClcGroup*) Clist_RemoveItemFromGroup(ClcData *dat, ClcGroup *group, ClcContact *contact, int updateTotalCount);
 MIR_APP_DLL(void)      Clist_SaveStateAndRebuildList(HWND hwnd, ClcData *dat);
 MIR_APP_DLL(void)      Clist_SetGroupChildCheckboxes(ClcGroup *group, int checked);
 MIR_APP_DLL(void)      Clist_SetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group, int newState);

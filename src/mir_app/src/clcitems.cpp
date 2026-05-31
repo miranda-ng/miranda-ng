@@ -264,7 +264,7 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 		group->totalMembers++;
 }
 
-MIR_APP_DLL(ClcGroup*) Clist_RemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount)
+MIR_APP_DLL(ClcGroup*) Clist_RemoveItemFromGroup(ClcData *dat, ClcGroup *group, ClcContact *contact, int updateTotalCount)
 {
 	int iContact = group->cl.indexOf(contact);
 	if (iContact == -1)
@@ -280,10 +280,10 @@ MIR_APP_DLL(ClcGroup*) Clist_RemoveItemFromGroup(HWND hwnd, ClcGroup *group, Clc
 	g_clistApi.pfnFreeContact(group->cl[iContact]);
 	group->cl.remove(iContact);
 
-	if ((SendMessage(hwnd, CLM_GETSTYLE, 0, 0) & CLS_HIDEEMPTYGROUPS) && group->cl.getCount() == 0 && group->parent != nullptr)
+	if ((dat->style & CLS_HIDEEMPTYGROUPS) && group->cl.getCount() == 0 && group->parent != nullptr)
 		for (auto &cc : group->parent->cl)
 			if (cc->type == CLCIT_GROUP && cc->groupId == group->groupId)
-				return Clist_RemoveItemFromGroup(hwnd, group->parent, cc, 0);
+				return Clist_RemoveItemFromGroup(dat, group->parent, cc, 0);
 
 	return group;
 }
@@ -297,7 +297,7 @@ MIR_APP_DLL(void) Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 	ClcGroup *group;
 	ClcContact *contact;
 	if (Clist_FindItem(hwnd, dat, hItem, &contact, &group)) {
-		Clist_RemoveItemFromGroup(hwnd, group, contact, 1);
+		Clist_RemoveItemFromGroup(dat, group, contact, 1);
 		contact->pce = &nullpce;
 		return;
 	}
@@ -396,7 +396,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 			ClcContact *cc = group->cl[group->scanIndex];
 			if (cc->type == CLCIT_GROUP) {
 				if (cc->group->cl.getCount() == 0) {
-					group = Clist_RemoveItemFromGroup(hwnd, group, cc, 0);
+					group = Clist_RemoveItemFromGroup(dat, group, cc, 0);
 				}
 				else {
 					group = cc->group;

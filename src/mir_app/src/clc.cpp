@@ -488,7 +488,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				if (!shouldShow && !(dat->style & CLS_NOHIDEOFFLINE) && (dat->style & CLS_HIDEOFFLINE || group->bHideOffline)) {
 					if (dat->selection >= 0 && g_clistApi.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
 						hSelItem = Clist_ContactToHItem(selcontact);
-					Clist_RemoveItemFromGroup(hwnd, group, contact, (dat->style & CLS_CONTACTLIST) == 0);
+					Clist_RemoveItemFromGroup(dat, group, contact, (dat->style & CLS_CONTACTLIST) == 0);
 				}
 				else {
 					contact->iImage = (uint16_t)lParam;

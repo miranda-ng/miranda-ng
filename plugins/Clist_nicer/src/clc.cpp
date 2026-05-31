@@ -342,7 +342,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				if (!shouldShow && !(dat->style & CLS_NOHIDEOFFLINE) && (dat->style & CLS_HIDEOFFLINE || group->bHideOffline || cfg::dat.bFilterEffective)) {        // CLVM changed
 					if (dat->selection >= 0 && g_clistApi.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
 						hSelItem = Clist_ContactToHItem(selcontact);
-					Clist_RemoveItemFromGroup(hwnd, group, contact, 0);
+					Clist_RemoveItemFromGroup(dat, group, contact, 0);
 					contactRemoved = TRUE;
 					recalcScrollBar = 1;
 				}
