@@ -688,7 +688,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						DWM_BLURBEHIND bb = { 0 };
 						bb.dwFlags = DWM_BB_ENABLE | DWM_BB_BLURREGION;
 						bb.fEnable = TRUE;
-						bb.hRgnBlur = CreateOpaqueRgn(25, true);
+						bb.hRgnBlur = CreateOpaqueRgn(opt.iOpacity, true);
 						MyDwmEnableBlurBehindWindow(hwnd, &bb);
 					}
 				}

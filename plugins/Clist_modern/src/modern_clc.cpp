@@ -1302,6 +1302,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 	bool needRepaint = false;
 	int contacticon = Clist_GetContactIcon(wParam);
 	MCONTACT hSelItem = 0;
+	LRESULT res = FALSE;
 
 	ClcContact *selcontact = nullptr;
 
@@ -1351,6 +1352,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 			Clist_RemoveItemFromGroup(dat, group, contact, (dat->style & CLS_CONTACTLIST) == 0);
 			needRepaint = TRUE;
 			dat->bNeedsResort = true;
+			res = TRUE;
 		}
 		else if (contact) {
 			contact->iImage = lParam;
@@ -1388,7 +1390,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 		//try only needed rectangle
 	}
 
-	return 0;
+	return res;
 }
 
 static LRESULT clcOnIntmAvatarChanged(ClcData *dat, HWND hwnd, UINT, WPARAM hContact, LPARAM)
@@ -1495,9 +1497,8 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 					Cache_GetNthLineText(dat, pdnce, 3);
 				}
 
-				clcOnIntmIconChanged(dat, hwnd, msg, wParam, Clist_GetContactIcon(wParam));
-
-				if (contact->type == CLCIT_CONTACT) {
+				LRESULT res = clcOnIntmIconChanged(dat, hwnd, msg, wParam, Clist_GetContactIcon(wParam));
+				if (!res && contact->type == CLCIT_CONTACT) {
 					if (!contact->bImageIsSpecial && pdnce->getStatus() > ID_STATUS_OFFLINE)
 						contact->iImage = Clist_GetContactIcon(wParam);
 					if (contact->iSubNumber && contact->subcontacts && contact->subcontacts->type == CLCIT_CONTACT)
