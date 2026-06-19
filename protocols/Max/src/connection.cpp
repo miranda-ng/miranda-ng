@@ -2060,6 +2060,7 @@ void __cdecl CMaxProto::ConnectionWorker(void *)
 	{
 		MHttpRequest req(REQUEST_GET);
 		req.flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_REDIRECT;
+		req.timeout = 10000;
 		req.m_szUrl = szWebRootUrl;
 		req.AddHeader("Origin", szOrigin);
 		req.AddHeader("User-Agent", szWsUserAgent);
@@ -2161,6 +2162,13 @@ void __cdecl CMaxProto::ConnectionWorker(void *)
 	// Ready for WaitForGatewayReady() only after handshake + optional sync finished.
 	m_bGatewayConnected = true;
 
+	{
+		int iOldStatus = m_iStatus;
+		m_iStatus = ID_STATUS_ONLINE;
+		SyncFavoritesPresence(m_iStatus);
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+	}
+
 	if (token != nullptr && token[0] && m_bInitialSyncOk) {
 		ApiSendTelemetryColdStart(&ws);
 		m_hPingThread = ForkThreadEx(&CMaxProto::PingWorker, this, nullptr);
@@ -2176,6 +2184,13 @@ void __cdecl CMaxProto::ConnectionWorker(void *)
 		WaitForSingleObject(m_hPingThread, 5000);
 		CloseHandle(m_hPingThread);
 		m_hPingThread = nullptr;
+	}
+
+	if (m_iStatus != ID_STATUS_OFFLINE) {
+		int iOldStatus = m_iStatus;
+		m_iStatus = ID_STATUS_OFFLINE;
+		SyncFavoritesPresence(m_iStatus);
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 	}
 
 	m_bTerminated = true;

@@ -792,24 +792,6 @@ INT_PTR CMaxProto::GetCaps(int type, MCONTACT)
 
 int CMaxProto::SetStatus(int iNewStatus)
 {
-	auto syncFavoritesPresence = [&](int protoStatus) {
-		ptrA myUid(getStringA(DB_KEY_MY_MAX_ID));
-		for (auto &hContact : AccContacts()) {
-			if (isChatRoom(hContact))
-				continue;
-			if (IsMaxBotMirrorContact(hContact)) {
-				setWord(hContact, "Status", (protoStatus == ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
-				continue;
-			}
-			if (myUid == nullptr || myUid[0] == 0)
-				continue;
-			ptrA uid(getStringA(hContact, DB_KEY_MAX_UID));
-			if (uid == nullptr || uid[0] == 0 || mir_strcmp(uid, myUid))
-				continue;
-			setWord(hContact, "Status", (protoStatus == ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
-		}
-	};
-
 	if (iNewStatus == ID_STATUS_INVISIBLE)
 		iNewStatus = ID_STATUS_ONLINE;
 	if (iNewStatus != ID_STATUS_OFFLINE && iNewStatus != ID_STATUS_ONLINE)
@@ -820,13 +802,19 @@ int CMaxProto::SetStatus(int iNewStatus)
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		DisconnectGateway();
 		m_iStatus = ID_STATUS_OFFLINE;
-		syncFavoritesPresence(m_iStatus);
+		SyncFavoritesPresence(m_iStatus);
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 		return 0;
 	}
 
-	if (m_hConnThread)
-		return 0;
+	if (m_hConnThread) {
+		if (WaitForSingleObject(m_hConnThread, 0) == WAIT_OBJECT_0) {
+			CloseHandle(m_hConnThread);
+			m_hConnThread = nullptr;
+		}
+		else
+			return 0;
+	}
 
 	m_bTerminated = false;
 	m_iStatus = ID_STATUS_CONNECTING;
@@ -835,11 +823,26 @@ int CMaxProto::SetStatus(int iNewStatus)
 	if (!m_hConnThread)
 		return 1;
 
-	iOldStatus = m_iStatus;
-	m_iStatus = iNewStatus;
-	syncFavoritesPresence(m_iStatus);
-	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 	return 0;
+}
+
+void CMaxProto::SyncFavoritesPresence(int protoStatus)
+{
+	ptrA myUid(getStringA(DB_KEY_MY_MAX_ID));
+	for (auto &hContact : AccContacts()) {
+		if (isChatRoom(hContact))
+			continue;
+		if (IsMaxBotMirrorContact(hContact)) {
+			setWord(hContact, "Status", (protoStatus == ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
+			continue;
+		}
+		if (myUid == nullptr || myUid[0] == 0)
+			continue;
+		ptrA uid(getStringA(hContact, DB_KEY_MAX_UID));
+		if (uid == nullptr || uid[0] == 0 || mir_strcmp(uid, myUid))
+			continue;
+		setWord(hContact, "Status", (protoStatus == ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
+	}
 }
 
 bool CMaxProto::JsonIndicatesMaxBot(const JSONNode &c) const

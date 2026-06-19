@@ -102,6 +102,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	int __cdecl OnWindowEvent(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcExecMenu(WPARAM, LPARAM);
 	void InitMenus();
+	void SyncFavoritesPresence(int protoStatus);
 
 public:
 	CMaxProto(const char *szModuleName, const wchar_t *ptszUserName);
