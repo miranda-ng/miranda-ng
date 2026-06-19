@@ -1442,7 +1442,7 @@ bool CMaxProto::ApiDeleteMessages(WebSocket<CMaxProto> *ws, const char *szChatId
 	JSONNode payload(JSON_NODE);
 	payload << INT64_PARAM("chatId", cid) << JSON_PARAM("messageIds", messageIds) << BOOL_PARAM("forMe", bForMe);
 
-	// PyMax / vkmax: Opcode delete message == 66
+	// Opcode delete message == 66
 	return SendJsonAndWait(ws, 66, payload, 0);
 }
 
@@ -1521,7 +1521,7 @@ bool CMaxProto::ApiDeleteServerDialog(WebSocket<CMaxProto> *ws, const char *szCh
 	JSONNode payload(JSON_NODE);
 	payload << INT64_PARAM("chatId", cid);
 
-	// MaxApiTeam/PyMax: Opcode.CHAT_DELETE == 52 (75 is CHAT_SUBSCRIBE — does not remove dialog from list).
+	// Opcode.CHAT_DELETE == 52 (75 is CHAT_SUBSCRIBE — does not remove dialog from list).
 	return SendJsonAndWait(ws, 52, payload, 0, true);
 }
 
@@ -1537,7 +1537,7 @@ bool CMaxProto::ApiChatLeave(WebSocket<CMaxProto> *ws, const char *szChatId)
 	JSONNode payload(JSON_NODE);
 	payload << INT64_PARAM("chatId", cid);
 
-	// PyMax: Opcode.CHAT_LEAVE == 58 (LeaveChatPayload — chatId only).
+	// Opcode.CHAT_LEAVE == 58 (LeaveChatPayload — chatId only).
 	return SendJsonAndWait(ws, 58, payload, 0, true);
 }
 
@@ -1554,7 +1554,7 @@ bool CMaxProto::ApiUpdateMyProfile(WebSocket<CMaxProto> *ws, const char *szFirst
 		payload << CHAR_PARAM("lastName", szLastNameUtf8);
 	payload << CHAR_PARAM("description", szDescriptionUtf8);
 
-	// PyMax: Opcode.PROFILE == 16 — treat payload errors as failure (show localizedMessage, do not update DB).
+	// Opcode.PROFILE == 16 — treat payload errors as failure (show localizedMessage, do not update DB).
 	return SendJsonAndWait(ws, 16, payload, 0, false);
 }
 
@@ -2194,8 +2194,6 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 
 	int op = MaxJsonOpcodeInt(json);
 
-	// Dispatch table for opcode-based response matching.
-	// Each entry: waitOpcode, replyOpcode, checkSeq, payloadCheck.
 	// Dispatch table for opcode-based response matching.
 	// Each entry: waitOpcode, replyOpcode, checkSeq, payloadCheck.
 	struct WsReplyEntry { int waitOp, replyOp; bool checkSeq; bool (*checkPl)(const JSONNode&); };

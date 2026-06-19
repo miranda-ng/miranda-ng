@@ -162,11 +162,11 @@ public:
 	bool ApiAddContactOnServer(WebSocket<CMaxProto> *ws, const char *szUidDecimal);
 	/// Opcode 34: remove user from server-side contacts (`action` mirrors ADD).
 	bool ApiRemoveContactFromServer(WebSocket<CMaxProto> *ws, const char *szUidDecimal);
-	/// Opcode 52: remove dialog/chat from server roster (PyMax `CHAT_DELETE` — not opcode 75 subscribe).
+	/// Opcode 52: remove dialog/chat from server roster (not opcode 75 subscribe).
 	bool ApiDeleteServerDialog(WebSocket<CMaxProto> *ws, const char *szChatId);
-	/// Opcode 58: leave group/channel (PyMax `CHAT_LEAVE` — payload is chatId only; not 75).
+	/// Opcode 58: leave group/channel (payload is chatId only; not 75).
 	bool ApiChatLeave(WebSocket<CMaxProto> *ws, const char *szChatId);
-	/// Opcode 16: update own profile (PyMax `PROFILE` / `ChangeProfilePayload`).
+	/// Opcode 16: update own profile.
 	bool ApiUpdateMyProfile(WebSocket<CMaxProto> *ws, const char *szFirstNameUtf8, const char *szLastNameUtf8, const char *szDescriptionUtf8);
 	/// Push first/last name and biography to server (requires online); updates local settings on success.
 	bool SaveMyProfile(const wchar_t *pwszFirstName, const wchar_t *pwszLastName, const wchar_t *pwszBio);
