@@ -35,6 +35,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	bool m_bContactBookSnapshotApplied = false;
 	volatile LONG m_iSendMsgSeq = 0;
 	uint64_t m_lastClientCidMs = 0;
+	uint64_t GetNextCidMs();
 	CMStringA m_szPendingResponse;
 	z_stream m_wsInflate = {};
 	bool m_wsInflateInited = false;
