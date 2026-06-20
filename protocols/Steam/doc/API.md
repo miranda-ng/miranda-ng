@@ -270,7 +270,7 @@ To check for new messages (can be used over http and when a message
 
  - `steamid`
  - `umqid`
- - `message` - id of last message recieved used to check for newer mesages
+ - `message` - id of last message received used to check for newer mesages
 
 #### Returns ####
  
