@@ -31,7 +31,7 @@ EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void)
 		return;
 
 	bool bRebuild = false;
-	LONG_PTR dwStyle = GetWindowLongPtr(g_clistApi.hwndContactTree, GWL_STYLE);
+	LONG_PTR dwStyle = SendMessage(g_clistApi.hwndContactTree, CLM_GETSTYLE, 0, 0);
 
 	// CLC does this automatically, but we need to force it if hideoffline or hideempty has changed
 	if ((Clist::bHideOffline == 0) != ((dwStyle & CLS_HIDEOFFLINE) == 0)) {
@@ -59,7 +59,7 @@ EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void)
 	}
 
 	if (bRebuild) {
-		SetWindowLongPtr(g_clistApi.hwndContactTree, GWL_STYLE, dwStyle);
+		SendMessage(g_clistApi.hwndContactTree, CLM_SETSTYLE, dwStyle, 0);
 		Clist_InitAutoRebuild(g_clistApi.hwndContactTree);
 	}
 }

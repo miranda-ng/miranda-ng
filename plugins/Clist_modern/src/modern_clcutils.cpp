@@ -198,7 +198,7 @@ void cliRecalcScrollBar(HWND hwnd, ClcData *dat)
 	si.nPage = clRect.bottom;
 	si.nPos = dat->yScroll;
 
-	if (GetWindowLongPtr(hwnd, GWL_STYLE)&CLS_CONTACTLIST) {
+	if (dat->style & CLS_CONTACTLIST) {
 		if (!dat->bNoVScrollbar)
 			SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
 	}
@@ -287,7 +287,7 @@ void cliBeginRenameSelection(HWND hwnd, ClcData *dat)
 	else
 		dat->hwndRenameEdit = CreateWindow(L"EDIT", Clist_GetContactDisplayName(contact->hContact), WS_POPUP | WS_BORDER | ES_AUTOHSCROLL | a, x, y, w, h, hwnd, nullptr, g_plugin.getInst(), nullptr);
 
-	SetWindowLongPtr(dat->hwndRenameEdit, GWL_STYLE, GetWindowLongPtr(dat->hwndRenameEdit, GWL_STYLE)&(~WS_CAPTION) | WS_BORDER);
+	SetWindowLongPtr(dat->hwndRenameEdit, GWL_STYLE, GetWindowLongPtr(dat->hwndRenameEdit, GWL_STYLE) & (~WS_CAPTION) | WS_BORDER);
 	SetWindowLongPtr(dat->hwndRenameEdit, GWLP_USERDATA, (LONG_PTR)dat);
 	mir_subclassWindow(dat->hwndRenameEdit, RenameEditSubclassProc);
 	SendMessage(dat->hwndRenameEdit, WM_SETFONT, (WPARAM)(contact->type == CLCIT_GROUP ? dat->fontModernInfo[FONTID_OPENGROUPS].hFont : dat->fontModernInfo[FONTID_CONTACTS].hFont), 0);
@@ -580,7 +580,7 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 		dat->MenuBmpUse = db_get_w(0, "Menu", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}
 
-	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd, GWL_STYLE)&CLS_MANUALUPDATE)) && db_get_b(0, META_PROTO, "Enabled", 1);
+	dat->bMetaContactsEnabled = db_mc_isEnabled();
 
 	if (g_clistApi.hwndContactTree == nullptr || dat->hWnd == g_clistApi.hwndContactTree)
 		dat->bMetaIgnoreEmptyExtra = db_get_b(0, "CLC", "MetaIgnoreEmptyExtra", SETTING_METAIGNOREEMPTYEXTRA_DEFAULT) != 0;

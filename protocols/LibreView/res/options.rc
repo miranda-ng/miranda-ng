@@ -25,7 +25,10 @@ BEGIN
     LTEXT           "Display units:",IDC_STATIC,10,82,70,9,0,WS_EX_RIGHT
     CONTROL         "mmol/L",IDC_UNIT_MMOL,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,84,81,58,10
     CONTROL         "mg/dL",IDC_UNIT_MGDL,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,146,81,58,10
-    CONTROL         "Write data to history",IDC_WRITE_HISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,84,98,120,10
+    LTEXT           "Offset:",IDC_STATIC,10,95,70,9,0,WS_EX_RIGHT
+    EDITTEXT        IDC_OFFSET,84,93,40,12,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
+    LTEXT           "(added before unit conversion)",IDC_STATIC,128,95,150,9
+    CONTROL         "Write data to history",IDC_WRITE_HISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,84,110,120,10
 END
 
 IDD_USERINFO DIALOGEX 0, 0, 309, 132
@@ -35,8 +38,8 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Patient:",IDC_STATIC,10,18,90,9,0,WS_EX_RIGHT
     LTEXT           "",IDC_PATIENT,104,18,198,9
-    LTEXT           "Current glucose:",IDC_STATIC,10,34,90,9,0,WS_EX_RIGHT
-    LTEXT           "",IDC_CURRENT,104,34,198,9
+    LTEXT           "Last glucose:",IDC_STATIC,10,34,90,9,0,WS_EX_RIGHT
+    LTEXT           "",IDC_LAST_GLUCOSE,104,34,198,9
     LTEXT           "Sensor activation:",IDC_STATIC,10,50,90,9,0,WS_EX_RIGHT
     LTEXT           "",IDC_SENSOR_ACTIVATION,104,50,198,9
     LTEXT           "Sensor remaining:",IDC_STATIC,10,66,90,9,0,WS_EX_RIGHT
@@ -47,9 +50,14 @@ END
 
 IDD_GRAPH DIALOGEX 0, 0, 500, 350
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Glucose History"
+CAPTION "Glucose history"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
 END
+
+IDI_MAIN                ICON                    "libreview.ico"
+
+IDI_GRAPH               ICON                    "graph.ico"
+
 
 #endif

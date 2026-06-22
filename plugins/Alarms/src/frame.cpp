@@ -14,7 +14,7 @@ HBRUSH bk_brush = nullptr;
 
 #define CLUIFrameTitleBarClassName				"CLUIFrameTitleBar"
 
-AlarmList alarm_list;
+AlarmList alarm_list(1, CompareAlarms);
 mir_cs list_cs;
 
 HGENMENU hMenuShowReminders = nullptr;
@@ -85,7 +85,7 @@ bool FrameIsFloating()
 	return CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLOATING, frame_id), 0) != 0;
 }
 
-ALARM context_menu_alarm = { 0 };
+ALARM *context_menu_alarm = nullptr;
 
 LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -116,10 +116,8 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_DRAWITEM:
 		dis = (DRAWITEMSTRUCT *)lParam;
 		if (dis->itemID != (uint32_t)-1) {
-			ALARM alarm = { 0 };
 			mir_cslock lck(list_cs);
-			ALARM &list_alarm = alarm_list.at(dis->itemData);
-			copy_alarm_data(&alarm, &list_alarm);
+			auto &alarm = alarm_list[dis->itemData];
 
 			RECT r;
 			GetClientRect(hwnd, &r);
@@ -167,8 +165,6 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			}
 
 			SetBkMode(dis->hDC, OPAQUE);
-
-			free_alarm_data(&alarm);
 		}
 		else FillRect(dis->hDC, &dis->rcItem, bk_brush);
 
@@ -297,13 +293,12 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			mir_cslock lck(list_cs);
 			SendMessage(hwnd_list, LB_RESETCONTENT, 0, 0);
 			copy_list(alarm_list, t1, t2);
-			alarm_list.sort();
+
 			int index = 0;
-			ALARM *i;
-			for (alarm_list.reset(); i = alarm_list.current(); alarm_list.next(), index++) {
-				if (i->flags & (ALF_HIDDEN | ALF_SUSPENDED | ALF_NOREMINDER))
+			for (auto &it: alarm_list) {
+				if (it->flags & (ALF_HIDDEN | ALF_SUSPENDED | ALF_NOREMINDER))
 					continue;
-				SendMessage(hwnd_list, LB_ADDSTRING, 0, (LPARAM)index);
+				SendMessage(hwnd_list, LB_ADDSTRING, 0, (LPARAM)index++);
 			}
 
 			SendMessage(hwnd, WMU_SIZE_LIST, 0, 0);
@@ -357,11 +352,9 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				if (sel >= 0) {
 					// one-off alarms can't be suspended
 					int index = SendMessage(hwnd_list, LB_GETITEMDATA, (WPARAM)sel, 0);
-					ALARM &list_alarm = alarm_list.at(index);
-					copy_alarm_data(&context_menu_alarm, &list_alarm);
-					if (context_menu_alarm.occurrence == OC_ONCE)
+					context_menu_alarm = new ALARM(alarm_list[index]);
+					if (context_menu_alarm->occurrence == OC_ONCE)
 						EnableMenuItem(submenu, ID_REMINDERFRAMECONTEXT_SUSPEND, MF_BYCOMMAND | MF_GRAYED);
-
 				}
 			}
 			else {
@@ -387,8 +380,8 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			break;
 
 		case ID_REMINDERFRAMECONTEXT_SUSPEND:
-			if (context_menu_alarm.occurrence != OC_ONCE) {
-				suspend(context_menu_alarm.id);
+			if (context_menu_alarm->occurrence != OC_ONCE) {
+				suspend(context_menu_alarm->id);
 				PostMessage(hwnd, WMU_FILL_LIST, 0, 0);
 				if (hwndOptionsDialog) {
 					// refresh options list
@@ -398,11 +391,11 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			break;
 
 		case ID_REMINDERFRAMECONTEXT_EDIT:
-			EditNonModal(context_menu_alarm);
+			EditNonModal(*context_menu_alarm);
 			break;
 
 		case ID_REMINDERFRAMECONTEXT_DELETE:
-			remove(context_menu_alarm.id);
+			remove(context_menu_alarm->id);
 			PostMessage(hwnd, WMU_FILL_LIST, 0, 0);
 			if (hwndOptionsDialog) // refresh options list
 				PostMessage(hwndOptionsDialog, WMU_INITOPTLIST, 0, 0);
@@ -417,7 +410,8 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_DESTROY:
 		KillTimer(hwnd, ID_FRAME_UPDATE_TIMER);
 		KillTimer(hwnd, ID_FRAME_SHOWHIDE_TIMER);
-		free_alarm_data(&context_menu_alarm);
+		delete context_menu_alarm;
+		context_menu_alarm = nullptr;
 		break;
 	}
 

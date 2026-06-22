@@ -482,22 +482,11 @@ BOOL WINAPI CoolSB_ShowScrollBar(HWND hwnd, int wBar, BOOL fShow)
 		else		SetWindowLongPtr(hwnd, GWL_STYLE, dwStyle & ~WS_VSCROLL);
 	}
 
-	if (bFailed) {
+	if (bFailed)
 		return FALSE;
-	}
-	else {
-		//uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
-		//style |= WS_VSCROLL;
 
-		//if (s
-		//SetWindowLongPtr(hwnd, GWL_STYLE, style);
-
-		SetWindowPos(hwnd, nullptr, 0, 0, 0, 0,
-			SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER |
-			SWP_NOACTIVATE | SWP_FRAMECHANGED);
-
-		return TRUE;
-	}
+	SetWindowPos(hwnd, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+	return TRUE;
 }
 
 //

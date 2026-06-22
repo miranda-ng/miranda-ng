@@ -2,10 +2,10 @@
 ;============================================================
 ;  File: LibreView.dll
 ;  Plugin: LibreView
-;  Version: 0.1.0.1
+;  Version: 0.1.1.0
 ;  Authors: Miranda NG team
 ;============================================================
-[Retrieves glucose data from LibreView service and displays it in your contact list.]
+[Retrieves blood glucose data from LibreView service and displays it in your contact list.]
 ;file \protocols\LibreView\res\options.rc
 [Email:]
 [Password:]
@@ -15,16 +15,22 @@
 [Display units:]
 [mmol/L]
 [mg/dL]
+[Offset:]
+[(added before unit conversion)]
 [Write data to history]
 [Patient:]
-[Current glucose:]
+[Last glucose:]
 [Sensor activation:]
 [Sensor remaining:]
 [Last update:]
+[Glucose history]
 ;file \protocols\LibreView\src\check.cpp
 [updating...]
 [LibreView update failed]
 [error]
+;file \protocols\LibreView\src\graph.cpp
+[No data available]
+[&Glucose history]
 ;file \protocols\LibreView\src\main.cpp
 [LibreView]
 [&Update data]
@@ -32,7 +38,7 @@
 [Network]
 ;file \protocols\LibreView\src\proto.cpp
 [Login failed]
-[Login Error]
+[Login error]
 [falling quickly]
 [falling]
 [steady]

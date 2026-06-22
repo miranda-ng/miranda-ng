@@ -382,7 +382,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			return 0;
 
 		case IDC_LOGOPTIONS:
-			NetlibLogShowOptions();
+			NetlibLogShowOptions(hwndDlg);
 			return 0;
 
 		case IDC_PROXYTYPE:

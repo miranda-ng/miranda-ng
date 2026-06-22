@@ -611,10 +611,10 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			case IDOK:
 				{
 					GetDlgItemText(hwndDlg, IDC_TITLE, buff, _countof(buff));
-					replaceStrW(add_edit_alarm->szTitle, buff);
+					add_edit_alarm->szTitle = mir_wstrdup(buff);
 
 					GetDlgItemText(hwndDlg, IDC_DESC, buff, _countof(buff));
-					replaceStrW(add_edit_alarm->szDesc, buff);
+					add_edit_alarm->szDesc = mir_wstrdup(buff);
 
 					if (add_edit_alarm->szTitle == nullptr || add_edit_alarm->szTitle[0] == '\0') {
 						MessageBox(hwndDlg, TranslateT("Please enter a title for this alarm."), TranslateT("Error"), MB_OK | MB_ICONERROR);
@@ -652,8 +652,6 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					else
 						add_edit_alarm->day_mask &= ~ALDF_7;
 
-
-
 					if (!UpdateAlarm(add_edit_alarm->time, add_edit_alarm->occurrence, add_edit_alarm->day_mask)) {
 						MessageBox(hwndDlg, TranslateT("The alarm time you have selected is in the past."), TranslateT("Error"), MB_OK | MB_ICONERROR);
 						return TRUE;
@@ -673,9 +671,9 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 					if (add_edit_alarm->action & AAF_COMMAND) {
 						GetDlgItemText(hwndDlg, IDC_ED_COMMAND, buff, _countof(buff));
-						replaceStrW(add_edit_alarm->szCommand, buff);
+						add_edit_alarm->szCommand = mir_wstrdup(buff);
 						GetDlgItemText(hwndDlg, IDC_ED_PARAMS, buff, _countof(buff));
-						replaceStrW(add_edit_alarm->szCommandParams, buff);
+						add_edit_alarm->szCommandParams = mir_wstrdup(buff);
 					}
 
 					if (add_edit_alarm->action & AAF_SOUND) {
@@ -701,10 +699,8 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 
 					// self-add (setting stored in invisible checkbox - see comments in WM_INITDIALOG
-					if (IsDlgButtonChecked(hwndDlg, IDC_CHK_INVIS)) {
-						free_alarm_data(add_edit_alarm);
+					if (IsDlgButtonChecked(hwndDlg, IDC_CHK_INVIS))
 						delete add_edit_alarm;
-					}
 
 					// inform options dialog of change
 
@@ -716,10 +712,8 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			case IDCANCEL:
 				// self-add (setting stored in invisible checkbox - see comments in WM_INITDIALOG
-				if (IsDlgButtonChecked(hwndDlg, IDC_CHK_INVIS)) {
-					free_alarm_data(add_edit_alarm);
+				if (IsDlgButtonChecked(hwndDlg, IDC_CHK_INVIS))
 					delete add_edit_alarm;
-				}
 
 				Utils_SaveWindowPosition(hwndDlg, 0, MODULENAME, "AddEdit");
 
@@ -824,44 +818,7 @@ int OptionsModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-AlarmList temp_list, added_list, modified_list;		// we need to keep track of added and modified alarms, since if the non-modal dialog
-													// refreshes the list before changes are applied, we loose them
-
-class ShortList
-{
-public:
-	class Node
-	{
-	public:
-		Node() : next(nullptr) {}
-		unsigned short value;
-		Node *next;
-	};
-
-
-	ShortList() : head(nullptr) {}
-	virtual ~ShortList() { clear(); }
-
-	void clear()
-	{
-		Node *current;
-		while (head) {
-			current = head;
-			head = head->next;
-			delete current;
-		}
-	}
-
-	void push_back(unsigned short s) { Node *n = new Node; n->value = s; n->next = head; head = n; }
-
-	Node *get_head() { return head; }
-
-protected:
-
-	Node *head;
-};
-
-ShortList deleted_list;			// same with deleted items
+AlarmList temp_list(1, CompareAlarms);
 
 Options temp_options;
 static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -872,89 +829,61 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	switch (msg) {
 	case WM_INITDIALOG:
 		hwndOptionsDialog = hwndDlg;
-		added_list.clear();
-		modified_list.clear();
-		deleted_list.clear();
 
 		TranslateDialogDefault(hwndDlg);
 
+		copy_list(temp_list);
 		temp_options = options;
 
 		PostMessage(hwndDlg, WMU_INITOPTLIST, 0, 0);
 		return TRUE;
 
 	case WMU_INITOPTLIST:
-		copy_list(temp_list);
-		{
-			// add added alarms, in case this is a list refresh from non-modal add alarm dialog
-			ALARM *i, *j;
-			for (added_list.reset(); i = added_list.current(); added_list.next())
-				temp_list.push_back(i);
+		SendDlgItemMessage(hwndDlg, IDC_ALIST, LB_RESETCONTENT, 0, 0);
 
-			// modify modified alarms, in case this is a list refresh from non-modal add alarm dialog
-			for (temp_list.reset(); i = temp_list.current(); temp_list.next())
-				for (modified_list.reset(); j = modified_list.current(); modified_list.next())
-					if (i->id == j->id)
-						copy_alarm_data(i, j);
-
-			// remove deleted alarms, in case this is a list refresh from non-modal add alarm dialog
-			ShortList::Node *k = deleted_list.get_head();
-			while (k) {
-				for (temp_list.reset(); i = temp_list.current(); temp_list.next()) {
-					if (i->id == k->value) {
-						temp_list.erase();
-						break;
-					}
+		if (temp_list.getCount() > 0) {
+			int pos = -1;
+			for (auto &it : temp_list) {
+				if (!(it->flags & ALF_HIDDEN)) {
+					pos = SendDlgItemMessage(hwndDlg, IDC_ALIST, LB_ADDSTRING, 0, (LPARAM)it->szTitle);
+					SendDlgItemMessage(hwndDlg, IDC_ALIST, LB_SETITEMDATA, pos, (LPARAM)it->id);
 				}
-				k = k->next;
 			}
-
-			SendDlgItemMessage(hwndDlg, IDC_ALIST, LB_RESETCONTENT, 0, 0);
-
-			if (temp_list.size() > 0) {
-				int pos = -1;
-				for (temp_list.reset(); i = temp_list.current(); temp_list.next()) {
-					if (!(i->flags & ALF_HIDDEN)) {
-						pos = SendDlgItemMessage(hwndDlg, IDC_ALIST, LB_ADDSTRING, 0, (LPARAM)i->szTitle);
-						SendDlgItemMessage(hwndDlg, IDC_ALIST, LB_SETITEMDATA, pos, (LPARAM)i->id);
-					}
-				}
-				SendDlgItemMessage(hwndDlg, IDC_ALIST, LB_SETCURSEL, pos, 0);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT), TRUE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_DEL), TRUE);
-			}
-			else {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_DEL), FALSE);
-			}
-
-			CheckDlgButton(hwndDlg, IDC_CHK_POPUPS, temp_options.use_popup_module ? BST_CHECKED : BST_UNCHECKED);
-			if (options.use_popup_module)
-				bChecked = FALSE;
-			else {
-				CheckDlgButton(hwndDlg, IDC_CHK_LOOPSOUND, temp_options.loop_sound ? BST_CHECKED : BST_UNCHECKED);
-				bChecked = TRUE;
-			}
-
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TRANS), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SPIN_TRANS), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_AWROUND), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_PREVIEW), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_LOOPSOUND), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_AWNOACTIVATE), bChecked);
-
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_SNOOZE, UDM_SETRANGE, 0, (LPARAM)MAKELONG(360, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_SNOOZE, UDM_SETPOS, 0, temp_options.snooze_minutes);
-
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_ROWHEIGHT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 5));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_ROWHEIGHT, UDM_SETPOS, 0, temp_options.row_height);
-
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_INDENT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_INDENT, UDM_SETPOS, 0, temp_options.indent);
-
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_TRANS, UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_TRANS, UDM_SETPOS, 0, temp_options.aw_trans);
+			SendDlgItemMessage(hwndDlg, IDC_ALIST, LB_SETCURSEL, pos, 0);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT), TRUE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_DEL), TRUE);
 		}
+		else {
+			EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_DEL), FALSE);
+		}
+
+		CheckDlgButton(hwndDlg, IDC_CHK_POPUPS, temp_options.use_popup_module ? BST_CHECKED : BST_UNCHECKED);
+		if (options.use_popup_module)
+			bChecked = FALSE;
+		else {
+			CheckDlgButton(hwndDlg, IDC_CHK_LOOPSOUND, temp_options.loop_sound ? BST_CHECKED : BST_UNCHECKED);
+			bChecked = TRUE;
+		}
+
+		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TRANS), bChecked);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_SPIN_TRANS), bChecked);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_AWROUND), bChecked);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_PREVIEW), bChecked);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_LOOPSOUND), bChecked);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_AWNOACTIVATE), bChecked);
+
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_SNOOZE, UDM_SETRANGE, 0, (LPARAM)MAKELONG(360, 0));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_SNOOZE, UDM_SETPOS, 0, temp_options.snooze_minutes);
+
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_ROWHEIGHT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 5));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_ROWHEIGHT, UDM_SETPOS, 0, temp_options.row_height);
+
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_INDENT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 0));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_INDENT, UDM_SETPOS, 0, temp_options.indent);
+
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_TRANS, UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 0));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_TRANS, UDM_SETPOS, 0, temp_options.aw_trans);
 
 		CheckDlgButton(hwndDlg, IDC_SHOWHIDE, temp_options.auto_showhide ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SHOWHIDE2, temp_options.hide_with_clist ? BST_CHECKED : BST_UNCHECKED);
@@ -999,24 +928,21 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				break;
 			case IDC_NEW:
 				{
-					ALARM new_alarm = { 0 };
+					ALARM new_alarm;
 					GetPluginTime(&new_alarm.time);
 					new_alarm.id = next_alarm_id++;
 					if (New(hwndDlg, new_alarm, true)) {
 						new_alarm.id = next_alarm_id++;
-						temp_list.push_back(&new_alarm);
-						added_list.push_back(&new_alarm);
+						auto *pNew = new ALARM(new_alarm);
+						temp_list.insert(pNew);
+
 						int pos = SendDlgItemMessage(hwndDlg, IDC_ALIST, LB_ADDSTRING, (WPARAM)-1, (LPARAM)new_alarm.szTitle);
 						SendDlgItemMessage(hwndDlg, IDC_ALIST, LB_SETITEMDATA, pos, new_alarm.id);
 						SendDlgItemMessage(hwndDlg, IDC_ALIST, LB_SETCURSEL, pos, 0);
-						HWND hw;
-						hw = GetDlgItem(hwndDlg, IDC_EDIT);
-						EnableWindow(hw, TRUE);
-						hw = GetDlgItem(hwndDlg, IDC_DEL);
-						EnableWindow(hw, TRUE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT), TRUE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_DEL), TRUE);
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-
-						free_alarm_data(&new_alarm);
+						PostMessage(hwndDlg, WMU_INITOPTLIST, 0, 0);
 					}
 				}
 				break;
@@ -1025,18 +951,15 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				sel = SendDlgItemMessage(hwndDlg, IDC_ALIST, LB_GETCURSEL, 0, 0);
 				if (sel != -1) {
 					unsigned short id = (unsigned short)SendDlgItemMessage(hwndDlg, IDC_ALIST, LB_GETITEMDATA, sel, 0);
-					ALARM *i;
-					for (temp_list.reset(); i = temp_list.current(); temp_list.next()) {
-						if (i->id == id) {
-							ALARM a = { 0 };
-							copy_alarm_data(&a, i);
+					for (auto *it: temp_list) {
+						if (it->id == id) {
+							ALARM a = *it;
 							if (Edit(hwndDlg, a, true)) {
-								modified_list.push_back(&a);
+								*it = a;
 								SendMessage(hwndDlg, WMU_INITOPTLIST, 0, 0);
 								SendDlgItemMessage(hwndDlg, IDC_ALIST, LB_SETCURSEL, sel, 0);
 								SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 							}
-							free_alarm_data(&a);
 							break;
 						}
 					}
@@ -1048,11 +971,9 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				if (sel != -1) {
 					unsigned short id = (unsigned short)SendDlgItemMessage(hwndDlg, IDC_ALIST, LB_GETITEMDATA, sel, 0);
 
-					ALARM *i;
-					for (temp_list.reset(); i = temp_list.current(); temp_list.next()) {
-						if (i->id == id) {
-							deleted_list.push_back(i->id);
-							//temp_list.erase();
+					for (auto &it: temp_list) {
+						if (it->id == id) {
+							temp_list.remove(temp_list.indexOf(&it));
 							break;
 						}
 					}
@@ -1108,18 +1029,15 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			sel = SendDlgItemMessage(hwndDlg, IDC_ALIST, LB_GETCURSEL, 0, 0);
 			if (sel != -1) {
 				unsigned short id = (unsigned short)SendDlgItemMessage(hwndDlg, IDC_ALIST, LB_GETITEMDATA, sel, 0);
-				ALARM *i;
-				for (temp_list.reset(); i = temp_list.current(); temp_list.next()) {
-					if (i->id == id) {
-						ALARM a = { 0 };
-						copy_alarm_data(&a, i);
+				for (auto &it: temp_list) {
+					if (it->id == id) {
+						ALARM a = *it;
 						if (Edit(hwndDlg, a, true)) {
-							modified_list.push_back(&a);
+							*it = a;
 							SendMessage(hwndDlg, WMU_INITOPTLIST, 0, 0);
 							SendDlgItemMessage(hwndDlg, IDC_ALIST, LB_SETCURSEL, sel, 0);
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 						}
-						free_alarm_data(&a);
 						break;
 					}
 				}
@@ -1167,10 +1085,6 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			FixMainMenu();
 			RefreshReminderFrame();
 			SetAlarmWinOptions();
-
-			added_list.clear();
-			modified_list.clear();
-			deleted_list.clear();
 			return TRUE;
 		}
 
@@ -1178,15 +1092,11 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 	case WM_DESTROY:
 		hwndOptionsDialog = nullptr;
-		added_list.clear();
-		modified_list.clear();
-		deleted_list.clear();
 		break;
 	}
 
 	return FALSE;
 }
-
 
 int OptInit(WPARAM wParam, LPARAM)
 {
@@ -1238,7 +1148,6 @@ void SaveOptions()
 INT_PTR NewAlarmMenuFunc(WPARAM, LPARAM)
 {
 	ALARM *new_alarm = new ALARM;
-	memset(new_alarm, 0, sizeof(ALARM));
 	new_alarm->id = next_alarm_id++;
 	GetPluginTime(&new_alarm->time);
 
@@ -1248,9 +1157,6 @@ INT_PTR NewAlarmMenuFunc(WPARAM, LPARAM)
 
 void EditNonModal(ALARM &alarm)
 {
-	ALARM *new_alarm = new ALARM;
-	memset(new_alarm, 0, sizeof(ALARM));
-	copy_alarm_data(new_alarm, &alarm);
-
+	ALARM *new_alarm = new ALARM(alarm);
 	Edit(GetDesktopWindow(), *new_alarm, false);
 }

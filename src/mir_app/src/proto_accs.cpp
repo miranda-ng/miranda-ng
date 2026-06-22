@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#include "clc.h"
+#include "netlib.h"
 
 #define PROTO_MODULE LPGEN("Protocols")
 
@@ -213,6 +213,9 @@ int LoadAccountsModule(void)
 	}
 
 	hHooks[0] = HookEvent(ME_SYSTEM_PRESHUTDOWN, UninitializeStaticAccounts);
+
+	if (db_get_b(0, "Netlib", "ShowLogOptsAtStart"))
+		NetlibLogShowOptions();
 	return 0;
 }
 

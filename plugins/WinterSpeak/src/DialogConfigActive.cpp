@@ -271,7 +271,7 @@ void DialogConfigActive::SetAllContactIcons(HWND hwndList)
 void DialogConfigActive::ResetListOptions(HWND listview)
 {
 	SendMessage(listview, CLM_SETHIDEEMPTYGROUPS, 1, 0);
-	SetWindowLongPtr(listview, GWL_STYLE, GetWindowLongPtr(listview, GWL_STYLE) | CLS_SHOWHIDDEN);
+	SendMessage(listview, CLM_SETSTYLE, SendMessage(listview, CLM_GETSTYLE, 0, 0) | CLS_SHOWHIDDEN, 0);
 }
 
 void DialogConfigActive::SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentItem, int *groupChildCount)

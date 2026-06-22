@@ -208,7 +208,7 @@ int  Netlib_SendHttpRequest(HNETLIBCONN hConnection, MHttpRequest *pRec, MChunkH
 MHttpResponse* NetlibHttpRecv(NetlibConnection *nlc, MChunkHandler &pHandler, int flags, bool isConnect = false);
 
 // netliblog.cpp
-void NetlibLogShowOptions(void);
+void NetlibLogShowOptions(MWindow hwndOwner = 0);
 void NetlibLogInit(void);
 void NetlibLogShutdown(void);
 

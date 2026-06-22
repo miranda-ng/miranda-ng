@@ -182,7 +182,7 @@ static ClcContact* FindMetaContact(HWND hwndClist, MCONTACT hContact)
 		return nullptr;
 
 	ClcContact *ret = nullptr;
-	if (!Clist_FindItem(hwndClist, dat, hContact, &ret))
+	if (!Clist_FindItem(dat, hContact, &ret))
 		return nullptr;
 
 	return ret;

@@ -1387,6 +1387,12 @@ void CTelegramProto::ProcessUserInfo(TD::int53 userId, TD::userFullInfo *pObj)
 	if (auto *pUser = FindUser(userId)) {
 		if (auto *pBirthday = pObj->birthdate_.get())
 			Contact::SetBirthday(pUser->hContact, pBirthday->day_, pBirthday->month_, pBirthday->year_, m_szModuleName);
+		else if (getWord(pUser->hContact, "BirthDay")) {
+			delSetting(pUser->hContact, "BirthDay");
+			delSetting(pUser->hContact, "BirthMonth");
+			delSetting(pUser->hContact, "BirthYear");
+			delSetting(pUser->hContact, "Age");
+		}
 
 		if (pObj->bio_) {
 			CMStringA szNotes(GetFormattedText(pObj->bio_));

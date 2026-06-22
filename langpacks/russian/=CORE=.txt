@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.7
+;  Version: 0.96.8
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -1034,7 +1034,7 @@ UIN, E-mail и т.д.
 [Always show status in tooltip]
 Всегда показывать статус в подсказке
 [Hide offline users in root]
-Скрывать отключённых пользователей в корне
+Скрыть отключённых в корне
 [Default settings for known event types]
 Настройки для известных типов событий
 [Popup]

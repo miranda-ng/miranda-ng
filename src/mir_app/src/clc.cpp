@@ -267,7 +267,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		break;
 
 	case INTM_SCROLLBARCHANGED:
-		if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CONTACTLIST) {
+		if (dat->style & CLS_CONTACTLIST) {
 			if (dat->bNoVScrollbar)
 				ShowScrollBar(hwnd, SB_VERT, FALSE);
 			else
@@ -360,7 +360,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 	case INTM_GROUPSCHANGED:
 		if (auto *pGroup = (CGroupInternal *)lParam) {
 			// check name of group and ignore message if just being expanded/collapsed
-			if (Clist_FindItem(hwnd, dat, pGroup->groupId + 1 | HCONTACT_ISGROUP, &contact, &group)) {
+			if (Clist_FindItem(dat, pGroup->groupId + 1 | HCONTACT_ISGROUP, &contact, &group)) {
 				CMStringW szFullName(contact->szText);
 				while (group->parent) {
 					ClcContact *cc = nullptr;
@@ -392,28 +392,28 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		break;
 
 	case INTM_CONTACTADDED:
-		g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
+		g_clistApi.pfnAddContactToTree(dat, wParam, 1, 1);
 		Clist_NotifyNewContact(hwnd, wParam);
 		SortClcByTimer(hwnd);
 		break;
 
 	case INTM_CONTACTDELETED:
-		Clist_DeleteItemFromTree(hwnd, wParam);
+		Clist_DeleteItemFromTree(dat, wParam);
 		SortClcByTimer(hwnd);
 		break;
 
 	case INTM_HIDDENCHANGED:
 		{
 			DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *)lParam;
-			if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN)
+			if (dat->style & CLS_SHOWHIDDEN)
 				break;
 			if (dbcws->value.type == DBVT_DELETED || dbcws->value.bVal == 0) {
-				if (Clist_FindItem(hwnd, dat, wParam, nullptr))
+				if (Clist_FindItem(dat, wParam, nullptr))
 					break;
-				g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
+				g_clistApi.pfnAddContactToTree(dat, wParam, 1, 1);
 				Clist_NotifyNewContact(hwnd, wParam);
 			}
-			else Clist_DeleteItemFromTree(hwnd, wParam);
+			else Clist_DeleteItemFromTree(dat, wParam);
 
 			dat->bNeedsResort = true;
 			SortClcByTimer(hwnd);
@@ -424,17 +424,17 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		{
 			uint16_t iExtraImage[EXTRA_ICON_COUNT];
 			uint8_t flags = 0;
-			if (!Clist_FindItem(hwnd, dat, wParam, &contact))
+			if (!Clist_FindItem(dat, wParam, &contact))
 				memset(iExtraImage, 0xFF, sizeof(iExtraImage));
 			else {
 				memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
 				flags = contact->flags;
 			}
-			Clist_DeleteItemFromTree(hwnd, wParam);
-			if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !Contact::IsHidden(wParam)) {
+			Clist_DeleteItemFromTree(dat, wParam);
+			if (dat->style & CLS_SHOWHIDDEN || !Contact::IsHidden(wParam)) {
 				NMCLISTCONTROL nm;
-				g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
-				if (Clist_FindItem(hwnd, dat, wParam, &contact)) {
+				g_clistApi.pfnAddContactToTree(dat, wParam, 1, 1);
+				if (Clist_FindItem(dat, wParam, &contact)) {
 					memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
 					if (flags & CONTACTF_CHECKED)
 						contact->flags |= CONTACTF_CHECKED;
@@ -464,18 +464,17 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				status = db_get_w(wParam, szProto, "Status", ID_STATUS_OFFLINE);
 
 			// this means an offline msg is flashing, so the contact should be shown
-			uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
-			int shouldShow = (style & CLS_SHOWHIDDEN || !Contact::IsHidden(wParam))
+			int shouldShow = (dat->style & CLS_SHOWHIDDEN || !Contact::IsHidden(wParam))
 				&& (!Clist_IsHiddenMode(dat, status) || Clist_GetContactIcon(wParam) != lParam);
 
 			contact = nullptr;
 			group = nullptr;
-			if (!Clist_FindItem(hwnd, dat, wParam, &contact, &group)) {
+			if (!Clist_FindItem(dat, wParam, &contact, &group)) {
 				if (shouldShow && db_is_contact(wParam)) {
 					if (dat->selection >= 0 && g_clistApi.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
 						hSelItem = Clist_ContactToHItem(selcontact);
-					g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, (style & CLS_CONTACTLIST) == 0, 0);
-					Clist_FindItem(hwnd, dat, wParam, &contact);
+					g_clistApi.pfnAddContactToTree(dat, wParam, (dat->style & CLS_CONTACTLIST) == 0, 0);
+					Clist_FindItem(dat, wParam, &contact);
 					if (contact) {
 						contact->iImage = (uint16_t)lParam;
 						Clist_NotifyNewContact(hwnd, wParam);
@@ -486,10 +485,10 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			else { // item in list already
 				if (contact->iImage == (uint16_t)lParam)
 					break;
-				if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->bHideOffline)) {
+				if (!shouldShow && !(dat->style & CLS_NOHIDEOFFLINE) && (dat->style & CLS_HIDEOFFLINE || group->bHideOffline)) {
 					if (dat->selection >= 0 && g_clistApi.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
 						hSelItem = Clist_ContactToHItem(selcontact);
-					Clist_RemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
+					Clist_RemoveItemFromGroup(dat, group, contact, (dat->style & CLS_CONTACTLIST) == 0);
 				}
 				else {
 					contact->iImage = (uint16_t)lParam;
@@ -502,7 +501,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			}
 			if (hSelItem) {
 				ClcGroup *selgroup;
-				if (Clist_FindItem(hwnd, dat, hSelItem, &selcontact, &selgroup))
+				if (Clist_FindItem(dat, hSelItem, &selcontact, &selgroup))
 					dat->selection = g_clistApi.pfnGetRowsPriorTo(dat, selgroup, selgroup->cl.indexOf(selcontact));
 				else
 					dat->selection = -1;
@@ -512,7 +511,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		break;
 
 	case INTM_NAMECHANGED:
-		if (!Clist_FindItem(hwnd, dat, wParam, &contact))
+		if (!Clist_FindItem(dat, wParam, &contact))
 			break;
 
 		mir_wstrncpy(contact->szText, Clist_GetContactDisplayName(wParam), _countof(contact->szText));
@@ -521,7 +520,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		break;
 
 	case INTM_PROTOCHANGED:
-		if (!Clist_FindItem(hwnd, dat, wParam, &contact))
+		if (!Clist_FindItem(dat, wParam, &contact))
 			break;
 
 		contact->pce->szProto = Proto_GetBaseAccountName(wParam);
@@ -531,7 +530,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		break;
 
 	case INTM_NOTONLISTCHANGED:
-		if (!Clist_FindItem(hwnd, dat, wParam, &contact))
+		if (!Clist_FindItem(dat, wParam, &contact))
 			break;
 
 		if (contact->type == CLCIT_CONTACT) {
@@ -549,7 +548,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		break;
 
 	case INTM_APPARENTMODECHANGED:
-		if (Clist_FindItem(hwnd, dat, wParam, &contact)) {
+		if (Clist_FindItem(dat, wParam, &contact)) {
 			char *szProto = Proto_GetBaseAccountName(wParam);
 			if (szProto == nullptr)
 				break;
@@ -571,7 +570,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		break;
 
 	case INTM_IDLECHANGED:
-		if (Clist_FindItem(hwnd, dat, wParam, &contact)) {
+		if (Clist_FindItem(dat, wParam, &contact)) {
 			char *szProto = Proto_GetBaseAccountName(wParam);
 			if (szProto == nullptr)
 				break;
@@ -739,7 +738,7 @@ LBL_MoveSelection:
 			dat->szQuickSearch[mir_wstrlen(dat->szQuickSearch) - 1] = '\0';
 		else if (wParam < ' ')
 			break;
-		else if (wParam == ' ' && dat->szQuickSearch[0] == '\0' && GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CHECKBOXES) {
+		else if (wParam == ' ' && dat->szQuickSearch[0] == '\0' && dat->style & CLS_CHECKBOXES) {
 			NMCLISTCONTROL nm;
 			if (g_clistApi.pfnGetRowByIndex(dat, dat->selection, &contact, nullptr) == -1)
 				break;

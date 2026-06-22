@@ -163,7 +163,7 @@ INT_PTR ToggleHideOffline(WPARAM, LPARAM)
 
 INT_PTR SetUseGroups(WPARAM wParam, LPARAM)
 {
-	int newVal = !(GetWindowLongPtr(g_clistApi.hwndContactTree, GWL_STYLE)&CLS_USEGROUPS);
+	int newVal = !(SendMessage(g_clistApi.hwndContactTree, CLM_GETSTYLE, 0, 0) & CLS_USEGROUPS);
 	if (wParam != -1)
 	{
 		if (!newVal == (int)wParam) return 0;

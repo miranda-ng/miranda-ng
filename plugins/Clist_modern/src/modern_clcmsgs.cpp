@@ -34,7 +34,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 
 	switch (msg) {
 	case CLM_DELETEITEM:
-		Clist_DeleteItemFromTree(hwnd, wParam);
+		Clist_DeleteItemFromTree(dat, wParam);
 		clcSetDelayTimer(TIMERID_DELAYEDRESORTCLC, hwnd, 1); //g_clistApi.pfnSortCLC(hwnd, dat, 1);
 		clcSetDelayTimer(TIMERID_RECALCSCROLLBAR, hwnd, 2); //g_clistApi.pfnRecalcScrollBar(hwnd, dat);
 		return 0;
@@ -53,7 +53,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 		dat->fontModernInfo[HIWORD(lParam)].hFont = (HFONT)wParam;
 		dat->fontModernInfo[HIWORD(lParam)].changed = 1;
 
-		RowHeights_GetMaxRowHeight(dat, hwnd);
+		RowHeights_GetMaxRowHeight(dat);
 
 		if (LOWORD(lParam))
 			cliInvalidateRect(hwnd, nullptr, FALSE);
@@ -91,7 +91,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 		{
 			int i = 0;
 			if (wParam != CLGN_ROOT) {
-				if (!Clist_FindItem(hwnd, dat, lParam, &contact, &group))
+				if (!Clist_FindItem(dat, lParam, &contact, &group))
 					return 0;
 				i = group->cl.indexOf(contact);
 				if (i < 0)
@@ -172,7 +172,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 		{
 			int index = -1;
 			int mainindex = -1;
-			if (!Clist_FindItem(hwnd, dat, wParam, &contact, &group))
+			if (!Clist_FindItem(dat, wParam, &contact, &group))
 				break;
 			for (tgroup = group; tgroup; tgroup = tgroup->parent)
 				Clist_SetGroupExpand(hwnd, dat, tgroup, 1);

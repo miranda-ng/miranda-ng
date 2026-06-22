@@ -27,20 +27,6 @@
 #include "resource.h"
 #include "version.h"
 
-typedef struct ALARM_tag {
-	unsigned short id;
-	wchar_t *szTitle;
-	wchar_t *szDesc;
-	Occurrence occurrence;
-	BOOL snoozer;
-	SYSTEMTIME time;
-	unsigned short action;
-	wchar_t *szCommand;
-	wchar_t *szCommandParams;
-	uint8_t sound_num;
-	int flags, day_mask;
-} ALARM; 
-
 #include "alarmlist.h"
 #include "options.h"
 #include "icons.h"

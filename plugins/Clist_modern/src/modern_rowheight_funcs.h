@@ -40,7 +40,7 @@ void RowHeights_Clear(ClcData *dat);
 BOOL RowHeights_Alloc(ClcData *dat, int size);
 
 // Calc and store max row height
-int RowHeights_GetMaxRowHeight(ClcData *dat, HWND hwnd);
+int RowHeights_GetMaxRowHeight(ClcData *dat);
 
 // Calc and store row height
 int RowHeights_GetRowHeight(ClcData *dat, HWND hwnd, ClcContact *contact, int item);

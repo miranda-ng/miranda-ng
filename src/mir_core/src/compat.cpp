@@ -24,5 +24,5 @@ MIR_CORE_DLL(int) Compatibility::GetLevel(const char *pszSetting)
 
 MIR_CORE_DLL(void) Compatibility::SetLevel(const char *pszSetting, int level)
 {
-	db_get_b(0, "Compatibility", pszSetting, level);
+	db_set_b(0, "Compatibility", pszSetting, level);
 }

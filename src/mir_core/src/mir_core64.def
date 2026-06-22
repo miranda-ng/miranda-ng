@@ -1593,3 +1593,6 @@ IsWine @1817 NONAME
 ?GetLevel@Compatibility@@YAHPEBD@Z @1818 NONAME
 ?SetLevel@Compatibility@@YAXPEBDH@Z @1819 NONAME
 ?SetChild@CDlgBase@@QEAAXXZ @1820 NONAME
+?SetStyle@CCtrlClc@@QEAAXI@Z @1821 NONAME
+?GetStyle@CCtrlClc@@QEBAIXZ @1822 NONAME
+?RemoveBbcodes@@YAXAEAV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@_N@Z @1823 NONAME

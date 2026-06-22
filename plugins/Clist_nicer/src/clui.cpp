@@ -584,7 +584,7 @@ static void sttProcessResize(HWND hwnd, NMCLISTCONTROL *nmc)
 
 	GetWindowRect(hwnd, &rcWindow);
 	GetWindowRect(g_clistApi.hwndContactTree, &rcTree);
-	winstyle = GetWindowLongPtr(g_clistApi.hwndContactTree, GWL_STYLE);
+	winstyle = SendMessage(g_clistApi.hwndContactTree, CLM_GETSTYLE, 0, 0);
 
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, FALSE);
 	HMONITOR hMon = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);

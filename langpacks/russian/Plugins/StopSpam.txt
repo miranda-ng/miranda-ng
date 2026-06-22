@@ -25,9 +25,9 @@
 [Enable protection for following accounts:]
 Включить защиту для следующих учётных записей:
 [Maximum number of questions to one contact (0 - for no limit):]
-Максимально допустимое количество вопросов для одного контакта (0 - неограниченно)
+Максимальное число вопросов для одного контакта (0 - неограниченно):
 [Timeout in minutes to remove temporary contacts (0 - never)]
-Удалять временные контакты через указанное количество минут (0 - никогда)
+Удалять временные контакты через, мин. (0 - никогда):
 [Enable StopSpam-StopSpam infinite talk protection]
 Выключение антиспама при попытке ответа другому антиспаму
 [Add contact permanently]

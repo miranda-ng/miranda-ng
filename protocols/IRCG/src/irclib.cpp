@@ -189,32 +189,33 @@ void CIrcProto::SendIrcMessage(const wchar_t *msg, bool bNotify, int cp)
 	}
 }
 
-bool CIrcProto::Connect(const CIrcSessionInfo &info)
+bool CIrcProto::Connect(CIrcSessionInfo &info)
 {
 	codepage = m_codepage;
 
 	con = Netlib_OpenConnection(m_hNetlibUser, info.sServer, info.iPort);
 	if (con == nullptr) {
 		wchar_t szTemp[300];
-		mir_snwprintf(szTemp, L"%c5%s %c%s%c (%S: %u).", irc::COLOR, TranslateT("Failed to connect to"), irc::BOLD, m_tszUserName, irc::BOLD, m_sessionInfo.sServer.c_str(), m_sessionInfo.iPort);
+		mir_snwprintf(szTemp, L"%c5%s %c%s%c (%S: %u).", irc::COLOR, TranslateT("Failed to connect to"), irc::BOLD, m_tszUserName, irc::BOLD, info.sServer.c_str(), info.iPort);
 		DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, nullptr, szTemp, nullptr, nullptr, NULL, true, false);
-		return false;
+		return true;
 	}
 
 	FindLocalIP(con); // get the local ip used for filetransfers etc
 
 	if (info.m_iSSL > 0) {
-		if (!Netlib_StartSsl(con, nullptr) && info.m_iSSL == 2) {
+		if (!Netlib_StartSsl(con, nullptr) && info.m_iSSL == 1) {
 			Netlib_CloseHandle(con);
 			con = nullptr;
-			m_info.Reset();
+			info.m_iSSL = 0;
+			debugLogA("SSL connection failed, trying to connect directly");
 			return false;
 		}
 	}
 
 	if (Miranda_IsTerminated()) {
 		Disconnect();
-		return false;
+		return true;
 	}
 
 	m_info = info;

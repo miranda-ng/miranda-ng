@@ -190,6 +190,14 @@ void CCtrlClc::SetOfflineModes(uint32_t modes)
 {	SendMessage(m_hwnd, CLM_SETOFFLINEMODES, modes, 0);
 }
 
+uint32_t CCtrlClc::GetStyle() const
+{	return SendMessage(m_hwnd, CLM_GETSTYLE, 0, 0);
+}
+
+void CCtrlClc::SetStyle(uint32_t dwStyle)
+{	SendMessage(m_hwnd, CLM_SETSTYLE, dwStyle, 0);
+}
+
 uint32_t CCtrlClc::GetExStyle() const
 {	return SendMessage(m_hwnd, CLM_GETEXSTYLE, 0, 0);
 }

@@ -13,10 +13,10 @@ public:
 	static void	Clear(ClcData *dat);
 
 	// Calc and store max row height
-	static int getMaxRowHeight(ClcData *dat, const HWND hwnd);
+	static int getMaxRowHeight(ClcData *dat);
 
 	// Calc and store row height
-	static int getRowHeight(ClcData *dat, ClcContact *contact, int item, uint32_t style)
+	static int getRowHeight(ClcData *dat, ClcContact *contact, int item)
 	{
 		if (!Alloc(dat, item + 1))
 			return -1;
@@ -35,8 +35,8 @@ public:
 		}
 
 		// Checkbox size
-		if ((style & CLS_CHECKBOXES && contact->type == CLCIT_CONTACT) ||
-			 (style & CLS_GROUPCHECKBOXES && contact->type == CLCIT_GROUP) ||
+		if ((dat->style & CLS_CHECKBOXES && contact->type == CLCIT_CONTACT) ||
+			 (dat->style & CLS_GROUPCHECKBOXES && contact->type == CLCIT_GROUP) ||
 			 (contact->type == CLCIT_INFO && contact->flags & CLCIIF_CHECKBOX)) {
 			height = max(height, dat->checkboxSize);
 		}
@@ -50,7 +50,7 @@ public:
 	}
 
 	// Calc and store row height for all itens in the list
-	static void calcRowHeights(ClcData *dat, HWND hwnd);
+	static void calcRowHeights(ClcData *dat);
 
 	// Calc item top Y (using stored data)
 	static int getItemTopY(ClcData *dat, int item);

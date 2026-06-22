@@ -84,8 +84,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		SetDlgItemInt(hwnd, IDC_TXT_RADIUS, g_Options.wAvatarRadius, FALSE);
 		SetDlgItemInt(hwnd, IDC_TXT_MAXRECENT, g_Options.wMaxRecent, FALSE);
 
-		SetWindowLongPtr(GetDlgItem(hwnd, IDC_CLIST), GWL_STYLE,
-			GetWindowLongPtr(GetDlgItem(hwnd, IDC_CLIST), GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
+		SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETSTYLE, SendDlgItemMessage(hwnd, IDC_CLIST, CLM_GETSTYLE, 0, 0) |
+			CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES, 0);
 		SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
 		sttResetListOptions(GetDlgItem(hwnd, IDC_CLIST));
 

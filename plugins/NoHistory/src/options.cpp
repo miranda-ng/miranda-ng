@@ -146,7 +146,7 @@ public:
 
 	void onOptionsChanged(CCtrlClc::TEventInfo *)
 	{
-		SetWindowLongPtr(clist.GetHwnd(), GWL_STYLE, GetWindowLongPtr(clist.GetHwnd(), GWL_STYLE) | CLS_SHOWHIDDEN | CLS_HIDEEMPTYGROUPS);
+		clist.SetStyle(clist.GetStyle() | CLS_SHOWHIDDEN | CLS_HIDEEMPTYGROUPS);
 	}
 
 	void onContactMoved(CCtrlClc::TEventInfo *)

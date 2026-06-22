@@ -86,14 +86,14 @@ void CVkProto::SetServerStatus(int iNewStatus)
 		}
 		m_iStatus = ID_STATUS_OFFLINE;
 		if (iOldStatus != ID_STATUS_OFFLINE && iOldStatus != ID_STATUS_INVISIBLE)
-			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
+			;// Unsupported: Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
 	}
 	else if (iNewStatus != ID_STATUS_INVISIBLE) {
 		m_bNeedSendOnline = true;
 		if (iOldStatus == ID_STATUS_ONLINE)
 			return;
 		m_iStatus = ID_STATUS_ONLINE;
-		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOnline.json", true, &CVkProto::OnReceiveSmth));
+		// Unsupported: Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOnline.json", true, &CVkProto::OnReceiveSmth));
 	}
 	else {
 		m_bNeedSendOnline = false;
@@ -102,7 +102,7 @@ void CVkProto::SetServerStatus(int iNewStatus)
 			m_bSetBroadcast = false;
 		}
 		m_iStatus = ID_STATUS_INVISIBLE;
-		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
+		// Unsupported: Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
 	}
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);

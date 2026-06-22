@@ -191,7 +191,7 @@ void DlgOption::SubExclude::saveSettings()
 
 void DlgOption::SubExclude::customizeList(HWND hCList)
 {
-	SetWindowLongPtr(hCList, GWL_STYLE, GetWindowLongPtr(hCList, GWL_STYLE) | CLS_SHOWHIDDEN);
+	SendMessage(hCList, CLM_SETSTYLE, SendMessage(hCList, CLM_GETSTYLE, 0, 0) | CLS_SHOWHIDDEN, 0);
 }
 
 void DlgOption::SubExclude::updateAllGroups(HWND hCList, HANDLE hFirstItem, HANDLE hParentItem)

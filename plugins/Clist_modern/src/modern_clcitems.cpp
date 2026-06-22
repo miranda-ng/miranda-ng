@@ -136,7 +136,7 @@ static void _LoadDataToContact(ClcContact *cont, ClcCacheEntry *pdnce, ClcGroup 
 		cont->flags |= CONTACTF_IDLE;
 
 	// Add subcontacts
-	if (dat->IsMetaContactsEnabled && !mir_strcmp(szProto, META_PROTO))
+	if (dat->bMetaContactsEnabled && !mir_strcmp(szProto, META_PROTO))
 		AddSubcontacts(dat, cont, CLCItems_IsShowOfflineGroup(group));
 
 	cont->lastPaintCounter = 0;
@@ -159,20 +159,20 @@ ClcContact* cli_AddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hConta
 	return cc;
 }
 
-void cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)
+void cli_AddContactToTree(ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)
 {
 	ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
-	if (dat->IsMetaContactsEnabled && pdnce->m_bIsSub)
+	if (dat->bMetaContactsEnabled && pdnce->m_bIsSub)
 		return;		//contact should not be added
 
-	if (!dat->IsMetaContactsEnabled && !mir_strcmp(pdnce->szProto, META_PROTO))
+	if (!dat->bMetaContactsEnabled && !mir_strcmp(pdnce->szProto, META_PROTO))
 		return;
 
-	corecli.pfnAddContactToTree(hwnd, dat, hContact, updateTotalCount, checkHideOffline);
+	corecli.pfnAddContactToTree(dat, hContact, updateTotalCount, checkHideOffline);
 
 	ClcGroup *group;
 	ClcContact *cont;
-	if (Clist_FindItem(hwnd, dat, hContact, &cont, &group))
+	if (Clist_FindItem(dat, hContact, &cont, &group))
 		_LoadDataToContact(cont, pdnce, group, dat, hContact);
 }
 
@@ -196,7 +196,7 @@ int RestoreSelection(ClcData *dat, MCONTACT hSelected)
 {
 	ClcGroup *selgroup = nullptr;
 	ClcContact *selcontact = nullptr;
-	if (!hSelected || !Clist_FindItem(dat->hWnd, dat, hSelected, &selcontact, &selgroup)) {
+	if (!hSelected || !Clist_FindItem(dat, hSelected, &selcontact, &selgroup)) {
 		dat->selection = -1;
 		return dat->selection;
 	}
@@ -229,7 +229,7 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 
 	ImageArray_Clear(&dat->avatar_cache);
 	RowHeights_Clear(dat);
-	RowHeights_GetMaxRowHeight(dat, hwnd);
+	RowHeights_GetMaxRowHeight(dat);
 
 	MCONTACT hSelected = SaveSelection(dat);
 	dat->selection = -1;
@@ -376,16 +376,21 @@ int cliGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 
 int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 {
+	ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
+
 	// default hidden state, always respect it.
-	if (Contact::IsHidden(hContact))
+	if (Contact::IsHidden(hContact)) {
+		if (dat->bMetaExpanding && (dat->style & CLS_SHOWHIDDEN) && pdnce->m_bIsSub)
+			return -1;
+
 		return 1;
+	}
 
 	int filterResult = 1;
 	int searchResult = 0;
-	ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 
 	// always hide subcontacts (but show them on embedded contact lists)
-	if (dat != nullptr && dat->IsMetaContactsEnabled && db_mc_isSub(hContact))
+	if (dat != nullptr && dat->bMetaContactsEnabled && pdnce->m_bIsSub)
 		return -1; // subcontact
 
 	if (pdnce && pdnce->m_bIsUnknown && dat != nullptr && !dat->bForceInDialog)

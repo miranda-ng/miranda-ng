@@ -728,7 +728,7 @@ public:
 		DestroyIcon(hIcon);
 
 		// init clist
-		SetWindowLong(clist.GetHwnd(), GWL_STYLE, GetWindowLong(clist.GetHwnd(), GWL_STYLE) & ~CLS_SHOWHIDDEN);
+		clist.SetStyle(clist.GetStyle() & ~CLS_SHOWHIDDEN);
 		clist.SetExtraImageList(himlViewModes);
 		clist.SetExtraColumns(ID_STATUS_MAX - ID_STATUS_OFFLINE);
 		clist.SetHideEmptyGroups(true);

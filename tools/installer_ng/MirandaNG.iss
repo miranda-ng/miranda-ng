@@ -848,7 +848,6 @@ begin
     ExpandConstant('{cm:CoreFilesDescription}') + ';' +
     ExpandConstant('{cm:SoundsDescription}') + ';' +
     ExpandConstant('{cm:ProtocolsDescription}') + ';' +
-    ExpandConstant('{cm:ProtocolsFbDescription}') + ';' +
     ExpandConstant('{cm:ProtocolsIRCDescription}') + ';' +
     ExpandConstant('{cm:ProtocolsJabberDescription}') + ';' +
     ExpandConstant('{cm:ClistsDescription}') + ';' +

@@ -8,6 +8,6 @@
 #define __PLUGIN_NAME              "Max protocol"
 #define __FILENAME                 "Max.dll"
 #define __DESCRIPTION              "Max protocol support for Miranda NG."
-#define __AUTHOR                   "Miranda NG contributors"
+#define __AUTHOR                   "Miranda NG team"
 #define __AUTHORWEB                "https://miranda-ng.org/p/Max"
 #define __COPYRIGHT                "© 2026 Miranda NG team"

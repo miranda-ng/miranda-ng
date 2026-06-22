@@ -3,7 +3,6 @@
 
 #include <commctrl.h>
 #include "m_alarms.h"
-#include "alarmlist.h"
 #include "icons.h"
 #include "frame.h"
 #include "alarm_win.h"
@@ -31,7 +30,7 @@ void LoadOptions();
 void SaveOptions();
 
 INT_PTR NewAlarmMenuFunc(WPARAM wParam, LPARAM lParam);
-void EditNonModal(ALARM &alarm);
+void EditNonModal(struct ALARM &alarm);
 
 // provide access the options window, for refresh (== 0 when not displayed)
 extern HWND hwndOptionsDialog;

@@ -1,41 +1,5 @@
 #include "stdafx.h"
 
-static CMStringW ConvertGlucoseForDisplay(const CMStringW &originalValue, bool bApiMgdl, bool bUseMgdl)
-{
-	if (originalValue.IsEmpty())
-		return CMStringW();
-	
-	double value = _wtof(originalValue.c_str());
-	
-	if (bApiMgdl && bUseMgdl) {
-		// API mg/dL -> Display mg/dL (no conversion)
-		CMStringW result(FORMAT, L"%.1f", value);
-		if (result.Right(2) == L".0")
-			result.Truncate(result.GetLength() - 2);
-		return result;
-	}
-	else if (bApiMgdl && !bUseMgdl) {
-		// API mg/dL -> Display mmol/L (convert)
-		CMStringW result(FORMAT, L"%.1f", value / 18.0);
-		if (result.Right(2) == L".0")
-			result.Truncate(result.GetLength() - 2);
-		return result;
-	}
-	else if (!bApiMgdl && bUseMgdl) {
-		// API mmol/L -> Display mg/dL (convert)
-		CMStringW result(FORMAT, L"%.1f", value * 18.0);
-		if (result.Right(2) == L".0")
-			result.Truncate(result.GetLength() - 2);
-		return result;
-	}
-	else {
-		// API mmol/L -> Display mmol/L (no conversion)
-		CMStringW result(FORMAT, L"%.1f", value);
-		if (result.Right(2) == L".0")
-			result.Truncate(result.GetLength() - 2);
-		return result;
-	}
-}
 
 static CMStringW GetDbText(MCONTACT hContact, const char *pszSetting, const wchar_t *pwszDefault = L"")
 {
@@ -109,24 +73,26 @@ public:
 		if (patient.IsEmpty())
 			patient = TranslateT("LibreView");
 
+		SetDlgItemText(m_hwnd, IDC_PATIENT, patient);
+
 		CMStringW originalValue = GetDbText(m_hContact, "Value");
 		CLibreViewProto *ppro = g_plugin.getInstance(m_hContact);
 		const bool bUseMgdl = ppro && ppro->DisplayUnits == 1;
-	
+
 		// Get API units from database
 		const int apiUnits = ppro ? ppro->getDword(m_hContact, "GlucoseUnits", 0) : 0;
 		const bool bApiMgdl = apiUnits == 1;
-	
-		// Convert original API value to display units
-		CMStringW displayValue = ConvertGlucoseForDisplay(originalValue, bApiMgdl, bUseMgdl);
-	
-		const wchar_t *pwszUnit = GetLocalizedUnitByKey(bUseMgdl ? L"mg/dL" : L"mmol/L");
-		CMStringW current;
-		if (!displayValue.IsEmpty())
-			current.Format(L"%s %s", displayValue.c_str(), pwszUnit);
+		const int offset = ppro ? ppro->Offset : 0;
 
-		SetDlgItemText(m_hwnd, IDC_PATIENT, patient);
-		SetDlgItemText(m_hwnd, IDC_CURRENT, current);
+		// Convert original API value to display units
+		CMStringW displayValue = ConvertGlucoseForDisplay(originalValue, bApiMgdl, bUseMgdl, offset);
+
+		const wchar_t *pwszUnit = GetLocalizedUnitByKey(bUseMgdl ? L"mg/dL" : L"mmol/L");
+		CMStringW lastValue;
+		if (!displayValue.IsEmpty())
+			lastValue.Format(L"%s %s", displayValue.c_str(), pwszUnit);
+
+		SetDlgItemText(m_hwnd, IDC_LAST_GLUCOSE, lastValue);
 		uint32_t activationTime = ppro ? ppro->getDword(m_hContact, "SensorActivationTime", 0) : 0;
 		if (activationTime) {
 			wchar_t buf[64];
@@ -140,7 +106,6 @@ public:
 		// Parse and format last update timestamp
 		CMStringW rawTimestamp = GetDbText(m_hContact, "Timestamp");
 		if (!rawTimestamp.IsEmpty()) {
-			extern uint32_t ParseLibreTimestamp(const CMStringW &timestamp); // Forward declaration
 			uint32_t timestampUnix = ParseLibreTimestamp(rawTimestamp);
 			if (timestampUnix) {
 				wchar_t timestampBuf[64];

@@ -655,6 +655,21 @@ void CMaxProto::EnsureDeviceId()
 	setWString(DB_KEY_DEVICEID, buf);
 }
 
+uint64_t CMaxProto::GetNextCidMs()
+{
+	FILETIME ft = {};
+	GetSystemTimeAsFileTime(&ft);
+	ULARGE_INTEGER ui = {};
+	ui.LowPart = ft.dwLowDateTime;
+	ui.HighPart = ft.dwHighDateTime;
+	uint64_t nowMs = (ui.QuadPart - 116444736000000000ULL) / 10000ULL;
+	mir_cslock lck(m_csCid);
+	if (nowMs <= m_lastClientCidMs)
+		nowMs = m_lastClientCidMs + 1;
+	m_lastClientCidMs = nowMs;
+	return nowMs;
+}
+
 bool CMaxProto::SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONNode &payload, uint8_t cmd, bool acceptPayloadError)
 {
 	// Keep request/response matching strictly serialized: shared wait state
@@ -1000,21 +1015,6 @@ bool CMaxProto::ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, c
 	if (cid == 0 && mir_strcmp(szChatId, "0"))
 		return false;
 
-	FILETIME ft = {};
-	GetSystemTimeAsFileTime(&ft);
-	ULARGE_INTEGER ui = {};
-	ui.LowPart = ft.dwLowDateTime;
-	ui.HighPart = ft.dwHighDateTime;
-	// Windows epoch (100ns) -> Unix epoch milliseconds.
-	uint64_t nowMs = (ui.QuadPart - 116444736000000000ULL) / 10000ULL;
-	uint64_t cidMs = 0;
-	{
-		mir_cslock lck(m_csCid);
-		cidMs = nowMs;
-		if (cidMs <= m_lastClientCidMs)
-			cidMs = m_lastClientCidMs + 1;
-		m_lastClientCidMs = cidMs;
-	}
 	JSONNode elems(JSON_ARRAY), attaches(JSON_ARRAY);
 	CMStringA textWire;
 	sttBuildOutgoingTextAndElements(szText, textWire, elems);
@@ -1022,7 +1022,7 @@ bool CMaxProto::ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, c
 		return false;
 
 	JSONNode msg(JSON_NODE);
-	msg << CHAR_PARAM("text", textWire.c_str()) << INT64_PARAM("cid", (int64_t)cidMs);
+	msg << CHAR_PARAM("text", textWire.c_str()) << INT64_PARAM("cid", (int64_t)GetNextCidMs());
 	msg << JSON_PARAM("elements", elems) << JSON_PARAM("attaches", attaches);
 	if (szReplyMsgId != nullptr && szReplyMsgId[0] != 0) {
 		JSONNode link(JSON_NODE);
@@ -1073,23 +1073,8 @@ bool CMaxProto::ApiSendForwardMessage(WebSocket<CMaxProto> *ws, const char *szDs
 	if (srcCid == 0 && mir_strcmp(szSrcChatId, "0"))
 		return false;
 
-	FILETIME ft = {};
-	GetSystemTimeAsFileTime(&ft);
-	ULARGE_INTEGER ui = {};
-	ui.LowPart = ft.dwLowDateTime;
-	ui.HighPart = ft.dwHighDateTime;
-	uint64_t nowMs = (ui.QuadPart - 116444736000000000ULL) / 10000ULL;
-	uint64_t cidMs = 0;
-	{
-		mir_cslock lck(m_csCid);
-		cidMs = nowMs;
-		if (cidMs <= m_lastClientCidMs)
-			cidMs = m_lastClientCidMs + 1;
-		m_lastClientCidMs = cidMs;
-	}
-
 	JSONNode msg(JSON_NODE);
-	msg << CHAR_PARAM("text", "") << INT64_PARAM("cid", (int64_t)cidMs);
+	msg << CHAR_PARAM("text", "") << INT64_PARAM("cid", (int64_t)GetNextCidMs());
 	msg << JSON_PARAM("elements", JSONNode(JSON_ARRAY)) << JSON_PARAM("attaches", JSONNode(JSON_ARRAY));
 
 	JSONNode link(JSON_NODE);
@@ -1155,21 +1140,6 @@ bool CMaxProto::ApiSendFileMessage(WebSocket<CMaxProto> *ws, const char *szChatI
 	if (cid == 0 && mir_strcmp(szChatId, "0"))
 		return false;
 
-	FILETIME ft = {};
-	GetSystemTimeAsFileTime(&ft);
-	ULARGE_INTEGER ui = {};
-	ui.LowPart = ft.dwLowDateTime;
-	ui.HighPart = ft.dwHighDateTime;
-	uint64_t nowMs = (ui.QuadPart - 116444736000000000ULL) / 10000ULL;
-	uint64_t cidMs = 0;
-	{
-		mir_cslock lck(m_csCid);
-		cidMs = nowMs;
-		if (cidMs <= m_lastClientCidMs)
-			cidMs = m_lastClientCidMs + 1;
-		m_lastClientCidMs = cidMs;
-	}
-
 	JSONNode att(JSON_NODE);
 	if (bPhoto) {
 		att << CHAR_PARAM("_type", "PHOTO");
@@ -1188,7 +1158,7 @@ bool CMaxProto::ApiSendFileMessage(WebSocket<CMaxProto> *ws, const char *szChatI
 		sttBuildOutgoingTextAndElements(szText, textWire, elems);
 
 	JSONNode msg(JSON_NODE);
-	msg << INT64_PARAM("cid", (int64_t)cidMs) << JSON_PARAM("elements", elems) << JSON_PARAM("attaches", attaches);
+	msg << INT64_PARAM("cid", (int64_t)GetNextCidMs()) << JSON_PARAM("elements", elems) << JSON_PARAM("attaches", attaches);
 	if (!textWire.IsEmpty())
 		msg << CHAR_PARAM("text", textWire.c_str());
 
@@ -1231,21 +1201,6 @@ bool CMaxProto::ApiSendMultiPhotoMessage(WebSocket<CMaxProto> *ws, const char *s
 	if (cid == 0 && mir_strcmp(szChatId, "0"))
 		return false;
 
-	FILETIME ft = {};
-	GetSystemTimeAsFileTime(&ft);
-	ULARGE_INTEGER ui = {};
-	ui.LowPart = ft.dwLowDateTime;
-	ui.HighPart = ft.dwHighDateTime;
-	uint64_t nowMs = (ui.QuadPart - 116444736000000000ULL) / 10000ULL;
-	uint64_t cidMs = 0;
-	{
-		mir_cslock lck(m_csCid);
-		cidMs = nowMs;
-		if (cidMs <= m_lastClientCidMs)
-			cidMs = m_lastClientCidMs + 1;
-		m_lastClientCidMs = cidMs;
-	}
-
 	JSONNode attaches(JSON_ARRAY);
 	for (const auto &tok : photoTokens) {
 		if (tok.IsEmpty())
@@ -1262,7 +1217,7 @@ bool CMaxProto::ApiSendMultiPhotoMessage(WebSocket<CMaxProto> *ws, const char *s
 	if (szText != nullptr && szText[0] != 0)
 		sttBuildOutgoingTextAndElements(szText, textWire, elems);
 	JSONNode msg(JSON_NODE);
-	msg << INT64_PARAM("cid", (int64_t)cidMs) << JSON_PARAM("elements", elems) << JSON_PARAM("attaches", attaches);
+	msg << INT64_PARAM("cid", (int64_t)GetNextCidMs()) << JSON_PARAM("elements", elems) << JSON_PARAM("attaches", attaches);
 	if (!textWire.IsEmpty())
 		msg << CHAR_PARAM("text", textWire.c_str());
 
@@ -1487,7 +1442,7 @@ bool CMaxProto::ApiDeleteMessages(WebSocket<CMaxProto> *ws, const char *szChatId
 	JSONNode payload(JSON_NODE);
 	payload << INT64_PARAM("chatId", cid) << JSON_PARAM("messageIds", messageIds) << BOOL_PARAM("forMe", bForMe);
 
-	// PyMax / vkmax: Opcode delete message == 66
+	// Opcode delete message == 66
 	return SendJsonAndWait(ws, 66, payload, 0);
 }
 
@@ -1566,7 +1521,7 @@ bool CMaxProto::ApiDeleteServerDialog(WebSocket<CMaxProto> *ws, const char *szCh
 	JSONNode payload(JSON_NODE);
 	payload << INT64_PARAM("chatId", cid);
 
-	// MaxApiTeam/PyMax: Opcode.CHAT_DELETE == 52 (75 is CHAT_SUBSCRIBE — does not remove dialog from list).
+	// Opcode.CHAT_DELETE == 52 (75 is CHAT_SUBSCRIBE — does not remove dialog from list).
 	return SendJsonAndWait(ws, 52, payload, 0, true);
 }
 
@@ -1582,7 +1537,7 @@ bool CMaxProto::ApiChatLeave(WebSocket<CMaxProto> *ws, const char *szChatId)
 	JSONNode payload(JSON_NODE);
 	payload << INT64_PARAM("chatId", cid);
 
-	// PyMax: Opcode.CHAT_LEAVE == 58 (LeaveChatPayload — chatId only).
+	// Opcode.CHAT_LEAVE == 58 (LeaveChatPayload — chatId only).
 	return SendJsonAndWait(ws, 58, payload, 0, true);
 }
 
@@ -1599,7 +1554,7 @@ bool CMaxProto::ApiUpdateMyProfile(WebSocket<CMaxProto> *ws, const char *szFirst
 		payload << CHAR_PARAM("lastName", szLastNameUtf8);
 	payload << CHAR_PARAM("description", szDescriptionUtf8);
 
-	// PyMax: Opcode.PROFILE == 16 — treat payload errors as failure (show localizedMessage, do not update DB).
+	// Opcode.PROFILE == 16 — treat payload errors as failure (show localizedMessage, do not update DB).
 	return SendJsonAndWait(ws, 16, payload, 0, false);
 }
 
@@ -2060,6 +2015,7 @@ void __cdecl CMaxProto::ConnectionWorker(void *)
 	{
 		MHttpRequest req(REQUEST_GET);
 		req.flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_REDIRECT;
+		req.timeout = 10000;
 		req.m_szUrl = szWebRootUrl;
 		req.AddHeader("Origin", szOrigin);
 		req.AddHeader("User-Agent", szWsUserAgent);
@@ -2161,6 +2117,13 @@ void __cdecl CMaxProto::ConnectionWorker(void *)
 	// Ready for WaitForGatewayReady() only after handshake + optional sync finished.
 	m_bGatewayConnected = true;
 
+	{
+		int iOldStatus = m_iStatus;
+		m_iStatus = ID_STATUS_ONLINE;
+		SyncFavoritesPresence(m_iStatus);
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+	}
+
 	if (token != nullptr && token[0] && m_bInitialSyncOk) {
 		ApiSendTelemetryColdStart(&ws);
 		m_hPingThread = ForkThreadEx(&CMaxProto::PingWorker, this, nullptr);
@@ -2176,6 +2139,13 @@ void __cdecl CMaxProto::ConnectionWorker(void *)
 		WaitForSingleObject(m_hPingThread, 5000);
 		CloseHandle(m_hPingThread);
 		m_hPingThread = nullptr;
+	}
+
+	if (m_iStatus != ID_STATUS_OFFLINE) {
+		int iOldStatus = m_iStatus;
+		m_iStatus = ID_STATUS_OFFLINE;
+		SyncFavoritesPresence(m_iStatus);
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 	}
 
 	m_bTerminated = true;
@@ -2224,126 +2194,49 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 
 	int op = MaxJsonOpcodeInt(json);
 
-	// Opcode 16 (PROFILE): server often echoes cmd=0 like a push; seq still matches the client request.
-	if (p->m_waitSeq != 0 && p->m_waitOpcode == 16 && seq == p->m_waitSeq && op == 16) {
-		const JSONNode &pl = json["payload"];
-		if (pl.type() == JSON_NODE) {
-			json_string s = json.write();
-			p->m_szPendingResponse = s.c_str();
-			SetEvent(p->m_hWaitEvent);
-			return;
-		}
-	}
+	// Dispatch table for opcode-based response matching.
+	// Each entry: waitOpcode, replyOpcode, checkSeq, payloadCheck.
+	struct WsReplyEntry { int waitOp, replyOp; bool checkSeq; bool (*checkPl)(const JSONNode&); };
+	static const WsReplyEntry entries[] = {
+		// Opcode 16 (PROFILE): server often echoes cmd=0 like a push; seq still matches the client request.
+		{ 16, 16, true,  [](const JSONNode &pl) { return pl.type() == JSON_NODE; } },
+		// Contact fetch: seq may not match client value; payload still carries contacts/contact.
+		{ 32, 32, false, MaxPayloadLooksLikeOpcode32ContactsReply },
+		// Chat details by id; used to fill dialog title when opcode 32 returns no names.
+		{ 48, 48, false, MaxPayloadLooksLikeOpcode48ChatsReply },
+		// Opcode 49: chat history (messages[]).
+		{ 49, 49, false, [](const JSONNode &pl) { return pl.type() == JSON_NODE; } },
+		// Opcode 46: phone lookup — server may omit echo of client seq.
+		{ 46, 46, false, [](const JSONNode &pl) { return pl.type() == JSON_NODE; } },
+		// Opcode 34: add/remove contact.
+		{ 34, 34, false, [](const JSONNode &pl) { return pl.type() == JSON_NODE; } },
+		// Opcode 88: file download url by (chatId,messageId,fileId).
+		{ 88, 88, false, [](const JSONNode &pl) { return pl.type() == JSON_NODE; } },
+		// Opcode 87: request file upload slots (url/token/fileId).
+		{ 87, 87, false, [](const JSONNode &pl) { return pl.type() == JSON_NODE; } },
+		// Opcode 80: request photo upload slots (url/token/fileId).
+		{ 80, 80, false, [](const JSONNode &pl) { return pl.type() == JSON_NODE; } },
+		// Opcode 66: delete message — reply often keeps cmd=0 like pushes.
+		{ 66, 66, true,  [](const JSONNode &pl) { return pl.type() == JSON_NODE; } },
+		// Opcode 19 (LOGIN/sync): reply echoes server-side seq — accept when payload clearly carries roster data.
+		{ 19, 19, false, [](const JSONNode &pl) {
+			return pl["chats"].type() == JSON_ARRAY || pl["contacts"].type() == JSON_ARRAY
+				|| pl["profile"].type() != JSON_NULL || pl["contact"].type() == JSON_NODE
+				|| (pl["contacts"].type() == JSON_NODE && pl["contacts"].size() != 0); }
+		},
+	};
 
-	// Contact fetch: seq may not match client value; payload still carries contacts/contact.
-	if (p->m_waitSeq != 0 && p->m_waitOpcode == 32 && op == 32) {
-		const JSONNode &pl = json["payload"];
-		if (MaxPayloadLooksLikeOpcode32ContactsReply(pl)) {
-			json_string s = json.write();
-			p->m_szPendingResponse = s.c_str();
-			SetEvent(p->m_hWaitEvent);
-			return;
-		}
-	}
-
-	// Chat details by id (opcode 48); used to fill dialog title when opcode 32 returns no names.
-	if (p->m_waitSeq != 0 && p->m_waitOpcode == 48 && op == 48) {
-		const JSONNode &pl = json["payload"];
-		if (MaxPayloadLooksLikeOpcode48ChatsReply(pl)) {
-			json_string s = json.write();
-			p->m_szPendingResponse = s.c_str();
-			SetEvent(p->m_hWaitEvent);
-			return;
-		}
-	}
-
-	// Opcode 49: chat history (messages[]), same seq as request.
-	if (p->m_waitSeq != 0 && p->m_waitOpcode == 49 && op == 49) {
-		const JSONNode &pl = json["payload"];
-		if (pl.type() == JSON_NODE) {
-			json_string s = json.write();
-			p->m_szPendingResponse = s.c_str();
-			SetEvent(p->m_hWaitEvent);
-			return;
-		}
-	}
-
-	// Opcode 46: phone lookup — server may omit echo of client seq.
-	if (p->m_waitSeq != 0 && p->m_waitOpcode == 46 && op == 46) {
-		const JSONNode &pl = json["payload"];
-		if (pl.type() == JSON_NODE) {
-			json_string s = json.write();
-			p->m_szPendingResponse = s.c_str();
-			SetEvent(p->m_hWaitEvent);
-			return;
-		}
-	}
-
-	// Opcode 34: add contact — same pattern as 46.
-	if (p->m_waitSeq != 0 && p->m_waitOpcode == 34 && op == 34) {
-		const JSONNode &pl = json["payload"];
-		if (pl.type() == JSON_NODE) {
-			json_string s = json.write();
-			p->m_szPendingResponse = s.c_str();
-			SetEvent(p->m_hWaitEvent);
-			return;
-		}
-	}
-
-	// Opcode 88: file download url by (chatId,messageId,fileId).
-	if (p->m_waitSeq != 0 && p->m_waitOpcode == 88 && op == 88) {
-		const JSONNode &pl = json["payload"];
-		if (pl.type() == JSON_NODE) {
-			json_string s = json.write();
-			p->m_szPendingResponse = s.c_str();
-			SetEvent(p->m_hWaitEvent);
-			return;
-		}
-	}
-
-	// Opcode 87: request upload slots (url/token/fileId).
-	if (p->m_waitSeq != 0 && p->m_waitOpcode == 87 && op == 87) {
-		const JSONNode &pl = json["payload"];
-		if (pl.type() == JSON_NODE) {
-			json_string s = json.write();
-			p->m_szPendingResponse = s.c_str();
-			SetEvent(p->m_hWaitEvent);
-			return;
-		}
-	}
-
-	// Opcode 80: request photo upload slots (url/token/fileId).
-	if (p->m_waitSeq != 0 && p->m_waitOpcode == 80 && op == 80) {
-		const JSONNode &pl = json["payload"];
-		if (pl.type() == JSON_NODE) {
-			json_string s = json.write();
-			p->m_szPendingResponse = s.c_str();
-			SetEvent(p->m_hWaitEvent);
-			return;
-		}
-	}
-
-	// Opcode 66: delete message reply often keeps cmd=0 like pushes.
-	if (p->m_waitSeq != 0 && p->m_waitOpcode == 66 && seq == p->m_waitSeq && op == 66) {
-		const JSONNode &pl = json["payload"];
-		if (pl.type() == JSON_NODE) {
-			json_string s = json.write();
-			p->m_szPendingResponse = s.c_str();
-			SetEvent(p->m_hWaitEvent);
-			return;
-		}
-	}
-
-	// Rare: reply echoes server-side seq — accept sync payload when it clearly carries roster data.
-	if (p->m_waitSeq != 0 && p->m_waitOpcode == 19 && op == 19) {
-		const JSONNode &pl = json["payload"];
-		if (pl["chats"].type() == JSON_ARRAY || pl["contacts"].type() == JSON_ARRAY || pl["profile"].type() != JSON_NULL
-		    || pl["contact"].type() == JSON_NODE
-		    || (pl["contacts"].type() == JSON_NODE && pl["contacts"].size() != 0)) {
-			json_string s = json.write();
-			p->m_szPendingResponse = s.c_str();
-			SetEvent(p->m_hWaitEvent);
-			return;
+	if (p->m_waitSeq != 0) {
+		for (auto &e : entries) {
+			if (p->m_waitOpcode == e.waitOp && op == e.replyOp && (!e.checkSeq || seq == p->m_waitSeq)) {
+				const JSONNode &pl = json["payload"];
+				if (e.checkPl(pl)) {
+					json_string s = json.write();
+					p->m_szPendingResponse = s.c_str();
+					SetEvent(p->m_hWaitEvent);
+					return;
+				}
+			}
 		}
 	}
 

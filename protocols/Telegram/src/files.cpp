@@ -476,6 +476,9 @@ int CTelegramProto::FileCancel(MCONTACT, HANDLE hTransfer)
 	for (auto &it : ft->m_arFiles)
 		if (it->m_fileId != 0)
 			SendQuery(new TD::cancelPreliminaryUploadFile(it->m_fileId));
+
+	ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft);
+	KillFile(ft);
 	return 0;
 }
 

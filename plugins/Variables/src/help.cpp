@@ -115,7 +115,8 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 	switch(msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE, (GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE) | (CLS_SHOWHIDDEN) | (CLS_NOHIDEOFFLINE)) & ~CLS_CHECKBOXES & ~CLS_USEGROUPS );
+		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETSTYLE, (SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETSTYLE, 0, 0) | CLS_SHOWHIDDEN | CLS_NOHIDEOFFLINE) 
+			& ~CLS_CHECKBOXES & ~CLS_USEGROUPS, 0);
 		ResetCList(hwndDlg);
 		CheckRadioButton(hwndDlg, IDC_NULL, IDC_CONTACT, IDC_NULL);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CLIST), IsDlgButtonChecked(hwndDlg, IDC_CONTACT));

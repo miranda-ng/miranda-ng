@@ -527,6 +527,24 @@ void WhatsAppProto::OnReceiveCall(const WANode &node)
 	SendAck(node);
 }
 
+void WhatsAppProto::OnReceivePresence(const WANode &node)
+{
+	if (auto *pUser = FindUser(node.getAttr("from"))) {
+		auto *pszPresence = node.getAttr("type");
+		if (!mir_strcmp(pszPresence, "unavailable"))
+			setWord(pUser->hContact, "Status", ID_STATUS_OFFLINE);
+		else
+			setWord(pUser->hContact, "Status", ID_STATUS_ONLINE);
+
+		if (auto *pszSeen = node.getAttr("last"))
+			if (mir_strcmp(pszSeen, "deny"))
+				setDword(pUser->hContact, "LastSeen", atoi(pszSeen));
+
+	}
+
+	SendAck(node);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void WhatsAppProto::ProcessReceipt(MCONTACT hContact, const char *msgId, bool bRead)
@@ -619,6 +637,7 @@ void WhatsAppProto::InitPersistentHandlers()
 	m_arPersistent.insert(new WAPersistentHandler("failure", 0, 0, 0, &WhatsAppProto::OnReceiveFailure));
 	m_arPersistent.insert(new WAPersistentHandler("message", 0, 0, 0, &WhatsAppProto::OnReceiveMessage));
 	m_arPersistent.insert(new WAPersistentHandler("receipt", 0, 0, 0, &WhatsAppProto::OnReceiveReceipt));
+	m_arPersistent.insert(new WAPersistentHandler("presence", 0, 0, 0, &WhatsAppProto::OnReceiveReceipt));
 	m_arPersistent.insert(new WAPersistentHandler("chatstate", 0, 0, 0, &WhatsAppProto::OnReceiveChatState));
 	m_arPersistent.insert(new WAPersistentHandler("chatstates", 0, 0, 0, &WhatsAppProto::OnReceiveChatState));
 	m_arPersistent.insert(new WAPersistentHandler("stream:error", 0, 0, 0, &WhatsAppProto::OnStreamError));

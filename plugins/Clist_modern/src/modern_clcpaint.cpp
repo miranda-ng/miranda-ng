@@ -1007,7 +1007,7 @@ int CLCPaint::_DetermineDrawMode(HWND hWnd, ClcData *dat)
 	if ((lStyle & WS_DISABLED) || (dat->greyoutFlags & Clist_ClcStatusToPf2(nStatus)) || ((dat->greyoutFlags & GREYF_UNFOCUS) && (GetFocus() != hWnd)))
 		paintMode |= DM_GRAY;
 
-	if (lStyle & CLS_GREYALTERNATE)
+	if (dat->style & CLS_GREYALTERNATE)
 		paintMode |= DM_GREYALTERNATE;
 
 	return paintMode;
@@ -1099,7 +1099,6 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 	int line_num = -1;
 	int y = -dat->yScroll;
 	BOOL is_foreground = IsForegroundWindow(hWnd);
-	LONG lStyle = GetWindowLongPtr(hWnd, GWL_STYLE);
 
 	while (y < rcPaint->bottom) {
 		if (subindex == -1) {
@@ -1242,7 +1241,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 					}
 				}
 				//**** Checkboxes
-				if (Drawing->isCheckBox(lStyle)) {
+				if (Drawing->isCheckBox(dat->style)) {
 					rc = free_row_rc;
 					rc.right = rc.left + dat->checkboxSize;
 					rc.top += (rc.bottom - rc.top - dat->checkboxSize) >> 1;

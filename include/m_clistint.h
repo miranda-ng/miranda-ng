@@ -156,7 +156,7 @@ struct ClcDataBase : public MZeroedObject
 	int gammaCorrection;
 	uint32_t greyoutFlags;			  //see m_clc.h
 	uint32_t offlineModes;
-	uint32_t exStyle;
+	uint32_t style, exStyle;
 	POINT ptInfoTip;
 	int infoTipTimeout;
 	uint32_t hInfoTipItem;
@@ -268,13 +268,13 @@ MIR_APP_DLL(int)       Clist_ClcStatusToPf2(int status);
 MIR_APP_DLL(uint32_t)  Clist_ContactToHItem(ClcContact *contact);
 MIR_APP_DLL(HANDLE)    Clist_ContactToItemHandle(ClcContact *contact, uint32_t *nmFlags);
 MIR_APP_DLL(void)      Clist_DeleteFromContactList(HWND hwnd, ClcData *dat);
-MIR_APP_DLL(void)      Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem);
+MIR_APP_DLL(void)      Clist_DeleteItemFromTree(ClcData *dat, MCONTACT hItem);
 MIR_APP_DLL(void)      Clist_DoSelectionDefaultAction(HWND hwnd, ClcData *dat);
 MIR_APP_DLL(void)      Clist_DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
 MIR_APP_DLL(void)      Clist_EndRename(ClcData *dat, int save);
 MIR_APP_DLL(void)      Clist_EnsureVisible(HWND hwnd, ClcData *dat, int iItem, int partialOk);
 MIR_APP_DLL(int)       Clist_EventsProcessTrayDoubleClick(int index);
-MIR_APP_DLL(bool)      Clist_FindItem(HWND hwnd, ClcData *dat, uint32_t dwItem, ClcContact **contact, ClcGroup **subgroup = 0, int *isVisible = 0);
+MIR_APP_DLL(bool)      Clist_FindItem(ClcData *dat, uint32_t dwItem, ClcContact **contact, ClcGroup **subgroup = 0, int *isVisible = 0, HWND hwnd = 0);
 MIR_APP_DLL(uint32_t)  Clist_GetDefaultExStyle(void);
 MIR_APP_DLL(int)       Clist_GetEventCount(void);
 MIR_APP_DLL(void)      Clist_GetFontSetting(int i, LOGFONT *lf, COLORREF *colour);
@@ -289,7 +289,7 @@ MIR_APP_DLL(void)      Clist_LoadContactTree(void);
 MIR_APP_DLL(void)      Clist_NotifyNewContact(HWND hwnd, MCONTACT hContact);
 MIR_APP_DLL(void)      Clist_RecalculateGroupCheckboxes(ClcData *dat);
 MIR_APP_DLL(int)       Clist_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent);
-MIR_APP_DLL(ClcGroup*) Clist_RemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
+MIR_APP_DLL(ClcGroup*) Clist_RemoveItemFromGroup(ClcData *dat, ClcGroup *group, ClcContact *contact, int updateTotalCount);
 MIR_APP_DLL(void)      Clist_SaveStateAndRebuildList(HWND hwnd, ClcData *dat);
 MIR_APP_DLL(void)      Clist_SetGroupChildCheckboxes(ClcGroup *group, int checked);
 MIR_APP_DLL(void)      Clist_SetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group, int newState);
@@ -345,14 +345,14 @@ struct CLIST_INTERFACE
 
 	/* clcitems.c */
 	ClcContact*    (*pfnCreateClcContact)(void);
-	ClcGroup*      (*pfnAddGroup)(HWND hwnd, ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers);
+	ClcGroup*      (*pfnAddGroup)(ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers);
 	
 	void           (*pfnFreeContact)(ClcContact *contact);
 				      
 	ClcContact*    (*pfnAddInfoItemToGroup)(ClcGroup *group, int flags, const wchar_t *pszText);
 	ClcContact*    (*pfnAddContactToGroup)(ClcData *dat, ClcGroup *group, MCONTACT hContact);
 				      
-	void           (*pfnAddContactToTree)(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
+	void           (*pfnAddContactToTree)(ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
 	void           (*pfnRebuildEntireList)(HWND hwnd, ClcData *dat);
 	int            (*pfnGetGroupContentsCount)(ClcGroup *group, int visibleOnly);
 	void           (*pfnSortCLC)(HWND hwnd, ClcData *dat, int useInsertionSort);
