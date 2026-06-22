@@ -220,9 +220,11 @@ uint_ptr NSWebPage::create_font(const font_description &descr, const document *,
 	HFONT hFont = CreateFontIndirect(&lf);
 
 	if (fm) {
-		SelectObject(m_tmp_hdc, hFont);
+		auto oldFont = SelectObject(m_tmp_hdc, hFont);
 		TEXTMETRIC tm = {};
 		GetTextMetrics(m_tmp_hdc, &tm);
+		SelectObject(m_tmp_hdc, oldFont);
+
 		fm->ascent = tm.tmAscent;
 		fm->descent = tm.tmDescent;
 		fm->height = tm.tmHeight;
@@ -251,9 +253,10 @@ int NSWebPage::get_default_font_size() const
 int NSWebPage::text_width(const char *text, uint_ptr hFont)
 {
 	SIZE size = {};
-	SelectObject(m_tmp_hdc, (HFONT)hFont);
+	auto oldFont = SelectObject(m_tmp_hdc, (HFONT)hFont);
 	Utf2T wtext(text);
 	GetTextExtentPoint32(m_tmp_hdc, wtext, (int)mir_wstrlen(wtext), &size);
+	SelectObject(m_tmp_hdc, oldFont);
 	return size.cx;
 }
 
