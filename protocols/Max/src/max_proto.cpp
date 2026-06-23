@@ -2090,17 +2090,20 @@ void CMaxProto::DisconnectGateway()
 	m_bTerminated = true;
 	m_bAvatarWebPrimed = false;
 	CloseQrDialog(false);
+
+	// Wake up any pending SendJsonAndWait so PingWorker (and other waiters) exit immediately.
+	SetEvent(m_hWaitEvent);
+
 	if (m_pGateway)
 		m_pGateway->terminate();
 
+	// Fire-and-forget: close handles without waiting.
+	// Threads check m_bTerminated and will exit on their own.
 	if (m_hWsRunThread) {
-		WaitForSingleObject(m_hWsRunThread, 15000);
 		CloseHandle(m_hWsRunThread);
 		m_hWsRunThread = nullptr;
 	}
-
 	if (m_hConnThread) {
-		WaitForSingleObject(m_hConnThread, 15000);
 		CloseHandle(m_hConnThread);
 		m_hConnThread = nullptr;
 	}
