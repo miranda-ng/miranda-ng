@@ -227,16 +227,12 @@ int CSteamProto::SetStatus(int new_status)
 		break;
 	}
 
-	{
-		mir_cslock lock(m_setStatusLock);
-		if (new_status == m_iDesiredStatus)
-			return 0;
-	}
-
-	debugLogA(__FUNCTION__ ": changing status from %i to %i", m_iStatus, new_status);
+	if (new_status == m_iDesiredStatus)
+		return 0;
 
 	int old_status = m_iStatus;
 	m_iDesiredStatus = new_status;
+	debugLogA(__FUNCTION__ ": changing status from %i to %i", m_iStatus, new_status);
 
 	if (new_status == ID_STATUS_OFFLINE) {
 		if (!Miranda_IsTerminated())
@@ -247,7 +243,7 @@ int CSteamProto::SetStatus(int new_status)
 
 		Logout();
 	}
-	else if (m_ws == nullptr && !IsStatusConnecting(m_iStatus)) {
+	else if (!m_hServerThread && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 

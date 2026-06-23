@@ -19,6 +19,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void __cdecl CSteamProto::ServerThread(void *)
 {
+	MThreadLock threadLock(m_hServerThread);
+
 	// load web socket servers first if needed
 	int iTimeDiff = db_get_dw(0, MODULENAME, DBKEY_HOSTS_DATE);
 	int iHostCount = db_get_dw(0, MODULENAME, DBKEY_HOSTS_COUNT);
@@ -170,7 +172,8 @@ void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
 		auto md = g_plugin.messages.find(msgType);
 		if (md == g_plugin.messages.end()) {
 			debugLogA("Received message of type %d", msgType);
-			Netlib_Dump(m_ws->getConn(), buf, cbLen, false, 0);
+			if (m_ws)
+				Netlib_Dump(m_ws->getConn(), buf, cbLen, false, 0);
 		}
 		else if (auto *pMessage = protobuf_c_message_unpack(md->second, 0, cbLen, buf)) {
 			debugLogA("Received known message:\n%s", protobuf_c_text_to_string(*pMessage).c_str());
