@@ -32,6 +32,10 @@ public:
 
 	bool OnInitDialog() override
 	{
+		ptrW wszGroup(edtGroup.GetText());
+		if (!mir_wstrlen(wszGroup))
+			edtGroup.SetText(TranslateT("Spam"));
+
 		edtDescr.SetText(TranslateW(pluginDescription));
 		return true;
 	}

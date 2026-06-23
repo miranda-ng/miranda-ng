@@ -7,10 +7,14 @@ static void MarkContactAsSpam(MCONTACT hContact, bool bMove = true)
 	Contact::RemoveFromList(hContact);
 	Contact::Hide(hContact);
 
-	if (bMove && mir_wstrlen(g_plugin.SpamGroup)) {
-		if (!Clist_GroupExists(g_plugin.SpamGroup))
-			Clist_GroupCreate(0, g_plugin.SpamGroup);
-		Clist_SetGroup(hContact, g_plugin.SpamGroup);
+	if (bMove) {
+		const wchar_t *pwszGroup = g_plugin.SpamGroup;
+		if (!mir_wstrlen(pwszGroup))
+			pwszGroup = TranslateT("Spam");
+
+		if (!Clist_GroupExists(pwszGroup))
+			Clist_GroupCreate(0, pwszGroup);
+		Clist_SetGroup(hContact, pwszGroup);
 	}
 }
 
