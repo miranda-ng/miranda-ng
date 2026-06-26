@@ -1181,7 +1181,7 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 			return;
 
 		if ((hContact = HContactFromJID(from)) == 0) {
-			if (!mir_strcmpi(info->fullJID, from) || (!bSelfPresence && !ListGetItemPtr(LIST_ROSTER, from))) {
+			if (bSelfPresence || !mir_strcmpi(info->fullJID, from) || !ListGetItemPtr(LIST_ROSTER, from)) {
 				debugLogA("SKIP Receive presence online from %s (who is not in my roster and not in list - skipping)", from);
 				return;
 			}
