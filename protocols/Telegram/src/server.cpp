@@ -26,7 +26,7 @@ void CTelegramProto::OnEndSession(td::ClientManager::Response&)
 
 void __cdecl CTelegramProto::ServerThread(void *)
 {
-	m_botIds.clear();
+	m_knownBotIds.clear();
 
 	bool bWasAuthorized = getBool(DBKEY_AUTHORIZED);
 	m_bTerminated = m_bAuthorized = false;
@@ -1182,7 +1182,7 @@ void CTelegramProto::ProcessOption(TD::updateOption *pObj)
 
 	for (auto &it : sttBotIds)
 		if (pObj->name_ == it) {
-			m_botIds.push_back(iValue);
+			m_knownBotIds.push_back(iValue);
 			return;
 		}
 }
@@ -1281,11 +1281,27 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 		case TD::userTypeDeleted::ID:
 			return;
 
-		case TD::userTypeBot::ID: // always allow bots to be processed, even if they aren't contacts
-			break;
+		case TD::userTypeBot::ID:
+			if (m_bIgnoreBots)
+				return;
+
+			if (!m_iSearchCount) {
+				for (auto &it : m_knownBotIds) {
+					if (it == pUser->id_) {
+						if (auto *pu = FindUser(it)) {
+							Contact::Hide(pu->hContact);
+							Contact::RemoveFromList(pu->hContact);
+						}
+						return;
+					}
+				}
+				// always allow bots to be processed, even if they aren't contacts
+				break;
+			}
+			__fallthrough;
 
 		case TD::userTypeRegular::ID:
-			{	auto *pu = AddFakeUser(pUser->id_, false);
+			if (auto *pu = AddFakeUser(pUser->id_, false)) {
 				if (pu->hContact != INVALID_CONTACT_ID)
 					RemoveFromClist(pu);
 
@@ -1301,22 +1317,13 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 						pu->wszNick.AppendFormat(L" %s", Utf2T(pUser->last_name_.c_str()).get());
 				}
 			}
-			__fallthrough;
+			return;
 		
 		default:
 			debugLogA("User doesn't belong to your contacts, skipping");
 			return;
 		}
 	}
-
-	for (auto &it : m_botIds)
-		if (it == pUser->id_) {
-			if (auto *pu = FindUser(it)) {
-				Contact::Hide(pu->hContact);
-				Contact::RemoveFromList(pu->hContact);
-			}
-			return;
-		}
 
 	std::string szFirstName = pUser->first_name_, szLastName = pUser->last_name_;
 	if (szLastName.empty()) {

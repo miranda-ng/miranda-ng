@@ -22,7 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class COptionsDlg : public CTelegramDlgBase
 {
 	CCtrlButton btnLogout;
-	CCtrlCheck chkHideChats, chkCompressFiles, chkIncludePreviews, chkResidentChannels, chkDeleteContacts;
+	CCtrlCheck chkHideChats, chkCompressFiles, chkIncludePreviews, chkResidentChannels, chkDeleteContacts, chkIgnoreBots;
 	CCtrlCombo cmbCountry;
 	CCtrlEdit edtGroup, edtPhone, edtDeviceName;
 	ptrW m_wszOldGroup;
@@ -36,6 +36,7 @@ public:
 		edtPhone(this, IDC_PHONE),
 		edtGroup(this, IDC_DEFGROUP),
 		edtDeviceName(this, IDC_DEVICE_NAME),
+		chkIgnoreBots(this, IDC_IGNORE_BOTS),
 		chkCompressFiles(this, IDC_COMPRESS_FILES),
 		chkDeleteContacts(this, IDC_DELETE_CONTACTS),
 		chkIncludePreviews(this, IDC_USE_PREVIEW),
@@ -44,10 +45,11 @@ public:
 	{
 		CreateLink(edtPhone, ppro->m_szOwnPhone);
 		CreateLink(edtGroup, ppro->m_wszDefaultGroup);
-		CreateLink(edtDeviceName, ppro->m_wszDeviceName);
 		CreateLink(chkHideChats, ppro->m_bHideGroupchats);
+		CreateLink(edtDeviceName, ppro->m_wszDeviceName);
 
 		if (bFullDlg) {
+			CreateLink(chkIgnoreBots, ppro->m_bIgnoreBots);
 			CreateLink(chkCompressFiles, ppro->m_bCompressFiles);
 			CreateLink(chkDeleteContacts, ppro->m_bDeleteContacts);
 			CreateLink(chkIncludePreviews, ppro->m_bIncludePreviews);

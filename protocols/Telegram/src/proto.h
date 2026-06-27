@@ -220,7 +220,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	TD::object_ptr<TD::AuthorizationState> pAuthState;
 	TD::object_ptr<TD::ConnectionState> pConnState;
 
-	TD::array<TD::int53> m_botIds;
+	TD::array<TD::int53> m_knownBotIds;
 
 	mir_cs m_csMarkRead;
 	TD::int53 m_markChatId = 0;
@@ -473,6 +473,7 @@ public:
 	CMOption<bool>     m_bResidentChannels; // don't store channel messages in a database
 	CMOption<bool>     m_bCompressFiles;    // embed pictures & videos into a message on send
 	CMOption<bool>     m_bDeleteContacts;   // delete contacts from Miranda when they are deleted from server
+	CMOption<bool>     m_bIgnoreBots;       // never add bots to the contact list
 	CMOption<uint32_t> m_iTimeDiff1;		    // set this status to m_iStatus1 after this interval of secs
 	CMOption<uint32_t> m_iStatus1;
 	CMOption<uint32_t> m_iTimeDiff2;        // set this status to m_iStatus2 after this interval of secs
