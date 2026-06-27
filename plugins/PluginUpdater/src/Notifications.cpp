@@ -142,7 +142,4 @@ void ShowPopup(LPCTSTR pwszTitle, LPCTSTR pwszText, int Number)
 			return;
 		}
 	}
-
-	if (Number == POPUP_TYPE_ERROR)
-		MessageBox(nullptr, pwszText, pwszTitle, MB_ICONINFORMATION);
 }
