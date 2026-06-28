@@ -146,7 +146,7 @@ NSWebPage::~NSWebPage()
 	}
 
 	for (auto &it : m_fonts)
-		delete_font(it.second.font);
+		DeleteObject((HFONT)it.second.font);
 
 	if (m_hClipRgn)
 		DeleteObject(m_hClipRgn);
@@ -188,6 +188,14 @@ static void trim_quotes(std::string &str)
 
 uint_ptr NSWebPage::create_font(const font_description &descr, const document *, font_metrics *fm)
 {
+	std::string key = descr.hash();
+	auto it = m_fonts.find(key);
+	if (it != m_fonts.end()) {
+		if (fm)
+			*fm = it->second.metrics;
+		return it->second.font;
+	}
+
 	std::wstring font_name;
 	string_vector fonts;
 	split_string(descr.family, fonts, ",");
@@ -206,8 +214,6 @@ uint_ptr NSWebPage::create_font(const font_description &descr, const document *,
 	font_name = get_exact_font_name(font_name.c_str());
 
 	LOGFONT lf = {};
-	wcscpy_s(lf.lfFaceName, LF_FACESIZE, font_name.c_str());
-
 	lf.lfHeight = -descr.size;
 	lf.lfWeight = descr.weight;
 	lf.lfItalic = (descr.style == font_style_italic) ? TRUE : FALSE;
@@ -217,27 +223,31 @@ uint_ptr NSWebPage::create_font(const font_description &descr, const document *,
 	lf.lfQuality = DEFAULT_QUALITY;
 	lf.lfStrikeOut = (descr.decoration_line & text_decoration_line_line_through) ? TRUE : FALSE;
 	lf.lfUnderline = (descr.decoration_line & text_decoration_line_underline) ? TRUE : FALSE;
+	wcscpy_s(lf.lfFaceName, LF_FACESIZE, font_name.c_str());
+
 	HFONT hFont = CreateFontIndirect(&lf);
+	font_item item;
+	item.font = (uint_ptr)hFont;
 
-	if (fm) {
-		auto oldFont = SelectObject(m_tmp_hdc, hFont);
-		TEXTMETRIC tm = {};
-		GetTextMetrics(m_tmp_hdc, &tm);
-		SelectObject(m_tmp_hdc, oldFont);
+	auto oldFont = SelectObject(m_tmp_hdc, hFont);
+	TEXTMETRIC tm = {};
+	GetTextMetrics(m_tmp_hdc, &tm);
+	SelectObject(m_tmp_hdc, oldFont);
 
-		fm->ascent = tm.tmAscent;
-		fm->descent = tm.tmDescent;
-		fm->height = tm.tmHeight;
-		fm->x_height = tm.tmHeight / 2;   // this is an estimate; call GetGlyphOutline to get the real value
-		fm->draw_spaces = lf.lfItalic || descr.decoration_line;
-	}
+	item.metrics.ascent = tm.tmAscent;
+	item.metrics.descent = tm.tmDescent;
+	item.metrics.height = tm.tmHeight;
+	item.metrics.x_height = tm.tmHeight / 2;
+	item.metrics.draw_spaces = lf.lfItalic || descr.decoration_line;
+	m_fonts[key] = item;
 
-	return (uint_ptr)hFont;
+	if (fm)
+		*fm = item.metrics;
+	return item.font;
 }
 
-void NSWebPage::delete_font(uint_ptr hFont)
+void NSWebPage::delete_font(uint_ptr)
 {
-	DeleteObject((HFONT)hFont);
 }
 
 const char *NSWebPage::get_default_font_name() const
