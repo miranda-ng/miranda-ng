@@ -1330,6 +1330,9 @@ void NewstoryListData::ScrollUp(int deltaY)
 /////////////////////////////////////////////////////////////////////////////////////////
 // NewStory history control window procedure
 
+void redraw_box(const position &)
+{}
+
 LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int idx;
@@ -1613,9 +1616,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				data->EndEditItem(false);
 
 			auto *pItem = data->LoadItem(idx);
-
-			litehtml::position::vector redraw_boxes;
-			pItem->m_doc->on_lbutton_down(pt.x - pItem->leftOffset, pt.y - pItem->savedTop, pt.x, pt.y, redraw_boxes);
+			pItem->m_doc->on_lbutton_down(pt.x - pItem->leftOffset, pt.y - pItem->savedTop, pt.x, pt.y, redraw_box);
 
 			if (wParam & MK_CONTROL) {
 				data->ToggleSelection(idx, idx);
@@ -1641,8 +1642,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			data->selStart = -1;
 
 			auto *pItem = data->LoadItem(idx);
-			litehtml::position::vector redraw_boxes;
-			pItem->m_doc->on_lbutton_up(pt.x - pItem->leftOffset, pt.y - pItem->savedTop, pt.x, pt.y, redraw_boxes);
+			pItem->m_doc->on_lbutton_up(pt.x - pItem->leftOffset, pt.y - pItem->savedTop, pt.x, pt.y, redraw_box);
 		}
 		break;
 
@@ -1675,8 +1675,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		idx = data->GetItemFromPixel(pt.y);
 		if (idx >= 0) {
 			auto *pItem = data->LoadItem(idx);
-			litehtml::position::vector redraw_boxes;
-			pItem->m_doc->on_mouse_leave(redraw_boxes);
+			pItem->m_doc->on_mouse_leave(redraw_box);
 		}
 		break;
 
@@ -1690,8 +1689,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			}
 
 			auto *pItem = data->LoadItem(idx);
-			litehtml::position::vector redraw_boxes;
-			pItem->m_doc->on_mouse_over(pt.x - pItem->leftOffset, pt.y - pItem->savedTop, pt.x, pt.y, redraw_boxes);
+			pItem->m_doc->on_mouse_over(pt.x - pItem->leftOffset, pt.y - pItem->savedTop, pt.x, pt.y, redraw_box);
 		}
 		break;
 

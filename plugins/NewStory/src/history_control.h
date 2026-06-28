@@ -11,6 +11,7 @@ class NSWebPage : public document_container
 
 	mir_cs m_csImages;
 	images_map m_images;
+	fonts_map  m_fonts;
 
 	position::vector	m_clips;
 	HRGN m_hClipRgn;
@@ -18,11 +19,11 @@ class NSWebPage : public document_container
 
 	NewstoryListData &ctrl;
 
-	std::string resolve_color(const string &color) const;
+	std::string resolve_color(const std::string &color) const;
 	uint_ptr	get_image(LPCWSTR url_or_path, bool redraw_on_ready);
 
 	void get_viewport(litehtml::position &) const override;
-	void import_css(string &text, const string &url, string &baseurl) override;
+	void import_css(std::string &text, const std::string &url, std::string &baseurl) override;
 	void on_anchor_click(const char *url, const element::ptr &el) override;
 	void set_base_url(const char *base_url) override;
 	void set_caption(const char *caption) override;
@@ -35,11 +36,11 @@ class NSWebPage : public document_container
 	uint_ptr create_font(const font_description &descr, const document *doc, font_metrics *fm) override;
 	void delete_font(uint_ptr hFont) override;
 	const char* get_default_font_name() const override;
-	int  get_default_font_size() const override;
+	pixel_t get_default_font_size() const override;
 	
 	void draw_text(uint_ptr hdc, const char *text, uint_ptr hFont, web_color color, const position &pos) override;
-	int  text_width(const char *text, uint_ptr hFont) override;
-	void transform_text(string &text, text_transform tt) override;
+	pixel_t text_width(const char *text, uint_ptr hFont) override;
+	void transform_text(std::string &text, text_transform tt) override;
 
 	void draw_borders(uint_ptr hdc, const borders &borders, const position &draw_pos, bool root) override;
 	void draw_ellipse(HDC hdc, int x, int y, int width, int height, web_color color, int line_width);
@@ -53,7 +54,7 @@ class NSWebPage : public document_container
 	void fill_ellipse(HDC hdc, int x, int y, int width, int height, web_color color);
 	void fill_rect(HDC hdc, int x, int y, int width, int height, web_color color);
 
-	int  pt_to_px(int pt) const override;
+	pixel_t pt_to_px(float pt) const override;
 
 	void add_image(LPCWSTR url, uint_ptr img);
 	void load_image(const char *src, const char *baseurl, bool redraw_on_ready) override;
@@ -61,7 +62,7 @@ class NSWebPage : public document_container
 
 	element::ptr create_element(const char *tag_name, const string_map &attributes, const document::ptr &doc) override;
 	void get_media_features(media_features &media) const override;
-	void get_language(string &language, string &culture) const override;
+	void get_language(std::string &language, std::string &culture) const override;
 	void link(const document::ptr &doc, const element::ptr &el) override;
 
 	void apply_clip(HDC hdc);
