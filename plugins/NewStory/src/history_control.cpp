@@ -1195,6 +1195,7 @@ void NewstoryListData::TryUp(int iCount)
 		p->dbe = hPrev;
 		p->m_bNew = true;
 		totalCount++;
+		hTopEvent = hPrev;
 	}
 
 	ItemData *pPrev = nullptr;
