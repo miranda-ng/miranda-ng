@@ -956,6 +956,32 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 		RECT rc = { 0, 0, cachedWindowWidth, cachedWindowHeight };
 		DrawEdge(dib, &rc, BDR_SUNKENOUTER, BF_RECT);
 	}
+
+	EvictDocs();
+}
+
+void NewstoryListData::EvictDocs()
+{
+	if (totalCount == 0 || cachedMaxDrawnItem < 0)
+		return;
+
+	const int MARGIN = 500;
+	int keepFrom = (scrollTopItem > MARGIN) ? scrollTopItem - MARGIN : 0;
+	int keepTo = (cachedMaxDrawnItem + MARGIN < totalCount) ? cachedMaxDrawnItem + MARGIN : totalCount - 1;
+
+	// Free litehtml documents outside the visible window (sliding window LRU)
+	int checked = 0;
+	for (int idx = 0; idx < keepFrom && checked < 1000; idx++, checked++) {
+		auto *pItem = GetItem(idx);
+		if (pItem && pItem->m_doc)
+			pItem->m_doc.reset();
+	}
+
+	for (int idx = totalCount - 1; idx > keepTo && checked < 1000; idx--, checked++) {
+		auto *pItem = GetItem(idx);
+		if (pItem && pItem->m_doc)
+			pItem->m_doc.reset();
+	}
 }
 
 void NewstoryListData::Quote()

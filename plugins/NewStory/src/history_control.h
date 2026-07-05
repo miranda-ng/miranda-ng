@@ -165,6 +165,7 @@ struct NewstoryListData : public MZeroedObject
 	void      OpenUrl();
 	void      PageUp();
 	void      PageDown();
+	void      EvictDocs();
 	void      Paint(simpledib::dib &dib);
 	void      Quote();
 	void      RecalcScrollBar();
