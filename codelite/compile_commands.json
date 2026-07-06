@@ -43,17 +43,9 @@
 		"directory":	"/home/ghazan/miranda-ng/src/mir_app",
 		"command":	"clang++ -c /home/ghazan/miranda-ng/src/mir_app/src/netlib.h -o /home/ghazan/miranda-ng/src/mir_app/src/netlib.h.o  -I. -I. -I../../include -I../../plugins/ExternalAPI  -g  -I/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.2-unofficial -I/usr/include/wx-3.2-unofficial -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread"
 	}, {
-		"file":	"/home/ghazan/miranda-ng/src/mir_app/src/plugins.h",
-		"directory":	"/home/ghazan/miranda-ng/src/mir_app",
-		"command":	"clang++ -c /home/ghazan/miranda-ng/src/mir_app/src/plugins.h -o /home/ghazan/miranda-ng/src/mir_app/src/plugins.h.o  -I. -I. -I../../include -I../../plugins/ExternalAPI  -g  -I/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.2-unofficial -I/usr/include/wx-3.2-unofficial -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread"
-	}, {
 		"file":	"/home/ghazan/miranda-ng/src/mir_app/src/db_ini.cpp",
 		"directory":	"/home/ghazan/miranda-ng/src/mir_app",
 		"command":	"clang++ -c /home/ghazan/miranda-ng/src/mir_app/src/db_ini.cpp -o /home/ghazan/miranda-ng/src/mir_app/src/db_ini.cpp.o  -I. -I. -I../../include -I../../plugins/ExternalAPI  -g  -I/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.2-unofficial -I/usr/include/wx-3.2-unofficial -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread"
-	}, {
-		"file":	"/home/ghazan/miranda-ng/src/mir_app/src/contact.cpp",
-		"directory":	"/home/ghazan/miranda-ng/src/mir_app",
-		"command":	"clang++ -c /home/ghazan/miranda-ng/src/mir_app/src/contact.cpp -o /home/ghazan/miranda-ng/src/mir_app/src/contact.cpp.o  -I. -I. -I../../include -I../../plugins/ExternalAPI  -g  -I/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.2-unofficial -I/usr/include/wx-3.2-unofficial -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread"
 	}, {
 		"file":	"/home/ghazan/miranda-ng/src/mir_app/src/metacontacts.h",
 		"directory":	"/home/ghazan/miranda-ng/src/mir_app",
@@ -98,6 +90,10 @@
 		"file":	"/home/ghazan/miranda-ng/src/mir_app/src/usedIcons.h",
 		"directory":	"/home/ghazan/miranda-ng/src/mir_app",
 		"command":	"clang++ -c /home/ghazan/miranda-ng/src/mir_app/src/usedIcons.h -o /home/ghazan/miranda-ng/src/mir_app/src/usedIcons.h.o  -I. -I. -I../../include -I../../plugins/ExternalAPI  -g  -I/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.2-unofficial -I/usr/include/wx-3.2-unofficial -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread"
+	}, {
+		"file":	"/home/ghazan/miranda-ng/src/mir_app/src/plugins.h",
+		"directory":	"/home/ghazan/miranda-ng/src/mir_app",
+		"command":	"clang++ -c /home/ghazan/miranda-ng/src/mir_app/src/plugins.h -o /home/ghazan/miranda-ng/src/mir_app/src/plugins.h.o  -I. -I. -I../../include -I../../plugins/ExternalAPI  -g  -I/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.2-unofficial -I/usr/include/wx-3.2-unofficial -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread"
 	}, {
 		"file":	"/home/ghazan/miranda-ng/src/mir_app/src/CMPluginBase.cpp",
 		"directory":	"/home/ghazan/miranda-ng/src/mir_app",

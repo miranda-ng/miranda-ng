@@ -29,13 +29,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma warning(disable:4190)
 
-#ifdef LIBJSON_EXPORTS
-#define LIBJSON_EXPORT __declspec(dllexport)
+#ifndef _WINDOWS
+	#define LIBJSON_EXPORT
+	#define LIBJSON_DLL(T) T
 #else
-#define LIBJSON_EXPORT __declspec(dllimport)
+	#ifdef LIBJSON_EXPORTS
+		#define LIBJSON_EXPORT __declspec(dllexport)
+	#else
+		#define LIBJSON_EXPORT __declspec(dllimport)
+	#endif
+	#define LIBJSON_DLL(T) LIBJSON_EXPORT T __stdcall
 #endif
-
-#define LIBJSON_DLL(T) LIBJSON_EXPORT T __stdcall
 
 #ifdef __cplusplus
 

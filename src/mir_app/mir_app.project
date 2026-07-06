@@ -9,7 +9,6 @@
     <File Name="src/database.cpp"/>
     <File Name="src/db_intf.cpp"/>
     <File Name="src/db_events.cpp"/>
-    <File Name="src/contact.cpp"/>
     <File Name="src/CMPluginBase.cpp"/>
     <File Name="src/addcontact.cpp"/>
     <File Name="src/stdafx.cxx"/>

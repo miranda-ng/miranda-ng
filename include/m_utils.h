@@ -553,7 +553,7 @@ public:
 
 #ifndef _WINDOWS
 MIR_CORE_DLL(int) GetShortPathNameW(const wchar_t*, wchar_t*, int);
-MIR_CORE_DLL(int) MessageBoxW(HWND, const wchar_t*, const wchar_t*, int);
+MIR_CORE_DLL(int) MessageBoxW(MWindow, const wchar_t*, const wchar_t*, int);
 MIR_CORE_DLL(int) WritePrivateProfileString(const wchar_t*, const wchar_t*, const wchar_t*, const wchar_t*);
 #endif
 

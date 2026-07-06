@@ -410,9 +410,11 @@ protected:
 
 	void Subclass();
 
+#ifdef _WINDOWS
 private:
 	static LRESULT CALLBACK GlobalSubclassWndProc(MWindow hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	WNDPROC oldProc;
+#endif
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
