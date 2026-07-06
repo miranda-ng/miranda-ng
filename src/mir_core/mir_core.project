@@ -55,13 +55,13 @@
       <ResourceCompiler Options=""/>
     </GlobalSettings>
     <Configuration Name="Debug" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Dynamic Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-g $(shell  pkg-config --cflags --libs elementary)  -fPIC" C_Options="-g $(shell  pkg-config --cflags --libs elementary)  -fPIC" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+      <Compiler Options="-g $(shell  pkg-config --cflags --libs gtk4)  -fPIC" C_Options="-g $(shell  pkg-config --cflags --libs gtk4 )  -fPIC" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <IncludePath Value="../../include"/>
       </Compiler>
       <Linker Options="$(shell wx-config   --libs --unicode=yes)" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="$(ProjectName)" IntermediateDirectory="$(WorkspacePath)/obj/debug/$(ProjectName)" Command="$(WorkspacePath)/build-$(WorkspaceConfiguration)/bin/$(OutputFile)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(WorkspacePath)/build-$(WorkspaceConfiguration)/lib" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="$(ProjectName)" IntermediateDirectory="$(WorkspacePath)/obj/debug/$(ProjectName)" Command="$(WorkspacePath)/build-$(WorkspaceConfiguration)/bin/$(OutputFile)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(WorkspacePath)/build-$(WorkspaceConfiguration)/lib" PauseExecWhenProcTerminates="yes" IsGUIProgram="yes" IsEnabled="yes"/>
       <BuildSystem Name="CodeLite Makefile Generator"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>

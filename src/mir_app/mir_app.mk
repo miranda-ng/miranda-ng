@@ -13,8 +13,8 @@ OutDir                 :=$(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
-User                   :=George Hazan
-Date                   :=17/05/22
+User                   :=ghazan
+Date                   :=06/07/26
 CodeLitePath           :=/home/ghazan/.codelite
 MakeDirCommand         :=mkdir -p
 LinkerName             :=g++
@@ -22,7 +22,6 @@ SharedObjectLinkerName :=g++ -shared -fPIC
 ObjectSuffix           :=.o
 DependSuffix           :=.o.d
 PreprocessSuffix       :=.o.i
-DebugSwitch            :=-gstab
 IncludeSwitch          :=-I
 LibrarySwitch          :=-l
 OutputSwitch           :=-o 
@@ -62,7 +61,7 @@ AS       := as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/src_db_ini.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_auth.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_miranda.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_db_intf.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_db_events.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_database.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_contact.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_CMPluginBase.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_addcontact.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_stdafx.cxx$(ObjectSuffix) \
+Objects0=$(IntermediateDirectory)/src_db_ini.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_contact.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_auth.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_miranda.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_db_intf.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_db_events.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_database.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_CMPluginBase.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_addcontact.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_stdafx.cxx$(ObjectSuffix) \
 	
 
 
@@ -100,6 +99,11 @@ $(IntermediateDirectory)/src_db_ini.cpp$(ObjectSuffix): src/db_ini.cpp
 $(IntermediateDirectory)/src_db_ini.cpp$(PreprocessSuffix): src/db_ini.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_db_ini.cpp$(PreprocessSuffix) src/db_ini.cpp
 
+$(IntermediateDirectory)/src_contact.cpp$(ObjectSuffix): src/contact.cpp 
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/ghazan/miranda-ng/src/mir_app/src/contact.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_contact.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_contact.cpp$(PreprocessSuffix): src/contact.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_contact.cpp$(PreprocessSuffix) src/contact.cpp
+
 $(IntermediateDirectory)/src_auth.cpp$(ObjectSuffix): src/auth.cpp 
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/ghazan/miranda-ng/src/mir_app/src/auth.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_auth.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_auth.cpp$(PreprocessSuffix): src/auth.cpp
@@ -124,11 +128,6 @@ $(IntermediateDirectory)/src_database.cpp$(ObjectSuffix): src/database.cpp
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/ghazan/miranda-ng/src/mir_app/src/database.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_database.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_database.cpp$(PreprocessSuffix): src/database.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_database.cpp$(PreprocessSuffix) src/database.cpp
-
-$(IntermediateDirectory)/src_contact.cpp$(ObjectSuffix): src/contact.cpp 
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/ghazan/miranda-ng/src/mir_app/src/contact.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_contact.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_contact.cpp$(PreprocessSuffix): src/contact.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_contact.cpp$(PreprocessSuffix) src/contact.cpp
 
 $(IntermediateDirectory)/src_CMPluginBase.cpp$(ObjectSuffix): src/CMPluginBase.cpp 
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/ghazan/miranda-ng/src/mir_app/src/CMPluginBase.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_CMPluginBase.cpp$(ObjectSuffix) $(IncludePath)

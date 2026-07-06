@@ -42,8 +42,8 @@ using namespace std;
 #define STDMETHOD_(ret, method)  virtual ret method
 #define STDMETHODIMP_(ret)       ret
 
-#define FALSE 0
-#define TRUE  1
+#define FALSE (0)
+#define TRUE  (!FALSE)
 #define CP_ACP 0
 #define SW_HIDE 0
 #define SW_SHOW 5

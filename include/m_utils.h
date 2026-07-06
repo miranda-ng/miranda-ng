@@ -534,6 +534,7 @@ MIR_APP_DLL(void) Utils_InvokeAsync(MAsyncObject *pObj);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+#ifdef _WINDOWS
 class MEventHandle
 {
 	HANDLE _hEvent;
@@ -545,6 +546,7 @@ public:
 	__inline void Wait(uint32_t dwMilliseconds = INFINITE) { WaitForSingleObject(_hEvent, dwMilliseconds); }
 	__inline operator HANDLE() { return _hEvent; }
 };
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // compatibility functions
