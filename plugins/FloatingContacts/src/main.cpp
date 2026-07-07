@@ -900,11 +900,13 @@ int CMPlugin::Load()
 		if (i == FLT_FONTID_OFFINVIS || i == FLT_FONTID_INVIS)
 			lf.lfItalic = !lf.lfItalic;
 
-		COLORREF defColor = GetSysColor((i == FLT_FONTID_NOTONLIST) ? COLOR_3DSHADOW : COLOR_WINDOWTEXT);
+		FontSettingsW defSettings;
+		defSettings.colour = GetSysColor((i == FLT_FONTID_NOTONLIST) ? COLOR_3DSHADOW : COLOR_WINDOWTEXT);
+		Font_ImportW(defSettings, lf);
 
 		char szId[20];
 		mir_snprintf(szId, "Font%d", i);
-		addFont(MODULENAME, szId, LPGENW("Floating contacts"), s_fonts[i], nullptr, nullptr, i + 1, false, &lf, defColor);
+		addFont(MODULENAME, szId, LPGENW("Floating contacts"), s_fonts[i], 0, 0, i + 1, false, &defSettings);
 	}
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoded);

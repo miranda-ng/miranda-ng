@@ -166,6 +166,8 @@ ExtraIcon_SetIconByName @238
 ExtraIcon_Clear @239
 ExtraIcon_RegisterCallback @240
 ExtraIcon_RegisterIcolib @241
+Font_Import @242
+Font_ImportW @243
 IsPluginLoaded @249
 Clist_GroupBuildMenu @250
 Clist_GroupCreate @251

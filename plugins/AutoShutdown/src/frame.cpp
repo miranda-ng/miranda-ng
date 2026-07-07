@@ -553,11 +553,9 @@ static int FrameModulesLoaded(WPARAM, LPARAM)
 		LOGFONT lf;
 		if (GetDefaultFont(&lf)) {
 			/* built-in font module is not available before this hook */
-			FontSettingsW defSettings = {};
+			FontSettingsW defSettings;
 			defSettings.colour = GetDefaultColor(FRAMEELEMENT_TEXT);
-			defSettings.charset = lf.lfCharSet;
-			defSettings.size = lf.lfHeight;
-			wcsncpy_s(defSettings.szFace, lf.lfFaceName, _TRUNCATE);
+			Font_ImportW(defSettings, lf);
 			g_plugin.addFont(MODULENAME, "CountdownFont", LPGENW("Automatic shutdown"), LPGENW("Countdown on frame"), 
 				LPGENW("Automatic shutdown"), LPGENW("Background"), 0, FALSE, &defSettings);
 
