@@ -211,7 +211,7 @@ int CMPluginBase::addFont(FontIDW *pFont)
 	return Font_RegisterW(pFont, this);
 }
 
-int CMPluginBase::addFont(const char *pszDbModule, const char *pszDbName, const wchar_t *pszSection, const wchar_t *pszDescription, const wchar_t *pszBackgroundGroup, const wchar_t *pszBackgroundName, int position, BOOL bAllowEffects, LOGFONT *plfDefault, COLORREF clrDefault)
+int CMPluginBase::addFont(const char *pszDbModule, const char *pszDbName, const wchar_t *pszSection, const wchar_t *pszDescription, const wchar_t *pszBackgroundGroup, const wchar_t *pszBackgroundName, int position, BOOL bAllowEffects, LOGFONTW *plfDefault, COLORREF clrDefault)
 {
 	FontIDW fid = {};
 	mir_strncpy(fid.dbSettingsGroup, pszDbModule, sizeof(fid.dbSettingsGroup)); /* buffer safe */

@@ -104,7 +104,7 @@ public:
 
 	bool OnApply() override
 	{
-		CMStringW wszHandle(ptrW(m_myHandle.GetText()));
+		CMStringW wszHandle(ptrW(m_myHandle.GetText()).get());
 
 		MCONTACT hContact = 0;
 		if (m_hDbEvent)

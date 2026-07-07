@@ -66,6 +66,9 @@ using namespace std;
 #define MB_ICONWARNING     0x00000030L
 #define MB_ICONINFORMATION 0x00000040L
 
+#define FW_NORMAL  400
+#define FW_BOLD    700
+
 #define IDABORT    3
 #define IDCANCEL   2
 #define IDCONTINUE 11
@@ -182,13 +185,31 @@ struct LVHITTESTINFO;
 struct LVINSERTGROUPSORTED;
 struct LVSETINFOTIP;
 
+struct LOGFONTW
+{
+  int     lfHeight;
+  int     lfWidth;
+  int     lfEscapement;
+  int     lfOrientation;
+  int     lfWeight;
+  uint8_t lfItalic;
+  uint8_t lfUnderline;
+  uint8_t lfStrikeOut;
+  uint8_t lfCharSet;
+  uint8_t lfOutPrecision;
+  uint8_t lfClipPrecision;
+  uint8_t lfQuality;
+  uint8_t lfPitchAndFamily;
+  wchar_t lfFaceName[32];
+};
+
 struct TVITEMEX;
 struct TVHITTESTINFO;
 struct TVINSERTSTRUCT;
 struct TVSORTCB;
 struct _TREEITEM;
 
-typedef GtkWindow *MWindow;
+typedef struct GtkWindow *MWindow;
 
 #else
 ///////////////////////////////////////////////////////////////////////////////
