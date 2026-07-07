@@ -4,6 +4,7 @@ Debug64/
 Release/
 Release64/
 ipch/
+cmake/build/
 .idea/
 .vscode/
 .vs/
@@ -38,3 +39,4 @@ langpacks/tool/VersionInfo.txt
 # WhatsApp generated protobuf descriptions
 protocols/WhatsAppWeb/src/pmsg.pb.cc
 protocols/WhatsAppWeb/src/pmsg.pb.h
+
