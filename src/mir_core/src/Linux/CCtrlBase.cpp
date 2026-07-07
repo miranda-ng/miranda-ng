@@ -61,7 +61,7 @@ void CCtrlBase::OnDestroy()
 		arControls.remove(pCtrl);
 	}
 
-	evas_object_del(m_hwnd);
+	gtk_window_destroy(m_hwnd);
 	m_hwnd = nullptr;
 }
 

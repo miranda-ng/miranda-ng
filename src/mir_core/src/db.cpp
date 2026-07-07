@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 #include <m_json.h>
-#include <m_messagestate.h>
+//#include <m_messagestate.h>
 
 MIR_CORE_EXPORT MDatabaseCommon* g_pCurrDb = nullptr;
 

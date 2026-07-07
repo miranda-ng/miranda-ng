@@ -409,6 +409,7 @@ protected:
 	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
 	void Subclass();
+	void Unsubclass();
 
 #ifdef _WINDOWS
 private:

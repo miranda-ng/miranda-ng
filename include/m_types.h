@@ -131,6 +131,9 @@ struct WIN32_FIND_DATA;
 #define _vsnprintf vsnprintf
 #define _vsnwprintf vswprintf
 
+#define _tzset tzset
+#define _timezone timezone
+
 #define DECLARE_HANDLE(name) struct _##name { int unused; }; typedef struct _##name *name
 DECLARE_HANDLE(HDC);
 DECLARE_HANDLE(HWND);
@@ -185,11 +188,7 @@ struct TVINSERTSTRUCT;
 struct TVSORTCB;
 struct _TREEITEM;
 
-#ifdef ELEMENTARY_H
-	typedef Evas_Object* MWindow;
-#else
-	typedef void *MWindow;
-#endif
+typedef GtkWindow *MWindow;
 
 #else
 ///////////////////////////////////////////////////////////////////////////////
