@@ -551,15 +551,21 @@ static int FrameModulesLoaded(WPARAM, LPARAM)
 {
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		LOGFONT lf;
-		/* built-in font module is not available before this hook */
-		COLORREF clr = GetDefaultColor(FRAMEELEMENT_TEXT);
-		g_plugin.addFont(MODULENAME, "CountdownFont", LPGENW("Automatic shutdown"), LPGENW("Countdown on frame"), LPGENW("Automatic shutdown"), LPGENW("Background"), 0, FALSE, GetDefaultFont(&lf), clr);
-		clr = GetDefaultColor(FRAMEELEMENT_BKGRND);
-		g_plugin.addColor(MODULENAME, "BkgColor", LPGENW("Automatic shutdown"), LPGENW("Background"), clr);
-		if (!IsThemeActive()) {
-			/* progressbar color can only be changed with classic theme */
-			clr = GetDefaultColor(FRAMEELEMENT_BAR);
-			g_plugin.addColor(MODULENAME, "ProgressColor", TranslateT("Automatic shutdown"), TranslateT("Progress bar"), clr);
+		if (GetDefaultFont(&lf)) {
+			/* built-in font module is not available before this hook */
+			FontSettingsW defSettings = {};
+			defSettings.colour = GetDefaultColor(FRAMEELEMENT_TEXT);
+			defSettings.charset = lf.lfCharSet;
+			defSettings.size = lf.lfHeight;
+			wcsncpy_s(defSettings.szFace, lf.lfFaceName, _TRUNCATE);
+			g_plugin.addFont(MODULENAME, "CountdownFont", LPGENW("Automatic shutdown"), LPGENW("Countdown on frame"), 
+				LPGENW("Automatic shutdown"), LPGENW("Background"), 0, FALSE, &defSettings);
+
+			g_plugin.addColor(MODULENAME, "BkgColor", LPGENW("Automatic shutdown"), LPGENW("Background"), GetDefaultColor(FRAMEELEMENT_BKGRND));
+			if (!IsThemeActive()) {
+				/* progressbar color can only be changed with classic theme */
+				g_plugin.addColor(MODULENAME, "ProgressColor", TranslateT("Automatic shutdown"), TranslateT("Progress bar"), GetDefaultColor(FRAMEELEMENT_BAR));
+			}
 		}
 	}
 	return 0;

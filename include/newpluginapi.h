@@ -204,7 +204,7 @@ public:
 	int addFont(struct FontID *pFont);
 	int addFont(struct FontIDW *pFont);
 	int addFont(const char *pszDbModule, const char *pszDbName, const wchar_t *pszSection, const wchar_t *pszDescription,
-		const wchar_t *pszBackgroundGroup, const wchar_t *pszBackgroundName, int position, BOOL bAllowEffects, LOGFONTW *plfDefault, COLORREF clrDefault);
+		const wchar_t *pszBackgroundGroup, const wchar_t *pszBackgroundName, int position, BOOL bAllowEffects, struct FontSettingsW *pDefault = nullptr);
 
 	int addColor(struct ColourID *pColor);
 	int addColor(struct ColourIDW *pColor);

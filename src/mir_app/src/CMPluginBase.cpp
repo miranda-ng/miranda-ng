@@ -211,7 +211,7 @@ int CMPluginBase::addFont(FontIDW *pFont)
 	return Font_RegisterW(pFont, this);
 }
 
-int CMPluginBase::addFont(const char *pszDbModule, const char *pszDbName, const wchar_t *pszSection, const wchar_t *pszDescription, const wchar_t *pszBackgroundGroup, const wchar_t *pszBackgroundName, int position, BOOL bAllowEffects, LOGFONTW *plfDefault, COLORREF clrDefault)
+int CMPluginBase::addFont(const char *pszDbModule, const char *pszDbName, const wchar_t *pszSection, const wchar_t *pszDescription, const wchar_t *pszBackgroundGroup, const wchar_t *pszBackgroundName, int position, BOOL bAllowEffects, FontSettingsW *pDefault)
 {
 	FontIDW fid = {};
 	mir_strncpy(fid.dbSettingsGroup, pszDbModule, sizeof(fid.dbSettingsGroup)); /* buffer safe */
@@ -223,16 +223,9 @@ int CMPluginBase::addFont(const char *pszDbModule, const char *pszDbName, const 
 	fid.flags = FIDF_ALLOWREREGISTER;
 	if (bAllowEffects) fid.flags |= FIDF_ALLOWEFFECTS;
 	fid.order = position;
-	if (plfDefault != nullptr) {
+	if (pDefault != nullptr) {
 		fid.flags |= FIDF_DEFAULTVALID;
-		fid.deffontsettings.colour = clrDefault;
-		fid.deffontsettings.size = (char)plfDefault->lfHeight;
-		if (plfDefault->lfItalic) fid.deffontsettings.style |= DBFONTF_ITALIC;
-		if (plfDefault->lfWeight != FW_NORMAL) fid.deffontsettings.style |= DBFONTF_BOLD;
-		if (plfDefault->lfUnderline) fid.deffontsettings.style |= DBFONTF_UNDERLINE;
-		if (plfDefault->lfStrikeOut) fid.deffontsettings.style |= DBFONTF_STRIKEOUT;
-		fid.deffontsettings.charset = plfDefault->lfCharSet;
-		mir_wstrncpy(fid.deffontsettings.szFace, plfDefault->lfFaceName, _countof(fid.deffontsettings.szFace)); /* buffer safe */
+		fid.deffontsettings = *pDefault;
 	}
 	return Font_RegisterW(&fid, this);
 }
