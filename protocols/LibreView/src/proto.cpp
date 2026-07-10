@@ -203,12 +203,17 @@ bool CLibreViewProto::Login()
 		// Check for API error status
 		int status = root["status"].as_int();
 		if (status != 0) {
-			CMStringW errorMsg = root["error"]["message"].as_mstring();
-			if (errorMsg.IsEmpty())
-				errorMsg = TranslateT("Login failed");
+			if (status == MAINTENANCE_STATUS)
+				m_lastServerStatus = MAINTENANCE_STATUS;
+			else {
+				m_lastServerStatus = status;
+				CMStringW errorMsg = root["error"]["message"].as_mstring();
+				if (errorMsg.IsEmpty())
+					errorMsg = TranslateT("Login failed");
 
-			// Show popup notification
-			PUShowMessageW(CMStringW(FORMAT, L"%s: %s", TranslateT("Login error"), errorMsg.c_str()), SM_ERROR);
+				// Show popup notification
+				PUShowMessageW(CMStringW(FORMAT, L"%s: %s", TranslateT("Login error"), errorMsg.c_str()), SM_ERROR);
+			}
 			return false;
 		}
 
@@ -426,6 +431,8 @@ static void AddHistoryEvent(MCONTACT hContact, const CMStringW &timestamp)
 
 bool CLibreViewProto::FetchGlucose()
 {
+	m_lastServerStatus = 0;
+
 	if (szToken.IsEmpty() || szAccountHash.IsEmpty() || szPatientId.IsEmpty())
 		if (!Login())
 			return false;
@@ -440,6 +447,16 @@ bool CLibreViewProto::FetchGlucose()
 		// Show popup for network/HTTP errors
 		PUShowMessageW(TranslateT("Failed to connect to LibreView server. Please check your internet connection and try again."), SM_WARNING);
 		return false;
+	}
+
+	{
+		int status = root["status"].as_int();
+		if (status != 0) {
+			m_lastServerStatus = status;
+			if (status != MAINTENANCE_STATUS)
+				ClearAuth();
+			return false;
+		}
 	}
 
 	JSONNode data = root["data"];

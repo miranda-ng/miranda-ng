@@ -19,9 +19,13 @@ void CLibreViewProto::CheckAccount()
 
 	if (!FetchGlucose()) {
 		setWord(m_hContact, "Status", ID_STATUS_OFFLINE);
-		db_set_ws(m_hContact, "CList", "StatusMsg", TranslateT("LibreView update failed"));
-		// Reset contact name to remove [updating...] and show error indicator
-		db_set_ws(m_hContact, "CList", "MyHandle", CMStringW(FORMAT, L"%s [%s]", title.c_str(), TranslateT("error")));
+		if (m_lastServerStatus == MAINTENANCE_STATUS) {
+			db_set_ws(m_hContact, "CList", "StatusMsg", TranslateT("LibreView maintenance"));
+			db_set_ws(m_hContact, "CList", "MyHandle", CMStringW(FORMAT, L"%s: %s", title.c_str(), TranslateT("maintenance")));
+		} else {
+			db_set_ws(m_hContact, "CList", "StatusMsg", TranslateT("LibreView update failed"));
+			db_set_ws(m_hContact, "CList", "MyHandle", CMStringW(FORMAT, L"%s [%s]", title.c_str(), TranslateT("error")));
+		}
 	}
 
 	bChecking = false;
