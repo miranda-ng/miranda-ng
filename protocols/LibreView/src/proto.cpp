@@ -333,6 +333,17 @@ void UpdateContactDisplay(MCONTACT hContact)
 	CLibreViewProto *ppro = g_plugin.getInstance(hContact);
 	const bool bUseMgdl = ppro && ppro->DisplayUnits == 1;
 
+	// Get account name from Nick (always set to account name)
+	CMStringW title = ppro->getMStringW(hContact, "Nick");
+
+	// Check if sensor has expired
+	uint32_t activation = ppro ? ppro->getDword(hContact, "SensorActivationTime", 0) : 0;
+	if (IsSensorExpired(activation)) {
+		CMStringW expiredMsg(FORMAT, L"%s: %s", title.c_str(), TranslateT("sensor expired"));
+		db_set_ws(hContact, "CList", "MyHandle", expiredMsg);
+		return;
+	}
+
 	// Get API units from database
 	const int apiUnits = ppro ? ppro->getDword(hContact, "GlucoseUnits", 0) : 0;
 	const bool bApiMgdl = apiUnits == 1;
@@ -345,9 +356,6 @@ void UpdateContactDisplay(MCONTACT hContact)
 	const wchar_t *pwszUnit = GetLocalizedUnit(bUseMgdl);
 	int trendValue = ppro->getDword(hContact, "TrendArrow", 0);
 	CMStringW trendArrow(TrendToArrow(trendValue));
-
-	// Get account name from Nick (always set to account name)
-	CMStringW title = ppro->getMStringW(hContact, "Nick");
 
 	CMStringW clistName;
 	if (!valueText.IsEmpty())
@@ -491,7 +499,7 @@ bool CLibreViewProto::FetchGlucose()
 	RefreshGraphWindow();
 
 	// Create StatusMsg first so UpdateContactDisplay can access it
-	CMStringW statusMsg = trendText;
+	CMStringW statusMsg = IsSensorExpired(sensorActivationTime) ? CMStringW(TranslateT("sensor expired")) : trendText;
 
 	// Force status update to refresh StatusMsg display
 	setWord(m_hContact, "Status", ID_STATUS_ONLINE);

@@ -28,6 +28,12 @@
 #define MODULENAME "LibreView"
 #define DEFAULT_API_URL "https://api.libreview.ru"
 #define DEFAULT_API_VERSION "4.16.0"
+#define SENSOR_LIFETIME (14 * 24 * 60 * 60)
+
+static inline bool IsSensorExpired(uint32_t activation)
+{
+	return activation > 0 && time(0) >= (activation + SENSOR_LIFETIME);
+}
 
 class CLibreViewProto;
 

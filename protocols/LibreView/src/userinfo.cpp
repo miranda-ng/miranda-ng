@@ -26,7 +26,7 @@ static CMStringW GetSensorRemaining(MCONTACT hContact)
 	if (activation == 0)
 		return TranslateT("N/A");
 
-	const time_t expires = activation + 14 * 24 * 60 * 60;
+	const time_t expires = activation + SENSOR_LIFETIME;
 	time_t now = time(0);
 	if (expires <= now)
 		return TranslateT("Expired");
