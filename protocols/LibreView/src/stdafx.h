@@ -35,6 +35,11 @@ static inline bool IsSensorExpired(uint32_t activation)
 	return activation > 0 && time(0) >= (activation + SENSOR_LIFETIME);
 }
 
+static inline bool IsSensorWarmingUp(uint32_t activation, uint32_t warmupMinutes)
+{
+	return activation > 0 && warmupMinutes > 0 && time(0) < (activation + warmupMinutes * 60);
+}
+
 class CLibreViewProto;
 
 extern HNETLIBUSER hNetlibUser;

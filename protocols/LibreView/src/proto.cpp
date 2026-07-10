@@ -336,11 +336,17 @@ void UpdateContactDisplay(MCONTACT hContact)
 	// Get account name from Nick (always set to account name)
 	CMStringW title = ppro->getMStringW(hContact, "Nick");
 
-	// Check if sensor has expired
+	// Check sensor state
 	uint32_t activation = ppro ? ppro->getDword(hContact, "SensorActivationTime", 0) : 0;
 	if (IsSensorExpired(activation)) {
 		CMStringW expiredMsg(FORMAT, L"%s: %s", title.c_str(), TranslateT("sensor expired"));
 		db_set_ws(hContact, "CList", "MyHandle", expiredMsg);
+		return;
+	}
+	uint32_t warmupMinutes = ppro ? ppro->getDword(hContact, "SensorWarmupMinutes", 0) : 0;
+	if (IsSensorWarmingUp(activation, warmupMinutes)) {
+		CMStringW warmupMsg(FORMAT, L"%s: %s", title.c_str(), TranslateT("warming up"));
+		db_set_ws(hContact, "CList", "MyHandle", warmupMsg);
 		return;
 	}
 
@@ -460,6 +466,9 @@ bool CLibreViewProto::FetchGlucose()
 		setDword(m_hContact, "SensorActivationTime", sensorActivationTime);
 	}
 
+	uint32_t warmupMinutes = connection["sensor"]["w"].as_int();
+	setDword(m_hContact, "SensorWarmupMinutes", warmupMinutes);
+
 	JSONNode measurement = connection["glucoseMeasurement"];
 	int trend = measurement["TrendArrow"].as_int();
 	int glucoseUnits = measurement["GlucoseUnits"].as_int();
@@ -499,7 +508,13 @@ bool CLibreViewProto::FetchGlucose()
 	RefreshGraphWindow();
 
 	// Create StatusMsg first so UpdateContactDisplay can access it
-	CMStringW statusMsg = IsSensorExpired(sensorActivationTime) ? CMStringW(TranslateT("sensor expired")) : trendText;
+	CMStringW statusMsg;
+	if (IsSensorExpired(sensorActivationTime))
+		statusMsg = TranslateT("sensor expired");
+	else if (IsSensorWarmingUp(sensorActivationTime, warmupMinutes))
+		statusMsg = TranslateT("warming up");
+	else
+		statusMsg = trendText;
 
 	// Force status update to refresh StatusMsg display
 	setWord(m_hContact, "Status", ID_STATUS_ONLINE);
