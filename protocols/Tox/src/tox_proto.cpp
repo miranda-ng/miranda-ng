@@ -56,7 +56,7 @@ INT_PTR CToxProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_FILE | PF1_AUTHREQ | PF1_MODEMSG | PF1_EXTSEARCH | PF1_SERVERCLIST;
+		return PF1_IM | PF1_FILE | PF1_AUTHREQ | PF1_MODEMSG | PF1_SERVERCLIST;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
 	case PFLAGNUM_3:
@@ -127,16 +127,6 @@ int CToxProto::FileResume(HANDLE hTransfer, int action, const wchar_t *szFilenam
 		return 1;
 
 	return OnFileResume(m_tox, hTransfer, action, szFilename);
-}
-
-HANDLE CToxProto::SearchAdvanced(HWND owner)
-{
-	return OnSearchAdvanced(owner);
-}
-
-HWND CToxProto::CreateExtendedSearchUI(HWND owner)
-{
-	return OnCreateExtendedSearchUI(owner);
 }
 
 int CToxProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)

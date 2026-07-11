@@ -47,9 +47,6 @@
     <ClCompile Include="src\tox_proto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\tox_search.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\tox_services.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -102,5 +99,16 @@
     <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\tox.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\me.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\copy.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -43,7 +43,6 @@
     <ClCompile Include="src\tox_options.cpp" />
     <ClCompile Include="src\tox_profile.cpp" />
     <ClCompile Include="src\tox_proto.cpp" />
-    <ClCompile Include="src\tox_search.cpp" />
     <ClCompile Include="src\tox_services.cpp" />
     <ClCompile Include="src\tox_transfer.cpp" />
     <ClCompile Include="src\tox_utils.cpp" />
@@ -75,5 +74,10 @@
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\copy.ico" />
+    <Image Include="res\me.ico" />
+    <Image Include="res\tox.ico" />
   </ItemGroup>
 </Project>

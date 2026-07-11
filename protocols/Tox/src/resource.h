@@ -10,7 +10,6 @@
 #define IDD_PASSWORD_ENTER              151
 #define IDD_PASSWORD_CHANGE             152
 #define IDD_ACCOUNT_MANAGER             153
-#define IDD_SEARCH                      154
 #define IDD_OPTIONS_MAIN                155
 #define IDD_OPTIONS_NODES               156
 #define IDD_PASSWORD_CHANGE2            157
@@ -20,7 +19,6 @@
 #define IDC_EDITSCR                     1000
 #define IDC_TOXID                       1001
 #define IDC_CLIPBOARD                   1002
-#define IDC_SEARCH                      1003
 #define IDC_PASSWORD                    1004
 #define IDC_NAME                        1005
 #define IDC_GROUP                       1006
