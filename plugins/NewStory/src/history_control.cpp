@@ -970,14 +970,13 @@ void NewstoryListData::EvictDocs()
 	int keepTo = (cachedMaxDrawnItem + MARGIN < totalCount) ? cachedMaxDrawnItem + MARGIN : totalCount - 1;
 
 	// Free litehtml documents outside the visible window (sliding window LRU)
-	int checked = 0;
-	for (int idx = 0; idx < keepFrom && checked < 1000; idx++, checked++) {
+	for (int idx = 0; idx < keepFrom; idx++) {
 		auto *pItem = GetItem(idx);
 		if (pItem && pItem->m_doc)
 			pItem->m_doc.reset();
 	}
 
-	for (int idx = totalCount - 1; idx > keepTo && checked < 1000; idx--, checked++) {
+	for (int idx = totalCount - 1; idx > keepTo; idx--) {
 		auto *pItem = GetItem(idx);
 		if (pItem && pItem->m_doc)
 			pItem->m_doc.reset();
