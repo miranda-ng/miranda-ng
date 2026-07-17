@@ -45,6 +45,10 @@ Glukoseverlauf
 ;file \protocols\LibreView\src\check.cpp
 [updating...]
 Aktualisieren...
+[LibreView maintenance]
+LibreView Wartung
+[maintenance]
+Wartung
 [LibreView update failed]
 Aktualisieren von LibreView fehlgeschlagen
 [error]
@@ -85,6 +89,10 @@ Steigend
 Schnell steigend
 [trend unknown]
 Trend unbekannt
+[sensor expired]
+Sensor abgelaufen
+[warming up]
+wärmt auf
 [Failed to connect to LibreView server. Please check your internet connection and try again.]
 Fehler beim Verbinden zum LibreView-Server. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es nochmal.
 ;file \protocols\LibreView\src\userinfo.cpp
