@@ -1,0 +1,164 @@
+#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
+;============================================================
+;  File: NewsAggregator.dll
+;  Plugin: News aggregator
+;  Version: 0.1.0.7
+;  Authors: Mataes, FREAK_THEMIGHTY
+;============================================================
+[RSS/Atom news aggregator.]
+RSS/Atom haber toplayıcısı.
+;file \protocols\NewsAggregator\Res\Resource.rc
+[Add]
+Ekle
+[Change]
+Değişiklik
+[Remove]
+Kaldır
+[Import]
+İthalat
+[Export]
+Dışa Aktar
+[Retrieve news at startup]
+Başlangıçta haberleri al
+[Cancel]
+İptal et
+[General Settings]
+Genel Ayarlar
+[Title]
+Başlık
+[URL]
+URL
+[Check every]
+Her birini kontrol edin
+[minutes]
+dakika
+[Check Feed]
+Beslemeyi Kontrol Et
+[Authentication]
+Kimlik Doğrulama
+[Use &authentication]
+Kullanım ve kimlik doğrulama
+[Login]
+Giriş
+[Password]
+Şifre
+[Visualization]
+Görselleştirme
+[Display news using the following format:]
+Haberleri aşağıdaki biçimde görüntüleyin:
+[All item's tags are valid. Put them between #. Example: #<author>#]
+Tüm öğelerin etiketleri geçerlidir. Bunları # işaretlerinin arasına yerleştirin. Örnek: #<author>#
+[Reset]
+Sıfırla
+[0 - check manually]
+0 - manuel olarak kontrol et
+[Feed name]
+Besleme adı
+[This feed seems to need authentication. Please fill username and password fields:]
+Bu besleme için kimlik doğrulama gerekiyor gibi görünüyor. Lütfen kullanıcı adı ve şifre alanlarını doldurun:
+[Username]
+Kullanıcı adı
+[Available feeds:]
+Mevcut beslemeler:
+[Feeds to be exported:]
+Dışa aktarılacak beslemeler:
+[&Export]
+&Dışa Aktar
+[&Close]
+&Kapat
+[Import from:]
+Şuradan içe aktar:
+[Feeds to be imported:]
+İçe aktarılacak beslemeler:
+[&Import]
+&İçe Aktar
+;file \protocols\NewsAggregator\Src\Authentication.cpp
+[Enter your username]
+Kullanıcı adınızı girin
+[Error]
+Hata
+[Enter your password]
+Şifrenizi girin
+;file \protocols\NewsAggregator\Src\CheckFeed.cpp
+[%s\nis a valid feed's address.]
+%s\ngeçerli bir besleme adresidir.
+[News Aggregator]
+Haber Toplayıcı
+[%s\nis not a valid feed's address.]
+%s\n, geçerli bir besleme adresi değil.
+[empty]
+boş
+;file \protocols\NewsAggregator\Src\ExportFeed.cpp
+[OPML files]
+OPML dosyaları
+;file \protocols\NewsAggregator\Src\FeedEditor.cpp
+[Add Feed]
+Beslemeyi Ekle
+[Change Feed]
+Akışı Değiştir
+[Wait...]
+Bir dakika...
+[Enter Feed URL]
+Besleme URL'sini girin
+[Are you sure?]
+Emin misin?
+[Tags Mask Reset]
+Etiketler: Maske Sıfırlama
+[The title of the item.]
+Öğenin başlığı.
+[The item synopsis.]
+Ürünün özeti.
+[The URL of the item.]
+Öğenin URL'si.
+[Email address of the author of the item.]
+Maddenin yazarının e-posta adresi.
+[URL of a page for comments relating to the item.]
+Bu öğeyle ilgili yorumların bulunduğu sayfanın URL'si.
+[A string that uniquely identifies the item.]
+Öğeyi benzersiz bir şekilde tanımlayan bir dize.
+[Specify one or more categories that the item belongs to.]
+Öğenin ait olduğu bir veya daha fazla kategoriyi belirtin.
+[Feed Tag Help]
+Besleme Etiketi Yardımı
+[Enter Feed name]
+Besleme adını girin
+[Enter message format]
+Mesaj biçimini girin
+;file \protocols\NewsAggregator\Src\Icons.cpp
+[Protocol icon]
+Protokol simgesi
+[Check All Feeds]
+Tüm Beslemeleri Kontrol Et
+[Import Feeds]
+Beslemeleri İçe Aktar
+[Export Feeds]
+Beslemeleri Dışa Aktar
+[Auto Update Enabled]
+Otomatik Güncelleme Etkin
+[Auto Update Disabled]
+Otomatik Güncelleme Devre Dışı
+;file \protocols\NewsAggregator\Src\ImportFeed.cpp
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+%d besleme içe aktarıldı\r\n%d yinelenen öğe içe aktarılmadı.
+[Imported %d feed(s).]
+%d adet besleme içe aktarıldı.
+[Not valid import file.]
+İçe aktarma dosyası geçersiz.
+;file \protocols\NewsAggregator\Src\Menus.cpp
+[Check feed]
+Beslemeyi kontrol et
+[Change feed]
+Beslemeyi değiştir
+;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
+;file \protocols\NewsAggregator\Src\Options.cpp
+[Feed]
+Besleme
+[Contact deleting]
+Kişi silme
+[Network]
+Ağ
+;file \protocols\NewsAggregator\Src\Services.cpp
+[Avatars]
+Avatarlar
+[Enable/disable auto update]
+Otomatik güncellemeyi etkinleştir/devre dışı bırak

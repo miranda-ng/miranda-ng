@@ -1,0 +1,73 @@
+#muuid {488c5c84-56da-434f-96f1-b18900def760}
+;============================================================
+;  File: Boltun.dll
+;  Plugin: Boltun
+;  Version: 0.0.3.1
+;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
+;============================================================
+[Boltun, the chat bot in the Russian language.]
+Boltun, Rusça dilinde çalışan bir sohbet botu.
+;file \plugins\Boltun\res\Boltun.rc
+[Boltun]
+Boltun
+[Boltun Autochat everybody]
+Boltun Autochat’ten herkese
+[Boltun Autochat everybody not in contact list]
+Boltun Autochat, kişi listesinde olmayan herkese
+[Boltun Autochat everybody while away]
+Boltun Autochat, herkesle sohbet ederken uzaklarda
+[Warn contacts Boltun is chatting]
+Kişilere uyarı: Boltun sohbet ediyor
+[Mark replied messages as read]
+Mark, mesajları okundu olarak işaretledi
+[sec]
+sn
+[Warning text]
+Uyarı metni
+[Time before the answer]
+Cevap verilmeden önceki süre
+[Typing time depends on message length (in chars)]
+Yazma süresi, mesajın uzunluğuna (karakter cinsinden) bağlıdır
+[Typing and thinking time can be much longer]
+Yazma ve düşünme süresi çok daha uzun olabilir
+[Typing time (for a message of 4 words):]
+Yazma süresi (4 kelimelik bir mesaj için):
+[Thinking time:]
+Düşünme süresi:
+[Engine]
+Motor
+[Base of remarks]
+Açıklamaların dayanağı
+[Reload]
+Yeniden Yükle
+[Stay silent if have no good answers]
+İyi bir cevabınız yoksa sessiz kalın
+[Start answers with a lowercase letter]
+Cevaplara küçük harfle başlayın
+[Don't use "I don't understand"-like answers]
+"Anlamıyorum" gibi cevaplar vermeyin
+;file \plugins\Boltun\src\stdafx.h
+[Message sessions]
+Mesaj oturumları
+[Mind Files]
+Zihin Dosyaları
+[All Files]
+Tüm Dosyalar
+[Boltun/Auto Chat]
+Boltun/Otomatik Sohbet
+[Boltun/Not to Chat]
+Boltun/Sohbet Etmemek
+[Boltun/Start Chatting]
+Boltun/Sohbete Başla
+[Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!]
+Merhaba. Ben Boltun! Sahibim yokken sizinle ben konuşacağım. Lütfen yazarken hata yapmayın!
+[Boltun Error]
+Boltun Hatası
+[Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]
+Yorumların temel kısmı yüklenemedi. %s dosyasının %d. satırında hata oluştu. (Ya da birkaç satır önce).
+[Failed to save base of remarks to %s]
+%s dosyasına notların ana bilgisi kaydedilemedi
+[General Settings]
+Genel Ayarlar
+[Engine Settings]
+Motor Ayarları

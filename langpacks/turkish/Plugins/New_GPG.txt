@@ -1,0 +1,414 @@
+#muuid {4227c050-8d97-48d2-91ec-6a952b3dab94}
+;============================================================
+;  File: New_GPG.dll
+;  Plugin: GPG
+;  Version: 0.2.0.4
+;  Authors: sss, Miranda NG Team
+;============================================================
+[New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
+Eski GPG eklentisi ve SecureIM’in kodunu temel alan yeni GPG şifreleme destek eklentisi.
+;file \plugins\New_GPG\res\new_gpg.rc
+[Load public GPG key]
+Genel GPG anahtarını yükle
+[Load from file]
+Dosyadan yükle
+[Select existing]
+Mevcut olanı seçin
+[Turn on encryption]
+Şifrelemeyi etkinleştir
+[Import key from keyserver]
+Anahtar sunucusundan anahtarı içe aktar
+[Bind own keys to accounts]
+Hesaplara kendi anahtarlarınızı bağlayın
+[Bind]
+Bağla
+[Generate key]
+Anahtar oluştur
+[Select own key to bind to account]
+Hesaba bağlanacak anahtarı seçin
+[Key password:]
+Anahtar şifre:
+[Load other]
+Diğerlerini yükle
+[Delete key]
+Sil tuşu
+[Generate and use random key]
+Rastgele anahtar oluşturma ve kullanma
+[Account:]
+Hesap:
+[Key ID:]
+Anahtar Kimliği:
+[Copy public key]
+Genel anahtarı kopyala
+[Export private key]
+Özel anahtarı dışa aktar
+[Change password]
+Şifreyi değiştir
+[Set GPG bin path and keyring home dir.]
+GPG çalıştırma yolunu ve anahtar halkasının ana dizinini ayarlayın.
+[Continue]
+Devam et
+[Home directory:]
+Ana dizin:
+[GnuPG binary:]
+GnuPG ikili dosyası:
+[Browse]
+Göz at
+[Turn on key autoexchange]
+"Key Autoexchange" özelliğini etkinleştirin
+[The new public key was received]
+Yeni açık anahtar alındı
+[Import key]
+İçe aktarma anahtarı
+[Accept and enable encryption]
+Şifrelemeyi kabul et ve etkinleştir
+[Ignore]
+Yoksay
+[Static]
+Statik
+[Key Generation dialog]
+Anahtar Oluşturma iletişim kutusu
+[Cancel]
+İptal et
+[Key type:]
+Anahtar türü:
+[Key length:]
+Anahtar uzunluğu:
+[Real name:]
+Gerçek adı:
+[Email:]
+E-posta:
+[Comment:]
+Yorum:
+[Expire date:]
+Son kullanma tarihi:
+[ex.: 2010-08-15]
+örn.: 15 Ağustos 2010
+[From 1024 to 4096]
+1024'ten 4096'ya
+[It can take a long time, be patient]
+Bu uzun sürebilir, sabırlı olun
+[0 - does not expire]
+0 - geçerlilik süresi yoktur
+[Select existing public key from list]
+Listeden mevcut bir açık anahtar seçin
+[Enter password for your secret key]
+Gizli anahtarınız için şifreyi girin
+[Password:]
+Şifre:
+[Save password to database]
+Şifreyi veritabanına kaydet
+[Default password]
+Varsayılan şifre
+[Import]
+İthalat
+[Select keyserver for key search:]
+Anahtar araması için anahtar sunucusunu seçin:
+[Received encrypted file]
+Şifreli dosya alındı
+[Decrypt]
+Şifreyi çöz
+[Received encrypted file from contact with disabled encryption.]
+Şifreleme özelliği devre dışı bırakılmış bir kişiden şifreli dosya alındı.
+[Remember choice]
+Seçimi unutma
+[Choose which keys to export]
+Dışa aktarılacak tuşları seçin
+[Export public keys (only set for contacts)]
+Genel anahtarları dışa aktar (yalnızca kişiler için ayarlanır)
+[Export all private keys]
+Tüm özel anahtarları dışa aktar
+[Export public and private keys]
+Açık ve özel anahtarları dışa aktar
+[Change private key password]
+Özel anahtar şifresini değiştir
+[Current password:]
+Mevcut şifre:
+[New password twice:]
+Yeni şifreyi iki kez girin:
+[User list:]
+Kullanıcı listesi:
+[Export PubKey]
+PubKey'i Dışa Aktar
+[Turn on debug log]
+Hata ayıklama günlüğünü etkinleştir
+[Use Jabber API on Miranda NG (recommended)]
+Miranda NG’de Jabber API’sini kullanın (önerilir)
+[Default key]
+Varsayılan anahtar
+[Encrypt file transfers]
+Dosya aktarımlarını şifrele
+[Automatic key exchange]
+Otomatik anahtar değişimi
+[Copy own key]
+Kendi anahtarını kopyala
+[Bind keys to accounts]
+Anahtarları hesaplara bağla
+[Add tags to encoded and decoded messages]
+Kodlanmış ve kod çözülmüş mesajlara etiket ekleyin
+[Incoming message tags:]
+Gelen mesaj etiketleri:
+[Outgoing message tags:]
+Giden mesaj etiketleri:
+[Open:]
+Açık:
+[Close:]
+Kapat:
+[Strip all tags in outgoing messages]
+Giden mesajlardaki tüm etiketleri kaldır
+[Turn on Jabber presence signing (required by XEP-0027)]
+Jabber durum göstergesi imzalama özelliğini etkinleştirin (XEP-0027 gereği zorunludur)
+[Export keys]
+Anahtarları dışa aktar
+[Import keys]
+Anahtarları içe aktar
+[Send error messages]
+Hata mesajlarını gönder
+;file \plugins\New_GPG\src\init.cpp
+[GPG Turn off encryption]
+GPG Şifrelemeyi devre dışı bırak
+[GPG Turn on encryption]
+GPG Şifrelemeyi etkinleştir
+[Toggle GPG encryption]
+GPG şifrelemesini etkinleştir/devre dışı bırak
+[Send public key]
+Açık anahtarı gönder
+[Export GPG Public keys]
+GPG açık anahtarlarını dışa aktar
+[Import GPG Public keys]
+GPG Açık Anahtarlarını İçe Aktar
+[GPG encryption status]
+GPG şifreleme durumu
+;file \plugins\New_GPG\src\main.cpp
+[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended that you place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
+Miranda klasöründe GPG ikili dosyası bulundu, ancak İngilizce dil paketi mevcut değil.\nMiranda kök dizinindeki GnuPG klasörüne \\gnupg.nls\\en@quot.mo dosyasını yerleştirmeniz şiddetle tavsiye edilir.\nBu dosya olmadan, İngilizce olmayan sistemlerde GPG çıktısıyla ilgili birçok sorun yaşayabilirsiniz\nve eklenti hiç çalışmayabilir.\nUyarıldınız.
+[Warning]
+Uyarı
+[Wrong GPG binary location found in system.\nPlease choose another location]
+Sistemde yanlış GPG ikili dosyası konumu bulundu.\nLütfen başka bir konum seçin
+[This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
+Bu bir GnuPG ikili dosyası değildir!\nBu eklentiyle birlikte GnuPG v1.x.x sürümünü kullanmanız önerilir.
+[Error]
+Hata
+[Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
+Desteklenmeyen bir GnuPG sürümü bulundu; kullanma riski size aittir!\nBu eklenti ile GnuPG v1.x.x sürümünü kullanmanız önerilir.
+["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
+Miranda kök dizininde "GPG" dizini bulundu.\nBunun GPG ana dizini olduğu varsayılıyor.\nGPG ana dizini ayarlandı.
+[Info]
+Bilgi
+[Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
+GPG sürümünüz desteklenmektedir. Dil dosyası bulundu.\nGPG eklentisi sorunsuz çalışmalıdır.\nDevam etmek için Tamam’a basın.
+[Choose gpg.exe]
+gpg.exe dosyasını seçin
+[GPG binary is set and valid (this is good).\n]
+GPG ikili dosyası ayarlanmış ve geçerlidir (bu iyi bir şey).\n
+[GPG binary unset or invalid (plugin will not work).\n]
+GPG ikili dosyası ayarlanmamış veya geçersiz (eklenti çalışmayacaktır).\n
+[Home dir write access granted (this is good).\n]
+Ana dizine yazma izni verildi (bu iyi bir şey).\n
+[Home dir has no write access (plugin most probably will not work).\n]
+Ana dizinde yazma erişimi yok (eklenti büyük olasılıkla çalışmayacaktır).\n
+[Temp dir write access granted (this is good).\n]
+Geçici dizine yazma izni verildi (bu iyi bir şey).\n
+[Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work).]
+Geçici dizinde yazma izni yok (eklenti çalışmalı, ancak bazı sorunlar yaşanabilir; dosya aktarımları çalışmayacaktır).
+[\nGPG will be disabled until you solve these problems]
+\nBu sorunları çözene kadar GPG devre dışı kalacaktır
+[GPG plugin problems]
+GPG eklentisiyle ilgili sorunlar
+[Your secret key with ID: ]
+ID'si şudur: gizli anahtarınız: 
+[ for account ]
+ hesap için 
+[ deleted from GPG secret keyring.\nDo you want to set another key?]
+ GPG gizli anahtar demetinden silindi.\nBaşka bir anahtar ayarlamak ister misiniz?
+[Own secret key warning]
+Kendi gizli anahtarıyla ilgili uyarı
+[ expired and will not work.\nDo you want to set another key?]
+ Süresi doldu ve artık çalışmayacaktır.\nBaşka bir anahtar belirlemek ister misiniz?
+[You didn't set a private key.\nWould you like to set it now?]
+Özel anahtar belirlememişsiniz.\nŞimdi belirlemek ister misiniz?
+[Own private key warning]
+Kendi özel anahtarıyla ilgili uyarı
+[Do you want to load key for all subcontacts?]
+Tüm alt kişilerin anahtarlarını yüklemek istiyor musunuz?
+[Metacontact detected]
+Metakontak tespit edildi
+;file \plugins\New_GPG\src\messages.cpp
+[We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?]
+Şifreleme özelliği devre dışı bırakılmış bir kişiden şifreli bir mesaj aldık.\nBu kişi için şifrelemeyi etkinleştirmek ister misiniz?
+[Do you want to try to decrypt encrypted message?]
+Şifrelenmiş mesajın şifresini çözmeyi denemek ister misiniz?
+[GPG cannot decrypt incoming message]
+GPG, gelen mesajın şifresini çözemiyor
+[Received unencrypted message:]
+Şifrelenmemiş mesaj alındı:
+[Failed to decrypt GPG encrypted message.\nMessage body for manual decryption:\n]
+GPG ile şifrelenmiş mesajın şifresi çözülemedi.\nManuel şifre çözme için mesaj gövdesi:\n
+[We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
+Güvenilmeyen bir anahtarla şifreleme yapmaya çalışıyoruz. Bu anahtara kalıcı olarak güvenmek istiyor musunuz?
+[Something is wrong, GPG does not understand us, aborting encryption.]
+Bir sorun var, GPG bizi anlamıyor, şifreleme işlemi iptal ediliyor.
+;file \plugins\New_GPG\src\options.cpp
+[Key ID]
+Anahtar Kimliği
+[Email]
+E-posta
+[Name]
+Adı
+[Creation date]
+Oluşturulma tarihi
+[Expiration date]
+Son kullanma tarihi
+[Key length]
+Anahtar uzunluğu
+[Failed to export public key.]
+Genel anahtarın dışa aktarılması başarısız oldu.
+[Contact]
+İletişim
+[Account]
+Hesap
+[Default private key ID]
+Varsayılan özel anahtar kimliği
+[not set]
+belirtilmemiş
+[This key is not used by any contact. Do you want to remove it from public keyring?]
+Bu anahtar hiçbir kişi tarafından kullanılmıyor. Bunu genel anahtar demetinden silmek istiyor musunuz?
+[Key info]
+Önemli bilgiler
+[we have secret key for this public key, do not removing from GPG keyring]
+Bu açık anahtarın gizli anahtarı elimizde bulunmaktadır; lütfen GPG anahtar demetinden silmeyin
+[info]
+bilgi
+[Key removed from GPG keyring]
+GPG anahtarlığından anahtar kaldırıldı
+[Do you want to remove key from entire metacontact (all subcontacts)?]
+Anahtarı tüm meta-kişiden (tüm alt kişilerden) silmek istiyor musunuz?
+[Export public key]
+Açık anahtarı dışa aktar
+[.asc pubkey file]
+.asc açık anahtar dosyası
+[Set log file]
+Günlük dosyasını ayarla
+[LOG files]
+LOG dosyaları
+[Set home directory]
+Ana dizini ayarla
+[Load Public GPG Key for ]
+Şunun için Genel GPG Anahtarını Yükle: 
+[Turn off encryption]
+Şifrelemeyi devre dışı bırak
+[ found in presence, and exists in keyring.)]
+ (mevcut olarak bulundu ve anahtarlıkta yer alıyor.)
+[Load Public GPG Key (Key ID: ]
+Genel GPG Anahtarını Yükle (Anahtar Kimliği: 
+[ found in presence.)]
+ (ortada bulunduğu.)
+[This is not public or private key]
+Bu, ne açık anahtar ne de özel anahtardır
+[Key already in secret keyring.]
+Anahtar zaten gizli anahtarlıkta bulunuyor.
+[Set file containing GPG public key]
+GPG açık anahtarını içeren ayar dosyası
+[GPG public key file]
+GPG açık anahtar dosyası
+[Failed to open file]
+Dosya açılamadı
+[There is no public or private key.]
+Ne açık anahtar ne de özel anahtar vardır.
+[Services]
+Hizmetler
+[Main]
+Ana Sayfa
+[GnuPG Variables]
+GnuPG Değişkenleri
+[Messages]
+Mesajlar
+[Advanced]
+İleri Düzey
+;file \plugins\New_GPG\src\ui.cpp
+[New passwords do not match]
+Yeni şifreler birbiriyle uyuşmuyor
+[Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
+Eski şifre uyuşmuyor; devam edebilirsiniz, ancak GPG yanlış şifreyi reddedecektir.\nDevam etmek istiyor musunuz?
+[You must set encryption algorithm first]
+Öncelikle şifreleme algoritmasını ayarlamanız gerekir
+[Key length must be of length from 1024 to 4096 bits]
+Anahtar uzunluğu 1024 ile 4096 bit arasında olmalıdır
+[Invalid date]
+Geçersiz tarih
+[Name must contain at least 4 characters]
+Ad, en az 4 karakter içermelidir
+[Name cannot contain '(' or ')']
+Ad, '(' veya ')' karakterlerini içermemelidir
+[Invalid Email]
+Geçersiz E-posta Adresi
+[Generating new key, please wait...]
+Yeni anahtar oluşturuluyor, lütfen bekleyin...
+[Expire date]
+Son kullanma tarihi
+[Accounts]
+Hesaplar
+[Default]
+Varsayılan
+[key ID]
+anahtar kimliği
+[Choose file to export key]
+Anahtarı dışa aktarmak için dosyayı seçin
+[Any file]
+Herhangi bir dosya
+[Generating new random key, please wait]
+Yeni rastgele anahtar oluşturuluyor, lütfen bekleyin
+[There is existing key for contact, would you like to replace it with new key?]
+Kişi için mevcut bir anahtar var; bunu yeni bir anahtarla değiştirmek ister misiniz?
+[New public key was received, do you want to import it?]
+Yeni bir açık anahtar alındı, bunu içe aktarmak istiyor musunuz?
+[Replace]
+Değiştir
+[Accept]
+Kabul et
+[Received key from %s]
+%s'den anahtar alındı
+[Please enter password for key with ID: ]
+Lütfen şu kimlik numarasına ait anahtarın şifresini girin: 
+;file \plugins\New_GPG\src\utilities.cpp
+[Do you want to toggle encryption for all subcontacts?]
+Tüm alt kişilerdeki şifrelemeyi etkinleştirmek veya devre dışı bırakmak ister misiniz?
+[Turn off GPG encryption]
+GPG şifrelemesini devre dışı bırakın
+[Turn on GPG encryption]
+GPG şifrelemesini etkinleştirin
+[Target file exists, do you want to replace it?]
+Hedef dosya mevcut; dosyanın üzerine yazmak istiyor musunuz?
+[Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?]
+Karşı tarafta dosyanın şifresini çözme özelliği bulunmuyor.\nAlıcı, dosyaların şifresini çözemeyebilir.\nYine de dosyaları şifrelemek istiyor musunuz?
+[File transfer warning]
+Dosya aktarımı uyarısı
+[Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for Jabber protocol.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?]
+Karşı tarafta şifreleme desteğini kontrol edilemiyor.\nAlıcı, dosyaları şifresini çözemeyebilir.\nŞu anda yetenek kontrolü yalnızca Jabber protokolü için desteklenmektedir.\nKarşı tarafta New_GPG eklentisiyle Miranda kullanılıyorsa, bu özellik diğer tüm protokoller için de çalışacaktır.\nYine de dosyaları şifrelemek istiyor musunuz?
+[encrypting file for transfer]
+aktarım için dosyayı şifreleme
+[Choose file to export keys]
+Anahtarları dışa aktarmak için bir dosya seçin
+[We have successfully exported %d public keys and all private keys.]
+%d adet açık anahtarı ve tüm özel anahtarları başarıyla dışa aktardık.
+[We have successfully exported all private keys.]
+Tüm özel anahtarları başarıyla dışa aktardık.
+[We have successfully exported %d public keys.]
+%d adet açık anahtarı başarıyla dışa aktardık.
+[Keys export result]
+Anahtarların dışa aktarılması sonucu
+[Choose file to import keys from]
+Anahtarları içe aktarmak için dosyayı seçin
+[We have successfully processed %d public keys and some private keys.]
+%d adet açık anahtarı ve bazı özel anahtarları başarıyla işledik.
+[We have successfully processed %d public keys.]
+%d adet açık anahtarı başarıyla işledik.
+[Keys import result]
+Anahtarların içe aktarılma sonucu
+[GPG binary does not exist.\nPlease choose another location]
+GPG ikili dosyası bulunmuyor.\nLütfen başka bir konum seçin
+[Please choose GPG binary location]
+Lütfen GPG ikili dosyasının konumunu seçin
+[Please set keyring's home directory]
+Lütfen anahtar halkasının ana dizinini ayarlayın

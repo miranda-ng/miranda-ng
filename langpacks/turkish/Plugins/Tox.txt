@@ -1,0 +1,194 @@
+#muuid {00272a3e-f5fa-4090-8b67-3e62ac1ee0b4}
+;============================================================
+;  File: Tox.dll
+;  Plugin: Tox protocol
+;  Version: 0.96.4.1
+;  Authors: Miranda NG team
+;============================================================
+[Tox protocol support for Miranda NG.]
+Miranda NG için Tox protokolü desteği.
+;file \protocols\Tox\res\resource.rc
+[Tox ID:]
+Toksikoloji Kimliği:
+[Create]
+Oluştur
+[Import]
+İthalat
+[Copy ID]
+Kopyalama Kimliği
+[Export]
+Dışa Aktar
+[Name:]
+Adı:
+[Password:]
+Şifre:
+[Default group:]
+Varsayılan grup:
+[Create Tox profile]
+Tox profili oluştur
+[Import Tox profile]
+Tox profilini içe aktar
+[Copy Tox ID]
+Tox Kimliğini Kopyala
+[Export Tox profile]
+Tox profilini dışa aktar
+[Connection settings]
+Bağlantı ayarları
+[Enable UDP (otherwise force Tox to use TCP)]
+UDP’yi etkinleştir (aksi takdirde Tox’un TCP kullanmasını zorla)
+[Enable IPv6]
+IPv6'yı etkinleştir
+[Enable UDP hole-punching]
+UDP delik açma özelliğini etkinleştir
+[Enable local network peer discovery]
+Yerel ağda eş keşfini etkinleştir
+[Remove password]
+Şifreyi kaldır
+[Change password]
+Şifreyi değiştir
+[Set password]
+Şifre belirle
+[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via toxme.io.]
+Bu alanda bir Tox adresi (76 onaltılık karakter) bulunuyorsa, bunu arkadaş listenize eklemeniz istenecektir. Aksi takdirde, Miranda bu sorguyu toxme.io üzerinden arayacaktır.
+[DNS name:]
+DNS adı:
+[Enter password]
+Şifreyi girin
+[Cancel]
+İptal et
+[Tox profile is encrypted. Enter the password to continue.]
+Tox profili şifrelenmiştir. Devam etmek için şifreyi girin.
+[Add]
+Ekle
+[Update]
+Güncelleme
+[IPv4 address/ Host]
+IPv4 adresi / Ana bilgisayar
+[IPv6 address (optional)]
+IPv6 adresi (isteğe bağlı)
+[Port]
+Liman
+[Public key]
+Açık anahtar
+[Old password:]
+Eski şifre:
+[New password:]
+Yeni şifre:
+[Confirm password:]
+Şifreyi tekrar girin:
+;file \protocols\Tox\src\main.cpp
+[Profiles folder]
+Profiller klasörü
+[Tox link protocol]
+Tox bağlantı protokolü
+;file \protocols\Tox\src\tox_core.cpp
+[Unable to initialize Tox core]
+Tox çekirdeği başlatılamıyor
+;file \protocols\Tox\src\tox_icons.cpp
+[Protocol icon]
+Protokol simgesi
+[Action icon]
+Eylem simgesi
+[Correction icon]
+Düzeltme simgesi
+[Protocols]
+Protokol
+;file \protocols\Tox\src\tox_menus.cpp
+[Password]
+Şifre
+[Create password]
+Şifre oluştur
+;file \protocols\Tox\src\tox_messages.cpp
+[Action]
+Eylem
+;file \protocols\Tox\src\tox_options.cpp
+[Tox profile]
+Toksikoloji profili
+[All files]
+Tüm dosyalar
+[Select Tox profile]
+Tox profilini seçin
+[Save Tox profile]
+Tox profilini kaydet
+[Add node]
+Düğüm ekle
+[Change node]
+Düğümü değiştir
+[Enter IPv4]
+IPv4 adresini girin
+[Error]
+Hata
+[Enter port]
+Bağlantı noktasını girin
+[Enter public key]
+Açık anahtarı girin
+[Common nodes]
+Ortak düğümler
+[User nodes]
+Kullanıcı düğümleri
+[Are you sure?]
+Emin misin?
+[Node deleting]
+Düğüm silme
+[Network]
+Ağ
+[Account]
+Hesap
+[Nodes]
+Düğümler
+;file \protocols\Tox\src\tox_profile.cpp
+[Unable to open Tox profile]
+Tox profili açılamıyor
+[Unable to read Tox profile]
+Tox profili okunamıyor
+[Unable to decrypt Tox profile]
+Tox profilinin şifresi çözülemedi
+[New password is empty]
+Yeni şifre boş
+[New password is not equal to confirmation]
+Yeni şifre, onay şifresiyle aynı değil
+[Old password is not valid]
+Eski şifre geçersiz
+[Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
+Şifrenin kaldırılması, profilin şifresinin çözülmesine yol açacaktır.\r\nŞifreyi kaldırmak istediğinizden emin misiniz?
+;file \protocols\Tox\src\tox_proto.cpp
+[You cannot add yourself to your contact list]
+Kendinizi kişi listenize ekleyemezsiniz
+[Contact already in your contact list]
+Kişi listenizde zaten mevcut olan kişi
+;file \protocols\Tox\src\tox_search.cpp
+[Query]
+Sorgu
+[Invalid search string]
+Geçersiz arama dizesi
+;file \protocols\Tox\src\tox_utils.cpp
+[One of the arguments is missing]
+Argümanlardan biri eksik
+[Unable to allocate enough memory]
+Yeterli bellek ayrılmıyor
+[Unable to bind to a port]
+Bir bağlantı noktasına bağlanılamıyor
+[The proxy type is not valid]
+Vekil türü geçerli değil
+[The proxy host is not valid]
+Vekil sunucu geçersiz
+[The proxy port is not valid]
+Vekil bağlantı noktası geçerli değil
+[The proxy address could not be resolved]
+Vekil adresi çözümlenemedi
+[The profile is encrypted]
+Profil şifrelenmiştir
+[The data format is not valid]
+Veri biçimi geçerli değil
+[Unknown error]
+Bilinmeyen hata
+[The friend ID did not designate a valid friend]
+Arkadaş kimliği geçerli bir arkadaşı belirtmemiştir
+[This client is currently not connected to the friend]
+Bu kullanıcı şu anda arkadaşıyla bağlantılı değil
+[An allocation error occurred while increasing the send queue size]
+Gönderme kuyruğunun boyutu artırılırken bir tahsis hatası oluştu
+[Message length exceeded TOX_MAX_MESSAGE_LENGTH]
+Mesaj uzunluğu TOX_MAX_MESSAGE_LENGTH değerini aştı
+[Attempted to send a zero-length message]
+Sıfır uzunluklu bir mesaj gönderilmeye çalışıldı

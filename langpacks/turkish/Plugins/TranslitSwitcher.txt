@@ -1,0 +1,31 @@
+#muuid {0286947d-3140-4222-b5ad-2c92315e1c1e}
+;============================================================
+;  File: TranslitSwitcher.dll
+;  Plugin: Switch layout or transliterate
+;  Version: 0.1.0.1
+;  Authors: Mataes, tico-tico, Tim
+;============================================================
+[Allows you to switch a layout or transliterate or invert case of the entered text in the message window with SmileyAdd support.]
+SmileyAdd desteği sayesinde mesaj penceresinde girilen metnin düzenini değiştirmenize, harflerini transliterasyonla dönüştürmenize veya büyük/küçük harflerini tersine çevirmenize olanak tanır.
+;file \plugins\TranslitSwitcher\src\Layoutproc.cpp
+[TranslitSwitcher]
+TranslitSwitcher
+;file \plugins\TranslitSwitcher\src\TranslitSwitcher.cpp
+[Switch Layout and Send]
+Düzeni Değiştir ve Gönder
+[Translit and Send]
+Translit ve Gönder
+[Invert Case and Send]
+Büyük/Küçük Harfleri Ters Çevir ve Gönder
+[Convert All / Selected]
+Tümünü / Seçilenleri Dönüştür
+[Convert Last / Selected]
+Son / Seçili Dönüştür
+[Translit All / Selected]
+Tümünü / Seçilenleri Translit
+[Translit Last / Selected]
+Translit Son / Seçili
+[Invert Case All / Selected]
+Tümünü / Seçilenleri Büyük/Küçük Harf Dönüştür
+[Invert Case Last / Selected]
+Son / Seçilen Büyük/Küçük Harf Dönüşümü

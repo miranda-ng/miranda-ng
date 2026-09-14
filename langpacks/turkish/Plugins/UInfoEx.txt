@@ -1,0 +1,1039 @@
+#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
+;============================================================
+;  File: UInfoEx.dll
+;  Plugin: User info ext
+;  Version: 0.9.0.3
+;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+;============================================================
+[Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
+Miranda NG için Genişletilmiş UserInfo modülü. Tüm kişi bilgilerini düzenlemek için bir arayüz sunar.
+;file \plugins\UserInfoEx\res\resource.rc
+[Edit contact information]
+Kişi bilgilerini düzenle
+[This list gives you some overview about all your contact's anniversaries.]
+Bu liste, tüm kişilerinizin yıldönümleri hakkında genel bir bakış sunar.
+[Origin]
+Kaynak
+[&Update]
+&Güncelleme
+[Updating]
+Güncelleme
+[Cancel]
+İptal et
+[Apply]
+Başvur
+[Nick:]
+Nick:
+[Display name:]
+Görünen ad:
+[Title:]
+Başlık:
+[First name:]
+Adı:
+[Second name:]
+İkinci isim:
+[Last name:]
+Soyadı:
+[Prefix:]
+Önek:
+[Female]
+Kadın
+[Male]
+Erkek
+[Marital status:]
+Medeni durum:
+[Partner:]
+Ortak:
+[Street:]
+Sokak:
+[Postal code:]
+Posta kodu:
+[City:]
+Şehir:
+[County/State:]
+İlçe/Eyalet:
+[Country:]
+Ülke:
+[Contact added to contact list:]
+Kişi, kişi listesine eklendi:
+[Just from the beginning.]
+En başından itibaren.
+[Your contact's local time is:]
+İrtibat kişinizin yerel saati şöyledir:
+[Timezone:]
+Saat dilimi:
+[Company:]
+Şirket:
+[Department:]
+Bölüm:
+[Office:]
+Ofis:
+[Position:]
+Pozisyon:
+[Occupation:]
+Meslek:
+[Superior:]
+Üst düzey:
+[Assistant:]
+Asistan:
+[Add phone number]
+Telefon numarası ekle
+[Enter your phone number\nand don't worry about formatting.]
+Telefon numaranızı girin\nve biçimlendirme konusunda endişelenmeyin.
+[Enter a category for this number:]
+Bu sayı için bir kategori girin:
+[Enter country, area code and phone number:]
+Ülke, alan kodu ve telefon numarasını girin:
+[Or enter a full international number:]
+Ya da tam bir uluslararası numara girin:
+[Phone can receive SMS text messages]
+Telefon, SMS mesajlarını alabilir
+[Add e-mail]
+E-posta ekle
+[Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
+E-posta adresinizi tam olarak girin.\n(örn., john.doe@provider.com)
+[Enter a representative name for the e-mail address here:]
+Buraya e-posta adresi için bir temsilci adı girin:
+[Enter the e-mail address here:]
+E-posta adresini buraya girin:
+[Show menu items]
+Menü öğelerini göster
+[Remind me]
+Bana hatırlat
+[days before]
+önceki günler
+[Check every]
+Her birini kontrol edin
+[hours]
+saat
+[Icon flashing on event]
+Olay sırasında simgenin yanıp sönmesi
+[Enabled]
+Etkinleştirildi
+[Perform check on each startup]
+Her başlatmada kontrol gerçekleştir
+[Time of last check:]
+Son kontrol zamanı:
+[Play sound]
+Sesi çal
+[Use ignore list]
+Yoksayma listesini kullan
+[Birthday popup colors]
+Doğum günü açılır penceresinin renkleri
+[Background color]
+Arka plan rengi
+[Text color]
+Metin rengi
+[Use Windows colors]
+Windows renklerini kullan
+[Use default colors]
+Varsayılan renkleri kullan
+[Timeout]
+Zaman aşımı
+[Default]
+Varsayılan
+[Custom]
+Özel
+[Permanent]
+Kalıcı
+[Show reminder messages as popups (if reminder is enabled)]
+Hatırlatma mesajlarını açılır pencere olarak göster (hatırlatma özelliği etkinse)
+[Anniversary popup colors]
+Yıldönümü pop-up renkleri
+[Replace progress dialogs with popups]
+İlerleme iletişim kutularını açılır pencerelerle değiştirin
+[Replace message boxes with popups]
+Mesaj kutularını açılır pencerelerle değiştirin
+[Preview]
+Önizleme
+[Homepage:]
+Ana sayfa:
+[Add affiliation]
+Kurum bilgisini ekle
+[Add past]
+Geçmişi ekle
+[Add interest]
+İlgi çekici hale getirin
+[Delete]
+Sil
+[Anniversary editor]
+Yıldönümü editörü
+[Add/Edit your anniversary here.]
+Yıldönümünüzü buradan ekleyin/düzenleyin.
+[Enter a name for the anniversary here please:]
+Lütfen buraya yıldönümü için bir isim girin:
+[Anniversary list]
+Yıldönümü listesi
+[Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
+Yaklaşan yıldönümleri\nBu liste, tüm kişilerinizin yıldönümleri hakkında genel bir bakış sunar.
+[Statistics:]
+İstatistikler:
+[with birthday:]
+doğum günü olan:
+[female:]
+kadın:
+[male:]
+erkek:
+[number of contacts:]
+kişi sayısı:
+[average age:]
+ortalama yaş:
+[View]
+Görüntüle
+[Show &during the next]
+Göster ve bir sonraki süre boyunca
+[day(s)]
+gün(ler)
+[Reminder]
+Hatırlatma
+[Popup this dialog on a contact's anniversary]
+Bir kişinin yıldönümünde bu iletişim kutusunu aç
+[Icons]
+Simgeler
+[Check file version of default IconPack to prevent wrong icon display]
+Yanlış simge görüntülenmesini önlemek için varsayılan IconPack dosyasının sürümünü kontrol edin
+[Display icons on each dialog button]
+Her bir iletişim kutusu düğmesinde simgeler göster
+[Metacontacts]
+Metakontaktlar
+[Scan subcontacts for missing information]
+Alt temas noktalarında eksik bilgi olup olmadığını kontrol edin
+[Enable extended 'send/receive e-mail' service (*)]
+Genişletilmiş “e-posta gönderme/alma” hizmetini etkinleştir (*)
+[(*) Requires Miranda to be restarted.]
+(*) Miranda'nın yeniden başlatılması gerekir.
+[Reset factory defaults]
+Fabrika ayarlarına sıfırla
+[Colors]
+Renkler
+[Protocol's information]
+Protokol bilgileri
+[Custom information]
+Özel bilgiler
+[Overwritten information]
+Üzerine yazılmış bilgiler
+[Changed information]
+Değiştirilen bilgiler
+[Enable colors to give information about information's status.]
+Bilgilerin durumuyla ilgili bilgi vermek üzere renkleri etkinleştirin.
+[Common]
+Yaygın
+[Make protocol based contact information read only]
+Protokol tabanlı iletişim bilgilerini salt okunur hale getirin
+[Treeview]
+Ağaç Görünümü
+[Enable groups in details dialog's treeview]
+Ayrıntılar iletişim kutusundaki ağaç görünümünde grupları etkinleştir
+[Sort all tree items alphabetically]
+Tüm ağaç öğelerini alfabetik sıraya göre sırala
+[Info of a metacontact's subcontact]
+Bir meta-kişinin alt kişisine ait bilgiler
+[Adapt propertysheet pages to Aero mode]
+Özellik sayfalarını Aero moduna uyarlayın
+[Import]
+İthalat
+[Importing...\nPlease wait!]
+İçe aktarılıyor...\nLütfen bekleyin!
+[Setting/Event (20/100)]
+Ortam/Etkinlik (20/100)
+[John Doe (1/10)]
+John Doe (1/10)
+[Dialog]
+Diyalog
+[All]
+Tümü
+[None]
+Yok
+[Show menu item]
+Menü öğesini göster
+[Main menu]
+Ana menü
+[Cascade:]
+Kaskad:
+[Off]
+Kapalı
+[Export/import items]
+Öğeleri dışa/içe aktarma
+[Contact menu]
+İletişim menüsü
+[Group menu]
+Grup menüsü
+[Subgroup menu]
+Alt grup menüsü
+[Account menu]
+Hesap menüsü
+[Misc]
+Çeşitli
+[Country flags]
+Ülke bayrakları
+[Use &unknown flag if country cannot be determined]
+Ülke belirlenemediğinde &unknown bayrağını kullanın
+[Show country flag as &status icon on message window]
+Mesaj penceresinde ülke bayrağını &durum simgesi olarak göster
+[Birthday]
+Doğum Günü
+[Age:]
+Yaş:
+[Zodiac:]
+Burç:
+[not found]
+bulunamadı
+[Use global reminder settings]
+Genel hatırlatma ayarlarını kullan
+[Don't remind me of this anniversary]
+Bana bu yıldönümünü hatırlatma
+[Refresh contact details]
+Kişi bilgilerini güncelle
+[Preparing...]
+Hazırlanıyor...
+[Hide]
+Gizle
+[What do you want to export?]
+Neyi ihraç etmek istiyorsunuz?
+[Contact information]
+İletişim bilgileri
+[Contact history]
+İletişim geçmişi
+[Select modules]
+Modülleri seçin
+[Check the modules on the list which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
+Kişi için dışa aktarmak istediğiniz modülleri listeden işaretleyin. Dosyayı daha sonra yeni bir liste girdisi olarak eklemek için en azından protokol modülünü dışa aktarmanız gerekir.
+[Check all]
+Hepsini işaretle
+[Uncheck all]
+Tümünün işaretini kaldır
+[&Export]
+&Dışa Aktar
+;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
+[Aries]
+Koç
+[Taurus]
+Boğa
+[Gemini]
+İkizler
+[Cancer]
+Kanser
+[Leo]
+Aslan
+[Virgo]
+Başak
+[Libra]
+Terazi
+[Scorpio]
+Akrep
+[Sagittarius]
+Yay
+[Capricorn]
+Oğlak
+[Aquarius]
+Kova
+[Pisces]
+Balık
+[%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
+%s, protokol aracılığıyla yeni bir doğum tarihi bildirmiştir.\nBu tarih %s’dir. Eski tarih ise %s’ydi.\n\nBu tarihi bu kişinin yeni doğum tarihi olarak kullanmak istiyor musunuz?
+[Update custom birthday]
+Özel doğum gününü güncelle
+[Keeps your custom birthday up to date.]
+Kişiselleştirilmiş doğum gününüzü güncel tutar.
+;file \plugins\UserInfoEx\src\classPsTree.cpp
+[Due to a parameter error, one of the treeitems can't be added!]
+Bir parametre hatası nedeniyle ağaç öğelerinden biri eklenemiyor!
+[A fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
+Özellik sayfası eklenirken ölümcül bir hata oluştu!\nDiyalog penceresi oluşturma işlemi iptal edildi!
+[Rename Item]
+Öğeyi Yeniden Adlandır
+[Hide Item]
+Öğeyi Gizle
+[Show Items:]
+Öğeleri Göster:
+[Reset to defaults]
+Varsayılan ayarlara sıfırla
+;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
+[Creating unique name for a page failed with %d and error code %d]
+Bir sayfa için benzersiz bir ad oluşturma işlemi %d hatası ve %d hata koduyla başarısız oldu
+[Creating the label for a page failed with %d and error code %d]
+Bir sayfa için etiket oluşturma işlemi %d hatası ve %d hata koduyla başarısız oldu
+;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+[Add a new anniversary]
+Yeni bir yıldönümü ekle
+[Delete an existing anniversary]
+Mevcut bir yıldönümünü sil
+[Unspecified]
+Belirtilmemiş
+;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+[Edit e-mail]
+E-postayı düzenle
+[Edit phone number]
+Telefon numarasını düzenle
+[The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
+Telefon numarası + işaretiyle başlamalı ve\nsadece rakamlar, boşluklar, köşeli parantezler ve tirelerden oluşmalıdır.
+[Choose the item to display]
+Görüntülenecek öğeyi seçin
+[Edit the currently displayed item]
+Şu anda görüntülenen öğeyi düzenle
+[Add a new custom item]
+Yeni bir özel öğe ekle
+[Delete the selected item]
+Seçili öğeyi sil
+[CRITICAL: Unable to edit current entry!\nThis should not happen!]
+ÖNEMLİ: Mevcut girişi düzenleyemiyor!\nBöyle bir durum olmamalı!
+[Do you really want to delete the current selected item?\n\t%s\n\t%s]
+Şu anda seçili olan öğeyi gerçekten silmek istiyor musunuz?\n\t%s\n\t%s
+[Other]
+Diğer
+;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[ETA]
+Tahmini Varış Zamanı
+[Contact]
+İletişim
+[Proto]
+Proto
+[Age/Nr.]
+Yaş/No.
+[Anniversary]
+Yıldönümü
+[Date]
+Tarih
+[All contacts]
+Tüm kişiler
+[Birthdays only]
+Sadece doğum günleri
+[Anniversaries only]
+Sadece yıldönümleri
+[Disabled reminder]
+Hatırlatma devre dışı
+[Popup anniversary list]
+Yıldönümü listesi penceresi
+;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+[Retry]
+Tekrar dene
+[Yes]
+Evet
+[No]
+Hayır
+[Abort]
+İptal et
+[Ignore]
+Yoksay
+[Error]
+Hata
+;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
+[Creating the image list failed!]
+Resim listesi oluşturulamadı!
+[Could not find contact's protocol. Maybe it is not active!]
+Kişinin protokolü bulunamadı. Belki de aktif değildir!
+[No pages have been added. Canceling dialog creation!]
+Hiçbir sayfa eklenmedi. İletişim kutusunun oluşturulması iptal ediliyor!
+[Details dialog failed to be created. Returning error is %d.]
+Ayrıntılar iletişim kutusu oluşturulamadı. Dönüş hatası %d.
+[Export to file]
+Dosyaya aktar
+[Import from file]
+Dosyadan içe aktar
+[Owner]
+Sahibi
+[edit contact information]
+iletişim bilgilerini düzenle
+[View personal user details and more]
+Kişisel kullanıcı bilgilerini ve daha fazlasını görüntüleyin
+[updating]
+güncelleme
+;file \plugins\UserInfoEx\src\init.cpp
+[User &details]
+Kullanıcı ve ayrıntılar
+[Check anniversaries]
+Yıldönümlerini kontrol et
+;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Main]
+Ana Sayfa
+[IM naming]
+IM adlandırma
+[Timezone]
+Saat dilimi
+[Marital status]
+Medeni durum
+[Address]
+Adres
+[Export: modules]
+Dışa aktarma: modüller
+[Export: folder]
+Dışa aktarma: klasör
+[Details info bar]
+Ayrıntılar bilgi çubuğu
+[Phone info bar]
+Telefon bilgi çubuğu
+[E-mail info bar]
+E-posta bilgi çubuğu
+[Export VCard]
+VCard’ı Dışa Aktar
+[Import VCard]
+VCard'ı İçe Aktar
+[Anniversary info bar]
+Yıldönümü bilgi çubuğu
+[Update]
+Güncelleme
+[Export]
+Dışa Aktar
+[Goto]
+Git
+[Phone]
+Telefon
+[Fax]
+Faks
+[Cellular]
+Hücresel
+[Custom phone]
+Özel telefon
+[E-mail]
+E-posta
+[Down arrow]
+Aşağı ok
+[Add]
+Ekle
+[Edit]
+Düzenle
+[Search]
+Arama
+[Export/import]
+İhracat/ithalat
+[Backup birthday]
+Yedek doğum günü
+[Birthday today]
+Bugün doğum günü
+[Birthday tomorrow]
+Yarın doğum günü
+[Birthday in 2 days]
+2 gün sonra doğum günü
+[Birthday in 3 days]
+3 gün sonra doğum günü
+[Birthday in 4 days]
+4 gün sonra doğum günü
+[Birthday in 5 days]
+5 gün sonra doğum günü
+[Birthday in 6 days]
+6 gün sonra doğum günü
+[Birthday in 7 days]
+7 gün sonra doğum günü
+[Birthday in 8 days]
+8 gün sonra doğum günü
+[Birthday in 9 days]
+9 gün sonra doğum günü
+[Birthday later]
+Doğum günü daha sonra
+[Anniversary today]
+Bugün yıl dönümü
+[Anniversary tomorrow]
+Yarın yıldönümü
+[Anniversary in 2 days]
+2 gün sonra yıldönümü
+[Anniversary in 3 days]
+3 gün sonra yıldönümü
+[Anniversary in 4 days]
+4 gün sonra yıldönümü
+[Anniversary in 5 days]
+5 gün sonra yıldönümü
+[Anniversary in 6 days]
+6 gün sonra yıldönümü
+[Anniversary in 7 days]
+7 gün sonra yıldönümü
+[Anniversary in 8 days]
+8 gün sonra yıldönümü
+[Anniversary in 9 days]
+9 gün sonra yıl dönümü
+[Anniversary later]
+Yıldönümü daha sonra
+[Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
+Uyarı: Şu anki IconPack sürümünüz, UserInfoEx'in tasarlandığı sürümden farklıdır.\nBazı simgeler doğru şekilde görüntülenmeyebilir
+[Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
+Uyarı: Aşağıdaki dizinlerden birinde IconPack bulunamadı: 'customize\\icons', 'icons' veya 'plugins'!
+;file \plugins\UserInfoEx\src\mir_icolib.h
+[Extended user info]
+Genişletilmiş kullanıcı bilgileri
+[Dialogs]
+Diyaloglar
+[Buttons]
+Düğmeler
+;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+[Export/import contact]
+Kişi bilgilerini dışa aktarma/içe aktarma
+[&Export user details]
+&Kullanıcı bilgilerini dışa aktar
+[&Import]
+&İçe Aktar
+[&Import user details]
+&Kullanıcı bilgilerini içe aktar
+[View/change my &details...]
+&Ayrıntılarımı görüntüle/değiştir...
+[Export all contacts]
+Tüm kişileri dışa aktar
+[Import all contacts]
+Tüm kişileri içe aktar
+[Export/import group]
+İhracat/ithalat grubu
+[&Export group]
+&İhracat grubu
+[&Export xml]
+&XML'i dışa aktar
+;file \plugins\UserInfoEx\src\psp_about.cpp
+[My notes:]
+Notlarım:
+[About:]
+Hakkında:
+[About]
+Hakkında
+[Notes]
+Notlar
+;file \plugins\UserInfoEx\src\psp_anniversary.cpp
+[Please enter a valid description first!]
+Lütfen önce geçerli bir açıklama girin!
+[No valid date selected for editing!]
+Düzenleme için geçerli bir tarih seçilmedi!
+[Do you really want to delete the %s?]
+%s'yi gerçekten silmek istiyor musunuz?
+[General]
+Genel
+[Anniversaries]
+Yıldönümleri
+;file \plugins\UserInfoEx\src\psp_company.cpp
+[Work]
+İş
+;file \plugins\UserInfoEx\src\psp_contact.cpp
+[Open in browser]
+Tarayıcıda aç
+[home]
+ana sayfa
+[Primary e-mail]
+Ana e-posta adresi
+[Secondary e-mail]
+Yedek e-posta adresi
+[Tertiary e-mail]
+Üçüncü e-posta adresi
+[Address and contact]
+Adres ve iletişim bilgileri
+[company]
+şirket
+[Contact (private)]
+İletişim (özel)
+[Contact (work)]
+İletişim (iş)
+;file \plugins\UserInfoEx\src\psp_general.cpp
+;file \plugins\UserInfoEx\src\psp_options.cpp
+[Question]
+Soru
+[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
+Bu işlem, yaptığınız tüm ayarları silecektir!\nTüm TreeView ayarları, pencere konumları ve diğer tüm ayarlar!\n\nDevam etmek istediğinizden emin misiniz?
+[Ready]
+Hazır
+[Everything is done!]
+Her şey tamam!
+[All settings are reset to default values now!]
+Tüm ayarlar şimdi varsayılan değerlere sıfırlandı!
+[Reminder disabled]
+Hatırlatma devre dışı bırakıldı
+[Everything]
+Her şey
+[This is the reminder message]
+Bu bir hatırlatma mesajıdır
+[Contacts]
+İletişim Bilgileri
+[Advanced]
+İleri Düzey
+[Details dialog]
+Ayrıntılar iletişim kutusu
+[Popups]
+Açılır pencereler
+;file \plugins\UserInfoEx\src\psp_origin.cpp
+;file \plugins\UserInfoEx\src\psp_profile.cpp
+[Past]
+Geçmiş
+[Affiliation]
+Bağlı Olduğu Kurum
+[Interest]
+Faiz
+[<empty>]
+<boş>
+[Sorry, but there is a problem with adding a new item of type "%s"]
+Üzgünüm, ancak "%s" türünde yeni bir öğe eklerken bir sorun oluştu.
+[Edit category]
+Kategoriyi düzenle
+[Edit value]
+Değeri düzenle
+[Delete an entry]
+Bir girişi sil
+[Do you really want to delete this entry?]
+Bu kaydı gerçekten silmek istiyor musunuz?
+[Profile]
+Profil
+;file \plugins\UserInfoEx\src\svc_constants.cpp
+[Academic]
+Akademik
+[Administrative]
+İdari
+[Art/Entertainment]
+Sanat/Eğlence
+[College Student]
+Üniversite öğrencisi
+[Computers]
+Bilgisayarlar
+[Community & Social]
+Toplum ve Sosyal Yaşam
+[Education]
+Eğitim
+[Engineering]
+Mühendislik
+[Financial Services]
+Finansal Hizmetler
+[Government]
+Hükümet
+[High School Student]
+Lise Öğrencisi
+[Home]
+Ana Sayfa
+[Providing Help]
+Yardım Sağlama
+[Law]
+Hukuk
+[Managerial]
+Yönetimsel
+[Manufacturing]
+Üretim
+[Medical/Health]
+Tıp/Sağlık
+[Military]
+Askeriye
+[Non-Government Organization]
+Sivil Toplum Örgütü
+[Professional]
+Profesyonel
+[Retail]
+Perakende
+[Retired]
+Emekli
+[Science & Research]
+Bilim ve Araştırma
+[Sports]
+Spor
+[Technical]
+Teknik
+[University Student]
+Üniversite Öğrencisi
+[Web Building]
+Web Sitesi Oluşturma
+[Other Services]
+Diğer Hizmetler
+[Art]
+Sanat
+[Cars]
+Arabalar
+[Celebrity Fans]
+Ünlü Hayranlar
+[Collections]
+Koleksiyonlar
+[Culture & Literature]
+Kültür ve Edebiyat
+[Fitness]
+Fitness
+[Games]
+Oyunlar
+[Hobbies]
+Hobiler
+[Internet]
+İnternet
+[Lifestyle]
+Yaşam Tarzı
+[Movies/TV]
+Filmler/TV
+[Music]
+Müzik
+[Outdoor Activities]
+Açık Hava Etkinlikleri
+[Parenting]
+Ebeveynlik
+[Pets/Animals]
+Evcil Hayvanlar/Hayvanlar
+[Religion]
+Din
+[Science/Technology]
+Bilim/Teknoloji
+[Skills]
+Beceriler
+[Web Design]
+Web Tasarımı
+[Nature and Environment]
+Doğa ve Çevre
+[News & Media]
+Haberler ve Medya
+[Business & Economy]
+İş ve Ekonomi
+[Mystics]
+Mistikler
+[Travel]
+Seyahat
+[Astronomy]
+Astronomi
+[Space]
+Boşluk
+[Clothing]
+Giyim
+[Parties]
+Taraflar
+[Women]
+Kadınlar
+[Social science]
+Sosyal bilimler
+[60's]
+60'lar
+[70's]
+70'ler
+[80's]
+80'ler
+[50's]
+50'ler
+[Finance and corporate]
+Finans ve kurumsal
+[Entertainment]
+Eğlence
+[Consumer electronics]
+Tüketici elektroniği
+[Retail stores]
+Perakende mağazalar
+[Health and beauty]
+Sağlık ve güzellik
+[Media]
+Medya
+[Household products]
+Ev ürünleri
+[Mail order catalog]
+Posta sipariş kataloğu
+[Business services]
+İş hizmetleri
+[Audio and visual]
+Ses ve görüntü
+[Sporting and athletic]
+Sporcu ve atletik
+[Publishing]
+Yayıncılık
+[Home automation]
+Ev otomasyonu
+[Alumni Org.]
+Mezunlar Derneği
+[Charity Org.]
+Hayır Kuruluşu
+[Club/Social Org.]
+Kulüp/Sosyal Kuruluş
+[Community Org.]
+Toplum Örgütü
+[Cultural Org.]
+Kültür Kuruluşu
+[Fan Clubs]
+Hayran Kulüpleri
+[Fraternity/Sorority]
+Erkek Öğrenci Kulübü/Kız Öğrenci Kulübü
+[Hobbyists Org.]
+Hobi Severler Derneği
+[International Org.]
+Uluslararası Kuruluş
+[Nature and Environment Org.]
+Doğa ve Çevre Örgütü
+[Professional Org.]
+Meslek Örgütü
+[Scientific/Technical Org.]
+Bilimsel/Teknik Kuruluş
+[Self Improvement Group]
+Kişisel Gelişim Grubu
+[Spiritual/Religious Org.]
+Manevi/Dini Kuruluşlar
+[Sports Org.]
+Spor Kuruluşu
+[Support Org.]
+Destek Kuruluşu
+[Trade and Business Org.]
+Ticaret ve İşletme Örgütü
+[Union]
+Birlik
+[Volunteer Org.]
+Gönüllü Kuruluşu
+[Elementary School]
+İlkokul
+[High School]
+Lise
+[College]
+Üniversite
+[University]
+Üniversite
+[Past Work Place]
+Geçmiş İş Yerleri
+[Past Organization]
+Geçmişteki Organizasyon
+[Single]
+Tekli
+[Close relationships]
+Yakın ilişkiler
+[Engaged]
+Nişanlı
+[Married]
+Evli
+[Divorced]
+Boşanmış
+[Separated]
+Ayrılmış
+[Widowed]
+Dul
+[Actively searching]
+Aktif olarak arama yapılıyor
+[In love]
+Aşık
+[It's complicated]
+Bu biraz karmaşık
+[In a civil union]
+Sivil birliktelikte
+[jun.]
+Haz.
+[sen.]
+sen.
+;file \plugins\UserInfoEx\src\svc_constants.h
+;file \plugins\UserInfoEx\src\svc_email.cpp
+[Send e-mail]
+E-posta gönder
+[Memory allocation error!]
+Bellek ayırma hatası!
+;file \plugins\UserInfoEx\src\svc_homepage.cpp
+[User has no valid homepage]
+Kullanıcının geçerli bir ana sayfası yok
+[View Homepage]
+Ana Sayfayı Görüntüle
+[&Homepage]
+&Ana Sayfa
+;file \plugins\UserInfoEx\src\svc_refreshci.cpp
+[[b]%s (%S)...[/b]\n%d Contacts remaining]
+[b]%s (%S)...[/b]\n%d kişi kaldı
+[Abort Refreshing Contact Details]
+İletişim Bilgilerini Yenileme İşlemini İptal Et
+[Miranda must be online for refreshing contact information!]
+Kişi bilgilerinin güncellenebilmesi için Miranda’nın çevrimiçi olması gerekiyor!
+[Do you want to cancel the current refresh procedure?]
+Mevcut yenileme işlemini iptal etmek istiyor musunuz?
+;file \plugins\UserInfoEx\src\svc_reminder.cpp
+[%s has %s today.]
+%s'nin bugün %s'si var.
+[an anniversary]
+bir yıldönümü
+[He]
+O
+[She]
+O
+[He/she]
+O (erkek/kadın)
+[%s has the following anniversaries:]
+%s'nin aşağıdaki yıldönümleri vardır:
+[%d. %s today]
+%d. Bugün %s
+[%d. %s tomorrow]
+%d. Yarın %s
+[%d. %s in %d days]
+%d. %s, %d gün içinde
+[%s has birthday today.]
+Bugün %s'nin doğum günü.
+[%s has birthday tomorrow.]
+%s'nin yarın doğum günü.
+[%s has birthday in %d days.]
+%s'nin doğum gününe %d gün kaldı.
+[%s becomes %d years old.]
+%s, %d yaşına giriyor.
+[No anniversaries to remind of]
+Hatırlanacak bir yıldönümü yok
+[Reminders]
+Hatırlatmalar
+[Birthday reminder]
+Doğum günü hatırlatması
+[Birthday reminder: it's coming]
+Doğum günü hatırlatması: Yaklaşıyor
+[Anniversary reminder]
+Yıldönümü hatırlatması
+[Reminder (UInfoEx)]
+Hatırlatma (UInfoEx)
+;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
+[contact identification]
+iletişim bilgilerinin belirlenmesi
+[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
+%s(%s) adlı kişinin vCard'ında benzersiz bir kimlik numarası bulunmuyor,\nancak kişi listenizde aynı takma ad ve protokole sahip bir kişi var.\nBu kişiyi kullanmak ister misiniz?
+;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
+[Importing a new contact was aborted!]
+Yeni bir kişinin içe aktarılması iptal edildi!
+[You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
+Yeni bir kişinin içe aktarılmasını iptal ettiniz.\nBu kişiye ait bazı bilgiler eksik olabilir.\n\nEksik olan bu kişiyi silmek istiyor musunuz?
+[Importing a new meta subcontact failed!]
+Yeni bir meta alt kişiyi içe aktarma işlemi başarısız oldu!
+[The newly created meta subcontact '%s'\ncould not be added to metacontact '%s'!\n\nDo you want to delete this contact?]
+Yeni oluşturulan meta alt kişi '%s'\n'%s' meta kişisine eklenemedi!\n\nBu kişiyi silmek istiyor musunuz?
+[Settings: %S]
+Ayarlar: %S
+[Events: %S]
+Etkinlikler: %S
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
+[All Contacts]
+Tüm Kişiler
+[Required modules]
+Zorunlu modüller
+[Optional modules]
+İsteğe bağlı modüller
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
+[Shows Miranda's installation directory.]
+Miranda'nın kurulum dizinini gösterir.
+[Shows the directory with all your Miranda's profiles.]
+Miranda’daki tüm profillerinizin bulunduğu dizini gösterir.
+[The OpenFileDialog returned an error: %d!]
+OpenFileDialog bir hata döndürdü: %d!
+[The SaveFileDialog returned an error: %d!]
+SaveFileDialog bir hata döndürdü: %d!
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
+[The ini-file "%s"\nfor saving contact information could not be opened.]
+Kişi bilgilerini kaydetmek için kullanılan "%s" ini dosyası\n açılamadı.
+[The ini-file "%s"\nfor reading contact information could not be opened.]
+Kişi bilgilerini okumak için kullanılan "%s" ini dosyası\naçılmadı.
+[None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
+Ini dosyasında kayıtlı %d kişiden hiçbiri, seçilen kişiyle eşleşmiyor!\nHiçbir şey içe aktarılmayacak
+[Import complete]
+İçe aktarma tamamlandı
+[Some basic statistics]
+Bazı temel istatistikler
+[Added %d of %d contacts stored in the ini-file.]
+Ini dosyasında saklanan %d kişiden %d'si eklendi.
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
+[all Contacts]
+Tüm Kişiler
+[XMLCard]
+XMLCard
+[DBEditor++ File]
+DBEditor++ Dosyası
+[Standard vCard]
+Standart vCard
+[Select a destination file...]
+Bir hedef dosya seçin...
+[Import User Details from VCard]
+Kullanıcı Bilgilerini VCard’dan İçe Aktar
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+[Can't create xml file!\n%S]
+XML dosyası oluşturulamıyor!\n%S
+[Contact: %s (%S)]
+İletişim: %s (%S)
+[Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
+Ayrıştırıcı, "%s" XMLCard'ını yükleyemiyor\nHata: %d\nAçıklama: %s
+[File not found]
+Dosya bulunamadı
+[The selected file is no valid XMLCard]
+Seçilen dosya geçerli bir XMLCard değil
+[The version of the XMLCard is not supported by UserInfoEx]
+XMLCard sürümü, UserInfoEx tarafından desteklenmemektedir
+[Complete]
+Tamamla
+[Owner contact successfully imported.]
+Sahip bilgisi başarıyla içe aktarıldı.
+[Selected XMLCard does not contain an owner contact!]
+Seçilen XMLCard’da sahip iletişim bilgileri bulunmuyor!
+[added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
+eklenen kişiler: %u / %u\neklenen ayarlar: %u / %u\neklenen etkinlikler: %u / %u\nyinelenen etkinlikler: %u
+;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
+[Flags (UInfoEx)]
+Bayraklar (UInfoEx)
+;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

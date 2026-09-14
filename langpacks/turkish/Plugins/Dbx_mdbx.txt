@@ -1,0 +1,23 @@
+#muuid {7c3d0a33-2646-4001-9107-f35ea299d292}
+;============================================================
+;  File: Dbx_mdbx.dll
+;  Plugin: Miranda NG MDBX database driver
+;  Version: 0.95.9.1
+;  Authors: Miranda-NG project
+;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Miranda veritabanı desteği sunar: genel ayarlar, kişiler, geçmiş, kişi başına ayarlar.
+;file \plugins\Dbx_mdbx\src\dbcheck.cpp
+[Orphaned sorting event with wrong contact ID %d, deleting]
+Yanlış iletişim kimliği %d ile eşleştirilmemiş sıralama olayı, siliniyor
+[Orphaned sorting event with wrong event ID %d:%08X, deleting]
+Yanlış olay kimliği %d:%08X olan yetim sıralama olayı: siliniyor
+[Orphaned event id with wrong event ID %08X, deleting]
+Yanlış olay kimliği %08X olan yetim olay kimliği; siliniyor
+[Orphaned setting with wrong contact ID %08X, deleting]
+Yanlış iletişim kimliği %08X içeren yetim ayar, siliniyor
+;file \plugins\Dbx_mdbx\src\dbintf.cpp
+[Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
+Veritabanınız artık kullanılmayan bir biçimdedir. Yükseltme talimatlarını okumak için Tamam’a, çıkmak için İptal’e tıklayın
+[Error]
+Hata

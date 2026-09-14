@@ -1,0 +1,82 @@
+#muuid {23d4f302-d513-45b7-9027-445f29557311}
+;============================================================
+;  File: Console.dll
+;  Plugin: Console
+;  Version: 0.0.7.4
+;  Authors: Bio
+;============================================================
+[Console log window for Miranda.]
+Miranda için konsol günlüğü penceresi.
+;file \plugins\Console\res\resource.rc
+[Console]
+Konsol
+[Single window mode*]
+Tek pencere modu*
+[Show icons in log*]
+Günlükte simgeleri göster*
+[New lines between events*]
+Olaylar arasında yeni satırlar*
+[Always show at start]
+Başlangıçta her zaman göster
+[Lines wrap length [25-255]]
+Satır kaydırma uzunluğu [25-255]
+[Log size limit [1 000 - 1 000 000 lines]]
+Günlük boyutu sınırı [1 000 - 1 000 000 satır]
+[* Restart needed]
+* Yeniden başlatılması gerekiyor
+[Save settings and restart console]
+Ayarları kaydet ve konsolu yeniden başlat
+;file \plugins\Console\src\Console.cpp
+[Show/Hide Console]
+Konsolu Göster/Gizle
+[Hide Console]
+Konsolu Gizle
+[Show Console]
+Konsolu Göster
+[Scrolling (Ctrl+Q)]
+Kaydırma (Ctrl+Q)
+[Pause logging (Ctrl+P)]
+Günlüğü duraklat (Ctrl+P)
+[Save log to file (Ctrl+S)]
+Günlüğü dosyaya kaydet (Ctrl+S)
+[Copy selected log (Ctrl+C)]
+Seçili günlüğü kopyala (Ctrl+C)
+[Delete selected (Del)]
+Seçilenleri sil (Del)
+[Log options (Ctrl+O)]
+Günlük seçenekleri (Ctrl+O)
+[Start logging in all tabs]
+Tüm sekmelerde oturum açmaya başla
+[Pause logging in all tabs]
+Tüm sekmelerde günlük kaydını duraklat
+[Close tab (Ctrl+W)]
+Sekmeyi kapat (Ctrl+W)
+[*** Console started ***]
+*** Konsol başlatıldı ***
+[*** Console paused ***]
+*** Konsol duraklatıldı ***
+[*** Console resumed ***]
+*** Konsol yeniden başlatıldı ***
+[*** Console cleared ***]
+*** Konsol temizlendi ***
+[Miranda Console]
+Miranda Konsol
+[Services]
+Hizmetler
+[Text]
+Metin
+[Background]
+Arka Plan
+[Text files (*.txt)]
+Metin dosyaları (*.txt)
+[All files]
+Tüm dosyalar
+[Save selection to file]
+Seçimi dosyaya kaydet
+[Save log to file]
+Günlüğü dosyaya kaydet
+;file \plugins\Console\src\init.cpp
+[Show]
+Göster
+[Hide]
+Gizle

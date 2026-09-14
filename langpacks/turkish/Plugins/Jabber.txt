@@ -1,0 +1,2251 @@
+#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
+;============================================================
+;  File: Jabber.dll
+;  Plugin: Jabber protocol
+;  Version: 0.96.7.1
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
+;============================================================
+[Jabber (XMPP) protocol support for Miranda NG.]
+Miranda NG için Jabber (XMPP) protokolü desteği.
+;file \protocols\JabberG\res\jabber.rc
+[Edit Note]
+Düzenleme Notu
+[Tags:]
+Etiketler:
+[Cancel]
+İptal et
+[Type:]
+Tür:
+[User:]
+Kullanıcı:
+[Domain/Server:]
+Etki Alanı/Sunucu:
+[Password:]
+Şifre:
+[Save password]
+Şifreyi kaydet
+[Resource:]
+Kaynak:
+[Register new user]
+Yeni kullanıcı kaydı
+[Use custom connection host and port:]
+Özel bağlantı sunucusu ve bağlantı noktası kullanın:
+[Use Domain Login]
+Etki Alanı Girişini Kullan
+[Go]
+Git
+[Search service]
+Arama hizmeti
+[Roster Editor]
+Kadro Düzenleyici
+[View and modify your server-side contact list.]
+Sunucu tarafındaki kişi listenizi görüntüleyin ve düzenleyin.
+[Download]
+İndir
+[Upload]
+Yükle
+[Import from file]
+Dosyadan içe aktar
+[Export to file]
+Dosyaya aktar
+[Username:]
+Kullanıcı adı:
+[Change password]
+Şifreyi değiştir
+[Priority:]
+Öncelik:
+[Use hostname as resource]
+Hostname’i kaynak olarak kullan
+[Port:]
+Liman:
+[Use SSL]
+SSL kullanın
+[Use STARTTLS]
+STARTTLS'yi kullanın
+[Unregister]
+Kayıt Silme
+[Expert]
+Uzman
+[Manually specify connection host]
+Bağlantı sunucusunu manuel olarak belirtin
+[Host:]
+Sunucu:
+[Keep connection alive]
+Bağlantıyı kesintisiz tut
+[Automatically delete contacts not in my roster]
+Kişi listemde olmayan kişileri otomatik olarak sil
+[History recording mode]
+Tarih kayıt modu
+[Language for human-readable resources:]
+İnsan tarafından okunabilir kaynaklar için dil:
+[File Transfer]
+Dosya Aktarımı
+[Allow file sending through direct peer-to-peer connection]
+Doğrudan eşler arası bağlantı yoluyla dosya gönderilmesine izin ver
+[Specify external address:]
+Dış adresi belirtin:
+[Miscellaneous]
+Çeşitli
+[Hint:]
+İpucu:
+[Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
+Dosya gönderirken sorun yaşıyorsanız, yukarıdaki tüm onay kutularının işaretini kaldırmayı deneyin. Ancak bu, büyük dosyaların aktarılmasında sorunlara yol açabilir.
+[Account registration]
+Hesap kaydı
+[Instruction:]
+Talimat:
+[Submit]
+Gönder
+[Next]
+Sonraki
+[Back]
+Geri
+[Complete]
+Tamamla
+[Jabber Password]
+Jabber Şifresi
+[Remember password for this session]
+Bu oturum için şifreyi hatırla
+[Save password permanently]
+Şifreyi kalıcı olarak kaydet
+[Address1:]
+Adres 1:
+[Address2:]
+Adres 2:
+[City:]
+Şehir:
+[State:]
+Durum:
+[ZIP:]
+Posta Kodu:
+[Country:]
+Ülke:
+[Full name:]
+Tam adı:
+[Nickname:]
+Takma ad:
+[First name:]
+Adı:
+[Middle:]
+Ortada:
+[Last name:]
+Soyadı:
+[Date of birth:]
+Doğum tarihi:
+[YYYY-MM-DD]
+YYYY-AA-GG
+[Gender:]
+Cinsiyet:
+[Occupation:]
+Meslek:
+[Homepage:]
+Ana sayfa:
+[Company:]
+Şirket:
+[Department:]
+Bölüm:
+[Title:]
+Başlık:
+[E-mail:]
+E-posta:
+[Phone:]
+Telefon:
+[Jabber vCard: Add Email Address]
+Jabber vCard: E-posta Adresi Ekle
+[Email address:]
+E-posta adresi:
+[Home]
+Ana Sayfa
+[Work]
+İş
+[Internet]
+İnternet
+[Jabber vCard: Add Phone Number]
+Jabber vCard: Telefon Numarası Ekle
+[Phone number:]
+Telefon numarası:
+[Voice]
+Ses
+[Fax]
+Faks
+[Pager]
+Çağrı cihazı
+[Text/Messaging]
+Metin/Mesajlaşma
+[Cellular]
+Hücresel
+[Video]
+Video
+[Modem]
+Modem
+[Enable OMEMO]
+OMEMO'yu etkinleştir
+[Load]
+Yükle
+[Save]
+Kaydet
+[Delete]
+Sil
+[Description:]
+Açıklama:
+[Change Password]
+Şifreyi Değiştir
+[Current Password:]
+Mevcut Şifre:
+[New Password:]
+Yeni Şifre:
+[Confirm New Password:]
+Yeni Şifreyi Onayla:
+[Jabber Multi-User Conference]
+Jabber Çok Kullanıcılı Konferans
+[Create or join existing conference room.]
+Bir konferans odası oluşturun veya mevcut bir konferans odasına katılın.
+[Conference server:]
+Konferans sunucusu:
+[Room:]
+Oda:
+[Recently visited chatrooms:]
+Son zamanlarda ziyaret edilen sohbet odaları:
+[Bookmarks]
+Yer imleri
+[JID List]
+JID Listesi
+[Apply Filter]
+Filtre Uygula
+[Reset Filter]
+Filtreyi Sıfırla
+[Send group chat invitation]
+Grup sohbeti daveti gönder
+[Other JID:]
+Diğer JID:
+[Add]
+Ekle
+[Invitation reason:]
+Davet nedeni:
+[&Invite]
+&Davet et
+[Incoming group chat invitation]
+Gelen grup sohbeti daveti
+[You are invited to conference room by]
+Sizi konferans odasına davet eden kişi:
+[with following reason:]
+aşağıdaki gerekçeyle:
+[&Accept]
+&Kabul Et
+[Server side bookmarks]
+Sunucu tarafı yer imleri
+[Store conference rooms and web links on server.]
+Konferans odalarını ve web bağlantılarını sunucuda saklayın.
+[Remove]
+Kaldır
+[Edit]
+Düzenle
+[Close]
+Kapat
+[Bookmark Details]
+Yer imi ayrıntıları
+[Bookmark Type]
+Yer imi türü
+[Conference]
+Konferans
+[Transport]
+Ulaşım
+[URL]
+URL
+[Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
+Otomatik katılma (Miranda seçeneklerinde “Yer imlerine otomatik olarak katıl” seçeneğinin etkinleştirilmesi gerekir)
+[Room JID/ URL:]
+Oda JID/URL:
+[Bookmark Name:]
+Yer imi adı:
+[Privacy Lists]
+Gizlilik Listeleri
+[Flexible way to configure visibility and more.]
+Görünürlük ayarlarını ve daha fazlasını yapılandırmanın esnek bir yolu.
+[Lists:]
+Listeler:
+[Rules:]
+Kurallar:
+[Simple Mode]
+Basit Mod
+[Advanced Mode]
+Gelişmiş Mod
+[Add list... (Ins)]
+Liste ekle... (Ins)
+[Activate (Space)]
+Etkinleştir (Boşluk tuşu)
+[Set as default (Ctrl+Space)]
+Varsayılan olarak ayarla (Ctrl+Space)
+[Remove list (Del)]
+Listeyi kaldır (Del)
+[Add rule (Ins)]
+Kural ekle (Ins)
+[Edit rule... (F2)]
+Kuralı düzenle... (F2)
+[Move rule up (Alt+Up)]
+Kuralı yukarı taşı (Alt+Yukarı)
+[Move rule down (Alt+Down)]
+Kuralı aşağı kaydır (Alt+Aşağı)
+[Remove rule (Del)]
+Kuralı sil (Del)
+[Privacy rule]
+Gizlilik kuralı
+[If:]
+Eğer:
+[Then:]
+Sonra:
+[following stanza types:]
+aşağıdaki dörtlük türleri:
+[Messages]
+Mesajlar
+[Queries]
+Sorgular
+[Incoming presence]
+Gelen ziyaretçiler
+[Outgoing presence]
+Dışa dönük bir duruş
+[New privacy list name:]
+Yeni gizlilik listesinin adı:
+[Enter the name of the new list:]
+Yeni listenin adını girin:
+[Service Discovery]
+Hizmet Keşfi
+[View as tree]
+Ağaç olarak görüntüle
+[View as list]
+Liste olarak görüntüle
+[Favorites]
+Favoriler
+[Refresh]
+Yenile
+[JID:]
+JID:
+[Node:]
+Düğüm:
+[Filter:]
+Filtre:
+[Member Information]
+Üye Bilgileri
+[Role:]
+Görev:
+[Set role]
+Rolü belirle
+[Affiliation:]
+Bağlı olduğu kurum:
+[Set affiliation]
+Bağlı olduğu kurumu belirle
+[Status message:]
+Durum mesajı:
+[Chat options]
+Sohbet seçenekleri
+[Alternate nick:]
+Diğer takma ad:
+[Custom messages]
+Özel mesajlar
+[Quit:]
+Çıkış:
+[Slap:]
+Tokat:
+[Authorization request]
+Yetki talebi
+[Accept or reject incoming request]
+Gelen isteği kabul et veya reddet
+[Someone (maybe you) has requested the following file:]
+Birisi (belki de siz) aşağıdaki dosyayı talep etti:
+[Request was sent from JID:]
+İstek JID'den gönderildi:
+[The transaction identifier is:]
+İşlem kimliği şudur:
+[Request method is:]
+İstek yöntemi şöyledir:
+[If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
+Bu talebi onaylamak istiyorsanız lütfen “Onayla” düğmesine tıklayın. Aksi takdirde, reddetmek için “Reddet” düğmesine basın.
+[Authorize]
+Yetki Ver
+[Deny]
+Reddet
+[Dialog]
+Diyalog
+[Jabber Notebook]
+Jabber Defteri
+[Store notes on server and access them from anywhere.]
+Notları sunucuda saklayın ve her yerden erişin.
+[Bots Challenge Test]
+Botlar Yarışması Testi
+[XML Console]
+XML Konsolu
+[Reset log]
+Günlüğü sıfırla
+[Send]
+Gönder
+;file \protocols\JabberG\src\jabber.cpp
+[Jabber Link Protocol]
+Jabber Bağlantı Protokolü
+[Jabber Activity]
+Jabber Etkinliği
+[Jabber Mood]
+Jabber Ruh Hali
+;file \protocols\JabberG\src\jabber_adhoc.cpp
+[Error %s %s]
+Hata %s %s
+[Select Command]
+Komut Seç
+[Not supported]
+Desteklenmiyor
+[Done]
+Tamam
+[In progress. Please Wait...]
+İşlem devam ediyor. Lütfen bekleyin...
+[Execute]
+Çalıştır
+[Requesting command list. Please wait...]
+Komut listesi isteniyor. Lütfen bekleyin...
+[Jabber Ad-Hoc commands at %s]
+%s adresindeki Jabber Ad-Hoc komutları
+[Sending Ad-Hoc command to %s]
+%s adresine Ad-Hoc komutu gönderiliyor
+;file \protocols\JabberG\src\jabber_agent.cpp
+[Jabber Agent Registration]
+Jabber Aracısı Kaydı
+[Registration successful]
+Kayıt başarıyla tamamlandı
+[Register]
+Kayıt Ol
+[Please wait...]
+Lütfen bekleyin...
+;file \protocols\JabberG\src\jabber_bookmarks.cpp
+[Bookmark Name]
+Yer imi adı
+[Address (JID or URL)]
+Adres (JID veya URL)
+[Nickname]
+Takma ad
+[Conferences]
+Konferanslar
+[Links]
+Bağlantılar
+;file \protocols\JabberG\src\jabber_byte.cpp
+[Bytestream Proxy not available]
+Bytestream Proxy kullanılamıyor
+;file \protocols\JabberG\src\jabber_caps.cpp
+[Supports Service Discovery info]
+Hizmet Keşfi bilgilerini destekler
+[Supports Service Discovery items list]
+Hizmet Keşfi öğeleri listesini destekler
+[Can inform about its Jabber capabilities]
+Jabber özellikleri hakkında bilgi verebilir
+[Supports stream initiation (e.g., for filetransfers)]
+Akış başlatmayı destekler (örneğin, dosya aktarımları için)
+[Supports stream initiation for file transfers]
+Dosya aktarımları için akış başlatmayı destekler
+[Supports file transfers via SOCKS5 Bytestreams]
+SOCKS5 Bytestreams üzerinden dosya aktarımını destekler
+[Supports file transfers via In-Band Bytestreams]
+Bant İçi Bayt Akışları yoluyla dosya aktarımını destekler
+[Supports file transfers via Out-of-Band Bytestreams]
+Bant Dışı Bayt Akışları yoluyla dosya aktarımını destekler
+[Supports execution of Ad-Hoc commands]
+Ad-Hoc komutlarının yürütülmesini destekler
+[Supports in-band registration]
+Bant içi kaydı destekler
+[Supports multi-user chat]
+Çok kullanıcılı sohbeti destekler
+[Can report chat state in a chat session]
+Bir sohbet oturumundaki sohbet durumunu bildirebilir
+[Can report information about the last activity of the user]
+Kullanıcının son etkinliği hakkında bilgi verebilir
+[Can report own version information]
+Kendi sürüm bilgilerini bildirebilir
+[Can report local time of the user]
+Kullanıcının yerel saatini bildirebilir
+[Can send and receive ping requests]
+Ping istekleri gönderebilir ve alabilir
+[Supports data forms]
+Veri formlarını destekler
+[Supports vCard]
+vCard'ı destekler
+[Supports XHTML formatting of chat messages]
+Sohbet mesajlarının XHTML biçimlendirmesini destekler
+[Supports Jabber Browsing]
+Jabber'da gezinmeyi destekler
+[Can negotiate options for specific features]
+Belirli özellikler için seçenekler üzerinde görüşme yapılabilir
+[Can request advanced processing of message stanzas]
+Mesaj bölümlerinin gelişmiş işlenmesini talep edebilir
+[Can report information about user moods]
+Kullanıcıların ruh halleriyle ilgili bilgileri raporlayabilir
+[Receives information about user moods]
+Kullanıcıların ruh halleriyle ilgili bilgileri alır
+[Supports generic publish-subscribe functionality]
+Genel yayın-abone işlevselliğini destekler
+[Supports SecureIM plugin for Miranda NG]
+Miranda NG için SecureIM eklentisini destekler
+[Supports OTR (Off-the-Record Messaging)]
+OTR’yi (Kayıt Dışı Mesajlaşma) destekler
+[Supports New_GPG plugin for Miranda NG]
+Miranda NG için New_GPG eklentisini destekler
+[Blocks packets from other users/group chats using Privacy lists]
+Gizlilik listelerini kullanarak diğer kullanıcıların veya grup sohbetlerinin paketlerini engeller
+[Supports Message Receipts]
+Mesaj Alındı Bildirimlerini Destekler
+[Can report information about the music to which a user is listening]
+Kullanıcının dinlediği müzikle ilgili bilgileri bildirebilir
+[Receives information about the music to which a user is listening]
+Kullanıcının dinlediği müzikle ilgili bilgileri alır
+[Supports private XML Storage (for bookmarks and other)]
+Özel XML Depolama özelliğini destekler (yer imleri ve diğer öğeler için)
+[Supports attention requests ('nudge')]
+Dikkat çekme isteklerini ('nudge') destekler
+[Support Message Archive Management (XEP-0313)]
+Mesaj Arşivi Yönetimini Destekleme (XEP-0313)
+[Supports chat history retrieving]
+Sohbet geçmişinin geri getirilmesini destekler
+[Supports chat history management]
+Sohbet geçmişi yönetimini destekler
+[Can report information about user activity]
+Kullanıcı faaliyetleriyle ilgili bilgileri raporlayabilir
+[Receives information about user activity]
+Kullanıcı faaliyetleriyle ilgili bilgileri alır
+[Supports Roster Exchange]
+Kadro Değişimini Destekler
+[Supports direct chat invitations (XEP-0249)]
+Doğrudan sohbet davetlerini destekler (XEP-0249)
+[Receives information about OMEMO devices]
+OMEMO cihazları hakkında bilgi alır
+[Supports message carbons (XEP-0280)]
+Mesaj kopyalarını destekler (XEP-0280)
+[Supports offline messages (XEP-0160)]
+Çevrimdışı mesajları destekler (XEP-0160)
+;file \protocols\JabberG\src\jabber_captcha.cpp
+[Enter the text you see]
+Gördüğünüz metni girin
+;file \protocols\JabberG\src\jabber_chat.cpp
+[None]
+Yok
+[Member]
+Üye
+[Admin]
+Yönetici
+[Owner]
+Sahibi
+[Visitor]
+Ziyaretçi
+[Participant]
+Katılımcı
+[Moderator]
+Moderatör
+[Visitors]
+Ziyaretçiler
+[Participants]
+Katılımcılar
+[Moderators]
+Moderatörler
+[Owners]
+Sahipler
+[User %s is now banned.]
+%s kullanıcısı artık engellendi.
+[User %s changed status to %s with message: %s]
+%s adlı kullanıcı, şu mesajla durumunu %s olarak değiştirdi: %s
+[User %s changed status to %s]
+%s kullanıcısının durumu %s olarak değişti
+[Room configuration was changed.]
+Oda düzeni değiştirildi.
+[Outcast]
+Dışlanmış
+[Affiliation of %s was changed to '%s'.]
+%s'nin bağlı olduğu kurum '%s' olarak değiştirildi.
+[Role of %s was changed to '%s'.]
+%s'nin rolü '%s' olarak değiştirildi.
+[because room is now members-only]
+çünkü bu oda artık sadece üyelere açıktır
+[user banned]
+kullanıcı yasaklandı
+[Change &nickname]
+&nickname'i değiştir
+[&Invite a user]
+&Bir kullanıcıyı davet et
+[&Roles]
+&Görevler
+[&Participant list]
+&Katılımcı listesi
+[&Moderator list]
+&Moderatör listesi
+[&Affiliations]
+&Üyelikler
+[&Member list]
+&Üye listesi
+[&Admin list]
+&Yönetici listesi
+[&Owner list]
+&Sahipler listesi
+[Outcast list (&ban)]
+Dışlanmışlar listesi (&ban)
+[&Room options]
+&Oda seçenekleri
+[View/change &topic]
+&topic'i görüntüle/değiştir
+[Add to &bookmarks]
+&bookmarks’a ekle
+[Change &avatar]
+Avatarı değiştir
+[&Configure...]
+&Ayarlar...
+[&Destroy room]
+&Odayı yok et
+[Lin&ks]
+Lin&ks
+[Copy room &JID]
+Fotokopi odası &JID
+[Copy room topic]
+Oda konusunu kopyala
+[&Send presence]
+&Çevrimiçi durumunu gönder
+[Online]
+Çevrimiçi
+[Away]
+Deplasman
+[Not available]
+Mevcut değil
+[Do not disturb]
+Rahatsız etmeyin
+[Free for chat]
+Sohbet için ücretsiz
+[&Leave chat session]
+&Sohbet oturumundan çık
+[&Slap]
+&Slap
+[&User details]
+&Kullanıcı bilgileri
+[Member &info]
+Üye Bilgileri
+[User &details]
+Kullanıcı ve ayrıntılar
+[&Add to roster]
+&Kadroya ekle
+[&Copy to clipboard]
+&Panoya kopyala
+[Invite to room]
+Odaya davet et
+[Set &role]
+Set &role
+[&Visitor]
+&Ziyaretçi
+[&Participant]
+&Katılımcı
+[&Moderator]
+&Moderatör
+[Set &affiliation]
+Set ve bağlı olduğu kurum
+[&None]
+&Yok
+[&Member]
+&Üye
+[&Admin]
+&Yönetici
+[&Owner]
+&Sahibi
+[Outcast (&ban)]
+Dışlanmış (&ban)
+[&Kick]
+&Kick
+[Copy &nickname]
+&nickname'i kopyala
+[Copy real &JID]
+Gerçek &JID'yi kopyala
+[Copy in-room JID]
+Oda içi JID’yi kopyala
+[Real &JID: %s]
+Real & JID: %s
+[Invite Users to\n%s]
+Kullanıcıları %s'ye davet et
+[%s (not on roster)]
+%s (kadroda yok)
+[%s from\n%s]
+%s'den\n%s
+[Real JID not available]
+Gerçek JID mevcut değil
+[Reason to kick %s]
+%s'yi atma nedeni
+[Reason to ban %s]
+%s’yi yasaklama nedeni
+[Invite %s to %s]
+%s’yi %s’ye davet et
+[Set topic for %s]
+%s için konu belirle
+[Change nickname in %s]
+%s'de takma adı değiştir
+[Reason to destroy %s]
+%s'yi yok etme nedeni
+;file \protocols\JabberG\src\jabber_console.cpp
+[Filter mode]
+Filtre modu
+[Refresh list]
+Listeyi yenile
+[Presences]
+Katılımcılar
+[Can't send data while you are offline.]
+Çevrimdışı olduğunuzda veri gönderemezsiniz.
+[Jabber Error]
+Jabber Hatası
+[Outgoing XML parsing error]
+Giden XML ayrıştırma hatası
+;file \protocols\JabberG\src\jabber_disco.cpp
+[request timeout.]
+istek zaman aşımı.
+[Contact Menu...]
+İletişim Menüsü...
+[View vCard]
+vCard'ı Görüntüle
+[Join chatroom]
+Sohbet odasına katıl
+[Refresh Info]
+Bilgileri Yenile
+[Refresh Children]
+Çocukları Yenile
+[Add to favorites]
+Favorilere ekle
+[Add to roster]
+Kadroya ekle
+[Bookmark chatroom]
+Sohbet odasını yer imlerine ekle
+[Add search directory]
+Arama dizinini ekle
+[Use this proxy]
+Bu proxy'yi kullanın
+[Use for uploads]
+Yüklemeler için kullanın
+[Commands...]
+Komutlar...
+[Logon]
+Giriş
+[Logoff]
+Çıkış
+[Copy JID]
+JID’yi kopyala
+[Copy node name]
+Düğüm adını kopyala
+[Copy node information]
+Düğüm bilgilerini kopyala
+[Node hierarchy]
+Düğüm hiyerarşisi
+[Node]
+Düğüm
+[Navigate]
+Gezin
+[Browse all favorites]
+Tüm favorilere göz at
+[Remove all favorites]
+Tüm favorileri sil
+[Registered transports]
+Kayıtlı taşımalar
+[Browse local transports]
+Yerel ulaşım seçeneklerine göz atın
+[Browse chatrooms]
+Sohbet odalarına göz at
+;file \protocols\JabberG\src\jabber_disco.h
+[Identities]
+Kimlikler
+[category]
+kategori
+[type]
+tür
+[Category]
+Kategori
+[Type]
+Tür
+[Supported features]
+Desteklenen özellikler
+[Info request error]
+Bilgi talebi hatası
+[Items request error]
+Ürün talebi hatası
+;file \protocols\JabberG\src\jabber_ft.cpp
+[%s is too large. Maximum size supported by the service is %d KB]
+%s çok büyük. Hizmetin desteklediği maksimum boyut %d KB'dir
+[No compatible file transfer mechanism exists]
+Uyumlu bir dosya aktarım mekanizması bulunmamaktadır
+;file \protocols\JabberG\src\jabber_groupchat.cpp
+[Failed to retrieve room list from server.]
+Sunucudan oda listesi alınamadı.
+[No rooms available on server.]
+Sunucuda boş oda yok.
+[Room list request timed out.]
+Oda listesi isteği zaman aşımına uğradı.
+[<no nick>]
+<takma ad yok>
+[Loading...]
+Yükleniyor...
+[Please wait for room list to download.]
+Oda listesinin indirilmesini lütfen bekleyin.
+[Please specify group chat directory first.]
+Lütfen önce grup sohbeti dizinini belirtin.
+[Bookmarks...]
+Yer imleri...
+[Change nickname in <%s>]
+<%s>'deki takma adı değiştir
+[Error]
+Hata
+[has set the subject to:]
+konuyu şu şekilde belirlemiştir:
+[Group chat invitation to\n%s]
+%s'ye grup sohbeti daveti
+;file \protocols\JabberG\src\jabber_icolib.cpp
+[Status icons]
+Durum simgeleri
+[transport]
+ulaşım
+[Notes]
+Notlar
+[Multi-User Conference]
+Çok Kullanıcılı Konferans
+[Agents list]
+Acenteler listesi
+[Transports]
+Ulaşım
+[Personal vCard]
+Kişisel vCard
+[Convert to room]
+Oda birimine dönüştür
+[Login/logout]
+Giriş/Çıkış
+[Resolve nicks]
+Çentikleri giderin
+[AdHoc Command]
+AdHoc Komutu
+[OpenID Request]
+OpenID İsteği
+[Add contact]
+Kişi ekle
+[Open]
+Aç
+[Discovery succeeded]
+Keşif başarılı oldu
+[Discovery failed]
+Keşif başarısız oldu
+[Discovery in progress]
+Keşif süreci devam ediyor
+[Apply filter]
+Filtre uygula
+[Reset filter]
+Filtreyi sıfırla
+[Navigate home]
+Ana sayfaya git
+[Refresh node]
+Düğümü yenile
+[Browse node]
+Düğümü göz at
+[RSS service]
+RSS hizmeti
+[Server]
+Sunucu
+[Storage service]
+Depolama hizmeti
+[Weather service]
+Meteoroloji servisi
+[Generic privacy list]
+Genel gizlilik listesi
+[Active privacy list]
+Etkin gizlilik listesi
+[Default privacy list]
+Varsayılan gizlilik listesi
+[Move up]
+Yukarı git
+[Move down]
+Aşağı kaydır
+[Allow Messages]
+Mesajlara İzin Ver
+[Allow Presences (in)]
+Girişlere İzin Ver (içeri)
+[Allow Presences (out)]
+Bağlantı İzinleri (dışa)
+[Allow Queries]
+Sorgulara İzin Ver
+[Deny Messages]
+Mesajları Reddet
+[Deny Presences (in)]
+Varlıkları Reddet (içinde)
+[Deny Presences (out)]
+Varlıkları Reddet (dışarıda)
+[Deny Queries]
+Sorguları Reddet
+[Protocols]
+Protokol
+[Dialogs]
+Diyaloglar
+[Discovery]
+Keşif
+[Privacy]
+Gizlilik
+;file \protocols\JabberG\src\jabber_iqid.cpp
+[Authentication failed for %s.]
+%s için kimlik doğrulama başarısız oldu.
+[Authentication]
+Kimlik Doğrulama
+[Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
+Şifreniz başarıyla değiştirildi. Jabber protokolü seçeneklerinden şifrenizi güncellemeyi unutmayın.
+[Password cannot be changed.]
+Şifre değiştirilemez.
+[Jabber Bookmarks Error]
+Jabber Yer İmleri Hatası
+;file \protocols\JabberG\src\jabber_iqid_muc.cpp
+[Conference Room Configuration]
+Konferans Odası Düzeni
+[%s, %d items (%s)]
+%s, %d öğe (%s)
+[Reason to ban]
+Yasaklama nedeni
+[Removing %s?]
+%s'yi silmek mi?
+[Voice List]
+Ses Listesi
+[Member List]
+Üye Listesi
+[Moderator List]
+Moderatör Listesi
+[Ban List]
+Yasaklılar Listesi
+[Admin List]
+Yönetici Listesi
+[Owner List]
+Sahipler Listesi
+;file \protocols\JabberG\src\jabber_iq_handlers.cpp
+[Http authentication request received]
+Http kimlik doğrulama isteği alındı
+;file \protocols\JabberG\src\jabber_mam.cpp
+[Do you want to erase local history before loading it from server?]
+Sunucudan yüklemeden önce yerel geçmişi silmek ister misiniz?
+;file \protocols\JabberG\src\jabber_menu.cpp
+[Jabber account chooser]
+Jabber hesap seçici
+[Add to Bookmarks]
+Yer imlerine ekle
+[Commands]
+Komutlar
+[Send Presence]
+Mevcudiyet Bildirimi Gönder
+[Jabber Resource]
+Jabber Kaynağı
+[Last Active]
+Son Etkinlik Tarihi
+[Server's Choice]
+Sunucunun Seçimi
+[Services...]
+Hizmetler...
+[Registered Transports]
+Kayıtlı Taşıma Araçları
+[Local Server Transports]
+Yerel Sunucu Aktarımları
+[Create/Join group chat]
+Grup sohbeti oluştur/katıl
+[Roster editor]
+Kadro düzenleyicisi
+[Resource priority]
+Kaynak önceliği
+[Increase priority by %d]
+Önceliği %d oranında artır
+[Decrease priority by %d]
+Önceliği %d oranında azalt
+[Resource priority [%d]]
+Kaynak önceliği [%d]
+[Join conference]
+Konferansa katılın
+[Open bookmarks]
+Yer imlerini aç
+[Privacy lists]
+Gizlilik listeleri
+[Service discovery]
+Hizmet keşfi
+[Last active (%s)]
+Son etkinlik tarihi (%s)
+[No activity yet, use server's choice]
+Henüz bir etkinlik yok, sunucunun seçimini kullan
+[Highest priority (server's choice)]
+En yüksek öncelik (sunucunun tercihine göre)
+[Status Message]
+Durum Mesajı
+;file \protocols\JabberG\src\jabber_message.cpp
+[Message redirected from: %s\r\n]
+Mesajın yönlendirildiği kaynak: %s\r\n
+[Unable to decrypt a carbon copy of the encrypted outgoing message]
+Şifrelenmiş giden mesajın bir kopyasının şifresi çözülemedi
+;file \protocols\JabberG\src\jabber_message_handlers.cpp
+;file \protocols\JabberG\src\jabber_misc.cpp
+[To]
+Şuna
+[From]
+Kaynak:
+[Both]
+Her ikisi de
+[Errors]
+Hatalar
+;file \protocols\JabberG\src\jabber_notes.cpp
+[From: %s]
+Gönderen: %s
+[All tags]
+Tüm etiketler
+[Notes are not saved, close this window without uploading data to server?]
+Notlar kaydedilmedi; verileri sunucuya yüklemeden bu pencereyi kapatmak istiyor musunuz?
+[Are you sure?]
+Emin misin?
+;file \protocols\JabberG\src\jabber_omemo.cpp
+[Unknown OMEMO device added!]
+Bilinmeyen bir OMEMO cihazı eklendi!
+[(My devices)]
+(Cihazlarım)
+[Trust on first use for\n%d devices]
+İlk kullanımda %d cihaz için güven
+[OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
+OMEMO, herkese açık grup sohbetlerinde özel mesajları şifreleyemez. Düz metin olarak devam etmek istiyor musunuz?
+;file \protocols\JabberG\src\jabber_opt.cpp
+[Afar]
+Afar
+[Abkhazian]
+Abhaz
+[Afrikaans]
+Afrikaans
+[Akan]
+Akan
+[Albanian]
+Arnavutça
+[Amharic]
+Amharca
+[Arabic]
+Arapça
+[Aragonese]
+Aragonca
+[Armenian]
+Ermeni
+[Assamese]
+Assamca
+[Avaric]
+Cimri
+[Avestan]
+Avestaca
+[Aymara]
+Aymara
+[Azerbaijani]
+Azerbaycanlı
+[Bashkir]
+Başkurt
+[Bambara]
+Bambara
+[Basque]
+Bask
+[Belarusian]
+Belaruslu
+[Bengali]
+Bengalce
+[Bihari]
+Bihari
+[Bislama]
+Bislama
+[Bosnian]
+Bosnalı
+[Breton]
+Bretonca
+[Bulgarian]
+Bulgarca
+[Burmese]
+Birmanya
+[Catalan; Valencian]
+Katalan; Valensiyaca
+[Chamorro]
+Chamorro
+[Chechen]
+Çeçen
+[Chinese]
+Çince
+[Church Slavic; Old Slavonic]
+Kilise Slavcası; Eski Slavca
+[Chuvash]
+Çuvaş
+[Cornish]
+Cornish
+[Corsican]
+Korsikalı
+[Cree]
+Cree
+[Czech]
+Çekçe
+[Danish]
+Danca
+[Divehi; Dhivehi; Maldivian]
+Divehi; Dhivehi; Maldivce
+[Dutch; Flemish]
+Hollandaca; Flamanca
+[Dzongkha]
+Dzongkha
+[English]
+İngilizce
+[Esperanto]
+Esperanto
+[Estonian]
+Estonya dili
+[Ewe]
+Ewe
+[Faroese]
+Faroe Dili
+[Fijian]
+Fiji dili
+[Finnish]
+Fince
+[French]
+Fransızca
+[Western Frisian]
+Batı Frizce
+[Fulah]
+Fula
+[Georgian]
+Gürcü
+[German]
+Almanca
+[Gaelic; Scottish Gaelic]
+Galce; İskoç Galcesi
+[Irish]
+İrlandaca
+[Galician]
+Galiçyaca
+[Manx]
+Manx
+[Greek, Modern (1453-)]
+Yunanca, Modern (1453-)
+[Guarani]
+Guarani
+[Gujarati]
+Gujarati
+[Haitian; Haitian Creole]
+Haiti dili; Haiti Kreolü
+[Hausa]
+Hausa
+[Hebrew]
+İbranice
+[Herero]
+Herero
+[Hindi]
+Hintçe
+[Hiri Motu]
+Hiri Motu
+[Hungarian]
+Macarca
+[Igbo]
+İgbo
+[Icelandic]
+İzlandaca
+[Ido]
+Ido
+[Sichuan Yi]
+Sichuan Yi
+[Inuktitut]
+İnuktitut
+[Interlingue]
+Interlingue
+[Interlingua (International Auxiliary Language Association)]
+Interlingua (Uluslararası Yardımcı Dil Derneği)
+[Indonesian]
+Endonezyaca
+[Inupiaq]
+Inupiaq
+[Italian]
+İtalyanca
+[Javanese]
+Cava dili
+[Japanese]
+Japonca
+[Kalaallisut; Greenlandic]
+Kalaallisut; Grönland Dili
+[Kannada]
+Kannada
+[Kashmiri]
+Keşmirli
+[Kanuri]
+Kanuri
+[Kazakh]
+Kazak
+[Central Khmer]
+Orta Khmer
+[Kikuyu; Gikuyu]
+Kikuyu; Gikuyu
+[Kinyarwanda]
+Kinyarwanda
+[Kirghiz; Kyrgyz]
+Kırgız; Kırgız
+[Komi]
+Komi
+[Kongo]
+Kongo
+[Korean]
+Korece
+[Kuanyama; Kwanyama]
+Kuanyama; Kwanyama
+[Kurdish]
+Kürtçe
+[Lao]
+Laos
+[Latin]
+Latince
+[Latvian]
+Letonca
+[Limburgan; Limburger; Limburgish]
+Limburgan; Limburger; Limburgca
+[Lingala]
+Lingala
+[Lithuanian]
+Litvanyaca
+[Luxembourgish; Letzeburgesch]
+Lüksemburgca; Letzeburgesch
+[Luba-Katanga]
+Luba-Katanga
+[Ganda]
+Ganda
+[Macedonian]
+Makedon
+[Marshallese]
+Marshall Adalı
+[Malayalam]
+Malayalamca
+[Maori]
+Maori
+[Marathi]
+Marathi
+[Malay]
+Malayca
+[Malagasy]
+Malgaş
+[Maltese]
+Malta dili
+[Moldavian]
+Moldavya
+[Mongolian]
+Moğolca
+[Nauru]
+Nauru
+[Navajo; Navaho]
+Navajo; Navaho
+[Ndebele, South; South Ndebele]
+Güney Ndebele; Güney Ndebele
+[Ndebele, North; North Ndebele]
+Kuzey Ndebele; Ndebele, Kuzey
+[Ndonga]
+Ndonga
+[Nepali]
+Nepalce
+[Norwegian Nynorsk; Nynorsk, Norwegian]
+Norveççe Nynorsk; Nynorsk, Norveççe
+[Bokmaal, Norwegian; Norwegian Bokmaal]
+Bokmål, Norveççe; Norveççe Bokmål
+[Norwegian]
+Norveççe
+[Chichewa; Chewa; Nyanja]
+Chichewa; Chewa; Nyanja
+[Occitan (post 1500); Provencal]
+Oksitanca (1500 sonrası); Provençalca
+[Ojibwa]
+Ojibwa
+[Oriya]
+Oriya
+[Oromo]
+Oromo
+[Ossetian; Ossetic]
+Oset; Osetçe
+[Panjabi; Punjabi]
+Panjabi; Pencapça
+[Persian]
+Farsça
+[Pali]
+Pali
+[Polish]
+Lehçe
+[Portuguese]
+Portekizce
+[Pushto]
+Peştuca
+[Quechua]
+Keçua
+[Romansh]
+Romansh
+[Romanian]
+Romence
+[Rundi]
+Rundi
+[Russian]
+Rusça
+[Sango]
+Sango
+[Sanskrit]
+Sanskritçe
+[Serbian]
+Sırpça
+[Croatian]
+Hırvatça
+[Sinhala; Sinhalese]
+Sinhala; Sinhala dili
+[Slovak]
+Slovakça
+[Slovenian]
+Slovence
+[Northern Sami]
+Kuzey Sami
+[Samoan]
+Samoalı
+[Shona]
+Shona
+[Sindhi]
+Sindhi
+[Somali]
+Somali
+[Sotho, Southern]
+Sotho, Güney
+[Spanish; Castilian]
+İspanyolca; Kastilya Dili
+[Sardinian]
+Sardunya
+[Swati]
+Swati
+[Sundanese]
+Sunda dili
+[Swahili]
+Svahili
+[Swedish]
+İsveççe
+[Tahitian]
+Tahiti
+[Tamil]
+Tamilce
+[Tatar]
+Tatar
+[Telugu]
+Telugu
+[Tajik]
+Tacik
+[Tagalog]
+Tagalogca
+[Thai]
+Tayca
+[Tibetan]
+Tibetçe
+[Tigrinya]
+Tigrinya
+[Tonga (Tonga Islands)]
+Tonga (Tonga Adaları)
+[Tswana]
+Tswana
+[Tsonga]
+Tsonga
+[Turkmen]
+Türkmen
+[Turkish]
+Türkçe
+[Twi]
+Twi
+[Uighur; Uyghur]
+Uygur; Uygur
+[Ukrainian]
+Ukraynaca
+[Urdu]
+Urduca
+[Uzbek]
+Özbek
+[Venda]
+Venda
+[Vietnamese]
+Vietnamca
+[Volapuk]
+Volapük
+[Welsh]
+Gallerce
+[Walloon]
+Valon
+[Wolof]
+Wolofca
+[Xhosa]
+Xhosa
+[Yiddish]
+Yidiş
+[Yoruba]
+Yoruba
+[Zhuang; Chuang]
+Zhuang; Chuang
+[Zulu]
+Zulu
+[Never]
+Asla
+[Roster]
+Kadro
+[Always]
+Her zaman
+[These changes will take effect the next time you connect to the Jabber network.]
+Bu değişiklikler, Jabber ağına bir sonraki bağlanışınızda yürürlüğe girecektir.
+[Jabber Protocol Option]
+Jabber Protokolü Seçeneği
+[This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
+Bu işlem, hesabınızı, kadronuzu ve sunucuda depolanan diğer tüm bilgileri silecektir. Bunu yapmaya hazır mısınız?
+[Account removal warning]
+Hesap silme uyarısı
+[You can change your password only when you are online]
+Şifrenizi yalnızca çevrimiçi olduğunuzda değiştirebilirsiniz
+[You must be online]
+Çevrimiçi olmalısınız
+[Messaging]
+Mesajlaşma
+[Use message delivery receipts (XEP-0184)]
+Mesaj teslimat onaylarını kullanın (XEP-0184)
+[Enable avatars]
+Avatarları etkinleştir
+[Log chat state changes]
+Sohbet durumundaki değişiklikleri kaydet
+[Log presence subscription state changes]
+Varlık aboneliği durumundaki değişiklikleri günlüğe kaydet
+[Log presence errors]
+Varlık hatalarını günlüğe kaydet
+[Enable user moods receiving]
+Kullanıcı ruh hallerinin alınmasını etkinleştir
+[Enable user tunes receiving]
+Kullanıcı melodilerinin alınmasını etkinleştir
+[Enable user activity receiving]
+Kullanıcı etkinliği alımını etkinleştir
+[Inline pictures in messages (XEP-0231)]
+Mesajlardaki satır içi resimler (XEP-0231)
+[Enable chat states sending (XEP-0085)]
+Sohbet durumlarının gönderilmesini etkinleştir (XEP-0085)
+[Enable server-side history (XEP-0136)]
+Sunucu tarafında geçmiş özelliğini etkinleştir (XEP-0136)
+[Enable Message Archive Management (XEP-0313) (experimental)]
+Mesaj Arşivi Yönetimini Etkinleştir (XEP-0313) (deneysel)
+[Enable carbon copies (XEP-0280)]
+Karbon kopyalarını etkinleştir (XEP-0280)
+[Enable HTTP File Upload (XEP-0363)]
+HTTP Dosya Yüklemeyi Etkinleştir (XEP-0363)
+[Server options]
+Sunucu seçenekleri
+[Use Stream Management (XEP-0198)]
+Akış Yönetimi’ni (XEP-0198) kullanın
+[Disable SASL authentication (for old servers)]
+SASL kimlik doğrulamasını devre dışı bırak (eski sunucular için)
+[Enable SASL2 authentication, if present]
+Varsa, SASL2 kimlik doğrulamasını etkinleştirin
+[Enable stream compression]
+Akış sıkıştırmasını etkinleştir
+[Other]
+Diğer
+[Enable remote controlling (from another resource of same JID only)]
+Uzaktan kontrolü etkinleştir (yalnızca aynı JID’ye sahip başka bir kaynaktan)
+[Show transport agents on contact list]
+Kişi listesindeki nakliye acentelerini göster
+[Automatically add contact when accept authorization]
+Yetkilendirmeyi kabul ettiğinde kişiyi otomatik olarak ekle
+[Automatically accept authorization requests]
+Yetkilendirme taleplerini otomatik olarak kabul et
+[Fix incorrect timestamps in incoming messages]
+Gelen mesajlardaki hatalı zaman damgalarını düzelt
+[Enable XMPP link processing (requires AssocMgr)]
+XMPP bağlantı işlemeyi etkinleştir (AssocMgr gereklidir)
+[Ignore server roster (groups and nick names)]
+Sunucu listesini (gruplar ve takma adlar) göz ardı et
+[Security]
+Güvenlik
+[Allow local time and timezone replies (XEP-0202)]
+Yerel saat ve saat dilimi yanıtlarına izin ver (XEP-0202)
+[Allow last activity replies (XEP-0319 & XEP-0012)]
+Son etkinlik yanıtlarına izin ver (XEP-0319 ve XEP-0012)
+[Allow version replies (XEP-0092)]
+Sürüm yanıtlarına izin ver (XEP-0092)
+[Include OS information in version replies]
+Sürüm yanıtlarına işletim sistemi bilgilerini ekleyin
+[Accept HTTP Authentication requests (XEP-0070)]
+HTTP Kimlik Doğrulama isteklerini kabul et (XEP-0070)
+[Use OMEMO encryption (XEP-0384)]
+OMEMO şifrelemesini kullan (XEP-0384)
+[General]
+Genel
+[Autoaccept multiuser chat invitations]
+Çok kullanıcılı sohbet davetlerini otomatik olarak kabul et
+[Automatically join bookmarks on login]
+Giriş yapıldığında yer imlerini otomatik olarak birleştir
+[Automatically join conferences on login]
+Giriş yapıldığında konferanslara otomatik olarak katıl
+[Do not open chat windows on creation]
+Oluşturulduğunda sohbet pencerelerini açmayın
+[Do not show multiuser chat invitations]
+Çok kullanıcılı sohbet davetlerini gösterme
+[Log events]
+Günlük olayları
+[Ban notifications]
+Bildirimleri engelle
+[Room configuration changes]
+Oda düzenindeki değişiklikler
+[Affiliation changes]
+Üyelik değişiklikleri
+[Role changes]
+Görev değişiklikleri
+[Status changes]
+Durum değişiklikleri
+[Don't notify history messages]
+Geçmiş mesajlarını bildirme
+[Network]
+Ağ
+[Account]
+Hesap
+[Advanced]
+İleri Düzey
+[Public XMPP Network]
+Halka Açık XMPP Ağı
+[Secure XMPP Network]
+Güvenli XMPP Ağı
+[Secure XMPP Network (old style)]
+Güvenli XMPP Ağı (eski biçim)
+[Hipchat]
+Hipchat
+[LiveJournal Talk]
+LiveJournal Sohbeti
+[League Of Legends (EU Nordic)]
+League of Legends (AB İskandinav)
+[League Of Legends (EU West)]
+League of Legends (AB Batı)
+[League Of Legends (Oceania)]
+League of Legends (Okyanusya)
+[League Of Legends (US)]
+League of Legends (ABD)
+[S.ms]
+S.ms
+[Some changes will take effect the next time you connect to the Jabber network.]
+Bazı değişiklikler, Jabber ağına bir sonraki bağlanışınızda yürürlüğe girecektir.
+;file \protocols\JabberG\src\jabber_password.cpp
+[Set New Password for %s@%s]
+%s@%s için Yeni Şifre Belirle
+[New password does not match.]
+Yeni şifre uyuşmuyor.
+[Current password is incorrect.]
+Mevcut şifre yanlış.
+;file \protocols\JabberG\src\jabber_privacy.cpp
+[Sending request, please wait...]
+İstek gönderiliyor, lütfen bekleyin...
+[Warning: privacy lists were changed on server.]
+Uyarı: Sunucuda gizlilik listelerinde değişiklik yapıldı.
+[Error occurred while applying changes]
+Değişiklikler uygulanırken bir hata oluştu
+[Privacy lists successfully saved]
+Gizlilik listeleri başarıyla kaydedildi
+[Privacy list %s set as active]
+%s gizlilik listesi etkin olarak ayarlandı
+[Active privacy list successfully declined]
+Etkin gizlilik listesi başarıyla reddedildi
+[Error occurred while setting active list]
+Etkin liste ayarlanırken bir hata oluştu
+[Privacy list %s set as default]
+%s gizlilik listesi varsayılan olarak ayarlandı
+[Default privacy list successfully declined]
+Varsayılan gizlilik listesi başarıyla reddedildi
+[Error occurred while setting default list]
+Varsayılan listeyi ayarlarken bir hata oluştu
+[none]
+yok
+[from]
+kaynak:
+[to]
+...'ye
+[both]
+her ikisi de
+[Allow]
+İzin ver
+[List has no rules, empty lists will be deleted then changes applied]
+Listede herhangi bir kural yoktur; boş listeler silinecek ve ardından değişiklikler uygulanacaktır
+[allow ]
+izin vermek 
+[deny ]
+reddetmek 
+[all.]
+hepsi.
+[messages]
+mesajlar
+[ and ]
+ ve 
+[incoming presences]
+gelen ziyaretçiler
+[outgoing presences]
+ayrılan temsilciler
+[queries]
+sorgular
+[Else ]
+Aksi takdirde 
+[If Jabber ID is ']
+Jabber Kimliği ' ise
+[ (nickname: ]
+ (takma ad: 
+[If group is ']
+Eğer grup ' ise
+[If subscription is ']
+Abonelik ' ise
+[then ]
+sonra 
+[<none>]
+<yok>
+[ (act., def.)]
+ (fiil, sıfat)
+[ (active)]
+ (aktif)
+[ (default)]
+ (varsayılan)
+[Ready.]
+Hazır.
+[Privacy lists are not saved, discard any changes and exit?]
+Gizlilik listeleri kaydedilmiyor, değişiklikleri silip çıkmak ister misiniz?
+[Simple mode]
+Basit mod
+[Advanced mode]
+Gelişmiş mod
+[Add JID]
+JID ekle
+[Activate]
+Etkinleştir
+[Set default]
+Varsayılan olarak ayarla
+[Edit rule]
+Kuralı düzenle
+[Add rule]
+Kural ekle
+[Delete rule]
+Kuralı sil
+[Move rule up]
+Kuralı yukarı taşı
+[Move rule down]
+Kuralı aşağı kaydır
+[Add list...]
+Liste ekle...
+[Remove list]
+Listeyi kaldır
+[** Default **]
+** Varsayılan **
+[** Subscription: both **]
+** Abonelik: her ikisi de **
+[** Subscription: to **]
+** Abonelik: **
+[** Subscription: from **]
+** Abonelik: **'den itibaren **
+[** Subscription: none **]
+** Abonelik: yok **
+[Message]
+Mesaj
+[Presence (in)]
+Varlık (içinde)
+[Presence (out)]
+Mevcudiyet (dışarıda)
+[Query]
+Sorgu
+[Please save list before activating]
+Lütfen etkinleştirmeden önce listeyi kaydedin
+[First, save the list]
+Öncelikle, listeyi kaydedin
+[Please save list before you make it the default list]
+Lütfen listeyi varsayılan liste olarak belirlemeden önce kaydedin
+[No list selected]
+Seçili liste yok
+[Can't remove active or default list]
+Etkin veya varsayılan listeyi silemiyorum
+[Unable to save list because you are currently offline.]
+Şu anda çevrimdışı olduğunuz için liste kaydedilemiyor.
+[List Editor...]
+Liste Düzenleyici...
+;file \protocols\JabberG\src\jabber_proto.cpp
+[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
+Miranda NG kullanıcısı olmaktan memnunum. https://miranda-ng.org/ adresinden indirebilirsiniz.
+[/me slaps %s around a bit with a large trout]
+/me, %s’yi iri bir alabalıkla biraz tokatlıyor
+[%s error notifications]
+%s hata bildirimleri
+[No valid OMEMO session exists]
+Geçerli bir OMEMO oturumu bulunmuyor
+;file \protocols\JabberG\src\jabber_rc.cpp
+[Command completed successfully]
+Komut başarıyla tamamlandı
+[Error occurred during processing command]
+Komut işlenirken bir hata oluştu
+[Set status]
+Durumu ayarla
+[Set options]
+Seçenekleri ayarla
+[Forward unread messages]
+Okunmamış mesajları ilet
+[Leave group chats]
+Grup sohbetlerinden çık
+[Lock workstation]
+İş istasyonunu kilitle
+[Quit Miranda NG]
+Miranda NG'den çık
+[Change Status]
+Durumu Değiştir
+[Choose the status and status message]
+Durumu ve durum mesajını seçin
+[Status]
+Durum
+[Extended away (Not available)]
+Stokta yok (Mevcut değil)
+[Invisible]
+Görünmez
+[Offline]
+Çevrimdışı
+[Priority]
+Öncelik
+[Status message]
+Durum mesajı
+[Change global status]
+Genel durumu değiştir
+[Set Options]
+Seçenekleri Ayarla
+[Set the desired options]
+İstenen seçenekleri belirleyin
+[Automatically Accept File Transfers]
+Dosya Aktarımlarını Otomatik Olarak Kabul Et
+[Play sounds]
+Sesleri çal
+[Disable remote controlling (check twice what you are doing)]
+Uzaktan kumandayı devre dışı bırakın (ne yaptığınızı iki kez kontrol edin)
+[There is no messages to forward]
+İletilecek mesaj yok
+[Forward options]
+İleri seçenekler
+[%d message(s) to be forwarded]
+İletilecek %d mesaj var
+[Mark messages as read]
+Mesajları okundu olarak işaretle
+[%d message(s) forwarded]
+%d mesaj iletildi
+[Workstation successfully locked]
+İş istasyonu başarıyla kilitlendi
+[Error %d occurred during workstation lock]
+İş istasyonu kilitleme işlemi sırasında %d hatası oluştu
+[Confirmation needed]
+Onay gerekiyor
+[Please confirm Miranda NG shutdown]
+Lütfen Miranda NG’nin kapatıldığını onaylayın
+[There is no group chats to leave]
+Çıkılabilecek grup sohbeti yok
+[Choose the group chats you want to leave]
+Ayrılmak istediğiniz grup sohbetlerini seçin
+;file \protocols\JabberG\src\jabber_roster.cpp
+[Group]
+Grup
+[Subscription]
+Abonelik
+[Uploading...]
+Yükleniyor...
+[Downloading...]
+İndiriliyor...
+[Connecting...]
+Bağlanıyor...
+[XML (UTF-8 encoded)]
+XML (UTF-8 kodlu)
+;file \protocols\JabberG\src\jabber_search.cpp
+[Error %s %s\r\nPlease select other server]
+Hata %s %s\r\nLütfen başka bir sunucu seçin
+[Error: unknown reply received\r\nPlease select other server]
+Hata: bilinmeyen bir yanıt alındı\r\nLütfen başka bir sunucu seçin
+[Error %s %s\r\nTry to specify more detailed]
+Hata %s %s\r\nDaha ayrıntılı bilgi girmeyi deneyin
+[Search error]
+Arama hatası
+[Select/type search service URL above and press <Go>]
+Yukarıdaki arama hizmeti URL’sini seçin/girin ve <Git> düğmesine basın
+[Please wait...\r\nConnecting search server...]
+Lütfen bekleyin...\r\nArama sunucusuna bağlanılıyor...
+[You have to be connected to server]
+Sunucuya bağlı olmanız gerekir
+;file \protocols\JabberG\src\jabber_svc.cpp
+[closed chat session]
+kapalı sohbet oturumu
+[sent subscription request]
+abonelik talebi gönderildi
+[approved subscription request]
+onaylanmış abonelik talebi
+[declined subscription]
+iptal edilen abonelik
+[sent error presence]
+hata varlığı bildirildi
+[sent unknown presence type]
+bilinmeyen varlık türü gönderildi
+[Nick:]
+Nick:
+[Status:]
+Durum:
+[Real JID:]
+Gerçek JID:
+;file \protocols\JabberG\src\jabber_thread.cpp
+[Enter password for %s]
+%s için şifreyi girin
+[Error: Not enough memory]
+Hata: Yeterli bellek yok
+[Requesting XMPP service address through proxy is not supported.\nPlease allow direct DNS in options or specify the hostname manually]
+Proxy üzerinden XMPP hizmet adresinin istenmesi desteklenmemektedir.\nLütfen seçeneklerden doğrudan DNS'ye izin verin veya ana bilgisayar adını manuel olarak girin
+[Error: Cannot connect to the server]
+Hata: Sunucuya bağlanılamıyor
+[Error: Connection lost]
+Hata: Bağlantı kesildi
+[Requesting registration instruction...]
+Kayıt talimatı isteniyor...
+[Authentication failed for %s@%s.]
+%s@%s için kimlik doğrulama başarısız oldu.
+[Registration canceled]
+Kayıt iptal edildi
+[Sending registration information...]
+Kayıt bilgilerini gönderiliyor...
+;file \protocols\JabberG\src\jabber_userinfo.cpp
+[<not specified>]
+<belirtilmemiş>
+[Software]
+Yazılım
+[Last activity]
+Son etkinlik
+[Client capabilities (only ones known to Miranda)]
+Müşteri özellikleri (sadece Miranda’nın bildiği özellikler)
+[Software information]
+Yazılım bilgileri
+[Operating system]
+İşletim sistemi
+[Operating system version]
+İşletim sistemi sürümü
+[Software version]
+Yazılım sürümü
+[Miranda core version]
+Miranda çekirdek sürümü
+[Mood]
+Ruh hali
+[Activity]
+Etkinlik
+[Tune]
+Ayar
+[Last logoff time]
+Son oturum kapatma saati
+[Uptime]
+Çalışma Süresi
+[Logoff message]
+Oturumu kapatma mesajı
+[Last active resource]
+En son etkin kaynak
+[Received vCard does not contain any information.]
+Alınan vCard'da herhangi bir bilgi bulunmuyor.
+[Please switch online to see more details.]
+Daha fazla ayrıntı için lütfen çevrimiçi ortama geçin.
+[Copy]
+Kopyala
+[Copy only this value]
+Yalnızca bu değeri kopyala
+[format]
+biçim
+[Unknown format]
+Bilinmeyen biçim
+[<Photo not available while offline>]
+<Çevrimdışıyken fotoğraf görüntülenemez>
+[<No photo>]
+<Fotoğraf yok>
+[Device ID]
+Cihaz Kimliği
+[Fingerprint]
+Parmak izi
+[This device]
+Bu cihaz
+[Untrust]
+Güvensizlik
+[Trust]
+Güven
+[Kill session]
+Oturumu sonlandır
+[Remove device]
+Cihazı kaldır
+[Remove device master key completely?\nPress NO to regenerate prekeys only]
+Aygıt ana anahtarını tamamen silmek istiyor musunuz?\nYalnızca ön anahtarları yeniden oluşturmak için HAYIR tuşuna basın
+[Delete device %d from the announce?]
+%d numaralı cihazı duyuru listesinden silmek istiyor musunuz?
+[Photo]
+Fotoğraf
+;file \protocols\JabberG\src\jabber_util.cpp
+[Redirect]
+Yönlendirme
+[Bad request]
+Hatalı istek
+[Unauthorized]
+Yetkisiz
+[Payment required]
+Ödeme gereklidir
+[Forbidden]
+Yasak
+[Not found]
+Bulunamadı
+[Not allowed]
+İzin verilmez
+[Not acceptable]
+Kabul edilemez
+[Registration required]
+Kayıt zorunludur
+[Request timeout]
+İstek zaman aşımı
+[Conflict]
+Çatışma
+[Internal server error]
+İç sunucu hatası
+[Not implemented]
+Uygulanmamıştır
+[Remote server error]
+Uzak sunucu hatası
+[Service unavailable]
+Hizmet kullanılamıyor
+[Remote server timeout]
+Uzak sunucu zaman aşımı
+[Unknown error]
+Bilinmeyen hata
+[Unknown error message]
+Bilinmeyen hata mesajı
+;file \protocols\JabberG\src\jabber_vcard.cpp
+[Male]
+Erkek
+[Female]
+Kadın
+[Jabber vCard: Edit Email Address]
+Jabber vCard: E-posta Adresini Düzenle
+[Jabber vCard: Edit Phone Number]
+Jabber vCard: Telefon Numarasını Düzenle
+[Contacts]
+İletişim Bilgileri
+[Note]
+Not
+;file \protocols\JabberG\src\jabber_xstatus.cpp
+[<advanced status slot>]
+<gelişmiş durum yuvası>
+[Afraid]
+Korkmak
+[Amazed]
+Hayretler içinde
+[Amorous]
+Aşk dolu
+[Angry]
+Kızgın
+[Annoyed]
+Sinirli
+[Anxious]
+Endişeli
+[Aroused]
+Tahrik olmuş
+[Ashamed]
+Utanç
+[Bored]
+Sıkılmış
+[Brave]
+Cesur
+[Calm]
+Sakinlik
+[Cautious]
+İhtiyatlı
+[Cold]
+Soğuk
+[Confident]
+Kendine güvenen
+[Confused]
+Kafası karışık
+[Contemplative]
+Tefekkürî
+[Contented]
+Memnun
+[Cranky]
+Huysuz
+[Crazy]
+Çılgın
+[Creative]
+Yaratıcı
+[Curious]
+Meraklı
+[Dejected]
+Moral bozuk
+[Depressed]
+Depresif
+[Disappointed]
+Hayal kırıklığına uğramış
+[Disgusted]
+Tiksinmiş
+[Dismayed]
+Üzgün
+[Distracted]
+Dikkat Dağınık
+[Embarrassed]
+Utanmış
+[Envious]
+Kıskanç
+[Excited]
+Heyecanlı
+[Flirtatious]
+Cazibeli
+[Frustrated]
+Hayal kırıklığına uğramış
+[Grateful]
+Minnettar
+[Grieving]
+Yas tutmak
+[Grumpy]
+Huysuz
+[Guilty]
+Suçlu
+[Happy]
+Mutlu
+[Hopeful]
+Umut dolu
+[Hot]
+Popüler
+[Humbled]
+Alçakgönüllü
+[Humiliated]
+Aşağılanmış
+[Hungry]
+Aç
+[Hurt]
+Acı
+[Impressed]
+Etkilendim
+[In awe]
+Hayranlıkla
+[In love]
+Aşık
+[Indignant]
+Öfkeli
+[Interested]
+İlgilenen
+[Intoxicated]
+Sarhoş
+[Invincible]
+Yenilmez
+[Jealous]
+Kıskanç
+[Lonely]
+Yalnız
+[Lost]
+Kayıp
+[Lucky]
+Şanslı
+[Mean]
+Ortalama
+[Moody]
+Moody
+[Nervous]
+Gergin
+[Neutral]
+Tarafsız
+[Offended]
+Kırgın
+[Outraged]
+Öfkeli
+[Playful]
+Eğlenceli
+[Proud]
+Gururlu
+[Relaxed]
+Rahat
+[Relieved]
+Rahatlamış
+[Remorseful]
+Pişman
+[Restless]
+Huzursuz
+[Sad]
+Üzücü
+[Sarcastic]
+Alaycı
+[Satisfied]
+Memnun
+[Serious]
+Ciddi
+[Shocked]
+Şaşkın
+[Shy]
+Utangaç
+[Sick]
+Hasta
+[Sleepy]
+Uykulu
+[Spontaneous]
+Kendiliğinden
+[Stressed]
+Stresli
+[Strong]
+Güçlü
+[Surprised]
+Şaşırdım
+[Thankful]
+Minnettar
+[Thirsty]
+Susamış
+[Tired]
+Yorgun
+[Undefined]
+Tanımlanmamış
+[Weak]
+Zayıf
+[Worried]
+Endişeli
+[Set mood...]
+Bir atmosfer yarat...
+[Set Mood]
+Ortam Yaratın
+[Mood: %s]
+Ruh hali: %s
+[Doing chores]
+Ev işlerini yapmak
+[buying groceries]
+market alışverişi yapmak
+[cleaning]
+temizlik
+[cooking]
+yemek pişirme
+[doing maintenance]
+bakım yapmak
+[doing the dishes]
+bulaşıkları yıkamak
+[doing the laundry]
+çamaşır yıkamak
+[gardening]
+bahçecilik
+[running an errand]
+bir iş halletmek
+[walking the dog]
+köpeği gezdirmek
+[Drinking]
+İçki içmek
+[having a beer]
+bira içmek
+[having coffee]
+kahve içmek
+[having tea]
+çay içmek
+[Eating]
+Yemek yeme
+[having a snack]
+atıştırmak
+[having breakfast]
+kahvaltı yapmak
+[having dinner]
+akşam yemeği yemek
+[having lunch]
+öğle yemeği yemek
+[Exercising]
+Egzersiz
+[cycling]
+bisiklet sürme
+[dancing]
+dans
+[hiking]
+yürüyüş
+[jogging]
+koşu
+[playing sports]
+spor yapmak
+[running]
+koşma
+[skiing]
+kayak
+[swimming]
+yüzme
+[working out]
+spor yapmak
+[Grooming]
+Bakım
+[at the spa]
+spa'da
+[brushing teeth]
+diş fırçalama
+[getting a haircut]
+saçını kestirmek
+[shaving]
+tıraş
+[taking a bath]
+banyo yapmak
+[taking a shower]
+duş almak
+[Having appointment]
+Randevu almak
+[Inactive]
+Etkin değil
+[day off]
+izin günü
+[hanging out]
+takılmak
+[hiding]
+gizleme
+[on vacation]
+tatilde
+[praying]
+dua etmek
+[scheduled holiday]
+planlanmış tatil
+[sleeping]
+uyuyan
+[thinking]
+düşünme
+[Relaxing]
+Rahatlatıcı
+[fishing]
+balıkçılık
+[gaming]
+oyun
+[going out]
+dışarı çıkmak
+[partying]
+parti yapmak
+[reading]
+okuma
+[rehearsing]
+prova yapmak
+[shopping]
+alışveriş
+[smoking]
+sigara içmek
+[socializing]
+sosyalleşme
+[sunbathing]
+güneşlenmek
+[watching TV]
+televizyon izlemek
+[watching a movie]
+film izlemek
+[Talking]
+Konuşmak
+[in real life]
+gerçek hayatta
+[on the phone]
+telefonda
+[on video phone]
+görüntülü telefonda
+[Traveling]
+Seyahat
+[commuting]
+işe gidip gelme
+[driving]
+sürüş
+[in a car]
+arabada
+[on a bus]
+otobüste
+[on a plane]
+uçakta
+[on a train]
+trende
+[on a trip]
+seyahatte
+[walking]
+yürümek
+[Working]
+Çalışıyor
+[coding]
+kodlama
+[in a meeting]
+bir toplantıda
+[studying]
+çalışmak
+[writing]
+yazma
+[Set activity...]
+Etkinliği ayarla...
+[Set Activity]
+Etkinlik Ayarla
+[Activity: %s]
+Etkinlik: %s
+[Listening To]
+Dinlediğim Şeyler
+[Moods]
+Ruh halleri
+[Activities]
+Etkinlikler

@@ -1,0 +1,447 @@
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+;============================================================
+;  File: GG.dll
+;  Plugin: Gadu-Gadu protocol
+;  Version: 0.96.3.1
+;  Authors: Bartosz Bialek, Adam Strzelecki
+;============================================================
+[Gadu-Gadu protocol support for Miranda NG.]
+Miranda NG için Gadu-Gadu protokol desteği.
+;file \protocols\Gadu-Gadu\res\resource.rc
+[Gadu-Gadu User Details]
+Gadu-Gadu Kullanıcı Bilgileri
+[Gadu-Gadu Number:]
+Gadu-Gadu Numarası:
+[Password:]
+Şifre:
+[E-mail:]
+E-posta:
+[Create new account]
+Yeni hesap oluştur
+[Remove account]
+Hesabı sil
+[Change password]
+Şifreyi değiştir
+[Retrieve password]
+Şifreyi geri al
+[Options]
+Seçenekler
+[Friends only]
+Sadece arkadaşlar
+[Show offline users with status message as invisible in contact list]
+Kişi listesinde durum mesajı olan çevrimdışı kullanıcıları “görünmez” olarak göster
+[After disconnection leave away message of status:]
+Bağlantı kesildikten sonra şu durum mesajını bırakın:
+[Receive image and after image is received use:]
+Görüntüyü alın ve görüntü alındıktan sonra şunu kullanın:
+[Show links from unknown contacts]
+Bilinmeyen kişilerden gelen bağlantıları göster
+[Enable avatars]
+Avatarları etkinleştir
+[These changes will take effect the next time you connect to the GG network.]
+Bu değişiklikler, GG ağına bir sonraki bağlanışınızda yürürlüğe girecektir.
+[Conference policy]
+Konferans kuralları
+[if total participant count greater than:]
+eğer toplam katılımcı sayısı şunlardan fazla ise:
+[if unknown participant count greater than:]
+eğer bilinmeyen katılımcı sayısı şundan büyükse:
+[in other case]
+aksi takdirde
+[Advanced Configuration]
+Gelişmiş Yapılandırma
+[Show connection errors]
+Bağlantı hatalarını göster
+[Automatically reconnect after unintentional disconnection]
+İstenmeyen bağlantı kesilmesinden sonra otomatik olarak yeniden bağlan
+[Send messages slower, but with full acknowledgment]
+Mesajları daha yavaş gönder, ancak tam onayla
+[Manually specify connection servers' hosts]
+Bağlantı sunucularının ana bilgisayarlarını manuel olarak belirtin
+[* new line is separator\n** hostname:port format]
+* satır sonu ayırıcıdır\n** ana bilgisayar adı:bağlantı noktası biçimi
+[File Transfer]
+Dosya Aktarımı
+[Use direct connections]
+Doğrudan bağlantıları kullanın
+[Port:]
+Liman:
+[Use forwarding]
+Yönlendirme özelliğini kullanın
+[Host:]
+Sunucu:
+[Number:]
+Numara:
+[Internal IP:]
+Dahili IP:
+[First name:]
+Adı:
+[Last name:]
+Soyadı:
+[Family name:]
+Soyadı:
+[Nickname:]
+Takma ad:
+[Gender:]
+Cinsiyet:
+[City:]
+Şehir:
+[Origin city:]
+Menşe şehir:
+[Birth year:]
+Doğum yılı:
+[Description:]
+Açıklama:
+[&Save changes]
+&Değişiklikleri kaydet
+[Enter token to continue]
+Devam etmek için jetonu girin
+[Cancel]
+İptal et
+[Create Gadu-Gadu account]
+Gadu-Gadu hesabı oluştur
+[This will create new Gadu-Gadu account]
+Bu işlem, yeni bir Gadu-Gadu hesabı oluşturacaktır
+[New password:]
+Yeni şifre:
+[Confirm password:]
+Şifreyi tekrar girin:
+[New e-mail:]
+Yeni e-posta adresi:
+[&Create]
+&Oluştur
+[Remove Gadu-Gadu account]
+Gadu-Gadu hesabını sil
+[This will remove your Gadu-Gadu account]
+Bu işlem, Gadu-Gadu hesabınızı silecektir
+[Yes, I want to remove my account]
+Evet, hesabımı silmek istiyorum
+[Remove]
+Kaldır
+[Change Gadu-Gadu password]
+Gadu-Gadu şifresini değiştir
+[Changes current Gadu-Gadu user password]
+Mevcut Gadu-Gadu kullanıcı şifresini değiştirir
+[Change Gadu-Gadu e-mail]
+Gadu-Gadu e-posta adresini değiştir
+[Changes current Gadu-Gadu user e-mail]
+Mevcut Gadu-Gadu kullanıcısının e-posta adresini değiştirir
+[Age from:]
+Yaş aralığı:
+[to:]
+şuna:
+[Search online users only]
+Yalnızca çevrimiçi kullanıcıları ara
+[&Close]
+&Kapat
+[&Send]
+&Gönder
+[Open new conference]
+Yeni konferans aç
+[Select conference participants]
+Konferans katılımcılarını seçin
+[Open]
+Aç
+[Concurrent %s Login Sessions]
+Eşzamanlı %s Oturum Sayısı
+[View information on active concurrent sessions]
+Etkin eşzamanlı oturumlarla ilgili bilgileri görüntüle
+[Sign out all sessions]
+Tüm oturumlardan çıkış yap
+;file \protocols\Gadu-Gadu\src\avatar.cpp
+[Cannot open avatar file. ERROR: %d: %s\n%s]
+Avatar dosyası açılamıyor. HATA: %d: %s\n%s
+;file \protocols\Gadu-Gadu\src\core.cpp
+[Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
+Miranda, Gadu-Gadu sunucusunun adını sayısal adresine çözümleyemedi.
+[Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
+Miranda, sunucuya bağlanamadı. Sunucu muhtemelen kapalıdır; bu durumda bir süre bekleyip daha sonra tekrar denemeniz önerilir.
+[Received invalid server response.]
+Geçersiz bir sunucu yanıtı alındı.
+[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
+Bağlantı denemesi sırasında sunucu ile olan bağlantı başarısızlıkla sonlandırıldı. Yerel ağ bağlantınız kesilmiş olabilir.
+[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at Options -> Network -> Gadu-Gadu and try again.]
+Gadu-Gadu kullanıcı numaranız ve şifreniz, Gadu-Gadu sunucusu tarafından reddedildi. Lütfen Seçenekler -> Ağ -> Gadu-Gadu bölümünden giriş bilgilerinizi kontrol edin ve tekrar deneyin.
+[Connecting to Gadu-Gadu hub failed.]
+Gadu-Gadu hub’ına bağlanılamadı.
+[Cannot establish secure connection.]
+Güvenli bağlantı kurulamıyor.
+[Server disconnected asking you for changing your e-mail.]
+Sunucu bağlantısı kesildi ve e-posta adresinizi değiştirmenizi istiyor.
+[Too many login attempts with invalid password.]
+Geçersiz şifreyle çok fazla giriş denemesi yapıldı.
+[Gadu-Gadu servers are now down. Try again later.]
+Gadu-Gadu sunucuları şu anda kapalı. Lütfen daha sonra tekrar deneyin.
+[Unknown]
+Bilinmiyor
+[External direct connections hostname %s is invalid. Disabling external host forwarding.]
+%s ana bilgisayar adıyla yapılan harici doğrudan bağlantılar geçersiz. Harici ana bilgisayar yönlendirme devre dışı bırakılıyor.
+[Server hostname %s is invalid. Using default hostname provided by the network.]
+%s sunucu ana adı geçersiz. Ağ tarafından sağlanan varsayılan ana ad kullanılıyor.
+[Connection cannot be established. errno=%d: %s]
+Bağlantı kurulamıyor. errno=%d: %s
+[Age:]
+Yaş:
+[List import successful.]
+Liste içe aktarımı başarıyla tamamlandı.
+[List remove successful.]
+Liste kaldırma işlemi başarıyla tamamlandı.
+[List export successful.]
+Liste başarıyla dışa aktarıldı.
+[Me]
+Ben
+[Unknown client]
+Bilinmeyen istemci
+[You have logged in at another location]
+Başka bir konumdan oturum açtınız
+[You are logged in at another location]
+Başka bir konumdan oturum açmış durumdasınız
+[Incoming image]
+Gelen görüntü
+;file \protocols\Gadu-Gadu\src\filetransfer.cpp
+[Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
+Aktarım dosyası oluşturulamıyor. HATA: %d: %s (dcc)\n%s
+[Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
+Aktarım dosyası oluşturulamıyor. HATA: %d: %s (dcc7)\n%s
+;file \protocols\Gadu-Gadu\src\gg.cpp
+[HTTP failed memory]
+HTTP bellek hatası
+[HTTP failed connecting]
+HTTP bağlantısı kurulamadı
+[HTTP failed resolving]
+HTTP, adresi çözümleyemedi
+[HTTP failed reading]
+HTTP okuma işlemi başarısız oldu
+[HTTP failed writing]
+HTTP yazma işlemi başarısız oldu
+[Unknown HTTP error]
+Bilinmeyen HTTP hatası
+[&Unblock]
+&Engellemeyi kaldır
+[&Block]
+&Blok
+[Conference]
+Konferans
+[Contact list]
+Kişi listesi
+[Protocol icon]
+Protokol simgesi
+[Import list from server]
+Sunucudan listeyi içe aktar
+[Import list from text file]
+Metin dosyasından listeyi içe aktar
+[Remove list from server]
+Sunucudan listeyi sil
+[Export list to server]
+Listeyi sunucuya aktar
+[Export list to text file]
+Listeyi metin dosyasına aktar
+[Account settings]
+Hesap ayarları
+[Block user]
+Kullanıcıyı engelle
+[Previous image]
+Önceki resim
+[Next image]
+Sonraki resim
+[Send image]
+Resim gönder
+[Save image]
+Resmi kaydet
+[Delete image]
+Resmi sil
+[Clear ignored conferences]
+Yoksayılan konferansları sil
+[Concurrent sessions]
+Eşzamanlı oturumlar
+;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+[Images]
+Görseller
+[Gadu-Gadu Number]
+Gadu-Gadu Numarası
+[Female]
+Kadın
+[Male]
+Erkek
+;file \protocols\Gadu-Gadu\src\groupchat.cpp
+[Open &conference...]
+Konferansı aç...
+[&Clear ignored conferences]
+&Yoksayılan toplantıları temizle
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
+%s, %d katılımcıyla (%d'si bilinmeyen) bir konferans başlattı.\nKatılmak ister misiniz?
+[%s initiated the conference.]
+%s konferansı başlattı.
+[This is my own conference.]
+Bu benim kendi konferansım.
+[Participants]
+Katılımcılar
+['Unknown']
+'Bilinmiyor'
+[You have to be connected to open new conference.]
+Yeni bir konferans açmak için çevrimiçi olmanız gerekir.
+[All ignored conferences are now unignored and the conference policy will act again.]
+Görmezden gelinen tüm konferanslar artık görmezden gelinmeyen duruma getirildi ve konferans politikası yeniden yürürlüğe girecek.
+[There are no ignored conferences.]
+Yoksayılan konferans yoktur.
+;file \protocols\Gadu-Gadu\src\image.cpp
+[&Image]
+&Resim
+[Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
+Görüntü dosyaları (*.bmp, *.gif, *.jpeg, *.jpg, *.png)
+[Image cannot be written to disk.]
+Görüntü diske kaydedilemiyor.
+[Save image to disk]
+Görüntüyü diske kaydet
+[Delete image from the list]
+Listeden resmi sil
+[Image from %s]
+%s'den alınan görsel
+[Image for %s]
+%s için resim
+[Select picture to send]
+Göndermek istediğiniz resmi seçin
+[Cannot create image cache directory. ERROR: %d: %s\n%s]
+Görüntü önbellek dizini oluşturulamıyor. HATA: %d: %s\n%s
+[Cannot save received image to file. ERROR: %d: %s\n%s]
+Alınan görüntü dosyaya kaydedilemiyor. HATA: %d: %s\n%s
+[Cannot open image file. ERROR: %d: %s\n%s]
+Görüntü dosyası açılamıyor. HATA: %d: %s\n%s
+[Image exceeds maximum allowed size of 255 KB.]
+Görsel, izin verilen maksimum boyut olan 255 KB’yi aşıyor.
+;file \protocols\Gadu-Gadu\src\import.cpp
+[You have to be connected before you can import/export contacts from/to server.]
+Sunucudan kişi bilgilerini içe aktarmak veya sunucuya aktarmak için önce internete bağlı olmanız gerekir.
+[List cannot be imported because of error:\n\t%s (Error: %d)]
+Aşağıdaki hata nedeniyle liste içe aktarılamıyor:\n\t%s (Hata: %d)
+[List cannot be removed because of error: %s (Error: %d)]
+Liste, %s hatası nedeniyle kaldırılamıyor: (Hata: %d)
+[Text files]
+Metin dosyaları
+[All Files]
+Tüm Dosyalar
+[List cannot be imported from file "%s" because of error:\n\t%s (Error: %d)]
+"%s" dosyasından liste, aşağıdaki hata nedeniyle içe aktarılamıyor:\n\t%s (Hata: %d)
+[contacts]
+iletişim bilgileri
+[List cannot be exported to file "%s" because of error:\n\t%s (Error: %d)]
+Aşağıdaki hata nedeniyle liste "%s" dosyasına aktarılamıyor:\n\t%s (Hata: %d)
+[List cannot be exported because of error:\n\t%s (Error: %d)]
+Aşağıdaki hata nedeniyle liste dışa aktarılamıyor:\n\t%s (Hata: %d)
+[Import List From &Server]
+&Sunucusundan Listeyi İçe Aktar
+[Import List From &Text File...]
+&Metin Dosyasından Listeyi İçe Aktar...
+[&Remove List From Server]
+&Listeyi Sunucudan Sil
+[Export List To &Server]
+Listeyi &Server'a Aktar
+[Export List To &Text File...]
+Listeyi &Metin Dosyasına Aktar...
+;file \protocols\Gadu-Gadu\src\links.cpp
+[Gadu-Gadu account chooser]
+Gadu-Gadu hesap seçici
+[Gadu-Gadu Link Protocol]
+Gadu-Gadu Bağlantı Protokolü
+;file \protocols\Gadu-Gadu\src\options.cpp
+[<Last Status>]
+<Son Durum>
+[System tray icon]
+Sistem tepsisi simgesi
+[Popup window]
+Açılır pencere
+[Message with [img] BBCode]
+[img] BBCode’lu mesaj
+[You need to specify your registration e-mail first.]
+Öncelikle kayıt e-posta adresinizi belirtmeniz gerekiyor.
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
+Şifreniz kayıt e-posta adresinize gönderilecektir.\nDevam etmek istiyor musunuz?
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
+Hesabınızda kalıcı değişiklikler yapmadan önce oturumunuzu kapatmalısınız.\nŞimdi oturumu kapatmak istiyor musunuz?
+[Allow]
+İzin ver
+[Ask]
+Sor
+[Ignore]
+Yoksay
+[Network]
+Ağ
+[General]
+Genel
+[Advanced]
+İleri Düzey
+;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
+[Password could not be reminded because of error:\n\t%s (Error: %d)]
+Aşağıdaki hata nedeniyle şifre hatırlatılamadı:\n\t%s (Hata: %d)
+[Password was sent to your e-mail.]
+Şifreniz e-postanıza gönderildi.
+;file \protocols\Gadu-Gadu\src\popups.cpp
+[Notifications]
+Bildirimler
+[Errors]
+Hatalar
+;file \protocols\Gadu-Gadu\src\services.cpp
+[Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
+Yenileme işleminden önce eski avatar dosyası kaldırılamıyor. HATA: %d: %s\n%s
+[Cannot remove old avatar file. ERROR: %d: %s\n%s]
+Eski avatar dosyası silinemiyor. HATA: %d: %s\n%s
+[To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
+Gadu-Gadu avatarınızı kaldırmak için gg.pl web sitesini kullanmanız gerekir.
+;file \protocols\Gadu-Gadu\src\sessions.cpp
+[Client Name]
+Müşteri Adı
+[IP Address]
+IP Adresi
+[Login Time]
+Giriş Saati
+[Action]
+Eylem
+[sign out]
+çıkış yap
+[There are no active concurrent sessions for this account.]
+Bu hesap için aktif olan eşzamanlı oturum bulunmamaktadır.
+[You have to be logged in to view concurrent sessions.]
+Eşzamanlı oturumları görüntülemek için oturum açmış olmanız gerekir.
+[Copy Text]
+Metni Kopyala
+[Whois]
+Whois
+[Concurrent &sessions]
+Eşzamanlı oturumlar
+;file \protocols\Gadu-Gadu\src\token.cpp
+[Token retrieval failed because of error:\n\t%s]
+Aşağıdaki hata nedeniyle jeton alınamadı:\n\t%s
+[Could not load token image.]
+Token görüntüsü yüklenemedi.
+;file \protocols\Gadu-Gadu\src\userinfo.cpp
+[<not specified>]
+<belirtilmemiş>
+[Your details has been uploaded to the public directory.]
+Bilgileriniz herkese açık dizine yüklendi.
+[You have to be logged in before you can change your details.]
+Bilgilerinizi değiştirebilmeniz için önce oturum açmanız gerekir.
+;file \protocols\Gadu-Gadu\src\userutils.cpp
+[Cannot register new account because of error:\n\t%s]
+Aşağıdaki hata nedeniyle yeni hesap açılamıyor:\n\t%s
+[Registration rejected]
+Kayıt reddedildi
+[You have registered new account.\nPlease fill up your personal details in "Main menu -> View/change my details..."]
+Yeni bir hesap açtınız.\nLütfen "Ana menü -> Bilgilerimi görüntüle/değiştir..." bölümünden kişisel bilgilerinizi girin.
+[Your account cannot be removed because of error:\n\t%s]
+Hata nedeniyle hesabınız silinemez:\n\t%s
+[Bad number or password]
+Yanlış numara veya şifre
+[Your account has been removed.]
+Hesabınız silinmiştir.
+[Your password cannot be changed because of error:\n\t%s]
+Aşağıdaki hata nedeniyle şifreniz değiştirilemiyor:\n\t%s
+[Invalid data entered]
+Geçersiz veri girildi
+[Your password has been changed.]
+Şifreniz değiştirildi.
+[Your e-mail cannot be changed because of error:\n\t%s]
+Aşağıdaki hata nedeniyle e-posta adresiniz değiştirilemiyor:\n\t%s
+[Bad old e-mail or password]
+Eski ve geçersiz e-posta adresi veya şifre
+[Your e-mail has been changed.]
+E-posta adresiniz değiştirildi.

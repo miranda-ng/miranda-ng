@@ -1,0 +1,341 @@
+#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
+;============================================================
+;  File: YAMN.dll
+;  Plugin: Mail Notifier
+;  Version: 0.2.1.1
+;  Authors: y_b, tweety, majvan
+;============================================================
+[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
+Miranda NG için e-posta bildirim aracı ve tarayıcı. POP3 protokolü desteklenmektedir.
+;file \protocols\YAMN\res\YAMN.rc
+[Account]
+Hesap
+[Name:]
+Adı:
+[Server:]
+Sunucu:
+[Port:]
+Liman:
+[User Name:]
+Kullanıcı Adı:
+[Password:]
+Şifre:
+[Codepage:]
+Kod sayfası:
+[Default]
+Varsayılan
+[Disable STLS]
+STLS'yi devre dışı bırak
+[Status:]
+Durum:
+[Options]
+Seçenekler
+[Check this account]
+Bu hesaba bir göz atın
+[Startup check]
+Başlangıç kontrolü
+[Check interval [min]:]
+Kontrol aralığı [dk]:
+[Only check when...]
+Yalnızca şu durumlarda kontrol edin...
+[Auto retrieve body]
+Metni otomatik olarak al
+[Check from menu]
+Menüden kontrol et
+[Use contact notification for this account]
+Bu hesap için iletişim bildirimini kullan
+[Replace nickname]
+Takma adı değiştir
+[Disable Events]
+Etkinlikleri Devre Dışı Bırak
+[Notifications]
+Bildirimler
+[New Mail]
+Yeni Posta
+[Tray Icon]
+Tepsi Simgesi
+[Message]
+Mesaj
+[Keyboard Flash]
+Klavye Işığı
+[Execute Application]
+Uygulamayı Çalıştır
+[Errors]
+Hatalar
+[Sound notification if failed]
+Başarısızlık durumunda sesli bildirim
+[Message notification if failed]
+Başarısızlık durumunda mesaj bildirimi
+[Tray icon notification if failed]
+Başarısızlık durumunda tepsi simgesi bildirimi
+[Reset counter]
+Sayacı sıfırla
+[Check while...]
+Şunu kontrol edin...
+[Cancel]
+İptal et
+[Choose modes]
+Modları seçin
+[Offline]
+Çevrimdışı
+[Online]
+Çevrimiçi
+[Away]
+Deplasman
+[Not available]
+Mevcut değil
+[Occupied]
+İşgal Altında
+[Do not disturb]
+Rahatsız etmeyin
+[Free for chat]
+Sohbet için ücretsiz
+[Invisible]
+Görünmez
+[MailBrowser Options]
+MailBrowser Seçenekleri
+[Enable Close on Delete Button]
+“Silme İşleminde Kapat” Düğmesini Etkinleştir
+[Show long localized date]
+Yerelleştirilmiş uzun tarih biçimini göster
+[Show current date]
+Güncel tarihi göster
+[Date/Time Representation]
+Tarih/Saat Gösterimi
+[Show seconds]
+Saniyeleri göster
+[Mail Notifications]
+E-posta Bildirimleri
+[Popup]
+Açılır pencere
+[Single popup]
+Tek açılır pencere
+[Multi popup]
+Çoklu açılır pencere
+[Use custom color]
+Özel renk kullan
+[No new mail notifications]
+Yeni e-posta bildirimleri yok
+[Popup if no mail]
+E-posta yoksa açılır pencere
+[Persistent message]
+Kalıcı mesaj
+[Connection failure notifications]
+Bağlantı hatası bildirimleri
+[Popup notification if failed]
+Başarısızlık durumunda açılır bildirim
+[..s Popup duration]
+..'nin açılır pencere süresi
+[Preview]
+Önizleme
+[Background color]
+Arka plan rengi
+[Text color]
+Metin rengi
+[Force popups for manual operations]
+Manuel işlemler için açılır pencereleri zorla göster
+;file \protocols\YAMN\src\account.cpp
+[No new mail message]
+Yeni e-posta yok
+;file \protocols\YAMN\src\main.cpp
+[Check &mail (All Account)]
+E-postaları Kontrol Et (Tüm Hesaplar)
+[Check &mail (This Account)]
+E-postayı kontrol et (Bu Hesap)
+[Launch application]
+Uygulamayı başlat
+[YAMN]
+YAMN
+[YAMN Account Folder]
+YAMN Hesap Klasörü
+[Check mail]
+E-postaları kontrol et
+[Connect Fail]
+Bağlantı Hatası
+;file \protocols\YAMN\src\main.h
+[New mail message]
+Yeni e-posta mesajı
+[Connect failed]
+Bağlantı kurulamadı
+;file \protocols\YAMN\src\services.cpp
+[Nick]
+Nick
+;file \protocols\YAMN\src\browser\badconnect.cpp
+[%s - connection error]
+%s - bağlantı hatası
+[An error occurred. Error code: %d]
+Bir hata oluştu. Hata kodu: %d
+[Unknown error]
+Bilinmeyen hata
+[ - connection error]
+ - bağlantı hatası
+;file \protocols\YAMN\src\browser\mailbrowser.cpp
+[%s - %d new mail messages, %d total]
+%s - %d yeni e-posta mesajı, toplam %d
+[%s : %d new mail message(s), %d total]
+%s : %d yeni e-posta mesajı, toplam %d
+[%d new mail message(s), %d total]
+%d yeni e-posta mesajı, toplam %d
+[- new mail message(s)]
+- yeni e-posta mesajları
+[No new mail message, %d spam(s)]
+Yeni e-posta yok, %d adet spam
+[Invalid]
+Geçersiz
+[Header]
+Başlık
+[Value]
+Değer
+[Copy Selected]
+Seçilenleri Kopyala
+[Copy All]
+Tümünü Kopyala
+[Run application]
+Uygulamayı çalıştır
+[Delete selected]
+Seçilenleri sil
+[Select All]
+Tümünü Seç
+[From]
+Kaynak:
+[Subject]
+Konu
+[Size]
+Boyut
+[Date]
+Tarih
+[Do you really want to delete %d selected mails?]
+Seçili %d e-postayı gerçekten silmek istiyor musunuz?
+[Delete confirmation]
+Silme onayı
+;file \protocols\YAMN\src\mails\mime.cpp
+[Translate header error]
+Başlık çeviri hatası
+[Part]
+Bölüm
+;file \protocols\YAMN\src\proto\pop3\pop3comm.cpp
+[Disconnected]
+Bağlantı kesildi
+[POP3 protocol (internal)]
+POP3 protokolü (dahili)
+[Found new version of account book, not compatible with this version of YAMN.]
+Hesap defterinin yeni bir sürümü bulundu; bu sürüm, YAMN'ın bu sürümüyle uyumlu değil.
+[YAMN (internal POP3) read error]
+YAMN (dahili POP3) okuma hatası
+[Error reading account file. Account file corrupted.]
+Hesap dosyası okunurken hata oluştu. Hesap dosyası bozuk.
+[Memory allocation error while data reading]
+Veri okuma sırasında bellek ayırma hatası
+[Reading file error. File already in use?]
+Dosya okuma hatası. Dosya halihazırda kullanılıyor mu?
+[Error while copying data to disk occurred. Is file in use?]
+Verilerin diske kopyalanması sırasında bir hata oluştu. Dosya kullanımda mı?
+[POP3 plugin - write file error]
+POP3 eklentisi - dosya yazma hatası
+[Connecting to server]
+Sunucuya bağlanma
+[Entering POP3 account]
+POP3 hesabına giriş
+[Searching for new mail message]
+Yeni e-posta mesajı aranıyor
+[Reading body %s]
+%s dosyasını okunuyor
+[Reading new mail messages (%d%% done)]
+Yeni e-postaları okunuyor (%d%% tamamlandı)
+[Deleting requested mails]
+İstenen e-postaların silinmesi
+[Deleting spam]
+Spam'leri silme
+[Memory allocation error.]
+Bellek ayırma hatası.
+[Account is about to be stopped.]
+Hesabınız yakında askıya alınacak.
+[Cannot connect to POP3 server.]
+POP3 sunucusuna bağlanılamıyor.
+[Cannot allocate memory for received data.]
+Alınan veriler için bellek ayrılabilir.
+[Cannot login to POP3 server.]
+POP3 sunucusuna giriş yapılamıyor.
+[Bad user or password.]
+Kullanıcı adı veya şifre hatalı.
+[Server does not support APOP authorization.]
+Sunucu, APOP yetkilendirmeyi desteklemiyor.
+[Error while executing POP3 command.]
+POP3 komutunun yürütülmesi sırasında hata oluştu.
+[Cannot connect to server with NetLib.]
+NetLib ile sunucuya bağlanılamıyor.
+[Cannot send data.]
+Veri gönderilemiyor.
+[Cannot receive data.]
+Veri alınamıyor.
+[OpenSSL not loaded.]
+OpenSSL yüklenmedi.
+[Windows socket 2.0 init failed.]
+Windows Socket 2.0 başlatma işlemi başarısız oldu.
+[DNS lookup error.]
+DNS arama hatası.
+[Error while creating base socket.]
+Temel soket oluşturulurken hata oluştu.
+[Error connecting to server with socket.]
+Soket ile sunucuya bağlanırken hata oluştu.
+[Error while creating SSL structure.]
+SSL yapısı oluşturulurken hata oluştu.
+[Error connecting socket with SSL.]
+SSL ile soket bağlantısında hata oluştu.
+[Server rejected connection with SSL.]
+Sunucu, SSL ile kurulan bağlantıyı reddetti.
+[Cannot write SSL data.]
+SSL verileri yazılamıyor.
+[Cannot read SSL data.]
+SSL verileri okunamıyor.
+[Error %d-%d-%d-%d:]
+%d-%d-%d-%d hatası:
+;file \protocols\YAMN\src\proto\pop3\pop3opt.cpp
+[No account selected]
+Seçili bir hesap yok
+[This is not a valid number value]
+Bu, geçerli bir sayı değeri değildir
+[Input error]
+Giriş hatası
+[Please select application to run]
+Çalıştırmak istediğiniz uygulamayı lütfen seçin
+[Please wait while no account is in use.]
+Şu anda kullanılmakta olan bir hesap olmadığı için lütfen bekleyin.
+[Cannot allocate memory space for new account]
+Yeni hesap için bellek alanı ayrılmıyor
+[Memory error]
+Bellek hatası
+[Time left to next check [s]: %d]
+Bir sonraki kontrole kalan süre [s]: %d
+[New Account]
+Yeni Hesap
+[Executables]
+Çalıştırılabilir dosyalar
+[All Files]
+Tüm Dosyalar
+[Select executable used for notification]
+Bildirim için kullanılacak yürütülebilir dosyayı seçin
+[Dialog box error]
+İletişim kutusu hatası
+[Failed]
+Başarısız
+[Do you really want to delete this account?]
+Bu hesabı gerçekten silmek istiyor musunuz?
+[Delete account confirmation]
+Hesap silme onayı
+[Account Test]
+Hesap Testi
+[You have N new mail messages]
+N adet yeni e-postanız var
+[Account Test (failed)]
+Hesap Testi (başarısız)
+[Connection failed message]
+Bağlantı hatası mesajı
+[Network]
+Ağ
+[Accounts]
+Hesaplar
+[General]
+Genel
+[Popups]
+Açılır pencereler

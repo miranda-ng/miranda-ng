@@ -1,0 +1,693 @@
+#muuid {84636f78-2057-4302-8a65-23a16d46844c}
+;============================================================
+;  File: Scriver.dll
+;  Plugin: Scriver
+;  Version: 3.0.2.4
+;  Authors: Miranda NG team
+;============================================================
+[Scriver - send and receive instant messages.]
+Scriver - anlık mesajlar gönderin ve alın.
+;file \plugins\Scriver\res\resource.rc
+[Behavior]
+Davranış
+[Automatically pop up the window when]
+Aşağıdaki durumda pencere otomatik olarak açılsın:
+[and stay minimized]
+ve küçültülmüş halde kalır
+[Cascade new windows]
+Cascade yeni pencereler
+[Save size and location for each contact]
+Her bir kişinin kayıt boyutunu ve konumunu kaydet
+[Minimize on send]
+Gönderirken simge durumuna küçült
+[Hide windows on close]
+Kapatıldığında pencereleri gizle
+[Remember unsent messages]
+Gönderilmemiş mesajları hatırla
+[Delete temporary contacts on closing]
+Kapatılırken geçici kişileri sil
+[Show warning when message has not been received after]
+Aşağıdaki süre sonunda mesaj alınmamışsa uyarı göster
+[seconds]
+saniye
+[Tabs]
+Sekmeler
+[Enable tabs]
+Sekmeleri etkinleştir
+[Only show tab bar when it's needed]
+Sekme çubuğunu yalnızca gerektiğinde göster
+[Tabs at the bottom]
+Alt kısımdaki sekmeler
+[Limit names on tabs to]
+Sekmelerdeki isimleri şu şekilde sınırlayın:
+[characters]
+karakterler
+[Show close button on each tab]
+Her sekmede kapat düğmesini göster
+[Switch to active tab]
+Etkin sekmeye geç
+[Limit number of tabs per window to]
+Pencere başına sekme sayısını şu sayıyla sınırla:
+[Use separate windows for group chats]
+Grup sohbetleri için ayrı pencereler kullanın
+[Limit number of group chats tabs per window to]
+Pencere başına grup sohbeti sekmelerinin sayısını şu sayıya sınırla:
+[Layout]
+Düzen
+[Show title bar]
+Başlık çubuğunu göster
+[Show status bar]
+Durum çubuğunu göster
+[Show toolbar]
+Araç çubuğunu göster
+[Show info bar]
+Bilgi çubuğunu göster
+[Show avatars]
+Avatarları göster
+[Show progress indicator]
+İlerleme göstergesini göster
+[Enable transparency]
+Şeffaflığı etkinleştir
+[active]
+aktif
+[inactive]
+etkin değil
+[Min input area size]
+Minimum giriş alanı boyutu
+[lines]
+satırlar
+[You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
+Burada gömülü değişkenleri kullanabilirsiniz: %name% ile kişinin adı, %status% ile durumu, %statusmsg% ile durum mesajı ve %account% ile hesap adı
+[Preload history events on window opening]
+Pencere açıldığında geçmiş olaylarını önceden yükle
+[Preload unread events only]
+Yalnızca okunmamış olayları önceden yükle
+[Preload number of previous events]
+Önceki etkinliklerin sayısını önceden yükle
+[Preload previous events less than]
+Önceki etkinlikleri, şu değerden daha az olanları önceden yükle
+[minutes old]
+birkaç dakika önce
+[Message window event log]
+Mesaj penceresi olay günlüğü
+[Show icons]
+Simgeleri göster
+[Show time]
+Gösteri zamanı
+[Show seconds]
+Saniyeleri göster
+[Show date]
+Tarihi göster
+[Long date format]
+Uzun tarih biçimi
+[Relative date]
+Göreceli tarih
+[Hide names]
+İsimleri gizle
+[Enable message grouping]
+Mesaj gruplandırmayı etkinleştir
+[Mark follow-up messages with timestamp]
+Takip mesajlarını zaman damgasıyla işaretle
+[Start message text on a new line]
+Mesaj metnini yeni bir satırda başlat
+[Show lines between messages]
+Mesajlar arasındaki satırları göster
+[Indent text]
+Metni girintilemek
+[Automatically copy selected text]
+Seçilen metni otomatik olarak kopyala
+[Customize fonts and colors]
+Yazı tiplerini ve renkleri özelleştirin
+[Typing notification options]
+Yazma bildirim seçenekleri
+[Send typing notifications to the following users when you are typing a message to them:]
+Aşağıdaki kullanıcılara mesaj yazarken, onlara yazma bildirimleri gönder:
+[Show typing notification switch in the status bar]
+Durum çubuğunda yazma bildirimi anahtarını göster
+[Show typing notifications when a user is typing a message]
+Bir kullanıcı mesaj yazarken yazma bildirimlerini göster
+[Update message window icons when a user is typing]
+Kullanıcı yazarken mesaj penceresindeki simgeleri güncelle
+[Show typing notification when no message dialog is open]
+Hiçbir mesaj iletişim kutusu açık olmadığında yazma bildirimi göster
+[Flash in the system tray and in the contact list]
+Sistem tepsisinde ve kişi listesinde yanıp sönen simge
+[Show balloon popup]
+Balon açılır penceresini göster
+[Send error]
+Hata gönder
+[An error has occurred. The protocol reported the following error:]
+Bir hata oluştu. Protokol şu hatayı bildirdi:
+[while sending the following message:]
+aşağıdaki mesajı gönderirken:
+[Try again]
+Tekrar dene
+[Cancel]
+İptal et
+[Message session]
+Mesaj oturumu
+[Send to all tabs]
+Tüm sekmelere gönder
+[You are about to send a message to all open tabs.\nAre you sure?]
+Tüm açık sekmelere bir mesaj göndermek üzeresiniz.\nEmin misiniz?
+[Remember my choice for this container]
+Bu kap için yaptığım seçimi hatırla
+[Yes]
+Evet
+[No]
+Hayır
+[Show these events only:]
+Yalnızca şu etkinlikleri göster:
+[Actions]
+Eylemler
+[Messages]
+Mesajlar
+[Nick changes]
+Nick'in değişiklikleri
+[Users joining]
+Katılan kullanıcılar
+[Users leaving]
+Ayrılan kullanıcılar
+[Topic changes]
+Konu değişiklikleri
+[Status changes]
+Durum değişiklikleri
+[Information]
+Bilgi
+[Disconnects]
+Bağlantı kesilmeleri
+[User kicks]
+Kullanıcı atmaları
+[Notices]
+Duyurular
+[Options]
+Seçenekler
+[Other]
+Diğer
+[Add new rooms to group:]
+Gruba yeni odalar ekle:
+[Nick list row height]
+Nick listesinin satır yüksekliği
+[pixels]
+piksel
+[Log options]
+Günlük seçenekleri
+[Your name]
+Adınız
+[Other name]
+Diğer adı
+[Timestamp]
+Zaman damgası
+[Log timestamp]
+Günlük zaman damgası
+[Limit log text to (events):]
+Günlük metnini (olaylarla) sınırla:
+[Enable highlighting]
+Vurgulamayı etkinleştir
+[Words to highlight (wildcards allowed)]
+Vurgulanacak kelimeler (joker karakterlere izin verilir)
+[Save logs]
+Günlükleri kaydet
+[Location]
+Konum
+[Trim to]
+Şu boyuta kırp:
+[KB]
+KB
+[Message]
+Mesaj
+[Undo]
+Geri Al
+[Redo]
+Tekrarla
+[Cut]
+Kes
+[Copy]
+Kopyala
+[Paste]
+Yapıştır
+[Paste && send]
+Yapıştır && gönder
+[Delete]
+Sil
+[Select &all]
+&all'ı seç
+[Clear]
+Temizle
+[Close other tabs]
+Diğer sekmeleri kapat
+[Close tab]
+Sekmeyi kapat
+;file \plugins\Scriver\src\chat_main.cpp
+[Messaging]
+Mesajlaşma
+[Group chats]
+Grup sohbetleri
+[Action: Send message]
+İşlem: Mesaj gönder
+;file \plugins\Scriver\src\chat_options.cpp
+[Appearance and functionality of chat windows]
+Sohbet pencerelerinin görünümü ve işlevselliği
+[Flash when someone speaks]
+Birisi konuştuğunda yanıp sönsün
+[Flash when a word is highlighted]
+Bir kelime vurgulandığında yanıp sönsün
+[Show chat nick list]
+Sohbet takma ad listesini göster
+[Show topic on your contact list (if supported)]
+Kişi listenizde konuyu göster (destekleniyorsa)
+[Do not play sounds when focused]
+Odaklandığında ses çalma
+[Do not pop up the window when joining a chat room]
+Bir sohbet odasına katılırken pencere açılmasın
+[Show contact statuses (if supported)]
+İletişim durumlarını göster (destekleniyorsa)
+[Display contact status icon before role icon]
+Rol simgesinden önce iletişim durumu simgesini göster
+[Add ':' to auto-completed names]
+Otomatik tamamlanan adlara ':' ekle
+[Icons to display in the message log]
+Mesaj günlüğünde görüntülenecek simgeler
+[Show icon for topic changes]
+Konu değişiklikleri için simgeyi göster
+[Show icon for users joining]
+Katılan kullanıcılar için simge göster
+[Show icon for users disconnecting]
+Bağlantısı kesilen kullanıcılar için simge göster
+[Show icon for messages]
+Mesajlar için simgeyi göster
+[Show icon for actions]
+İşlemler için simgeyi göster
+[Show icon for highlights]
+Öne çıkanların simgesini göster
+[Show icon for users leaving]
+Ayrılan kullanıcılar için simge göster
+[Show icon for users kicking other user]
+Diğer kullanıcıları gruptan çıkaran kullanıcılar için simge göster
+[Show icon for notices]
+Bildirimler için simgeyi göster
+[Show icon for name changes]
+Ad değişiklikleri için simgeyi göster
+[Show icon for information messages]
+Bilgi mesajları için simgeyi göster
+[Show icon for status changes]
+Durum değişiklikleri için simgeyi göster
+[Appearance]
+Görünüş
+[Prefix all events with a timestamp]
+Tüm olayların başına bir zaman damgası ekle
+[Timestamp has same color as the event]
+Zaman damgası, olayla aynı renktedir
+[Indent the second line of a message]
+Mesajın ikinci satırını girintilemek
+[Limit user names to 20 characters]
+Kullanıcı adlarını 20 karakterle sınırlayın
+[Strip colors from messages]
+Mesajlardan renkleri kaldır
+[Enable 'event filter' for new rooms]
+Yeni odalar için 'olay filtresi'ni etkinleştir
+[nick of current contact (if defined)]
+mevcut temasın takma adı (tanımlanmışsa)
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
+Mevcut kişinin protokol adı (tanımlanmışsa). Protokol birden fazla hesabı destekliyorsa hesap adı kullanılır
+[user-defined account name of current contact (if defined).]
+Mevcut kişinin kullanıcı tanımlı hesap adı (tanımlanmışsa).
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
+Mevcut kişinin kullanıcı kimliği (tanımlanmışsa). Jabber vb. için JID'ye benzer.
+[path to Miranda root folder]
+Miranda kök klasörünün yolu
+[path to folder containing Miranda profiles]
+Miranda profillerinin bulunduğu klasöre giden yol
+[name of current Miranda profile (filename, without extension)]
+Mevcut Miranda profilinin adı (dosya adı, uzantı hariç)
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
+%miranda_profilesdir%\\%miranda_profilename% biçiminde ayrıştırılmış bir dize döndürecektir
+[will return parsed string %miranda_userdata%\\Logs]
+%miranda_userdata%\\Logs dizesini ayrıştırılmış olarak döndürecektir
+[same as environment variable %APPDATA% for currently logged-on Windows user]
+Şu anda oturum açmış olan Windows kullanıcısı için %APPDATA% ortam değişkeniyle aynıdır
+[username for currently logged-on Windows user]
+Şu anda oturum açmış olan Windows kullanıcısının kullanıcı adı
+["My Documents" folder for currently logged-on Windows user]
+O anda oturum açmış olan Windows kullanıcısı için "Belgelerim" klasörü
+["Desktop" folder for currently logged-on Windows user]
+O anda Windows'ta oturum açmış olan kullanıcı için "Masaüstü" klasörü
+[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
+mevcut Windows oturumunda tanımlanmış herhangi bir ortam değişkeni (örneğin %systemroot%, %allusersprofile% vb.)
+[day of month, 1-31]
+ayın günü, 1-31
+[day of month, 01-31]
+ayın günü, 01-31
+[month number, 1-12]
+ay numarası, 1-12
+[month number, 01-12]
+ay numarası, 01-12
+[abbreviated month name]
+kısaltılmış ay adı
+[full month name]
+tam ay adı
+[year without century, 01-99]
+yüzyılın olmadığı yıl, 01-99
+[year with century, 1901-9999]
+yıl ve yüzyıl, 1901-9999
+[abbreviated weekday name]
+hafta içi günlerin kısaltılmış adları
+[full weekday name]
+hafta içi günlerin tam adı
+[Variables]
+Değişkenler
+[Select folder]
+Klasörü seçin
+[Message sessions]
+Mesaj oturumları
+[General]
+Genel
+[Log formatting]
+Günlük biçimlendirme
+;file \plugins\Scriver\src\globals.cpp
+[Add contact]
+Kişi ekle
+[User's history]
+Kullanıcının geçmişi
+[Send message]
+Mesaj gönder
+[Smiley button]
+Gülücük düğmesi
+[User is typing]
+Kullanıcı yazıyor
+[Typing notification off]
+Yazma bildirimi kapalı
+[Sending]
+Gönderme
+[Quote button]
+Alıntı düğmesi
+[Close button]
+Kapat düğmesi
+[Icon overlay]
+Simge üst katmanı
+[Incoming message (10x10)]
+Gelen mesaj (10x10)
+[Outgoing message (10x10)]
+Giden mesaj (10x10)
+[Notice (10x10)]
+Duyuru (10x10)
+[Secure message (10x10)]
+Güvenli mesaj (10x10)
+[Secure verified message (10x10)]
+Güvenli, doğrulanmış mesaj (10x10)
+[Window Icon]
+Pencere Simgesi
+[Text color]
+Metin rengi
+[Background color]
+Arka plan rengi
+[Bold]
+Kalın
+[Italics]
+İtalik
+[Underlined]
+Altı çizili
+[Strikethrough]
+Üstü çizili
+[Room history]
+Oda geçmişi
+[Room settings]
+Oda düzenlemeleri
+[Event filter disabled]
+Olay filtresi devre dışı bırakıldı
+[Event filter enabled]
+Etkinlik filtresi etkinleştirildi
+[Hide nick list]
+Takma ad listesini gizle
+[Show nick list]
+Takma ad listesini göster
+[Message in (10x10)]
+(10x10) boyutundaki mesaj
+[Message out (10x10)]
+Mesaj gönderildi (10x10)
+[Action (10x10)]
+Aksiyon (10x10)
+[Add Status (10x10)]
+Durum Ekle (10x10)
+[Remove status (10x10)]
+Durumu kaldır (10x10)
+[Join (10x10)]
+Katılın (10x10)
+[Leave (10x10)]
+Ayrıl (10x10)
+[Quit (10x10)]
+Çık (10x10)
+[Kick (10x10)]
+Tekme (10x10)
+[Nick change (10x10)]
+Nick değişikliği (10x10)
+[Topic (10x10)]
+Konu (10x10)
+[Highlight (10x10)]
+Vurgu (10x10)
+[Information (10x10)]
+Bilgi (10x10)
+[Single Messaging]
+Tekli Mesajlaşma
+[Group chat events]
+Grup sohbeti etkinlikleri
+[Thai]
+Tayca
+[Japanese]
+Japonca
+[Simplified Chinese]
+Basitleştirilmiş Çince
+[Korean]
+Korece
+[Traditional Chinese]
+Geleneksel Çince
+[Central European]
+Orta Avrupa
+[Cyrillic]
+Kiril alfabesi
+[Latin I]
+Latince I
+[Greek]
+Yunanca
+[Turkish]
+Türkçe
+[Hebrew]
+İbranice
+[Arabic]
+Arapça
+[Baltic]
+Baltık
+[Vietnamese]
+Vietnamca
+[Korean (Johab)]
+Korece (Johab)
+;file \plugins\Scriver\src\input.cpp
+[Navigate: Previous tab]
+Gezinme: Önceki sekme
+[Navigate: Next tab]
+Gezinme: Sonraki sekme
+[Navigate: Tab %d]
+Gezinme: Sekme %d
+[Window: Toggle status bar]
+Pencere: Durum çubuğunu göster/gizle
+[Window: Toggle title bar]
+Pencere: Başlık çubuğunu göster/gizle
+[Window: Toggle toolbar]
+Pencere: Araç çubuğunu göster/gizle
+[Window: Toggle info bar]
+Pencere: Bilgi çubuğunu aç/kapat
+[Window: Clear log]
+Pencere: Günlüğü temizle
+[Window: Minimize]
+Pencere: Küçült
+[Window: Close tab]
+Pencere: Sekmeyi kapat
+[Action: Quote]
+İşlem: Fiyat teklifi
+[Action: Send to all]
+İşlem: Herkese gönder
+[Action: Paste and send]
+İşlem: Yapıştır ve gönder
+;file \plugins\Scriver\src\msgdialog.cpp
+[User menu - %s]
+Kullanıcı menüsü - %s
+;file \plugins\Scriver\src\msglog.cpp
+[Today]
+Bugün
+[Yesterday]
+Dün
+[Me]
+Ben
+[My contact]
+İletişim bilgilerim
+[File sent]
+Dosya gönderildi
+[File received]
+Dosya alındı
+;file \plugins\Scriver\src\msgoptions.cpp
+[Outgoing messages]
+Giden mesajlar
+[Outgoing background]
+Giden arka plan
+[Incoming messages]
+Gelen mesajlar
+[Incoming background]
+Gelen arka plan
+[Outgoing name]
+Giden isim
+[Outgoing time]
+Çıkış saati
+[Outgoing colon]
+Çıkış kolonu
+[Incoming name]
+Gelen isim
+[Incoming time]
+Gelen saat
+[Incoming colon]
+Gelen iki nokta üst üste
+[Message area]
+Mesaj alanı
+[Input area background]
+Giriş alanının arka planı
+[Unused]
+Kullanılmamış
+[Info bar contact name]
+Bilgi çubuğundaki kişi adı
+[Info bar background]
+Bilgi çubuğunun arka planı
+[Info bar status message]
+Bilgi çubuğu durum mesajı
+[Background]
+Arka Plan
+[Line between messages]
+Mesajlar arasındaki satır aralığı
+[Offline]
+Çevrimdışı
+[Online]
+Çevrimiçi
+[Away]
+Deplasman
+[Not available]
+Mevcut değil
+[Occupied]
+İşgal Altında
+[Do not disturb]
+Rahatsız etmeyin
+[Free for chat]
+Sohbet için ücretsiz
+[Invisible]
+Görünmez
+[** New contacts **]
+** Yeni kişiler **
+[** Unknown contacts **]
+** Bilinmeyen kişiler **
+[Event log]
+Olay günlüğü
+[Typing notify]
+"notify" yazma
+;file \plugins\Scriver\src\msgs.cpp
+[%s is typing a message]
+%s bir mesaj yazıyor
+[Typing notification]
+Yazma bildirimi
+[&Quote]
+&Alıntı
+[Quote]
+Alıntı
+[&Add]
+&Ekle
+[Add contact permanently to list]
+Kişiyi listeye kalıcı olarak ekle
+[&User menu]
+&Kullanıcı menüsü
+[User menu]
+Kullanıcı menüsü
+[User &details]
+Kullanıcı ve ayrıntılar
+[View user's details]
+Kullanıcının ayrıntılarını görüntüle
+[&History]
+&Tarihçe
+[View user's history]
+Kullanıcının geçmişini görüntüle
+[&Bold]
+&Kalın
+[Make the text bold]
+Metni kalın yap
+[&Italic]
+&İtalik
+[Make the text italicized]
+Metni italik yapın
+[&Underline]
+&Altı çizili
+[Make the text underlined]
+Metni altı çizili hale getir
+[&Strikethrough]
+&Üstü Çizili
+[Make the text strikethrough]
+Metni üstü çizili hale getir
+[&Color]
+&Renk
+[Select text color]
+Metin rengini seçin
+[&Background color]
+&Arka plan rengi
+[Select background color]
+Arka plan rengini seçin
+[&Room settings]
+&Oda düzenlemeleri
+[Control this room]
+Bu odayı kontrol et
+[&Show/hide nick list]
+&Takma ad listesini göster/gizle
+[Show/hide the nick list]
+Takma ad listesini göster/gizle
+[&Filter]
+&Filtre
+[Enable/disable the event filter]
+Olay filtresini etkinleştir/devre dışı bırak
+[&Message]
+&Mesaj
+[Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda, yerleşik mesaj modülünü yükleyemedi; Msftedit.dll dosyası eksik. WINE kullanıyorsanız, lütfen Msftedit.dll dosyasının kurulu olduğundan emin olun. Miranda'yı yüklemeye devam etmek için 'Evet'e basın.
+[Instant messages]
+Anlık mesajlar
+[Incoming (focused window)]
+Gelenler (odaklanmış pencere)
+[Incoming (unfocused window)]
+Gelen (odaklanmamış pencere)
+[Incoming (new session)]
+Gelen (yeni oturum)
+[Outgoing]
+Giden
+[Contact started typing]
+Contact yazmaya başladı
+[Contact stopped typing]
+İletişim, yazmayı bıraktı
+;file \plugins\Scriver\src\msgtimedout.cpp
+[An unknown error has occurred.]
+Bilinmeyen bir hata oluştu.
+;file \plugins\Scriver\src\msgutils.cpp
+[Sending in progress: %d message(s) left...]
+Gönderme işlemi devam ediyor: geriye %d mesaj kaldı...
+[%s is typing a message...]
+%s bir mesaj yazıyor...
+[Last message received on %s at %s.]
+%s tarihinde %s saatinde alınan son mesaj.
+[%s: chat room (%u user)]
+%s: sohbet odası (%u kullanıcı)
+[%s: chat room (%u users)]
+%s: sohbet odası (%u kullanıcı)
+[%s: message session]
+%s: mesaj oturumu
+[%s: message session (%u users)]
+%s: mesaj oturumu (%u kullanıcı)
+;file \plugins\Scriver\src\sendqueue.cpp
+[The message send timed out.]
+Mesajın gönderilmesi zaman aşımına uğradı.
+;file \plugins\Scriver\src\srmm.cpp
+[Scriver internal log]
+Dahili günlüğü kaydetmek
+;file \plugins\Scriver\src\tabs.cpp
+[Always on top]
+Her zaman zirvede

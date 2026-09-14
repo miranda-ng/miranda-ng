@@ -1,0 +1,779 @@
+;============================================================
+;  Plugin: Weather
+;============================================================
+[AM Rain]
+Sabah Yağmuru
+[Am Clouds / Pm Sun]
+Sabah bulutlu / Öğleden sonra güneşli
+[Am Light Rain]
+Hafif Yağmur
+[Am Rain / Snow Showers]
+Yağmur / Kar Yağışları
+[Am Rain / Snow]
+Yağmur / Kar
+[Am Rain]
+Yağmur
+[Am Showers / Wind]
+Yağmur / Rüzgâr
+[Am Showers]
+Am Duşları
+[Am Snow Showers / Wind]
+Kar Yağışı / Rüzgâr
+[Am Snow Showers]
+Kar Yağışı
+[Am Snow]
+Am Snow
+[Am T-Storms]
+Fırtınalar
+[Blowing Snow]
+Kar Fırtınası
+[Broken Clouds]
+Parçalı Bulutlar
+[Ceiling]
+Tavan
+[Chance Of A Thunderstorm 20% Chance Of Precipitation]
+Gök gürültülü fırtına olasılığı %20, yağış olasılığı
+[Chance Of Rain 20% Chance Of Precipitation]
+Yağmur Olasılığı %20 Yağış Olasılığı
+[Chance Of Rain 30% Chance Of Precipitation]
+Yağmur Olasılığı %30 Yağış Olasılığı
+[Chance Of Rain 40% Chance Of Precipitation]
+Yağmur Olasılığı %40 Yağış Olasılığı
+[Chance Of Rain 50% Chance Of Precipitation]
+Yağmur Olasılığı %50 Yağış Olasılığı
+[Chance Of Rain 60% Chance Of Precipitation]
+Yağmur Olasılığı %60 Yağış Olasılığı
+[Chance Of Rain 70% Chance Of Precipitation]
+Yağmur Olasılığı %70 Yağış Olasılığı
+[Chance Of Rain 80% Chance Of Precipitation]
+Yağmur Olasılığı %80 Yağış Olasılığı
+[Chance Of Rain]
+Yağmur Olasılığı
+[Chance Of Snow 20% Chance Of Precipitation]
+Kar Yağma Olasılığı %20, Yağış Olasılığı
+[Chance Of Snow 30% Chance Of Precipitation]
+Kar Yağma Olasılığı %30, Yağış Olasılığı
+[Chance Of Snow 40% Chance Of Precipitation]
+Kar Yağma Olasılığı %40, Yağış Olasılığı
+[Chance Of Snow 50% Chance Of Precipitation]
+Kar Yağma Olasılığı %50, Yağış Olasılığı
+[Chance Of Snow 60% Chance Of Precipitation]
+Kar Yağışı Olasılığı %60, Yağış Olasılığı
+[Chance Of Snow 70% Chance Of Precipitation]
+Kar Yağma Olasılığı %70, Yağış Olasılığı
+[Chance Of Snow 80% Chance Of Precipitation]
+Kar Yağma Olasılığı %80 Yağış Olasılığı
+[Chance Of Snow]
+Kar Yağma Olasılığı
+[Chance Of T-Storms 20% Chance Of Precipitation]
+Fırtına Olasılığı %20, Yağış Olasılığı
+[Chance Of T-Storms 30% Chance Of Precipitation]
+Fırtına Olasılığı %30, Yağış Olasılığı
+[Chance Of T-Storms 40% Chance Of Precipitation]
+Fırtına Olasılığı %40, Yağış Olasılığı
+[Chance Of T-Storms 50% Chance Of Precipitation]
+Fırtına Olasılığı %50, Yağış Olasılığı
+[Chance Of T-Storms 60% Chance Of Precipitation]
+Fırtına Olasılığı %60, Yağış Olasılığı
+[Chance Of T-Storms 70% Chance Of Precipitation]
+Fırtına Olasılığı %70, Yağış Olasılığı
+[Chance Of T-Storms 80% Chance Of Precipitation]
+Fırtına Olasılığı %80 Yağış Olasılığı
+[Chance Of T-Storms 90% Chance Of Precipitation]
+Fırtına Olasılığı %90, Yağış Olasılığı
+[Chance Rain 40% Chance Of Precipitation]
+Yağmur Olasılığı %40, Yağış Olasılığı %40
+[Chance Rain 50% Chance Of Precipitation]
+Yağmur Olasılığı %50 Yağış Olasılığı
+[Chance Rain 80% Chance Of Precipitation]
+Yağmur Olasılığı %80 Yağış Olasılığı
+[Chance Rain 90% Chance Of Precipitation]
+Yağmur Olasılığı %90 Yağış Olasılığı %90
+[Clear / Wind]
+Açık / Rüzgâr
+[Clear]
+Temizle
+[Clouds Early / Clearing Late]
+Sabah bulutlu / Akşam açacak
+[Cloudy / Wind]
+Bulutlu / Rüzgârlı
+[Cloudy / Windy]
+Bulutlu / Rüzgârlı
+[Cloudy And Windy]
+Bulutlu ve Rüzgârlı
+[Cloudy]
+Bulutlu
+[Day Length]
+Gün Süresi
+[Drifting Snow]
+Kar Fırtınası
+[Drizzle Fog]
+Çiseleyen Sis
+[Drizzle Mist]
+Hafif Yağmur
+[Drizzle]
+Çiseleyen yağmur
+[ENE]
+ENE
+[ESE]
+ESE
+[E]
+E
+[Elevation]
+Yükseklik
+[Fair / Windy]
+Güneşli / Rüzgarlı
+[Fair And Windy]
+Güneşli ve Rüzgârlı
+[Fair]
+Adil
+[Falling]
+Düşüş
+[Feel]
+Hisset
+[Few Showers / Wind]
+Ara sıra sağanak yağış / Rüzgâr
+[Few Showers]
+Ara sıra yağmur
+[Few Snow Showers]
+Ara sıra kar yağışı
+[First Quarter]
+İlk Çeyrek
+[Fog / Windy]
+Sis / Rüzgarlı
+[Fog And Windy]
+Sisli ve Rüzgârlı
+[Fog Late]
+Geç Saatlerde Sis
+[Fog]
+Sis
+[Freezing Drizzle / Windy]
+Donma eşliğinde çiseleyen yağmur / Rüzgârlı
+[Freezing Drizzle Mist]
+Donma Çiseleyen Sis
+[Freezing Drizzle]
+Donma Noktasına Yakın Çiseleyen Yağmur
+[Freezing Fog]
+Donma Sisi
+[Freezing Rain / Windy]
+Donma Yağmuru / Rüzgârlı
+[Freezing Rain Mist]
+Donma Yağmuru Sisi
+[Freezing Rain]
+Donma Yağmuru
+[Full Moon]
+Dolunay
+[Full]
+Tam
+[Haze]
+Sis
+[Heat Index]
+Sıcaklık Endeksi
+[Heavy Blowing Snow]
+Şiddetli Kar Fırtınası
+[Heavy Fog]
+Yoğun Sis
+[Heavy Rain / Wind]
+Şiddetli Yağmur / Rüzgâr
+[Heavy Rain Showers]
+Şiddetli Yağmur Yağışları
+[Heavy Rain]
+Şiddetli Yağmur
+[Heavy Showers Snow Blowing Snow]
+Şiddetli Yağmurlar, Kar Yağışı, Kar Fırtınası
+[Heavy Showers Snow Heavy Blowing Snow]
+Şiddetli Yağmurlar, Yoğun Kar Yağışı, Şiddetli Kar Fırtınası
+[Heavy Showers Snow Mist]
+Şiddetli Yağmurlar, Kar Sisi
+[Heavy Showers Snow]
+Şiddetli Yağmur ve Kar
+[Heavy Snow And Windy]
+Yoğun Kar ve Rüzgârlı
+[Heavy Snow Shower]
+Şiddetli Kar Yağışı
+[Heavy Snow Showers]
+Şiddetli Kar Yağışları
+[Heavy Snow]
+Yoğun Kar Yağışı
+[Heavy T-Storm]
+Şiddetli Fırtına
+[Heavy T-Storms]
+Şiddetli Fırtınalar
+[Heavy Thunderstorm Rain]
+Şiddetli Fırtınalı Yağmur
+[High]
+Yüksek
+[Ice Crystals Mist]
+Buz Kristalleri Sisi
+[Ice Crystals]
+Buz Kristalleri
+[Ice Pellets 30% Chance Of Precipitation]
+Buz taneleri, %30 yağış olasılığı
+[Ice Pellets 40% Chance Of Precipitation]
+Buz Taneleri, Yağış Olasılığı %40
+[Ice Pellets 50% Chance Of Precipitation]
+Buz Taneleri, Yağış Olasılığı %50
+[Ice Pellets 60% Chance Of Precipitation]
+Buz Taneleri – Yağış Olasılığı %60
+[Ice Pellets 70% Chance Of Precipitation]
+Buz Taneleri, Yağış Olasılığı %70
+[Ice Pellets 80% Chance Of Precipitation]
+Buz Taneleri, Yağış Olasılığı %80
+[Ice Pellets 90% Chance Of Precipitation]
+Buz Taneleri – Yağış Olasılığı %90
+[Ice Pellets]
+Buz Taneleri
+[Isolated T-Storms / Wind]
+Yer yer görülen gök gürültülü fırtınalar / Rüzgâr
+[Isolated T-Storms]
+Yer yer görülen gök gürültülü fırtınalar
+[Light Blowing Snow]
+Hafif Kar Yağışı
+[Light Drizzle And Fog]
+Hafif Çiseleyen Yağmur ve Sis
+[Light Drizzle And Windy]
+Hafif Çiseleyen Yağmur ve Rüzgârlı
+[Light Drizzle Fog]
+Hafif Çiseleyen Yağmur, Sis
+[Light Drizzle Mist Patches Fog]
+Hafif Çiseleyen Yağmur, Sis ve Sisli Bölgeler
+[Light Drizzle Mist]
+Hafif Çiseleyen Yağmur
+[Light Drizzle]
+Hafif Çiseleyen Yağmur
+[Light Fog]
+Hafif Sis
+[Light Freezing Drizzle Light Snow Grains Mist]
+Hafif donma, çiseleyen yağmur, hafif kar taneleri, sis
+[Light Freezing Drizzle Light Snow]
+Hafif Donma, Çiseleyen Yağmur, Hafif Kar
+[Light Freezing Drizzle Mist]
+Hafif Donma, Çiseleyen Yağmur, Sis
+[Light Freezing Drizzle Snow]
+Hafif Donma, Çiseleyen Yağmur, Kar
+[Light Freezing Drizzle]
+Hafif, donma eşiğinde çiseleyen yağmur
+[Light Freezing Rain / Fog]
+Hafif Donmuş Yağmur / Sis
+[Light Freezing Rain / Windy]
+Hafif donmuş yağmur / Rüzgârlı
+[Light Freezing Rain Light Showers Snow Mist]
+Hafif Donmuş Yağmur Hafif Sağanak Kar Sisi
+[Light Freezing Rain Light Showers Snow]
+Hafif Donlu Yağmur Hafif Sağanak Kar
+[Light Freezing Rain Light Snow]
+Hafif Donmuş Yağmur Hafif Kar
+[Light Freezing Rain Mist]
+Hafif Donmuş Yağmur Sisi
+[Light Freezing Rain]
+Hafif Donmuş Yağmur
+[Light Ice Pellets Mist]
+Hafif Buz Taneleri Sisi
+[Light Ice Pellets]
+Hafif Buz Topacıkları
+[Light Low Drifting Snow]
+Hafif ve alçak irtifada sürüklenen kar
+[Light Rain / Fog]
+Hafif Yağmur / Sis
+[Light Rain / Freezing Rain]
+Hafif Yağmur / Donma Yağmuru
+[Light Rain / Wind Early]
+Sabah Saatlerinde Hafif Yağmur / Rüzgâr
+[Light Rain / Wind]
+Hafif Yağmur / Rüzgâr
+[Light Rain / Windy]
+Hafif Yağmur / Rüzgârlı
+[Light Rain And Snow]
+Hafif Yağmur ve Kar
+[Light Rain And Windy]
+Hafif Yağmur ve Rüzgârlı
+[Light Rain Early]
+Sabahın erken saatlerinde hafif yağmur
+[Light Rain Fog]
+Hafif Yağmur Sis
+[Light Rain Late]
+Gece Geç Saatlerde Hafif Yağmur
+[Light Rain Mist]
+Hafif Yağmur, Sis
+[Light Rain Shower And Windy]
+Hafif Yağmur ve Rüzgârlı
+[Light Rain Shower]
+Hafif Yağmur
+[Light Rain Showers]
+Hafif Yağmur Yağışları
+[Light Rain Snow Mist]
+Hafif Yağmur, Kar, Sis
+[Light Rain Snow]
+Hafif Yağmur Kar
+[Light Rain With Thunder]
+Gök gürültülü hafif yağmur
+[Light Rain]
+Hafif Yağmur
+[Light Showers Rain Mist]
+Hafif Yağmur, Yağmur Sisi
+[Light Showers Rain Snow Mist]
+Hafif Yağmur, Yağmur, Kar, Sis
+[Light Showers Rain Snow]
+Hafif Yağmur, Yağmur, Kar
+[Light Showers Rain]
+Hafif Yağmur Yağışı
+[Light Showers Showers Rain]
+Hafif Yağmurlar Yağmurlar Yağmur
+[Light Showers Snow Blowing Snow]
+Hafif Yağmurlar Kar Yağıyor Kar
+[Light Showers Snow Light Blowing Snow]
+Hafif Yağmur, Hafif Kar Yağışı, Esen Kar
+[Light Showers Snow Low Drifting Snow]
+Hafif Yağmur, Kar, Az Miktarda Kar Yağışı, Kar Fırtınası
+[Light Showers Snow Mist]
+Hafif Yağmurlar, Kar Sisi
+[Light Showers Snow Rain Mist]
+Hafif Yağmur, Kar, Yağmur, Sis
+[Light Showers Snow Rain]
+Hafif Yağmur, Kar, Yağmur
+[Light Showers Snow]
+Hafif Yağmur ve Kar
+[Light Snow / Fog]
+Hafif Kar / Sis
+[Light Snow 30% Chance Of Precipitation]
+Hafif kar yağışı, yağış olasılığı %30
+[Light Snow And Windy]
+Hafif Kar ve Rüzgârlı
+[Light Snow Blowing Snow]
+Hafif Kar, Kar Fırtınası
+[Light Snow Early]
+Sabah Erken Saatlerde Hafif Kar Yağışı
+[Light Snow Freezing Fog]
+Hafif Kar, Donma Sis
+[Light Snow Grains Mist]
+Hafif Kar Taneleri Sis
+[Light Snow Grains]
+Hafif Kar Taneleri
+[Light Snow Late]
+Gece Geç Saatlerde Hafif Kar Yağışı
+[Light Snow Light Blowing Snow]
+Hafif kar, hafif kar fırtınası
+[Light Snow Low Drifting Snow Mist]
+Hafif kar, az miktarda sürüklenen kar, sis
+[Light Snow Low Drifting Snow]
+Hafif kar, az miktarda kar birikintisi
+[Light Snow Mist]
+Hafif Kar Sisi
+[Light Snow Rain]
+Hafif Kar Yağışı
+[Light Snow Shallow Fog]
+Hafif kar, hafif sis
+[Light Snow Shower And Windy]
+Hafif Kar Yağışı ve Rüzgarlı
+[Light Snow Shower]
+Hafif Kar Yağışı
+[Light Snow Showers]
+Hafif Kar Yağışları
+[Light Snow]
+Hafif Kar
+[Light Thunderstorm Rain]
+Hafif Gök Gürültülü Yağmur
+[Light Thunderstorm]
+Hafif Fırtına
+[Local Time]
+Yerel Saat
+[Low Drifting Snow Mist]
+Alçaktan Süzülen Kar Sisi
+[Low Drifting Snow]
+Hafif Kar Yağışı
+[Low]
+Düşük
+[Mist]
+Sis
+[Moderate]
+Orta
+[Moon phase]
+Ay evresi
+[Moon]
+Ay
+[Moonrise]
+Ayın Doğuşu
+[Moonset]
+Ayın batışı
+[Mostly Clear]
+Çoğunlukla Açık
+[Mostly Cloudy / Wind]
+Çoğunlukla bulutlu / Rüzgârlı
+[Mostly Cloudy And Windy]
+Çoğunlukla bulutlu ve rüzgârlı
+[Mostly Cloudy]
+Çoğunlukla bulutlu
+[Mostly Sunny / Wind]
+Çoğunlukla Güneşli / Rüzgârlı
+[Mostly Sunny]
+Çoğunlukla güneşli
+[NE]
+NE
+[NNE]
+NNE
+[NNW]
+NNW
+[NW]
+NW
+[N]
+N
+[New Moon]
+Yeni Ay
+[Night]
+Gece
+[Observatory]
+Gözlemevi
+[Overcast]
+Bulutlu
+[Partial Fog]
+Kısmi Sis
+[Partially cloudy]
+Kısmen bulutlu
+[Partially sunny]
+Kısmen güneşli
+[Partly Cloudy / Wind]
+Kısmen Bulutlu / Rüzgâr
+[Partly Cloudy / Windy]
+Kısmen Bulutlu / Rüzgarlı
+[Partly Cloudy And Windy]
+Kısmen Bulutlu ve Rüzgarlı
+[Partly Cloudy]
+Kısmen bulutlu
+[Partly Sunny]
+Kısmen Güneşli
+[Patches Fog Mist]
+Patches Sis
+[Patches Fog]
+Patches Fog
+[Pm Light Rain]
+Öğleden sonra hafif yağmur
+[Pm Rain / Snow]
+Öğleden Sonra Yağmur / Kar
+[Pm Rain / Wind]
+Öğleden Sonra Yağmur / Rüzgâr
+[Pm Rain]
+Öğleden Sonra Yağmur
+[Pm Showers / Wind]
+Öğleden Sonra Yağmur / Rüzgâr
+[Pm Showers]
+Öğleden Sonra Yağmurları
+[Pm Snow Showers]
+Öğleden Sonra Kar Yağışı
+[Pm Snow]
+Başbakan Snow
+[Pm T-Storms]
+Öğleden Sonra Fırtınalar
+[Precipitation]
+Yağış
+[Pressure Change]
+Basınç Değişimi
+[Pressure Tendency]
+Basınç Eğilimi
+[Rain / Freezing Rain / Wind]
+Yağmur / Donmuş Yağmur / Rüzgâr
+[Rain / Freezing Rain]
+Yağmur / Donma Yağmuru
+[Rain / Snow / Wind]
+Yağmur / Kar / Rüzgâr
+[Rain / Snow Early]
+Erken Yağmur / Kar
+[Rain / Snow Late]
+Yağmur / Kar Geç
+[Rain / Snow Showers Early]
+Sabahın erken saatlerinde yağmur / kar sağanakları
+[Rain / Snow Showers Late]
+Gece Geç Saatlerde Yağmur / Kar Yağışları
+[Rain / Snow Showers]
+Yağmur / Kar Yağışları
+[Rain / Snow]
+Yağmur / Kar
+[Rain / Thunder]
+Yağmur / Gök gürültüsü
+[Rain / Wind Early]
+Yağmur / Rüzgâr – Sabahın Erken Saatlerinde
+[Rain / Wind]
+Yağmur / Rüzgâr
+[Rain 100% Chance Of Precipitation]
+Yağmur, Yağış Olasılığı %100
+[Rain 20% Chance Of Precipitation]
+Yağmur, yağış olasılığı %20
+[Rain 40% Chance Of Precipitation]
+Yağmur, yağış olasılığı %40
+[Rain 50% Chance Of Precipitation]
+Yağmur – Yağış Olasılığı %50
+[Rain 60% Chance Of Precipitation]
+Yağmur, Yağış Olasılığı %60
+[Rain 70% Chance Of Precipitation]
+Yağmur, Yağış Olasılığı %70
+[Rain 80% Chance Of Precipitation]
+Yağmur, Yağış Olasılığı %80
+[Rain 90% Chance Of Precipitation]
+Yağmur, Yağış Olasılığı %90
+[Rain And Snow]
+Yağmur ve Kar
+[Rain Early]
+Erken Yağmur
+[Rain Fog]
+Yağmur Sis
+[Rain Late]
+Geç Yağmur
+[Rain Mist]
+Yağmur Sisi
+[Rain Shower]
+Yağmur Duşu
+[Rain Showers]
+Yağmur Sağanakları
+[Rain To Snow]
+Yağmurdan Kara
+[Rain]
+Yağmur
+[Rising]
+Yükselen
+[SE]
+SE
+[SSE]
+SSE
+[SSW]
+SSW
+[SW]
+SW
+[S]
+S
+[Sand]
+Kum
+[Scattered Clouds]
+Dağınık Bulutlar
+[Scattered Showers]
+Yer yer sağanak yağışlar
+[Scattered Snow Showers]
+Ara sıra kar yağışı
+[Scattered T-Storms / Wind]
+Dağınık Fırtınalar / Rüzgâr
+[Scattered T-Storms]
+Dağınık Fırtınalar
+[Scattered Thunderstorms]
+Yer yer gök gürültülü sağanak yağışlar
+[Shallow Fog]
+Hafif Sis
+[Showers / Wind Late]
+Yağmur / Rüzgâr Geç Saatlerde
+[Showers / Wind]
+Yağmur / Rüzgâr
+[Showers Early]
+Erken Yağmurlar
+[Showers In The Vicinity]
+Çevrede Yağmurlar
+[Showers Late]
+Geç Saatlerde Yağmur Yağacak
+[Showers Rain Snow]
+Sağanak Yağmur Kar
+[Showers Rain]
+Sağanak Yağmur
+[Showers Showers Rain]
+Sağanak Yağmur Yağmur
+[Showers Snow Blowing Snow]
+Yağmur, Kar, Kar Yağışı
+[Showers Snow Heavy Blowing Snow]
+Sağanak Yağmur, Yoğun Kar Yağışı, Kar Fırtınası
+[Showers Snow Low Drifting Snow]
+Sağanak Yağmur Kar Hafif Kar Kar Fırtınası
+[Showers Snow Mist]
+Yağmur, Kar, Sis
+[Showers Snow Rain]
+Sağanak Yağmur Kar
+[Showers Snow]
+Yağmur ve Kar
+[Showers]
+Duşlar
+[Sleet And Windy]
+Karla Karışık Yağmur ve Rüzgârlı
+[Sleet]
+Karla karışık yağmur
+[Smoke]
+Duman
+[Snow / Wind Early]
+Kar / Rüzgâr Erken
+[Snow / Wind]
+Kar / Rüzgâr
+[Snow / Windy]
+Kar / Rüzgârlı
+[Snow 100% Chance Of Precipitation]
+Kar – Yağış Olasılığı %100
+[Snow 20% Chance Of Precipitation]
+Kar – Yağış Olasılığı %20
+[Snow 30% Chance Of Precipitation]
+Kar – Yağış Olasılığı %30
+[Snow 40% Chance Of Precipitation]
+Kar – Yağış Olasılığı %40
+[Snow 50% Chance Of Precipitation]
+Kar – Yağış Olasılığı %50
+[Snow 60% Chance Of Precipitation]
+Kar – Yağış Olasılığı %60
+[Snow 70% Chance Of Precipitation]
+Kar – Yağış Olasılığı %70
+[Snow 80% Chance Of Precipitation]
+Kar Yağışı Olasılığı %80
+[Snow 90% Chance Of Precipitation]
+Kar – Yağış Olasılığı %90
+[Snow And Sleet]
+Kar ve Karla Karışık Yağmur
+[Snow Blowing Snow]
+Kar, Karı Üfler
+[Snow Early]
+Erken Kar
+[Snow Freezing Rain Mist]
+Kar, Donmuş Yağmur, Sis
+[Snow Freezing Rain]
+Kar, Donmuş Yağmur
+[Snow Grains]
+Kar Taneleri
+[Snow Heavy Blowing Snow]
+Yoğun Kar, Fırtınalı Kar
+[Snow Mist]
+Kar Sisi
+[Snow Rain Mist]
+Kar Yağmur Sis
+[Snow Rain]
+Kar Yağmur
+[Snow Shower / Wind]
+Kar Yağışı / Rüzgâr
+[Snow Shower And Windy]
+Kar Yağışı ve Rüzgarlı
+[Snow Shower]
+Kar Yağışı
+[Snow Showers / Wind Early]
+Kar Yağışları / Sabah Erken Saatlerde Rüzgâr
+[Snow Showers 30% Chance Of Precipitation]
+Kar Yağışları, Yağış Olasılığı %30
+[Snow Showers 40% Chance Of Precipitation]
+Kar Yağışı, Yağış Olasılığı %40
+[Snow Showers 50% Chance Of Precipitation]
+Kar Yağışları, Yağış Olasılığı %50
+[Snow Showers 60% Chance Of Precipitation]
+Kar Yağışları, Yağış Olasılığı %60
+[Snow Showers 70% Chance Of Precipitation]
+Kar Yağışları, Yağış Olasılığı %70
+[Snow Showers 80% Chance Of Precipitation]
+Kar Yağışları, Yağış Olasılığı %80
+[Snow Showers Early]
+Erken Saatlerde Kar Yağışı
+[Snow Showers Late]
+Gece Geç Saatlerde Kar Yağışı
+[Snow Showers]
+Kar Yağışları
+[Snow To Rain]
+Kardan Yağmura
+[Snow To Wintry Mix]
+Kardan Kış Karışımına
+[Snow]
+Kar
+[Stable]
+Kararlı
+[Steady]
+Sabit
+[Sunny / Wind]
+Güneşli / Rüzgârlı
+[Sunny / Windy]
+Güneşli / Rüzgârlı
+[Sunny]
+Güneşli
+[T-Showers Early]
+T-Showers Erken
+[T-Showers]
+T-Duşlar
+[T-Storm]
+T-Storm
+[T-Storms 100% Chance Of Precipitation]
+Fırtınalar: Yağış Olasılığı %100
+[T-Storms 30% Chance Of Precipitation]
+Fırtınalar: Yağış Olasılığı %30
+[T-Storms 40% Chance Of Precipitation]
+Fırtınalar: Yağış Olasılığı %40
+[T-Storms 50% Chance Of Precipitation]
+Fırtınalar: Yağış Olasılığı %50
+[T-Storms 60% Chance Of Precipitation]
+Fırtınalar: Yağış Olasılığı %60
+[T-Storms 70% Chance Of Precipitation]
+Fırtınalar: Yağış Olasılığı %70
+[T-Storms 80% Chance Of Precipitation]
+Fırtınalar: Yağış Olasılığı %80
+[T-Storms 90% Chance Of Precipitation]
+Fırtınalar: Yağış Olasılığı %90
+[T-Storms Early]
+Erken Dönem Fırtınalar
+[T-Storms Late]
+Geç Saatlerde Fırtınalar
+[T-Storms]
+Fırtınalar
+[Temperature]
+Sıcaklık
+[Thunder In The Vicinity]
+Yakınlarda Gök Gürültüsü
+[Thunderstorm Rain]
+Fırtınalı Yağmur
+[Thunderstorm]
+Fırtına
+[Thunderstorms And Rain]
+Fırtınalar ve Yağmur
+[UV Index]
+UV Endeksi
+[UVI]
+UVI
+[UV]
+UV
+[Visible Light Length]
+Görünür Işık Uzunluğu
+[WNW]
+WNW
+[WSW]
+WSW
+[W]
+W
+[Waning Crescent]
+Azalan Hilal
+[Waning Gibbous]
+Azalan Dolunay
+[Waxing Crescent]
+Hafifleyen Hilal
+[Waxing Gibbous]
+Dolunaya doğru ilerleyen ay
+[West]
+Batı
+[Wind Chill]
+Rüzgâr Soğukluğu
+[Wind Direction DEG]
+Rüzgâr Yönü (DEG)
+[Wind Direction Degrees]
+Rüzgâr Yönü (Derece)
+[Wind Direction]
+Rüzgâr Yönü
+[Wind Gust]
+Rüzgâr Sürüsü
+[Wind Speed]
+Rüzgâr Hızı
+[Wind direction]
+Rüzgâr yönü
+[Wind speed]
+Rüzgâr hızı
+[Wintry Mix / Wind]
+Kışa Özgü Yağış Karışımı / Rüzgâr
+[Forecast Day 0]
+Tahmin Günü 0
+[Forecast Day 1]
+1. Gün Tahmini
+[Forecast Day 2]
+2. Gün Tahmini
+[Forecast Day 3]
+3. Gün Hava Durumu Tahmini
+[Forecast Day 4]
+4. Gün Tahmini
+[Forecast Day 5]
+5. Gün Hava Durumu Tahmini
+[Forecast Day 6]
+6. Gün Tahmini
+[Forecast Day 7]
+7. Gün Hava Durumu Tahmini
+[Forecast Day 8]
+8. Gün Tahmini
+[Forecast Day 9]
+9. Gün Tahmini

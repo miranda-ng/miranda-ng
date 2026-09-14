@@ -1,0 +1,73 @@
+#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
+;============================================================
+;  File: QuickMessages.dll
+;  Plugin: Quick messages
+;  Version: 0.0.4.2
+;  Authors: MaD_CLuSTeR
+;============================================================
+[Plugin for quick insert pre-defined messages in message input area.]
+Mesaj giriş alanına önceden tanımlanmış mesajları hızlı bir şekilde eklemek için kullanılan eklenti.
+;file \plugins\QuickMessages\res\quickmessages.rc
+[Button Right-Click value]
+Düğmeye sağ tıklama değeri
+[Button Left-Click menu]
+Düğme Sol Tıklama Menüsü
+[Buttons]
+Düğmeler
+[Menu entry value:]
+Menü öğesi değeri:
+[Misc.]
+Çeşitli
+[Auto-send on Left-Click]
+Sol Tıklamada Otomatik Gönderme
+[Auto-send on Right-Click]
+Sağ Tıklamada Otomatik Gönderme
+[Add to QuickMenu]
+Hızlı Menü’ye Ekle
+[Enable QuickMenu]
+Hızlı Menü'yü etkinleştir
+[Consider as ServiceName]
+ServiceName olarak düşünün
+[You have changed the plugin settings via database.\nThis requires restart!]
+Eklenti ayarlarını veritabanı üzerinden değiştirdiniz.\nBunun için yeniden başlatma gerekiyor!
+[Quick Messages Help]
+Hızlı Mesajlar Yardımı
+[- Selected text]
+- Seçili metin
+[List of variables:]
+Değişkenler listesi:
+[- Text from Clipboard]
+- Pano'dan metin
+[- Contacts Protocol name (upper case)]
+- Kişiler Protokol adı (büyük harflerle)
+[- Contact display name]
+- İletişim ekran adı
+[Tips:]
+İpuçları:
+[*Rename menu item into "---" to insert separator]
+*Ayırıcı eklemek için menü öğesinin adını "---" olarak değiştirin
+[*Use drag'n'drop for arranging menu items]
+*Menü öğelerini düzenlemek için sürükle ve bırak özelliğini kullanın
+[- Contact first name]
+- İrtibat kişisinin adı
+[- Contact last name]
+- İrtibat kişisinin soyadı
+;file \plugins\QuickMessages\src\main.cpp
+[Quick Messages]
+Hızlı Mesajlar
+;file \plugins\QuickMessages\src\options.cpp
+[Enter Value]
+Değer Girin
+[Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D]
+Tebrikler!\r\nBu düğmeye 100 kez tıkladınız!\r\nBu noktada bir erişim ihlali meydana geldi...\r\nVe şimdi kaynakları serbest bırakmak için işlev çağrılmalı...\r\nAma hayır! Sadece bir break var :D
+[You win!]
+Sen kazandın!
+[New Button]
+Yeni Düğme
+[New Menu Entry]
+Yeni Menü Öğesi
+[Message sessions]
+Mesaj oturumları
+;file \plugins\QuickMessages\src\Utils.cpp
+[Quick Messages Button %u]
+Hızlı Mesajlar Düğmesi %u

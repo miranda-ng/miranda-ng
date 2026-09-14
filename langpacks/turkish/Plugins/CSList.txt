@@ -1,0 +1,92 @@
+#muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
+;============================================================
+;  File: CSList.dll
+;  Plugin: Custom status list
+;  Version: 0.1.1.0
+;  Authors: Mataes, jarvis
+;============================================================
+[This plugin offers simple management functions to keep your extra statuses on one place.]
+Bu eklenti, ek durumlarınızı tek bir yerde tutmanıza olanak tanıyan basit yönetim işlevleri sunar.
+;file \plugins\CSList\res\cslist.rc
+[Custom Status List]
+Özel Durum Listesi
+[No items available in the database.\nClick the Add button to define some.]
+Veritabanında hiçbir öğe bulunmuyor.\nBazı öğeler tanımlamak için Ekle düğmesine tıklayın.
+[Add/Modify Custom Status]
+Özel Durum Ekle/Değiştir
+[Add/Modify]
+Ekle/Değiştir
+[Cancel]
+İptal et
+[List settings]
+Ayarları listele
+[Confirm deletion of items]
+Öğelerin silinmesini onaylayın
+[Delete entries in Custom status menu after Import]
+İçe aktarma işleminden sonra “Özel durum” menüsündeki girişleri sil
+[Remember last window position]
+Son pencere konumunu hatırla
+[Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
+Not: Menü öğeleri, en az bir hesap doğru şekilde ayarlandığında görünür. UIN alanı doldurulmuş en az bir hesabınız olup olmadığını kontrol edin.
+;file \plugins\CSList\src\cslist.cpp
+[Add new item]
+Yeni öğe ekle
+[Add]
+Ekle
+[Modify item]
+Öğeyi düzenle
+[Modify]
+Değiştir
+[Warning]
+Uyarı
+[This field doesn't accept string longer than %d characters. The string will be truncated.]
+Bu alana %d karakterden daha uzun bir dize girilemez. Dize kesilecektir.
+[Favorites]
+Favoriler
+[Regular statuses]
+Sıradan durumlar
+[Title]
+Başlık
+[Message]
+Mesaj
+[Do you really want to delete selected item?]
+Seçilen öğeyi gerçekten silmek istiyor musunuz?
+[Do you want old database entries to be deleted after Import?]
+İçe aktarma işleminden sonra eski veritabanı kayıtlarının silinmesini istiyor musunuz?
+;file \plugins\CSList\src\stdafx.h
+[Main Menu]
+Ana Menü
+[Main Icon]
+Ana Simge
+[Modify selected item]
+Seçili öğeyi düzenle
+[Delete selected item]
+Seçili öğeyi sil
+[Remove]
+Kaldır
+[Set/unset current item as favorite]
+Mevcut öğeyi favorilere ekle/favorilerden çıkar
+[Favorite]
+Favoriler
+[Undo changes]
+Değişiklikleri geri al
+[Import statuses from database]
+Veritabanından durumları içe aktar
+[Import]
+İthalat
+[Filter list]
+Filtre listesi
+[Filter]
+Filtre
+[Close without changing custom status]
+Özel durumu değiştirmeden kapat
+[No change]
+Değişiklik yok
+[Clear custom status (reset to None) and close]
+Özel durumu sil (Yok olarak sıfırla) ve kapat
+[Clear]
+Temizle
+[Set custom status to selected one and close]
+Seçilen duruma özel durum atayın ve kapatın
+[Set]
+Set

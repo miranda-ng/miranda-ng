@@ -1,0 +1,397 @@
+#muuid {1ad11c86-caab-4372-a0a4-8b1168d51b9e}
+;============================================================
+;  File: NewStory.dll
+;  Plugin: NewStory
+;  Version: 0.2.0.3
+;  Authors: nullbie
+;============================================================
+[History viewer for Miranda NG.]
+Miranda NG için geçmiş görüntüleyici.
+;file \plugins\NewStory\res\resource.rc
+[Messages]
+Mesajlar
+[Files]
+Dosyalar
+[URLs]
+URL'ler
+[Total]
+Toplam
+[Incoming]
+Gelen
+[Outgoing]
+Giden
+[since]
+o zamandan beri
+[till]
+kadar
+[Log window]
+Günlük penceresi
+[Group messages]
+Grup mesajları
+[Enable vertical scroll bar]
+Dikey kaydırma çubuğunu etkinleştir
+[Draw window edge]
+Pencere kenarını çiz
+[Ascending events sort order]
+Etkinliklerin artan sıralama düzeni
+[History++ compatiblity mode]
+History++ uyumluluk modu
+[Show event type]
+Etkinlik türünü göster
+[Show event direction]
+Etkinliğin yönünü göster
+[Show picture preview]
+Resim önizlemesini göster
+[Maximum preview height (in pixels)]
+Maksimum önizleme yüksekliği (piksel cinsinden)
+[Template list:]
+Şablon listesi:
+[Edit template:]
+Şablonu düzenle:
+[Graphic preview:]
+Grafik önizlemesi:
+[Text preview:]
+Metin önizlemesi:
+[[c2]]
+[c2]
+[[c4]]
+[c4]
+[[c6]]
+[c6]
+[[c3]]
+[c3]
+[[c5]]
+[c5]
+[Empty history]
+Geçmişi boşalt
+[Do you really want to delete selected item?]
+Seçilen öğeyi gerçekten silmek istiyor musunuz?
+[Remove server history]
+Sunucu geçmişini sil
+[Remove history for everyone]
+Herkesin geçmişini sil
+[&Yes]
+&Evet
+[&No]
+&Hayır
+[Filter]
+Filtre
+[Show all events]
+Tüm etkinlikleri göster
+[Show incoming events only]
+Yalnızca gelen etkinlikleri göster
+[Show outgoing events only]
+Yalnızca giden etkinlikleri göster
+[Use custom filter...]
+Özel filtreyi kullan...
+[Incoming events]
+Yaklaşan etkinlikler
+[Outgoing events]
+Dış etkinlikler
+[Show messages]
+Mesajları göster
+[Show file transfers]
+Dosya aktarımlarını göster
+[Show URLs]
+URL'leri göster
+[Show sign in/out events]
+Giriş/çıkış olaylarını göster
+[Show other events]
+Diğer etkinlikleri göster
+[Auto search]
+Otomatik arama
+[Log options]
+Günlük seçenekleri
+[Options]
+Seçenekler
+[Templates]
+Şablonlar
+;file \plugins\NewStory\src\fonts.cpp
+[Incoming name]
+Gelen isim
+[Outgoing name]
+Giden isim
+[Incoming messages]
+Gelen mesajlar
+[Outgoing messages]
+Giden mesajlar
+[Incoming files]
+Gelen dosyalar
+[Outgoing files]
+Giden dosyalar
+[Status changes]
+Durum değişiklikleri
+[Other incoming events]
+Yaklaşan diğer etkinlikler
+[Other outgoing events]
+Diğer dış etkinlikler
+[Selected item's text]
+Seçilen öğenin metni
+[Selected item's background]
+Seçilen öğenin arka planı
+[Selected item's frame]
+Seçilen öğenin çerçevesi
+[Highlighted messages]
+Vurgulanmış mesajlar
+[Grid background]
+Izgara arka planı
+[Quoting]
+Alıntı
+[Separator]
+Ayırıcı
+[Progress indicator]
+İlerleme göstergesi
+[Links]
+Bağlantılar
+;file \plugins\NewStory\src\history_array.cpp
+[Unnamed]
+İsimsiz
+[ %u KB]
+ %u KB
+;file \plugins\NewStory\src\history_control.cpp
+[Toggle bookmark]
+Yer imini aç/kapat
+[Search]
+Arama
+[Search forward]
+İleriye doğru arama
+[Search backward]
+Geriye doğru arama
+[Open links]
+Bağlantıları aç
+[Do you really want to delete selected items (%d)?]
+Seçili öğeleri (%d) gerçekten silmek istiyor musunuz?
+;file \plugins\NewStory\src\history_dlg.cpp
+[Global history search]
+Küresel tarih araması
+[All results]
+Tüm sonuçlar
+[Copy]
+Kopyala
+[Export...]
+Dışa aktar...
+[Delete...]
+Sil...
+[Search...]
+Ara...
+[Send message]
+Mesaj gönder
+[Jump to date]
+Tarihe atla
+[User info]
+Kullanıcı bilgileri
+[User menu]
+Kullanıcı menüsü
+[Find next]
+Sonrakini bul
+[Find previous]
+Önceki sayıyı bul
+[Conversations]
+Sohbetler
+[Bookmarks]
+Yer imleri
+[You need to install the Import plugin to export events]
+Etkinlikleri dışa aktarmak için Import eklentisini yüklemeniz gerekir
+[No more occurrences found]
+Başka örnek bulunamadı
+[Passed the end of history]
+Tarihin sonunu geride bıraktı
+[The required plugin 'Import' isn't loaded to perform this operation.]
+Bu işlemi gerçekleştirmek için gerekli olan 'Import' eklentisi yüklenmemiştir.
+[Do you want to install it using Plugin Updater?]
+Plugin Updater'ı kullanarak yüklemek ister misiniz?
+[Missing plugin]
+Eksik eklenti
+[It is metacontact. For export use one of this subcontacts:\r\n%s]
+Bu bir meta-iletişimdir. Dışa aktarma için aşağıdaki alt iletişimlerden birini kullanın:\r\n%s
+[Export warning]
+Dışa aktarma uyarısı
+[JSON files]
+JSON dosyaları
+[Export history]
+İhracat geçmişi
+[Complete]
+Tamamla
+[History export]
+Geçmiş verilerinin dışa aktarılması
+[Passed the beginning of history]
+Tarihin başlangıcını geride bıraktı
+;file \plugins\NewStory\src\history_menus.cpp
+[History]
+Tarihçe
+[Global search]
+Genel arama
+[Copy text]
+Metni kopyala
+[Copy URL]
+URL'yi kopyala
+[Copy file path]
+Dosya yolunu kopyala
+[Show in folder]
+Klasörde göster
+[Quote]
+Alıntı
+[Save as]
+Farklı kaydet
+[Download]
+İndir
+[Edit]
+Düzenle
+[Delete]
+Sil
+[Select all]
+Tümünü seç
+[Reply]
+Yanıtla
+;file \plugins\NewStory\src\main.cpp
+[Main icon]
+Ana simge
+[Export]
+Dışa Aktar
+[Bookmark]
+Yer imi
+[Incoming message]
+Gelen mesaj
+[Outgoing message]
+Giden mesaj
+[User signed in]
+Kullanıcı oturum açtı
+[Unknown event]
+Bilinmeyen olay
+[Template group]
+Şablon grubu
+[Cancel edit]
+Düzenlemeyi iptal et
+[Downloaded]
+İndirildi
+[Delivered]
+Teslim edildi
+[Remote read]
+Uzaktan okuma
+[Help]
+Yardım
+;file \plugins\NewStory\src\options.cpp
+[Reset to default]
+Varsayılan ayarlara sıfırla
+[Variables help]
+Değişkenler hakkında yardım
+[Test contact]
+Test irtibat bilgisi
+[The quick brown fox jumps over the lazy dog.]
+Hızlı kahverengi tilki, tembel köpeğin üzerinden atlar.
+[simply % character]
+sadece % karakteri
+[a "hard" line break (cr/lf - will break indent)]
+"sert" satır sonu (cr/lf - girintiyi bozar)
+[my nickname]
+takma adım
+[buddy\'s nickname]
+arkadaşın takma adı
+[event count]
+olay sayısı
+[direction symbol]
+yön simgesi
+[timestamp]
+zaman damgası
+[hour (24 hour format, 0-23)]
+saat (24 saatlik biçim, 0-23)
+[hour (12 hour format)]
+saat (12 saatlik format)
+[minute]
+dakika
+[second]
+ikinci
+[month]
+ay
+[day of month]
+ayın günü
+[year (4 digits)]
+yıl (4 basamaklı)
+[day of week (Sunday, Monday... translatable)]
+haftanın günü (Pazar, Pazartesi... çevrilebilir)
+[AM/PM symbol]
+AM/PM simgesi
+[name of month, translatable]
+ayın adı, çevrilebilir
+[the message string itself]
+mesaj dizesi
+[default text color]
+varsayılan metin rengi
+[nickname's color]
+takma adın rengi
+[one of the user defined custom color from the options page for the following text output (X is a number from 2 to 6, referring to the color index)]
+aşağıdaki metin çıktısı için seçenekler sayfasındaki kullanıcı tanımlı özel renklerden biri (X, renk dizinini ifade eden 2 ile 6 arasında bir sayıdır)
+[Advanced]
+İleri Düzey
+;file \plugins\NewStory\src\templates.cpp
+[Sunday]
+Pazar
+[Monday]
+Pazartesi
+[Tuesday]
+Salı
+[Wednesday]
+Çarşamba
+[Thursday]
+Perşembe
+[Friday]
+Cuma
+[Saturday]
+Cumartesi
+[January]
+Ocak
+[February]
+Şubat
+[March]
+Mart
+[April]
+Nisan
+[May]
+Mayıs
+[June]
+Haziran
+[July]
+Temmuz
+[August]
+Ağustos
+[September]
+Eylül
+[October]
+Ekim
+[November]
+Kasım
+[December]
+Aralık
+[System history]
+Sistem geçmişi
+[System event]
+Sistem olayı
+[Interface]
+Arayüz
+[Window title]
+Pencere başlığı
+[%N - history [%c messages total]]
+%N - geçmiş [toplam %c mesaj]
+[Message log]
+Mesaj günlüğü
+[Group head]
+Grup başkanı
+[Grouped messages]
+Gruplandırılmış mesajlar
+[Presence requests]
+Katılım talepleri
+[Other events]
+Diğer etkinlikler
+[Authorization requests]
+Yetki talepleri
+['You were added' events]
+"Eklendiniz" olayları
+['You were deleted' events]
+"Silindin" olayları
+[Clipboard]
+Pano
+;file \plugins\NewStory\src\webpage.cpp
+[This url might launch an executable program or virus, are you sure?]
+Bu URL, çalıştırılabilir bir programı veya virüsü başlatabilir; emin misiniz?
+[Potentially dangerous URL]
+Potansiyel olarak tehlikeli URL

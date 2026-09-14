@@ -1,0 +1,47 @@
+#muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
+;============================================================
+;  File: NoHistory.dll
+;  Plugin: NoHistory
+;  Version: 0.2.3.3
+;  Authors: Scott Ellis, NightFox
+;============================================================
+[Prevent Miranda from storing any history.]
+Miranda’nın herhangi bir geçmişi kaydetmesini engelleyin.
+;file \plugins\NoHistory\res\NoHistory.rc
+[Keep history for this contact]
+Bu kişinin geçmişini sakla
+[Disable history for this contact]
+Bu kişinin geçmişini devre dışı bırak
+[Remove history on startup]
+Başlangıçta geçmişi sil
+;file \plugins\NoHistory\src\dllmain.cpp
+[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
+Bu işlem, bu kişinin tüm geçmişini KALICI OLARAK SİLECEKTİR.\nBunu yapmak istediğinizden emin misiniz?
+[Clear History]
+Geçmişi Temizle
+[Enable History]
+Geçmişi Etkinleştir
+[Disable History]
+Geçmişi Devre Dışı Bırak
+[History Enabled]
+Tarih Özelliği Etkin
+[History Disabled]
+Geçmiş Devre Dışı
+;file \plugins\NoHistory\src\icons.cpp
+[Disable]
+Devre dışı bırak
+[Enable]
+Etkinleştir
+[Clear]
+Temizle
+[No History]
+Geçmiş Yok
+;file \plugins\NoHistory\src\options.cpp
+[** All contacts **]
+** Tüm kişiler **
+[** New contacts **]
+** Yeni kişiler **
+[History]
+Tarihçe
+[Logging]
+Ağaç kesimi

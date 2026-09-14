@@ -1,0 +1,860 @@
+#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
+;============================================================
+;  File: Actman.dll
+;  Plugin: Action manager
+;  Version: 0.3.0.1
+;  Authors: Awkward
+;============================================================
+[Plugin for manage hotkeys to open contact window, insert text, run program and call services]
+Kişi penceresini açmak, metin eklemek, program çalıştırmak ve hizmetleri çağırmak için kısayol tuşlarını yönetmeye yarayan eklenti
+[Services]
+Hizmetler
+[Apply]
+Başvur
+[New]
+Yeni
+[Delete]
+Sil
+[Up]
+Yukarı
+[Down]
+Aşağı
+[Test]
+Test
+[Import]
+İthalat
+[Action "$" exists, do you want to rewrite it?]
+"$" eylemi mevcut; bunu yeniden yazmak istiyor musunuz?
+[Choose action]
+Eylem seçin
+[&Yes]
+&Evet
+[&No]
+&Hayır
+[A&ppend]
+A&ekle
+[Yes to &All]
+&All’a evet
+[N&o to All]
+Herkese N&o
+[Export]
+Dışa Aktar
+[Reload/Refresh]
+Yeniden Yükle/Güncelle
+[Registered actions]
+Kayıtlı işlemler
+[Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
+Actman ayarlarınız eski sürüme aittir. Ayarları güncellemeye hazırsanız, “Tamam” düğmesine basın. Aksi takdirde, “İptal” düğmesine basın ve Actman eklentisini manuel olarak eski sürüme geri döndürün ya da ayarlarınızın yedeğini alın. Daha önce dışa aktarılmış makroları korumak için lütfen dönüştürme işleminden önce bunları geri içe aktarın.
+[Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
+Lütfen, kaydedilmemiş makrolar için makro testi kullanmayın. Daha önce “Gelişmiş” veya dosya yazma eylemleriniz varsa, bunları kontrol edin; bu eylemlerin işleyişi değiştirilmiştir.
+[Actman settings converted to new version]
+Actman ayarları yeni sürüme dönüştürüldü
+[Actions]
+Eylemler
+[No description]
+Açıklama yok
+[Reload]
+Yeniden Yükle
+[Append data to file?]
+Verileri dosyaya eklemek mi?
+[Help]
+Yardım
+[Action]
+Eylem
+[Notes]
+Notlar
+[INI]
+INI
+[Read]
+Oku
+[Write]
+Yaz
+[INI file name]
+INI dosya adı
+[Text Editor]
+Metin Düzenleyici
+[Script]
+Senaryo
+[Wrap Text]
+Metni Sığdır
+[C&ancel]
+C&iptal
+[Section]
+Bölüm
+[Parameter]
+Parametre
+[Value]
+Değer
+[Use LastResult]
+LastResult'u kullanın
+[UTF-8 encoding]
+UTF-8 kodlaması
+[Function call]
+İşlev çağrısı
+[Function name]
+İşlev adı
+[DLL name]
+DLL adı
+[Call type]
+Çağrı türü
+[Arguments]
+Gerekçeler
+[Number of arguments]
+Argüman sayısı
+[Argument]
+Argüman
+[Param]
+Param
+[Param type]
+Param türü
+[number value]
+sayı değeri
+[ANSI string]
+ANSI dizesi
+[Unicode string]
+Unicode dizesi
+[current contact]
+mevcut kişi
+[last result]
+son sonuç
+[parameter]
+parametre
+[structure]
+yapı
+[ANSI message]
+ANSI mesajı
+[ANSI caption]
+ANSI altyazı
+[Structure]
+Yapı
+[Structure editor]
+Yapı düzenleyicisi
+[alias]
+takma ad
+[type]
+tür
+[length]
+uzunluk
+[data]
+veriler
+[Data align]
+Verilerin hizalanması
+[Native]
+Yerli
+[Packed]
+Dolu
+[2 bytes]
+2 bayt
+[4 bytes]
+4 bayt
+[8 bytes]
+8 bayt
+[Byte]
+Byte
+[Word]
+Word
+[DWord]
+DWord
+[QWord]
+QWord
+[NativeInt]
+NativeInt
+[Byte Array]
+Bayt Dizisi
+[Word Array]
+Kelime Dizisi
+[Pointer to bytes]
+Baytlara işaretçi
+[Pointer to words]
+Kelimelere işaretçi
+[Last result]
+Son sonuç
+[Data length]
+Veri uzunluğu
+[Use Variables]
+Değişkenleri Kullanma
+[V]
+V
+[Structure size]
+Yapı boyutu
+[Use MMI]
+MMI'yi kullanın
+[Structure help]
+Yapı yardımı
+[Name]
+Adı
+[Plugin]
+Eklenti
+[Description]
+Açıklama
+[&Change]
+&Değişim
+[Result]
+Sonuç
+[Result type]
+Sonuç türü
+[Free memory]
+Boş bellek
+[DLL Handle Cache]
+DLL İşlem Kolu Önbelleği
+[Keep to end]
+Sonuna kadar devam et
+[Close immediately]
+Hemen kapatın
+[Close for macro]
+Makro çekim için yakınlaştır
+[Contact]
+İletişim
+[Choose contact]
+Kişiyi seçin
+[Refresh]
+Yenile
+[Keep handle only]
+Sadece tutamağı saklayın
+[Get from active window]
+Etkin pencereden al
+[Chain]
+Zincir
+[Other Action groups]
+Diğer eylem grupları
+[not defined]
+tanımlanmamış
+[Keep old result]
+Eski sonucu sakla
+[Same thread]
+Aynı konu
+[Do not wait until the end of execution]
+Yürütme işlemi bitene kadar beklemeyin
+[Program]
+Program
+[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
+<last> metnini \r\n ile son sonuç\r\n\r\n şeklinde değiştirir; <param> metnini \r\n ile parametre şeklinde değiştirir
+[Process options]
+İşlem seçenekleri
+[Parallel]
+Paralel
+[Continued]
+Devamı
+[Process time, ms]
+İşlem süresi, ms
+[Current path]
+Geçerli yol
+[Window option]
+Pencere seçeneği
+[Start normal]
+Normal şekilde başla
+[Start hidden]
+Gizli olarak başla
+[Start minimized]
+Küçültülmüş olarak başlat
+[Start maximized]
+Tam ekran olarak başlat
+[Program path]
+Program yolu
+[Program arguments]
+Program argümanları
+[Service]
+Hizmet
+[Miranda service help]
+Miranda hizmet yardımı
+[Alias]
+Takma ad
+[Return]
+Geri Dön
+[Effect]
+Etki
+['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
+Hizmet adındaki '<proto>' ifadesi, parametredeki iletişim tanıtıcısı için protokol adıyla değiştirilecektir
+[Service:]
+Hizmet:
+[In/Out]
+Giriş/Çıkış
+[Clipboard]
+Pano
+[Copy to]
+Şuraya kopyala
+[Paste from]
+Şuradan yapıştır:
+[File]
+Dosya
+[Append]
+Ekle
+[UTF8+sign]
+UTF-8 + işaret
+[UTF16+sign]
+UTF-16 + işaret
+[Message window]
+Mesaj penceresi
+[Autosend]
+Otomatik Gönderme
+[Jump]
+Atla
+[Condition]
+Durum
+[NOP]
+NOP
+[Math]
+Matematik
+[> greater]
+> daha büyük
+[< lesser]
+< daha küçük
+[= equal]
+= eşit
+[^ xor]
+^ xor
+[& and]
+& ve
+[Text]
+Metin
+[Case sensitive]
+Büyük/küçük harf duyarlı
+[Opposite order]
+Ters sıra
+[empty]
+boş
+[equal]
+eşit
+[contains]
+içerir
+[starts with]
+şöyle başlar:
+[ends with]
+şöyle biter:
+[NOT]
+DEĞİL
+[Operation]
+Çalışma
+[BREAK]
+ARALIK
+[JUMP]
+ZİPLAMA
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as Unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+^s - seçilen (ve değiştirilen) kısım\r\n^e - boş dize ile değiştirilir\r\n^v - Pano'dan metin yapıştır\r\n^t - sekme ile değiştirilir\r\n^l - son sonuç Unicode olarak değiştirilir\r\n^h - son sonuç onaltılık olarak değiştirilir\r\n^f(name[,str])\r\n     metin dosyasından satır yapıştır.\r\n     köşeli parantez içindeki içerik boşluk içermemelidir
+[Process script after]
+Komut dosyasını şu işlemden sonra çalıştır
+[MessageBox]
+Mesaj Kutusu
+[Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
+<last> metnini son sonuçla değiştirir\r\n\r\nDöndürdüğü değerler:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nTEKRARLA\t= 4\r\nYOK SAY\t= 5\r\nEVET\t= 6\r\nHAYIR\t= 7\r\nKAPAT\t= 8
+[Message title]
+Mesaj başlığı
+[Message text]
+Mesaj metni
+[RTL]
+RTL
+[Right justified text]
+Sağa hizalanmış metin
+[Icons]
+Simgeler
+[Error]
+Hata
+[Question]
+Soru
+[Warning]
+Uyarı
+[Info]
+Bilgi
+[Buttons]
+Düğmeler
+[OK, Cancel]
+Tamam, İptal
+[Abort, Retry, Ignore]
+İptal Et, Yeniden Dene, Yoksay
+[Yes, No, Cancel]
+Evet, Hayır, İptal
+[Yes, No]
+Evet, Hayır
+[Retry, Cancel]
+Tekrar Dene, İptal Et
+[Database]
+Veritabanı
+[Contact type]
+İletişim türü
+[Own settings]
+Kişisel ayarlar
+[Manual]
+Kılavuz
+[Module]
+Modül
+[Setting]
+Ortam
+[Save value]
+Değeri kaydet
+[Storage]
+Depolama
+[LastResult to ]
+Son Sonuç: 
+[LastResult from]
+Son Sonuç:
+[Slot 0]
+Yuva 0
+[Slot 1]
+Yuva 1
+[Slot 2]
+Yuva 2
+[Slot 3]
+3. Yuva
+[Slot 4]
+4. yuva
+[Slot 5]
+5. yuva
+[Slot 6]
+6. Yuva
+[Slot 7]
+7. yuva
+[Slot 8]
+8. yuva
+[Slot 9]
+9. yuva
+[Settings]
+Ayarlar
+[Contact list]
+Kişi listesi
+[Active accounts only]
+Yalnızca aktif hesaplar
+[Contact list format]
+Kişi listesi biçimi
+[You can use %name%, %uid%, %account% and %group% substitutes]
+%name%, %uid%, %account% ve %group% yer tutucularını kullanabilirsiniz
+[Service list format]
+Hizmet listesi biçimi
+[value]
+değer
+[name]
+ad
+[value (name)]
+değer (ad)
+[name 'value']
+"value" adı
+[Current Macro]
+Güncel Makro
+[Select for FirstRun]
+FirstRun için seçin
+[Mark as Volatile]
+"Oynak" Olarak İşaretle
+[Single instance]
+Tek örnek
+[Scheduler]
+Zamanlayıcı
+[Task sample]
+Ödev örneği
+[Start]
+Başla
+[Starting after]
+Şu tarihten itibaren
+[Starting from]
+Şu tarihten itibaren
+[Start immediately]
+Hemen başlayın
+[Days]
+Günler
+[Time]
+Zaman
+[Date]
+Tarih
+[Repeat]
+Tekrarla
+[Repeat, times]
+Tekrar, kez
+[Interval]
+Aralık
+[Break on non-zero result]
+Sıfırdan farklı sonuçta duraklama
+[Send event on start time]
+Başlangıç saatinde etkinliği gönder
+[Send event just once]
+Etkinliği yalnızca bir kez gönder
+[Hooks]
+Kancalar
+[Description]
+Açıklama
+[hook sample]
+kanca örneği
+[Event]
+Etkinlik
+[Miranda event help]
+Miranda etkinliği yardımı
+[Use Actions]
+Eylemleri Kullan
+[Action list]
+Yapılacaklar listesi
+[Where to use]
+Nerede kullanılır?
+[TopToolbar]
+Üst Araç Çubuğu
+[TabSRMM toolbar]
+TabSRMM araç çubuğu
+[Core Hotkey]
+Temel Kısayol Tuşu
+[Main menu]
+Ana menü
+[Contact menu]
+İletişim menüsü
+[Tray menu]
+Tepsi menüsü
+[Protocol menus]
+Protokol menüleri
+[Status menu]
+Durum menüsü
+[Common]
+Yaygın
+[2 state button/item]
+2 durum düğmesi/öğesi
+[Save button/item state]
+Düğme/öğenin durumunu kaydet
+[Contact related]
+İletişim ile ilgili
+[Normal button tooltip]
+Normal düğme araç ipucu
+[Pressed button tooltip]
+Düğmeye basıldığında görüntülenen araç ipucu
+[Show only if variables return 1]
+Yalnızca değişkenler 1 değerini döndürdüğünde göster
+[Main settings]
+Ana ayarlar
+[Root popup:]
+Kök açılır penceresi:
+[Menu item name:]
+Menü öğesi adı:
+[Custom settings]
+Özel ayarlar
+[Separated]
+Ayrılmış
+[Do not translate]
+Çevirmeyin
+[Show window for new/changed profile password]
+Yeni/değiştirilen profil şifresi için pencere göster
+[int 0, if successful]
+int 0, başarılı olursa
+[Hide All Titlebars]
+Tüm Başlık Çubuklarını Gizle
+[Show All Frames]
+Tüm Çerçeveleri Göster
+[Show All Titlebars]
+Tüm Başlık Çubuklarını Göster
+[will never return the user's custom name]
+kullanıcının kendi belirlediği adı asla geri döndürmez
+[will return Unicode instead of AnsiChar]
+AnsiChar yerine Unicode değerini döndürecektir
+[will not use the cache]
+önbelleği kullanmayacak
+[Gets the string that the contact list will use to represent a contact]
+Kişi listesinin bir kişiyi temsil etmek için kullanacağı dizeyi alır
+[int hMenu handle]
+int hMenu tanıtıcısı
+[Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
+Belirli bir kişi için bağlam menüsü oluşturuldu. İşlem tamamlandıktan sonra menü DestroyMenu() ile kapatılmalıdır.
+[Show All Users]
+Tüm Kullanıcıları Göster
+[Show only Online Users]
+Yalnızca Çevrimiçi Kullanıcıları Göster
+[Toggle status]
+Durumu değiştir
+[Change 'hide offline contacts' option value]
+“Çevrimdışı kişileri gizle” seçeneğinin değerini değiştir
+[Offline]
+Çevrimdışı
+[Online]
+Çevrimiçi
+[Away]
+Deplasman
+[Do not disturb]
+Rahatsız etmeyin
+[Not available]
+Mevcut değil
+[Occupied]
+İşgal Altında
+[Free for chat]
+Sohbet için ücretsiz
+[Invisible]
+Görünmez
+[Set global status]
+Genel durumu ayarla
+[Switch contact list status]
+Kişi listesi durumunu değiştir
+[Closes Miranda]
+Miranda kapanıyor
+[Show or hide netlog console window]
+Netlog konsol penceresini göster veya gizle
+[int Value]
+int Değer
+[Returns contact amount, excluding user account]
+Kullanıcı hesabı hariç olmak üzere iletişim miktarını döndürür
+[ANSI Text]
+ANSI Metni
+[Removes all settings for the specified module]
+Belirtilen modülün tüm ayarlarını siler
+[int 0]
+int 0
+[Import settings/contacts from file]
+Ayarları/kişileri dosyadan içe aktar
+[Opens or activate database editor]
+Veritabanı düzenleyicisini açar veya etkinleştirir
+[Opens or activate user search dialog]
+Kullanıcı arama iletişim kutusunu açar veya etkinleştirir
+[displays File Transfer window]
+Dosya Aktarımı penceresini görüntüler
+[on Desktop]
+Masaüstünde
+[parent window handle]
+ana pencere tanıtıcısı
+[Show "About..." window]
+"Hakkında..." penceresini göster
+[Open support (originally - Miranda wiki) page]
+Destek sayfasını aç (kaynak: Miranda wiki)
+[Go to Miranda Homepage]
+Miranda Ana Sayfasına Git
+[Open bug report page]
+Hata raporu sayfasını aç
+[System]
+Sistem
+[Shows contact history or (wParam=0) system history]
+İletişim geçmişini veya (wParam=0) sistem geçmişini gösterir
+[Erases contact's history. hContact can be NULL(0) to empty system history]
+Kişinin geçmişini siler. hContact, sistem geçmişini boşaltmak için NULL (0) olabilir.
+[Show Global history search window. If already opened, bring it to front.]
+Genel geçmiş arama penceresini göster. Zaten açıksa, ön plana getir.
+[Ignore all]
+Hepsini yok say
+[Ignore messages]
+Mesajları görmezden gel
+[Ignore URLs]
+URL'leri göz ardı et
+[Ignore files]
+Dosyaları göz ardı et
+[Ignore User Online]
+Çevrimiçi Kullanıcıyı Yoksay
+[Ignore requests]
+İstekleri yok say
+[Ignore 'You were added']
+“Eklendiniz” mesajını görmezden gelin
+[Ignore Contact]
+Kişiyi Yoksay
+[Unignore Contact]
+Kişiyi Takip Listesi'nden Çıkar
+[restart in default profile or profile manager]
+varsayılan profilde veya profil yöneticisinde yeniden başlat
+[restart with current profile]
+mevcut profille yeniden başlat
+[Restarts Miranda]
+Miranda'yı yeniden başlatır
+[Station name]
+İstasyon adı
+[wParam is Handle]
+wParam bir Handle'dır
+[wParam is ANSI station name]
+wParam, ANSI istasyon adıdır
+[wParam is Unicode station name]
+wParam, Unicode biçimindeki istasyon adıdır
+[Starting or stopping radio station]
+Radyo istasyonunu başlatma veya durdurma
+[Stop cycle]
+Döngüyü durdur
+[Start cycle]
+Döngüyü başlat
+[Start/stops the cycling through protocols]
+Protokoller arasında geçişi başlatır/durdurur
+[All protocols]
+Tüm protokoller
+[Protocol]
+Protokol
+[signed -2 if proto can't set this, -1 on protocol not found, else 0]
+proto bunu ayarlayamazsa -2, protokol bulunmazsa -1, aksi takdirde 0
+[Shows a dialog to set the avatar for all possible protocols]
+Tüm olası protokoller için avatar ayarlamak üzere bir iletişim kutusu görüntüler
+[Shows the next protocol in the frame]
+Çerçeve içindeki bir sonraki protokolü gösterir
+[Shows the previous protocol in the frame]
+Çerçevede bulunan önceki protokolü gösterir
+[Open Options dialog]
+Seçenekler iletişim kutusunu aç
+[Opens the options dialog, optionally at the specified page]
+Seçenekler iletişim kutusunu açar; istenirse belirtilen sayfadan başlar
+[Check for updates]
+Güncellemeleri kontrol et
+[with confirmation]
+onaylı
+[without confirmation]
+onaylanmadan
+[Empty updater download folder]
+Güncelleyicinin indirme klasörünü boşalt
+[Popup plus (PopupPlus.dll) latest StdPopup (StdPopup.dll)]
+Popup Plus (PopupPlus.dll) en son sürümü StdPopup (StdPopup.dll)
+[Enables or disables popup windows]
+Açılır pencereleri etkinleştirir veya devre dışı bırakır
+[Notify]
+Bildir
+[StdPopup or Popup plus]
+StdPopup veya Popup plus
+[Popup window]
+Açılır pencere
+[Unicode Text]
+Unicode Metni
+[Enables or disables popup windows (maybe deprecated)]
+Açılır pencereleri etkinleştirir veya devre dışı bırakır (muhtemelen kullanımdan kaldırılmıştır)
+[result of protocol service call]
+protokol hizmet çağrısının sonucu
+[Send a general request through the protocol chain for a contact]
+Protokol zinciri üzerinden bir kişi için genel bir istek gönderin
+[account name (string)]
+hesap adı (dize)
+[Return account name associated to contact (no need to free it)]
+Kişiyle ilişkili hesap adını döndür (hesabı serbest bırakmaya gerek yoktur)
+[displays the Account Manager]
+Hesap Yöneticisini görüntüler
+[Show the dialog to select the contact]
+Kişiyi seçmek için iletişim kutusunu göster
+[filter text]
+metni filtrele
+[wParam is Unicode]
+wParam, Unicode'dur
+[wParam is ANSI]
+wParam, ANSI'dir
+[Reserved]
+Rezerv Edildi
+[Open main QuickSearch window with text filter]
+Metin filtresi ile ana Hızlı Arama penceresini aç
+[Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
+“Görünüm/Sesler/Yeni Ekle” seçeneği aracılığıyla eklenen sesi çalar. Ses bulunamazsa, standart Windows sesi çalınır.
+[Send Email to contact]
+İletişim adresine e-posta gönder
+[struct]
+struct
+[Returns the received files folder for a contact]
+Bir kişi için alınan dosyaların bulunduğu klasörü döndürür
+[Open contact received file directory]
+Açık iletişim yolunda alınan dosya dizini
+[Send file to contact.]
+Dosyayı kişiye gönder.
+[Opens message window for contact with handle in wparam]
+wparam'da belirtilen tanıtıcıya sahip kişi için mesaj penceresi açar
+[remove all temporary contacts from database]
+veritabanındaki tüm geçici kişileri sil
+[Call avatar option dialog for contact]
+Kişi için avatar seçeneği iletişim kutusunu aç
+[Filename]
+Dosya adı
+[Set (and optionally protect) a local contact picture for the given hContact. If lParam = NIL, the service will open a file selection dialog.]
+Belirtilen hContact için yerel bir kişi resmi ayarla (ve isteğe bağlı olarak koru). lParam = NIL ise, hizmet bir dosya seçme iletişim kutusu açar.
+[Shows contact property window.]
+İletişim özellikleri penceresini görüntüler.
+[Open URL in current window]
+URL’yi mevcut pencerede aç
+[0 - Open URL in current window]
+0 - URL'yi mevcut pencerede aç
+[Open URL in default browser]
+URL’yi varsayılan tarayıcıda aç
+[With formatting]
+Biçimlendirme ile
+[Don't use formatting]
+Biçimlendirme kullanmayın
+[Returns a string containing the versioninfo post]
+versioninfo gönderisini içeren bir dize döndürür
+[Show or save (call default action) Modules version Info]
+Göster veya kaydet (varsayılan eylemi çağır) Modüller sürüm bilgisi
+[Show popup or Info window with current music information.]
+Mevcut müzik bilgilerini içeren bir açılır pencere veya bilgi penceresi göster.
+[log filename]
+günlük dosyası adı
+[report filename]
+rapor dosya adı
+[int 0, if unsuccessful]
+int 0, başarısız olursa
+[Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
+Günlük dosyasından bir rapor oluşturun ve çalıştırın (eğer seçenek ayarlanmışsa). wParam veya lParam boşsa, seçeneklerde belirtilen dosya adları kullanılır.
+[Display birthdays window]
+Doğum günleri penceresini göster
+[Manage Jabber Bookmarks]
+Jabber Yer İmlerini Yönet
+[text]
+metin
+[Set status message]
+Durum mesajını ayarla
+[Set protocol status]
+Protokol durumunu ayarla
+[None]
+Yok
+[Angry]
+Kızgın
+[Taking a bath]
+Banyo yapmak
+[Tired]
+Yorgun
+[Birthday]
+Doğum Günü
+[Drinking beer]
+Bira içmek
+[Thinking]
+Düşünmek
+[Eating]
+Yemek yeme
+[Watching TV]
+Televizyon izlemek
+[Meeting]
+Toplantı
+[Coffee]
+Kahve
+[Listening to music]
+Müzik dinlemek
+[Business]
+İş Dünyası
+[Shooting]
+Çekim
+[Having fun]
+Eğlenmek
+[Gaming]
+Oyun
+[Studying]
+Eğitim
+[Shopping]
+Alışveriş
+[Feeling sick]
+Kendimi hasta hissediyorum
+[Sleeping]
+Uyku
+[Surfing]
+Sörf
+[Browsing]
+Göz atma
+[Working]
+Çalışıyor
+[Typing]
+Yazma
+[Picnic]
+Piknik
+[Cooking]
+Yemek Pişirme
+[Smoking]
+Sigara içme
+[I'm high]
+Kafam güzel
+[On WC]
+Tuvalette
+[To be or not to be]
+Olmak ya da olmamak
+[Watching pro7 on TV]
+Televizyonda pro7 kanalını izlemek
+[Love]
+Sevgi
+[Sets owner current custom status]
+Sahibin geçerli özel durumunu ayarlar
+[Display xStatus detail]
+xStatus ayrıntılarını göster
+[Undefined]
+Tanımlanmamış
+[Action group list was changed: some was added or deleted]
+Eylem grubu listesinde değişiklik yapıldı: bazıları eklendi veya silindi
+[contact list]
+iletişim listesi
+[The context menu for a contact is about to be built]
+Bir kişinin bağlam menüsü oluşturulmak üzere
+[Double click on the contact list]
+Kişi listesine çift tıklayın
+[database driver]
+veritabanı sürücüsü
+[New contact added to database]
+Veritabanına yeni bir kişi eklendi
+[Contact deleting]
+Kişi silme
+[Displays a modal dialog box that contains a system icon, a set of buttons, and a brief application-specific message, such as status or error information.]Bir sistem simgesi, bir dizi düğme ve durum veya hata bilgisi gibi uygulamaya özgü kısa bir mesaj içeren bir modal iletişim kutusu görüntüler.

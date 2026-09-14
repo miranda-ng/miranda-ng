@@ -1,0 +1,112 @@
+#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
+;============================================================
+;  File: FileAsMessage.dll
+;  Plugin: File as message
+;  Version: 0.1.0.3
+;  Authors: Denis Stanishevskiy
+;============================================================
+[File transfer by using the messaging services - as plain text.]
+Mesajlaşma hizmetlerini kullanarak dosya aktarımı – düz metin olarak.
+;file \plugins\FileAsMessage\res\resources.rc
+[fileAsMessage]
+dosyayıMesajOlarakKaydet
+[Filename:]
+Dosya adı:
+[Size:]
+Boyut:
+[Chunk size]
+Parça boyutu
+[ms]
+ms
+[Delays between sends]
+Gönderimler arasındaki gecikmeler
+[bytes]
+bayt
+[Transfer settings]
+Aktarım ayarları
+[Appearance]
+Görünüş
+[Unsent]
+Gönderilmemiş
+[Sent]
+Gönderildi
+[To send]
+Göndermek için
+[Received]
+Alındı
+[Use only alphanumeric encoding on transfer]
+Aktarım sırasında yalnızca alfanümerik kodlama kullanın
+[Go to Options -> Events -> File Transfers, "Receiving files" group for extra settings]
+Ek ayarlar için Seçenekler -> Etkinlikler -> Dosya Aktarımları bölümündeki “Dosya alma” grubuna gidin
+;file \plugins\FileAsMessage\src\dialog.cpp
+[Receive file]
+Dosyayı al
+[Send file]
+Dosyayı gönder
+[Perform]
+Gerçekleştir
+[Revive a transfer]
+Bir transferi yeniden canlandır
+[Pause]
+Duraklat
+[File already exists. Overwrite?]
+Dosya zaten mevcut. Üzerine yazmak istiyor musunuz?
+[Couldn't open a file]
+Bir dosya açılamadı
+[Size: %d bytes]
+Boyut: %d bayt
+[Request sent. Awaiting of acceptance..]
+Talep gönderildi. Onay bekleniyor...
+[Sending...]
+Gönderiliyor...
+[Received successfully]
+Başarıyla alındı
+[Requesting of missing chunks]
+Eksik parçaların talep edilmesi
+[Receiving...]
+Alınıyor...
+[Sent successfully]
+Başarıyla gönderildi
+[Unknown command for "File As Message" was received]
+"Dosya Mesaj Olarak Kaydet" için bilinmeyen bir komut alındı
+[Incoming file request. Do you want to proceed?]
+Bir dosya isteği geliyor. Devam etmek istiyor musunuz?
+[Canceled by remote user]
+Uzak kullanıcı tarafından iptal edildi
+[New incoming file request. Do you want to proceed?]
+Yeni bir dosya alma isteği geldi. Devam etmek istiyor musunuz?
+[File transfer is paused because of dropped connection]
+Bağlantı kesildiğinden dosya aktarımı duraklatıldı
+[Failed on file initialization]
+Dosya başlatma işlemi başarısız oldu
+[Paused...]
+Duraklatıldı...
+[Synchronizing...]
+Senkronize ediliyor...
+[Select a file]
+Bir dosya seçin
+[Save as]
+Farklı kaydet
+[Can't get a file size]
+Dosya boyutunu alamıyorum
+[Canceled by user]
+Kullanıcı tarafından iptal edildi
+[Transfer is in progress. Do you really want to close?]
+Aktarım devam ediyor. Gerçekten kapatmak istiyor musunuz?
+;file \plugins\FileAsMessage\src\main.cpp
+[Play]
+Oyna
+[Revive]
+Yeniden canlandır
+[Stop]
+Dur
+[Main]
+Ana Sayfa
+[File As Message...]
+Mesaj Olarak Kaydet...
+;file \plugins\FileAsMessage\src\optionsdlg.cpp
+[Events]
+Etkinlikler
+;file \plugins\FileAsMessage\src\stdafx.h
+[File As Message]
+Mesaj Olarak Kaydet

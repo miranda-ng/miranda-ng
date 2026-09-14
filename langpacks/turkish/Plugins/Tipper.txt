@@ -1,0 +1,571 @@
+#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
+;============================================================
+;  File: Tipper.dll
+;  Plugin: Tipper
+;  Version: 2.1.0.8
+;  Authors: Scott Ellis, yaho
+;============================================================
+[Tooltip notification windows.]
+Araç ipucu bildirim pencereleri.
+;file \plugins\TipperYM\res\resource.rc
+[Layout]
+Düzen
+[Text indent:]
+Metin girintisi:
+[Title indent:]
+Başlık girintisi:
+[Value indent:]
+Değer girintisi:
+[General padding:]
+Genel dolgu:
+[Text padding:]
+Metin aralığı:
+[Outer avatar padding:]
+Dış avatar dolgusu:
+[Inner avatar padding:]
+İç avatar dolgusu:
+[Alignment]
+Hizalama
+[Labels:]
+Etiketler:
+[Values:]
+Değerler:
+[Window]
+Pencere
+[Max width:]
+Maksimum genişlik:
+[Min width:]
+Minimum genişlik:
+[Max height:]
+Maksimum yükseklik:
+[Min height:]
+Minimum yükseklik:
+[Avatar size:]
+Avatar boyutu:
+[Sidebar width:]
+Kenar çubuğu genişliği:
+[Hover time:]
+Fareyi üzerine getirme süresi:
+[Show if list not focused]
+Liste odaklanmamışsa göster
+[Options]
+Seçenekler
+[Show title]
+Başlığı göster
+[Status bar tips]
+Durum çubuğu ipuçları
+[Avatar border]
+Avatar çerçevesi
+[Round corners (avatar)]
+Yuvarlak köşeler (avatar)
+[Keep original avatar size]
+Orijinal avatar boyutunu koru
+[Substitution]
+Değiştirme
+[Label:]
+Etiket:
+[Module:]
+Modül:
+[Contact protocol module]
+İletişim protokolü modülü
+[Setting or prefix:]
+Ayar veya önek:
+[Translation:]
+Çeviri:
+[Cancel]
+İptal et
+[Item]
+Ürün
+[Value:]
+Değer:
+[Variables]
+Değişkenler
+[Draw a line above]
+Yukarıya bir çizgi çizin
+[Value on a new line]
+Değer yeni bir satırda
+[Parse Tipper variables first]
+Önce Tipper değişkenlerini çözümle
+[Preset items:]
+Önceden ayarlanmış öğeler:
+[Items]
+Ürünler
+[Substitutions]
+Oyuncu Değişiklikleri
+[Add]
+Ekle
+[Remove]
+Kaldır
+[Up]
+Yukarı
+[Down]
+Aşağı
+[Edit]
+Düzenle
+[Separator]
+Ayırıcı
+[Extra icons]
+Ek simgeler
+[Smileys support]
+Smiley desteği
+[Enable SmileyAdd support]
+SmileyAdd desteğini etkinleştir
+[Use protocol smileys]
+Protokol smiley’lerini kullanın
+[Resize smileys]
+Smileylerin boyutunu değiştir
+[Replace only isolated smileys]
+Yalnızca tek başına duran smiley’leri değiştir
+[Advanced options]
+Gelişmiş seçenekler
+[Show tooltip after all content is ready (avatar && status message)]
+Tüm içerik hazır olduktan sonra (avatar ve durum mesajı) araç ipucunu göster
+[Retrieve new status message]
+Yeni durum mesajını al
+[Retrieve xStatus details if auto-retrieve is disabled]
+Otomatik alma özelliği devre dışıysa xStatus ayrıntılarını al
+[Status bar and tray tooltip]
+Durum çubuğu ve sistem tepsisi araç ipucu
+[Limit status messages in status bar and tray tooltips to:]
+Durum çubuğundaki ve sistem tepsisindeki durum mesajlarını şunlarla sınırlandırın:
+[characters]
+karakterler
+[Skins]
+Kaplamalar
+[Reload skin list]
+Görünüm listesini yeniden yükle
+[Apply skin]
+Cilde sürün
+[Get more skins]
+Daha fazla görünüm edinin
+[Preview]
+Önizleme
+[No preview]
+Önizleme yok
+[Effects]
+Etkiler
+[Animation speed:]
+Animasyon hızı:
+[Shadow]
+Gölge
+[Border]
+Sınır
+[Round corners (window)]
+Yuvarlak köşeler (pencere)
+[Skin option]
+Cilt seçeneği
+[Enable skin coloring]
+Cilt rengini etkinleştir
+[Load tooltip proportions]
+Araç ipucu oranlarını yükle
+[Load fonts and colors]
+Yazı tiplerini ve renkleri yükle
+[Transparency]
+Şeffaflık
+[Opacity (%):]
+Opaklık (%):
+[Aero Glass (Vista+)]
+Aero Glass (Vista+)
+[Enable tray tooltips]
+Tepsi araç ipuçlarını etkinleştir
+[Handle tray tooltips by Tipper]
+Tipper tarafından hazırlanan tepsi araç ipuçları
+[Hide offline protocols]
+Çevrimdışı protokolleri gizle
+[Expand to second level after:]
+Aşağıdakilerden sonra ikinci düzeye genişlet:
+[ms]
+ms
+[First level tooltip]
+Birinci düzey araç ipucu
+[Second level tooltip]
+İkinci düzey araç ipucu
+[Favorite contacts]
+Favori kişiler
+[Hide offline]
+Çevrimdışı durumunu gizle
+[Append protocol name]
+Protokol adını ekle
+;file \plugins\TipperYM\src\mir_smileys.cpp
+[Tipper smileys]
+Tipper emojileri
+;file \plugins\TipperYM\src\options.cpp
+[Number of contacts]
+Kişi sayısı
+[Protocol lock status]
+Protokol kilit durumu
+[Logon time]
+Oturum açma süresi
+[Unread emails]
+Okunmamış e-postalar
+[Status]
+Durum
+[Status message]
+Durum mesajı
+[Extra status]
+Ekstra statü
+[Listening to]
+Dinlerken
+[Miranda uptime]
+Miranda çalışma süresi
+[Contact list event]
+Kişi listesi etkinliği
+[Jabber activity]
+Jabber etkinliği
+[Gender]
+Cinsiyet
+[Country flag]
+Ülke bayrağı
+[Client]
+Müşteri
+[Account]
+Hesap
+[Account:]
+Hesap:
+[Birthday]
+Doğum Günü
+[Birthday:]
+Doğum günü:
+[Client:]
+Müşteri:
+[Email]
+E-posta
+[Email:]
+E-posta:
+[Gender:]
+Cinsiyet:
+[Homepage]
+Ana Sayfa
+[Homepage:]
+Ana sayfa:
+[Identifier]
+Tanımlayıcı
+[Idle]
+Boşta
+[Idle:]
+Bekleme:
+[IP internal]
+IP iç
+[IP internal:]
+Dahili IP:
+[Last message]
+Son mesaj
+[Last message: (%sys:last_msg_reltime% ago)]
+Son mesaj: (%sys:last_msg_reltime% önce)
+[Listening to:]
+Şu anda dinlediğim:
+[Name]
+Adı
+[Name:]
+Adı:
+[Number of received messages]
+Alınan mesaj sayısı
+[Number of msg [IN]:]
+[GİRİŞ] mesaj sayısı:
+[Number of sent messages]
+Gönderilen mesaj sayısı
+[Number of msg [OUT]:]
+Mesaj sayısı [OUT]:
+[Status:]
+Durum:
+[Status message:]
+Durum mesajı:
+[Contact time]
+Temas süresi
+[Time:]
+Saat:
+[xStatus title]
+xDurum başlığı
+[xStatus title:]
+xDurum başlığı:
+[xStatus text]
+xDurum metni
+[xStatus text:]
+xDurum metni:
+[[jabber.dll] Activity title]
+[jabber.dll] Etkinlik başlığı
+[Activity title:]
+Etkinlik başlığı:
+[[jabber.dll] Activity text]
+[jabber.dll] Etkinlik metni
+[Activity text:]
+Etkinlik metni:
+[[seenplugin.dll] Last seen time]
+[seenplugin.dll] En son görülme zamanı
+[Last seen time:]
+En son görülme zamanı:
+[[seenplugin.dll] Last seen status]
+[seenplugin.dll] Son görülme durumu
+[Last seen status:]
+Son görülme durumu:
+[[weather.dll] Condition]
+[weather.dll] Durum
+[Condition:]
+Durum:
+[[weather.dll] Humidity]
+[weather.dll] Nem
+[Humidity:]
+Nem:
+[[weather.dll] Max/Min temperature]
+[weather.dll] En yüksek/en düşük sıcaklık
+[Max/Min:]
+Maks./Min.:
+[[weather.dll] Moon]
+[weather.dll] Ay
+[Moon:]
+Ay:
+[[weather.dll] Pressure]
+[weather.dll] Basınç
+[Pressure:]
+Basınç:
+[[weather.dll] Sunrise]
+[weather.dll] Güneşin doğuşu
+[Sunrise:]
+Güneşin doğuşu:
+[[weather.dll] Sunset]
+[weather.dll] Gün batımı
+[Sunset:]
+Gün batımı:
+[[weather.dll] Temperature]
+[weather.dll] Sıcaklık
+[Temperature:]
+Sıcaklık:
+[[weather.dll] Update time]
+[weather.dll] Güncelleme zamanı
+[Update time:]
+Güncelleme tarihi:
+[[weather.dll] UV Index]
+[weather.dll] UV Endeksi
+[UV Index:]
+UV Endeksi:
+[[weather.dll] Visibility]
+[weather.dll] Görünürlük
+[Visibility:]
+Görünürlük:
+[[weather.dll] Wind]
+[weather.dll] Rüzgâr
+[Wind:]
+Rüzgâr:
+[Show for all contact types]
+Tüm kişi türleri için göster
+[Show only for contacts]
+Yalnızca kişiler için göster
+[Show only for chatrooms]
+Yalnızca sohbet odaları için göster
+[You must enter a label]
+Bir etiket girmelisiniz
+[Invalid Substitution]
+Geçersiz Değiştirme
+[<No Label>]
+<Etiket Yok>
+[Add item]
+Öğe ekle
+[No icon]
+Simge yok
+[Icon on left]
+Soldaki simge
+[Icon on right]
+Sağdaki simge
+[Bottom right]
+Sağ alt köşe
+[Bottom left]
+Sol alt köşe
+[Top right]
+Sağ üst köşe
+[Top left]
+Sol üst köşe
+[Top]
+En üstte
+[Center]
+Merkez
+[Bottom]
+Alt kısım
+[Left]
+Sol
+[Right]
+Doğru
+[No avatar]
+Avatar yok
+[Left avatar]
+Soldaki avatar
+[Right avatar]
+Sağdaki avatar
+[Max avatar size:]
+Maksimum avatar boyutu:
+[None]
+Yok
+[Animation]
+Animasyon
+[Fade]
+Solma
+[Appearance]
+Görünüş
+[Tooltips]
+Araç İpuçları
+[Customize]
+Kişiselleştir
+[Content]
+İçerik
+[Tray tooltip]
+Tepsi araç ipucu
+[Extra]
+Ekstra
+;file \plugins\TipperYM\src\popwin.cpp
+[%s (locked)]
+%s (kilitli)
+[%s ago]
+%s önce
+[Log on:]
+Giriş yapın:
+[Unread emails:]
+Okunmamış e-postalar:
+[Mood:]
+Ruh hali:
+[xStatus:]
+xDurum:
+[Activity:]
+Etkinlik:
+[Copy all items with labels]
+Etiketli tüm öğeleri kopyala
+[Copy all items]
+Tüm öğeleri kopyala
+[Copy avatar]
+Avatarı kopyala
+[<No Label>: ]
+<Etiket Yok>: 
+[<No Value>]
+<Değer yok>
+[Fav. contacts]
+Favori kişiler
+[Other]
+Diğer
+[Miranda uptime:]
+Miranda çalışma süresi:
+;file \plugins\TipperYM\src\skin_parser.cpp
+[# Solid color fill]
+# Düz renk dolgusu
+;file \plugins\TipperYM\src\subst.cpp
+[%dd %dh %dm]
+%dd %dh %dm
+[%dh %dm]
+%dh %dm
+[%dm]
+%dm
+;file \plugins\TipperYM\src\tipper.cpp
+[Background]
+Arka Plan
+[Dividers]
+Ayırıcılar
+[Sidebar]
+Kenar çubuğu
+[Title]
+Başlık
+[Labels]
+Etiketler
+[Values]
+Değerler
+[Tray title]
+Tepsi başlığı
+[Tipper]
+Damperli kamyon
+[Copy item]
+Öğeyi kopyala
+[Arrow up]
+Yukarı ok
+[Arrow down]
+Aşağı ok
+[Reload]
+Yeniden Yükle
+[Apply]
+Başvur
+;file \plugins\TipperYM\src\translations.cpp
+[Sunday]
+Pazar
+[Monday]
+Pazartesi
+[Tuesday]
+Salı
+[Wednesday]
+Çarşamba
+[Thursday]
+Perşembe
+[Friday]
+Cuma
+[Saturday]
+Cumartesi
+[January]
+Ocak
+[February]
+Şubat
+[March]
+Mart
+[April]
+Nisan
+[May]
+Mayıs
+[June]
+Haziran
+[July]
+Temmuz
+[August]
+Ağustos
+[September]
+Eylül
+[October]
+Ekim
+[November]
+Kasım
+[December]
+Aralık
+[Female]
+Kadın
+[Male]
+Erkek
+[%dy %dd %dh %dm]
+%dy %dd %dh %dm
+[%dd]
+%dd
+[[No translation]]
+[Çeviri yok]
+[WORD to status description]
+WORD’den durum açıklamasına
+[DWORD timestamp to time]
+DWORD zaman damgasını saate dönüştür
+[DWORD timestamp to time difference]
+DWORD zaman damgası ile zaman farkı
+[BYTE to Yes/No]
+BYTE’dan Evet/Hayır’a
+[BYTE to Male/Female]
+BYTE - Erkek/Kadın
+[WORD to country name]
+WORD’den ülke adına
+[DWORD to IP address]
+DWORD’dan IP adresine
+[<prefix>Day|Month|Year to date]
+<ön ek>Gün|Ay|Yıl başından bu yana
+[<prefix>Day|Month|Year to age]
+<ön ek>Gün|Ay|Yıl → yaş
+[<prefix>Hours|Minutes|Seconds to time]
+<ön ek>Saat|Dakika|Saniye - zaman
+[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
+<ön ek>Gün|Ay|Yıl|Saat|Dakika|Saniye zaman farkı
+[<prefix>Day|Month to days to next birthday]
+<ön ek>Gün|Ay – bir sonraki doğum gününe kalan gün sayısı
+[DWORD timestamp to time (no seconds)]
+DWORD zaman damgasını saate dönüştür (saniye hariç)
+[<prefix>Hours|Minutes to time]
+<ön ek>Saat|Zamanın kaç dakikası
+[DWORD timestamp to date (short)]
+DWORD zaman damgası → tarih (kısa)
+[DWORD timestamp to date (long)]
+DWORD zaman damgası → tarih (long)
+[xStatus: empty xStatus name to default name]
+xStatus: boş xStatus adını varsayılan ada değiştir
+[DWORD seconds to time difference]
+Zaman farkına karşılık gelen DWORD saniye değeri
+[BYTE timezone to time]
+BYTE saat dilimini saate dönüştür
+[WORD to name of a day (0..6, 0 is Sunday)]
+WORD, bir günün adı (0..6, 0 Pazar günüdür)
+[WORD to name of a month (1..12, 1 is January)]
+Bir ayın adına karşılık gelen WORD değeri (1..12, 1 Ocak’ı ifade eder)

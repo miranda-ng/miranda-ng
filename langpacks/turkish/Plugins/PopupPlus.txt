@@ -1,0 +1,415 @@
+#muuid {67716225-21f1-4a03-a69b-5fe12f128a2b}
+;============================================================
+;  File: PopupPlus.dll
+;  Plugin: Popup plus
+;  Version: 2.1.3.0
+;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
+;============================================================
+[Provides popup notification services for different plugins.]
+Farklı eklentiler için açılır pencere bildirim hizmetleri sunar.
+;file \plugins\Popup\res\resource.rc
+[Content and Style]
+İçerik ve Üslup
+[Go to Customize -> Fonts and Colors for fonts and colors options]
+Yazı tipleri ve renk seçenekleri için Özelleştir -> Yazı Tipleri ve Renkler bölümüne gidin
+[Miscellaneous]
+Çeşitli
+[Effects]
+Etkiler
+[Live Preview]
+Canlı Önizleme
+[Size && Position]
+Boyut ve Konum
+[History]
+Tarihçe
+[Enable popup history]
+Açılır pencere geçmişini etkinleştir
+[Store last]
+En son sakla
+[events]
+etkinlikler
+[Use History++ to render log]
+Günlükleri görüntülemek için History++’ı kullanın
+[Avatars]
+Avatarlar
+[Draw avatar borders]
+Avatar kenarlıklarını çiz
+[Draw borders for semitransparent avatars too]
+Yarı saydam avatarlar için de kenarlıklar çiz
+[Round corners by]
+Köşeleri yuvarlatmak için
+[pixels]
+piksel
+[Avatar size:]
+Avatar boyutu:
+[Enable avatar updates]
+Avatar güncellemelerini etkinleştir
+[Multimonitor]
+Çoklu Monitör
+[Start the popups in the monitor with]
+Monitördeki açılır pencereleri şu komutla başlatın:
+[Miranda's window]
+Miranda'nın penceresi
+[the active window]
+etkin pencere
+[Transparency]
+Şeffaflık
+[Use transparency]
+Şeffaflık kullanın
+[opacity:]
+opasite:
+[Opaque popups under cursor]
+İmlecin altındaki opak açılır pencereler
+[Slide popup]
+Slayt açılır penceresi
+[Effect:]
+Etki:
+[Time (in):]
+Zaman (içinde):
+[ms]
+ms
+[Time (out):]
+Zaman (aşımı):
+[Limit window amount to:]
+Pencere tutarını şu miktarla sınırla:
+[Skins]
+Kaplamalar
+[* - built-in skins]
+* - yerleşik temalar
+[Skin options]
+Görünüm seçenekleri
+[Preview]
+Önizleme
+[Download more skins]
+Daha fazla tema indir
+[Popup history]
+Açılır pencere geçmişi
+[Desktop]
+Masaüstü
+[Popup area]
+Açılır pencere alanı
+[pixel(s)]
+piksel(ler)
+[Distance between popups]
+Açılır pencereler arasındaki mesafe
+[Configure popup area]
+Açılır pencere alanını yapılandır
+[Close]
+Kapat
+[General]
+Genel
+[Enable popup actions]
+Açılır pencere işlemlerini etkinleştir
+[Popup actions are those tiny buttons below notification text.]
+Açılır pencere eylemleri, bildirim metninin altında bulunan o küçük düğmelerdir.
+[Common actions]
+Sık yapılan işlemler
+[Please choose in what cases default actions should be added:]
+Lütfen varsayılan eylemlerin hangi durumlarda eklenmesi gerektiğini seçiniz:
+[Add info && menu for IM contacts only]
+Yalnızca anlık mesajlaşma kişileri için bilgi ve menü ekle
+[Add default actions for contacts only]
+Yalnızca kişiler için varsayılan eylemler ekle
+[Don't close popups on default actions]
+Varsayılan eylemlerde açılır pencereleri kapatma
+[Size and position]
+Boyut ve konum
+[Use large icons]
+Büyük simgeleri kullanın
+[Popup actions will be displayed as:]
+Açılır pencere eylemleri şu şekilde görüntülenecektir:
+[Icons and labels below text]
+Metnin altındaki simgeler ve etiketler
+[Icons on the left]
+Soldaki simgeler
+[Icons aligned to the right]
+Sağa hizalanmış simgeler
+[Show actions: (requires apply)]
+Eylemleri göster: (uygulama gerekir)
+[Mouse actions overwrite]
+Fare eylemleri üzerine yazma
+[Left button]
+Sol düğme
+[Middle button]
+Ortadaki düğme
+[Right button]
+Sağ tuş
+[Notifications]
+Bildirimler
+[General options]
+Genel seçenekler
+[Enable this notification]
+Bu bildirimi etkinleştir
+[Popup timeout:]
+Açılır pencere zaman aşımı:
+[Left click action:]
+Sol tıklama eylemi:
+[Right click action:]
+Sağ tıklama eylemi:
+[Disable when global status is...]
+Küresel durum şu olduğunda devre dışı bırak...
+[Disable when relevant protocol's status is...]
+İlgili protokolün durumu... olduğunda devre dışı bırak
+[Colors can be configured in\r\nCustomize -> Fonts and colors]
+Renkler şu yoldan ayarlanabilir:\r\nÖzelleştir -> Yazı tipleri ve renkler
+[More...]
+Devamı...
+[Disable if message window is open]
+Mesaj penceresi açıksa devre dışı bırak
+[Sec]
+Saniye
+[0 = Default]
+0 = Varsayılan
+[-1 = Infinite]
+-1 = Sonsuz
+[Per-contact settings]
+Temas başına ayarlar
+[Show always]
+Her zaman göster
+[Ignore fullscreen]
+Tam ekran modunu yok say
+[Never show]
+Asla gösterme
+[Show default]
+Varsayılanı göster
+[Default timeout]
+Varsayılan zaman aşımı süresi
+[Infinite popup delay]
+Sonsuz açılır pencere gecikmesi
+[Popup delay:]
+Açılır pencere gecikmesi:
+[seconds]
+saniye
+[Do not close hovered popups]
+Fare imlecinin üzerine getirildiğinde açılan pencereleri kapatmayın
+[Dynamically resize the popups]
+Açılır pencerelerin boyutunu dinamik olarak değiştirin
+[Minimum width]
+Asgari genişlik
+[Maximum width]
+Maksimum genişlik
+[Position:]
+Pozisyon:
+[Layout:]
+Düzen:
+[Reorder popups]
+Açılır pencereleri yeniden sıralama
+[Disable when:]
+Aşağıdaki durumlarda devre dışı bırakın:
+[Always (has priority)]
+Her zaman (önceliklidir)
+[Fullscreen mode]
+Tam ekran modu
+[Idle]
+Boşta
+[Debug]
+Hata ayıklama
+;file \plugins\Popup\src\actions.cpp
+[Quick reply]
+Hızlı yanıt
+[Send message]
+Mesaj gönder
+[User details]
+Kullanıcı bilgileri
+[Contact menu]
+İletişim menüsü
+[Add permanently]
+Kalıcı olarak ekle
+[Pin popup]
+Pim açılır penceresi
+[Dismiss popup]
+Açılır pencereyi kapat
+[Copy to clipboard]
+Panoya kopyala
+[No overwrite]
+Üzerine yazma yok
+[Action]
+Eylem
+;file \plugins\Popup\src\actions.h
+[Do nothing]
+Hiçbir şey yapma
+;file \plugins\Popup\src\config.cpp
+[The Jabberwocky]
+Jabberwocky
+[`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
+`Hava parıldıyordu, ve kaygan toveler\r\nÇimlerde dönüp duruyorlardı:\r\nBorogovlar hep mimsyydiler,\r\nVe mome sıçanlar gürültüyle bağırıyorlardı.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]
+[Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
+Açılır pencere eklentisi ayarları için test önizlemesi. Bu metin, tek satıra sığmayacak kadar uzun olmalı...
+[This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
+Bu, açılır pencere eklentisi ayarları için özel bir test önizlemesidir. Metin ve başlık oldukça uzun olduğundan, temanızı ve eklenti ayarlarınızı ihtiyaçlarınıza en uygun şekilde düzenleyebilirsiniz :)
+[This is a notification message]
+Bu bir bildirim mesajıdır
+[This is a warning message]
+Bu bir uyarı mesajıdır
+[This is an error message]
+Bu bir hata mesajıdır
+;file \plugins\Popup\src\effects.cpp
+[Square fading]
+Kare solma
+;file \plugins\Popup\src\font.h
+[Popups]
+Açılır pencereler
+[Title]
+Başlık
+[Clock]
+Saat
+[Text]
+Metin
+[Hovered action]
+Fareyle üzerine gelindiğinde gerçekleşen eylem
+[Background]
+Arka Plan
+[Border]
+Sınır
+[Sidebar]
+Kenar çubuğu
+[Title underline]
+Başlık altı çizili
+[Avatar border]
+Avatar çerçevesi
+;file \plugins\Popup\src\history.cpp
+[Popup history is disabled]
+Açılır pencere geçmişi devre dışı bırakılmıştır
+[Popup history message]
+Açılır pencere geçmiş mesajı
+;file \plugins\Popup\src\icons.cpp
+[With "favorite" overlay]
+"Favori" katmanıyla
+[With "fullscreen" overlay]
+"Tam ekran" katmanıyla
+[Information]
+Bilgi
+[Warning]
+Uyarı
+[Error]
+Hata
+[Refresh skin list]
+Cilt listesini yenile
+[Popup placement]
+Açılır pencerenin konumu
+[Cancel]
+İptal et
+[Popup group]
+Açılır pencere grubu
+[Favorite contact]
+Favori kişi
+[Show in fullscreen]
+Tam ekran olarak göster
+[Blocked contact]
+Engellenen kişi
+[Pinned popup]
+Sabitlenmiş açılır pencere
+[Add contact permanently]
+Kişiyi kalıcı olarak ekle
+;file \plugins\Popup\src\main.cpp
+[Classes]
+Dersler
+[Actions]
+Eylemler
+[Contacts]
+İletişim Bilgileri
+[Advanced]
+İleri Düzey
+[Toggle popups]
+Açılır pencereleri etkinleştir/devre dışı bırak
+[Enable popups]
+Pop-up'ları etkinleştir
+[Disable popups]
+Pop-up'ları devre dışı bırak
+[Popup Plus]
+Popup Plus
+[Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
+Hata: Popup Window sınıfını kaydedemedim.\r\nEklenti çalışmayacaktır.
+;file \plugins\Popup\src\notifications.cpp
+[Misc]
+Çeşitli
+[Notification]
+Bildirim
+;file \plugins\Popup\src\opt_adv.cpp
+[No effect]
+Etkisi yok
+[Fade in/out]
+Yavaşça belirme/kaybolma
+;file \plugins\Popup\src\opt_class.cpp
+[CLASS Plugins]
+CLASS Eklentileri
+[Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
+Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!
+;file \plugins\Popup\src\opt_gen.cpp
+[Offline]
+Çevrimdışı
+[Online]
+Çevrimiçi
+[Invisible]
+Görünmez
+[Away]
+Deplasman
+[Not available]
+Mevcut değil
+[Occupied]
+İşgal Altında
+[Do not disturb]
+Rahatsız etmeyin
+[Free for chat]
+Sohbet için ücretsiz
+[Width]
+Genişlik
+[Upper left corner]
+Sol üst köşe
+[Lower left corner]
+Sol alt köşe
+[Lower right corner]
+Sağ alt köşe
+[Upper right corner]
+Sağ üst köşe
+[Horizontal]
+Yatay
+[Vertical]
+Dikey
+[Global Status]
+Küresel Durum
+[Protocol Status]
+Protokol Durumu
+[You cannot specify a value lower than %d and higher than %d.]
+%d'den daha düşük veya %d'den daha yüksek bir değer belirleyemezsiniz.
+['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+'Açılır pencereleri yeniden sırala' seçeneği şu anda devre dışıdır.\r\nBu, avatarlar ve metin değiştirme (özellikle NewXstatusNotify) ile birlikte kullanıldığında\r\naçılır pencerelerin hizasının bozulmasına neden olabilir.\r\n\r\nAçılır pencerelerin yeniden sıralanmasını şimdi etkinleştirmek ister misiniz?\r\n
+[Popup plus warning]
+Açılır pencere ve uyarı
+;file \plugins\Popup\src\opt_skins.cpp
+[Skin preview]
+Ekran önizlemesi
+[Just take a look at this skin... ;)]
+Şu görünüme bir bak... ;)
+[Show clock]
+Saati göster
+[Drop shadow effect]
+Gölge efekti
+[non rectangular]
+dikdörtgen olmayan
+[Enable Aero Glass (Vista+)]
+Aero Glass'ı etkinleştir (Vista ve üzeri)
+[Use Windows colors]
+Windows renklerini kullan
+[Use advanced text render]
+Gelişmiş metin görüntülemeyi kullan
+[Global settings]
+Genel ayarlar
+[Refresh List]
+Listeyi Yenile
+;file \plugins\Popup\src\services.cpp
+[Notify]
+Bildir
+;file \plugins\Popup\src\srmm_menu.cpp
+[Auto]
+Otomobil
+[Favorite]
+Favoriler
+[Block]
+Blok
+[Popup mode: Auto]
+Açılır pencere modu: Otomatik
+[Popup mode: Favorite]
+Açılır pencere modu: Favoriler
+[Popup mode: Ignore fullscreen]
+Açılır pencere modu: Tam ekranı göz ardı et

@@ -1,0 +1,67 @@
+#muuid {01202e6a-c1b3-42e5-838a-3e497b31f38e}
+;============================================================
+;  File: YARelay.dll
+;  Plugin: YARelay
+;  Version: 0.1.0.1
+;  Authors: Anar Ibragimoff
+;============================================================
+[Forwards messages to some contact when you are not available.]
+Siz müsait olmadığınızda mesajları belirli bir kişiye iletir.
+;file \plugins\YARelay\res\yaRelay.rc
+[Forward messages from...]
+Şu kişiden gelen mesajları ilet...
+[Everyone]
+Herkes
+[Contact]
+İletişim
+[Forward when your status is...]
+Durumunuz şu olduğunda iletin...
+[Offline]
+Çevrimdışı
+[Online]
+Çevrimiçi
+[Away]
+Deplasman
+[Not available]
+Mevcut değil
+[Occupied]
+İşgal Altında
+[Do not disturb]
+Rahatsız etmeyin
+[Free for chat]
+Sohbet için ücretsiz
+[Invisible]
+Görünmez
+[Forward messages to...]
+Mesajları şuraya ilet...
+[Template]
+Şablon
+[%u - user nick;   %i - uin;    %t - time;   \r%d - date;   %m - message]
+%u - kullanıcı takma adı;   %i - uin;    %t - saat;   \r%d - tarih;   %m - mesaj
+[Forwarding options]
+Yönlendirme seçenekleri
+[Split message (%m)]
+Mesajı böl (%m)
+[Send only first]
+Sadece ilkini gönder
+[Max size of split part (chars)]
+Bölünecek parçanın maksimum boyutu (karakter)
+[Mark received messages as 'read']
+Mark, mesajları 'okundu' olarak aldı
+[Save sent messages in recipient's history]
+Gönderilen mesajları alıcının geçmişine kaydet
+[split parts (0 = all)]
+bölünmüş parçalar (0 = tümü)
+[Note: Max size - it's a size of %m parameter]
+Not: Maksimum boyut – bu, %m parametresinin boyutudur
+[Note: messages from this contact will not be forwarded]
+Not: Bu kişiden gelen mesajlar iletilmeyecektir
+;file \plugins\YARelay\src\options.cpp
+[!EVERYONE!]
+!HERKES!
+[!DON'T FORWARD!]
+!İLETMEYİN!
+[Message sessions]
+Mesaj oturumları
+[Messages forwarding]
+Mesajların iletilmesi

@@ -1,0 +1,83 @@
+#muuid {2f129563-2c7d-4a9a-b948-97dfcc0afdd7}
+;============================================================
+;  File: Folders.dll
+;  Plugin: Custom profile folders
+;  Version: 0.3.0.1
+;  Authors: Cristian Libotean, Miranda NG team
+;============================================================
+[Allows plugins to save their data to user selected folders; supports variables.]
+Eklentilerin verilerini kullanıcının seçtiği klasörlere kaydetmesine olanak tanır; değişkenleri destekler.
+;file \plugins\Folders\res\folders.rc
+[Custom folders]
+Özel klasörler
+[Preview]
+Önizleme
+[Edit]
+Düzenle
+[Refresh preview]
+Önizlemeyi yenile
+[Variables help]
+Değişkenler hakkında yardım
+[Custom folders variables help]
+Özel klasör değişkenleri yardımı
+[Close]
+Kapat
+;file \plugins\Folders\src\dlg_handlers.cpp
+[Don't forget to click on Apply to save the changes. If you don't then the changes won't]
+Değişiklikleri kaydetmek için “Uygula” düğmesine tıklamayı unutmayın. Aksi takdirde değişiklikler
+[be saved to the database, they will only be valid for this session.]
+veritabanına kaydedilmezse, yalnızca bu oturum boyunca geçerli olacaktır.
+[Variable string]
+Değişken dizgi
+[What it expands to:]
+Neye genişler:
+[Expands to your Miranda path (e.g., c:\\program files\\miranda ng).]
+Miranda yolunuza açılır (örn. c:\\program files\\miranda ng).
+[Expands to your profile path - the value found in mirandaboot.ini,]
+Profil yolunuza genişletilir — mirandaboot.ini dosyasında bulunan değer,
+[ProfileDir section (usually inside Miranda's folder).]
+ProfileDir bölümü (genellikle Miranda klasörünün içinde).
+[Expands to your current profile name without the extension.]
+Uzantı hariç, mevcut profil adınızın tam halini gösterir.
+[(e.g., default if your your profile is default.dat).]
+(örneğin, profilinizin adı default.dat ise varsayılan profil budur).
+[Environment variables]
+Ortam değişkenleri
+[The plugin can also expand environment variables; the variables are specified like in any other]
+Eklenti ayrıca ortam değişkenlerini de genişletebilir; değişkenler diğer her durumda olduğu gibi belirtilir
+[program that can use environment variables, i.e., %<env variable>%.]
+çevre değişkenlerini kullanabilen bir program, yani %<çevre değişkeni>%.
+[Note: Environment variables are expanded before any Miranda variables. So if you have, for]
+Not: Ortam değişkenleri, Miranda değişkenlerinden önce genişletilir. Dolayısıyla, örneğin
+[example, %profile_path% defined as a system variable then it will be expanded to that value]
+Örneğin, %profile_path% bir sistem değişkeni olarak tanımlanmışsa, bu değer o değere dönüştürülür
+[instead of expanding to Miranda's profile path.]
+Miranda'nın profil yoluna genişletmek yerine.
+[Examples:]
+Örnekler:
+[If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\\', current]
+mirandaboot.ini dosyasının ProfileDir bölümündeki ProfileDir değeri '.\\profiles\\' ise, mevcut
+[profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\\' then:]
+profil 'default.dat' ve Miranda yolu 'c:\\program files\\miranda ng\\' ise:
+[will expand to 'c:\\program files\\miranda ng']
+'c:\\program files\\miranda ng' konumuna genişletilecek
+[will expand to 'c:\\program files\\miranda ng\\profiles']
+'c:\\program files\\miranda ng\\profiles' konumuna genişletilecektir
+[will expand to 'default']
+'varsayılan' olarak genişletilecektir
+[will expand to the temp folder of the current user.]
+mevcut kullanıcının geçici klasörüne genişletilecektir.
+[will expand to 'c:\\program files\\miranda ng\\profiles\\default']
+'c:\\program files\\miranda ng\\profiles\\default' konumuna genişletilecektir
+[will expand to 'c:\\program files\\miranda ng\\plugins\\config']
+'c:\\program files\\miranda ng\\plugins\\config' konumuna genişletilecektir
+[Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last.]
+Dizenin başındaki ve sonundaki boşlukların yanı sıra sonundaki boşlukların da kaldırıldığına dikkat edin.
+[Some changes weren't saved. Apply the changes now?]
+Bazı değişiklikler kaydedilmedi. Değişiklikleri şimdi uygulamak ister misiniz?
+[Changes not saved]
+Değişiklikler kaydedilmedi
+[Folders]
+Klasörler
+[Customize]
+Kişiselleştir

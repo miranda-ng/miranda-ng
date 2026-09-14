@@ -1,0 +1,138 @@
+#muuid {53e095a3-2695-490a-9dad-d20479093831}
+;============================================================
+;  File: Clist_blind.dll
+;  Plugin: BClist
+;  Version: 0.9.0.1
+;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
+;============================================================
+[A contact list for blind folks.]
+Görme engelli kişiler için bir kişi listesi.
+;file \plugins\Clist_blind\res\resource.rc
+[Sort contacts by name]
+Kişileri isme göre sırala
+[Sort contacts by status]
+Kişileri duruma göre sırala
+[Sort contacts by protocol]
+Kişileri protokole göre sırala
+[Show]
+Göster
+[icon when statuses differ]
+durumlar farklı olduğunda simge
+[Cycle icons every]
+Döngü simgelerini her
+[seconds, when statuses differ]
+saniye, durumlar farklı olduğunda
+[Show multiple icons]
+Birden fazla simgeyi göster
+[Only when statuses differ]
+Yalnızca durumlar farklı olduğunda
+[System tray icon when using multiple protocols]
+Birden fazla protokol kullanılırken sistem tepsisi simgesi
+[Contact list sorting]
+Kişi listesinin sıralanması
+[Window]
+Pencere
+[Always on top]
+Her zaman zirvede
+[Tool style main window]
+Araç stili ana penceresi
+[Minimize to tray]
+Tebeşir kutusuna küçült
+[Hide contact list after it has been idle for]
+Kullanılmadığında, kişi listesini şu süre geçtikten sonra gizle:
+[seconds]
+saniye
+[Automatically resize window to height of list]
+Pencereyi listenin yüksekliğine göre otomatik olarak yeniden boyutlandır
+[maximum]
+maksimum
+[% of screen]
+Ekranın %'si
+[Size upwards]
+Boyutu büyüt
+[Title bar text:]
+Başlık çubuğu metni:
+[Translucency options]
+Şeffaflık seçenekleri
+[Fade contact list in/out]
+Kişi listesini yavaşça gösterme/gizleme
+[Transparent contact list]
+Şeffaf kişi listesi
+[Inactive opacity:]
+Etkin olmayan opaklık:
+[Active opacity:]
+Etkin opaklık:
+[Show menu bar]
+Menü çubuğunu göster
+[Easy move]
+Kolay taşınma
+[Show title bar]
+Başlık çubuğunu göster
+[If window is partially covered, bring to front instead of hiding]
+Pencere kısmen kapalıysa, gizlemek yerine öne getirin
+[Show drop shadow (restart required)]
+Gölgeyi göster (yeniden başlatma gerekiyor)
+[Pin to desktop]
+Masaüstüne sabitle
+[Groups]
+Gruplar
+[Show counts of number of contacts in a group]
+Bir gruptaki kişi sayısını göster
+[Hide group counts when there are none online]
+Çevrimiçi kimse olmadığında grup üye sayılarını gizle
+[Sort groups alphabetically]
+Grupları alfabetik sıraya göre sırala
+[Quick search in open groups only]
+Yalnızca açık gruplarda hızlı arama
+[Templates]
+Şablonlar
+[Contact:]
+İletişim:
+[Group:]
+Grup:
+[Divider:]
+Ayırıcı:
+[Info:]
+Bilgi:
+[Status bar]
+Durum çubuğu
+[Show status bar]
+Durum çubuğunu göster
+[Show icons]
+Simgeleri göster
+[Show account names]
+Hesap adlarını göster
+[Show status text]
+Durum metnini göster
+[Right click opens status menu]
+Sağ tıklama durum menüsünü açar
+[Right click opens Miranda NG menu]
+Sağ tıklama, Miranda NG menüsünü açar
+[Make sections equal width]
+Bölümlerin genişliklerini eşit hale getir
+[Show bevels on panels]
+Panellerde eğimli kenarları göster
+[Show resize grip indicator]
+Boyut değiştirme tutamağı göstergesini göster
+;file \plugins\Clist_blind\src\clc.cpp
+[Unknown protocol]
+Bilinmeyen protokol
+[Group: %name% %count% [%mode%]]
+Grup: %name% %count% [%mode%]
+[Divider: %s]
+Ayırıcı: %s
+[Info: %s]
+Bilgi: %s
+[Expanded]
+Genişletilmiş
+[Collapsed]
+Daraltılmış
+;file \plugins\Clist_blind\src\clcopts.cpp
+[Contact list]
+Kişi listesi
+[List]
+Liste
+;file \plugins\Clist_blind\src\clistopts.cpp
+[Global]
+Küresel
+;file \plugins\Clist_blind\src\cluiopts.cpp

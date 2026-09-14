@@ -1,0 +1,45 @@
+#muuid {1acb2ed1-c1ed-43ee-89bd-086686f6ebb5}
+;============================================================
+;  File: StatusChange.dll
+;  Plugin: Status change
+;  Version: 1.3.0.0
+;  Authors: Angelo Luiz Tartari
+;============================================================
+[Change status when you send/receive an event.]
+Bir olay gönderdiğinizde veya aldığınızda durumu değiştirin.
+;file \plugins\StatusChange\res\resource.rc
+[Offline]
+Çevrimdışı
+[Online]
+Çevrimiçi
+[Away]
+Deplasman
+[Not available]
+Mevcut değil
+[Occupied]
+İşgal Altında
+[Do not disturb]
+Rahatsız etmeyin
+[Free for chat]
+Sohbet için ücretsiz
+[Invisible]
+Görünmez
+[On events...]
+Etkinlikler hakkında...
+[Send]
+Gönder
+[Receive]
+Al
+[Message]
+Mesaj
+[File transfer]
+Dosya aktarımı
+[...change status to...]
+...durumu şuna değiştir...
+[...if status is...]
+...eğer durum...
+;file \plugins\StatusChange\src\main.cpp
+[Status Change]
+Durum Değişikliği
+[Status]
+Durum

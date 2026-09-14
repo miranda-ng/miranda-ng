@@ -1,0 +1,38 @@
+#muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
+;============================================================
+;  File: RecentContacts.dll
+;  Plugin: Recent contacts
+;  Version: 0.1.0.3
+;  Authors: ValeraVi, Kildor
+;============================================================
+[Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.]
+Ana menüye, en son kullanılan kişi adlarının listesini içeren ve en yeniden en eskiye doğru sıralanmış bir pencereyi açan bir menü öğesi ekler.
+;file \plugins\RecentContacts\res\resource.rc
+[Recent Contacts]
+Son İletişimler
+[Plugin settings]
+Eklenti ayarları
+[Number of shown contacts:\n (0 to show all)]
+Görüntülenen kişi sayısı:\n (0, tümünü göster)
+[Format of date and time\n(Look to wiki for placeholders help)]
+Tarih ve saat biçimi\n(Yer tutucularla ilgili yardım için wiki'ye bakın)
+[Hide offline contacts]
+Çevrimdışı kişileri gizle
+[Resize window according to contact list]
+Pencereyi kişi listesine göre yeniden boyutlandır
+;file \plugins\RecentContacts\src\options.cpp
+[Contacts]
+İletişim Bilgileri
+;file \plugins\RecentContacts\src\RecentContacts.cpp
+[Main icon]
+Ana simge
+[Contact]
+İletişim
+[Toggle Ignore]
+Yoksay'ı aç/kapat
+[Ignore Contact]
+Kişiyi Yoksay
+[Show Contact]
+İletişim Bilgilerini Göster
+[Show Recent Contacts]
+Son Kişileri Göster

@@ -1,0 +1,125 @@
+#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
+;============================================================
+;  File: IEView.dll
+;  Plugin: IEView
+;  Version: 1.6.0.6
+;  Authors: Piotr Piastucki, Francois Mean
+;============================================================
+[IE Based Chat Log.]
+IE Tabanlı Sohbet Günlüğü.
+;file \plugins\IEView\res\ieview.rc
+[Copy]
+Kopyala
+[Copy Link]
+Bağlantıyı Kopyala
+[Select All]
+Tümünü Seç
+[Save Image As...]
+Resmi Şu Adla Kaydet...
+[Print]
+Yazdır
+[Clear Log]
+Günlüğü Temizle
+[Show source]
+Kaynağı göster
+[Options]
+Seçenekler
+[Enable BBCodes]
+BBCode'ları etkinleştir
+[Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
+Şu anda aşağıdaki BBCode'lar desteklenmektedir: [b][i][u][s][img][size][color][url]
+[Enable support for Flash files in smileys and BBCodes]
+Smiley’lerde ve BBCode’larda Flash dosyaları için desteği etkinleştir
+[Replace smileys in user names]
+Kullanıcı adlarındaki smiley'leri değiştir
+[Hide window border]
+Pencere kenarlığını gizle
+[Embed YouTube videos]
+YouTube videolarını gömme
+[Size:]
+Boyut:
+[Mode]
+Mod
+[Compatibility Mode]
+Uyumluluk Modu
+[Use External CSS]
+Harici CSS Kullan
+[Use Templates]
+Şablonları Kullan
+[Background image]
+Arka plan resmi
+[Scroll with text]
+Metinle birlikte kaydırma
+[Template Options]
+Şablon Seçenekleri
+[Use message grouping]
+Mesaj gruplandırma özelliğini kullanın
+[Show nicknames]
+Takma adları göster
+[Show time]
+Gösteri zamanı
+[Show seconds]
+Saniyeleri göster
+[Show date]
+Tarihi göster
+[Use long date format]
+Uzun tarih biçimini kullan
+[Use relative timestamp]
+Göreceli zaman damgası kullan
+[Download more templates]
+Daha fazla şablon indirin
+;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Outgoing File Transfer]
+Giden Dosya Aktarımı
+[Incoming File Transfer]
+Gelen Dosya Aktarımı
+;file \plugins\IEView\src\HTMLBuilder.cpp
+[ requested authorization]
+ yetki talebi
+[ was added.]
+ eklendi.
+;file \plugins\IEView\src\ieview_main.cpp
+[RTL On]
+RTL Açık
+[RTL Off]
+RTL Kapalı
+[Group On]
+Group On
+[Group Off]
+Grup Kapalı
+[IEView]
+IEView
+;file \plugins\IEView\src\Options.cpp
+[Default]
+Varsayılan
+[Template]
+Şablon
+[All Files]
+Tüm Dosyalar
+[All Images]
+Tüm Görseller
+[Style Sheet]
+Şekillendirme Sayfası
+[Message sessions]
+Mesaj oturumları
+[General]
+Genel
+[Skins]
+Kaplamalar
+[Message Log]
+Mesaj Günlüğü
+[Group chats]
+Grup sohbetleri
+[History]
+Tarihçe
+;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+[Today]
+Bugün
+[Yesterday]
+Dün
+[File sent]
+Dosya gönderildi
+[File received]
+Dosya alındı
+;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
+;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

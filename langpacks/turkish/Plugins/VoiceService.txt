@@ -1,0 +1,185 @@
+#muuid {1bfc449d-8f6f-4080-8f35-f940b3de1284}
+;============================================================
+;  File: VoiceService.dll
+;  Plugin: Voice Service
+;  Version: 0.1.3.2
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+[Provide services for protocols that support voice calls.]
+Sesli aramaları destekleyen protokoller için hizmetler sunun.
+;file \plugins\VoiceService\res\resource.rc
+[Enable popups]
+Pop-up'ları etkinleştir
+[Colors]
+Renkler
+[Background color]
+Arka plan rengi
+[Text color]
+Metin rengi
+[Use Windows colors]
+Windows renklerini kullan
+[Use default colors]
+Varsayılan renkleri kullan
+[Timeout]
+Zaman aşımı
+[Default]
+Varsayılan
+[Custom]
+Özel
+[Permanent]
+Kalıcı
+[Actions]
+Eylemler
+[On right click:]
+Sağ tıklama durumunda:
+[On left click:]
+Sol tıklama durumunda:
+[Preview]
+Önizleme
+[Show incoming call dialog immediately]
+Gelen arama iletişim kutusunu hemen göster
+[Catch focus on this dialog]
+Odak bu iletişim kutusuna geçsin
+[sec]
+sn
+[New Voice Call]
+Yeni Sesli Arama
+[%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be put on hold.]
+%s sizinle sesli görüşme başlatmak istiyor. Ne yapmak istersiniz?\n\nAramayı kabul ederseniz, mevcut görüşme beklemeye alınacaktır.
+[Answer]
+Cevap
+[Drop]
+Bırak
+[From now on, repeat this action for this contact]
+Bundan böyle, bu kişi için bu işlemi tekrarlayın
+[Frame]
+Çerçeve
+[Auto-size frame]
+Çerçeve boyutunu otomatik olarak ayarla
+[Automatic Actions]
+Otomatik İşlemler
+[Auto accept this contact calls]
+Bu kişinin aramalarını otomatik olarak kabul et
+[Auto drop this contacts calls]
+Bu kişiden gelen aramaları otomatik olarak reddet
+[Audio]
+Ses
+[Input:]
+Giriş:
+[Output:]
+Çıktı:
+[Echo cancelation]
+Yankı giderme
+[Microphone boost]
+Mikrofon güçlendirme
+[Voice call]
+Sesli arama
+[Call will disclose IP address to the peer and his server]
+Arama, IP adresini karşı tarafa ve onun sunucusuna ifşa edecektir
+[Established]
+Kuruluş Tarihi
+[Frame Popup]
+Çerçeve Açılır Penceresi
+[Answer call]
+Aramayı cevapla
+[Drop call]
+Arama kesildi
+[Hold call]
+Aramayı beklet
+;file \plugins\VoiceService\src\hooks.cpp
+[Main]
+Ana Sayfa
+[Dialpad]
+Tuş takımı
+[Secure]
+Güvenli
+[Talking]
+Konuşmak
+[Ringing]
+Çınlama
+[Calling]
+Çağrı
+[On Hold]
+Beklemede
+[Ended]
+Sona erdi
+[Busy]
+Meşgul
+[Ready]
+Hazır
+[Make Voice Call]
+Sesli Arama Yap
+[Answer Voice Call]
+Sesli Aramayı Cevapla
+[Hold Voice Call]
+Sesli Aramayı Beklet
+[Drop Voice Call]
+Sesli Aramayı Sonlandır
+[Started talking]
+Konuşmaya başladı
+[Calling a contact]
+Bir kişiyi aramak
+[Put a call on Hold]
+Bir aramayı beklemeye al
+[End of call]
+Görüşme sonu
+[Busy signal]
+Meşgul sinyali
+[Call %s with %s]
+%s'yi %s ile ara
+[Call with %s]
+%s ile arama yap
+[Call]
+Arayın
+[%s with %s]
+%s ile %s
+[with %s]
+%s ile
+[Voice Calls]
+Sesli Aramalar
+[Dialpad press]
+Tuş takımı tuşlarına basma
+;file \plugins\VoiceService\src\options.cpp
+[Do nothing]
+Hiçbir şey yapma
+[Close popup]
+Açılır pencereyi kapat
+[Open call window]
+Çağrı penceresini aç
+[Test Contact]
+Test İrtibat Kişisi
+[Test description]
+Sınav açıklaması
+[Popups]
+Açılır pencereler
+[Auto actions]
+Otomatik eylemler
+;file \plugins\VoiceService\src\VoiceCall.cpp
+[Voice call started]
+Sesli arama başlatıldı
+[Voice call ringing]
+Sesli arama zil sesi
+[Voice call on hold]
+Bekletilen sesli arama
+[Voice call ended]
+Sesli arama sona erdi
+[Voice call busy]
+Sesli arama meşgul
+[Voice call ready]
+Sesli arama yapılabilir
+[Hold]
+Bekle
+[Holded]
+Tutuldu
+[Resume]
+Özgeçmiş
+[Close]
+Kapat
+[Callee is busy]
+Callee meşgul
+[Cancel]
+İptal et
+[Unknown number]
+Bilinmeyen numara
+[Call is over %s]
+Görüşme sona erdi %s

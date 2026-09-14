@@ -1,0 +1,192 @@
+#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
+;============================================================
+;  File: Fingerprint.dll
+;  Plugin: Fingerprint NG
+;  Version: 0.2.1.1
+;  Authors: faith_healer, ghazan, Mataes
+;============================================================
+[Fingerprint NG (client version) icons module for Miranda NG.]
+Miranda NG için Fingerprint NG (istemci sürümü) simgeler modülü.
+;file \plugins\FingerprintNG\res\resource.rc
+[Fingerprint overlays icons]
+Parmak izi simgelerin üzerine geliyor
+[Miranda clients]
+Miranda müşterileri
+[Miranda packs overlays]
+Miranda’nın kaplama paketleri
+[Secure overlays]
+Güvenli üst katmanlar
+[Show Miranda version at Overlay#2]
+Overlay#2'de Miranda sürümünü göster
+[Resource overlays]
+Kaynak katmanları
+[Platform overlays]
+Platform üst katmanları
+[Protocols overlays]
+Protokol katmanları
+[Unicode overlay]
+Unicode üst katmanı
+[Select protocols]
+Protokol seçin
+[Gadu-Gadu clients]
+Gadu-Gadu istemcileri
+[IRC clients]
+IRC istemcileri
+[Jabber clients]
+Jabber istemcileri
+[RSS clients]
+RSS istemcileri
+[VKontakte clients]
+VKontakte istemcileri
+[Weather clients]
+Hava durumu müşterileri
+[Multi-protocol clients]
+Çoklu protokol istemcileri
+[Other (rare) protocols]
+Diğer (nadir) protokoller
+[Other icons]
+Diğer simgeler
+[Show client icon in message window status bar]
+Mesaj penceresinin durum çubuğunda istemci simgesini göster
+;file \plugins\FingerprintNG\src\fingerprint.cpp
+[Fingerprint]
+Parmak izi
+;file \plugins\FingerprintNG\src\masks.cpp
+[Miranda NG stable]
+Miranda NG kararlı sürümü
+[Miranda IM (old versions)]
+Miranda IM (eski sürümler)
+[Miranda (unknown)]
+Miranda (bilinmiyor)
+[PHP Jabber Client]
+PHP Jabber İstemcisi
+[MP3 Script for mIRC]
+mIRC için MP3 Komut Dosyası
+[Gadu-Gadu client]
+Gadu-Gadu istemcisi
+[Python-based clients]
+Python tabanlı istemciler
+[Jabber client]
+Jabber istemcisi
+[XMPP client]
+XMPP istemcisi
+[Client not found]
+Müşteri bulunamadı
+[Unknown client]
+Bilinmeyen istemci
+[Undetected client]
+Tespit edilemeyen istemci
+[IRC overlay]
+IRC üst katmanı
+[JGmail overlay]
+JGmail üst katmanı
+[JGTalk overlay]
+JGTalk üst katmanı
+[Jabber overlay]
+Jabber üst katmanı
+[VK overlay]
+VK üst katmanı
+[Gadu-Gadu v11 client]
+Gadu-Gadu v11 istemcisi
+[Gadu-Gadu v10 client]
+Gadu-Gadu v10 istemcisi
+[Gadu-Gadu v9 client]
+Gadu-Gadu v9 istemcisi
+[Gadu-Gadu v8 client]
+Gadu-Gadu v8 istemcisi
+[Windows overlay]
+Windows üst katmanı
+[iOS overlay (iPhone/iPad)]
+iOS üst katmanı (iPhone/iPad)
+[MacOS overlay]
+macOS üst katmanı
+[Linux overlay]
+Linux üst katmanı
+[Flash overlay]
+Flash üst katmanı
+[Java overlay]
+Java katmanı
+[Symbian overlay]
+Symbian arayüzü
+[Amiga overlay]
+Amiga üst katmanı
+[Android overlay]
+Android üst katmanı
+[Website overlay]
+Web sitesi üst katmanı
+[Windows Phone overlay]
+Windows Phone üst katmanı
+[Mobile overlay]
+Mobil üst katman
+[debug overlay]
+hata ayıklama katmanı
+[office overlay]
+ofis katmanı
+[mobile overlay]
+mobil üst katman
+[home overlay]
+ana sayfa katmanı
+[work overlay]
+çalışma katmanı
+[notebook overlay]
+dizüstü bilgisayar kaplaması
+[Miranda NG v0.6 #2 overlay]
+Miranda NG v0.6 #2 üst katman
+[Miranda NG v0.5 #2 overlay]
+Miranda NG v0.5 #2 kaplama
+[Miranda NG v0.4 #2 overlay]
+Miranda NG v0.4 #2 kaplama
+[Miranda NG v0.3 #2 overlay]
+Miranda NG v0.3 #2 üst katman
+[Miranda NG v0.2 #2 overlay]
+Miranda NG v0.2 #2 kaplama
+[Miranda NG v0.1 #2 overlay]
+Miranda NG v0.1 #2 kaplama
+[Miranda IM v0.10 #2 overlay]
+Miranda IM v0.10 #2 üst katman
+[Miranda IM v0.9 #2 overlay]
+Miranda IM v0.9 #2 üst katman
+[Miranda IM v0.8 #2 overlay]
+Miranda IM v0.8 #2 üst katmanı
+[Miranda IM v0.7 #2 overlay]
+Miranda IM v0.7 #2 üst katman
+[Miranda IM v0.6 #2 overlay]
+Miranda IM v0.6 #2 üst katman
+[Miranda IM v0.5 #2 overlay]
+Miranda IM v0.5 #2 kaplama
+[Miranda IM v0.4 #2 overlay]
+Miranda IM v0.4 #2 üst katman
+[x64 overlay]
+x64 üst katmanı
+[x32 overlay]
+x32 üst katman
+[NewGPG overlay]
+NewGPG üst katmanı
+[MirOTR overlay]
+MirOTR katmanı
+[SecureIM overlay]
+SecureIM üst katmanı
+;file \plugins\FingerprintNG\src\options.cpp
+[Customize]
+Kişiselleştir
+[Icons]
+Simgeler
+;file \plugins\FingerprintNG\src\prepare.cpp
+[Client icons]
+Müşteri simgeleri
+[Pack overlays]
+Paket kaplamaları
+[Multi-proto clients]
+Çoklu protoköllü istemciler
+[Other protocols]
+Diğer protokoller
+[Overlays]
+Üst Katmanlar
+[Resource]
+Kaynak
+[Platform]
+Platform
+[Security]
+Güvenlik
+[Protocol]
+Protokol

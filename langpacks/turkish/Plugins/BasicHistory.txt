@@ -1,0 +1,469 @@
+#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
+;============================================================
+;  File: BasicHistory.dll
+;  Plugin: Basic history
+;  Version: 1.0.1.10
+;  Authors: Krzysztof Kral
+;============================================================
+[History viewer for Miranda NG.]
+Miranda NG için geçmiş görüntüleyici.
+;file \plugins\BasicHistory\res\BasicHistory.rc
+[Message history]
+Mesaj geçmişi
+[Settings]
+Ayarlar
+[Always show contact list]
+İletişim listesini her zaman göster
+[Show groups in contact list]
+Kişi listesindeki grupları göster
+[Do not show find control border]
+"Bul" kontrolünün kenarlığını gösterme
+[Default event filter]
+Varsayılan olay filtresi
+[Custom filters]
+Özel filtreler
+[Add filter]
+Filtre ekle
+[Delete filter]
+Filtreyi sil
+[Add event]
+Etkinlik ekle
+[Delete event]
+Etkinliği sil
+[WinSCP path]
+WinSCP yolu
+[WinSCP log path]
+WinSCP günlük yolu
+[New messages on top]
+Yeni mesajlar en üstte
+[Show event icons]
+Etkinlik simgelerini göster
+[Show timestamps]
+Zaman damgalarını göster
+[Show names]
+Adları göster
+[Show messages]
+Mesajları göster
+[Truncate message length to:]
+Mesaj uzunluğunu şu değere kısalt:
+[Delta time to group messages:]
+Mesajları gruplandırmak için Delta süresi:
+[hours]
+saat
+[Limit messages to:]
+Mesajları şunlarla sınırlayın:
+[Show date in timestamps]
+Zaman damgalarında tarihi göster
+[Show seconds in timestamps]
+Zaman damgalarında saniyeleri göster
+[Enable smileys]
+Smiley'leri etkinleştir
+[Search forward in list group]
+Liste grubunda ileriye doğru arama yap
+[Search forward in message window]
+Mesaj penceresinde ileriye doğru arama yap
+[Match case]
+Büyük/küçük harf duyarlı
+[Match whole word]
+Tam kelimeyle eşleştir
+[Only incoming messages]
+Yalnızca gelen mesajlar
+[Only outgoing messages]
+Yalnızca gönderilen mesajlar
+[Only selected group]
+Yalnızca seçilen grup
+[All contacts]
+Tüm kişiler
+[Export to text file]
+Metin dosyasına aktar
+[File encoding*]
+Dosya kodlaması*
+[Export to plain HTML]
+Düz HTML olarak dışa aktar
+[Export to rich HTML]
+Zengin HTML formatında dışa aktar
+[External CSS file]
+Dış CSS dosyası
+[* Choose encoding from combo box or enter code page number and name separated by semicolon, name is used in Content-Type header.]
+* Açılır menüden kodlamayı seçin veya kod sayfası numarasını ve adını noktalı virgülle ayırarak girin; ad, Content-Type başlığında kullanılır.
+[Add task]
+Görev ekle
+[Edit task]
+Görevi düzenle
+[Delete task]
+Görevi sil
+[Display errors using popups]
+Hataları açılır pencerelerle göster
+[Save errors to system history]
+Hataları sistem geçmişine kaydet
+[Task]
+Görev
+[Name]
+Adı
+[Active]
+Etkin
+[Action type]
+Eylem türü
+[Filter]
+Filtre
+[Events older than*]
+*'den daha eski etkinlikler
+[Triger type]
+Tetikleyici türü
+[Time]
+Zaman
+[Delta time]
+Delta süresi
+[Day of week]
+Haftanın günü
+[Day]
+Gün
+[Export to]
+Şuraya aktar:
+[Compress output files]
+Çıkış dosyalarını sıkıştır
+[Password]
+Şifre
+[Upload to FTP (WinSCP required)]
+FTP’ye yükle (WinSCP gereklidir)
+[Session name]
+Oturum adı
+[Path to file**]
+Dosyanın yolu**
+[Export imported messages]
+İçe aktarılan mesajları dışa aktar
+[* Use negative values to filter younger events]
+* Daha yeni olayları filtrelemek için negatif değerler kullanın
+[Execute task for specified contacts]
+Belirtilen kişiler için görevi gerçekleştir
+[Cancel]
+İptal et
+;file \plugins\BasicHistory\src\BasicHistory.cpp
+[Open History]
+Tarihi Aç
+[View &history]
+Geçmişi Görüntüle
+[Execute history task]
+Geçmiş görevini çalıştır
+[Incoming message]
+Gelen mesaj
+[Outgoing message]
+Giden mesaj
+[Status change]
+Durum değişikliği
+[Show contacts]
+Kişileri göster
+[Hide contacts]
+Kişileri gizle
+[Find next]
+Sonrakini bul
+[Find previous]
+Önceki sayıyı bul
+[Plus in export]
+Ayrıca ihracatta
+[Minus in export]
+İhracatta düşüş
+[History]
+Tarihçe
+;file \plugins\BasicHistory\src\EventList.cpp
+[All events]
+Tüm etkinlikler
+[Default history events]
+Varsayılan geçmiş olayları
+[History for %s]
+%s'nin geçmişi
+[System]
+Sistem
+[Me]
+Ben
+[Invalid message]
+Geçersiz mesaj
+;file \plugins\BasicHistory\src\ExportManager.cpp
+[%s files (*.%s)]
+%s dosyaları (*.%s)
+[Import]
+İthalat
+[Export]
+Dışa Aktar
+[File does not contain selected contact]
+Dosya, seçilen kişiyi içermiyor
+[File is corrupted]
+Dosya bozuk
+;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[Open in &new window]
+&Yeni pencerede aç
+[&Open in existing window]
+&Mevcut pencerede aç
+[&Copy link]
+&Bağlantıyı kopyala
+[Copy]
+Kopyala
+[Delete]
+Sil
+[Send message]
+Mesaj gönder
+[Reply &quoted]
+&quot;Alıntı&quot; ile yanıtla
+[Delete group]
+Grubu sil
+[Delete all contact history]
+Tüm iletişim geçmişini sil
+[Options]
+Seçenekler
+[Filters]
+Filtreler
+[Fonts and colors]
+Yazı tipleri ve renkler
+[Icons]
+Simgeler
+[Hotkeys]
+Kısayol tuşları
+[Rich HTML]
+Zengin HTML
+[Plain HTML]
+Düz HTML
+[Txt]
+Txt
+[Binary]
+İkili
+[Dat (mContacts)]
+Dat (mContacts)
+[Save window position as default]
+Pencere konumunu varsayılan olarak kaydet
+[Save window position for all contacts]
+Tüm kişiler için pencere konumunu kaydet
+[Do you want to save imported messages to local profile?]
+İçe aktarılan mesajları yerel profile kaydetmek ister misiniz?
+[File contains history for different contact. Do you want to change contact and import?]
+Dosya, farklı bir kişinin geçmiş bilgilerini içeriyor. Kişiyi değiştirmek ve içe aktarmak istiyor musunuz?
+[Error]
+Hata
+[Number of history items to delete: %d.\nAre you sure you want to do this?]
+Silinecek geçmiş öğelerinin sayısı: %d.\nBunu yapmak istediğinizden emin misiniz?
+[Are you sure?]
+Emin misin?
+[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
+Bu kişiye ait tüm içe aktarılmış mesajları silmek istiyor musunuz?\nBir sonraki zamanlayıcı görevi bu mesajları yeniden içe aktaracaktır.
+;file \plugins\BasicHistory\src\Options.cpp
+[Message]
+Mesaj
+[File transfer]
+Dosya aktarımı
+[Authorization request]
+Yetki talebi
+[You were added]
+Eklendiniz
+[Contacts received]
+Alınan kişiler
+[Group list]
+Grup listesi
+[Messages]
+Mesajlar
+[Searching]
+Arama
+[Scheduler]
+Zamanlayıcı
+[Advanced]
+İleri Düzey
+[>> Outgoing timestamp]
+>> Giden zaman damgası
+[Outgoing background]
+Giden arka plan
+[<< Incoming timestamp]
+<< Gelen zaman damgası
+[Incoming background]
+Gelen arka plan
+[>> Outgoing name]
+>> Gönderilen isim
+[<< Incoming name]
+<< Gelen isim
+[>> Outgoing messages]
+>> Gönderilen mesajlar
+[<< Incoming messages]
+<< Gelen mesajlar
+[Group list background]
+Grup listesi arka planı
+[Find window]
+Pencereyi bul
+[Find window background]
+Pencerenin arka planını bul
+[Window background]
+Pencere arka planı
+[Contact list background]
+Kişi listesinin arka planı
+[Open global history]
+Küresel geçmişi aç
+[Find]
+Bul
+[Switch match case]
+Büyük/küçük harf duyarlı aramayı devre dışı bırak
+[Switch match whole word]
+"Bütün kelime" seçeneğini etkinleştir
+[Show/hide contacts]
+Kişileri göster/gizle
+[Switch only incoming messages]
+Yalnızca gelen mesajları göster
+[Switch only outgoing messages]
+Yalnızca giden mesajları değiştir
+[Switch only selected group]
+Yalnızca seçili grubu değiştir
+[Switch all contacts]
+Tüm kişileri değiştir
+[Export to binary]
+İkili biçime aktar
+[Import from binary]
+İkili dosyadan içe aktarma
+[Export to dat (mContacts)]
+dat dosyasına aktar (mContacts)
+[Import from dat (mContacts)]
+dat (mContacts) dosyasından içe aktar
+[Invalid event number]
+Geçersiz olay numarası
+[Incoming events]
+Yaklaşan etkinlikler
+[Outgoing events]
+Dış etkinlikler
+[File does not exist. Enter correct file path.]
+Dosya mevcut değil. Doğru dosya yolunu girin.
+[Invalid file]
+Geçersiz dosya
+[All files (*.*)]
+Tüm dosyalar (*.*)
+[Enter filter name]
+Filtre adını girin
+[Filter name exists]
+Filtre adı mevcut
+[Event already exists]
+Etkinlik zaten mevcut
+[Browse WinSCP file]
+WinSCP dosyasına göz at
+[Save WinSCP log file]
+WinSCP günlük dosyasını kaydet
+[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+Geçersiz bir kod sayfası girdiniz. Açılır menüden bir kod sayfası seçin veya doğru numarayı girin.
+[Invalid codepage]
+Geçersiz kod sayfası
+[Browse CSS file]
+CSS dosyasına göz at
+[Export and delete]
+Dışa aktar ve sil
+[Import and merge]
+İçe aktar ve birleştir
+[Minute]
+Tutanak
+[Hour]
+Saat
+[At start]
+Başlangıçta
+[At finish]
+Bitişte
+[Daily]
+Günlük
+[Weekly]
+Haftalık
+[Monthly]
+Aylık
+[Delta time (minutes)]
+Delta süresi (dakika)
+[Delta time (hours)]
+Delta süresi (saat)
+[Monday]
+Pazartesi
+[Tuesday]
+Salı
+[Wednesday]
+Çarşamba
+[Thursday]
+Perşembe
+[Friday]
+Cuma
+[Saturday]
+Cumartesi
+[Sunday]
+Pazar
+[Invalid '%s' value.]
+'%s' değeri geçersiz.
+[Events older than]
+Şu tarihten daha eski etkinlikler
+[Some value is invalid]
+Bazı değerler geçersiz
+[Invalid '%s' value.\n%s]
+'%s' değeri geçersiz.\n%s
+[** Use <ext> to insert extension, <contact> to insert contact name]
+** Uzantıyı eklemek için <ext>'i, kişi adını eklemek için <contact>'ı kullanın
+[Input files are compressed]
+Giriş dosyaları sıkıştırılmıştır
+[Download from FTP (WinSCP required)]
+FTP'den indir (WinSCP gereklidir)
+[Import from]
+Şuradan içe aktar:
+[** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
+** Tarih eklemek için <date>'i, uzantı eklemek için <ext>'i, kişi adını eklemek için <contact>'ı kullanın
+;file \plugins\BasicHistory\src\Options.h
+;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
+[History log]
+Geçmiş kaydı
+[Filter:]
+Filtre:
+[Conversation started at %s]
+%s'de başlatılan sohbet
+;file \plugins\BasicHistory\src\RichHtmlExport.cpp
+[Menu]
+Menü
+[Open all]
+Tümünü aç
+[Close all]
+Hepsini kapat
+;file \plugins\BasicHistory\src\Scheduler.cpp
+[History task]
+Tarih ödevi
+[Contacts]
+İletişim Bilgileri
+[At least one contact should be selected.]
+En az bir kişi seçilmelidir.
+[Upload to FTP]
+FTP'ye yükle
+[Path to output file]
+Çıktı dosyasının yolu
+[To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
+Bir oturum oluşturmak için WinSCP’yi açın, “Yeni Oturum” seçeneğine tıklayın, bilgileri girin ve belirlediğiniz adla kaydedin. FTP sunucusu şifre gerektiriyorsa, bu şifreyi WinSCP’ye kaydetmeniz gerektiğini unutmayın.
+[Path to file]
+Dosyanın yolu
+[FTP path must contain '/' instead '\\' and start with '/'.]
+FTP yolu, '\\' yerine '/' içermeli ve '/' ile başlamalıdır.
+[FTP path cannot contain <date> in import task.]
+İçe aktarma görevinde FTP yolu <tarih> içeremez.
+[Unknown error]
+Bilinmeyen hata
+[Cannot get FTP file(s).]
+FTP dosyaları alınamıyor.
+[Cannot unzip file(s).]
+Dosya(lar) açılmıyor.
+[Incorrect file format: %s.]
+Yanlış dosya biçimi: %s.
+[Unknown contact in file: %s.]
+Dosyada tanımlanmamış kişi: %s.
+[Cannot export history for contact: %s.]
+%s numaralı kişinin geçmişi dışa aktarılamıyor.
+[Cannot compress file(s).]
+Dosya(lar) sıkıştırılamıyor.
+[Cannot send FTP file(s).]
+FTP dosyaları gönderilemiyor.
+[Task finished]
+Görev tamamlandı
+[Task '%s' execution failed]
+'%s' görevinin yürütülmesi başarısız oldu
+[Task '%s' finished successfully]
+'%s' görevi başarıyla tamamlandı
+[Task '%s' execution failed:]
+'%s' görevinin yürütülmesi başarısız oldu:
+;file \plugins\BasicHistory\src\Searcher.cpp
+["%s" not found]
+"%s" bulunamadı
+[Search]
+Arama
+[You have reached the end of the group.]
+Grubun sonuna geldiniz.
+[You have reached the end of the history.]
+Tarihin sonuna geldiniz.
+;file \plugins\BasicHistory\src\TxtExport.cpp

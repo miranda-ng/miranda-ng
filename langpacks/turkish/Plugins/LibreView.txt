@@ -1,0 +1,94 @@
+#muuid {d0d8a5be-a76a-46b1-92b6-3d69924e211d}
+;============================================================
+;  File: LibreView.dll
+;  Plugin: LibreView
+;  Version: 0.1.1.0
+;  Authors: Miranda NG team
+;============================================================
+[Retrieves blood glucose data from LibreView service and displays it in your contact list.]
+LibreView hizmetinden kan şekeri verilerini alır ve bunları kişi listenizde görüntüler.
+;file \protocols\LibreView\res\options.rc
+[Email:]
+E-posta:
+[Password:]
+Şifre:
+[API URL:]
+API URL'si:
+[Update every]
+Her
+[minutes (0 = disable auto update)]
+dakika (0 = otomatik güncellemeyi devre dışı bırak)
+[Display units:]
+Teşhir üniteleri:
+[mmol/L]
+mmol/L
+[mg/dL]
+mg/dL
+[Offset:]
+Ofset:
+[(added before unit conversion)]
+(birim dönüştürmeden önce eklenmiştir)
+[Write data to history]
+Verileri geçmişe kaydet
+[Patient:]
+Hasta:
+[Last glucose:]
+Son glikoz değeri:
+[Sensor activation:]
+Sensörün devreye girmesi:
+[Sensor remaining:]
+Kalan sensör sayısı:
+[Last update:]
+Son güncelleme:
+[Glucose history]
+Glikoz geçmişi
+;file \protocols\LibreView\src\check.cpp
+[updating...]
+güncelleniyor...
+[LibreView update failed]
+LibreView güncellemesi başarısız oldu
+[error]
+hata
+;file \protocols\LibreView\src\graph.cpp
+[No data available]
+Veriler mevcut değil
+[&Glucose history]
+&Glikoz geçmişi
+;file \protocols\LibreView\src\main.cpp
+[LibreView]
+LibreView
+[&Update data]
+&Verileri güncelle
+;file \protocols\LibreView\src\options.cpp
+[Network]
+Ağ
+;file \protocols\LibreView\src\proto.cpp
+[Login failed]
+Giriş başarısız oldu
+[Login error]
+Giriş hatası
+[falling quickly]
+hızla düşen
+[falling]
+düşen
+[steady]
+istikrarlı
+[rising]
+yükselen
+[rising quickly]
+hızla yükseliyor
+[trend unknown]
+eğilim bilinmiyor
+[Failed to connect to LibreView server. Please check your internet connection and try again.]
+LibreView sunucusuna bağlanılamadı. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin.
+;file \protocols\LibreView\src\userinfo.cpp
+[N/A]
+Yok
+[Expired]
+Süresi dolmuş
+[%d days %d hours]
+%d gün %d saat
+[%d hours %d minutes]
+%d saat %d dakika
+[%d minutes]
+%d dakika

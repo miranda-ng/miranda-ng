@@ -1,0 +1,77 @@
+#muuid {008b9ce1-154b-44e4-9823-97c1aab00c3c}
+;============================================================
+;  File: WhatsApp.dll
+;  Plugin: WhatsApp protocol
+;  Version: 0.0.1.1
+;  Authors: George Hazan
+;============================================================
+[WhatsApp protocol support for Miranda NG.]
+Miranda NG için WhatsApp protokol desteği.
+;file \protocols\WhatsApp\res\whatsapp.rc
+[Link a device]
+Bir cihazı bağla
+[Open WhatsApp application on your mobile phone, choose "Linked devices" and use it to read this QR code.\nA window will disappear automatically after it.]
+Cep telefonunuzda WhatsApp uygulamasını açın, "Bağlı cihazlar" seçeneğini seçin ve bu QR kodunu okumak için bu özelliği kullanın.\nArdından bir pencere otomatik olarak kapanacaktır.
+[Nick:]
+Nick:
+[Default group:]
+Varsayılan grup:
+[Device name:]
+Cihaz adı:
+[Do not open chat windows on creation]
+Oluşturulduğunda sohbet pencerelerini açmayın
+[Use BBCode]
+BBCode kullan
+[Log out]
+Çıkış
+[Invite users]
+Kullanıcıları davet et
+[Choose a user]
+Bir kullanıcı seçin
+[Other user:]
+Başka bir kullanıcı:
+[&Invite]
+&Davet et
+[Cancel]
+İptal et
+;file \protocols\WhatsApp\src\chats.cpp
+[Owner]
+Sahibi
+[SuperAdmin]
+Süper Yönetici
+[Admin]
+Yönetici
+[Participant]
+Katılımcı
+;file \protocols\WhatsApp\src\iq.cpp
+[Incoming call]
+Gelen arama
+[Call rejected]
+Arama reddedildi
+[Call ended]
+Görüşme sona erdi
+;file \protocols\WhatsApp\src\main.cpp
+[WhatsApp (HTTP)]
+WhatsApp (HTTP)
+;file \protocols\WhatsApp\src\options.cpp
+[Do you really want to log out from account? You will have to link your devices again.]
+Hesabınızdan gerçekten çıkış yapmak istiyor musunuz? Cihazlarınızı yeniden bağlamanız gerekecektir.
+[Network]
+Ağ
+[Account]
+Hesap
+;file \protocols\WhatsApp\src\proto.cpp
+[%s (server)]
+%s (sunucu)
+[Connection cannot be established! You have not completed all necessary fields (Nick).]
+Bağlantı kurulamıyor! Gerekli tüm alanları doldurmadınız (Takma Ad).
+[Error]
+Hata
+;file \protocols\WhatsApp\src\server.cpp
+[This account was logged out from mobile phone, you need to link it again]
+Bu hesap cep telefonundan oturumdan çıkarıldı; hesabı yeniden bağlamanız gerekiyor
+;file \protocols\WhatsApp\src\utils.cpp
+[%s error notifications]
+%s hata bildirimleri
+[Errors]
+Hatalar
