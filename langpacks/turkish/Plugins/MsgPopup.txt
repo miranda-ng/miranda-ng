@@ -1,0 +1,44 @@
+#muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
+;============================================================
+;  File: MsgPopup.dll
+;  Plugin: Message popup
+;  Version: 0.1.2.2
+;  Authors: StDenis
+;============================================================
+[Plugin replaces message boxes (those having only OK button) with popups.]
+Bu eklenti, mesaj kutularını (sadece “Tamam” düğmesi olanları) açılır pencerelerle değiştirir.
+;file \plugins\MsgPopup\res\MsgPopup.rc
+[ASTERISK style]
+ASTERISK stili
+[Background color]
+Arka plan rengi
+[Text color]
+Metin rengi
+[ERROR style]
+HATA stili
+[EXCLAMATION style]
+Ünlem işareti stili
+[QUESTION style]
+SORU biçimi
+[Preview]
+Önizleme
+[Timeout]
+Zaman aşımı
+[Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
+"Zaman Aşımı"nın özel değerleri:\n -1 - sonsuz, 0 - varsayılan zaman aşımı değerini kullan
+[Emit a sound]
+Ses çıkarmak
+;file \plugins\MsgPopup\src\main.cpp
+[MessagePopup]
+Mesaj Açılır Penceresi
+[Popups]
+Açılır pencereler
+;file \plugins\MsgPopup\src\options.cpp
+[Message with question]
+Soru içeren mesaj
+[Message with exclamation]
+Ünlem işareti içeren mesaj
+[Message with error]
+Hata içeren mesaj
+[Message with asterisk]
+Yıldız işareti içeren mesaj

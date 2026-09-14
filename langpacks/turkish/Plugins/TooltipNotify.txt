@@ -1,0 +1,89 @@
+#muuid {5906a545-f31a-4726-b48f-03a09f060318}
+;============================================================
+;  File: TooltipNotify.dll
+;  Plugin: Tooltip notify
+;  Version: 0.7.0.1
+;  Authors: perf
+;============================================================
+[Shows a small tooltip above system tray area when a contact status is changed.]
+Bir kişinin durumu değiştiğinde, sistem tepsisi alanının üzerinde küçük bir bilgi balonu gösterir.
+;file \plugins\TooltipNotify\res\main.rc
+[Select protocols]
+Protokol seçin
+[Choose contacts]
+Kişileri seçin
+[Allow tooltip notifications for the following users:]
+Aşağıdaki kullanıcılar için araç ipucu bildirimlerine izin ver:
+[Cancel]
+İptal et
+[Notify upon the following events]
+Aşağıdaki olaylarda bildirim gönder
+[Online]
+Çevrimiçi
+[Offline]
+Çevrimdışı
+[All other]
+Diğer tüm
+[Typing]
+Yazma
+[Protocols]
+Protokol
+[Suppress notifications upon connection for]
+Aşağıdakiler için bağlantı kurulduğunda bildirimleri engelle
+[sec]
+sn
+[Prefix protocol name]
+Protokol adının öneki
+[Duration]
+Süre
+[Show tooltip for]
+Şunun için araç ipucunu göster:
+[ms]
+ms
+[Duration x2 upon online event]
+Çevrimiçi etkinlik sırasında süre 2 katına çıkar
+[Double click on tooltip]
+Araç ipucuna çift tıklayın
+[Shows/Hides contact list]
+Kişi listesini gösterir/gizler
+[Opens message dialog]
+Mesaj iletişim kutusunu açar
+[Behavior]
+Davranış
+[Misc]
+Çeşitli
+[Obey 'Suppress online notification' settings]
+“Çevrimiçi bildirimleri gizle” ayarlarına uyun
+[Auto positioning]
+Otomatik konumlandırma
+[Transparent input]
+Şeffaf girdi
+[Preview]
+Önizleme
+[Translucency options]
+Şeffaflık seçenekleri
+[Transparent tooltip]
+Şeffaf araç ipucu
+[Contacts]
+İletişim Bilgileri
+[Idle]
+Boşta
+;file \plugins\TooltipNotify\src\TooltipNotify.cpp
+[Tooltip Notify]
+Araç İpucu Bildirimi
+[Other status]
+Diğer durumlar
+[Other]
+Diğer
+[Popups]
+Açılır pencereler
+[** New contacts **]
+** Yeni kişiler **
+[** Unknown contacts **]
+** Bilinmeyen kişiler **
+[Not Idle]
+Boşta Değil
+[Unknown]
+Bilinmiyor
+[is]
+şudur

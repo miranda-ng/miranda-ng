@@ -1,0 +1,285 @@
+#muuid {49bd9f2a-3111-4eb9-87e3-71e69cd97f7c}
+;============================================================
+;  File: QuickSearch.dll
+;  Plugin: Quick Search
+;  Version: 1.5.0.4
+;  Authors: Bethoven, Awkward
+;============================================================
+[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list.]
+Bu eklenti, kişi listenizde takma ad, ad, soyad, e-posta adresi ve UIN'e göre hızlı arama yapmanızı sağlar.
+;file \plugins\QuickSearch\res\resource.rc
+[Reload]
+Yeniden Yükle
+[New]
+Yeni
+[Up]
+Yukarı
+[Down]
+Aşağı
+[Delete]
+Sil
+[Default]
+Varsayılan
+[Settings]
+Ayarlar
+[Title:]
+Başlık:
+[Type:]
+Tür:
+[Data type:]
+Veri türü:
+[Module:]
+Modül:
+[Setting:]
+Ortam:
+[Info type:]
+Bilgi türü:
+[Save]
+Kaydet
+[Tool Window Style]
+Araç Penceresi Stili
+[Draw Grid]
+Izgara Çiz
+[Save search pattern]
+Arama şablonunu kaydet
+[Auto Close mode]
+Otomatik Kapatma modu
+[Sort by Status]
+Duruma göre sırala
+[Show Client Icons]
+Müşteri Simgelerini Göster
+[Additional Options]
+Ek Seçenekler
+[Refresh]
+Yenile
+[Show Offline contacts]
+Çevrimdışı kişileri göster
+[Colorize]
+Renklendir
+;file \plugins\QuickSearch\src\main.cpp
+[Quick Search]
+Hızlı Arama
+[Open Quick Search window]
+Hızlı Arama penceresini aç
+[New Column]
+Yeni Sütun
+[Column Up]
+Sütun Yukarı
+[Column Down]
+Sütun Aşağı
+[Delete Column]
+Sütunu Sil
+[Male]
+Erkek
+[Female]
+Kadın
+[Normal background]
+Normal arka plan
+[Normal foreground]
+Normal ön plan
+[Odd background]
+Tuhaf bir arka plan
+[Odd foreground]
+Tuhaf ön plan
+[Disabled account background]
+Devre dışı bırakılmış hesap geçmişi
+[Disabled account foreground]
+Engelli hesap ön planı
+[Deleted account background]
+Silinmiş hesap geçmişi
+[Deleted account foreground]
+Silinmiş hesap ön planında
+[Hidden contact background]
+Gizli kişi arka planı
+[Hidden contact foreground]
+Gizli kişi ön planda
+[Metacontact background]
+Metacontact hakkında genel bilgiler
+[Metacontact foreground]
+Metacontact ön planı
+[Subcontact background]
+Alt yüklenici hakkında bilgiler
+[Subcontact foreground]
+Alt temas ön planı
+;file \plugins\QuickSearch\src\options.cpp
+[Script]
+Senaryo
+[Service]
+Hizmet
+[Contact info]
+İletişim bilgileri
+[Other]
+Diğer
+[Metacontact]
+Metakontak
+[Title]
+Başlık
+[Module/Info type]
+Modül/Bilgi türü
+[Setting]
+Ortam
+[Database setting]
+Veritabanı ayarları
+[Byte]
+Byte
+[Word]
+Word
+[Dword]
+Dword
+[Signed]
+İmzalı
+[Hexadecimal]
+Onaltılık
+[String]
+Dize
+[Timestamp]
+Zaman damgası
+[Last seen]
+En son görüldü
+[Last event]
+Son etkinlik
+[Event count]
+Olay sayısı
+[Display name]
+Görünen ad
+[Account name]
+Hesap adı
+[New column]
+Yeni sütun
+[Contacts]
+İletişim Bilgileri
+;file \plugins\QuickSearch\src\utils.cpp
+[Account]
+Hesap
+[Gender]
+Cinsiyet
+[UserID]
+Kullanıcı Kimliği
+[Nickname]
+Takma ad
+[First name]
+Adı
+[Last name]
+Soyadı
+[Group]
+Grup
+[Container]
+Konteyner
+[Email]
+E-posta
+[Client ID]
+Müşteri Kimliği
+[Online since]
+Çevrimiçi olma tarihi:
+[Contact add time]
+İletişim bilgilerinin eklenme zamanı
+[Nick]
+Nick
+[Custom nick]
+Kişisel takma ad
+[City]
+Şehir
+[State]
+Eyalet
+[Country]
+Ülke
+[Phone]
+Telefon
+[Homepage]
+Ana Sayfa
+[About]
+Hakkında
+[Age]
+Yaş
+[First name/Last name]
+Ad/Soyad
+[Unique ID]
+Benzersiz Kimlik
+[Fax]
+Faks
+[Cellular]
+Hücresel
+[Time zone]
+Saat dilimi
+[My notes]
+Notlarım
+[Birth day]
+Doğum günü
+[Birth month]
+Doğum ayı
+[Birth year]
+Doğum yılı
+[Street]
+Sokak
+[ZIP code]
+Posta kodu
+[Language #1]
+Dil #1
+[Language #2]
+Dil #2
+[Language #3]
+Dil #3
+[Company name]
+Şirket adı
+[Company department]
+Şirket departmanı
+[Company position]
+Şirketteki pozisyon
+[Company street]
+Şirket Caddesi
+[Company city]
+Şirketin bulunduğu şehir
+[Company state]
+Şirketin durumu
+[Company ZIP]
+Şirket Posta Kodu
+[Company country]
+Şirketin bulunduğu ülke
+[Company homepage]
+Şirketin ana sayfası
+[Display ID]
+Ekran Kimliği
+;file \plugins\QuickSearch\src\window.cpp
+[Unknown]
+Bilinmiyor
+[Stay on Top]
+Gelişmeleri Takip Edin
+;file \plugins\QuickSearch\src\window_misc.cpp
+[Do you really want to delete selected contacts?]
+Seçilen kişileri gerçekten silmek istiyor musunuz?
+[Warning]
+Uyarı
+[%i users found (%i) Online: %i]
+%i kullanıcı bulundu (%i) Çevrimiçi: %i
+[deleted]
+silindi
+[disabled]
+engelli
+[active]
+aktif
+[Online]
+Çevrimiçi
+[All]
+Tümü
+[Editing of column %s]
+%s sütununun düzenlenmesi
+[Enter new cell value]
+Yeni hücre değerini girin
+[Change setting through QS]
+QS aracılığıyla ayarı değiştirin
+[Selected %d contacts]
+Seçilen %d kişi
+[&Delete]
+&Sil
+[&Copy]
+&Kopyala
+[C&onvert to Meta]
+C'yi Meta'ya dönüştür
+[Attach to &Tab container]
+&Tab kapsayıcısına ekle
+[&Move to Group]
+&Gruba Taşı
+[Some of selected contacts in different metacontacts already]
+Farklı meta-kişiler listesindeki seçilmiş bazı kişiler zaten
+[One or more contacts already belong to the same metacontact. Try to convert anyway?]
+Bir veya daha fazla kişi zaten aynı meta-kişiye ait. Yine de dönüştürmek ister misiniz?

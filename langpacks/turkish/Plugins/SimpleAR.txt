@@ -1,0 +1,46 @@
+#muuid {46bf191f-8dfb-4656-88b2-4c20be4cfa44}
+;============================================================
+;  File: SimpleAR.dll
+;  Plugin: Simple auto replier
+;  Version: 2.0.2.6
+;  Authors: Stark Wong, Mataes, Mikel-Ard-Ri
+;============================================================
+[Simple Auto Replier.]
+Basit Otomatik Yanıtlayıcı.
+;file \plugins\SimpleAR\res\Resource.rc
+[Enable Auto Replier]
+Otomatik Yanıtlama Özelliğini Etkinleştir
+[Reply Message Heading:]
+Yanıt Mesajı Başlığı:
+[Reply Message when]
+Ne zaman Mesaj Cevapla
+[No-repeat Interval:]
+Tekrarsız Aralık:
+[mins]
+dakika
+[&Default]
+&Varsayılan
+;file \plugins\SimpleAR\src\Main.cpp
+[I am currently away. I will reply to you when I am back.]
+Şu anda dışarıda bulunuyorum. Döndüğümde size cevap vereceğim.
+[I am currently very busy and can't spare any time to talk with you. Sorry...]
+Şu anda çok meşgulüm ve seninle konuşacak vaktim yok. Üzgünüm...
+[I am not available right now.]
+Şu anda müsait değilim.
+[I am now doing something, I will talk to you later.]
+Şu anda bir işim var, seninle sonra konuşurum.
+[Disable Auto&reply]
+Otomatik Yanıtı Devre Dışı Bırak
+[Enable Auto&reply]
+Otomatik Yanıtı Etkinleştir
+[Turn off Autoanswer]
+Otomatik Yanıtlamayı Devre Dışı Bırak
+[Turn on Autoanswer]
+Otomatik Yanıtı Etkinleştir
+[Dear %user%, the owner left the following message:]
+Sevgili %user%, sahibi şu mesajı bırakmış:
+;file \plugins\SimpleAR\src\Options.cpp
+[Simple Auto Replier]
+Basit Otomatik Yanıtlayıcı
+[Message sessions]
+Mesaj oturumları

@@ -1,0 +1,91 @@
+#muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}
+;============================================================
+;  File: ClientChangeNotify.dll
+;  Plugin: Client change notify
+;  Version: 0.1.1.4
+;  Authors: Deathdemon
+;============================================================
+[Shows a notification when someone in your contact list changes his client.]
+Kişi listenizdeki birisi istemcisini değiştirdiğinde bir bildirim gösterir.
+;file \plugins\ClientChangeNotify\res\Resources.rc
+[ClientChangeNotify error]
+ClientChangeNotify hatası
+[Fingerprint plugin not found.]
+Parmak izi eklentisi bulunamadı.
+[ClientChangeNotify requires it to work properly.]
+ClientChangeNotify'nin düzgün çalışması için bu gereklidir.
+[Don't remind me anymore]
+Artık bana bunu hatırlatma
+[Enable notification]
+Bildirimi etkinleştir
+[Show previous client name]
+Önceki müşteri adını göster
+[Notify also when just client version changes]
+Yalnızca istemci sürümü değiştiğinde de bildirimde bulun
+[Show client version]
+Müşteri sürümünü göster
+[Don't notify for contacts with disabled status notification]
+Durum bildirimi devre dışı bırakılmış kişiler için bildirim göndermeyin
+[Click action]
+Tıklama eylemi
+[On left click]
+Sol tıklama üzerine
+[On right click]
+Sağ tıklama üzerine
+[Timeout]
+Zaman aşımı
+[Sec]
+Saniye
+[0 = Default]
+0 = Varsayılan
+[-1 = Infinite]
+-1 = Sonsuz
+[Colors]
+Renkler
+[Background]
+Arka Plan
+[Use default]
+Varsayılanı kullan
+[Text]
+Metin
+[Preview]
+Önizleme
+[Ignore these clients (separated by semicolons):]
+Bu istemcileri (noktalı virgülle ayrılmış olanları) göz ardı edin:
+[(you have to install pcre16.mir to use regular expressions here)]
+(burada düzenli ifadeleri kullanmak için pcre16.mir'i yüklemeniz gerekir)
+;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
+[changed client to %s (was %s)]
+istemciyi %s olarak değiştirdi (önceki değer: %s)
+[changed client to %s]
+istemciyi %s olarak değiştirdi
+[%s (was %s)]
+%s (eski adı %s)
+[Client change notifications]
+Müşteri değişiklik bildirimleri
+[ClientChangeNotify: Client changed]
+ClientChangeNotify: İstemci değişti
+;file \plugins\ClientChangeNotify\src\Misc.h
+[Error #%d]
+Hata #%d
+[Can't open log file ]
+Günlük dosyasını açamıyorum 
+;file \plugins\ClientChangeNotify\src\OptDlg.cpp
+[(you can use regular expressions here)]
+(burada düzenli ifadeler kullanabilirsiniz)
+[Open message window]
+Mesaj penceresini aç
+[Close popup]
+Açılır pencereyi kapat
+[Open contact details window]
+İletişim bilgileri penceresini aç
+[Open contact menu]
+İletişim menüsünü aç
+[Open contact history]
+İletişim geçmişini aç
+[Do nothing]
+Hiçbir şey yapma
+[Popups]
+Açılır pencereler
+[ClientChangeNotify]
+ClientChangeNotify

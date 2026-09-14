@@ -1,0 +1,1022 @@
+#muuid {f184f5a0-c198-4454-a9b4-f6e2fd534133}
+;============================================================
+;  File: HistoryStats.dll
+;  Plugin: HistoryStats
+;  Version: 0.2.1.2
+;  Authors: Martin Afanasjew
+;============================================================
+[Creates detailed, colorful and highly customizable statistics using your message history.]
+Mesaj geçmişinizi kullanarak ayrıntılı, renkli ve son derece özelleştirilebilir istatistikler oluşturur.
+;file \plugins\HistoryStats\res\resource.rc
+[HistoryStats - Working...]
+HistoryStats - İşleniyor...
+[Cancel]
+İptal et
+[HistoryStats - Add column]
+HistoryStats - Sütun ekle
+[Available column types:]
+Kullanılabilir sütun türleri:
+[Description]
+Açıklama
+[Add]
+Ekle
+[HistoryStats - Conflicting files]
+HistoryStats - Çakışan dosyalar
+[Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files, there is an option for this.]
+Mevcut dosyaların üzerine yazılmasını önlemek için bazı dosyalar geçici olarak başka bir konuma kaydedildi. Mevcut dosyaların üzerine her zaman yazılmasını istiyorsanız, bunun için bir seçenek mevcuttur.
+[The following files could not be written because files with the same names already existed. Please decide whether to overwrite the existing or to discard the generated files.]
+Aşağıdaki dosyalar, aynı ada sahip dosyalar zaten mevcut olduğu için yazılmadı. Lütfen mevcut dosyaların üzerine yazılmasını mı, yoksa oluşturulan dosyaların silinmesini mi istediğinize karar verin.
+[Overwrite existing]
+Mevcut olanın üzerine yaz
+[Discard generated]
+Oluşturulan elden çıkarıldı
+[HistoryStats supports several plugins. Click to learn more...]
+HistoryStats, çeşitli eklentileri desteklemektedir. Daha fazla bilgi için tıklayın...
+[Contacts]
+İletişim Bilgileri
+[Hide additional column info...]
+Ek sütun bilgilerini gizle...
+[HistoryStats - Plugin/extension info]
+HistoryStats - Eklenti/uzantı bilgileri
+[Close]
+Kapat
+[Plugin/extension name:]
+Eklenti/uzantı adı:
+[Provided features:]
+Sunulan özellikler:
+[Detailed description:]
+Ayrıntılı açıklama:
+[HistoryStats - Filter words/messages]
+HistoryStats - Kelimeleri/mesajları filtrele
+[Sets:]
+Setler:
+[Set name:]
+Set adı:
+[Set mode:]
+Mod ayarı:
+[About sets]
+Setler hakkında
+[All sets are shared between columns. However, only the checked ones will be applied to the current column. Use the right field to specify words putting every word on a separate line.]
+Tüm kümeler sütunlar arasında paylaşılır. Ancak, yalnızca işaretlenenler geçerli sütuna uygulanacaktır. Sağdaki alanı kullanarak kelimeleri her birini ayrı bir satıra yazarak belirtin.
+[Configure HistoryStats]
+HistoryStats'ı yapılandır
+[Apply]
+Başvur
+;file \plugins\HistoryStats\src\colbase_words.cpp
+[Extract words from]
+Şuradan kelimeleri ayıkla
+[Incoming messages]
+Gelen mesajlar
+[Outgoing messages]
+Giden mesajlar
+[All messages]
+Tüm mesajlar
+[Ignore words shorter than (chars)]
+(karakter)den daha kısa kelimeleri yok say
+[Ignore words longer than (chars, 0=no limit)]
+(karakter, 0=sınırsız) karakterden uzun kelimeleri yok say
+[Filter URLs/e-mail addresses]
+URL'leri/e-posta adreslerini filtrele
+[Filter words/messages]
+Kelimeleri/mesajları filtrele
+[Define...]
+Tanımlayın...
+;file \plugins\HistoryStats\src\column_chatduration.cpp
+[Chat duration type]
+Sohbet süresi türü
+[Minimum]
+En az
+[Average]
+Ortalama
+[Maximum]
+Maksimum
+[Total (sum of all chats)]
+Toplam (tüm sohbetlerin toplamı)
+[Show bar graph for chat duration type]
+Sohbet süresi türüne ilişkin çubuk grafiği göster
+[Other information in tooltip]
+Araç ipucundaki diğer bilgiler
+[Minimum chat duration]
+En az sohbet süresi
+[Average chat duration]
+Ortalama sohbet süresi
+[Maximum chat duration]
+Maksimum sohbet süresi
+[Total chat duration]
+Toplam sohbet süresi
+[Chat duration]
+Sohbet süresi
+[(unknown)]
+(bilinmiyor)
+[[Min] #{amount}]
+[Min] #{amount}
+[[Avg] #{amount}]
+[Ort.] #{amount}
+[[Max] #{amount}]
+[Max] #{amount}
+[[Sum] #{amount}]
+[Toplam] #{amount}
+;file \plugins\HistoryStats\src\column_chatduration.h
+[Column holding the amount of time you have chatted with the given contact.]
+Belirtilen kişiyle sohbet ettiğiniz süreyi gösteren sütun.
+;file \plugins\HistoryStats\src\column_events.cpp
+[Events to count]
+Sayılması gereken olaylar
+[Files (incoming)]
+Dosyalar (gelen)
+[Files (outgoing)]
+Dosyalar (giden)
+[Files (all)]
+Dosyalar (tümü)
+[Files]
+Dosyalar
+[Incoming files]
+Gelen dosyalar
+[Outgoing files]
+Giden dosyalar
+;file \plugins\HistoryStats\src\column_events.h
+[Events]
+Etkinlikler
+[Column holding event counts for incoming, outgoing or total number of files or URLs.]
+Gelen, giden veya toplam dosya ya da URL sayısını gösteren sütun.
+;file \plugins\HistoryStats\src\column_group.cpp
+[Group]
+Grup
+;file \plugins\HistoryStats\src\column_group.h
+[Column holding the contact list's group name the contact is in.]
+Kişinin ait olduğu kişi listesindeki grup adını gösteren sütun.
+;file \plugins\HistoryStats\src\column_inout.cpp
+[Data source]
+Veri kaynağı
+[Display as]
+Şu şekilde göster
+[Absolute]
+Mutlak
+[Units per day]
+Günlük birim sayısı
+[Units per week]
+Haftalık birim sayısı
+[Units per month (30 days)]
+Aylık birim sayısı (30 gün)
+[Characters (incoming)]
+Karakterler (gelen)
+[Characters (outgoing)]
+Karakterler (ayrılan)
+[Characters (all)]
+Karakterler (tümü)
+[Messages (incoming)]
+Mesajlar (gelen)
+[Messages (outgoing)]
+Mesajlar (giden)
+[Messages (all)]
+Mesajlar (tümü)
+[Chats (incoming)]
+Sohbetler (gelen)
+[Chats (outgoing)]
+Sohbetler (giden)
+[Chats (all)]
+Sohbetler (tümü)
+[Characters]
+Karakterler
+[Messages]
+Mesajlar
+[Chats]
+Sohbetler
+[Incoming characters]
+Gelen karakterler
+[Outgoing characters]
+Dışa dönük karakterler
+[Incoming chats]
+Gelen sohbetler
+[Outgoing chats]
+Giden sohbetler
+[day]
+gün
+[week]
+hafta
+[month]
+ay
+[#{data} per #{unit}]
+#{data} / #{unit}
+;file \plugins\HistoryStats\src\column_inout.h
+[In/out]
+Giriş/Çıkış
+[Column holding counts for incoming, outgoing or total characters, messages or chats. This column can display absolute and average values.]
+Gelen, giden veya toplam karakter, mesaj ya da sohbet sayılarını gösteren sütun. Bu sütunda mutlak ve ortalama değerler görüntülenebilir.
+;file \plugins\HistoryStats\src\column_inoutgraph.cpp
+[Show sum of incoming and outgoing]
+Gelen ve giden toplamını göster
+[In/out details (tooltip)]
+Giriş/çıkış ayrıntıları (araç ipucu)
+[Percentage in tooltip]
+Araç ipucundaki yüzde
+[Absolute in tooltip if average selected and vice versa]
+Ortalama seçildiğinde araç ipucunda “Mutlak” yazmalı ve tersi durumda da öyle olmalı
+[Percentage in bar graph]
+Çubuk grafikteki yüzde
+[Outgoing]
+Giden
+[Incoming]
+Gelen
+[[Out] #{out_amount} (#{out_ratio}) / [In] #{in_amount} (#{in_ratio})]
+[Çıkış] #{out_amount} (#{out_ratio}) / [Giriş] #{in_amount} (#{in_ratio})
+[[Out] #{out_amount} / [In] #{in_amount}]
+[Çıkış] #{out_amount} / [Giriş] #{in_amount}
+;file \plugins\HistoryStats\src\column_inoutgraph.h
+[In/out graph]
+Giriş/çıkış grafiği
+[Column holding in/out bar graphs for characters, messages or chats.]
+Karakterler, mesajlar veya sohbetler için giriş/çıkış çubuk grafiklerini içeren sütun.
+;file \plugins\HistoryStats\src\column_nick.cpp
+[First/last message time (tooltip)]
+İlk/son mesaj zamanı (araç ipucu)
+[Show contact count for omitted/totals (tooltip)]
+Atlanan/toplam değerler için iletişim sayısını göster (araç ipucu)
+[Nick]
+Nick
+[[First] #{first_time} / [Last] #{last_time}]
+[İlk] #{first_time} / [Son] #{last_time}
+[#{count} contacts / [First] #{first_time} / [Last] #{last_time}]
+#{count} kişi / [İlk] #{first_time} / [Son] #{last_time}
+[#{count} contacts]
+#{count} kişi
+[Omitted]
+Atlandı
+[Totals]
+Toplamlar
+;file \plugins\HistoryStats\src\column_nick.h
+[Column holding the contact's nick and first/last message time if selected.]
+Seçildiğinde, kişinin takma adını ve ilk/son mesaj saatini içeren sütun.
+;file \plugins\HistoryStats\src\column_protocol.cpp
+[Protocol]
+Protokol
+;file \plugins\HistoryStats\src\column_protocol.h
+[Column holding the contact's protocol.]
+Kişinin protokolünü içeren sütun.
+;file \plugins\HistoryStats\src\column_rank.cpp
+[Rank]
+Sıra
+[#{rank}.]
+#{rank}.
+;file \plugins\HistoryStats\src\column_rank.h
+[Column holding the contact's placing according to your sorting criteria.]
+Sıralama kriterlerinize göre kişinin konumunu gösteren sütun.
+;file \plugins\HistoryStats\src\column_split.cpp
+["Split" type]
+"Split" tipi
+[Hours of day]
+Günün saatleri
+[Days of week]
+Haftanın günleri
+[Custom (for experts only)]
+Özel (sadece uzmanlar için)
+[Column setup]
+Sütun düzeni
+[Bar unit]
+Bar ünitesi
+[Units per bar]
+Bar başına birim sayısı
+[Bars per graph]
+Grafik başına çubuk sayısı
+[Graph alignment]
+Grafik hizalama
+[Align on day boundary]
+Gün sınırına göre hizala
+[Align on week boundary]
+Hafta sınırına göre hizala
+[Details for every bar (tooltip)]
+Her çubukla ilgili ayrıntılar (araç ipucu)
+[Hours]
+Çalışma Saatleri
+[Days]
+Günler
+[Weeks]
+Haftalar
+[Details for every bar (tooltip) are only available with HTML output.]
+Her çubuğun ayrıntıları (araç ipucu), yalnızca HTML çıktısında görüntülenebilir.
+["Split"]
+"Split"
+[incoming characters]
+gelen karakterler
+[outgoing characters]
+dışa dönük karakterler
+[all characters]
+tüm karakterler
+[incoming messages]
+gelen mesajlar
+[outgoing messages]
+giden mesajlar
+[all messages]
+tüm mesajlar
+[incoming chats]
+gelen sohbetler
+[outgoing chats]
+giden sohbetler
+[all chats]
+tüm sohbetler
+[#{type} for #{data}]
+#{type} için #{data}
+[wday3:Mon]
+wday3:Pzt
+[wday3:Tue]
+wday3:Salı
+[wday3:Wed]
+wday3:Çarşamba
+[wday3:Thu]
+wday3:Perşembe
+[wday3:Fri]
+wday3:Cuma
+[wday3:Sat]
+3. gün: Cumartesi
+[wday3:Sun]
+wday3:Pazar
+[[#{hour}:00-#{hour}:59] #{amount}]
+[#{hour}:00-#{hour}:59] #{amount}
+[[#{day}] #{amount}]
+[#{day}] #{amount}
+[#{amount}]
+#{amount}
+;file \plugins\HistoryStats\src\column_split.h
+[Column holding a graphical overview of your chatting amount split by day of week or by hour of day. Different chatting amount measures are available.]
+Sohbet hacminizin haftanın günlerine veya günün saatlerine göre dağılımını gösteren grafiksel bir genel bakış içeren sütun. Farklı sohbet hacmi ölçütleri mevcuttur.
+;file \plugins\HistoryStats\src\column_splittimeline.cpp
+[Drop everything older than (days, 0=no limit)]
+(gün, 0=sınır yok) gününden daha eski olan her şeyi sil
+[Number of days to group]
+Grup için gerekli gün sayısı
+[Number of weeks to group]
+Gruba kadar kalan hafta sayısı
+[Block unit]
+Blok birimi
+[Units per block]
+Blok başına birim sayısı
+[Blocks per column]
+Sütun başına blok sayısı
+[Number of columns to group]
+Gruplandırılacak sütun sayısı
+[Calculate maximum per column (not per graph)]
+Her sütun için (grafik başına değil) maksimum değeri hesapla
+[Characters (in/out ratio)]
+Karakterler (iç/dış oranı)
+[Messages (in/out ratio)]
+Mesajlar (gelen/giden oranı)
+[Chats (in/out ratio)]
+Sohbetler (gelen/giden oranı)
+[Hours of day timeline]
+Günün saatlerine göre zaman çizelgesi
+[Days of week timeline]
+Hafta günleri zaman çizelgesi
+["Split" timeline]
+"Bölünmüş" zaman çizelgesi
+[in/out ratio of characters]
+karakterlerin giriş/çıkış oranı
+[in/out ratio of messages]
+mesajların giriş/çıkış oranı
+[in/out ratio of chats]
+sohbetlerin giriş/çıkış oranı
+;file \plugins\HistoryStats\src\column_splittimeline.h
+[Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behavior measures are available.]
+Geçmişinizin ilk gününden son gününe kadar süren sohbet davranışınızın (dışa, içe, toplam, içe/dışa oranı) grafiksel bir özetini içeren sütun. Bilgiler x ve y eksenleri boyunca gösterilir ve değerler renk değerleri olarak kodlanır. Farklı sohbet davranışı ölçütleri mevcuttur.
+;file \plugins\HistoryStats\src\column_timeline.cpp
+[Timeline for #{data}]
+#{data} için zaman çizelgesi
+[Timeline]
+Zaman Çizelgesi
+[[#{start_date}-#{end_date}] #{amount}]
+[#{başlangıç_tarihi}-#{bitiş_tarihi}] #{miktar}
+[[#{date}] #{amount}]
+[#{date}] #{amount}
+[[#{start_date}-#{end_date}] #{out_amount} (out) / #{in_amount} (in)]
+[#{başlangıç_tarihi}-#{bitiş_tarihi}] #{çıkış_tutar} (çıkış) / #{giriş_tutar} (giriş)
+[[#{date}] #{out_amount} (out) / #{in_amount} (in)]
+[#{date}] #{out_amount} (çıkış) / #{in_amount} (giriş)
+;file \plugins\HistoryStats\src\column_timeline.h
+[Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history on a daily basis. Multiple days can be grouped. Different chatting behavior measures are available.]
+Sohbet geçmişinizin ilk gününden son gününe kadar günlük bazda sohbet davranışınızın (giden, gelen, toplam, gelen/giden oranı) grafiksel bir özetini gösteren sütun. Birden fazla gün gruplandırılabilir. Farklı sohbet davranışı ölçütleri mevcuttur.
+;file \plugins\HistoryStats\src\column_wordcount.cpp
+[Word count type]
+Kelime sayısı türü
+[Total words]
+Toplam kelime sayısı
+[Distinct words]
+Farklı kelimeler
+[Ratio total/distinct words]
+Toplam kelime sayısı/farklı kelime sayısı oranı
+[Additional info in tooltip (depends on type)]
+Araç ipucunda ek bilgiler (türüne bağlı olarak)
+[Total word count]
+Toplam kelime sayısı
+[Distinct word count]
+Tekil kelime sayısı
+[#{distict_words} distinct]
+#{distict_words} farklı
+[#{words} total]
+#{words} toplam
+[#{words} total / #{distict_words} distinct]
+#{words} toplam / #{distict_words} farklı
+;file \plugins\HistoryStats\src\column_wordcount.h
+[Word count]
+Kelime sayısı
+[Column holding the number of (distinct) words used by you, by your contact, or by both of you.]
+Sizin, irtibat kişinizin veya her ikinizin kullandığı (farklı) kelime sayısını gösteren sütun.
+;file \plugins\HistoryStats\src\column_words.cpp
+[Words type]
+Kelime türü
+[Most common words]
+En sık kullanılan kelimeler
+[Least common words]
+En az kullanılan kelimeler
+[Longest words]
+En uzun kelimeler
+[Number of words]
+Kelime sayısı
+[Number of words to skip in output]
+Çıktıda atlanacak kelime sayısı
+[Word count for each word (tooltip)]
+Her kelimenin kelime sayısı (araç ipucu)
+[Show separate counts for incoming/outgoing]
+Gelen ve gidenler için ayrı sayıları göster
+[Color words according to in/out ratio]
+İç/dış oranına göre renk kelimeleri
+[[Out] #{out_words} / [In] #{in_words}]
+[Çıkış] #{out_words} / [Giriş] #{in_words}
+;file \plugins\HistoryStats\src\column_words.h
+[Words]
+Kelimeler
+[Column holding a list of a specified number of most/least common words or longest words used by you, by your contact, or by both of you.]
+Sizin, kişinizin veya her ikinizin kullandığı en sık/en az kullanılan kelimelerin ya da en uzun kelimelerin belirli sayıda listesini içeren sütun.
+;file \plugins\HistoryStats\src\contact.cpp
+[(multiple)]
+(birden fazla)
+;file \plugins\HistoryStats\src\dlgconfigure.cpp
+[You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda NG is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same.]
+Miranda NG’nin seçenekler penceresi açık olduğu sürece HistoryStats’ın bağımsız yapılandırma penceresine erişemezsiniz. Lütfen seçenekler penceresini kapatıp tekrar deneyin.\r\n\r\nHer iki pencerenin sunduğu seçeneklerin aynı olduğunu unutmayın.
+[HistoryStats - Warning]
+HistoryStats - Uyarı
+;file \plugins\HistoryStats\src\dlgfilterwords.cpp
+[Add set]
+Kümelenme ekle
+[Delete set]
+Kümede silme
+[Filter words matching]
+Eşleşen kelimeleri filtrele
+[Filter words containing]
+Şu kelimeleri içeren kelimeleri filtrele
+[Filter words starting with]
+Şu şekilde başlayan kelimeleri filtrele
+[Filter words ending with]
+Şu şekilde biten kelimeleri filtrele:
+[Filter messages matching]
+Aşağıdakilerle eşleşen mesajları filtrele
+[Filter messages containing]
+Şunları içeren mesajları filtrele
+[Filter messages starting with]
+Şu şekilde başlayan mesajları filtrele
+[Filter messages ending with]
+Şu şekilde biten mesajları filtrele:
+[The selected set is in use by at least one other column. If you remove it, it won't be available to all other columns that use it. Are you sure you want to remove the set?]
+Seçilen küme, en az bir başka sütun tarafından kullanılmaktadır. Bu kümeyi kaldırırsanız, onu kullanan diğer tüm sütunlar için kullanılamaz hale gelecektir. Kümeyi kaldırmak istediğinizden emin misiniz?
+;file \plugins\HistoryStats\src\dlgoption.cpp
+[Global]
+Küresel
+[Global settings]
+Genel ayarlar
+[Exclude]
+Hariç tut
+[Exclude contacts]
+Kişileri hariç tut
+[Input]
+Giriş
+[Input settings]
+Giriş ayarları
+[Columns]
+Sütunlar
+[Column settings]
+Sütun ayarları
+[Output]
+Çıktı
+[Output settings]
+Çıktı ayarları
+[Create]
+Oluştur
+[Create statistics]
+İstatistikler oluştur
+[Create statistics (there are warnings)]
+İstatistikleri oluştur (uyarılar mevcuttur)
+[You can't access the options of HistoryStats as long as the stand-alone configuration dialog of HistoryStats is open. Please close the stand-alone dialog before opening the options dialog of Miranda NG to see the options of HistoryStats here.\r\n\r\nNote that the options offered by both dialogs are the same.]
+HistoryStats’ın bağımsız yapılandırma iletişim kutusu açık olduğu sürece HistoryStats seçeneklerine erişemezsiniz. Burada HistoryStats seçeneklerini görmek için lütfen Miranda NG’nin seçenekler iletişim kutusunu açmadan önce bağımsız iletişim kutusunu kapatın.\r\n\r\nHer iki iletişim kutusunun sunduğu seçeneklerin aynı olduğunu unutmayın.
+[You have unsaved settings. Do you want to save before running HistoryStats?]
+Kaydedilmemiş ayarlarınız var. HistoryStats’ı çalıştırmadan önce kaydetmek ister misiniz?
+[HistoryStats]
+Tarih İstatistikleri
+[Show warnings...]
+Uyarıları göster...
+[Show statistics]
+İstatistikleri göster
+[There are some potential conflicts in your settings. However, this is only a warning and can in general be ignored. The details:]
+Ayarlarınızda bazı olası çakışmalar var. Ancak bu yalnızca bir uyarıdır ve genellikle göz ardı edilebilir. Ayrıntılar:
+;file \plugins\HistoryStats\src\dlgoption_subcolumns.cpp
+[Add column...]
+Sütun ekle...
+[Delete column]
+Sütunu sil
+[Move down]
+Aşağı kaydır
+[Move up]
+Yukarı git
+[Show additional column info...]
+Ek sütun bilgilerini göster...
+[General column settings]
+Genel sütun ayarları
+[Title (default if empty)]
+Başlık (boş bırakılırsa varsayılan)
+[Column specific settings]
+Sütunlara özgü ayarlar
+[For this config the selected column...]
+Bu yapılandırmada seçilen sütun...
+[...can be output as: ]
+...şu şekilde çıktılanabilir: 
+[PNG (partial)]
+PNG (kısmi)
+[...will be output as: ]
+...şu şekilde görüntülenecektir: 
+[Nothing (column will be skipped)]
+Hiçbir şey (sütun atlanacaktır)
+[HTML as fallback]
+Yedek olarak HTML
+[PNG, ignoring some settings]
+PNG, bazı ayarları göz ardı ederek
+[An internal column configuration error occurred. Please contact the author of this plugin.]
+Bir iç sütun yapılandırma hatası oluştu. Lütfen bu eklentinin yazarıyla iletişime geçin.
+[HistoryStats - Error]
+Tarih İstatistikleri - Hata
+[HTML output unsupported.]
+HTML çıktısı desteklenmemektedir.
+[Fallback to HTML due to setting.]
+Ayar nedeniyle HTML'ye geri dönülüyor.
+[Setting ignored due to PNG output.]
+PNG çıktısı nedeniyle ayar göz ardı edildi.
+;file \plugins\HistoryStats\src\dlgoption_subexclude.cpp
+[** All contacts **]
+** Tüm kişiler **
+;file \plugins\HistoryStats\src\dlgoption_subglobal.cpp
+[Integration]
+Entegrasyon
+[Create statistics on Miranda NG startup]
+Miranda NG’nin başlatılmasıyla ilgili istatistikler oluşturun
+[Add menu items to main menu]
+Ana menüye menü öğeleri ekle
+[Put menu items into submenu]
+Menü öğelerini alt menüye ekle
+[Add menu items to contact menu]
+Kişi menüsüne menü öğeleri ekle
+[Don't hide menu items for pseudo protocols]
+Sözde protokoller için menü öğelerini gizlemeyin
+[Hide menu items for protocol...]
+Protokol için menü öğelerini gizle...
+[Graphics]
+Grafikler
+[Only use HTML to simulate graphics]
+Grafikleri simüle etmek için yalnızca HTML kullanın
+[Generate PNG files to represent graphics]
+Grafikleri göstermek için PNG dosyaları oluşturun
+[Fall back to HTML output if column options require HTML output]
+Sütun seçenekleri HTML çıktısı gerektiriyorsa, HTML çıktısına geri dönülür
+[Enforce PNG output, possibly ignoring some column options]
+PNG çıktısını zorunlu kıl, gerekirse bazı sütun seçeneklerini göz ardı ederek
+[Prefer HTML output over PNG output if available]
+Mümkünse PNG çıktısı yerine HTML çıktısını tercih edin
+[Miscellaneous]
+Çeşitli
+[Generate statistics in background thread with low priority]
+Düşük öncelikli arka plan iş parçacığında istatistikler oluşturun
+[Path to browser (leave blank for system default)]
+Tarayıcının yolu (sistem varsayılanını kullanmak için boş bırakın)
+[At this time there is no external plugin supported.]
+Şu anda desteklenen herhangi bir harici eklenti bulunmamaktadır.
+[Supported plugins (double-click to learn more):]
+Desteklenen eklentiler (daha fazla bilgi için çift tıklayın):
+[HistoryStats supports several plugins. Click to hide info...]
+HistoryStats, çeşitli eklentileri destekler. Bilgileri gizlemek için tıklayın...
+;file \plugins\HistoryStats\src\dlgoption_subinput.cpp
+[History interpretation]
+Tarih yorumu
+[Time a chat session must last to be counted (seconds)]
+Bir sohbet oturumunun sayılabilmesi için sürmesi gereken süre (saniye)
+[Time between two chat sessions (seconds)]
+İki sohbet oturumu arasındaki süre (saniye)
+[Minimum time to assume when calculating average (days)]
+Ortalama hesaplanırken dikkate alınacak en az süre (gün)
+[Word delimiting characters]
+Kelime ayırıcı karakterler
+[Contact filtering]
+Kişi filtreleme
+[Ignore all contacts with protocol...]
+Protokolü içeren tüm kişileri yok say...
+[History read mode for metacontacts]
+Metakontaktlar için geçmiş okuma modu
+[Use only metacontact's history]
+Yalnızca metacontact'ın geçmişini kullanın
+[Use only subcontacts' histories (for one metacontact)]
+Yalnızca alt kişilerin geçmişlerini kullan (bir meta-kişi için)
+[Use metacontact's history and its subcontacts' histories]
+Metakontaktın geçmişini ve alt kontaktlarının geçmişlerini kullan
+[Treat metacontacts and subcontacts as normal contacts]
+Metakontaktları ve alt kontaktları normal kontaktlar gibi ele alın
+[Merge contacts with same name]
+Aynı isimdeki kişileri birleştir
+[Only merge if contacts are in the same group]
+Kişiler aynı grupta ise birleştir
+[Duplicate detection when reading merged contacts]
+Birleştirilmiş kişileri okurken yinelenenlerin algılanması
+[Merge events (tolerant)]
+Olayları birleştir (esnek)
+[Merge events (strict)]
+Olayları birleştir (katı)
+[Don't merge events]
+Olayları birleştirmeyin
+[Message filtering]
+Mesaj filtreleme
+[Ignore messages...]
+Mesajları görmezden gel...
+[...older than (days, 0=no limit)]
+...(gün cinsinden) daha eski (0 = sınır yok)
+[...before date (none=no limit)]
+...tarihinden önce (yok = sınır yok)
+[...after date (none=no limit)]
+...tarihten sonra (yok = sınır yok)
+[Strip raw RTF control sequences from message]
+Mesajdan ham RTF kontrol dizilerini ayıklama
+[Strip BBCode tags from messages]
+Mesajlardaki BBCode etiketlerini kaldır
+;file \plugins\HistoryStats\src\dlgoption_suboutput.cpp
+[Contact filtering and totals]
+İletişim filtreleme ve toplamlar
+[Remove contacts with empty history]
+Geçmişi boş olan kişileri sil
+[Remove contacts with only incoming chats]
+Yalnızca gelen sohbetleri olan kişileri kaldır
+[Remove only if you never answered]
+Yalnızca daha önce cevap vermemişseniz silin
+[Remove contacts with only outgoing chats]
+Yalnızca giden sohbetleri olan kişileri sil
+[Remove only if contact never answered]
+Yalnızca kişi hiç cevap vermediyse silin
+[Limit number of contacts in statistics]
+İstatistiklerdeki kişi sayısını sınırla
+[Criteria]
+Kriterler
+[Omit contacts that didn't produce a certain amount of data]
+Belirli bir miktarda veri üretmeyen kişileri hariç tutun
+[Omit if]
+Aşağıdaki durumda atlayın
+[...is less than]
+...şundan daha azdır
+[Omit contacts that were inactive for some time]
+Bir süredir aktif olmayan kişileri hariç tutun
+[Maximum inactivity time (days)]
+Maksimum hareketsizlik süresi (gün)
+[Omit all contacts not in "Top n"]
+"İlk n" listesinde yer almayan tüm kişileri hariç tut
+[Number of contacts in "Top n"]
+"En iyi n" içindeki kişi sayısı
+[Include omitted contacts in totals]
+Toplamlara dahil edilmeyen kişileri dahil et
+[Include totals of omitted contacts in additional row]
+Eksik bırakılan kişilerin toplamlarını ek bir satıra ekleyin
+[Include totals in statistics]
+İstatistiklere toplamları dahil et
+[Table header]
+Tablo başlığı
+[Output header]
+Çıktı başlığı
+[Repeat header every n contacts (0=don't repeat)]
+Başlığı her n kişiden sonra tekrarla (0=tekrarlama yok)
+[Make column titles more verbose]
+Sütun başlıklarını daha ayrıntılı hale getirin
+[Show tooltips with detailed information in column titles]
+Sütun başlıklarında ayrıntılı bilgiler içeren araç ipuçlarını göster
+[Only show if a custom title was entered or if titles are not verbose]
+Yalnızca özel bir başlık girilmişse veya başlıklar ayrıntılı değilse göster
+[Sorting]
+Sıralama
+[HTML file generation]
+HTML dosyası oluşturma
+[Own nick for statistics]
+İstatistikler için özel takma ad
+[Output files and folders]
+Çıktı dosyaları ve klasörleri
+[Substitute variables in output file name and subfolder for additional files]
+Ek dosyalar için çıktı dosyası adındaki ve alt klasördeki değişkenleri değiştirin
+[Output file]
+Çıktı dosyası
+[Output additional files to subfolder]
+Ek dosyaları alt klasöre kaydet
+[Subfolder for additional files]
+Ek dosyalar için alt klasör
+[Always overwrite already existing files (dangerous!)]
+Her zaman mevcut dosyaların üzerine yaz (tehlikeli!)
+[Auto open statistics after being generated...]
+İstatistikler oluşturulduktan sonra otomatik olarak açılır...
+[...via button "Create statistics" in options]
+...seçenekler bölümündeki “İstatistik oluştur” düğmesi aracılığıyla
+[...on Miranda NG startup]
+...Miranda NG'nin başlatılması sırasında
+[...via Miranda NG main menu]
+...Miranda NG ana menüsü aracılığıyla
+[First sort by]
+Önce şuna göre sırala
+[Then sort by]
+Ardından şuna göre sıralayın:
+[Finally sort by]
+Son olarak şuna göre sırala:
+[Characters (incoming, absolute)]
+Karakter sayısı (gelen, mutlak)
+[Characters (outgoing, absolute)]
+Karakterler (dışa dönük, kesin)
+[Characters (all, absolute)]
+Karakterler (tümü, mutlak)
+[Characters (incoming, average)]
+Karakterler (gelen, ortalama)
+[Characters (outgoing, average)]
+Karakterler (dışa dönük, ortalama)
+[Characters (all, average)]
+Karakterler (tümü, ortalama)
+[Messages (incoming, absolute)]
+Mesajlar (gelen, toplam)
+[Messages (outgoing, absolute)]
+Mesajlar (giden, mutlak)
+[Messages (all, absolute)]
+Mesajlar (tümü, mutlak)
+[Messages (incoming, average)]
+Mesajlar (gelen, ortalama)
+[Messages (outgoing, average)]
+Mesajlar (giden, ortalama)
+[Messages (all, average)]
+Mesajlar (tümü, ortalama)
+[Chats (incoming, absolute)]
+Sohbetler (gelen, toplam)
+[Chats (outgoing, absolute)]
+Sohbetler (giden, mutlak)
+[Chats (all, absolute)]
+Sohbetler (tümü, mutlak)
+[Chats (incoming, average)]
+Sohbetler (gelen, ortalama)
+[Chats (outgoing, average)]
+Sohbetler (giden, ortalama)
+[Chats (all, average)]
+Sohbetler (tümü, ortalama)
+[Chat duration (total)]
+Sohbet süresi (toplam)
+[Chat duration (minimum)]
+Sohbet süresi (en az)
+[Chat duration (average)]
+Sohbet süresi (ortalama)
+[Chat duration (maximum)]
+Sohbet süresi (en fazla)
+[Time of first message to/from contact]
+Kişiyle yapılan ilk mesajın gönderilme veya alınma zamanı
+[Time of last message to/from contact]
+Kişiye gönderilen/kişiden alınan son mesajın tarihi
+[(nothing)]
+(hiçbir şey)
+[Ascending]
+Artan
+[Descending]
+Aşağı doğru
+[Characters (incoming, average per week)]
+Karakterler (gelen, haftalık ortalama)
+[Characters (outgoing, average per week)]
+Karakterler (giden, haftalık ortalama)
+[Characters (all, average per week)]
+Karakterler (toplam, haftalık ortalama)
+[Messages (incoming, average per week)]
+Mesajlar (gelen, haftalık ortalama)
+[Messages (outgoing, average per week)]
+Mesajlar (giden, haftalık ortalama)
+[Messages (all, average per week)]
+Mesajlar (toplam, haftalık ortalama)
+[Chats (incoming, average per week)]
+Sohbetler (gelen, haftalık ortalama)
+[Chats (outgoing, average per week)]
+Sohbetler (giden, haftalık ortalama)
+[Chats (all, average per week)]
+Sohbetler (toplam, haftalık ortalama)
+[Chat duration (total, hours)]
+Sohbet süresi (toplam, saat)
+;file \plugins\HistoryStats\src\iconlib.cpp
+[Create statistics (main menu)]
+İstatistik oluştur (ana menü)
+[Show statistics (main menu)]
+İstatistikleri göster (ana menü)
+[Configure... (main menu)]
+Ayarlar... (ana menü)
+[Contact menu]
+İletişim menüsü
+[Unexcluded contacts]
+Dışlanmamış kişiler
+[Excluded contacts]
+Dışlanan kişiler
+[Options tree]
+Seçenekler ağacı
+[Checkbox]
+Onay kutusu
+[Checkbox (checked)]
+Onay kutusu (işaretli)
+[Checkbox (disabled)]
+Onay kutusu (etkin değil)
+[Checkbox (checked & disabled)]
+Onay kutusu (işaretli ve devre dışı)
+[Radio button]
+Radyo düğmesi
+[Radio button (checked)]
+Radyo düğmesi (işaretli)
+[Radio button (disabled)]
+Radyo düğmesi (etkin değil)
+[Radio button (checked & disabled)]
+Radyo düğmesi (işaretli ve devre dışı)
+[Edit control]
+Düzenleme kontrolü
+[Edit control (disabled)]
+Düzenleme kontrolü (devre dışı)
+[Combo box]
+Kombinasyon kutusu
+[Combo box (disabled)]
+Kombinasyon kutusu (etkin değil)
+[Folder]
+Klasör
+[Folder (disabled)]
+Klasör (devre dışı)
+[Button]
+Düğme
+[Button (disabled)]
+Düğme (etkin değil)
+[Date/time picker]
+Tarih/saat seçici
+[Date/time picker (disabled)]
+Tarih/saat seçici (devre dışı)
+;file \plugins\HistoryStats\src\main.cpp
+[The statistics can't be found. Either you never created them or the last created statistics were moved to a different location and can't be found anymore.]
+İstatistikler bulunamıyor. Ya hiç oluşturmamışsınız ya da en son oluşturulan istatistikler başka bir konuma taşınmış ve artık bulunamıyor.
+[Statistics]
+İstatistikler
+[Configure...]
+Yapılandır...
+[Configure statistics...]
+İstatistikleri yapılandır...
+[You're going to copy the complete history of #{source_name} (#{source_proto}) to #{target_name} (#{target_proto}). Afterwards, the target history will contain entries from both histories. There is no way to revert this operation. Be careful! This is a rather big operation and has the potential to damage your database. Be sure to have a backup of this database before performing this operation.\r\n\r\nAre you sure you would like to continue?]
+#{source_name} (#{source_proto})'nin tüm geçmişini #{target_name} (#{target_proto})'ye kopyalayacaksınız. İşlem tamamlandıktan sonra, hedef geçmiş her iki geçmişten gelen girdileri içerecektir. Bu işlemi geri almak mümkün değildir. Dikkatli olun! Bu oldukça büyük bir işlemdir ve veritabanınıza zarar verme potansiyeli taşır. Bu işlemi gerçekleştirmeden önce veritabanınızın yedeğini aldığınızdan emin olun.\r\n\r\nDevam etmek istediğinizden emin misiniz?
+[HistoryStats - Confirm]
+Tarih İstatistikleri - Onayla
+[Successfully read #{success} events of which #{fail_add} couldn't be added to the target history. #{fail} events couldn't be read from the source history.]
+#{success} adet olay başarıyla okundu; bunlardan #{fail_add} adedi hedef geçmişe eklenemedi. Kaynak geçmişten #{fail} adet olay okunamadı.
+[HistoryStats - Information]
+HistoryStats - Bilgi
+[Exclude from statistics]
+İstatistiklerden hariç tut
+[Copy history]
+Kopyalama geçmişi
+[Paste history...]
+Geçmişi yapıştır...
+[History]
+Tarihçe
+;file \plugins\HistoryStats\src\mirandacontact.cpp
+;file \plugins\HistoryStats\src\mirandahistory.cpp
+[(Unknown)]
+(Bilinmiyor)
+[(none)]
+(yok)
+;file \plugins\HistoryStats\src\optionsctrlimpl_datetime.cpp
+[none]
+yok
+;file \plugins\HistoryStats\src\settings.cpp
+[(default nick)]
+(varsayılan takma ad)
+;file \plugins\HistoryStats\src\statistic.cpp
+[HistoryStats couldn't create a required folder (#{folder}).\r\n\r\nPlease check the output filename and additional output folder you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable.]
+HistoryStats, gerekli klasörü (#{folder}) oluşturamadı.\r\n\r\nLütfen seçtiğiniz çıktı dosya adını ve ek çıktı klasörünü doğru olup olmadığını kontrol edin. Ayrıca, dosyanın, klasörün ve/veya diskin yazma iznine sahip olup olmadığını da kontrol edin.
+[Omitted contacts]
+Atlanan kişiler
+[HistoryStats couldn't open the output file (#{file}) for write access.\r\n\r\nPlease check the output filename you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable.]
+HistoryStats, yazma erişimi için çıktı dosyasını (#{file}) açamadı.\r\n\r\nLütfen seçtiğiniz çıktı dosya adının doğru olup olmadığını kontrol edin. Ayrıca, dosyanın, klasörün ve/veya diskin yazma iznine sahip olup olmadığını da kontrol edin.
+[Statistics for #{nick} - HistoryStats]
+#{nick} için istatistikler - HistoryStats
+[Statistics for #{nick}]
+#{nick} için istatistikler
+[Writing omitted contacts]
+Yazılmayan kişiler
+[Writing totals]
+Yazma toplamları
+[Created with #{plugin} #{version} on #{date} at #{time}]
+#{plugin} #{version} ile #{date} tarihinde #{time} saatinde oluşturuldu
+[Initializing]
+Başlatılıyor
+[Reading database]
+Veritabanını okuma
+[Removing contacts]
+Kişileri silme
+[Sorting contacts]
+Kişileri sıralama
+[Precollecting column data]
+Sütun verilerinin önceden toplanması
+[Limiting number of contacts]
+Temas sayısının sınırlandırılması
+[Calculating totals]
+Toplamların hesaplanması
+[Postcollecting column data]
+Sütun verilerinin toplanmasından sonra
+[Transforming data]
+Verilerin dönüştürülmesi
+[Creating HTML]
+HTML Oluşturma
+[Done]
+Tamam
+[Already existing file]
+Zaten mevcut olan dosya
+[HistoryStats is already generating statistics. Please wait for the already running process to be finished or cancel it and try again.]
+HistoryStats halihazırda istatistikleri oluşturuyor. Lütfen halihazırda çalışan işlemin tamamlanmasını bekleyin ya da işlemi iptal edip tekrar deneyin.
+;file \plugins\HistoryStats\src\utils.cpp
+[month3:Jan]
+3. ay: Ocak
+[monthF:January]
+ay: Ocak
+[month3:Feb]
+3. ay: Şubat
+[monthF:February]
+monthF:Şubat
+[month3:Mar]
+3. ay: Mart
+[monthF:March]
+monthF:Mart
+[month3:Apr]
+3. ay: Nisan
+[monthF:April]
+ayF:Nisan
+[month3:May]
+3. ay: Mayıs
+[monthF:May]
+ay: Mayıs
+[month3:Jun]
+3. ay: Haziran
+[monthF:June]
+ayF:Haziran
+[month3:Jul]
+3. ay: Temmuz
+[monthF:July]
+ayF:Temmuz
+[month3:Aug]
+3. ay: Ağustos
+[monthF:August]
+ayF:Ağustos
+[month3:Sep]
+3. ay: Eylül
+[monthF:September]
+monthF:Eylül
+[month3:Oct]
+3. ay: Ekim
+[monthF:October]
+ayF:Ekim
+[month3:Nov]
+3. ay: Kasım
+[monthF:November]
+ay: Kasım
+[month3:Dec]
+3. ay: Aralık
+[monthF:December]
+monthF:Aralık
+[wday2:Mo]
+wday2:Pzt
+[wdayF:Monday]
+wdayF:Pazartesi
+[wday2:Tu]
+wday2: Salı
+[wdayF:Tuesday]
+wdayF: Salı
+[wday2:We]
+wday2:Biz
+[wdayF:Wednesday]
+wdayF:Çarşamba
+[wday2:Th]
+wday2:Per
+[wdayF:Thursday]
+wdayF: Perşembe
+[wday2:Fr]
+wday2:Cuma
+[wdayF:Friday]
+wdayF:Cuma
+[wday2:Sa]
+wday2:Cum
+[wdayF:Saturday]
+wdayF: Cumartesi
+[wday2:Su]
+wday2:Paz
+[wdayF:Sunday]
+wdayF:Pazar
+[pm]
+pm
+[am]
+sabah
+[PM]
+Başbakan
+[AM]
+AM

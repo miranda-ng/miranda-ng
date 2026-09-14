@@ -1,0 +1,206 @@
+#muuid {968def4a-bc60-4266-ac08-754ce721db5f}
+;============================================================
+;  File: PluginUpdater.dll
+;  Plugin: Plugin updater
+;  Version: 0.3.1.2
+;  Authors: Mataes, George Hazan
+;============================================================
+[Installs and updates plugins and other Miranda NG components.]
+Eklentileri ve diğer Miranda NG bileşenlerini yükler ve günceller.
+;file \plugins\PluginUpdater\res\Resource.rc
+[Updates found!]
+Güncellemeler bulundu!
+[PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
+PluginUpdater, bazı Miranda bileşenlerinin güncellenmiş sürümlerini tespit etti. Daha fazla bilgi görüntülemek için Ayrıntılar düğmesine tıklayın.
+[Update]
+Güncelleme
+[Details >>]
+Ayrıntılar >>
+[Cancel]
+İptal et
+[Select &all]
+&all'ı seç
+[Select &none]
+&none seçeneğini seçin
+[Update options]
+Güncelleme seçenekleri
+[On startup]
+Başlangıçta
+[(but only once a day)]
+(ama günde sadece bir kez)
+[Every]
+Her
+[Silent mode]
+Sessiz mod
+[Restart Miranda automatically]
+Miranda'yı otomatik olarak yeniden başlat
+[Backup database before update (requires Db_autobackups plugin)]
+Güncellemeden önce veritabanını yedekleyin (Db_autobackups eklentisi gereklidir)
+[Number of backups to keep:]
+Saklanacak yedekleme sayısı:
+[Files source]
+Dosya kaynakları
+[Stable version]
+Kararlı sürüm
+[Stable version with debug symbols]
+Hata ayıklama sembolleri içeren kararlı sürüm
+[Development version (less stable)]
+Geliştirme sürümü (daha az kararlı)
+[Development version with debug symbols]
+Hata ayıklama sembolleri içeren geliştirme sürümü
+[Custom version]
+Özel sürüm
+[Change platform to 32-bit]
+Platformu 32 bit olarak değiştirin
+[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
+Bazı bileşenler güncellendi.\nYüklenen güncellemelerin geçerli olması için Miranda'yı yeniden başlatmanız gerekiyor.
+[Notifications]
+Bildirimler
+[Restart]
+Yeniden Başlat
+[Errors]
+Hatalar
+[Info messages]
+Bilgilendirme mesajları
+[Back]
+Geri
+[Text]
+Metin
+[Colors]
+Renkler
+[Use cus&tom colors]
+Özel renkler kullanın
+[Use &Windows colors]
+Windows renklerini kullan
+[Use defa&ult colors]
+Varsayılan renkleri kullan
+[Preview]
+Önizleme
+[Click action]
+Tıklama eylemi
+[On left click]
+Sol tıklama üzerine
+[On right click]
+Sağ tıklama üzerine
+[Timeout]
+Zaman aşımı
+[0 = Default]
+0 = Varsayılan
+[-1 = Infinite]
+-1 = Sonsuz
+[Sec]
+Saniye
+[For "Restart" popup setting is always infinity]
+"Yeniden Başlat" açılır penceresindeki ayar her zaman sonsuzdur
+[Popups]
+Açılır pencereler
+[Component list]
+Bileşen listesi
+[Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.]
+İşte eksik Miranda NG bileşenlerinin tam listesi. İndirmek istediğiniz bileşenleri işaretleyin.\n\nBileşen bilgisi sayfasını görüntülemek için bilgi simgesine tıklayın.
+[Download]
+İndir
+;file \plugins\PluginUpdater\src\DlgListNew.cpp
+[Component Name]
+Bileşen Adı
+[State]
+Eyalet
+[Plugins]
+Eklentiler
+[Icons]
+Simgeler
+[Languages]
+Diller
+[Other]
+Diğer
+[Downloading...]
+İndiriliyor...
+[Succeeded.]
+Başarılı oldu.
+[Failed!]
+Başarısız!
+[Skipped.]
+Atlandı.
+[Plugin Updater]
+Eklenti Güncelleyici
+[Download complete]
+Tam sürümü indir
+[Download complete. Do you want to go to plugins option page?]
+İndirme işlemi tamamlandı. Eklentiler seçenekleri sayfasına gitmek ister misiniz?
+[List is empty.]
+Liste boş.
+[List loading already started!]
+Liste yüklenmeye başladı bile!
+;file \plugins\PluginUpdater\src\DlgUpdate.cpp
+[Miranda NG Core]
+Miranda NG Çekirdeği
+[Libraries]
+Kütüphaneler
+[Will be deleted!]
+Silinecek!
+[Unpack operation failed with error code=%d, update terminated]
+Hata kodu %d nedeniyle paket açma işlemi başarısız oldu, güncelleme sonlandırıldı
+[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
+Güncelleme tamamlandı. Miranda’yı şimdi yeniden başlatmak için “Evet”e, yeniden başlatmayı programın kapatılmasına kadar ertelemek için “Hayır”a basın.
+[Deprecated!]
+Artık kullanılmamaktadır!
+[Update found!]
+Güncelleme bulundu!
+[<< Details]
+<< Ayrıntılar
+[Update failed! One of the components wasn't downloaded correctly. Try it again later.]
+Güncelleme başarısız oldu! Bileşenlerden biri düzgün bir şekilde indirilemedi. Daha sonra tekrar deneyin.
+[%d component(s) was updated]
+%d bileşen güncellendi
+[You need to restart your Miranda to apply installed updates.]
+Yüklenen güncellemelerin devreye girmesi için Miranda'yı yeniden başlatmanız gerekiyor.
+[Checking for new updates...]
+Yeni güncellemeler aranıyor...
+[No updates found.]
+Herhangi bir güncelleme bulunamadı.
+[Update checking already started!]
+Güncelleme kontrolü başladı bile!
+[There are some updates available]
+Bazı güncellemeler mevcut
+;file \plugins\PluginUpdater\src\Events.cpp
+[Plugin updater URI scheme]
+Eklenti güncelleyici URI şeması
+;file \plugins\PluginUpdater\src\Notifications.cpp
+[Would you like to restart it now?]
+Şimdi yeniden başlatmak ister misiniz?
+;file \plugins\PluginUpdater\src\Options.cpp
+[Backup database before update]
+Güncellemeden önce veritabanını yedekleyin
+[Stable version (incompatible with current development version)]
+Kararlı sürüm (mevcut geliştirme sürümüyle uyumsuz)
+[hours]
+saat
+[days]
+gün
+[Change platform to 64-bit]
+Platformu 64 bit olarak değiştirin
+[Close popup]
+Açılır pencereyi kapat
+[Do nothing]
+Hiçbir şey yapma
+[Test]
+Test
+[Services]
+Hizmetler
+;file \plugins\PluginUpdater\src\PluginUpdater.cpp
+[Check for updates]
+Güncellemeleri kontrol et
+[Plugin info]
+Eklenti bilgileri
+[Available components list]
+Mevcut bileşenler listesi
+[Update failed]
+Güncelleme başarısız oldu
+[Update completed]
+Güncelleme tamamlandı
+;file \plugins\PluginUpdater\src\ServerConfig.cpp
+[Updates are temporarily disabled, try again later.]
+Güncellemeler geçici olarak devre dışı bırakılmıştır, lütfen daha sonra tekrar deneyin.
+[An error occurred while checking for new updates.]
+Yeni güncellemeleri kontrol edilirken bir hata oluştu.
+;file \plugins\PluginUpdater\src\Compat\compat.h

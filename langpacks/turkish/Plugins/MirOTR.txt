@@ -1,0 +1,278 @@
+#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
+;============================================================
+;  File: MirOTR.dll
+;  Plugin: Miranda OTR
+;  Version: 0.14.2.2
+;  Authors: ProgAndy & CHEF-KOCH
+;============================================================
+[OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
+Miranda NG için OTR (Off-the-Record) eklentisi (SecureIM, Pidgin-OTR ve eski Miranda OTR [SJE tarafından geliştirilen] kaynaklarından alınan bazı kod ve fikirler kullanılarak).
+;file \plugins\MirOTR\res\resource.rc
+[OTR Generating Private Key]
+OTR Özel Anahtar Oluşturma
+[Generating new private key - please wait.]
+Yeni özel anahtar oluşturuluyor – lütfen bekleyin.
+[Default Policy]
+Varsayılan Politika
+[Always]
+Her zaman
+[Opportunistic]
+Fırsatçı
+[Manual]
+Kılavuz
+[Never]
+Asla
+[End sessions on window close]
+Pencere kapatıldığında oturumları sonlandır
+[End sessions when contacts go offline]
+Kişiler çevrimdışı olduğunda oturumları sonlandır
+[Prefix encrypted IMs:]
+Önekli şifreli anlık mesajlar:
+[don't rely on the prefix, always check the OTR status icon]
+Önekine güvenmeyin, her zaman OTR durum simgesini kontrol edin
+[Don't add encrypted messages to the history]
+Şifrelenmiş mesajları geçmişe eklemeyin
+[Also remove OTR system messages]
+Ayrıca OTR sistem mesajlarını da kaldırın
+[Show OTR system messages inline]
+OTR sistem mesajlarını satır içinde göster
+[Show OTR system messages as popup]
+OTR sistem mesajlarını açılır pencere olarak göster
+[Show verification dialog when receiving unverified fingerprint]
+Doğrulanmamış parmak izi alındığında doğrulama iletişim kutusunu göster
+[Set OTR policy per account]
+Hesap başına OTR politikası belirle
+[Current policy:]
+Mevcut politika:
+[Set OTR policy per contact]
+Kişi başına OTR politikası belirle
+[View & Modify status of known fingerprints]
+Bilinen parmak izlerinin durumunu görüntüleme ve değiştirme
+[Socialist Millionaires Protocol]
+Sosyalist Milyonerler Protokolü
+[Socialist Millionaires Protocol\r\nVerification progress]
+Sosyalist Milyonerler Protokolü\r\nDoğrulama süreci
+[&Cancel]
+&İptal
+[Socialist Millionaires Protocol\r\nVerification]
+Sosyalist Milyonerler Protokolü\r\nDoğrulama
+[&No]
+&Hayır
+[&Yes]
+&Evet
+[OTR status]
+OTR durumu
+[&Start OTR session]
+&OTR oturumunu başlat
+[&Refresh OTR session]
+&OTR oturumunu yenile
+[Sto&p OTR session]
+Sto&p OTR oturumu
+[&Verify Fingerprint]
+&Parmak İzi Doğrulama
+[Set verified]
+Doğrulanmış set
+[Set unknown]
+Değer bilinmiyor
+[Copy]
+Kopyala
+[Forget]
+Unut
+[Generate new private key]
+Yeni özel anahtar oluştur
+[Forget private key]
+Özel anahtarı unutun
+;file \plugins\MirOTR\src\icons.cpp
+[OTR private]
+OTR özel
+[OTR unverified]
+OTR doğrulanmamış
+[OTR finished]
+OTR tamamlandı
+[OTR not secure]
+OTR güvenli değil
+[Refresh]
+Yenile
+;file \plugins\MirOTR\src\language.h
+[Start OTR]
+OTR'yi başlat
+[Stop OTR]
+OTR'yi durdurun
+[Yes]
+Evet
+[No]
+Hayır
+[OTR status (Click for more options)]
+OTR durumu (Daha fazla seçenek için tıklayın)
+[OTR Encryption: Disabled]
+OTR Şifreleme: Devre Dışı
+[OTR Encryption: UNVERIFIED]
+OTR Şifreleme: DOĞRULANMAMIŞ
+[OTR Encryption: Private]
+OTR Şifreleme: Özel
+[OTR Encryption: Finished]
+OTR Şifreleme: Tamamlandı
+[OTR encrypted session with '%s' has been terminated]
+'%s' ile kurulan OTR şifreli oturum sonlandırıldı
+[Requesting OTR encrypted session with '%s']
+'%s' ile OTR şifreli oturum talebi
+[Beginning OTR encrypted session with '%s']
+'%s' ile OTR şifreli oturum başlatılıyor
+[Beginning OTR encrypted session with '%s' (NOT VERIFIED)]
+'%s' ile OTR şifreli oturum başlatılıyor (DOĞRULANMAMIŞ)
+[Trying to refresh OTR encrypted session with '%s']
+'%s' ile OTR şifreli oturumu yenilemeye çalışılıyor
+[OTR encrypted session was refreshed by '%s']
+OTR şifreli oturum, '%s' tarafından yenilendi
+[OTR encrypted session was refreshed by '%s' (NOT VERIFIED)]
+OTR şifreli oturum, '%s' tarafından yenilendi (DOĞRULANMAMIŞ)
+[OTR encrypted session with '%s' successfully refreshed]
+'%s' ile OTR şifreli oturum başarıyla yenilendi
+[OTR encrypted session with '%s' successfully refreshed (NOT VERIFIED)]
+'%s' ile OTR şifreli oturum başarıyla yenilendi (DOĞRULANMAMIŞ)
+[OTR encrypted session has been terminated by '%s'. You should do that, too!]
+OTR şifreli oturum, '%s' tarafından sonlandırıldı. Sen de aynısını yapmalısın!
+[OTR encrypted session with '%s' could not be started]
+'%s' ile OTR şifreli oturum başlatılamadı
+[OTR could not encrypt when sending message]
+OTR, mesaj gönderirken şifreleme yapamadı
+[OTR Information]
+OTR Bilgileri
+[OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
+'%s' ile kurulan OTR şifreli oturum artık DOĞRULANMIŞ bir parmak izi kullanıyor
+[OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
+'%s' ile kurulan OTR şifreli oturum, şu anda DOĞRULANMAMIŞ bir parmak izi kullanıyor
+[Generating new private key for account '%s'.\nPlease Wait...]
+'%s' hesabı için yeni özel anahtar oluşturuluyor.\nLütfen bekleyin...
+[Contact]
+İletişim
+[Account]
+Hesap
+[Policy]
+Politika
+[Verified]
+Doğrulanmış
+[Active]
+Etkin
+[Fingerprint]
+Parmak izi
+[Conv. HTML]
+Dönüştürülmüş HTML
+[Default]
+Varsayılan
+[Generating new key for '%s'. Continue?]
+'%s' için yeni anahtar oluşturuluyor. Devam etmek istiyor musunuz?
+[Removing key for '%s'. Continue?]
+'%s' için anahtarı silmek istiyor musunuz? Devam etmek istiyor musunuz?
+[OTR Fingerprint Verification]
+OTR Parmak İzi Doğrulama
+[OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is NOT VERIFIED.\nDo you trust it?]
+'%s' ile OTR şifreli oturum.\nKişinizin kullandığı OTR parmak izi DOĞRULANMAMIŞTIR.\nBuna güveniyor musunuz?
+[OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is already verified.\nDo you still trust it?]
+'%s' ile OTR şifreli oturum.\nKişinizin kullandığı OTR parmak izi zaten doğrulanmıştır.\nYine de ona güveniyor musunuz?
+[Your Fingerprint to tell your contact (use a trusted channel!)]
+Kişinize bildirmek için parmak iziniz (güvenilir bir kanal kullanın!)
+[VERIFY: Fingerprint from contact]
+DOĞRULAMA: Temas yoluyla alınan parmak izi
+[OTR Authenticate: %s (%s)]
+OTR Kimlik Doğrulama: %s (%s)
+[Challenge Question]
+Zorlu Soru
+[Known Password]
+Bilinen Şifre
+[Manual fingerprint comparison]
+Manuel parmak izi karşılaştırması
+[Secret Answer]
+Gizli Cevap
+[Question]
+Soru
+[Password]
+Şifre
+[Authentication successful.]
+Kimlik doğrulama başarıyla tamamlandı.
+[Your contact authenticated you successfully. You can send your own request to authenticate him.]
+İletişim kurduğunuz kişi kimliğinizi başarıyla doğruladı. Onun kimliğini doğrulamak için kendi isteğinizi gönderebilirsiniz.
+[Error during authentication.]
+Kimlik doğrulama sırasında hata oluştu.
+[Authentication failed]
+Kimlik doğrulama başarısız oldu
+[Authentication for '%s' is already in progress.]
+'%s' için kimlik doğrulama işlemi halihazırda devam ediyor.
+[OTR Authenticating: %s (%s)]
+OTR Kimlik Doğrulaması: %s (%s)
+[Authenticating contact:\n%s (%s)]
+Kişinin kimliği doğrulanıyor:\n%s (%s)
+[OTR encrypted session with '%s' (UNVERIFIED).\nUse a question only your partner can answer.]
+'%s' ile OTR şifreli oturum (DOĞRULANMAMIŞ).\nSadece partnerinizin cevaplayabileceği bir soru kullanın.
+[OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a question only your partner can answer.]
+'%s' ile OTR şifreli oturum (DOĞRULANDI).\nSadece eşinizin cevaplayabileceği bir soru kullanarak oturumu yeniden doğrulayın.
+[OTR encrypted session with '%s' (UNVERIFIED).\nUse a known password.]
+'%s' ile OTR şifreli oturum (DOĞRULANMAMIŞ).\nBilinen bir şifre kullanın.
+[OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a known password.]
+'%s' ile OTR şifreli oturum (DOĞRULANDI).\nBilinen bir şifre kullanarak oturumu tekrar doğrulayın.
+[Your contact '%s' wants to verify your identity with a question only you can answer.]
+'%s' adlı irtibat kişiniz, yalnızca sizin cevaplayabileceğiniz bir soru aracılığıyla kimliğinizi doğrulamak istiyor.
+[Your contact '%s' wants to verify your identity with a secret password you should know.]
+'%s' adlı irtibat kişiniz, sizin bilmeniz gereken gizli bir şifreyle kimliğinizi doğrulamak istiyor.
+[Fingerprint '%s' still in use in conversation with '%s' (%s). You cannot delete it!]
+'%s' parmak izi, '%s' (%s) ile yapılan sohbet içinde hâlâ kullanılmaktadır. Bunu silemezsiniz!
+[Fingerprint '%s' in use in conversation with '%s' (%s). It could not be deleted!]
+'%s' ile yapılan sohbet sırasında '%s' parmak izi kullanılıyor (%s). Silinemedi!
+[Cannot start OTR for '%s'. SecureIM is already running]
+'%s' için OTR başlatılamıyor. SecureIM halihazırda çalışıyor
+[OTR: SecureIM installed]
+OTR: SecureIM yüklendi
+[You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
+SecureIM kullanıyorsunuz. MirOTR, yalnızca SecureIM özelliği devre dışı bırakılmış kişilerle çalışır.
+;file \plugins\MirOTR\src\mirotrmenu.cpp
+[MirOTR menu]
+MirOTR menüsü
+[OTR Status]
+OTR Durumu
+[&Convert HTML (for Pidgin)]
+&HTML'yi Dönüştür (Pidgin için)
+;file \plugins\MirOTR\src\options.cpp
+[Private Data]
+Özel Veriler
+[Services]
+Hizmetler
+[General]
+Genel
+[Accounts]
+Hesaplar
+[Contacts]
+İletişim Bilgileri
+[Fingerprints]
+Parmak izleri
+;file \plugins\MirOTR\src\otr.cpp
+[\nusing older protocol version %i]
+\n%i numaralı eski protokol sürümü kullanılıyor
+[Attempting to start a private conversation...]
+Özel bir sohbet başlatmaya çalışılıyor...
+[An error occurred when encrypting your message.\nThe message was not sent]
+Mesajınız şifrelenirken bir hata oluştu.\nMesaj gönderilemedi
+['%s' has already closed his/her private connection to you; you should do the same]
+'%s' sizinle olan özel bağlantısını çoktan sonlandırdı; siz de aynısını yapmalısınız
+[Error setting up private conversation: %s]
+Özel sohbet kurulurken hata oluştu: %s
+[Malformed message received]
+Hatalı biçimlendirilmiş bir mesaj alındı
+[We are receiving our own OTR messages.\nYou are either trying to talk to yourself, or someone is reflecting your messages back at you]
+Kendi OTR mesajlarımızı alıyoruz.\nYa kendinle konuşmaya çalışıyorsun, ya da biri mesajlarını sana geri yansıtıyor
+[The last message to '%s' was resent]
+'%s' adresine gönderilen son mesaj yeniden gönderildi
+[The encrypted message received from '%s' is unreadable, as you are not currently communicating privately]
+Şu anda özel olarak iletişim kurmadığınız için '%s'den alınan şifreli mesaj okunamaz durumda
+[We received an unreadable encrypted message from '%s']
+'%s'den okunamayan şifreli bir mesaj aldık
+[We received a malformed data message from '%s']
+'%s' adresinden biçim bozuk bir veri mesajı aldık
+[The following message received from '%s' was NOT encrypted:\n\n%s]
+'%s' adresinden alınan aşağıdaki mesaj şifrelenmemişti:\n\n%s
+['%s' has sent a message intended for a different session. If you are logged in multiple times, another session may have received the message.]
+'%s', başka bir oturuma yönelik bir mesaj gönderdi. Birden fazla oturum açmışsanız, mesaj başka bir oturum tarafından alınmış olabilir.
+[unknown OTR message received, please report that to Miranda NG developers]
+Bilinmeyen bir OTR mesajı alındı; lütfen bunu Miranda NG geliştiricilerine bildirin
+;file \plugins\MirOTR\src\otr.h
+[ has requested an Off-the-Record private conversation. However, you do not have a plugin to support that.\nSee https://otr.cypherpunks.ca for more information.]
+ Kayıt dışı özel bir görüşme talebinde bulunmuştur. Ancak, bunu destekleyen bir eklentiniz bulunmamaktadır.\nDaha fazla bilgi için https://otr.cypherpunks.ca adresine bakınız.

@@ -1,0 +1,210 @@
+#muuid {119d7288-2050-448d-9900-d86ac70426bf}
+;============================================================
+;  File: KeyboardNotify.dll
+;  Plugin: Keyboard notify ext.
+;  Version: 1.6.0.1
+;  Authors: TioDuke
+;============================================================
+[Flashes your keyboard LEDs when a message has arrived.]
+Bir mesaj geldiğinde klavyenizin LED’lerini yanıp sönmeye başlar.
+;file \plugins\KeyboardNotify\res\resources.rc
+[Accounts to check]
+Kontrol edilmesi gereken hesaplar
+[Events to react on]
+Tepki verilecek olaylar
+[Incoming messages]
+Gelen mesajlar
+[Incoming files]
+Gelen dosyalar
+[Groupchat messages]
+Grup sohbeti mesajları
+[Everything else]
+Diğer her şey
+[Message-Event only]
+Yalnızca Mesaj-Olay
+[Blink if message window is open]
+Mesaj penceresi açıksa göz kırp
+[and not in foreground]
+ve ön planda değil
+[only if last is]
+ancak sonuncusu
+[sec. old]
+eski bölüm
+[Flash until]
+Şu ana kadar yanıp sön
+[seconds]
+saniye
+[is re-attended]
+yeniden katılınır
+[Events are opened]
+Etkinlikler açıldı
+[End of 'notify when' conditions]
+"Ne zaman bildirilecek" koşullarının sonu
+[Notify when]
+Şu durumlarda bildirim gönder
+[Full Screen mode]
+Tam Ekran modu
+[Screen Saver is running]
+Ekran Koruyucu çalışıyor
+[Workstation is locked]
+İş istasyonu kilitli
+[Defined programs are running]
+Tanımlanmış programlar çalışıyor
+[All other situations]
+Diğer tüm durumlar
+[Only notify if status is]
+Yalnızca durum şu ise bildirim gönder:
+[Online]
+Çevrimiçi
+[Away]
+Deplasman
+[Not available]
+Mevcut değil
+[Occupied]
+İşgal Altında
+[Do not disturb]
+Rahatsız etmeyin
+[Free for chat]
+Sohbet için ücretsiz
+[Invisible]
+Görünmez
+[Pending Events]
+Yaklaşan Etkinlikler
+[Remind me every]
+Bana her
+[minutes]
+dakika
+[Offline]
+Çevrimdışı
+[xStatuses]
+xDurumlar
+[Keys to flash]
+Flaşlama için tuşlar
+[Num Lock]
+Num Lock
+[Caps Lock]
+Caps Lock
+[Scroll Lock]
+Scroll Lock
+[Flashing effects]
+Yanıp sönme efektleri
+[All at the same time]
+Hepsi aynı anda
+[In turn]
+Buna karşılık
+[In sequence]
+Sırayla
+[Custom theme]
+Özel tema
+[Accordingly to events' count]
+Olay sayısına göre
+[Wait before starting flashing]
+Yazma işlemine başlamadan önce bekleyin
+[Flash speed]
+Flaş hızı
+[Fast]
+Hızlı
+[Slow]
+Yavaş
+[&Preview]
+&Önizleme
+[Emulate key presses (Use this option if you are using a USB keyboard)]
+Tuş basışlarını taklit et (USB klavye kullanıyorsanız bu seçeneği kullanın)
+[Create/Edit Themes]
+Temalar Oluştur/Düzenle
+[Theme]
+Tema
+[Test]
+Test
+[Add]
+Ekle
+[Update]
+Güncelleme
+[Delete]
+Sil
+[Import/Export]
+İthalat/İhracat
+[Export...]
+Dışa aktar...
+[Import...]
+İçe aktar...
+[Override existing]
+Mevcut olanı geçersiz kıl
+[Set program list]
+Program listesini ayarla
+[Program]
+Program
+[Cancel]
+İptal et
+[Set LEDs for events]
+Olaylar için LED'leri ayarla
+[Num]
+Num
+[Caps]
+Kapaklar
+[Scroll]
+Kaydır
+[Message events]
+Mesaj olayları
+[File events]
+Dosya olayları
+[URL events]
+URL olayları
+[Other events]
+Diğer etkinlikler
+[Consider event opened after]
+Etkinliğin açılmasından sonra dikkate alın
+[Use custom theme]
+Özel tema kullan
+[The following events are being ignored:]
+Aşağıdaki olaylar göz ardı edilmektedir:
+[Ignore messages]
+Mesajları görmezden gel
+[Ignore files]
+Dosyaları göz ardı et
+[Ignore others]
+Başkalarını önemseme
+[Ignore all]
+Hepsini yok say
+[Ignore none]
+Hiçbirini göz ardı etme
+[Ignore]
+Yoksay
+[Set xStatus list]
+xStatus listesini ayarla
+;file \plugins\KeyboardNotify\src\ignore.cpp
+[** All contacts **]
+** Tüm kişiler **
+[** Unknown contacts **]
+** Bilinmeyen kişiler **
+;file \plugins\KeyboardNotify\src\options.cpp
+[left -> right]
+soldan sağa
+[right -> left]
+sağdan sola
+[left <-> right]
+sol <-> sağ
+[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
+\n; Otomatik olarak oluşturulan Klavye Bildirim Teması dosyası\n\n\n
+[\n; End of automatically generated Keyboard Notify Theme file\n]
+\n; Otomatik olarak oluşturulan Klavye Bildirim Teması dosyasının sonu\n
+[None]
+Yok
+[Protocol]
+Protokol
+[Keyboard Notify Theme]
+Klavye Bildirim Teması
+[All Files]
+Tüm Dosyalar
+[Keyboard Flash]
+Klavye Işığı
+[Events]
+Etkinlikler
+[Accounts]
+Hesaplar
+[Rules]
+Kurallar
+[Flashing]
+Yanıp sönme
+[Themes]
+Temalar

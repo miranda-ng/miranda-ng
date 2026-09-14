@@ -1,0 +1,85 @@
+#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+;============================================================
+;  File: DbChecker.dll
+;  Plugin: Database checker
+;  Version: 0.96.4.1
+;  Authors: George Hazan
+;============================================================
+[Miranda NG Database Checker.]
+Miranda NG Veritabanı Denetleyicisi.
+;file \plugins\DbChecker\res\resource.rc
+[Miranda Database Tool]
+Miranda Veritabanı Aracı
+[&Next >]
+&Sonraki >
+[Cancel]
+İptal et
+[Checker's options]
+Checker'ın seçenekleri
+[Customize settings and proceed to the checking.]
+Ayarları özelleştirin ve denetime geçin.
+[File name:]
+Dosya adı:
+[Mark all events as read]
+Tüm etkinlikleri okundu olarak işaretle
+[Fix UTF-8 encoding in old events]
+Eski olaylardaki UTF-8 kodlamasını düzelt
+[Fix RTF text in old events]
+Eski etkinliklerdeki RTF metinlerini düzelt
+[Remove duplicate events]
+Yinelenen etkinlikleri kaldır
+[Fix server event IDs]
+Sunucu olay kimliklerini düzelt
+[Error Opening Database]
+Veritabanı Açılırken Hata Oluştu
+[There was an error opening the profile database given.]
+Belirtilen profil veritabanı açılırken bir hata oluştu.
+[Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
+Dosyayı tekrar açmayı denemek için “İleri” düğmesine tıklayın ya da üzerinde işlem yapmak üzere yeni bir profil veritabanı seçmek için “Geri” düğmesine tıklayın.
+[The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
+Dosya, şu anda çalışmakta olan bir Miranda örneği tarafından kullanılıyor olabilir. Çalışmakta olan tüm Miranda örneklerini kapatın ve “İleri” düğmesine tıklayarak yeniden deneyin.
+[Working...]
+Çalışıyor...
+[Please wait while the requested operations are being performed.]
+İstenen işlemler gerçekleştirilirken lütfen bekleyin.
+;file \plugins\DbChecker\src\main.cpp
+[Database]
+Veritabanı
+[Check database]
+Veritabanını kontrol et
+[DbChecker]
+DbChecker
+;file \plugins\DbChecker\src\options.cpp
+[Database Checker cannot find a suitable database plugin to open '%s'.]
+Veritabanı Denetleyicisi, '%s' dosyasını açmak için uygun bir veritabanı eklentisi bulamıyor.
+[Error]
+Hata
+[Database driver '%s' doesn't support checking.]
+'%s' veritabanı sürücüsü, kontrol işlemini desteklemiyor.
+;file \plugins\DbChecker\src\progress.cpp
+[&Finish]
+&Son
+[Click Finish to continue]
+Devam etmek için “Bitir” düğmesine tıklayın
+[Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
+İşlem henüz tamamlanmadı; şimdi iptal ederseniz, şu ana kadar yapılan değişiklikler geri alınacak ve orijinal veritabanı geri yüklenecektir. Hâlâ iptal etmek istiyor musunuz?
+;file \plugins\DbChecker\src\wizard.cpp
+;file \plugins\DbChecker\src\worker.cpp
+[Database worker thread activated]
+Veritabanı iş parçacığı etkinleştirildi
+[%d events marked as read]
+%d olay okundu olarak işaretlendi
+[RTF format fixed in %d events]
+%d olayda RTF biçimi düzeltildi
+[%d duplicate events removed]
+%d adet yinelenen etkinlik kaldırıldı
+[%d server event IDs fixed]
+%d sunucu olay kimliği düzeltildi
+[Processing aborted by user]
+İşlem kullanıcı tarafından iptal edildi
+[Elapsed time: %d sec]
+Geçen süre: %d sn
+[All tasks completed but with errors (%d)]
+Tüm görevler tamamlandı, ancak hatalar var (%d)
+[All tasks completed successfully]
+Tüm görevler başarıyla tamamlandı

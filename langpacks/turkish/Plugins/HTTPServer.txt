@@ -1,0 +1,133 @@
+#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
+;============================================================
+;  File: HTTPServer.dll
+;  Plugin: HTTPServer
+;  Version: 0.1.2.4
+;  Authors: Kennet Nielsen, modified by Vampik, Houdini
+;============================================================
+[HTTP Web Server plugin for Miranda.]
+Miranda için HTTP Web Sunucusu eklentisi.
+;file \plugins\HTTPServer\res\resource.rc
+[IPAddress1]
+IPAdresi1
+[IPAddress2]
+IPAdresi2
+[Max downloads]
+Maksimum indirme sayısı
+[Address]
+Adres
+[Mask]
+Maske
+[Share name]
+Hisse adı
+[Allowed IP]
+İzin Verilen IP'ler
+[HTTP Server statistics view]
+HTTP Sunucusu istatistikleri görünümü
+[Display hidden shares]
+Gizli paylaşımları göster
+[New share]
+Yeni paylaşım
+[Set to default]
+Varsayılana ayarla
+[External server name]
+Harici sunucu adı
+[This is the link pasted to the message window]
+Mesaj penceresine yapıştırılan bağlantı şudur:
+[Write log file]
+Günlük dosyasını yaz
+[Open log]
+Günlüğü aç
+[Show popups]
+Açılır pencereleri göster
+[Page keyword]
+Sayfa anahtar kelimesi
+[URL address]
+URL adresi
+[%ExternalIP% variable]
+%ExternalIP% değişkeni
+[Test]
+Test
+[Transfer limit (Kb/s)]
+Aktarım sınırı (Kb/s)
+[No control when Away or Not available]
+Uzakta veya Ulaşılmazken Kontrol Yok
+[Connection control]
+Bağlantı denetimi
+[Index creation]
+Dizin oluşturma
+[Disable]
+Devre dışı bırak
+[Create HTML (compatibility)]
+HTML Oluştur (uyumluluk)
+[Create XML]
+XML Oluştur
+[Notifications]
+Bildirimler
+[Total connection limit]
+Toplam bağlantı sınırı
+[Connections per user limit]
+Kullanıcı başına bağlantı sınırı
+[Default download limit]
+Varsayılan indirme sınırı
+[&Edit share]
+&Düzenle ve paylaş
+[&Remove share]
+&Paylaşımı kaldır
+[&Open in Browser]
+&Tarayıcıda aç
+[&Copy link]
+&Bağlantıyı kopyala
+;file \plugins\HTTPServer\src\GuiElements.cpp
+[Share Current Directory]
+Geçerli Dizini Paylaş
+[All files]
+Tüm dosyalar
+[Specify a file to share]
+Paylaşılacak dosyayı belirtin
+[Failed to share new file]
+Yeni dosya paylaşılamadı
+[Max Downloads]
+Maksimum İndirme Sayısı
+[Allowed Mask]
+İzin Verilen Maske
+[Real path]
+Gerçek yol
+[User]
+Kullanıcı
+[Agent]
+Temsilci
+[Completed]
+Tamamlandı
+[Speed]
+Hız
+[Current IP Address: ]
+Mevcut IP Adresi: 
+[Current Address: ]
+Şu anki adres: 
+[IP Address: ]
+IP Adresi: 
+[You are browsing from]
+Şu anda şu adresten geziniyorsunuz:
+[Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
+Dış IP adresiniz %d.%d.%d.%d olarak tespit edildi\r\ntarafından: %s
+[HTTP Server]
+HTTP Sunucusu
+[Network]
+Ağ
+[HTTP Share new file]
+HTTP Yeni dosya paylaş
+[Show HTTP server statistics]
+HTTP sunucu istatistiklerini göster
+;file \plugins\HTTPServer\src\HttpUser.cpp
+[Share removed]
+Paylaşım kaldırıldı
+;file \plugins\HTTPServer\src\main.cpp
+[Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
+%s numaralı bağlantı noktasına bağlanılamadı\r\nBunun nedeni büyük olasılıkla bu bağlantı noktasını başka bir program veya hizmetin kullanıyor olmasıdır
+[Disable HTTP server]
+HTTP sunucusunu devre dışı bırak
+[Enable HTTP server]
+HTTP sunucusunu etkinleştir
+[Failed to read configuration file: HTTPMimeTypes]
+Yapılandırma dosyası okunamadı: HTTPMimeTypes

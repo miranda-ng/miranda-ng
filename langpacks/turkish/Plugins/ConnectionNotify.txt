@@ -1,0 +1,81 @@
+#muuid {4bb5b4aa-c364-4f23-9746-d5b708a286a5}
+;============================================================
+;  File: ConnectionNotify.dll
+;  Plugin: Connection Notify
+;  Version: 0.1.0.6
+;  Authors: MaKaR
+;============================================================
+[Notify with popup if some connection established]
+Herhangi bir bağlantı kurulduğunda açılır pencere ile bildirimde bulun
+;file \protocols\ConnectionNotify\res\ConnectionNotify.rc
+[Set popup colors]
+Açılır pencere renklerini ayarla
+[Popup options]
+Açılır pencere seçenekleri
+[Background]
+Arka Plan
+[Text]
+Metin
+[Close after:]
+Hemen ardından:
+[sec (0 default, -1 disabled)]
+sn (varsayılan: 0, -1: devre dışı)
+[try resolve addresses]
+adresleri çözümlemeyi dene
+[Show notification if no filter defined]
+Filtre tanımlanmamışsa bildirim göster
+[Attempt interval (ms)]
+Deneme aralığı (ms)
+[Delete]
+Sil
+['Online' means:]
+"Çevrimiçi" şu anlama gelir:
+[Filters]
+Filtreler
+[Move down]
+Aşağı kaydır
+[Move up]
+Yukarı git
+[Add]
+Ekle
+[Rule editor]
+Kural düzenleyicisi
+[Application name]
+Uygulama adı
+[Local IP:Port]
+Yerel IP:Port
+[Action:]
+Eylem:
+[Cancel]
+İptal et
+[* and ? wildcard characters also available (for port enter number or *)]
+* ve ? joker karakterleri de kullanılabilir (bağlantı noktası için sayı veya * girin)
+[Remote IP:Port]
+Uzak IP:Bağlantı Noktası
+;file \protocols\ConnectionNotify\src\ConnectionNotify.cpp
+[New Connection Notification]
+Yeni Bağlantı Bildirimi
+;file \protocols\ConnectionNotify\src\filter.cpp
+[Always show popup]
+Her zaman açılır pencereyi göster
+[Never show popup]
+Asla açılır pencere gösterme
+[First close options window]
+Önce seçenekler penceresini kapatın
+;file \protocols\ConnectionNotify\src\options.cpp
+[Show]
+Göster
+[Hide]
+Gizle
+[Status]
+Durum
+[Application]
+Başvuru
+[Internal socket]
+Dahili soket
+[External socket]
+Dış priz
+[Action]
+Eylem
+[Plugins]
+Eklentiler

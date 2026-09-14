@@ -1,0 +1,103 @@
+#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
+;============================================================
+;  File: Nudge.dll
+;  Plugin: Nudge
+;  Version: 0.2.0.2
+;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
+;============================================================
+[Plugin to shake the contact list and chat window.]
+Kişi listesini ve sohbet penceresini sallayan eklenti.
+;file \plugins\Nudge\res\resource.rc
+[Protocol options]
+Protokol seçenekleri
+[Specify options for each protocol]
+Her protokol için seçenekleri belirleyin
+[Open contact list]
+Kişi listesini aç
+[Enable contact list shaking]
+Kişi listesini sallama özelliğini etkinleştir
+[Open message window]
+Mesaj penceresini aç
+[Enable message window shaking]
+Mesaj penceresinin sallanmasını etkinleştir
+[Show as status change]
+Durum değişikliği olarak göster
+[Auto resend nudge after]
+Şu süreden sonra otomatik olarak hatırlatma mesajı gönder
+[s]
+s
+[Enable popup notification]
+Açılır bildirim özelliğini etkinleştir
+[Respect ignore settings (status changes)]
+Görmezden gelme ayarlarına uyulur (durum değişiklikleri)
+[Sending text]
+Metin gönderme
+[Receiving text]
+Metin alımı
+[Privacy]
+Gizlilik
+[Allow sending* one nudge to the same contact every:]
+Aynı kişiye her *şu sıklıkta* bir hatırlatma gönderilmesine izin ver:
+[Allow receiving one nudge from the same contact every:]
+Aynı kişiden şu aralıklarla bir hatırlatma alınmasına izin ver:
+[* Nudge sending delay is hardcoded and cannot be changed.]
+* Nudge gönderim gecikmesi sabit olarak ayarlanmıştır ve değiştirilemez.
+[Preview]
+Önizleme
+[Text]
+Metin
+[Allow nudges when you're:]
+Aşağıdaki durumlarda “nudges” özelliğini etkinleştirin:
+[Offline]
+Çevrimdışı
+[Online]
+Çevrimiçi
+[Away]
+Deplasman
+[Not available]
+Mevcut değil
+[Occupied]
+İşgal Altında
+[Do not disturb]
+Rahatsız etmeyin
+[Free for chat]
+Sohbet için ücretsiz
+[Invisible]
+Görünmez
+[Shaking contact list options]
+Kişi listesini sallama seçenekleri
+[Number of moves]
+Hareket sayısı
+[Width of move]
+Hareketin genişliği
+[Static]
+Statik
+[Shaking Message Window Options]
+Mesaj Penceresi Sallama Seçenekleri
+;file \plugins\Nudge\src\main.cpp
+[Nudge as Default]
+Varsayılan Olarak “Nudge”
+[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
+Çok fazla hatırlatma gönderemezsiniz (her %d saniyede sadece 1 tane, %d saniye kaldı)
+[Show Nudge]
+"Nudge"yi Göster
+[Nudge for %s]
+%s için hatırlatma
+[Nudge]
+Hafifçe itmek
+[Default Nudge]
+Varsayılan İtme
+[Send nudge]
+Hatırlatma gönder
+[Send &nudge]
+Gönder ve hatırlat
+;file \plugins\Nudge\src\nudge.cpp
+[You received a nudge]
+Bir hatırlatma aldınız
+[You sent a nudge]
+Bir hatırlatma gönderdin
+;file \plugins\Nudge\src\options.cpp
+[Events]
+Etkinlikler
+[Window Shaking]
+Pencerenin Titremesi

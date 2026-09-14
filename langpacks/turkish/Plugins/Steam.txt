@@ -1,0 +1,115 @@
+#muuid {68f5a030-ba32-48ec-9507-5c2fbdea5217}
+;============================================================
+;  File: Steam.dll
+;  Plugin: Steam protocol
+;  Version: 0.96.1.3
+;  Authors: Miranda NG team, Robert Pösel
+;============================================================
+[Steam protocol support for Miranda NG.]
+Miranda NG için Steam protokolü desteği.
+;file \protocols\Steam\res\Resource.rc
+[Username]
+Kullanıcı adı
+[Password]
+Şifre
+[Default group]
+Varsayılan grup
+[Device name]
+Cihaz adı
+[Account]
+Hesap
+[Username:]
+Kullanıcı adı:
+[Password:]
+Şifre:
+[Contacts]
+İletişim Bilgileri
+[Default group:]
+Varsayılan grup:
+[Use bigger avatars]
+Daha büyük avatarlar kullanın
+[Message sessions]
+Mesaj oturumları
+[Show chat state events (i.e., user closed chat session)]
+Sohbet durumu olaylarını göster (örn. kullanıcının sohbet oturumunu kapatması)
+[Connection]
+Bağlantı
+[Error limit before logout:]
+Oturumun kapanmasından önceki hata sınırı:
+[Block]
+Blok
+[Enter password]
+Şifreyi girin
+[Save password]
+Şifreyi kaydet
+[Cancel]
+İptal et
+[Enter the password to continue.]
+Devam etmek için şifreyi girin.
+;file \protocols\Steam\src\main.cpp
+[Protocol icon]
+Protokol simgesi
+[Gaming icon]
+Oyun ikonu
+[Steam game]
+Steam oyunu
+;file \protocols\Steam\src\steam_bbcodes.cpp
+[You were invited to play a game]
+Bir oyuna davet edildiniz
+[Associated application]
+İlgili başvuru
+;file \protocols\Steam\src\steam_chats.cpp
+[Owner]
+Sahibi
+[Participant]
+Katılımcı
+[total members]
+toplam üye sayısı
+[online members]
+çevrimiçi üyeler
+[chatting]
+sohbet etmek
+[in game]
+oyun içinde
+[&Leave chat session]
+&Sohbet oturumundan çık
+;file \protocols\Steam\src\steam_contacts.cpp
+[Looking to play]
+Oynamak mı istiyorsunuz?
+[ (Non-Steam)]
+ (Steam dışı)
+[ on server %S]
+ %S sunucusunda
+[Playing]
+Oynama
+[%s is back in your contact list]
+%s, kişi listenize geri döndü
+[%s has been removed from your contact list]
+%s, kişi listenizden kaldırıldı
+[%s has added you to contact list]
+%s sizi kişi listesine ekledi
+;file \protocols\Steam\src\steam_login.cpp
+[Enter email confimation code]
+E-posta onay kodunu girin
+[Enter the code from your authentication device]
+Kimlik doğrulama cihazınızdaki kodu girin
+;file \protocols\Steam\src\steam_menus.cpp
+[Unblock]
+Engellemeyi kaldır
+[Join the game]
+Oyuna katıl
+[Join group chat]
+Grup sohbetine katıl
+;file \protocols\Steam\src\steam_messages.cpp
+[Message sending has failed with error %d]
+%d hatası nedeniyle mesaj gönderimi başarısız oldu
+;file \protocols\Steam\src\steam_options.cpp
+[Name]
+Adı
+[Network]
+Ağ
+;file \protocols\Steam\src\steam_server.cpp
+;file \protocols\Steam\src\steam_utils.cpp
+[closed chat session]
+kapalı sohbet oturumu
+;file \protocols\Steam\src\steam_xstatus.cpp

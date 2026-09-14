@@ -1,0 +1,131 @@
+#muuid {60558872-2aab-45aa-888d-097691c9b683}
+;============================================================
+;  File: Sessions.dll
+;  Plugin: Sessions
+;  Version: 0.2.0.2
+;  Authors: MaD_CLuSTeR
+;============================================================
+[Sessions Manager for Miranda NG.]
+Miranda NG için Oturum Yöneticisi.
+;file \plugins\Sessions\res\Sessions.rc
+[Action on Startup]
+Başlangıçta Alınacak Önlemler
+[Open Sessions Manager dialog]
+"Oturum Yöneticisi" iletişim kutusunu aç
+[Open dialog if last session present]
+Son oturum varsa iletişim kutusunu aç
+[Restore Last Session]
+Son Oturumu Geri Yükle
+[Do nothing]
+Hiçbir şey yapma
+[Startup delay]
+Başlatma gecikmesi
+[ms]
+ms
+[User Sessions Management]
+Kullanıcı Oturumlarının Yönetimi
+[Edit]
+Düzenle
+[Delete]
+Sil
+[Save]
+Kaydet
+[Action on Exit]
+Çıkışta Yapılacak İşlem
+[Ask]
+Sor
+[Save Current Session]
+Mevcut Oturumu Kaydet
+[Save only last]
+Sadece sonuncuyu kaydet
+[sessions]
+oturumlar
+[Misc]
+Çeşitli
+[Exclude hidden contacts from session on exit]
+Çıkışta gizli kişileri oturumdan hariç tut
+[Warn, when some of LastSession contacts are hidden]
+LastSession'daki bazı kişiler gizlendiğinde uyarı ver
+[Show other warnings ("session already opened", etc.)]
+Diğer uyarıları göster (“oturum zaten açık”, vb.)
+[Crash Recovery mode]
+Kaza Kurtarma Modu
+[Restore Session]
+Oturumu Geri Yükle
+[&Restore Session]
+&Oturumu Geri Yükle
+[&Cancel]
+&İptal
+[Choose session to restore from the list:]
+Listeden geri yüklemek istediğiniz oturumu seçin:
+[Del]
+Del
+[Save Session]
+Oturumu Kaydet
+[&Save Session]
+&Oturumu Kaydet
+[Enter session name:]
+Oturum adını girin:
+[Save and Close]
+Kaydet ve Kapat
+[Sessions Manager]
+Oturum Yöneticisi
+[Cancel]
+İptal et
+[Save your current session?]
+Mevcut oturumunuzu kaydetmek ister misiniz?
+;file \plugins\Sessions\Src\LoadSessions.cpp
+[No sessions to open]
+Açılacak oturum yok
+[Last Sessions is empty]
+"Son Oturumlar" boş
+[No contacts to open]
+Açılacak kişi yok
+[This Session already opened]
+Bu oturum çoktan başladı
+[This Session already opened (but probably hidden).\nDo you want to show hidden contacts?]
+Bu oturum zaten açılmış durumda (ancak muhtemelen gizlenmiş).\nGizlenmiş kişileri göstermek ister misiniz?
+;file \plugins\Sessions\Src\Main.cpp
+[Open Sessions Manager]
+Açık Oturum Yöneticisi
+[Show Favorite Sessions Menu]
+"Favori Oturumlar" Menüsünü Göster
+[Sessions]
+Oturumlar
+[Restore last Session]
+Son oturumu geri yükle
+[Close Session]
+Oturumu Kapat
+[Save session...]
+Oturumu kaydet...
+[Load session...]
+Oturumu yüklüyor...
+[Close session]
+Oturumu kapat
+[Load last session]
+Son oturumu yükle
+[Favorite Session]
+En Beğenilen Oturum
+[Not favorite Session]
+Favori Oturum Değil
+[Load Session]
+Oturumu Yükle
+[Load last Session]
+Son Oturumu Yükle
+;file \plugins\Sessions\Src\Options.cpp
+[View]
+Görüntüle
+[Do you want to save changes?]
+Değişiklikleri kaydetmek istiyor musunuz?
+[Message sessions]
+Mesaj oturumları
+;file \plugins\Sessions\Src\SaveSessions.cpp
+[More contacts]
+Diğer kişiler
+[Session name is empty, enter the name and try again]
+Oturum adı boş; bir ad girin ve tekrar deneyin
+[Current session is empty!]
+Mevcut oturum boş!
+;file \plugins\Sessions\Src\Utils.cpp
+[Session Before Last Crash]
+Son Çöküşten Önceki Oturum

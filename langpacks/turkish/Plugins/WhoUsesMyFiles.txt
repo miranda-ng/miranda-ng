@@ -1,0 +1,77 @@
+#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
+;============================================================
+;  File: WhoUsesMyFiles.dll
+;  Plugin: Who Use My Files
+;  Version: 0.1.0.4
+;  Authors: Nikolay Redko
+;============================================================
+[Scans for network users of your shared files and notify you with popups.]
+Paylaşılan dosyalarınızın ağ kullanıcılarını tarar ve açılır pencerelerle size bildirimde bulunur.
+;file \plugins\WhoUsesMyFiles\res\resource.rc
+[WUMF: Current connections]
+WUMF: Güncel bağlantılar
+[Popup delay settings]
+Açılır pencere gecikme ayarları
+[Timeout (seconds)]
+Zaman aşımı (saniye)
+[Background color]
+Arka plan rengi
+[Text color]
+Metin rengi
+[Previe&w]
+Önizleme
+[Show infinitely]
+Sonsuza kadar göster
+[Default]
+Varsayılan
+[Custom]
+Özel
+[Popup color settings]
+Açılır pencere renk ayarları
+[Use Windows colors]
+Windows renklerini kullan
+[Use default colors]
+Varsayılan renkleri kullan
+[Use custom colors]
+Özel renkler kullanın
+[File access filter && logging settings]
+Dosya erişim filtresi && günlük kaydı ayarları
+[Log into text file]
+Metin dosyasına giriş yap
+[Log folders access]
+Günlük klasörlerine erişim
+[Alerts on folders access]
+Klasörlere erişimle ilgili uyarılar
+[Show current connections]
+Mevcut bağlantıları göster
+;file \plugins\WhoUsesMyFiles\src\options.cpp
+[Common Dialog Error 0x%lx]
+Yaygın Diyalog Hatası 0x%lx
+[Error]
+Hata
+[Who uses my files]
+Dosyalarımı kimler kullanıyor?
+[Services]
+Hizmetler
+;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+[User]
+Kullanıcı
+[File]
+Dosya
+[Access]
+Erişim
+[Plugin WhoUsesMyFiles requires admin privileges in order to work.]
+"WhoUsesMyFiles" eklentisinin çalışabilmesi için yönetici yetkileri gereklidir.
+[Error opening file]
+Dosya açılırken hata oluştu
+[Error memory allocation]
+Hata: Bellek ayırma
+;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
+[Error creating menu]
+Menü oluşturulurken hata oluştu
+[Show connections list]
+Bağlantı listesini göster
+[WUMF popups]
+WUMF açılır pencereleri
+[WUMF: Show connections]
+WUMF: Bağlantıları göster

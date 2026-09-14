@@ -1,0 +1,21 @@
+#muuid {da223468-5f8e-4513-88b0-e52ce8a8b33b}
+;============================================================
+;  File: Dbx_sqlite.dll
+;  Plugin: Miranda NG SQLite database driver
+;  Version: 0.96.4.1
+;  Authors: Miranda-NG project
+;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Miranda veritabanı desteği sunar: genel ayarlar, kişiler, geçmiş, kişi başına ayarlar.
+;file \plugins\Dbx_sqlite\res\dbx_sqlite.rc
+[Converting database...]
+Veritabanı dönüştürülüyor...
+;file \plugins\Dbx_sqlite\src\dbcheck.cpp
+[Orphaned event with wrong contact ID %d, deleting]
+Yanlış iletişim kimliği %d olan yetim olay, siliniyor
+[Orphaned sorting event with wrong event ID %d:%08X, deleting]
+Yanlış olay kimliği %d:%08X olan yetim sıralama olayı: siliniyor
+[Orphaned event with wrong event ID %d:%08X, deleting]
+Yanlış olay kimliği %d:%08X olan yetim olay: siliniyor
+[Orphaned setting [%S:%S] with wrong contact ID %d, deleting]
+Yanlış iletişim kimliği %d olan yetim ayar [%S:%S], siliniyor

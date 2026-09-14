@@ -1,0 +1,35 @@
+#muuid {211f6277-6f9b-4b77-a939-84d04b26b38c}
+;============================================================
+;  File: StartPosition.dll
+;  Plugin: Start position
+;  Version: 0.3.0.4
+;  Authors: Felipe Brahm - souFrag
+;============================================================
+[Plugin supports starting position of Contact List relative to the taskbar and screen side.]
+Eklenti, Kişi Listesi’nin görev çubuğuna ve ekranın kenarına göre başlangıç konumunu destekler.
+;file \plugins\StartPosition\res\resource.rc
+[Contact list window start position]
+Kişi listesi penceresinin başlangıç konumu
+[Pixels from Top]
+Üstten gelen pikseller
+[Pixels from Bottom]
+Alttan gelen pikseller
+[Pixels from Side]
+Yandan Görüntülenen Pikseller
+[Left]
+Sol
+[Right]
+Doğru
+[Width]
+Genişlik
+[Always start...]
+Her zaman şöyle başlayın...
+[minimized to system tray]
+sistem tepsisine küçültüldü
+[opened]
+açıldı
+;file \plugins\StartPosition\src\startposition.cpp
+[Contact list]
+Kişi listesi
+[Start position]
+Başlangıç konumu

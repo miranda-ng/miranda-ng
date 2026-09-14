@@ -1,0 +1,410 @@
+#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
+;============================================================
+;  File: NewXstatusNotify.dll
+;  Plugin: xStatus notify
+;  Version: 1.4.0.12
+;  Authors: Luca Santarelli, Vasilich, yaho
+;============================================================
+[Notifies you when a contact changes his/her (X)status or status message.]
+Bir kişi (X) durumunu veya durum mesajını değiştirdiğinde size bildirim gönderir.
+;file \plugins\NewXstatusNotify\res\resource.rc
+[Notify when contact changes to one of these statuses]
+Kişi bu durumlardan birine geçtiğinde bildirim gönder
+[Online]
+Çevrimiçi
+[Offline]
+Çevrimdışı
+[Invisible]
+Görünmez
+[Free for chat]
+Sohbet için ücretsiz
+[Away]
+Deplasman
+[Not available]
+Mevcut değil
+[Occupied]
+İşgal Altında
+[Do not disturb]
+Rahatsız etmeyin
+[Always when changing from offline]
+Çevrimdışı moddan geçiş yaparken her zaman
+[Notify when contact changes]
+Kişi bilgileri değiştiğinde bildirim gönder
+[Extra status]
+Ekstra statü
+[Status message]
+Durum mesajı
+[Plugin activation]
+Eklentinin etkinleştirilmesi
+[Automatically turn off Popups and Sounds on status change]
+Durum değişikliğinde açılır pencereleri ve sesleri otomatik olarak kapat
+[Configure]
+Yapılandır
+[Notify me for people not on my contact list]
+Kişi listemde olmayan kişiler hakkında bana bildirim gönder
+[Use individual sounds]
+Tek tek sesleri kullanın
+[Blink icon in the system tray]
+Sistem tepsisindeki Blink simgesi
+[Also when extra status or status message changes]
+Ayrıca, ek durum veya durum mesajında değişiklik olduğunda
+[Use status icon]
+Durum simgesini kullan
+[Log to file]
+Dosyaya kaydet
+[Open]
+Aç
+[Change]
+Değişiklik
+[Preview]
+Önizleme
+[Delete]
+Sil
+[Enable sounds]
+Sesleri etkinleştir
+[Enable popups]
+Pop-up'ları etkinleştir
+[Status Notify]
+Durum Bildirimi
+[Individual sounds are disabled.\n\nTo enable them, go to Options -> Status -> Status Notify, enable\n"Use individual sounds" checkbox, and then reopen this dialog.]
+Tek tek sesler devre dışı bırakılmıştır.\n\nBunları etkinleştirmek için Seçenekler -> Durum -> Durum Bildirimi'ne gidin,\n"Tek tek sesleri kullan" onay kutusunu işaretleyin ve ardından bu iletişim kutusunu yeniden açın.
+[Sounds]
+Sesler
+[Popups]
+Açılır pencereler
+[Extra status notify]
+Ek durum bildirimi
+[Extra status logging]
+Ek durum günlüğü kaydı
+[Disable all]
+Tümünü devre dışı bırak
+[Enable all]
+Tümünü etkinleştir
+[Status message notify]
+Durum mesajı bildirimi
+[Status message logging]
+Durum mesajlarının günlüğe kaydedilmesi
+[Popups when status changes to:]
+Durum şu şekilde değiştiğinde açılır pencereler:
+[Background]
+Arka Plan
+[Text]
+Metin
+[Colors]
+Renkler
+[Use custom colors]
+Özel renkler kullanın
+[Use Windows colors]
+Windows renklerini kullan
+[Use default colors]
+Varsayılan renkleri kullan
+[Popup text]
+Açılır pencere metni
+[Show contact group name]
+İletişim grubunun adını göster
+[Show status description]
+Durum açıklamasını göster
+[Use alternative descriptions]
+Alternatif açıklamalar kullanın
+[Show previous status too]
+Önceki durumu da göster
+[Read status message]
+Durum mesajını oku
+[Timeout]
+Zaman aşımı
+[Sec]
+Saniye
+[Connection timeout]
+Bağlantı zaman aşımı
+[0 = Default]
+0 = Varsayılan
+[-1 = Infinite]
+-1 = Sonsuz
+[Click action]
+Tıklama eylemi
+[On left click]
+Sol tıklama üzerine
+[On right click]
+Sağ tıklama üzerine
+[Notification]
+Bildirim
+[Show Popups when I connect]
+Bağlandığımda açılır pencereleri göster
+[Truncate message length to:]
+Mesaj uzunluğunu şu değere kısalt:
+[characters]
+karakterler
+[Templates]
+Şablonlar
+[Notify when contact changes extra status]
+Kişinin “ekstra” durumu değiştiğinde bildirim gönder
+[Template:]
+Şablon:
+[Notify when contact removes extra status]
+Kişi fazladan durumu kaldırdığında bildirim gönder
+[Notify when contact changes extra status message]
+Kişinin durumu değiştiğinde bildirim gönder - ek durum mesajı
+[Notify when contact removes extra status message]
+Kişi ek durum mesajını kaldırdığında bildirim gönder
+[Variables]
+Değişkenler
+[Reset]
+Sıfırla
+[Disable notifications]
+Bildirimleri devre dışı bırak
+[Disable globally]
+Genel olarak devre dışı bırak
+[Disable when my status is:]
+Durumum şu olduğunda devre dışı bırak:
+[Disable only if I change global status]
+Yalnızca genel durumu değiştirdiğimde devre dışı bırak
+[Cancel]
+İptal et
+[Log extra status changes]
+Ek durum değişikliklerini günlüğe kaydet
+[Log extra status changes to file]
+Ek durum değişikliklerini dosyaya kaydedin
+[Log extra status changes to history]
+Ek durum değişikliklerini geçmişe kaydet
+[Only when message window is open]
+Yalnızca mesaj penceresi açıkken
+[Remove events from history when closing message window]
+Mesaj penceresi kapatıldığında olayları geçmişten sil
+[Log when contact changes extra status]
+Kişinin ek durumu değiştiğinde günlüğe kaydet
+[Log when contact removes extra status]
+Kişi fazladan durumu kaldırdığında kayıt yap
+[Log when contact changes extra status message]
+Kişinin ek durum mesajı değiştiğinde günlük kaydı
+[Log when contact removes extra status message]
+Kişi fazladan durum mesajını kaldırdığında kayıt yap
+[Log extra status when opening message window]
+Mesaj penceresi açıldığında ek durum bilgisi kaydedilir
+[General]
+Genel
+[Accounts]
+Hesaplar
+[Enable/Disable accounts which you don't wish to be notified for:]
+Bildirim almak istemediğiniz hesapları etkinleştirin/devre dışı bırakın:
+[Notify when contact changes status message]
+Kişinin durumu değiştiğinde bildirim gönderme mesajı
+[Notify when contact removes status message]
+Kişi durum mesajını kaldırdığında bildirim gönder
+[Log status changes]
+Durum değişikliklerini günlüğe kaydet
+[Log status changes to file]
+Durum değişikliklerini dosyaya kaydedin
+[Log status changes to history]
+Durum değişikliklerini geçmişe kaydet
+[Log previous status too]
+Önceki durumu da kaydet
+[Log status message changes]
+Durum mesajlarındaki değişiklikleri günlüğe kaydet
+[Log status message changes to file]
+Durum mesajlarındaki değişiklikleri dosyaya kaydeder
+[Log status message changes to history]
+Günlük durum mesajlarındaki değişiklikleri geçmişe kaydeder
+[Log when contact changes status message]
+Kişinin durum mesajı değiştiğinde kayıt yap
+[Log when contact removes status message]
+Kişi durum mesajını kaldırdığında günlüğe kaydet
+[Log status message when opening message window]
+Mesaj penceresi açıldığında durum mesajını günlüğe kaydet
+;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Sound files]
+Ses dosyaları
+[All files]
+Tüm dosyalar
+[Wave files]
+Wave dosyaları
+[** All contacts **]
+** Tüm kişiler **
+[Status]
+Durum
+[Sound file]
+Ses dosyası
+;file \plugins\NewXstatusNotify\src\indsnd.h
+[(default sound)]
+(varsayılan ses)
+;file \plugins\NewXstatusNotify\src\main.cpp
+[<no status message>]
+<durum mesajı yok>
+[Contact]
+İletişim
+[<unknown>]
+<bilinmiyor>
+[(was %s)]
+(eski adı %s)
+[%s is now %s]
+%s artık %s oldu
+[%s, %s. %s changed status to %s (was %s)\r\n]
+%s, %s. %s'nin durumu %s olarak değişti (önceden %s idi)\r\n
+[connecting]
+bağlantı
+[aborting]
+iptal etme
+[playing]
+oynamak
+[%s changed status message to %s]
+%s, durum mesajını %s olarak değiştirdi
+[(M) is back online!]
+(M) yeniden çevrimiçi!
+[(F) is back online!]
+(F) yeniden çevrimiçi!
+[(U) is back online!]
+(U) yeniden çevrimiçi!
+[User: Online]
+Kullanıcı: Çevrimiçi
+[(M) went offline! :(]
+(M) çevrimdışı oldu! :(
+[(F) went offline! :(]
+(F) çevrimdışı oldu! :(
+[(U) went offline! :(]
+(U) çevrimdışı oldu! :(
+[User: Offline]
+Kullanıcı: Çevrimdışı
+[(M) hides in shadows...]
+(M) gölgelerin arasında saklanıyor...
+[(F) hides in shadows...]
+(F) gölgelerin arasında saklanıyor...
+[(U) hides in shadows...]
+(U) gölgelerin arasında saklanıyor...
+[User: Invisible]
+Kullanıcı: Görünmez
+[(M) feels talkative!]
+(M) konuşkan hissediyor!
+[(F) feels talkative!]
+(F) konuşkan hissediyor!
+[(U) feels talkative!]
+(U) konuşkan hissediyor!
+[User: Free for chat]
+Kullanıcı: Sohbet için ücretsiz
+[(M) went away]
+(M) gitti
+[(F) went away]
+(F) gitti
+[(U) went away]
+(U) gitti
+[User: Away]
+Kullanıcı: Çevrimdışı
+[(M) isn't there anymore!]
+(M) artık orada değil!
+[(F) isn't there anymore!]
+(F) artık yok!
+[(U) isn't there anymore!]
+(U) artık orada değil!
+[User: Not available]
+Kullanıcı: Mevcut değil
+[(M) has something else to do]
+(M)’nin başka bir işi var
+[(F) has something else to do]
+(F) başka bir işi var
+[(U) has something else to do]
+(U) başka bir işi var
+[User: Occupied]
+Kullanıcı: Meşgul
+[(M) doesn't want to be disturbed!]
+(M) rahatsız edilmek istemiyor!
+[(F) doesn't want to be disturbed!]
+(F) rahatsız edilmek istemiyor!
+[(U) doesn't want to be disturbed!]
+(U) rahatsız edilmek istemiyor!
+[User: Do not disturb]
+Kullanıcı: Rahatsız etmeyin
+[User: from offline (has priority!)]
+Kullanıcı: çevrimdışı durumdan (öncelikli!)
+[Status message removed]
+Durum mesajı kaldırıldı
+[Status message changed]
+Durum mesajı değişti
+[Extra status removed]
+Ekstra statü kaldırıldı
+[Extra status message changed]
+Ek durum mesajı değiştirildi
+[Extra status changed]
+Ekstra durum değişti
+[Extra status message removed]
+Fazladan durum mesajı kaldırıldı
+[Status notifications]
+Durum bildirimleri
+[New Status Notify]
+Yeni Durum Bildirimi
+[Status change]
+Durum değişikliği
+;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+Tüm Dosyalar
+[Log]
+Günlük
+[This is status message]
+Bu bir durum mesajıdır
+[This is extra status]
+Bu, özel bir statüdür
+[Show available variables]
+Mevcut değişkenleri göster
+[Reset all templates to default]
+Tüm şablonları varsayılana sıfırla
+[Do you want to reset all templates to default?]
+Tüm şablonları varsayılana sıfırlamak istiyor musunuz?
+[Reset templates]
+Şablonları sıfırla
+[Account]
+Hesap
+[Status logging]
+Durum günlüğü
+[Filtering]
+Filtreleme
+;file \plugins\NewXstatusNotify\src\popup.h
+[Open message window]
+Mesaj penceresini aç
+[Close popup]
+Açılır pencereyi kapat
+[Open contact details window]
+İletişim bilgileri penceresini aç
+[Open contact menu]
+İletişim menüsünü aç
+[Open contact history]
+İletişim geçmişini aç
+[Do nothing]
+Hiçbir şey yapma
+;file \plugins\NewXstatusNotify\src\utils.cpp
+[Can't open the log file!]
+Günlük dosyasını açamıyorum!
+[NewXstatusNotify]
+NewXstatusNotify
+;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[Mood]
+Ruh hali
+[Activity]
+Etkinlik
+[<no title>]
+<başlık yok>
+[%s changed %s]
+%s, %s olarak değiştirildi
+;file \plugins\NewXstatusNotify\src\xstatus.h
+[changed %n to: %t]
+%n'yi şuna değiştirdi: %t
+[removed %n]
+%n kaldırıldı
+[changed %n message to: %m]
+%n mesajını %m olarak değiştirdi
+[removed %n message]
+%n mesajı silindi
+[changed status message to: %n]
+durum mesajını şuna değiştirdi: %n
+[removed status message]
+durum mesajı kaldırıldı
+[changed %n @ %t: %m]
+%n @ %t değiştirildi: %m
+[changed %n message @ %m]
+%n mesajı %m'de değiştirildi
+[has %n @ %t: %m]
+%n @ %t: %m
+[changed status message @ %n]
+durum mesajı değiştirildi @ %n
+[is %s and has status message @ %n]
+%s değerindedir ve @ %n durum mesajına sahiptir
+[These variables are available:\r\n\r\n%n\textra status name (xStatus, Mood, Activity)\r\n%t\textra status title\r\n%m\textra status message\r\n%c\tcustom nickname\r\n\\n\tline break\r\n\\t\ttab stop]
+Kullanılabilir değişkenler şunlardır:\r\n\r\n%n\textra durum adı (xStatus, Mood, Activity)\r\n%t\textra durum başlığı\r\n%m\textra durum mesajı\r\n%c\tözel takma ad\r\n\\n\tsatır sonu\r\n\\t\ttab durak
+[These variables are available:\r\n\r\n%n\tnew status message\r\n%o\told status message\r\n%c\tcustom nickname\r\n%s\tcurrent status\r\n\\n\tline break\r\n\\t\ttab stop]
+Kullanılabilen değişkenler şunlardır:\r\n\r\n%n\tyeni durum mesajı\r\n%o\teski durum mesajı\r\n%c\özel takma ad\r\n%s\meğelen durum\r\n\\n\satır sonu\r\n\\t\ttab durağı

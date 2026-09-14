@@ -1,0 +1,272 @@
+#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
+;============================================================
+;  File: SendSS.dll
+;  Plugin: Send ScreenShot+
+;  Version: 0.9.0.4
+;  Authors: Merlin
+;============================================================
+[Take a screenshot and send it to a contact.]
+Ekran görüntüsü alın ve bunu bir kişiye gönderin.
+;file \plugins\SendScreenshotPlus\res\resource.rc
+[Dialog]
+Diyalog
+[All]
+Tümü
+[None]
+Yok
+[Cancel]
+İptal et
+[Send screenshot to <unknown>]
+Ekran görüntüsünü <bilinmiyor> adresine gönder
+[Take a screenshot and send it to a contact]
+Ekran görüntüsü alıp bir kişiye gönderin
+[Ti&med capture]
+Ti&med yakalama
+[Time (secs):]
+Süre (saniye):
+[&Format:]
+&Biçim:
+[Send b&y:]
+b&y'yi gönder:
+[E&xplore]
+E&xplore
+[Fill description textbox.]
+Açıklama metin kutusunu doldurun.
+[Delete &after send]
+Gönderildikten sonra sil
+[Open editor before sending]
+Göndermeden önce düzenleyiciyi açın
+[Open again]
+Tekrar aç
+[&Capture]
+&Yakala
+[About]
+Hakkında
+[Copyright]
+Telif Hakkı
+[&Close]
+&Kapat
+[Edit]
+Düzenle
+[Caption:]
+Altyazı:
+[Size (HxW):]
+Boyut (YxG):
+[C&lient area]
+Müşteri Alanı
+[Indirect capture]
+Dolaylı yakalama
+[Target tool]
+Hedef aracı
+[File:]
+Dosya:
+[Description:]
+Açıklama:
+[Result]
+Sonuç
+[Thumbnail]
+Küçük resim
+[&Copy]
+&Kopyala
+[Close]
+Kapat
+;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[Resulting URL from\n]
+Şu adresten elde edilen URL\n
+[Copy]
+Kopyala
+[Copy BBCode]
+BBCode'u kopyala
+[Copy BBCode w/ link]
+Bağlantılı BBCode'u kopyala
+[%s requires a valid contact!]
+%s için geçerli bir iletişim bilgisi gereklidir!
+[Error]
+Hata
+[GCHAT error]
+GCHAT hatası
+[An unknown error has occurred.]
+Bilinmeyen bir hata oluştu.
+;file \plugins\SendScreenshotPlus\src\CSend.h
+[Unable to initiate %s.]
+%s başlatılamadı.
+[MAPI error (%i):\n%s.]
+MAPI hatası (%i):\n%s.
+[Unknown response from %s (%i)]
+%s'den (%i) bilinmeyen bir yanıt geldi
+[Got no response from %s (%i)]
+%s'den (%i) yanıt alınamadı
+;file \plugins\SendScreenshotPlus\src\CSendCloudFile.cpp
+[CloudFile transfer]
+Bulut dosya aktarımı
+[%s (%i):\nCould not add a share to the CloudFile plugin.]
+%s (%i):\nCloudFile eklentisine paylaşım eklenemedi.
+;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
+[Email transfer]
+E-posta aktarımı
+[A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
+Bir alıcı, birden fazla alıcı tanımlayıcı yapısıyla eşleşti ve MAPI_DIALOG ayarlanmamıştı
+[The specified attachment was not found]
+Belirtilen ek bulunamadı
+[The specified attachment could not be opened]
+Belirtilen ek açılamadı
+[The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]
+Alıcının türü MAPI_TO, MAPI_CC veya MAPI_BCC değildi
+[One or more unspecified errors occurred]
+Belirtilmemiş bir veya daha fazla hata oluştu
+[There was insufficient memory to proceed]
+İşlemi sürdürmek için yeterli bellek yoktu
+[One or more recipients were invalid or did not resolve to any address]
+Bir veya daha fazla alıcı geçersizdi ya da herhangi bir adrese çözümlenemedi
+[There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed]
+Varsayılan oturum açma yoktu ve oturum açma iletişim kutusu görüntülendiğinde kullanıcı oturum açamadı
+[The text in the message was too large]
+Mesajdaki metin çok uzundu
+[There were too many file attachments]
+Çok fazla dosya eki vardı
+[There were too many recipients]
+Alıcı sayısı çok fazlaydı
+[A recipient did not appear in the address list]
+Adres listesinde bir alıcı bulunamadı
+[The user canceled one of the dialog boxes]
+Kullanıcı, diyalog kutularından birini iptal etti
+[Unknown Error]
+Bilinmeyen Hata
+;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
+[File transfer]
+Dosya aktarımı
+;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
+[FTPFile transfer]
+FTP Dosya aktarımı
+[%s (%i):\nCould not add a share to the FTP File plugin.]
+%s (%i):\nFTP Dosya eklentisine paylaşım eklenemedi.
+;file \plugins\SendScreenshotPlus\src\CSendHost_ImageShack.cpp
+[Image upload]
+Resim yükleme
+[Enter your personal API key from Imageshack]
+Imageshack'ten kişisel API anahtarınızı girin
+[API key is missing]
+API anahtarı eksik
+;file \plugins\SendScreenshotPlus\src\CSendHost_imgur.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
+[HTTPServer transfer]
+HTTPS sunucusu aktarımı
+[Could not start the HTTP Server plugin.]
+HTTP Sunucu eklentisi başlatılamadı.
+[%s (%i):\nCould not add a share to the HTTP Server plugin.]
+%s (%i):\nHTTP Sunucu eklentisine bir paylaşım eklenemedi.
+;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
+[Retry]
+Tekrar dene
+[Yes]
+Evet
+[No]
+Hayır
+[Abort]
+İptal et
+[Ignore]
+Yoksay
+;file \plugins\SendScreenshotPlus\src\Main.cpp
+[Main Icon]
+Ana Simge
+[Target Cursor]
+Hedef İmleci
+[Target Desktop]
+Hedef Masaüstü
+[Help]
+Yardım
+[Open Folder]
+Klasörü Aç
+[Description off]
+Açıklama kapalı
+[Description on]
+Açıklama
+[Delete off]
+Sil
+[Delete on]
+Şu tarihte sil
+[Prev]
+Önceki
+[Next]
+Sonraki
+[Update]
+Güncelleme
+[Edit on]
+Düzenleme tarihi:
+[BBCode]
+BBCode
+[BBCode link]
+BBCode bağlantısı
+[Down arrow]
+Aşağı ok
+[Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
+Ekran görüntüsü klasörü oluşturulamadı (hata kodu: %d):\n%s\nYazma izniniz var mı?
+[Could not create main dialog.]
+Ana iletişim kutusu oluşturulamadı.
+[SendSS]
+SendSS
+[Screenshots]
+Ekran görüntüleri
+[Buttons]
+Düğmeler
+[Take a screenshot]
+Ekran görüntüsü al
+[Send screenshot]
+Ekran görüntüsünü gönder
+[Send desktop screenshot]
+Masaüstü ekran görüntüsünü gönder
+[Open SendSS+]
+SendSS+'ı aç
+;file \plugins\SendScreenshotPlus\src\stdafx.h
+[SendScreenshot - Error]
+SendScreenshot - Hata
+;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
+[Drag&Drop the target on the desired window.]
+Hedefi istenen pencereye sürükleyip bırakın.
+[Send screenshot to %s]
+Ekran görüntüsünü %s'ye gönder
+[Window]
+Pencere
+[Desktop]
+Masaüstü
+[<Entire Desktop>]
+<Tüm Masaüstü>
+[Monitor]
+Monitör
+[ (primary)]
+ (birincil)
+[File]
+Dosya
+[<Only save>]
+<Yalnızca kaydet>
+[File Transfer]
+Dosya Aktarımı
+[E-mail]
+E-posta
+[FTP File]
+FTP Dosyası
+[Upload Pie (30m)]
+Upload Pie (30 dakika)
+[Upload Pie (1d)]
+Upload Pie (1 gün önce)
+[Upload Pie (1w)]
+Upload Pie (1 hafta)
+[Delete after send]
+Gönderildikten sonra sil
+[Capture]
+Yakalama
+[Couldn't take a screenshot]
+Ekran görüntüsü alamadım
+[Select a file]
+Bir dosya seçin
+[Select a target window.]
+Bir hedef pencere seçin.
+[Screenshot of "%s"]
+"%s" ekran görüntüsü
+[Screenshot for client area of "%s" window]
+"%s" penceresinin müşteri alanı ekran görüntüsü
+[Screenshot of "%s" window]
+"%s" penceresinin ekran görüntüsü
+[Send screenshot?]
+Ekran görüntüsü göndermek ister misin?

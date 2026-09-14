@@ -1,0 +1,120 @@
+#muuid {DCD56CEC-C61B-4275-a010-8c65c5848815}
+;============================================================
+;  File: Teams.dll
+;  Plugin: Teams protocol
+;  Version: 0.96.6.1
+;  Authors: Miranda NG team
+;============================================================
+[Microsoft Teams protocol support for Miranda NG.]
+Miranda NG için Microsoft Teams protokol desteği.
+;file \protocols\Teams\res\Resource.rc
+[Login:]
+Giriş:
+[Default group:]
+Varsayılan grup:
+[Logout]
+Oturumu Kapat
+[Account]
+Hesap
+[Teams]
+Takımlar
+[Proceed]
+Devam et
+[Cancel]
+İptal et
+[Static]
+Statik
+;file \protocols\Teams\src\main.cpp
+[Protocol icon]
+Protokol simgesi
+[Create new chat icon]
+Yeni sohbet simgesi oluştur
+[Block user icon]
+Kullanıcı simgesini engelle
+[Unblock user icon]
+Kullanıcı simgesinin engelini kaldır
+[Incoming call icon]
+Gelen arama simgesi
+[Notification icon]
+Bildirim simgesi
+[Error icon]
+Hata simgesi
+[Action icon]
+Eylem simgesi
+;file \protocols\Teams\src\teams_chatrooms.cpp
+[Admin]
+Yönetici
+[User]
+Kullanıcı
+[Enter new nickname]
+Yeni takma ad girin
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Bu sohbet, içindeki tüm içeriklerle birlikte kalıcı olarak silinecek. Bu işlem geri alınamaz. Emin misiniz?
+[Warning]
+Uyarı
+[&Invite user...]
+&Kullanıcıyı davet et...
+[&Leave chat session]
+&Sohbet oturumundan çık
+[&Change topic...]
+&Konuyu değiştir...
+[Kick &user]
+Kick & kullanıcı
+[Set &role]
+Set &role
+[&Admin]
+&Yönetici
+[&User]
+&Kullanıcı
+[Change nick...]
+Takma adı değiştir...
+[Enter new chatroom topic]
+Yeni sohbet odası konusu girin
+;file \protocols\Teams\src\teams_contacts.cpp
+[(You)]
+(Sen)
+[Are you sure?]
+Emin misin?
+;file \protocols\Teams\src\teams_login.cpp
+[To login into Teams you need to open '%S' in a browser and select your Teams account there.]
+Teams'e giriş yapmak için bir tarayıcıda '%S' adresini açmanız ve orada Teams hesabınızı seçmeniz gerekir.
+[Enter the following code then: %s.]
+Şu kodu girin: %s.
+[Click Proceed to copy that code to clipboard and launch a browser]
+"Devam Et" düğmesine tıklayarak bu kodu panoya kopyalayın ve bir tarayıcı açın
+;file \protocols\Teams\src\teams_menus.cpp
+[Block contact]
+Kişiyi engelle
+[Unblock contact]
+Kişinin engelini kaldır
+[Create new chat]
+Yeni sohbet oluştur
+;file \protocols\Teams\src\teams_messages.cpp
+[Network error!]
+Ağ hatası!
+[Unknown error!]
+Bilinmeyen bir hata!
+;file \protocols\Teams\src\teams_options.cpp
+[<will appear after first login>]
+<ilk oturum açıldıktan sonra görünecektir>
+[Network]
+Ağ
+;file \protocols\Teams\src\teams_popups.cpp
+[Notifications]
+Bildirimler
+[Errors]
+Hatalar
+[Calls]
+Aramalar
+;file \protocols\Teams\src\teams_proto.cpp
+[%s websocket connection]
+%s WebSocket bağlantısı
+[Incoming call]
+Gelen arama
+[Incoming call canceled]
+Gelen arama iptal edildi
+[Teams ID]
+Takım Kimlikleri
+;file \protocols\Teams\src\teams_utils.cpp
+[wrote]
+yazdı

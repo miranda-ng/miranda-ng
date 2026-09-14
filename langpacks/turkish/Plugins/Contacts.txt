@@ -1,0 +1,81 @@
+#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
+;============================================================
+;  File: Contacts.dll
+;  Plugin: Send/receive contacts
+;  Version: 1.6.0.0
+;  Authors: Joe Kucera, Todor Totev
+;============================================================
+[Allows you to send and receive contacts.]
+Kişileri gönderip almanızı sağlar.
+;file \plugins\ContactsPlus\res\contacts.rc
+[Send contacts]
+Kişileri gönder
+[&Add]
+&Ekle
+[&User menu]
+&Kullanıcı menüsü
+[User &details]
+Kullanıcı ve ayrıntılar
+[&History]
+&Tarihçe
+[Choose contacts to be send:]
+Gönderilecek kişileri seçin:
+[&Send]
+&Gönder
+[Cancel]
+İptal et
+[&Select All]
+&Tümünü Seç
+[Received contacts]
+Alınan kişiler
+[Add to &group:]
+&group'a ekle:
+[&Details]
+&Ayrıntılar
+[Close]
+Kapat
+[Contacts send error]
+Kişiler gönderme hatası
+[An error has occurred. The protocol reported the following error:]
+Bir hata oluştu. Protokol şu hatayı bildirdi:
+[Try again]
+Tekrar dene
+[Popup]
+Açılır pencere
+[Add to list]
+Listeye ekle
+[User details]
+Kullanıcı bilgileri
+[Send message]
+Mesaj gönder
+;file \plugins\ContactsPlus\src\main.cpp
+[Contacts received from]
+Şu kaynaklardan alınan kişiler:
+[Contacts]
+İletişim Bilgileri
+[Events]
+Etkinlikler
+[Incoming Contacts]
+Gelen Kişiler
+[Outgoing Contacts]
+Giden Kişiler
+;file \plugins\ContactsPlus\src\receive.cpp
+[Nick]
+Nick
+[First Name]
+Ad
+[Last Name]
+Soyadı
+[Add Contact Permanently to List]
+Kişiyi Listeye Kalıcı Olarak Ekle
+[View User's Details]
+Kullanıcının Ayrıntılarını Görüntüle
+[View User's History]
+Kullanıcının Geçmişini Görüntüle
+[User Menu]
+Kullanıcı Menüsü
+[Contacts from]
+Kişiler listesi
+;file \plugins\ContactsPlus\src\send.cpp
+[Send Contacts to]
+Kişileri Şuraya Gönder

@@ -1,0 +1,265 @@
+#muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
+;============================================================
+;  File: FTPFile.dll
+;  Plugin: FTP File YM
+;  Version: 0.6.0.6
+;  Authors: yaho
+;============================================================
+[FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
+Bir dosyayı sunucuya FTP yoluyla yükleyin ve URL'yi arkadaşınıza gönderin. Yükleme öncesinde otomatik sıkıştırma ve SFTP ile FTPS üzerinden şifreleme özellikleri desteklenmektedir.
+;file \plugins\FTPFileYM\res\ftpfile.rc
+[FTP accounts]
+FTP hesapları
+[Host name]
+Ana bilgisayar adı
+[User]
+Kullanıcı
+[Password]
+Şifre
+[URL]
+URL
+[Directory on server]
+Sunucudaki dizin
+[Port]
+Liman
+[Command after upload]
+Yükleme sonrası komut
+[Use passive mode]
+Pasif modu kullanın
+[Account name]
+Hesap adı
+[Protocol]
+Protokol
+[Default FTP server]
+Varsayılan FTP sunucusu
+[File download link]
+Dosya indirme bağlantısı
+[Close dialog after upload is completed]
+Yükleme tamamlandıktan sonra iletişim kutusunu kapat
+[Copy download link to message log]
+İndirme bağlantısını mesaj günlüğüne kopyala
+[Autosend download link to contact]
+İndirme bağlantısını irtibat kişisine otomatik olarak gönder
+[Menu items]
+Menü öğeleri
+[Use submenu (restart required)]
+Alt menüyü kullanın (yeniden başlatma gereklidir)
+[Hide inactive accounts]
+Etkin olmayan hesapları gizle
+[Other]
+Diğer
+[Automatically delete file from FTP server after (experimental):]
+FTP sunucusundaki dosyayı şu süre geçtikten sonra otomatik olarak sil (deneysel):
+[ZIP support]
+ZIP desteği
+[Enter archive name manually]
+Arşiv adını elle girin
+[Compression level:]
+Sıkıştırma seviyesi:
+[Upload File Manager]
+Dosya Yöneticisi'ne Yükle
+[File:]
+Dosya:
+[Completed:]
+Tamamlandı:
+[Speed:]
+Hız:
+[Remaining:]
+Kalan:
+[Summary]
+Özet
+[To:]
+Kime:
+[Nick]
+Nick
+[Close]
+Kapat
+[Clipboard]
+Pano
+[Options]
+Seçenekler
+[Pause]
+Duraklat
+[File Manager]
+Dosya Yöneticisi
+[Server:]
+Sunucu:
+[User info]
+Kullanıcı bilgileri
+[UPLOADING...]
+YÜKLENİYOR...
+[Open in Browser]
+Tarayıcıda Aç
+[FTP File Manager]
+FTP Dosya Yöneticisi
+[Select All]
+Tümünü Seç
+[Deselect All]
+Tümünü Seçmeyi Kaldır
+[Delete from list]
+Listeden sil
+[Delete from FTP]
+FTP'den sil
+[Enter file name]
+Dosya adını girin
+[Cancel]
+İptal et
+[File exists]
+Dosya mevcut
+[Rename]
+Adını değiştir
+[Overwrite]
+Üzerine yaz
+[File with the same name already exists on the server.]
+Sunucuda aynı isimde bir dosya zaten mevcut.
+[How to proceed?]
+Nasıl devam etmeliyiz?
+[Copy URL]
+URL'yi kopyala
+[Close dialog after upload finishes]
+Yükleme tamamlandıktan sonra iletişim kutusunu kapat
+[Automatically delete file after...]
+Şu süreden sonra dosyayı otomatik olarak sil...
+[Disabled]
+Engelli
+[Delete from List]
+Listeden Sil
+[Copy Link]
+Bağlantıyı Kopyala
+;file \plugins\FTPFileYM\src\dialog.cpp
+[User Info]
+Kullanıcı Bilgileri
+[Copy Link to Clipboard]
+Bağlantıyı Panoya Kopyala
+[%d minutes]
+%d dakika
+[%d hours]
+%d saat
+[%d days]
+%d gün
+[Do you really want to cancel all running jobs?]
+Çalışmakta olan tüm işleri gerçekten iptal etmek istiyor musunuz?
+;file \plugins\FTPFileYM\src\ftpfile.cpp
+[FTP Server 1]
+FTP Sunucusu 1
+[FTP Server 2]
+FTP Sunucusu 2
+[FTP Server 3]
+FTP Sunucusu 3
+[FTP Server 4]
+FTP Sunucusu 4
+[FTP Server 5]
+FTP Sunucusu 5
+[Send file]
+Dosyayı gönder
+[Resume]
+Özgeçmiş
+[FTP File]
+FTP Dosyası
+[FTP Server %d]
+FTP Sunucusu %d
+[Upload file(s)]
+Dosya(ları) yükle
+[Zip and upload file(s)]
+Dosyaları sıkıştırın ve yükleyin
+[Zip and upload folder]
+Klasörü sıkıştır ve yükle
+[FTP File manager]
+FTP Dosya Yöneticisi
+[Show FTPFile manager]
+FTP Dosya Yöneticisini Göster
+[Upload file]
+Dosya yükle
+[Zip and upload file]
+Dosyayı sıkıştır ve yükle
+[You have to fill FTP server setting before upload a file.]
+Bir dosya yüklemeden önce FTP sunucu ayarlarını girmeniz gerekir.
+[Error has occurred while trying to create a dialog!]
+Bir iletişim kutusu oluşturulmaya çalışılırken hata oluştu!
+[File upload complete]
+Dosya yükleme işlemi tamamlandı
+[Upload canceled]
+Yükleme iptal edildi
+;file \plugins\FTPFileYM\src\job_generic.cpp
+[All Files (*.*)]
+Tüm Dosyalar (*.*)
+[FTP File - Select files]
+FTP Dosyası - Dosyaları seçin
+[FTP File - Select a folder]
+FTP Dosyası - Bir klasör seçin
+[Folder not found!]
+Klasör bulunamadı!
+[The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
+Seçilen klasörde herhangi bir dosya bulunmuyor.\nFTP File, yalnızca seçilen klasörden dosya gönderir; alt klasörlerden dosya göndermez.
+[CANCELED]
+İPTAL EDİLDİ
+[COMPLETED]
+TAMAMLANDI
+[CONNECTING...]
+BAĞLANIYOR...
+[CREATED]
+OLUŞTURULDU
+[PACKING...]
+PAKETLEME...
+[PAUSED]
+DURDURULDU
+[WAITING...]
+BEKLENİYOR...
+[UNKNOWN]
+BİLİNMİYOR
+;file \plugins\FTPFileYM\src\job_packer.cpp
+[Error occurred when zipping the file(s).]
+Dosya(lar)ı sıkıştırırken bir hata oluştu.
+[%0.1f kB/s]
+%0.1f kB/s
+[%0.1f%% (%d kB/%d kB)]
+%0.1f%% (%d kB/%d kB)
+[%s (%d kB/%d kB)]
+%s (%d kB/%d kB)
+[Do you really want to cancel this upload?]
+Bu yüklemeyi gerçekten iptal etmek istiyor musunuz?
+[Status: %s\r\nFile: %s\r\nServer: %S]
+Durum: %s\r\nDosya: %s\r\nSunucu: %S
+;file \plugins\FTPFileYM\src\job_upload.cpp
+[File exists - %s]
+Dosya mevcut - %s
+[Error occurred when opening local file.\nAborting file upload...]
+Yerel dosya açılırken bir hata oluştu.\nDosya yükleme işlemi sonlandırılıyor...
+[Error occurred when initializing libcurl.\nAborting file upload...]
+libcurl başlatılırken bir hata oluştu.\nDosya yükleme işlemi sonlandırılıyor...
+[FTP error occurred.\n%s]
+FTP hatası oluştu.\n%s
+[Download link:]
+İndirme bağlantısı:
+[Do you really want to cancel running upload?]
+Yükleme işlemini gerçekten iptal etmek istiyor musunuz?
+[%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
+%s\r\nHız: %s\r\nTamamlanan: %s\r\nKalan: %s
+;file \plugins\FTPFileYM\src\manager.cpp
+[You have to fill and enable at least one FTP server in setting.]
+Ayarlar bölümünde en az bir FTP sunucusunu girip etkinleştirmeniz gerekir.
+[Clear All]
+Tümünü Temizle
+;file \plugins\FTPFileYM\src\options.cpp
+[FTP (Standard)]
+FTP (Standart)
+[FTP+SSL (Explicit)]
+FTP+SSL (Açık)
+[FTP+SSL (Implicit)]
+FTP+SSL (Örtük)
+[SFTP (Secure FTP over SSH)]
+SFTP (SSH üzerinden Güvenli FTP)
+[minutes]
+dakika
+[hours]
+saat
+[days]
+gün
+[Services]
+Hizmetler
+[Accounts]
+Hesaplar
+[Advanced]
+İleri Düzey
+;file \plugins\FTPFileYM\src\serverlist.cpp
+;file \plugins\FTPFileYM\src\utils.cpp

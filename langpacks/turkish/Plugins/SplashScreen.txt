@@ -1,0 +1,49 @@
+#muuid {c64cc8e0-cf03-474a-8b11-8bd4565ccf04}
+;============================================================
+;  File: SplashScreen.dll
+;  Plugin: Splash screen
+;  Version: 0.1.2.3
+;  Authors: nullbie, Thief
+;============================================================
+[Shows a splash at Miranda startup.]
+Miranda'nın başlatılması sırasında bir açılış ekranı gösterir.
+;file \plugins\SplashScreen\res\splash.rc
+[Splash Options]
+Sıçrama Seçenekleri
+[Show splash]
+Açılış ekranını göster
+[Show random splash]
+Rastgele açılış ekranını göster
+[Play sound]
+Sesi çal
+[Show Miranda Version]
+Miranda Sürümünü Göster
+[Enable]
+Etkinleştir
+[Prefix:]
+Önek:
+[Appearance]
+Görünüş
+[Display time:]
+Görüntüleme süresi:
+[ms]
+ms
+[Fade in:]
+Yavaş yavaş belirme:
+[steps]
+adımlar
+[Fade out:]
+Yavaş yavaş sönme:
+[Preview...]
+Önizleme...
+[Download more splash screens]
+Daha fazla açılış ekranını indirin
+;file \plugins\SplashScreen\src\options.cpp
+[Graphic files]
+Grafik dosyaları
+[Sound Files]
+Ses Dosyaları
+[Skins]
+Kaplamalar
+[Splash Screen]
+Başlangıç Ekranı

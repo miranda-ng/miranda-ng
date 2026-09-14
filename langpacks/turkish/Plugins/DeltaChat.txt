@@ -1,0 +1,51 @@
+#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
+;  File: DeltaChat.dll
+;  Plugin: DeltaChat protocol
+;  Version: 0.96.5.1
+;  Authors: George Hazan
+;============================================================
+[DeltaChat support for Miranda NG.]
+Miranda NG için DeltaChat desteği.
+;file \protocols\DeltaChat\res\deltachat.rc
+[IMAP server]
+IMAP sunucusu
+[Username]
+Kullanıcı adı
+[Password]
+Şifre
+[Host]
+Sunucu
+[Default group:]
+Varsayılan grup:
+[Port]
+Liman
+[SSL mode]
+SSL modu
+[SMTP server]
+SMTP sunucusu
+;file \protocols\DeltaChat\src\main.cpp
+[Main icon]
+Ana simge
+;file \protocols\DeltaChat\src\menus.cpp
+[Enter QR code, received from another device]
+Başka bir cihazdan alınan QR kodunu girin
+[Invalid or broken QR code]
+Geçersiz veya bozuk QR kodu
+[Add chat using QR code]
+QR kodu kullanarak sohbet ekle
+[Copy QR to chat with me]
+QR kodunu kopyalayıp benimle sohbet et
+;file \protocols\DeltaChat\src\options.cpp
+[Automatic]
+Otomatik
+[STARTTLS]
+STARTTLS
+[SSL (old)]
+SSL (eski)
+[Plain]
+Sade
+[Network]
+Ağ
+[Account]
+Hesap

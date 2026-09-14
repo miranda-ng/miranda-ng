@@ -1,0 +1,172 @@
+#muuid {2e0d2ae3-e123-4607-8539-d4448d675ddb}
+;============================================================
+;  File: NimContact.dll
+;  Plugin: Non-IM Contact
+;  Version: 0.6.0.3
+;  Authors: Jonathan Gordon
+;============================================================
+[Non-IM Contact allows you to add 'contacts' that can act as shortcuts to other programs, or links to web pages.\r\nThe contacts name can be read from a text file (includes any ASCII file).\r\nThis plugin is a combination of Favorites and Text Reader plugins both made by me)]
+IM Dışı Kişi özelliği, diğer programlara kısayol görevi görebilecek veya web sayfalarına bağlantı sağlayabilecek ‘kişiler’ eklemenize olanak tanır.\r\nKişilerin adları bir metin dosyasından (herhangi bir ASCII dosyası dahil) okunabilir.\r\nBu eklenti, her ikisi de benim tarafımdan geliştirilen Sık Kullanılanlar ve Metin Okuyucu eklentilerinin bir birleşimidir.
+;file \protocols\Non-IM Contact\res\resource.rc
+[View/Edit Files]
+Dosyaları Görüntüle/Düzenle
+[Add File]
+Dosya Ekle
+[Add URL]
+URL ekle
+[Remove Selected File]
+Seçili Dosyayı Sil
+[file(#)]
+dosya(#)
+[URL]
+URL
+[Update URL every]
+URL'yi her
+[Intervals]
+Aralıklar
+[If the protocol timer is disabled, web pages won't be updated]
+Protokol zamanlayıcısı devre dışı bırakılırsa, web sayfaları güncellenmez
+[contact display info]
+iletişim bilgileri
+[Contacts display name]
+Kişilerin görüntü adı
+[Contacts Tooltip]
+Kişiler Açıklama Balonu
+[other settings]
+diğer ayarlar
+[Link]
+Bağlantı
+[Program parameters:]
+Program parametreleri:
+[O&pen File]
+O&pen Dosyası
+[O&pen Folder]
+O&pen Klasörü
+[Link Settings]
+Bağlantı Ayarları
+[Contact list settings]
+Kişi listesi ayarları
+[Group:]
+Grup:
+[Status Icon]
+Durum Simgesi
+[Group\\Sub-Group]
+Grup\\Alt Grup
+[Timer Settings]
+Zamanlayıcı Ayarları
+[Use Timer]
+Zamanlayıcıyı kullan
+[Contact is always visible]
+İletişim bilgileri her zaman görünür durumdadır
+[Unless Non-IM Contacts protocol is OFFLINE]
+“IM Dışı Kişiler” protokolü ÇEVRİMDIŞI değilse
+[Timer Intervals.  ]
+Zamanlayıcı Aralıkları.  
+[Away as another status]
+"Deplasman" ayrı bir durum olarak
+[Disable timer]
+Zamanlayıcıyı devre dışı bırak
+[Timer interval (in seconds)]
+Zamanlayıcı aralığı (saniye cinsinden)
+[This will take affect after Non-IM Contacts' status is changed]
+Bu, IM Dışı Kişilerin durumu değiştirildikten sonra yürürlüğe girecektir
+[Timer Options]
+Zamanlayıcı Seçenekleri
+[String Maker]
+Dize Oluşturucu
+[&Test String]
+&Test Dizesi
+[&Exit]
+&Çıkış
+[String to test]
+Test edilecek dize
+[Returns....]
+İadeler...
+[line()]
+line()
+[start()]
+start()
+[end()]
+end()
+[wholeline()]
+wholeline()
+[csv()]
+csv()
+[file()]
+file()
+[filename()]
+filename()
+[Help]
+Yardım
+[Copy / Export contact]
+Kişiyi kopyala / Dışa aktar
+[&Export Non-IM Contact]
+&IM Dışı Kişiyi Dışa Aktar
+[Co&py Non-IM Contact]
+Co&py IM Dışı İletişim
+[Type one replace string per line in the format "original text,new text"]
+Her satıra "orijinal metin, yeni metin" biçiminde bir dize değiştirme yazın
+[EXAMPLE: %fn1,%fn2]
+ÖRNEK: %fn1,%fn2
+;file \protocols\Non-IM Contact\src\contactinfo.cpp
+[Select Folder]
+Klasör Seç
+[Non-IM Contact protocol timer is Disabled]
+IM dışı iletişim protokolü zamanlayıcısı devre dışıdır
+[Timer intervals... Non-IM Contact Protocol timer is %d seconds]
+Zamanlayıcı aralıkları... IM Dışı İletişim Protokolü zamanlayıcısı %d saniye
+[New Non-IM Contact]
+Yeni IM Dışı Kişi
+;file \protocols\Non-IM Contact\src\dialog.cpp
+[String replacing variables...\r\nThe following are all the valid variables that can be used. Refer to the wiki.miranda-ng.org for a proper explanation.\r\n\r\nfile(X)\t\t<- specifies the file to read from. MUST be followed by either start() or end() or wholeline()\r\nfilename(X)\t<- copies the filename of file X.\r\nstart(...)\t\t<- specifies where to start copying from.\r\nend(...)\t\t<- specifies where to stop copying.\r\nwholeline(line(...))\t<- specifies a whole line to copy\r\n\r\nstart() and end() explained\r\n.........................\r\nMUST start with line() followed by a number or a string inside " marks, OR csv(separatorX) variable. The number specifies which character in the line to start/end copying. The string specifies a string in the line to start/end copying.\r\n\r\ncsv(seperatorX) explained...\r\nSeperator is either "tab" or "space" or any SINGLE character. X is the Xth separator to pass before copying, (or to stop before).\r\n\r\nLastly the line(...) variable...\r\nInside the brackets must be either a number (to specify the line number), or a string inside " marks (to use the line with that string), or lastline(X). The X in lastline is the Xth line above the last line, i.e., lastline(1) will use the 2nd last line of the file. If searching for a line with "some words" you may put a + or - X after the closing ), i.e., line("some words")+3 to go 3 lines after the line with "some words".\r\n\r\nSome examples...\r\nfilename(0)    <- will display the filename of the 0th file\r\nfile(0)wholeline(line(0)))    <- will display the whole first line of the 0th file\r\nfile(0)wholeline(line("hello")-1)))    <- the wholeline above the first occurrence of "hello" in the file\r\nfile(0)start(line(lastline(1))csv(tab2))end(line(lastline())csv(tab4)))    <- starts at the 2nd last line of the file, from the 2nd tab variable, until the 4th tab variable in the last line (in the 0th file)\r\nfile(0)start(line("hello")+1"zzzz")end(line(6)17))    <- starts from the first occurrence of zzzz in the line after the first occurrence of hello, until the 17th character in the 6th line (starting from line 0) of the 0th file.\r\n]
+Dizgide değişkenlerin değiştirilmesi...\r\nAşağıda, kullanılabilecek tüm geçerli değişkenler listelenmiştir. Ayrıntılı açıklama için wiki.miranda-ng.org adresine bakınız.\r\n\r\nfile(X)\t\t<- okunacak dosyayı belirtir. Ardından mutlaka start(), end() veya wholeline() gelmelidir.\r\nfilename(X)\t<- X dosyasının dosya adını kopyalar.\r\nstart(...)\t\t<- kopyalamaya nereden başlanacağını belirtir.\r\nend(...)\t\t<- kopyalamanın nerede biteceğini belirtir.\r\nwholeline(line(...))\t<- kopyalanacak bir satırın tamamını belirtir\r\n\r\nstart() ve end() açıklaması\r\n.........................\r\nline() ile başlamalı ve ardından " işaretleri içindeki bir sayı veya dize, YA DA csv(separatorX) değişkeni gelmelidir. Sayı, satırda kopyalamaya başlanacak/biterecek karakteri belirtir. Dize, satırda kopyalamaya başlanacak veya son verilecek bir dizeyi belirtir.\r\n\r\ncsv(seperatorX) açıklaması...\r\nAyırıcı, "sekme", "boşluk" veya herhangi bir TEK karakter olabilir. X, kopyalamaya başlamadan önce geçilmesi gereken (veya kopyalamayı durdurmak için önce gelmesi gereken) X'inci ayırıcıdır.\r\n\r\nSon olarak line(...) değişkeni...\r\nParantezlerin içinde ya bir sayı (satır numarasını belirtmek için), ya da " işaretleri içindeki bir dize (o dizeyi içeren satırı kullanmak için) ya da lastline(X) bulunmalıdır. lastline içindeki X, son satırın X numara yukarısındaki satırı ifade eder; yani, lastline(1) dosyanın sondan 2. satırını kullanır. "bazı kelimeler" içeren bir satırı arıyorsanız, kapanış parantezinin ()) arkasına + veya - X ekleyebilirsiniz; örneğin, "bazı kelimeler" içeren satırdan 3 satır sonrasına gitmek için line("bazı kelimeler")+3 yazabilirsiniz.\r\n\r\nBazı örnekler...\r\nfilename(0)    <- 0. dosyanın dosya adını görüntüler\r\nfile(0)wholeline(line(0)))    <- 0. dosyanın ilk satırının tamamını görüntüler\r\nfile(0)wholeline(line("hello")-1)))    <- dosyada "hello" ifadesinin ilk geçtiği satırın üzerindeki tüm satırı gösterir\r\nfile(0)start(line(lastline(1))csv(tab2))end(line(lastline())csv(tab4)))    <- dosyanın sondan 2. satırından başlar; 2. sekme değişkeninden, son satırdaki (0. dosyada) 4. sekme değişkenine kadar devam eder\r\nfile(0)start(line("hello")+1"zzzz")end(line(6)17))    <- 0. dosyada (0. satırdan başlayarak) 6. satırın 17. karakterine kadar, "hello" ifadesinin ilk geçtiği satırdan sonra "zzzz" ifadesinin ilk geçtiği yerden başlar.\r\n
+[Contacts Display Info]
+Kişiler Görüntüleme Bilgileri
+[Link and Contact list Settings]
+Bağlantı ve Kişi Listesi Ayarları
+[Copy Contact]
+Kişiyi Kopyala
+[Files]
+Dosyalar
+[Edit Non-IM Contact "%s"]
+IM Dışı Kişi "%s"i Düzenle
+;file \protocols\Non-IM Contact\src\files.cpp
+[Do you want to overwrite the contents of the file?\r\n\r\nPressing No will append these contacts to the end of the file.]
+Dosyanın içeriğinin üzerine yazmak istiyor musunuz?\r\n\r\n"Hayır" seçeneğine basarsanız, bu kişiler dosyanın sonuna eklenecektir.
+[File couldn't be opened]
+Dosya açılamadı
+[File couldn't be opened,2]
+Dosya açılamadı,2
+[line(%-3d) = | %s]
+line(%-3d) = | %s
+;file \protocols\Non-IM Contact\src\http.cpp
+[Non-IM Contacts]
+IM Dışı Kişiler
+;file \protocols\Non-IM Contact\src\main.cpp
+[Plugins]
+Eklentiler
+[Main Icon]
+Ana Simge
+[Non-IM Contact]
+IM Dışı İletişim
+[&Non-IM Contact]
+&IM Dışı İletişim
+[&Add Non-IM Contact]
+&IM Dışı Kişi Ekle
+[&View/Edit Files]
+&Dosyaları Görüntüle/Düzenle
+[&Export all Non-IM Contacts]
+&IM Dışı Tüm Kişileri Dışa Aktar
+[&Import Non-IM Contacts]
+&IM Dışı Kişileri İçe Aktar
+[&String Maker]
+&Dize Oluşturucu
+[E&dit Contact Settings]
+E&dit İletişim Ayarları
+;file \protocols\Non-IM Contact\src\namereplacing.cpp
+[%s - ERROR: no line specified or line not found (in %s)]
+%s - HATA: satır belirtilmedi veya satır bulunamadı (%s içinde)
+[%s - ERROR: file couldn't be opened (in %s)]
+%s - HATA: dosya açılamadı (%s içinde)
+[%s - ERROR: no file specified in settings (in %s)]
+%s - HATA: ayarlarda (%s içinde) herhangi bir dosya belirtilmemiştir

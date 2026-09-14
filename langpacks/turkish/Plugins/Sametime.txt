@@ -1,0 +1,484 @@
+#muuid {f1b0ba1b-0c91-4313-85eb-225069d44d01}
+;============================================================
+;  File: Sametime.dll
+;  Plugin: Sametime protocol
+;  Version: 0.7.0.5
+;  Authors: Scott Ellis, Szymon Tokarz
+;============================================================
+[Lotus Sametime protocol support for Miranda NG.]
+Miranda NG için Lotus Sametime protokol desteği.
+;file \protocols\Sametime\res\resource.rc
+[Connection]
+Bağlantı
+[ID:]
+Kimlik:
+[Password:]
+Şifre:
+[Server name:]
+Sunucu adı:
+[Port:]
+Liman:
+[Client ID and version]
+Müşteri Kimliği ve sürüm
+[Error display]
+Hata ekranı
+[Use message boxes]
+Mesaj kutularını kullanın
+[Use popups]
+Açılır pencereler kullanın
+[Use system tray balloons]
+Sistem tepsisi balonlarını kullan
+[Contacts]
+İletişim Bilgileri
+[Get contacts from server]
+Sunucudan kişileri al
+[Upload contacts]
+Kişileri yükle
+[Import from file...]
+Dosyadan içe aktar...
+[Auto-add new contacts]
+Yeni kişileri otomatik olarak ekle
+[Treat 'idle' as 'away']
+"Boşta" durumunu "uzakta" olarak değerlendirin
+[Encryption]
+Şifreleme
+[40 or 128 bit]
+40 veya 128 bit
+[None]
+Yok
+[Meanwhile lib ver: 1.0.2]
+Bu arada kütüphane sürümü: 1.0.2
+[Disconnected]
+Bağlantı kesildi
+[Send announcement]
+Duyuru gönder
+[Cancel]
+İptal et
+[Message text:]
+Mesaj metni:
+[Select all]
+Tümünü seç
+[Invert\nselection]
+Seçimi ters çevir\n
+;file \protocols\Sametime\src\conference.cpp
+[I'm outa here.]
+Ben gidiyorum.
+[Invitation rejected - already present.]
+Davet reddedildi – zaten orada.
+[Your invitation has been rejected.]
+Davetiniz reddedildi.
+[Please join this meeting.]
+Lütfen bu toplantıya katılın.
+[Normal]
+Normal
+[%s's conference]
+%s'nin konferansı
+[Leave conference]
+Konferanstan ayrıl
+[Start conference]
+Konferansı başlat
+;file \protocols\Sametime\src\files.cpp
+;file \protocols\Sametime\src\messaging.cpp
+[No common encryption method. Try to enable encryption in protocol options.]
+Ortak bir şifreleme yöntemi yok. Protokol seçeneklerinden şifrelemeyi etkinleştirmeyi deneyin.
+[SERVICE NOT IMPLEMENTED. %s]
+HİZMET UYGULANMAMIŞTIR. %s
+;file \protocols\Sametime\src\options.cpp
+[Sametime (Use old client version)]
+Sametime (Eski istemci sürümünü kullan)
+[Sametime (Miranda default)]
+Sametime (Miranda'nın varsayılan ayarı)
+[Client protocol version: %03d.%03d]
+İstemci protokol sürümü: %03d.%03d
+[Server protocol version: %03d.%03d]
+Sunucu protokolü sürümü: %03d.%03d
+[Network]
+Ağ
+;file \protocols\Sametime\src\sametime.cpp
+[Protocol icon]
+Protokol simgesi
+[Announce]
+Duyuru
+[Notification]
+Bildirim
+[Error]
+Hata
+;file \protocols\Sametime\src\sametime_session.cpp
+[Sametime administrator message]
+Sametime yönetici mesajı
+[Session announcement - from '%s']
+Oturum duyurusu - '%s'den
+[Unknown user status: %d]
+Bilinmeyen kullanıcı durumu: %d
+[No server connection!]
+Sunucu bağlantısı yok!
+[Send announcement...]
+Duyuru gönder...
+;file \protocols\Sametime\src\session_announce_win.cpp
+[Recipients]
+Alıcılar
+;file \protocols\Sametime\src\userlist.cpp
+[Failed to upload contacts - storage service unavailable.]
+Kişiler yüklenemedi - depolama hizmeti kullanılamıyor.
+[Name]
+Adı
+[Description]
+Açıklama
+[Group?]
+Grup mu?
+[True]
+Doğru
+[False]
+Yanlış
+;file \protocols\Sametime\src\utils.cpp
+[Notifications]
+Bildirimler
+[Errors]
+Hatalar
+[%s\n\nSametime error %S\n%s]
+%s\n\nSametime hatası %S\n%s
+;file \protocols\Sametime\src\meanwhile\src\error.c
+[Success]
+Başarı
+[General failure]
+Genel arıza
+[Request delayed]
+Talep ertelendi
+[Request is invalid]
+İstek geçersiz
+[Not logged in]
+Giriş yapılmadı
+[Not authorized]
+Yetki verilmemiştir
+[Operation aborted]
+İşlem iptal edildi
+[No element]
+Öğe yok
+[User is not online]
+Kullanıcı çevrimdışı
+[Invalid data]
+Geçersiz veri
+[Not implemented]
+Uygulanmamıştır
+[Unknown error]
+Bilinmeyen hata
+[Not enough resources]
+Yeterli kaynak yok
+[Requested channel is not supported]
+İstenen kanal desteklenmiyor
+[Requested channel already exists]
+İstenen kanal zaten mevcut
+[Requested service is not supported]
+İstenen hizmet desteklenmemektedir
+[Requested protocol is not supported]
+İstenen protokol desteklenmiyor
+[Version is not supported]
+Bu sürüm desteklenmiyor
+[User is invalid or not trusted]
+Kullanıcı geçersiz veya güvenilir değil
+[Already initialized]
+Zaten başlatılmış
+[Not an owner]
+Sahibi değil
+[Invalid token]
+Geçersiz belirteç
+[Token expired]
+Jetonun süresi doldu
+[Token mismatch]
+Jeton uyuşmazlığı
+[Port in use]
+Kullanımdaki bağlantı noktası
+[Network error]
+Ağ hatası
+[Master channel error]
+Ana kanal hatası
+[Already subscribed]
+Zaten abone oldunuz
+[Not subscribed]
+Abone değilsiniz
+[Encryption method not supported]
+Şifreleme yöntemi desteklenmiyor
+[Encryption not initialized]
+Şifreleme başlatılmadı
+[Encryption too low]
+Şifreleme seviyesi çok düşük
+[Invalid encrypted data]
+Geçersiz şifrelenmiş veriler
+[No common encryption method]
+Yaygın bir şifreleme yöntemi yok
+[Channel destroyed]
+Kanal yok edildi
+[Channel redirected]
+Kanal yönlendirildi
+[Incorrect entry]
+Yanlış giriş
+[Version mismatch]
+Sürüm uyuşmazlığı
+[Not enough buffers memory]
+Yeterli tampon bellek yok
+[Not in use]
+Kullanılmıyor
+[Not enough sockets]
+Yeterli soket yok
+[Hardware error]
+Donanım hatası
+[Host error]
+Sunucu hatası
+[Host unreachable]
+Sunucuya ulaşılamıyor
+[Internet protocol error]
+İnternet protokolü hatası
+[Message is too large]
+Mesaj çok büyük
+[Proxy error]
+Vekil hatası
+[Server full]
+Sunucu dolu
+[Server not responding]
+Sunucu yanıt vermiyor
+[Connection error]
+Bağlantı hatası
+[User removed]
+Kullanıcı kaldırıldı
+[Sametime protocol error]
+Sametime protokol hatası
+[User restricted]
+Kullanıcı kısıtlı
+[Incorrect Username/Password]
+Yanlış Kullanıcı Adı/Şifre
+[Encryption mismatch]
+Şifreleme uyuşmazlığı
+[User unregistered]
+Kullanıcı kayıtlı değil
+[Login verification down or unavailable]
+Giriş doğrulama hizmeti çalışmıyor veya kullanılamıyor
+[User too idle]
+Kullanıcı çok hareketsiz
+[The guest name is currently being used]
+Konuk adı şu anda kullanılıyor
+[User exists]
+Kullanıcı mevcut
+[User relogin]
+Kullanıcının yeniden oturum açması
+[Bad name]
+Kötü isim
+[Registration error]
+Kayıt hatası
+[Privilege error]
+Ayrıcalık hatası
+[Need email]
+E-posta adresi gerekiyor
+[DNS error]
+DNS hatası
+[DNS fatal error]
+DNS'de ciddi hata
+[DNS not found]
+DNS bulunamadı
+[Connection broken]
+Bağlantı kesildi
+[Connection aborted]
+Bağlantı kesildi
+[Connection refused]
+Bağlantı reddedildi
+[Connection reset]
+Bağlantı sıfırlandı
+[Connection timed out]
+Bağlantı zaman aşımına uğradı
+[Connection closed]
+Bağlantı kesildi
+[Login to two different servers concurrently (1)]
+Aynı anda iki farklı sunucuya giriş yapma (1)
+[Login to two different servers concurrently (2)]
+Aynı anda iki farklı sunucuya giriş yapın (2)
+[Already logged on, disconnected]
+Zaten oturum açılmış, bağlantı kesildi
+[Already logged on]
+Zaten oturum açılmış
+[Server misconfiguration]
+Sunucuda yanlış yapılandırma
+[Server needs upgrade]
+Sunucunun güncellenmesi gerekiyor
+[Applet Logout]
+Applet'ten Çıkış
+[User is in Do Not Disturb mode]
+Kullanıcı “Rahatsız Etmeyin” modundadır
+[Already logged in elsewhere]
+Başka bir yerde zaten oturum açmışsınız
+[Cannot register a reserved type]
+Rezerv edilmiş bir tür kaydedilemiyor
+[Requested type is already registered]
+İstenen tür zaten kayıtlıdır
+[Requested type is not registered]
+İstenen tür kayıtlı değil
+[Resolve not completed]
+Çözüm tamamlanmadı
+[Resolve name not unique]
+Adın benzersiz olmadığı hatası
+[Resolve name not resolvable]
+Adın çözümlenemediği uyarısı
+[Operation succeeded]
+İşlem başarıyla tamamlandı
+[Operation failed]
+İşlem başarısız oldu
+[Request accepted but will be served later]
+Talep kabul edildi, ancak daha sonra yerine getirilecektir
+[Request is invalid due to invalid state or parameters]
+İstek, geçersiz durum veya parametreler nedeniyle geçersizdir
+[Not logged in to community]
+Topluluğa giriş yapmadınız
+[Unauthorized to perform an action or access a resource]
+Bir eylemi gerçekleştirme veya bir kaynağa erişme yetkisi yok
+[Operation has been aborted]
+İşlem iptal edildi
+[The element is non-existent]
+Bu öğe mevcut değil
+[The user is non-existent]
+Kullanıcı mevcut değil
+[The data are invalid or corrupted]
+Veriler geçersiz veya bozuk
+[The requested feature is not implemented]
+İstenen özellik henüz hayata geçirilmemiştir
+[Not enough resources to perform the operation]
+İşlemi gerçekleştirmek için yeterli kaynak yok
+[The requested channel is not supported]
+İstenen kanal desteklenmiyor
+[The requested channel already exists]
+İstenen kanal zaten mevcut
+[The requested service is not supported]
+İstenen hizmet desteklenmemektedir
+[The requested protocol is not supported (1)]
+İstenen protokol desteklenmiyor (1)
+[The requested protocol is not supported (2)]
+İstenen protokol desteklenmiyor (2)
+[The version is not supported]
+Bu sürüm desteklenmemektedir
+[Not an owner of the requested resource]
+İstenen kaynağın sahibi değil
+[Token has expired]
+Jetonun süresi doldu
+[Token IP mismatch]
+Token IP uyuşmazlığı
+[WK port is in use]
+WK bağlantı noktası kullanımda
+[Low-level network error occurred]
+Düşük seviyeli bir ağ hatası oluştu
+[No master channel exists]
+Ana kanal mevcut değil
+[Already subscribed to object(s) or event(s)]
+Zaten bir veya birkaç nesneye veya etkinliğe abone oldunuz
+[Not subscribed to object(s) or event(s)]
+Nesne(ler)e veya olay(lara) abone değilsiniz
+[Encryption is not supported or failed unexpectedly]
+Şifreleme desteklenmiyor veya beklenmedik bir şekilde başarısız oldu
+[Encryption mechanism has not been initialized yet]
+Şifreleme mekanizması henüz başlatılmadı
+[The requested encryption level is unacceptably low]
+İstenen şifreleme seviyesi kabul edilemeyecek kadar düşük
+[The encryption data passed are invalid or corrupted]
+İletilen şifreleme verileri geçersiz veya bozuk
+[There is no common encryption method]
+Ortak bir şifreleme yöntemi yoktur
+[The channel is destroyed after a recommendation is made connect elsewhere]
+Bir öneri yapıldıktan sonra kanal ortadan kalkar; başka bir yere bağlanın
+[The channel has been redirected to another destination]
+Kanal başka bir hedefe yönlendirildi
+[Incorrect entry for server in cluster document]
+Küme belgesinde sunucu için hatalı giriş
+[Versions don't match]
+Sürümler uyuşmuyor
+[Not enough resources for connection (buffers)]
+Bağlantı için yeterli kaynak yok (tamponlar)
+[Not enough resources for connection (socket id)]
+Bağlantı için yeterli kaynak yok (soket kimliği)
+[Hardware error occurred]
+Donanım hatası oluştu
+[Network down]
+Ağ bağlantısı kesildi
+[Host down]
+Sunucu çökmüş
+[TCP/IP protocol error]
+TCP/IP protokol hatası
+[The message is too large]
+Mesaj çok büyük
+[Server is full]
+Sunucu dolu
+[Server is not responding]
+Sunucu yanıt vermiyor
+[Cannot connect]
+Bağlanamıyor
+[User has been removed from the server]
+Kullanıcı sunucudan kaldırıldı
+[Virtual Places protocol error]
+Sanal Yerler protokol hatası
+[Cannot connect because user has been restricted]
+Kullanıcı kısıtlandığından bağlantı kurulamıyor
+[Incorrect login]
+Yanlış kullanıcı adı veya şifre
+[User is unregistered]
+Kullanıcı kayıtlı değil
+[Verification service down]
+Doğrulama hizmeti devre dışı
+[User has been idle for too long]
+Kullanıcı çok uzun süredir hareketsiz durumda
+[The user is already signed on]
+Kullanıcı zaten oturum açmış durumda
+[The user has signed on again]
+Kullanıcı yeniden oturum açtı
+[The name cannot be used]
+Bu isim kullanılamaz
+[The registration mode is not supported]
+Kayıt modu desteklenmiyor
+[User does not have appropriate privilege level]
+Kullanıcının uygun yetki düzeyi yok
+[Email address must be used]
+E-posta adresi girilmelidir
+[Error in DNS]
+DNS hatası
+[Fatal error in DNS]
+DNS'de ölümcül hata
+[Server name not found]
+Sunucu adı bulunamadı
+[The connection has been broken]
+Bağlantı kesildi
+[An established connection was aborted by the software in the host machine]
+Kurulan bağlantı, ana bilgisayardaki yazılım tarafından sonlandırıldı
+[The connection has been refused]
+Bağlantı reddedildi
+[The connection has been reset]
+Bağlantı sıfırlandı
+[The connection has timed out]
+Bağlantı zaman aşımına uğradı
+[The connection has been closed]
+Bağlantı kesildi
+[Disconnected due to login in two Sametime servers concurrently (1)]
+İki Sametime sunucusuna aynı anda oturum açılması nedeniyle bağlantı kesildi (1)
+[Disconnected due to login in two Sametime servers concurrently (2)]
+İki Sametime sunucusuna aynı anda oturum açılması nedeniyle bağlantı kesildi (2)
+[Disconnected due to login from another computer.]
+Başka bir bilgisayardan oturum açılması nedeniyle bağlantı kesildi.
+[Unable to log in because you are already logged on from another computer]
+Başka bir bilgisayardan zaten oturum açmış olduğunuz için oturum açamıyorsunuz
+[Unable to log in because the server is either unreachable, or not configured properly.]
+Sunucuya ulaşılamadığı veya sunucunun doğru şekilde yapılandırılmadığı için oturum açılamıyor.
+[Unable to log in to home Sametime server through the requested server, since your home server needs to be upgraded.]
+İstenen sunucu üzerinden ana Sametime sunucusuna giriş yapılamıyor; çünkü ana sunucunuzun güncellenmesi gerekiyor.
+[The applet was logged out with this reason. Perform relogin and you will return to the former state.]
+Applet, bu nedenle oturumu kapatıldı. Yeniden oturum açtığınızda önceki durumunuza geri döneceksiniz.
+[The user is not online]
+Kullanıcı çevrimdışı
+[The user is in do not disturb mode]
+Kullanıcı “Rahatsız Etmeyin” modundadır
+[Cannot log in because already logged in with a different user name (Java only)]
+Farklı bir kullanıcı adıyla zaten oturum açıldığından giriş yapılamıyor (sadece Java)
+[The requested type is already registered]
+İstenen tür zaten kayıtlıdır
+[The requested type is not registered]
+İstenen tür kayıtlı değil
+[The resolve process was not completed, but a partial response is available]
+Çözümleme işlemi tamamlanmadı, ancak kısmi bir yanıt mevcut
+[The name was found, but is not unique (request was for unique only)]
+Ad bulundu, ancak benzersiz değil (istek yalnızca benzersiz adlar içindi)
+[The name is not resolvable due to its format, for example an Internet email address]
+Ad, biçimi nedeniyle çözümlenemiyor; örneğin, bir İnternet e-posta adresi
+[Unknown error code]
+Bilinmeyen hata kodu

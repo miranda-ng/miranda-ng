@@ -1,0 +1,686 @@
+#muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
+;============================================================
+;  File: Watrack.dll
+;  Plugin: Winamp Track
+;  Version: 0.0.6.12
+;  Authors: Awkward
+;============================================================
+[Paste played music info into message window or status text]
+Müzik bilgilerini mesaj penceresine veya durum metnine yapıştır
+[Basic]
+Temel
+[Clear xStatus before set new one]
+Yeni bir xStatus ayarlamadan önce mevcut xStatus’u silin
+[Emulate Multimedia keys]
+Multimedya tuşlarını taklit et
+[xStatus will be cleared before text changing and restored with new text later.]
+xStatus, metin değiştirilmeden önce sıfırlanacak ve daha sonra yeni metinle yeniden doldurulacaktır.
+[Use xStatus]
+xStatus'u kullanın
+[If this option is "ON", xStatus doesn't depend on protocol status.]
+Bu seçenek "AÇIK" konumundaysa, xStatus protokol durumuna bağlı olmaz.
+[Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
+"Değişkenler" eklentisini kullanın ya da kullanmayın. Eklenti kullanılırsa, bazı dönüştürme, veri ve matematik işlevlerinden yararlanabilirsiniz. Eklenti kullanılmazsa, işlemler daha hızlı gerçekleşir.
+[Replaces "_" (underscores) globally in pasted os status text, sometimes may be useful]
+Yapıştırılan işletim sistemi durum metnindeki "_" (alt çizgi) karakterlerini genel olarak değiştirir; bu bazen yararlı olabilir
+[Check file date and time to tag updates while playing.]
+Oynatma sırasında güncellemeleri etiketlemek için dosyanın tarih ve saatini kontrol edin.
+[Report on some errors.]
+Bazı hatalarla ilgili rapor.
+[Try to use OLE interface to obtain more information from players. If this option is "OFF", plugin works little faster.]
+Oynatıcılardan daha fazla bilgi almak için OLE arayüzünü kullanmayı deneyin. Bu seçenek "KAPALI" ise, eklenti biraz daha hızlı çalışır.
+[Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled. If value greater than 499, time signify as milliseconds.]
+Yenileme süresi (sn), müzik bilgilerinin, istatistiklerin ve durum mesajlarının yenilenme süresidir. Değer sıfır ise otomatik yenileme devre dışıdır. Değer 499’dan büyükse, süre milisaniye cinsinden ifade edilir.
+[Text insertion to other Apps]
+Diğer Uygulamalara Metin Ekleme
+[Share music list]
+Müzik listesini paylaş
+[Save events in database]
+Etkinlikleri veritabanına kaydet
+[Music Info Request]
+Müzik Bilgisi Talebi
+[Request Error]
+İstek Hatası
+[Save ignored requests]
+Yoksayılan istekleri kaydet
+[Answer to ignored requests]
+Yoksayılan taleplere verilen yanıt
+[Use frame]
+Çerçeve kullan
+[Show info in the frame]
+Çerçevede bilgileri göster
+[Show controls in the frame]
+Çerçevede denetimleri göster
+[Show volume controls]
+Ses kontrolünü göster
+[Use Picture]
+Resmi Kullan
+[Use cover instead of picture]
+Resim yerine kapak kullanın
+[Show trackbar]
+Kaydırma çubuğunu göster
+[Cover padding]
+Kapak dolgusu
+[Frame refresh time]
+Ekran yenileme süresi
+[Hide frame when no music played]
+Müzik çalınmadığında çerçeveyi gizle
+[Center horizontally]
+Yatay olarak ortala
+[Center vertically]
+Dikey olarak ortala
+[Use styled trackbar]
+Şekillendirilmiş kaydırma çubuğunu kullanın
+[Use buttons gap]
+Düğmeler arasındaki boşluğu kullan
+[Frame template]
+Çerçeve şablonu
+[Text effect]
+Metin efekti
+[Text movement]
+Metin hareketi
+[Text rotation speed (1-20)]
+Metin döndürme hızı (1-20)
+[Scroll step]
+Kaydırma adımı
+[Scroll gap]
+Kaydırma boşluğu
+[Minimum scroll tail]
+Minimum kaydırma kuyruğu
+[Wrap]
+Sarmak
+[Roll]
+Rulo
+[PingPong]
+PingPong
+[Hide frame when player not found]
+Oynatıcı bulunmadığında çerçeveyi gizle
+[Pause Hovered]
+Duraklatıldı, Fareyle Üzerine Gelindiğinde
+[Prev Hovered]
+Önceki Üzerine Gelindiğinde
+[Play Hovered]
+"Hovered" oyununu oyna
+[Stop Hovered]
+Fare İpleri Durduruldu
+[Next Hovered]
+Sonraki Üzerine Gelindiğinde
+[Prev Pushed]
+Önceki Yayınlandı
+[Play Pushed]
+"Pushed" oyununu oyna
+[Stop Pushed]
+Durdur düğmesine basıldı
+[Next Pushed]
+Sonraki İtme
+[Volume Down]
+Ses Azaltma
+[Volume Up]
+Ses Seviyesini Artır
+[Volume Down Hovered]
+Ses Seviyesi Düşüş Eğilimindeydi
+[Volume Up Hovered]
+Ses Seviyesi Yükseldi ve Sabit Kaldı
+[Volume Down Pushed]
+Ses Seviyesi Düşürüldü
+[Volume Up Pushed]
+Ses Seviyesi Artırma Düğmesine Basıldı
+[song year (date)]
+şarkının yayınlandığı yıl (tarih)
+[player window title]
+oyuncu penceresinin başlığı
+[width, video only]
+genişlik, yalnızca video
+[player version]
+oyuncu sürümü
+[VBR or not (empty)]
+VBR olsun ya da olmasın (boş)
+[player version in text format]
+metin biçimindeki oyuncu sürümü
+[player status (stopped,playing,paused)]
+oyuncu durumu (durdurulmuş, oynanıyor, duraklatılmış)
+[player name]
+oyuncu adı
+[time/length * 100%]
+süre/uzunluk * %100
+["mono"/"stereo"]
+"mono"/"stereo"
+[height, video only]
+yükseklik, yalnızca video
+[FPS (frames per second), video only]
+FPS (saniye başına kare sayısı), yalnızca video
+[media file name]
+medya dosyası adı
+[codec, video only]
+kodek, yalnızca video
+[Color codes]
+Renk kodları
+[File size]
+Dosya boyutu
+[FileSize text format]
+FileSize metin biçimi
+[Formats]
+Biçimler
+[Player name letters]
+Oyuncu adındaki harfler
+[Players list]
+Oyuncular listesi
+[Popup Title / Text]
+Açılır Pencere Başlığı / Metni
+[Frame Text]
+Çerçeve Metni
+[Export Text]
+Metni Dışa Aktar
+[Postfix]
+Postfix
+[Refresh time, sec]
+Güncelleme süresi, saniye
+[Report]
+Rapor
+[Report Items]
+Rapor Kalemleri
+[Report file]
+Rapor dosyası
+[Report format]
+Rapor biçimi
+[Show in report]
+Raporda göster
+[Sort]
+Sırala
+[Sort log file]
+Günlük dosyasını sırala
+[Statistic log file]
+İstatistik günlük dosyası
+[Autosort period, days]
+Otomatik sıralama süresi, gün
+[Template file]
+Şablon dosyası
+[Export default]
+Varsayılan olarak dışa aktar
+[Freq. album]
+Freq. albümü
+[by Length]
+Uzunluğa göre
+[Unicode to Ansi translation codepage:]
+Unicode'dan ANSI'ye çeviri kod sayfası:
+[VBR macro]
+VBR makrosu
+[\[x\]Status Title / Text]
+\[x\]Durum Başlığı / Metin
+[Insert in messages]
+Mesajlara ekle
+[Use status messages]
+Durum mesajlarını kullanın
+[Independent xStatus]
+Bağımsız xStatus
+[Use process implantation]
+Süreç uygulamasını kullanın
+[Simple Template mode]
+Basit Şablon modu
+[Use existing xStatus]
+Mevcut xStatus'u kullanın
+[Only if 'Music' status was set]
+Yalnızca ‘Müzik’ durumu ayarlanmışsa
+[Keep 'Music' status]
+"Müzik" durumunu koru
+[Replace underlines with spaces]
+Alt çizgileri boşluklarla değiştir
+[Check file time]
+Dosya zamanını kontrol et
+[Other thread handle check]
+Diğer iş parçacığı tanıtıcısı kontrolü
+[Keep old file]
+Eski dosyayı sakla
+[No Music]
+Müzik Yok
+[No player]
+Hiçbir oyuncu yok
+[User message]
+Kullanıcı mesajı
+[Channel message]
+Kanal mesajı
+[If this option is "ON", xStatus number will not be changed, only message will be replaced by WATrack templates]
+Bu seçenek "AÇIK" konumundaysa, xStatus numarası değiştirilmeyecek, yalnızca mesaj WATrack şablonlarıyla değiştirilecektir
+[Keep 'Music' xStatus]
+"Müzik" xStatus'u koruyun
+[No-music text]
+Müziksiz metin
+[No-player text]
+Oyuncu içermeyen metin
+[Protocol list]
+Protokol listesi
+[Use Status:]
+Kullanım Durumu:
+[Text+Graph]
+Metin+Grafik
+[Use external style]
+Harici stil kullan
+[Add report file ext.]
+Rapor dosyası uzantısını ekle.
+[Freq. artists]
+Sıkça dinlenen sanatçılar
+[Freq. paths]
+Frekans yolları
+[Freq. songs]
+Sık dinlenen şarkılar
+[Last played songs]
+En son çalınan şarkılar
+[Song time]
+Şarkı zamanı
+[VBR or CBR]
+VBR veya CBR
+[VBR or empty]
+VBR veya boş
+[Show file name in info]
+Bilgi bölümünde dosya adını göster
+[Global hotkey]
+Genel kısayol tuşu
+[Only if messages not used]
+Yalnızca mesajlar kullanılmamışsa
+[Don't use]
+Kullanmayın
+[Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled.]
+Yenileme süresi (sn), müzik bilgilerinin, istatistiklerin ve durum mesajlarının yenilenmesi için geçen süredir. Sıfır olarak ayarlandığında, otomatik yenileme devre dışı bırakılır.
+[All uppercase]
+Tamamen büyük harf
+[Do not change]
+Değiştirmeyin
+[All lowercase]
+Hepsi küçük harf
+[lowercase %type%]
+küçük harfli %type%
+[If this option is "ON", you can paste music info to your message window pressing hotkey.]
+Bu seçenek "AÇIK" konumundaysa, kısayol tuşuna basarak mesaj pencerenize müzik bilgilerini yapıştırabilirsiniz.
+[If this option is "ON", status text will be replaced by music info.]
+Bu seçenek "AÇIK" konumundaysa, durum metni müzik bilgileriyle değiştirilecektir.
+[If this option is "ON", all plugin settings saved in ini-file. They deleted from Miranda DB. Else ini-file will be deleted.]
+Bu seçenek "AÇIK" ise, tüm eklenti ayarları ini dosyasına kaydedilir. Miranda veritabanından silinirler. Aksi takdirde ini dosyası silinir.
+[If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
+Bu seçenek "AÇIK" konumundaysa, eklenti bilinmeyen müzik formatı bilgilerini oynatıcıdan almaya çalışacaktır (tüm oynatıcılar bu özelliği desteklemez!)
+[If this option is "ON", xStatus changes only if "Music" xStatus was set already.]
+Bu seçenek "AÇIK" konumundaysa, xStatus yalnızca "Müzik" xStatus'u önceden ayarlanmışsa değişir.
+[If this option is "ON", xStatus won't be changed when player is shut down.]
+Bu seçenek "AÇIK" konumundaysa, oynatıcı kapatıldığında xStatus değeri değişmeyecektir.
+[If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
+Bu seçenek "AÇIK" konumundaysa, xStatus "Müzik" olarak değiştirilecek ve durum metni müzik bilgileriyle değiştirilecektir.
+[If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
+Bu seçenek "AÇIK" konumundaysa, tüm protokoller, protokol ve oynatıcı (medya) durumları için tek bir şablon kullanılacaktır. Şablon seçenekleri sayfası bir sonraki seferde güncellenecektir.
+[Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
+Bilgileri daha kolay elde etmek için oyuncu süreci enjeksiyonunu kullanın. Bu, antivirüs veya güvenlik duvarı uyarılarına neden olabilir.
+[Keep opened file as active, not newly founded.]
+Açık dosyayı aktif tutun, yeni bir dosya açmayın.
+[Use this option if WATrack freeze while player running. Slower processing.]
+Oynatıcı çalışırken WATrack donarsa bu seçeneği kullanın. İşlem hızı daha düşüktür.
+[Use "Variables" plugin]
+"Değişkenler" eklentisini kullanın
+[Sorry, but i don't use WATrack right now!]
+Üzgünüm, ama şu anda WATrack kullanmıyorum!
+[Next track]
+Sonraki parça
+[Show player]
+Oyuncuyu göster
+[bitrate]
+bit hızı
+[by Count]
+Count tarafından
+[by Date]
+Tarihe göre
+[by Path]
+Path tarafından
+[by Title]
+Başlığa göre
+[comment from tag]
+etiketten gelen yorum
+[current song position (sec)]
+şu anki şarkı konumu (sn)
+[Disable Log]
+Günlüğü Devre Dışı Bırak
+[Error report]
+Hata raporu
+[Get Info from player]
+Oyuncudan bilgi al
+[media file size]
+medya dosyası boyutu
+[media file type]
+medya dosyası türü
+[media file]
+medya dosyası
+[No Player]
+Oyuncu yok
+[number of channels]
+kanal sayısı
+[Open report]
+Raporu aç
+[Reverse order]
+Ters sıra
+[samplerate]
+örnekleme hızı
+[song title]
+şarkı adı
+[song year]
+şarkı yılı
+[total song length (sec)]
+toplam şarkı süresi (sn)
+[track number]
+parça numarası
+[Try to use OLE interface]
+OLE arayüzünü kullanmayı deneyin
+[player status (stopped, playing, paused)]
+oyuncu durumu (durdurulmuş, oynanıyor, duraklatılmış)
+[player]
+oyuncu
+["Variables" ANSI output]
+"Değişkenler" ANSI çıktısı
+[FPS (Frames per second)]
+FPS (Saniyedeki kare sayısı)
+[Save settings in INI-file]
+Ayarları INI dosyasına kaydet
+[VBR or not]
+VBR olsun ya da olmasın
+[video codec]
+video kodek
+[video height]
+video yüksekliği
+[video width]
+video genişliği
+[Show by request only]
+Sadece talep üzerine gösterilir
+[second line]
+ikinci satır
+[Cover filenames]
+Dosya adlarını gizle
+[Music Info]
+Müzik Bilgileri
+[Align text to center]
+Metni ortaya hizala
+[Create WATrack report]
+WATrack raporu oluştur
+[Get user's Music Info]
+Kullanıcının Müzik Bilgilerini Al
+[WATrack Macro Info]
+WATrack Makro Bilgileri
+[Lyric from ID3v2 tag]
+ID3v2 etiketinden alınan şarkı sözü
+[Cover file path]
+Kapak dosyasının yolu
+[Player volume (0-15)]
+Oyuncu ses seviyesi (0-15)
+[Player homepage URL]
+Oyuncunun ana sayfası URL’si
+[player status (not translated)]
+oyuncu durumu (çevrilmemiş)
+[Format text Info]
+Metni biçimlendir Bilgi
+[Controls]
+Kontroller
+[Frame Controls]
+Çerçeve Kontrolleri
+[Plugin Enabled]
+Eklenti Etkin
+[Plugin Disabled]
+Eklenti Devre Dışı
+[Create Report]
+Rapor Oluştur
+[Context menu]
+Bağlam menüsü
+[/me listening "%title%"]
+/ben "%title%" dinliyorum
+[Report file name not defined]
+Rapor dosya adı tanımlanmamış
+[Status Template]
+Durum Şablonu
+[xStatus Title]
+xDurum Başlığı
+['mono' / 'stereo']
+'mono' / 'stereo'
+[- "mono" / "stereo"]
+- "mono" / "stereo"
+[- artist]
+- sanatçı
+[- bitrate]
+- bit hızı
+[- current song position (sec)]
+- mevcut şarkı konumu (sn)
+[- player version]
+- oyuncu sürümü
+[- player]
+- oyuncu
+[- song title]
+- şarkı adı
+[- total song length (sec)]
+- şarkının toplam süresi (sn)
+[- track number]
+- parça numarası
+[  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music xStatus sets already.\n  Keep 'Music' xStatus - if player stopped or shutdowned, save or not 'Music' xStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
+  Yenileme süresi (sn), müzik bilgilerinin ve durum mesajlarının yenilenmesi için gereken süredir. Sıfır ise, otomatik yenileme devre dışıdır.\n  Yalnızca 'Müzik' durumu ayarlanmışsa - Music xStatus zaten ayarlanmışsa durumunuzu değiştirin.\n  'Müzik' xStatus'u koruyun - oynatıcı durduysa veya kapatıldıysa, 'Müzik' xStatus'unu kaydedin ya da kaydetmeyin (boş olarak değişir).\n  İşlemden sonra metin boşsa, durum mesajı değişmez.\n  Ayarlar ini dosyasında kaydedilmişse, Miranda veritabanından silinir. Aksi takdirde ini dosyası silinir.
+["Variables" module use]
+"Değişkenler" modülünün kullanımı
+[Acoustic]
+Akustik
+[Winamp Track]
+Winamp Parçası
+[Pause Pushed]
+Duraklat düğmesine basıldı
+[-default-]
+-varsayılan-
+[Global WATrack hotkey]
+Global WATrack kısayol tuşu
+[WATrack data insert hotkey]
+WATrack verilerini eklemek için kısayol tuşu
+[WATrack popup hotkey]
+WATrack açılır pencere kısayol tuşu
+[Switch ON these modules]
+Bu modülleri AÇIN
+[Modules]
+Modüller
+[Statistic]
+İstatistik
+[Export text template]
+Metin şablonunu dışa aktar
+[Use listening info]
+Dinleme bilgilerini kullan
+[If this option is "ON", "Listening To" protocol property will be filled by music info.]
+Bu seçenek "AÇIK" konumundaysa, "Dinlenen" protokol özelliği müzik bilgileriyle doldurulacaktır.
+[Enable Status message]
+Durum mesajını etkinleştir
+[Enable xStatus message]
+xStatus mesajını etkinleştir
+[Enable Tunes message]
+"Enable Tunes" mesajı
+[Tunes]
+Şarkılar
+[Check all marked players for active (started and playing) or stop at first founded]
+İşaretli tüm oyuncuların aktif olup olmadığını (maça başlamış ve oynuyor mu) kontrol edin ya da ilk bulduğunuzda durun
+[Check all players]
+Tüm oyuncuları kontrol et
+[Emulate multimedia keys presses to control player]
+Oynatıcıyı kontrol etmek için multimedya tuşlarına basma işlemlerini taklit edin
+[User music info text]
+Kullanıcı müzik bilgisi metni
+[(%artist%, %title%, %album% and %year% macros can be used only)]
+(Yalnızca %artist%, %title%, %album% ve %year% makroları kullanılabilir)
+[Disable Plugin]
+Eklentiyi Devre Dışı Bırak
+[Enable Plugin]
+Eklentiyi Etkinleştir
+[Don't forget to enter Login and Password to use Last.fm service]
+Last.fm hizmetini kullanmak için kullanıcı adınızı ve şifrenizi girmeyi unutmayın
+[Don't forget to enter Login and Password to use MyShows service]
+MyShows hizmetini kullanmak için Kullanıcı Adı ve Şifre girmeyi unutmayın
+[Attempts]
+Girişimler
+[Disable scrobbling]
+Scrobbling'i devre dışı bırak
+[Enable scrobbling]
+Scrobbling'i etkinleştir
+[no language]
+dil yok
+[Content language]
+İçerik dili
+[Artist]
+Sanatçı
+[Album]
+Albüm
+[Track]
+Parça
+[Get Artist Info]
+Sanatçı Bilgilerini Al
+[Get Track Info]
+Parça Bilgilerini Al
+[Get Album Info]
+Albüm Bilgilerini Al
+[Music Statistic]
+Müzik İstatistikleri
+[Status (common)]
+Durum (genel)
+[Status (templates)]
+Durum (şablonlar)
+[Set xStatus when...]
+Aşağıdaki durumlarda xStatus değerini ayarlayın...
+[xStatus is empty or 'Music']
+xStatus boş ya da 'Müzik'
+['Music' status is set]
+'Müzik' durumu ayarlandı
+[any xStatus is set]
+xStatus değeri ayarlanmışsa
+[Players list\n(F1 for note)]
+Oyuncular listesi\n(Not için F1)
+[Chat Template]
+Sohbet Şablonu
+[This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]
+Bu, şablon düzenleyicinin basitleştirilmiş bir sürümüdür. Bu şablonlar tüm protokollerle, protokol ve oyuncu (medya) durumlarıyla birlikte kullanılacaktır.
+[No any special notes for this player]
+Bu oyuncu hakkında herhangi bir özel not bulunmamaktadır
+[popup test]
+açılır pencere testi
+[Frame (main)]
+Çerçeve (ana)
+[Frame (text)]
+Çerçeve (metin)
+[Manual element placement]
+Elemanların manuel yerleştirilmesi
+[Alpha]
+Alfa
+[Hide when no player]
+Oyuncu olmadığında gizle
+[Hide when no music]
+Müzik çalmadığında gizle
+[Use popup action buttons]
+Açılır pencere eylem düğmelerini kullanın
+[Left click]
+Sol tıklama
+[Right click]
+Sağ tıklayın
+[Use default colors]
+Varsayılan renkleri kullan
+[Use Windows colors]
+Windows renklerini kullan
+[Use custom colors]
+Özel renkler kullanın
+[artist]
+sanatçı
+[album]
+albüm
+[genre]
+tür
+[Picture transform]
+Resim dönüştürme
+[Kilobytes]
+Kilobayt
+[Megabytes]
+Megabayt
+[Precision]
+Hassasiyet
+[none]
+yok
+[kb]
+kb
+[Kb]
+Kb
+[KB]
+KB
+[Color]
+Renk
+[Output]
+Çıktı
+[Check]
+Kontrol et
+[Choose font...]
+Yazı tipini seçin...
+[Genres]
+Türler
+;file \plugins\Watrack\myshows\myshows.rc
+[Scrobble at]
+Şurada scrobble yapın
+[Timeout, ms]
+Zaman aşımı, ms
+[Get Series Info]
+Dizi Bilgilerini Al
+[Episode]
+Bölüm
+;file \plugins\Watrack\lastfm\i_last_api.inc
+[Last.fm error: ]
+Last.fm hatası: 
+[Client is banned]
+Kullanıcı yasaklandı
+[Bad Auth. Check login and password]
+Geçersiz kimlik bilgisi. Kullanıcı adınızı ve şifrenizi kontrol edin
+[Bad TimeStamp]
+Hatalı Zaman Damgası
+;file \plugins\Watrack\lastfm\i_last_dlg.inc
+[Similar artists]
+Benzer sanatçılar
+;file \plugins\Watrack\proto\proto.pas
+[Music Info from ]
+Müzik Bilgileri: 
+[You Get Error]
+Hata Alıyorsunuz
+;other strings
+[Slider]
+Kaydırıcı
+[Slider Hovered]
+Fare imlecinin üzerine gelindiğinde kaydırma çubuğu
+[Slider Pushed]
+Kaydırıcı İtildi
+[WATrack status]
+WATrack durumu
+[Enable WATrack]
+WATrack'i etkinleştir
+[Disable WATrack]
+WATrack'i devre dışı bırak
+[Check unknown formats]
+Bilinmeyen biçimleri kontrol et
+[Check unknown file formats if player gives info.]
+Oynatıcı bilgi veriyorsa, bilinmeyen dosya biçimlerini kontrol edin.
+[Oops, something wrong!]
+Oops, bir sorun var!
+[Permanent]
+Kalıcı
+[Colors]
+Renkler
+[Timeout]
+Zaman aşımı
+[Info]
+Bilgi
+[Test]
+Test
+[Statuses]
+Durumlar
+[System default codepage]
+Sistemin varsayılan kod sayfası
+[Templates]
+Şablonlar
+[Bytes]
+Bayt
+[Variables]
+Değişkenler
+[Template]
+Şablon
+[Misc]
+Çeşitli
+[Statistics]
+İstatistikler
+[Login]
+Giriş
+[Info]
+Bilgi

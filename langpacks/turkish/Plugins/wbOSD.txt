@@ -1,0 +1,68 @@
+#muuid {fc718bc7-abc8-43cd-aad9-761614617738}
+;============================================================
+;  File: wbOSD.dll
+;  Plugin: WannaBe OSD
+;  Version: 0.2.1.0
+;  Authors: Andrej Krutak
+;============================================================
+[Shows new message/status change info using on-screen display.]
+Ekran üstü gösterim yoluyla yeni mesaj/durum değişikliği bilgilerini gösterir.
+;file \plugins\wbOSD\res\wbOSD.rc
+[General]
+Genel
+[Align]
+Hizala
+[Select font]
+Yazı tipini seç
+[Shadow]
+Gölge
+[Show drop shadow]
+Gölgeyi göster
+[Shadow align]
+Gölge hizalama
+[Shadow color]
+Gölge rengi
+[Alternative shadow]
+Alternatif gölge
+[Shadow distance:]
+Gölge mesafesi:
+[Other]
+Diğer
+[Background color]
+Arka plan rengi
+[Transparent]
+Şeffaf
+[Alpha:]
+Alfa:
+[Timeout (ms):]
+Zaman aşımı (ms):
+[Show testing OSD]
+Test OSD'sini göster
+[Announce]
+Duyuru
+[Status changes]
+Durum değişiklikleri
+[Show my status changes]
+Durum değişikliklerimi göster
+[Text color]
+Metin rengi
+[Show events]
+Etkinlikleri göster
+[Format:]
+Biçim:
+[Show message window after click]
+Tıklandıktan sonra mesaj penceresini göster
+[Show when my status is:]
+Durumum şu şekilde olduğunda göster:
+;file \plugins\wbOSD\src\events.cpp
+[%s is %s]
+%s, %s’dir
+;file \plugins\wbOSD\src\options.cpp
+[Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
+Değişkenler:\n  %n : Nick\n  %m : Mesaj\n  %l : Yeni satır
+[Help]
+Yardım
+[Miranda NG is great and this is a long message.]
+Miranda NG harika ve bu oldukça uzun bir mesaj.
+[Plugins]
+Eklentiler

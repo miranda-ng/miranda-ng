@@ -1,0 +1,756 @@
+#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: 0.96.7.1
+;  Authors: Miranda team
+;============================================================
+[Internet Relay Chat (IRC) protocol support for Miranda NG.]
+Miranda NG için İnternet Relay Chat (IRC) protokolü desteği.
+;file \protocols\IRCG\res\IRC.rc
+[Server]
+Sunucu
+[Host address]
+Ana bilgisayar adresi
+[Port range]
+Port aralığı
+[SSL/TLS]
+SSL/TLS
+[Enable SASL]
+SASL'ı etkinleştir
+[Password]
+Şifre
+[User info - Required]
+Kullanıcı bilgileri - Zorunlu
+[Nick]
+Nick
+[Alternative nick]
+Alternatif takma ad
+[Full name (e-mail)]
+Tam adı (e-posta)
+[User ID (Ident)]
+Kullanıcı Kimliği (Ident)
+[Enable]
+Etkinleştir
+[System]
+Sistem
+[Port]
+Liman
+[only while connecting]
+yalnızca bağlantı kurulurken
+[Other]
+Diğer
+[Force visible (-i)]
+Görünür kıl (-i)
+[Rejoin channel if kicked]
+Kanal dışı bırakılırsanız kanala yeniden katılın
+[Rejoin channels on reconnect]
+Yeniden bağlandığında kanallara yeniden katıl
+[Disable tray balloon on error]
+Hata durumunda tepsi balonunu devre dışı bırak
+[Show addresses]
+Adresleri göster
+[Use server window]
+Sunucu penceresini kullan
+[Show server window on startup]
+Başlangıçta sunucu penceresini göster
+[Keep connection alive]
+Bağlantıyı kesintisiz tut
+[Automatically join on invite]
+Davet üzerine otomatik olarak katıl
+['Old style' mode changes]
+"Eski stil" modundaki değişiklikler
+[Update online statuses for users]
+Kullanıcıların çevrimiçi durumlarını güncelle
+[Check every (s):]
+Aşağıdakilerden uygun olanları işaretleyin:
+[Update statuses in channel nick list]
+Kanal takma ad listesindeki durumları güncelle
+[Don't check if more than (users):]
+(kullanıcı) sayısından fazla olup olmadığını kontrol etme:
+[Ident]
+Kimlik
+[User information]
+Kullanıcı bilgileri
+[Ping]
+Ping
+[Version]
+Sürüm
+[Time]
+Zaman
+[Userinfo]
+Kullanıcı Bilgileri
+[&Refresh]
+&Yenile
+[&Query]
+&Sorgu
+[&Close]
+&Kapat
+[Name]
+Adı
+[Address]
+Adres
+[Channels]
+Kanallar
+[Auth]
+Auth
+[User]
+Kullanıcı
+[Away Info]
+Deplasman Bilgileri
+[The server returned the following information. Please note that this information might be misleading and/or falsified]
+Sunucu aşağıdaki bilgileri gönderdi. Bu bilgilerin yanıltıcı ve/veya tahrif edilmiş olabileceğini lütfen unutmayın
+[CTCP information]
+CTCP bilgileri
+[Question]
+Soru
+[&Cancel]
+&İptal
+[Perform]
+Gerçekleştir
+[&Set]
+&Set
+[&Del]
+&Del
+[Alias]
+Takma ad
+[Perform on event:]
+Olay gerçekleştiğinde:
+[Quit message:]
+Çıkış mesajı:
+[Server code page:]
+Sunucu kod sayfası:
+[Enable UTF-8 autodetection]
+UTF-8 otomatik algılamasını etkinleştir
+[Channels on server]
+Sunucudaki kanallar
+[&Join]
+&Katıl
+[Filter by]
+Şu kriterlere göre filtrele
+[&Save]
+&Kaydet
+[Hostmask]
+Ana Bilgisayar Maskesi
+[&Clear all]
+&Tümünü temizle
+[Online detection mode]
+Çevrimiçi algılama modu
+[Basic]
+Temel
+[Wildcard enabled network search]
+Joker karakter destekli ağ araması
+[Channel manager]
+Kanal yöneticisi
+[Bans]
+Yasaklar
+[Invites]
+Davetiyeler
+[Excepts]
+Alıntılar
+[&Add]
+&Ekle
+[&Edit]
+&Düzenle
+[Only Ops set topic]
+Yalnızca Ops tarafından belirlenen konu
+[No external messages]
+Dışarıdan gelen mesaj yok
+[Invite only]
+Sadece davetliler
+[Moderated]
+Modere edilmiş
+[Key:]
+Anahtar:
+[User limit:]
+Kullanıcı sınırı:
+[Private]
+Özel
+[Secret]
+Sır
+[Topic]
+Konu
+[User modes]
+Kullanıcı modları
+[Channel modes]
+Kanal modları
+[Hidden]
+Gizli
+[Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
+Bu kanalın modlarını ayarlamak için seçenekleri kullanın. Değişiklik yapabilmek için genellikle op veya daha yüksek bir yetki düzeyine sahip olmanız gerekir.
+[Strip colors]
+Şerit renkleri
+[Client-to-Client File Transfers]
+İstemci-İstemci Arası Dosya Aktarımları
+[Send mode:]
+Gönderme modu:
+[Normal]
+Normal
+[Send-ahead]
+Önceden gönderme
+[Packet size (bytes):]
+Paket boyutu (bayt):
+[Send notice]
+Bildirim gönder
+[Attempt reverse DCC (good if firewalled)]
+Ters DCC denemesi (güvenlik duvarı varsa kullanışlıdır)
+[Client-to-Client Chats]
+Kullanıcılar Arası Sohbetler
+[Auto-accept from:]
+Şu kişilerden otomatik olarak kabul et:
+[none]
+yok
+[everyone on the contact list]
+kişi listesindeki herkes
+[everyone]
+herkes
+[Disconnect DCC chats when disconnecting from server]
+Sunucuyla bağlantı kesildiğinde DCC sohbetlerini de sonlandır
+[Client-to-Client Protocol]
+İstemci-İstemci Protokolü
+[Manually set external IP:]
+Harici IP adresini manuel olarak ayarlama:
+[Get IP address from server]
+Sunucudan IP adresini al
+[CTCP Chat Request]
+CTCP Sohbet İsteği
+[&Accept]
+&Kabul Et
+[&Deny]
+&Reddet
+[Enable (*)]
+Etkinleştir (*)
+[Ignore channel messages by default]
+Kanal mesajlarını varsayılan olarak yok say
+[Ignore file transfer requests]
+Dosya aktarım isteklerini yok say
+[Ignore DCC Chat requests]
+DCC Sohbet isteklerini görmezden gel
+[Ignore DCC Chat requests from unknown contacts]
+Bilinmeyen kişilerden gelen DCC Sohbet isteklerini görmezden gel
+[Ignore users]
+Kullanıcıları görmezden gel
+[(*) Queries from users on your contact list are never ignored]
+(*) Kişi listenizdeki kullanıcıların gönderdiği sorular asla göz ardı edilmez
+[Ignore mask (nick!user@host)]
+Maskeyi yok say (nick!kullanıcı@sunucu)
+[Ignore events]
+Olayları göz ardı et
+[Queries]
+Sorgular
+[Messages]
+Mesajlar
+[Notices]
+Duyurular
+[Host]
+Sunucu
+;file \protocols\IRCG\src\channelList.cpp
+[Channel]
+Kanal
+[Mode]
+Mod
+[Please wait...]
+Lütfen bekleyin...
+[%s - Filtered - %d items]
+%s - Filtrelenmiş - %d öğe
+[Downloading list (%u%%) - %u channels]
+Liste indiriliyor (%u%%) - %u kanal
+[Downloading list - %u channels]
+İndirme listesi - %u kanal
+[Done: %u channels]
+Tamamlandı: %u kanal
+[(probably truncated by server)]
+(muhtemelen sunucu tarafından kesilmiştir)
+;file \protocols\IRCG\src\clist.cpp
+[CTCP chat request from %s]
+%s'den CTCP sohbet isteği
+;file \protocols\IRCG\src\commandmonitor.cpp
+[%s sets mode %s]
+%s, %s modunu ayarlar
+[%s sets mode %s%s]
+%s, %s modunu ayarlar%s%s
+[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your IRC client registered]
+CTCP HATASI: %s!%s@%s adresinden biçim hatası içeren bir CTCP komutu alındı. Kayıtlı IRC istemcinizin kontrolünü ele geçirmeye yönelik olası bir girişim tespit edildi
+[CTCP FINGER requested by %s]
+%s tarafından talep edilen CTCP FINGER
+[CTCP VERSION requested by %s]
+%s tarafından talep edilen CTCP SÜRÜMÜ
+[CTCP SOURCE requested by %s]
+%s tarafından talep edilen CTCP SOURCE
+[CTCP USERINFO requested by %s]
+%s tarafından istenen CTCP USERINFO
+[CTCP PING requested by %s]
+%s tarafından talep edilen CTCP PING
+[CTCP TIME requested by %s]
+%s tarafından talep edilen CTCP TIME
+[DCC: Chat request from %s denied]
+DCC: %s'den gelen sohbet isteği reddedildi
+[DCC: File transfer request from %s denied]
+DCC: %s'den gelen dosya aktarım talebi reddedildi
+[DCC: Reverse file transfer request from %s denied [No local IP]]
+DCC: %s'den gelen ters dosya aktarım isteği reddedildi [Yerel IP yok]
+[DCC ERROR: Malformed CTCP request from %s [%s]]
+DCC HATASI: %s [%s] kaynaklı hatalı biçimlendirilmiş CTCP isteği
+[DCC: File transfer resume request from %s denied]
+DCC: %s'den gelen dosya aktarımı devam ettirme isteği reddedildi
+[CTCP %s requested by %s]
+%s tarafından talep edilen CTCP %s
+[%u second]
+%u saniye
+[%u seconds]
+%u saniye
+[CTCP PING reply from %s: %u sec(s)]
+%s'den gelen CTCP PING yanıtı: %u saniye
+[CTCP %s reply from %s: %s]
+%s'den gelen CTCP %s yanıtı: %s
+[Owner]
+Sahibi
+[Admin]
+Yönetici
+[Op]
+Op
+[Halfop]
+Halfop
+[Voice]
+Ses
+[%ud, %uh, %um, %us]
+%ud, %uh, %um, %us
+[%uh, %um, %us]
+%uh, %um, %us
+[%um, %us]
+%um, %us
+[%us]
+%us
+[online since %s, idle %s]
+%s'den beri çevrimiçi, %s süredir boşta
+[Change nickname]
+Takma adı değiştir
+[Unknown]
+Bilinmiyor
+[IRC error]
+IRC hatası
+[Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
+Lütfen ana bilgisayar maskesini girin (takmaad!kullanıcı@ana bilgisayar)\nDİKKAT! Kişi listenizdeki kişiler asla göz ardı edilmez
+[Ignore]
+Yoksay
+[Please enter the reason]
+Lütfen nedenini girin
+[Ban'n Kick]
+Ban'n Kick
+[*Disconnected*]
+*Bağlantı kesildi*
+[The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
+IRC bu komutu otomatik olarak gönderdiği için, performans tamponunuzda /AWAY komutunun kullanımı kısıtlanmıştır.\n
+[IRC Error]
+IRC Hatası
+;file \protocols\IRCG\src\input.cpp
+[The buddy check function is enabled]
+Arkadaş kontrolü işlevi etkinleştirilmiştir
+[The buddy check function is disabled]
+Arkadaş kontrolü işlevi devre dışı bırakılmıştır
+[Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
+Yanlış parametreler. Kullanım: /sleep [ms]; ms değeri 0'dan büyük ve 4000'den küçük olmalıdır.
+[Ignore system is enabled]
+"Yoksayma" özelliği etkinleştirildi
+[Ignore system is disabled]
+"Yoksayma" özelliği devre dışıdır
+[%s is now ignored (+%s)]
+%s artık göz ardı ediliyor (+%s)
+[%s is not ignored now]
+%s artık göz ardı edilmiyor
+[%s was not ignored]
+%s göz ardı edilmedi
+[Outgoing commands are shown]
+Giden komutlar görüntülenir
+[Outgoing commands are not shown]
+Giden komutlar gösterilmez
+[The time interval for the buddy check function is now at default setting]
+Arkadaş kontrolü işlevinin zaman aralığı artık varsayılan ayarda
+[The time interval for the buddy check function is now %u seconds]
+Arkadaş kontrolü işlevinin zaman aralığı artık %u saniye olarak ayarlandı
+[CTCP %s request sent to %s]
+%s isteği %s'ye gönderildi
+[DCC ERROR: Unable to automatically resolve external IP]
+DCC HATASI: Harici IP adresi otomatik olarak çözümlenemiyor
+[DCC CHAT request sent to %s]
+%s'ye DCC CHAT isteği gönderildi
+[DCC ERROR: Unable to bind port]
+DCC HATASI: Bağlantı noktası bağlanamıyor
+[Input command]
+Komut girin
+[Please enter the reply]
+Lütfen yanıtınızı girin
+;file \protocols\IRCG\src\irclib.cpp
+[Failed to connect to]
+Bağlantı kurulamadı
+[DCC ERROR: Unable to bind local port for passive file transfer]
+DCC HATASI: Pasif dosya aktarımı için yerel bağlantı noktasına bağlanılamıyor
+;file \protocols\IRCG\src\ircproto.cpp
+[%s (server)]
+%s (sunucu)
+[%s (client-to-client)]
+%s (istemci-istemci)
+[Nickname]
+Takma ad
+[DCC ERROR: No valid files specified]
+DCC HATASI: Geçerli bir dosya belirtilmedi
+[DCC reversed file transfer request sent to %s [%s]]
+DCC, %s [%s] adresine gönderilen dosya aktarım isteğini iptal etti
+[DCC file transfer request sent to %s [%s]]
+%s [%s] adresine DCC dosya aktarım isteği gönderildi
+[DCC ERROR: Unable to bind local port]
+DCC HATASI: Yerel bağlantı noktasına bağlanılamıyor
+[The dcc chat connection is not active]
+DCC sohbet bağlantısı aktif değil
+[The protocol is not online]
+Protokol çevrimiçi değil
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name).]
+Bağlantı kurulamıyor! Gerekli tüm alanları (Takma ad, Kullanıcı Kimliği ve Tam ad) doldurmamışsınız.
+;file \protocols\IRCG\src\options.cpp
+[Main]
+Ana Sayfa
+[Add]
+Ekle
+[Apply]
+Başvur
+[Rename]
+Adını değiştir
+[Edit]
+Düzenle
+[Cancel]
+İptal et
+[Channel list]
+Kanal listesi
+[Server window]
+Sunucu penceresi
+[Show channel]
+Kanalı göster
+[WhoIs]
+WhoIs
+[Incoming DCC Chat]
+Gelen DCC Sohbeti
+[Logo (48x48)]
+Logo (48x48)
+[Thai]
+Tayca
+[Japanese]
+Japonca
+[Simplified Chinese]
+Basitleştirilmiş Çince
+[Korean]
+Korece
+[Traditional Chinese]
+Geleneksel Çince
+[Central European]
+Orta Avrupa
+[Cyrillic (Windows)]
+Kiril (Windows)
+[Cyrillic (KOI8R)]
+Kiril (KOI8R)
+[Latin I]
+Latince I
+[Greek]
+Yunanca
+[Turkish]
+Türkçe
+[Hebrew]
+İbranice
+[Arabic]
+Arapça
+[Baltic]
+Baltık
+[Vietnamese]
+Vietnamca
+[Korean (Johab)]
+Korece (Johab)
+[Off]
+Kapalı
+[Auto]
+Otomobil
+[On]
+Tarih:
+[<Resolved IP: ]
+<Çözülen IP: 
+[<Automatic>]
+<Otomatik>
+[<Local IP: ]
+<Yerel IP: 
+[Event: Connect]
+Etkinlik: Connect
+[Event: Available]
+Etkinlik: Mevcut
+[Event: Away]
+Etkinlik: Deplasman
+[Event: Not available]
+Etkinlik: Bilgi yok
+[Event: Occupied]
+Etkinlik: İşgal Altında
+[Event: Do not disturb]
+Durum: Rahatsız etmeyin
+[Event: Free for chat]
+Etkinlik: Sohbet için ücretsiz
+[Event: Disconnect]
+Etkinlik: Bağlantıyı Kes
+[Click to set commands that will be performed for this event]
+Bu olay için gerçekleştirilecek komutları ayarlamak için tıklayın
+[Click to delete the commands for this event]
+Bu olayla ilgili komutları silmek için tıklayın
+[Default ANSI codepage]
+Varsayılan ANSI kod sayfası
+[Add ignore]
+Yoksay'ı ekle
+[Edit ignore]
+Düzenle - Yoksay
+[Add new ignore]
+Yeni görmezden gelme ekle
+[Edit this ignore]
+Bunu düzenle ve göz ardı et
+[Delete this ignore]
+Bunu sil, yok say
+[Ignore mask]
+Maskeyi yok say
+[Flags]
+Bayraklar
+[Network]
+Ağ
+[Account]
+Hesap
+[DCC and CTCP]
+DCC ve CTCP
+[Advanced]
+İleri Düzey
+;file \protocols\IRCG\src\output.cpp
+[WallOps from %s: ]
+%s'den WallOps: 
+[%s invites you to %s]
+%s sizi %s’ye davet ediyor
+[%s is away]
+%s şu anda çevrimdışı
+[These are online: ]
+Bunlar çevrimiçi olarak mevcuttur: 
+[CTCP %s reply sent to %s]
+%s'ye %s yanıtı gönderildi
+[CTCP %s reply sent to %s: %s]
+%s'ye gönderilen CTCP yanıtı: %s
+[Notice to %s: ]
+%s’ye yönelik bildirim: 
+;file \protocols\IRCG\src\services.cpp
+[&Join channel]
+&Kanala katıl
+[&Change your nickname]
+&Takma adını değiştir
+[Show the &list of available channels]
+Mevcut kanalların listesini göster
+[&Show the server window]
+&Sunucu penceresini göster
+[Channel &settings]
+Kanal ve ayarlar
+[&WhoIs info]
+&WhoIs bilgileri
+[Di&sconnect]
+Di&sconnect
+[&Add to ignore list]
+&Yoksayma listesine ekle
+[%s (%s) is requesting a client-to-client chat connection.]
+%s (%s) istemci-istemci sohbet bağlantısı talep ediyor.
+[Join channel]
+Kanalına katıl
+[Please enter a channel to join]
+Katılmak istediğiniz kanalı lütfen girin
+[Please enter a unique nickname]
+Lütfen benzersiz bir takma ad girin
+[Please enter your authentication code]
+Lütfen kimlik doğrulama kodunuzu girin
+[Authenticate nick]
+nick'i doğrula
+[Are you sure you want to unregister your current nick?]
+Mevcut takma adınızın kaydını silmek istediğinizden emin misiniz?
+[Delete nick]
+Takma adı sil
+[Identify nick]
+Çentik belirleme
+[Please enter your password]
+Lütfen şifrenizi girin
+[Please enter your new password]
+Lütfen yeni şifrenizi girin
+[Set new password]
+Yeni şifre belirle
+[Please enter desired language ID (numeric value, depends on server)]
+Lütfen istediğiniz dil kimliğini girin (sayısal değer, sunucuya bağlıdır)
+[Change language of NickServ messages]
+NickServ mesajlarının dilini değiştirme
+[Please enter URL that will be linked to your nick]
+Lütfen takma adınızla ilişkilendirilecek URL'yi girin
+[Set URL, linked to nick]
+Takma ada bağlı URL'yi ayarla
+[Please enter your e-mail, that will be linked to your nick]
+Lütfen takma adınızla ilişkilendirilecek e-posta adresinizi girin
+[Set e-mail, linked to nick]
+Takma ada bağlı e-posta adresini ayarla
+[Please enter some information about your nick]
+Lütfen takma adınızla ilgili bazı bilgiler girin
+[Set information for nick]
+Takma ad için bilgileri ayarla
+[Please enter nick you want to link to your current nick]
+Lütfen mevcut takma adınızla ilişkilendirmek istediğiniz takma adı girin
+[Link another nick to current nick]
+Mevcut takma ada başka bir takma adı bağla
+[Please enter nick you want to unlink from your current nick]
+Lütfen mevcut takma adınızdan bağlantısını kaldırmak istediğiniz takma adı girin
+[Unlink another nick from current nick]
+Mevcut takma addan başka bir takma adın bağlantısını kaldır
+[Please enter nick you want to set as your main nick]
+Lütfen ana takma ad olarak ayarlamak istediğiniz takma adı girin
+[Set main nick]
+Ana takma adı ayarla
+[Kick]
+Tekme
+[Please enter the notice text]
+Lütfen duyuru metnini girin
+[Please enter the channel name to invite to]
+Davet etmek istediğiniz kanalın adını lütfen girin
+[Invite to channel]
+Kanal'a davet et
+[Register nick]
+Takma ad kaydet
+[Auth nick]
+Yazar takma adı
+[Remind password]
+Şifremi hatırlat
+[Set language]
+Dili ayarla
+[Set homepage]
+Ana sayfayı ayarla
+[Set e-mail]
+E-posta adresini ayarla
+[Set info]
+Set bilgileri
+[Hide e-mail from info]
+E-postayı “info” adresinden gizle
+[Show e-mail in info]
+Bilgi bölümünde e-postayı göster
+[Set security for nick]
+Takma ad için güvenlik ayarlarını belirle
+[Remove security for nick]
+"nick" için güvenliği kaldır
+[Link nick to current]
+Nick'i güncel duruma bağla
+[Unlink nick from current]
+Nick'i mevcut seçimin bağlantısını kaldır
+[List all your nicks]
+Tüm takma adlarını listele
+[List your channels]
+Kanallarınızı listeleyin
+[Kill unauthorized: off]
+Yetkisiz kullanım engelleme: kapalı
+[Kill unauthorized: on]
+Yetkisiz kullanım engelleme: açık
+[Kill unauthorized: quick]
+Yetkisiz erişimi engelle: hızlı
+[Hide nick from list]
+Takma adı listeden gizle
+[Show nick to list]
+Listeye takma adı göster
+[Show the server &window]
+Sunucuyu ve pencereyi göster
+[&Leave the channel]
+&Kanaldan çık
+[&Invite to channel]
+&Kanal'a davet et
+[Send &notice]
+Bildirim gönder
+[&Slap]
+&Slap
+[Nickserv info]
+Nickserv bilgileri
+[Nickserv kill ghost]
+Nickserv, hayalet hesabı devre dışı bırak
+[&Control]
+&Kontrol
+[Give Owner]
+Sahibine Ver
+[Take Owner]
+Sahibi Seç
+[Give Admin]
+Yöneticiye Ver
+[Take Admin]
+Yönetici'yi seç
+[Give &Op]
+Give & Op
+[Take O&p]
+O&P'yi ele alalım
+[Give &Halfop]
+Give & Halfop
+[Take H&alfop]
+H&alfop’u al
+[Give &Voice]
+Give &Voice
+[Take V&oice]
+V&oice'u deneyin
+[&Kick]
+&Kick
+[Ki&ck (reason)]
+Ki&ck (neden)
+[&Ban]
+&Yasak
+[Ban'&n kick]
+Engelleme ve atma
+[Ban'n kick (&reason)]
+Engelleme ve atma (&nedeni)
+[&Direct Connection]
+&Doğrudan Bağlantı
+[Request &Chat]
+Talep ve Sohbet
+[Send &File]
+Gönder ve Dosya
+[Add to &ignore list]
+&Yoksayma listesine ekle
+[&Add User]
+&Kullanıcı Ekle
+[Connecting to]
+Bağlanma
+;file \protocols\IRCG\src\tools.cpp
+;file \protocols\IRCG\src\userinfo.cpp
+[Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
+Daha hızlı! Ağda yalnızca takma adın tam eşleşmesini arar. Ana bilgisayar maskesi isteğe bağlıdır ve kullanıldığında ek güvenlik sağlar. Yer tutucular (? ve *) kullanılabilir.
+[Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
+Daha yavaş! Ağda, joker karakter içeren bir dizeyle eşleşen takma adları arar. Host maskesi zorunludur ve “Nick” alanında en az 4 karakter bulunmalıdır. Joker karakterler (? ve *) kullanılabilir.
+[Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
+Ayarlar kaydedilemedi!\n\n"Takma Ad" alanı, joker karakterler dahil olmak üzere en az dört karakter içermelidir\n ve bu kişinin varsayılan takma adıyla da eşleşmelidir.
+[Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
+Ayarlar kaydedilemedi!\n\nBu çevrimiçi algılama modunun çalışabilmesi için tam bir ana bilgisayar maskesi ayarlanmalıdır.
+;file \protocols\IRCG\src\windows.cpp
+[Add ban/invite/exception]
+Engelleme/Davet/İstisna ekle
+[Edit selected ban/invite/exception]
+Seçili yasaklama/davet/istisnayı düzenle
+[Delete selected ban/invite/exception]
+Seçilen yasaklama/davet/istisnayı sil
+[Set these modes for the channel]
+Kanal için şu modları ayarlayın
+[Set this topic for the channel]
+Bu konuyu kanal için belirle
+[You have not applied all changes!\n\nApply before exiting?]
+Tüm değişiklikleri uygulamadınız!\n\nÇıkmadan önce uygulamak ister misiniz?
+[IRC warning]
+IRC uyarısı
+[Add ban]
+Yasak ekle
+[Add invite]
+Davet ekle
+[Add exception]
+İstisna ekle
+[Please enter the hostmask (nick!user@host)]
+Lütfen ana bilgisayar maskesini girin (takma ad!kullanıcı@ana bilgisayar)
+[Edit ban]
+Düzenleme yasağı
+[Edit invite?]
+Davetiyeyi düzenlemek mi?
+[Edit exception?]
+İstisnayı düzenle?
+[Remove ban?]
+Yasağı kaldırmak mı?
+[Remove invite?]
+Daveti kaldırmak mı?
+[Remove exception?]
+İstisnayı kaldırmak mı?

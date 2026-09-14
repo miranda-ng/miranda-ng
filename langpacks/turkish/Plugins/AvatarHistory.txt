@@ -1,0 +1,166 @@
+#muuid {dbe8c990-7aa0-458d-bab7-33eb07238e71}
+;============================================================
+;  File: AvatarHistory.dll
+;  Plugin: Avatar history
+;  Version: 0.1.0.2
+;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
+;============================================================
+[This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
+Bu eklenti, tüm kişilerinizin avatar değişikliklerinin yedeklerini tutar ve/veya açılır pencereler gösterir.
+;file \plugins\AvatarHistory\res\AvatarHistory.rc
+[Save as...]
+Farklı kaydet...
+[Delete this entry]
+Bu girişi sil
+[Delete this entry and the bitmap file]
+Bu girişi ve bitmap dosyasını sil
+[Avatar history]
+Avatar'ın tarihi
+[Static]
+Statik
+[Open folder]
+Klasörü aç
+[Store this user's old avatars in disk]
+Bu kullanıcının eski avatarlarını diske kaydet
+[Log this user's avatars changes to history]
+Bu kullanıcının avatarlarındaki değişiklikleri geçmişe kaydet
+[Show popups for this user]
+Bu kullanıcı için açılır pencereleri göster
+[Protocols]
+Protokol
+[Enable tracking for these protocols:]
+Aşağıdaki protokoller için izlemeyi etkinleştirin:
+[Metacontacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
+Meta kişiler için özel bir işleme uygulanır: bilgiler her zaman alt kişilerden kopyalanır (meta kişiden gelen bildirimler göz ardı edilir)
+[Show popup when a contact change his avatar]
+Bir kişi avatarını değiştirdiğinde açılır pencere göster
+[Colors]
+Renkler
+[Background color]
+Arka plan rengi
+[Text color]
+Metin rengi
+[Use Windows colors]
+Windows renklerini kullan
+[Use default colors]
+Varsayılan renkleri kullan
+[Timeout]
+Zaman aşımı
+[Default]
+Varsayılan
+[Custom]
+Özel
+[Permanent]
+Kalıcı
+[Actions]
+Eylemler
+[On right click:]
+Sağ tıklama durumunda:
+[On left click:]
+Sol tıklama durumunda:
+[Track]
+Parça
+[Avatar change:]
+Avatar değişikliği:
+[Avatar removal:]
+Avatarın kaldırılması:
+[Preview]
+Önizleme
+[Avatar history: Select how to store history avatars]
+Avatar geçmişi: Geçmiş avatarlarının nasıl saklanacağını seçin
+[Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
+Lütfen avatar geçmişinin nasıl saklanacağını seçin. Bu ayar, daha sonra DEĞİŞTİRİLEMEZ; çünkü bu, önceki tüm geçmişin kaybolmasına neden olur.
+[Store history in Miranda history and all history avatars in same folder]
+Geçmişi Miranda geçmişine kaydet ve tüm geçmiş avatarlarını aynı klasöre kaydet
+[Store history in Miranda history and history avatars in per protocol folders]
+Geçmişi Miranda geçmişine ve geçmiş avatarlarını protokol başına klasörlere kaydet
+[Store history in Miranda history and history avatars in per contact folders using shortcuts]
+Kısayollar kullanarak geçmişi Miranda geçmişine ve avatar geçmişini kişi başına klasörlere kaydetme
+[Store history avatars in per contact folders using shortcuts]
+Kısayolları kullanarak avatar geçmişini kişi başına klasörlerde saklayın
+[Store history avatars in per contact folders]
+Avatarları kişi bazında klasörlerde sakla
+[History is stored inside Miranda database. It can be seen by History++ or Avatar History internal viewer.]
+Geçmiş, Miranda veritabanında saklanır. Bu geçmiş, History++ veya Avatar History’nin dahili görüntüleyicisi aracılığıyla görüntülenebilir.
+[All avatars are stored as <Profile>\\Avatars History\\<Avatar hash>]
+Tüm avatarlar <Profil>\\Avatar Geçmişi\\<Avatar hash> şeklinde saklanır
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar hash>]
+Tüm avatarlar şu şekilde saklanır: <Profil>\\Avatar Geçmişi\\<Protokol>\\<Avatar hash>
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
+Tüm avatarlar <Profil>\\Avatar Geçmişi\\<Protokol>\\<Avatar hash> biçiminde saklanır ve <Profil>\\Avatar Geçmişi\\<Protokol>\\<Kişi Kimliği>\\<Zaman Damgası> içinde her geçmiş girdisi için bir kısayol bulunur.
+[History is stored only in disk. It can be seen by Avatar History internal viewer.]
+Geçmiş, yalnızca diskte saklanır. Bu geçmiş, Avatar History’nin dahili görüntüleyicisi aracılığıyla görüntülenebilir.
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
+Tüm avatarlar <Profil>\\Avatar Geçmişi\\<Protokol>\\<Kişi Kimliği>\\<Zaman Damgası> biçiminde saklanır (aynı resim birçok kez kaydedilebilir)
+;file \plugins\AvatarHistory\src\AvatarDlg.cpp
+[Avatar history for %s]
+%s için avatar geçmişi
+[Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
+Bu geçmiş kaydını silmek istediğinizden emin misiniz?\nYalnızca geçmişteki kayıt silinecek, bitmap dosyası korunacaktır!
+[Delete avatar log?]
+Avatar günlüğünü silmek mi?
+[Are you sure you wish to delete this avatar shortcut?\nOnly shortcut will be deleted, bitmap file will be kept!]
+Bu avatar kısayolunu silmek istediğinizden emin misiniz?\nYalnızca kısayol silinecek, bitmap dosyası korunacaktır!
+[Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING: This can affect more than one entry in history!]
+Bu arşivlenmiş avatarı silmek istediğinizden emin misiniz?\nBu işlem, geçmiş kaydını ve bitmap dosyasını silecektir.\nUYARI: Bu işlem, geçmişteki birden fazla kaydı etkileyebilir!
+[Delete avatar?]
+Avatarı silmek ister misin?
+[Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING: This can affect more than one shortcut!]
+Bu arşivlenmiş avatarı silmek istediğinizden emin misiniz?\nBu işlem, kısayolu ve bitmap dosyasını silecektir.\nUYARI: Bu işlem birden fazla kısayolu etkileyebilir!
+[Avatar history is empty!]
+Avatar geçmişi boş!
+[Avatar path is null.]
+Avatar yolu geçersiz.
+[View avatar history]
+Avatar geçmişini görüntüle
+[Save avatar for %s]
+%s için avatarı kaydet
+[Save avatar]
+Avatarı kaydet
+;file \plugins\AvatarHistory\src\AvatarHistory.cpp
+[Avatar history: Unable to save avatar]
+Avatar geçmişi: Avatar kaydedilemiyor
+[Avatars]
+Avatarlar
+[Avatar History]
+Avatar Tarihi
+[Contact changed avatar]
+Avatarı değiştiren kişiyle iletişime geç
+[Contact removed avatar]
+Avatarı kaldırılan kişiyle iletişime geç
+;file \plugins\AvatarHistory\src\icolib.cpp
+[Avatar overlay]
+Avatar katmanı
+;file \plugins\AvatarHistory\src\options.cpp
+[Do nothing]
+Hiçbir şey yapma
+[Close popup]
+Açılır pencereyi kapat
+[Show avatar history]
+Avatar geçmişini göster
+[Show contact history]
+İletişim geçmişini göster
+[Test contact]
+Test irtibat bilgisi
+[Test description]
+Sınav açıklaması
+[History]
+Tarihçe
+[Avatar]
+Avatar
+[Popups]
+Açılır pencereler
+[Avatar change]
+Avatar değişikliği
+;file \plugins\AvatarHistory\src\stdafx.h
+[removed his/her avatar]
+avatarını kaldırdı
+[changed his/her avatar]
+avatarını değiştirdi
+;file \plugins\AvatarHistory\src\utils.cpp
+[Unknown protocol]
+Bilinmeyen protokol
+[Unknown UIN]
+Bilinmeyen UIN
+[Avatar history: Unable to create shortcut]
+Avatar geçmişi: Kısayol oluşturulamıyor

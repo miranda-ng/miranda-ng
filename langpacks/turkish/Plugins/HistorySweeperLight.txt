@@ -1,0 +1,68 @@
+#muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
+;============================================================
+;  File: HistorySweeperLight.dll
+;  Plugin: History sweeper light
+;  Version: 0.1.0.1
+;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
+;============================================================
+[This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]
+Bu eklenti, sistem geçmişini, tüm kişilerden gelen geçmişi veya yalnızca seçilen kişilerden gelen geçmişi silebilir; ayrıca belirli bir süreden daha eski geçmişi silebilir; ve bunu Miranda NG’nin başlatılması veya kapatılması sırasında gerçekleştirebilir.
+;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
+[History Sweeper Light]
+Tarih Süpürgesi Işık
+[Sweep history for these contacts:]
+Bu kişilere ait tarama geçmişini göster:
+[Action 1]
+1. Eylem
+[Action 2]
+2. Eylem
+[Sweep on closing message window]
+Mesaj penceresini kapatırken temizle
+[Clicking on the icon in the status bar will change settings]
+Durum çubuğundaki simgeye tıklandığında ayarlar değişecektir
+[Use UNSAFE mode (sweep as fast as possible, but dangerous for database)]
+UNSAFE modunu kullanın (mümkün olduğunca hızlı tarama yapar, ancak veritabanı için tehlikelidir)
+;file \plugins\HistorySweeperLight\src\main.cpp
+[Keep all events]
+Tüm etkinlikleri saklayın
+[Delete all events]
+Tüm etkinlikleri sil
+;file \plugins\HistorySweeperLight\src\options.cpp
+[Default Action]
+Varsayılan Eylem
+[Delete All]
+Tümünü Sil
+[Delete older than 1 day]
+1 günden daha eski olanları sil
+[Delete older than 3 days]
+3 günden daha eski olanları sil
+[Delete older than 7 days]
+7 günden eski olanları sil
+[Delete older than 2 weeks (14 days)]
+2 haftadan (14 günden) daha eski olanları sil
+[Delete older than 1 month (30 days)]
+1 aydan (30 gün) daha eski olanları sil
+[Delete older than 3 months (90 days)]
+3 aydan (90 günden) daha eski olanları sil
+[Delete older than 6 months (180 days)]
+6 aydan (180 günden) daha eski olanları sil
+[Delete older than 1 year (365 days)]
+1 yıldan (365 gün) daha eski olanları sil
+[Keep 1 last event]
+Son 1 etkinliği sakla
+[Keep 2 last events]
+Son 2 etkinliği sakla
+[Keep 5 last events]
+Son 5 etkinliği sakla
+[Keep 10 last events]
+Son 10 etkinliği sakla
+[Keep 20 last events]
+Son 20 etkinliği sakla
+[Keep 50 last events]
+Son 50 olayı sakla
+[*** Default Action ***]
+*** Varsayılan Eylem ***
+[*** System History ***]
+*** Sistem Geçmişi ***
+[History]
+Tarihçe

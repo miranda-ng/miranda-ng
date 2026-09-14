@@ -1,0 +1,76 @@
+#muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
+;============================================================
+;  File: BossKey.dll
+;  Plugin: BossKey+
+;  Version: 0.5.0.4
+;  Authors: Goblineye Entertainment, Billy_Bons
+;============================================================
+[Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
+Anti-Boss eklentisi. Miranda NG’nizi gizler veya şifre korumalı hale getirir.
+;file \plugins\BossKeyPlus\res\BossKey.rc
+[Go to Options -> Customize -> Hotkeys to change the hotkey]
+Kısayol tuşunu değiştirmek için Seçenekler -> Özelleştir -> Kısayol Tuşları menüsüne gidin
+[When I press the hotkey:]
+Kısayol tuşuna bastığımda:
+[Change status to]
+Durumu şuna değiştir:
+[Change only if current status is Online]
+Yalnızca mevcut durum “Çevrimiçi” ise değiştir
+[Use default status message]
+Varsayılan durum mesajını kullan
+[Disable Sounds]
+Sesleri Devre Dışı Bırak
+[Show the Tray Icon]
+Tepsi Simgesini Göster
+[When I return:]
+Geri döndüğümde:
+[Request password:]
+Şifre isteği:
+[Change status back]
+Durumu eski haline getir
+[Hotkey]
+Kısayol tuşu
+[Miranda NG is locked.\nEnter password to unlock it.]
+Miranda NG kilitlendi.\nKilidi açmak için şifreyi girin.
+[Password:]
+Şifre:
+[Cancel]
+İptal et
+[Workstation is locked]
+İş istasyonu kilitli
+[Screen Saver is running]
+Ekran Koruyucu çalışıyor
+[Windows is inactive]
+Windows devre dışı
+[Hide Miranda when:]
+Miranda'yı şu durumlarda gizle:
+[Miranda is inactive]
+Miranda şu anda çevrimdışı
+[min]
+dk
+[Miranda is started]
+Miranda başlatıldı
+[Others]
+Diğerleri
+[Restore hiding on startup after failure]
+Hata durumunda başlangıçta gizleme özelliğini geri yükle
+;file \plugins\BossKeyPlus\src\BossKey.cpp
+[Password is not correct!\nPlease, enter correct password.]
+Şifre doğru değil!\nLütfen doğru şifreyi girin.
+[Hide Miranda NG]
+Miranda NG'yi gizle
+[Hide]
+Gizle
+[Hide/Show Miranda]
+Miranda'yı Gizle/Göster
+[BossKey]
+BossKey
+[get the BossKey name]
+BossKey adını al
+;file \plugins\BossKeyPlus\src\Options.cpp
+[Events]
+Etkinlikler
+[Main]
+Ana Sayfa
+[Advanced]
+İleri Düzey

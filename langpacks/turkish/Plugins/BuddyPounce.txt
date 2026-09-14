@@ -1,0 +1,127 @@
+#muuid {a9e9c114-84b9-434b-a3d5-89921d39ddff}
+;============================================================
+;  File: BuddyPounce.dll
+;  Plugin: Buddy pounce
+;  Version: 0.3.3.0
+;  Authors: Jonathan Gordon
+;============================================================
+[Allows you to send a message to contacts if they change status.]
+Kişilerin durumları değiştiğinde onlara mesaj göndermenizi sağlar.
+;file \plugins\BuddyPounce\res\resource.rc
+[Confirm Pounce send]
+"Pounce" gönderimini onayla
+[Send]
+Gönder
+[Cancel]
+İptal et
+[Pounce being sent to]
+Pounce şu adrese gönderiliyor:
+[Buddy Pounce]
+Buddy Pounce
+[The Message:]
+Mesaj:
+[Delete Pounce]
+Pounce'u Sil
+[Load default Settings]
+Varsayılan Ayarları Yükle
+[Setting Value]
+Ayarlanan Değer
+[Settings]
+Ayarlar
+[Contact To Send Pounce To]
+Pounce'u Göndermek İçin İletişim Bilgileri
+[<< Simple]
+<< Basit
+[Advanced >>]
+Gelişmiş >>
+[The Message]
+Mesaj
+[Dialog]
+Diyalog
+[Status]
+Durum
+[Use Advanced Dialog]
+Gelişmiş İletişim Kutusu'nu kullanın
+[The Message (characters: )]
+Mesaj (karakterler: )
+[Default Settings]
+Varsayılan Ayarlar
+[Show Delivery Messages]
+Teslimat Mesajlarını Göster
+[These settings are also used when sending a "Simple" pounce]
+Bu ayarlar, "Basit" pounce gönderilirken de kullanılır
+;file \plugins\BuddyPounce\src\dialog.cpp
+[The Message (%d Characters)]
+Mesaj (%d karakter)
+[Message successfully sent to %s]
+Mesaj %s'ye başarıyla gönderildi
+[Message failed to send to %s]
+%s adresine mesaj gönderilemedi
+[Retry]
+Tekrar dene
+;file \plugins\BuddyPounce\src\main.cpp
+[Message sessions]
+Mesaj oturumları
+[Pounce being sent to %s in %d seconds]
+Pounce, %d saniye içinde %s adresine gönderiliyor
+[&Buddy Pounce]
+&Buddy Pounce
+;file \plugins\BuddyPounce\src\options.cpp
+[Send If My Status Is...]
+Durumum Şu Olursa Gönder...
+[Send If They Change Status to...]
+Durumları Şu Şekilde Değişirse Gönder...
+[Reuse Pounce]
+Pounce’u Yeniden Kullan
+[Give Up delay]
+Vazgeçme gecikmesi
+[Confirmation Window]
+Onay Penceresi
+[Reuse this message? (0 to use it once)]
+Bu mesajı tekrar kullanmak ister misiniz? (0: bir kez kullanmak için)
+[Times]
+Times
+[Give up after... (0 to not give up)]
+Şu süreden sonra pes et... (0 – pes etmemek)
+[Days]
+Günler
+[Show confirmation window? (0 to not Show)]
+Onay penceresi gösterilsin mi? (0: gösterilmesin)
+[Seconds to wait before sending]
+Göndermeden önce bekleme süresi (saniye)
+[Send If My Status Is]
+Durumum Şu İse Gönder
+[Any]
+Herhangi bir
+[Online]
+Çevrimiçi
+[Away]
+Deplasman
+[Not available]
+Mevcut değil
+[Occupied]
+İşgal Altında
+[Do not disturb]
+Rahatsız etmeyin
+[Free for chat]
+Sohbet için ücretsiz
+[Invisible]
+Görünmez
+[Send If Their Status changes]
+Durumları Değişirse Gönder
+[From Offline]
+Çevrimdışı Durumdan
+[To Online]
+Çevrimiçi
+[To Away]
+Deplasman
+[To Not available]
+"Mevcut değil"
+[To Occupied]
+İşgal Altındaki Bölgelere
+[To Do not disturb]
+"Rahatsız Etmeyin" moduna geçmek
+[To Free for chat]
+Sohbet için ücretsiz
+[To Invisible]
+Görünmez'e
