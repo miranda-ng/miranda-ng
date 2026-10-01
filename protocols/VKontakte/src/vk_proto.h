@@ -31,9 +31,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define PS_VISITPROFILE "/VisitProfile"
 #define PS_GOTOSITEIM "/GoToSiteIM"
 #define PS_ADDASFRIEND "/AddAsFriend"
-#define PS_DELETEFRIEND "/DeleteFriend"
-#define PS_BANUSER "/BanUser"
-#define PS_REPORTABUSE "/ReportAbuse"
 #define PS_OPENBROADCAST "/OpenBroadcast"
 #define PS_SETSTATUSMSG "/SetStatusMsg"
 #define PS_WALLPOST "/WallPost"
@@ -97,9 +94,6 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcGoToSiteIM(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcAddAsFriend(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcWipeNonFriendContacts(WPARAM, LPARAM);
-	INT_PTR __cdecl SvcDeleteFriend(WPARAM hContact, LPARAM);
-	INT_PTR __cdecl SvcBanUser(WPARAM hContact, LPARAM);
-	INT_PTR __cdecl SvcReportAbuse(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcOpenBroadcast(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcWallPost(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcMarkMessagesAsRead(WPARAM hContact, LPARAM);
@@ -166,9 +160,6 @@ private:
 		CMI_MARKMESSAGESASREAD,
 		CMI_WALLPOST,
 		CMI_ADDASFRIEND,
-		CMI_DELETEFRIEND,
-		CMI_BANUSER,
-		CMI_REPORTABUSE,
 		CMI_OPENBROADCAST,
 		CMI_LOADVKNEWS,
 		CMI_GETSERVERHISTORY,
@@ -370,9 +361,7 @@ private:
 	void __cdecl PollingThread(void*);
 	int PollServer();
 	void PollUpdates(const JSONNode&);
-	void OnReceiveAuthRequest(MHttpResponse*, AsyncHttpRequest*);
-	void OnReceiveDeleteFriend(MHttpResponse*, AsyncHttpRequest*);
-
+	
 	//==== Misc ==========================================================================
 
 	void SetAllContactStatuses(int iStatus);
