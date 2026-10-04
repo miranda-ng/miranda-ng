@@ -433,12 +433,16 @@ void CDiscordProto::OnSendMsg(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 	JsonReply root(pReply);
 	if (!root) {
 		int iReqNum = -1;
-		for (auto &it : arOwnMessages)
-			if (it->reqId == pReq->m_iReqNum) {
-				iReqNum = it->reqId;
-				arOwnMessages.removeItem(&it);
-				break;
+		{
+			mir_cslock lck(csData);
+			for (auto &it : arOwnMessages) {
+				if (it->reqId == pReq->m_iReqNum) {
+					iReqNum = it->reqId;
+					arOwnMessages.removeItem(&it);
+					break;
+				}
 			}
+		}
 
 		if (iReqNum != -1) {
 			CMStringW wszErrorMsg(root.data()["message"].as_mstring());
@@ -496,7 +500,10 @@ int CDiscordProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *ps
 	CMStringA szUrl(FORMAT, "/channels/%lld/messages", pUser->channelId);
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnSendMsg, &body);
 	pReq->hContact = hContact;
-	arOwnMessages.insert(new COwnMessage(nonce, pReq->m_iReqNum));
+	{
+		mir_cslock lck(csData);
+		arOwnMessages.insert(new COwnMessage(nonce, pReq->m_iReqNum));
+	}
 	Push(pReq);
 	return pReq->m_iReqNum;
 }
@@ -564,7 +571,7 @@ void CDiscordProto::OnReceiveMarkRead(MHttpResponse *pReply, AsyncHttpRequest *)
 
 void CDiscordProto::SendMarkRead()
 {
-	mir_cslock lck(csMarkReadQueue);
+	mir_cslock lck(csData);
 	while (arMarkReadQueue.getCount()) {
 		CDiscordUser *pUser = arMarkReadQueue[0];
 		JSONNode payload; payload << CHAR_PARAM("token", m_szTempToken);
@@ -582,7 +589,7 @@ void CDiscordProto::OnMarkRead(MCONTACT hContact, MEVENT)
 
 		CDiscordUser *pUser = FindUser(getId(hContact, DB_KEY_ID));
 		if (pUser != nullptr) {
-			mir_cslock lck(csMarkReadQueue);
+			mir_cslock lck(csData);
 			if (arMarkReadQueue.indexOf(pUser) == -1)
 				arMarkReadQueue.insert(pUser);
 		}

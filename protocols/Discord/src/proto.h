@@ -432,11 +432,10 @@ private:
 
 	SnowFlake m_ownId;
 
-	mir_cs csMarkReadQueue;
-	LIST<CDiscordUser> arMarkReadQueue;
-
+	mir_cs csData;
+	LIST<CDiscordUser>    arMarkReadQueue;
 	OBJLIST<CDiscordUser> arUsers;
-	OBJLIST<COwnMessage> arOwnMessages;
+	OBJLIST<COwnMessage>  arOwnMessages;
 
 	CDiscordUser* FindUser(SnowFlake id);
 	CDiscordUser* FindUser(const wchar_t *pwszUsername, int iDiscriminator);
