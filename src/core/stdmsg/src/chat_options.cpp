@@ -183,7 +183,7 @@ static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM p
 
 class COptLogDlg : public CChatOptionsBaseDlg
 {
-	CCtrlEdit edtLogDir, edtLogTimestamp, edtTimestamp, edtHighlight, edtInStamp, edtOutStamp, edtLimit;
+	CCtrlEdit edtLogDir, edtLogTimestamp, edtTimestamp, edtHighlight, edtInStamp, edtOutStamp, edtLimit, edtLogLimit;
 	CCtrlSpin spin2, spin3, spin4;
 	CCtrlCheck chkLogging, chkHighlight;
 	CCtrlButton btnFontChoose;
@@ -199,6 +199,7 @@ public:
 		edtLogDir(this, IDC_LOGDIRECTORY),
 		edtInStamp(this, IDC_INSTAMP),
 		edtOutStamp(this, IDC_OUTSTAMP),
+		edtLogLimit(this, IDC_LOGLIMIT),
 		edtTimestamp(this, IDC_TIMESTAMP),
 		edtHighlight(this, IDC_HIGHLIGHTWORDS),
 		edtLogTimestamp(this, IDC_LOGTIMESTAMP),
@@ -216,22 +217,35 @@ public:
 
 	bool OnInitDialog() override
 	{
-		spin2.SetPosition(db_get_w(0, CHAT_MODULE, "LogLimit", 100));
+		if (Srmm_IsCustomLogUsed(true)) {
+			spin2.Disable();
+			edtInStamp.Disable();
+			edtOutStamp.Disable();
+			edtLogLimit.Disable();
+			chkHighlight.Disable();
+			edtTimestamp.Disable();
+			edtHighlight.Disable();
+			edtLogTimestamp.Disable();
+		}
+		else {
+			spin2.SetPosition(db_get_w(0, CHAT_MODULE, "LogLimit", 100));
+
+			edtInStamp.SetText(g_Settings.pszIncomingNick);
+			edtOutStamp.SetText(g_Settings.pszOutgoingNick);
+			edtHighlight.SetText(g_Settings.pszHighlightWords);
+			edtTimestamp.SetText(g_Settings.pszTimeStamp);
+			edtLogTimestamp.SetText(g_Settings.pszTimeStampLog);
+
+			chkHighlight.SetState(g_Settings.bHighlightEnabled);
+			edtHighlight.Enable(g_Settings.bHighlightEnabled);
+		}
+
 		spin3.SetPosition(db_get_w(0, CHAT_MODULE, "LoggingLimit", 100));
 		spin4.SetPosition(db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12));
 
 		wchar_t szTemp[MAX_PATH];
 		PathToRelativeW(g_Settings.pszLogDir, szTemp);
 		edtLogDir.SetText(szTemp);
-
-		edtInStamp.SetText(g_Settings.pszIncomingNick);
-		edtOutStamp.SetText(g_Settings.pszOutgoingNick);
-		edtHighlight.SetText(g_Settings.pszHighlightWords);
-		edtTimestamp.SetText(g_Settings.pszTimeStamp);
-		edtLogTimestamp.SetText(g_Settings.pszTimeStampLog);
-
-		chkHighlight.SetState(g_Settings.bHighlightEnabled);
-		edtHighlight.Enable(g_Settings.bHighlightEnabled);
 
 		chkLogging.SetState(g_Settings.bLoggingEnabled);
 		return true;
@@ -347,11 +361,9 @@ int ChatOptionsInitialize(WPARAM wParam)
 	odp.pDialog = new COptMainDlg();
 	g_plugin.addOptions(wParam, &odp);
 
-	if (!Srmm_IsCustomLogUsed(true)) {
-		odp.position = 910000001;
-		odp.szTab.a = LPGEN("Chat log");
-		odp.pDialog = new COptLogDlg();
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.position = 910000001;
+	odp.szTab.a = LPGEN("Chat log");
+	odp.pDialog = new COptLogDlg();
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
