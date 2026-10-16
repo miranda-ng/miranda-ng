@@ -52,7 +52,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 	ptrW tszGroup(Clist_GetGroup(wParam));
 
 	// Create a new metacontact
-	MCONTACT hMetaContact = db_add_contact();
+	MCONTACT hMetaContact = db_add_contact(META_PROTO);
 	if (hMetaContact == 0)
 		return 0;
 
@@ -63,9 +63,6 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 	db_set_dw(hMetaContact, META_PROTO, "NumContacts", 0);
 	cc->nSubs = 0;
 	g_pCurrDb->MetaSetDefault(cc); // explicitly write default sub to a db
-
-	// Add the MetaContact protocol to the new meta contact
-	Proto_AddToContact(hMetaContact, META_PROTO);
 
 	if (tszGroup)
 		Clist_SetGroup(hMetaContact, tszGroup);

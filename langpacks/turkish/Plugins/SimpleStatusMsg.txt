@@ -1,0 +1,267 @@
+#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+;============================================================
+;  File: SimpleStatusMsg.dll
+;  Plugin: Simple status message
+;  Version: 1.9.0.9
+;  Authors: Bartosz 'Dezeath' Białek, Harven
+;============================================================
+[Provides a simple way to set status and away messages.]
+Durum ve “uzaktayım” mesajlarını ayarlamak için basit bir yol sunar.
+;file \plugins\SimpleStatusMsg\res\resource.rc
+[%s message for %s]
+%s için %s mesajı
+[&Cancel]
+&İptal
+[Retrieving %s message...]
+%s mesajını alınıyor...
+[Co&py to clipboard]
+Kopyala ve panoya yapıştır
+[%s message (%s)]
+%s mesajı (%s)
+[Retrieving status message for %s...]
+%s için durum mesajı alınmaya çalışılıyor...
+[Behavior on status change]
+Durum değişikliği sırasında sergilenen davranış
+[Apply to all]
+Tümüne uygula
+[Max length:]
+Maksimum uzunluk:
+[Pop up dialog box]
+Açılır iletişim kutusu
+[Do not change status message]
+Durum mesajını değiştirmeyin
+[Always set the same message]
+Her zaman aynı mesajı ayarlayın
+[Do not set status message]
+Durum mesajı ayarlamayın
+[Status messages]
+Durum mesajları
+[Pop up dialog asking for new message]
+Yeni mesaj girilmesini isteyen açılır iletişim kutusu
+[Set an empty message]
+Boş bir mesaj girin
+[Use default message]
+Varsayılan mesajı kullan
+[Use last message]
+Son mesajı kullan
+[Use last message set for this status]
+Bu durum için ayarlanan son mesajı kullan
+[Set the following message:]
+Aşağıdaki mesajı girin:
+[Put default message in message list]
+Varsayılan mesajı mesaj listesine ekle
+[Variables]
+Değişkenler
+[Update variables in status messages every]
+Durum mesajlarındaki değişkenleri her
+[seconds]
+saniye
+[Do not update variables during idle]
+Boşta kalma sırasında değişkenleri güncellemeyin
+[Leave last played track's title after exiting the player]
+Oynatıcıdan çıkıldığında en son çalınan parçanın adını bırak
+[Enable status messages parsing by Variables plugin]
+Variables eklentisiyle durum mesajlarının ayrıştırılmasını etkinleştir
+[Exclude %date% token from parsing (restart required)]
+%date% belirtecini ayrıştırma işleminden hariç tut (yeniden başlatma gerekli)
+[Layout]
+Düzen
+[Show status list]
+Durum listesini göster
+[Show status profiles in status list]
+Durum listesinde durum profillerini göster
+[Show icons in status list]
+Durum listesinde simgeleri göster
+[Buttons:]
+Düğmeler:
+[Show icons in message list]
+Mesaj listesinde simgeleri göster
+[Other]
+Diğer
+[Store up to]
+En fazla
+[recent messages (0 = disable)]
+son mesajlar (0 = devre dışı)
+[Automatically close dialog window after]
+Aşağıdaki süre sonunda iletişim penceresini otomatik olarak kapat
+[Remember last dialog window position]
+Son diyalog penceresinin konumunu hatırla
+[Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
+Durum mesajlarından Satır Başı (CR = '\\r' = #0D) karakterlerini kaldırın
+[Clear History]
+Geçmişi Temizle
+[Clear Predefined]
+Temizle Önceden Tanımlanmış
+[* This feature is available only when using StatusManager plugin.]
+* Bu özellik yalnızca StatusManager eklentisi kullanıldığında kullanılabilir.
+[Status on startup]
+Başlangıçtaki durum
+[Set status after]
+Durumu şundan sonra ayarla
+[milliseconds]
+milisaniye
+[Protocol:]
+Protokol:
+[Status:]
+Durum:
+[Independent setting for each protocol]
+Her protokol için ayrı ayar
+[Pop up dialog asking for status message]
+Durum mesajını soran açılır iletişim kutusu
+[Fortune]
+Fortune
+[?cinfo(contact,property)]
+?cinfo(iletişim,özellik)
+[?contact(string,property)]
+?contact(string,property)
+[?mstatus(protocol)]
+?mstatus(protokol)
+[?lsdate(contact,format)]
+?lsdate(iletişim,biçim)
+[?lsstatus(contact)]
+?lsstatus(kişi)
+[?lstime(contact,format)]
+?lstime(iletişim,biçim)
+[?dbsetting(contact,module,setting)]
+?dbsetting(iletişim,modül,ayar)
+[?txtfile(file,line)]
+?txtfile(dosya, satır)
+[?if(condition,true,false)]
+?if(koşul, doğru, yanlış)
+[?strcmp(string1,string2)]
+?strcmp(string1, string2)
+[?stricmp(string1,string2)]
+?stricmp(string1, string2)
+[?cdate(format)]
+?cdate(biçim)
+[?ctime(format)]
+?ctime(format)
+[?replace(sub,string1,string2)]
+?replace(altdize,dize1,dize2)
+[?lower(string)]
+?lower(string)
+[?upper(string)]
+?upper(dize)
+[?scroll(string,numchars,numchars)]
+?scroll(dize, karakter sayısı, karakter sayısı)
+[More variables...]
+Daha fazla değişken...
+[Cut]
+Kes
+[Copy]
+Kopyala
+[Paste]
+Yapıştır
+[Delete]
+Sil
+[Select all]
+Tümünü seç
+;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
+[Failed to retrieve %s message.]
+%s mesajı alınamadı.
+[&Close]
+&Kapat
+[Re&ad %s message]
+%s mesajını yeniden oku
+[Copy %s message]
+%s mesajını kopyala
+[&Go to URL in %s message]
+&%s mesajındaki URL’ye git
+[Re&ad Away message]
+"Re&ad Away" mesajı
+[Copy Away message]
+"Uzakta" mesajını kopyala
+[&Go to URL in Away message]
+&Uzaklık mesajındaki URL’ye git
+;file \plugins\SimpleStatusMsg\src\main.cpp
+[Change status message]
+Durum mesajını değiştir
+[Open status message dialog]
+Durum mesajı iletişim kutusunu aç
+[Status message]
+Durum mesajı
+[Status message...]
+Durum mesajı...
+[%s (locked)]
+%s (kilitli)
+[External Applications]
+Harici Uygulamalar
+[retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
+Winamp'ta o anda çalmakta olan şarkının adını alır (Basit Durum Mesajı uyumlu)
+[Miranda Related]
+Miranda ile İlgili
+[get the date (Simple Status Message compatible)]
+tarihi al (Basit Durum Mesajı ile uyumlu)
+;file \plugins\SimpleStatusMsg\src\msgbox.cpp
+[<startup>]
+<başlangıç>
+[<current>]
+<güncel>
+[Clear history]
+Geçmişi temizle
+[Add to predefined]
+Önceden tanımlanmışlara ekle
+[Delete selected]
+Seçilenleri sil
+[global]
+küresel
+[Closing in %d]
+%d içinde kapanış
+[Are you sure you want to clear status message history?]
+Durum mesajı geçmişini silmek istediğinizden emin misiniz?
+[Confirm clearing history]
+Temizleme geçmişini onayla
+;file \plugins\SimpleStatusMsg\src\options.cpp
+[Global status change]
+Küresel durum değişikliği
+[Open string formatting help]
+Açık dize biçimlendirme yardımı
+[Hide]
+Gizle
+[Show next to cancel button]
+İptal düğmesinin yanında göster
+[Flat, next to cancel button]
+Düz, iptal düğmesinin yanında
+[Show in message list]
+Mesaj listesinde göster
+[Are you sure you want to clear predefined status messages?]
+Önceden tanımlanmış durum mesajlarını silmek istediğinizden emin misiniz?
+[Confirm clearing predefined]
+Önceden tanımlanmış silme işlemini onayla
+[<last status>]
+<son durum>
+[Startup status]
+Başlangıç durumu
+[Status]
+Durum
+[General]
+Genel
+[Advanced]
+İleri Düzey
+;file \plugins\SimpleStatusMsg\src\utils.cpp
+[Recent message]
+Son mesaj
+[Predefined message]
+Önceden tanımlanmış mesaj
+[Go to URL in Away message]
+“Uzakta” mesajındaki URL’ye git
+[Simple Status Message]
+Basit Durum Mesajı
+[I've been away since %time%.]
+%time%'dan beri yoktum.
+[Give it up, I'm not in!]
+Vazgeç artık, ben yokum!
+[Not right now.]
+Şu anda değil.
+[Give a guy some peace, would ya?]
+Adama biraz rahat verin, olur mu?
+[I'm a chatbot!]
+Ben bir sohbet robotuyum!
+[Yep, I'm here.]
+Evet, buradayım.
+[Nope, not here.]
+Hayır, burada değil.
+[I'm hiding from the mafia.]
+Mafyadan saklanıyorum.
+[idleeeeeeee]
+boşboşoooooo

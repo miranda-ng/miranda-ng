@@ -1421,12 +1421,9 @@ MCONTACT GaduProto::getcontact(uin_t uin, int create, int inlist, wchar_t *szNic
 	if (!create)
 		return NULL;
 
-	MCONTACT hContact = db_add_contact();
-	Proto_AddToContact(hContact, m_szModuleName);
+	MCONTACT hContact = db_add_contact(m_szModuleName, (inlist) ? 0 : DBAC_NOTINLIST);
 
 	debugLogA("getcontact(): Added buddy: %d", uin);
-	if (!inlist)
-		Contact::RemoveFromList(hContact);
 
 	setDword(hContact, GG_KEY_UIN, (uint32_t)uin);
 	setWord(hContact, GG_KEY_STATUS, ID_STATUS_OFFLINE);

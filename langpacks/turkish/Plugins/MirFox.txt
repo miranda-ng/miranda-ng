@@ -1,0 +1,86 @@
+#muuid {e99a09b2-e05b-4633-aa3a-5c83ef1cbab6}
+;============================================================
+;  File: MirFox.dll
+;  Plugin: MirFox
+;  Version: 0.5.1.0
+;  Authors: Szymon Tokarz
+;============================================================
+[MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
+MirFox (Miranda NG) - Miranda-Firefox entegrasyonunun bir parçası - http://wsx22.3.xpdev-hosted.com
+;file \plugins\MirFox\res\resource.rc
+[Send to contact action]
+"Kişiye gönder" eylemi
+[on left mouse button click]
+fareye sol tuşla tıklandığında
+[on right mouse button click]
+fareye sağ tıklama üzerine
+[on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]
+fare orta tuşuna tıklandığında\n(not: Firefox'tan birden fazla mesaj göndermek için fare orta tuşunu kullanın)
+[Firefox menu]
+Firefox menüsü
+[Add account to contact name]
+Kişi adına hesap ekle
+[Firefox profiles]
+Firefox profilleri
+[Show Miranda menu only in these Firefox profiles (comma delimited)]
+Miranda menüsünü yalnızca bu Firefox profillerinde göster (virgülle ayrılmış)
+[Show these contacts in 'Send ... to' option in Firefox]
+Bu kişileri Firefox’taki “...’a gönder” seçeneğinde göster
+[Show these accounts in 'Set status message' option in Firefox]
+Bu hesapları Firefox’taki “Durum mesajını ayarla” seçeneğinde göster
+;file \plugins\MirFox\src\MirandaInterface.cpp
+[MirFox/Notification]
+MirFox/Bildirim
+[MirFox/Error]
+MirFox/Hata
+;file \plugins\MirFox\src\MirandaOptions.cpp
+[just send message]
+sadece mesaj gönder
+[send message and open message window]
+mesaj gönder ve mesaj penceresini aç
+[show message window with pasted message]
+yapıştırılan mesajın bulunduğu mesaj penceresini göster
+[** All contacts **]
+** Tüm kişiler **
+[Protocol]
+Protokol
+[Services]
+Hizmetler
+[Options]
+Seçenekler
+[Contacts]
+İletişim Bilgileri
+[Accounts]
+Hesaplar
+;file \plugins\MirFox\src\MirandaUtils.cpp
+[Message sent to %s]
+%s'ye mesaj gönderildi
+[Message sent to %s (%s)]
+%s'ye mesaj gönderildi (%s)
+[Message sent]
+Mesaj gönderildi
+[Cannot send message to %s (%s) - %S]
+%s (%s) adresine mesaj gönderilemiyor - %S
+[Cannot send message - %S]
+Mesaj gönderilemiyor - %S
+[Cannot send message to %s (%s)]
+%s'ye (%s) mesaj gönderilemiyor
+[Cannot send message]
+Mesaj gönderilemiyor
+[MirFox error]
+MirFox hatası
+[Status message set on %s]
+%s üzerinde durum mesajı ayarlandı
+[Status message set]
+Durum mesajı ayarlandı
+[Cannot set status message on %s]
+%s üzerinde durum mesajı ayarlanamıyor
+[Cannot set status message]
+Durum mesajı ayarlanamıyor
+;file \plugins\MirFox\src\MirfoxMiranda.cpp
+[This MirFox (Miranda) plugin is too old. Please update it.]
+Bu MirFox (Miranda) eklentisi çok eski. Lütfen güncelleyin.
+[MirFox (Miranda) - Error]
+MirFox (Miranda) - Hata
+[This MirFox (Miranda) plugin cannot start because some other MirFox component is too old. Please, check and update your MirFox components.]
+Bu MirFox (Miranda) eklentisi, başka bir MirFox bileşeninin çok eski olması nedeniyle başlatılamıyor. Lütfen MirFox bileşenlerinizi kontrol edip güncelleyin.

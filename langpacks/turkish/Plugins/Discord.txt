@@ -1,0 +1,173 @@
+#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
+;  File: Discord.dll
+;  Plugin: Discord protocol
+;  Version: 0.96.5.1
+;  Authors: George Hazan
+;============================================================
+[Discord support for Miranda NG.]
+Miranda NG için Discord desteği.
+;file \protocols\Discord\res\discord.rc
+[User details]
+Kullanıcı bilgileri
+[E-mail or phone:]
+E-posta veya telefon:
+[Password:]
+Şifre:
+[Contacts]
+İletişim Bilgileri
+[Default group:]
+Varsayılan grup:
+[Enable guilds (servers)]
+Loncaları etkinleştir (sunucular)
+[Do not open chat windows on creation]
+Oluşturulduğunda sohbet pencerelerini açmayın
+[Use subgroups for server channels (requires restart)]
+Sunucu kanalları için alt gruplar kullanın (yeniden başlatma gerektirir)
+[Delete messages in Miranda when they are deleted from server]
+Sunucudan silinen mesajlar, Miranda’da da silinsin
+[Log out]
+Çıkış
+[Delete contacts in Miranda when they are deleted from server]
+Sunucudan silinen kişiler, Miranda’da da silinsin
+[Nick:]
+Nick:
+[Multi-factor authentication]
+Çok faktörlü kimlik doğrulama
+[Cancel]
+İptal et
+[Send group chat invitation]
+Grup sohbeti daveti gönder
+[&Invite]
+&Davet et
+[Link a device]
+Bir cihazı bağla
+[Open Discord application on your mobile phone, click on "Scan QR Code" in Settings and use it to read this QR code.\nA window will disappear automatically after it.]
+Cep telefonunuzda Discord uygulamasını açın, Ayarlar'da "QR Kodunu Tara" seçeneğine tıklayın ve bu QR kodunu tarayın.\nBunun ardından pencere otomatik olarak kapanacaktır.
+;file \protocols\Discord\src\dispatch.cpp
+[edited at]
+düzenleme tarihi:
+;file \protocols\Discord\src\groupchat.cpp
+[Change &nickname]
+&nickname'i değiştir
+[Invite users]
+Kullanıcıları davet et
+[Channel control]
+Kanal kontrolü
+[Change &topic]
+&konuyu değiştir
+[&Rename channel]
+&Kanalın adını değiştir
+[Destroy channel]
+Kanalı sil
+[Leave channel]
+Kanaldan çık
+[Copy ID]
+Kopyalama Kimliği
+[Add friend]
+Arkadaş ekle
+[Kick user]
+Kullanıcıyı at
+[Make group owner]
+Grup sahibi yap
+[Do you really want to destroy this channel? This action is non-revertable.]
+Bu kanalı gerçekten silmek istiyor musun? Bu işlem geri alınamaz.
+[Enter new channel name:]
+Yeni kanal adını girin:
+[Enter new topic:]
+Yeni konu girin:
+[Enter your new nick name:]
+Yeni takma adını gir:
+;file \protocols\Discord\src\main.cpp
+[Main icon]
+Ana simge
+[Group chats]
+Grup sohbetleri
+[Call]
+Arayın
+[Call ended]
+Görüşme sona erdi
+;file \protocols\Discord\src\menus.cpp
+[Enter channel name]
+Kanal adını girin
+[You need to enter a captcha to join this server. Open this link in a browser.]
+Bu sunucuya katılmak için bir captcha girmeniz gerekiyor. Bu bağlantıyı bir tarayıcıda açın.
+[Enter invitation code you received]
+Aldığınız davet kodunu girin
+[Do you really want to leave the guild?]
+Gerçekten loncadan ayrılmak istiyor musun?
+[Disable sync]
+Senkronizasyonu devre dışı bırak
+[Enable sync]
+Senkronizasyonu etkinleştir
+[Disable database history for a guild]
+Bir loncada veritabanı geçmişini devre dışı bırak
+[Enable database history for a guild]
+Bir loncada veritabanı geçmişini etkinleştir
+[Join guild]
+Lonca'ya katıl
+[Copy my Discord ID]
+Discord kimliğimi kopyala
+[Leave guild]
+Lonca'dan ayrıl
+[Create new channel]
+Yeni kanal oluştur
+[Enable guild sync]
+Lonca senkronizasyonunu etkinleştir
+;file \protocols\Discord\src\mfa.cpp
+[Use your authenticator app]
+Kimlik doğrulama uygulamanızı kullanın
+[Use a code sent to your phone]
+Telefonunuza gönderilen kodu kullanın
+[Use a backup code]
+Yedek kodu kullanın
+[6-digit authentication code:]
+6 haneli doğrulama kodu:
+[8-digit backup code:]
+8 haneli yedek kod:
+[Invalid two-factor code]
+Geçersiz iki faktörlü kimlik doğrulama kodu
+[MFA initialization]
+MFA başlatma
+;file \protocols\Discord\src\options.cpp
+[Login using QR code]
+QR koduyla giriş yap
+[Network]
+Ağ
+[Account]
+Hesap
+;file \protocols\Discord\src\proto.cpp
+[%s server connection]
+%s sunucusuna bağlantı
+[%s gateway connection]
+%s ağ geçidi bağlantısı
+[Discord voice call]
+Discord sesli görüşmesi
+[User ID]
+Kullanıcı Kimliği
+[Message send failed]
+Mesaj gönderilemedi
+;file \protocols\Discord\src\server.cpp
+[The server requires you to enter the captcha. Miranda will redirect you to a browser now]
+Sunucu, captcha kodunu girmenizi istiyor. Miranda şimdi sizi bir tarayıcıya yönlendirecek
+[Connection failed.\n%s (%s).]
+Bağlantı kurulamadı.\n%s (%s).
+;file \protocols\Discord\src\utils.cpp
+[Owners]
+Sahipler
+[Participants]
+Katılımcılar
+[Embed]
+Göm
+[Preview]
+Önizleme
+[%s added %s to the group]
+%s, %s'yi gruba ekledi
+[%s joined the group]
+%s gruba katıldı
+[%s removed %s from the group]
+%s, %s'yi gruptan çıkardı
+[%s left the group]
+%s gruptan ayrıldı
+[%s changed the group icon]
+%s grup simgesini değiştirdi

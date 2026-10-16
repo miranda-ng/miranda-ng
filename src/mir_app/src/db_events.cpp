@@ -368,12 +368,12 @@ wchar_t* DB::EventInfo::getReplyText() const
 				File::bUseLongDate ? L"D t" : L"d t", wszTime, _countof(wszTime), 0);
 
 			if (Contact::IsGroupChat(hContact) && dbei.szUserId)
-				wszNick = Utf2T(dbei.szUserId);
+				wszNick.Append(Utf2T(dbei.szUserId));
 			else if (dbei.bSent) {
 				if (char *szProto = Proto_GetBaseAccountName(hContact))
-					wszNick = ptrW(Contact::GetInfo(CNF_DISPLAY, 0, szProto));
+					wszNick.Append(ptrW(Contact::GetInfo(CNF_DISPLAY, 0, szProto)));
 				else
-					wszNick = TranslateT("I"); // shall never happen
+					wszNick.Append(TranslateT("I")); // shall never happen
 			}
 			else wszNick = Clist_GetContactDisplayName(hContact, 0);
 

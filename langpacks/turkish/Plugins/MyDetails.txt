@@ -1,0 +1,161 @@
+#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;============================================================
+;  File: MyDetails.dll
+;  Plugin: My details
+;  Version: 0.1.0.3
+;  Authors: Ricardo Pescuma Domenecci, Drugwash
+;============================================================
+[Shows and allows you to edit your details for all accounts.]
+Tüm hesaplarınızla ilgili bilgileri gösterir ve düzenlemenize olanak tanır.
+;file \plugins\MyDetails\res\resource.rc
+[Set my nickname]
+Takma adımı belirle
+[Nickname:]
+Takma ad:
+[Cancel]
+İptal et
+[General]
+Genel
+[RTL]
+RTL
+[Align text to right]
+Metni sağa hizala
+[Auto-resize frame]
+Çerçeveyi otomatik olarak yeniden boyutlandır
+[Use contact list smileys]
+Kişi listesindeki ifadeleri kullanın
+[Replace smileys]
+Smiley'leri değiştir
+[Resize smileys]
+Smileylerin boyutunu değiştir
+[Global on...]
+Global açık...
+[...avatar]
+...avatar
+[...nickname]
+...takma ad
+[...status]
+...durum
+[...status message]
+...durum mesajı
+[Account]
+Hesap
+[Show account name]
+Hesap adını göster
+[Show account cycle button]
+Hesap döngüsünü göster düğmesi
+[Cycle through accounts every:]
+Hesaplar arasında şu aralıklarla geçiş yap:
+[seconds]
+saniye
+[Avatar]
+Avatar
+[Custom size:]
+Özel boyut:
+[pixels]
+piksel
+[Allow it to grow]
+Bırak büyüsün
+[Draw border]
+Kenarlık çiz
+[Round corners]
+Yuvarlak köşeler
+[Custom corner size:]
+Özel köşe boyutu:
+[Use free space (under avatar) to other texts]
+Avatarın altındaki boş alanı diğer metinler için kullanın
+[Frame options]
+Çerçeve seçenekleri
+[Top:]
+Üst:
+[Bottom:]
+Alt kısım:
+[Left:]
+Sol:
+[Right:]
+Sağ:
+[Set my status message for all status]
+Tüm durumlar için durum mesajımı ayarla
+[Status message:]
+Durum mesajı:
+[&Offline]
+&Çevrimdışı
+[On&line]
+On&line
+[&Away]
+&Away
+[&Not available]
+&Mevcut değil
+[Occ&upied]
+Meşgul
+[&Do not disturb]
+&Rahatsız etmeyin
+[&Free for chat]
+&Sohbet için ücretsiz
+[&Invisible]
+&Görünmez
+[Set my avatar...]
+Avatarımı ayarla...
+[Set my nickname...]
+Takma adımı belirle...
+[Set my status message...]
+Durum mesajımı ayarla...
+[Enable listening to]
+Dinlemeyi etkinleştir
+[Show next account]
+Sonraki hesabı göster
+[Show previous account]
+Önceki hesabı göster
+[Cycle through accounts]
+Hesaplar arasında geçiş yapma
+[Don't cycle through accounts]
+Hesaplar arasında geçiş yapmayın
+;file \plugins\MyDetails\src\data.cpp
+[<no status name>]
+<durum adı yok>
+;file \plugins\MyDetails\src\frame.cpp
+[<no nickname>]
+<takma ad yok>
+[<no status message>]
+<durum mesajı yok>
+[<nothing playing>]
+<çalınan bir şey yok>
+[Nickname]
+Takma ad
+[Status]
+Durum
+[Status message]
+Durum mesajı
+[Listening to]
+Dinlerken
+[My details]
+Kişisel bilgilerim
+[Background]
+Arka Plan
+[Avatar border]
+Avatar çerçevesi
+[Show my details]
+Bilgilerimi göster
+[Enable listening to for %s]
+%s için dinlemeyi etkinleştir
+[Set my avatar for %s...]
+Avatarımı %s olarak ayarla...
+[Set my nickname for %s...]
+%s için takma adımı belirle...
+[Set my status message for %s...]
+%s için durum mesajımı ayarla...
+[Hide my details]
+Bilgilerimi gizle
+;file \plugins\MyDetails\src\mydetails.cpp
+[Previous account]
+Önceki hesap
+[Next account]
+Sonraki hesap
+;file \plugins\MyDetails\src\options.cpp
+[Contact list]
+Kişi listesi
+;file \plugins\MyDetails\src\services.cpp
+[Set my nickname for %s]
+%s için takma adımı belirle
+[Set my status message for %s]
+%s için durum mesajımı ayarla

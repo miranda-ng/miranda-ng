@@ -1,0 +1,226 @@
+#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
+;============================================================
+;  File: WhenWasIt.dll
+;  Plugin: Birthday reminder
+;  Version: 0.4.0.2
+;  Authors: Cristian Libotean
+;============================================================
+[Notifies you of upcoming birthdays.]
+Yaklaşan doğum günlerini size bildirir.
+;file \plugins\WhenWasIt\res\WhenWasIt.rc
+[Popups]
+Açılır pencereler
+[Popup timeout:]
+Açılır pencere zaman aşımı:
+[Preview]
+Önizleme
+[Don't show popups for subcontacts]
+Alt kişiler için açılır pencereler gösterme
+[Show popup when no birthdays are near]
+Yakında doğum günü olmayanlar için açılır pencere göster
+[Popup mouse click]
+Açılır pencere fare tıklaması
+[Left]
+Sol
+[Right]
+Doğru
+[Sounds]
+Sesler
+[Play sounds when there are]
+Aşağıdaki durumlarda ses çalsın:
+[days or less to birthday.]
+Doğum gününe gün kaldı.
+[Start notifying]
+Bildirimlere başla
+[days in advance and]
+gün önceden ve
+[Check every]
+Her birini kontrol edin
+[hours]
+saat
+[Only notify once per day.]
+Günde yalnızca bir kez bildirim gönderin.
+[Show]
+Göster
+[in birthday list window]
+doğum günü listesi penceresinde
+[Dialog]
+Diyalog
+[Timeout:]
+Zaman aşımı:
+[seconds]
+saniye
+[Notify for]
+Şu durumlarda bildirim gönder
+[afterwards]
+daha sonra
+[In background]
+Arka planda
+[Birthday list]
+Doğum günü listesi
+[Close]
+Kapat
+[Show all contacts]
+Tüm kişileri göster
+[Set birthday:]
+Doğum günü belirle:
+[Manage anniversaries]
+Yıldönümlerini yönet
+[Title:]
+Başlık:
+[Description:]
+Açıklama:
+[Date:]
+Tarih:
+[Save]
+Kaydet
+[Delete]
+Sil
+[Upcoming birthdays]
+Yaklaşan doğum günleri
+;file \plugins\WhenWasIt\src\add_birthday.cpp
+[Set birthday for %s:]
+%s için doğum gününü ayarla:
+;file \plugins\WhenWasIt\src\dlg_handlers.cpp
+[N/A]
+Yok
+[Protocol Module]
+Protokol Modülü
+[Birthday list (%d)]
+Doğum günü listesi (%d)
+[Protocol]
+Protokol
+[Contact]
+İletişim
+[DTB]
+DTB
+[Birthday]
+Doğum Günü
+[Age]
+Yaş
+[Module]
+Modül
+[Closing in %d seconds]
+%d saniye sonra kapanacak
+[Closing in %d second]
+%d saniye sonra kapanacak
+;file \plugins\WhenWasIt\src\hooked_events.cpp
+[Check for birthdays]
+Doğum günlerini kontrol et
+;file \plugins\WhenWasIt\src\icons.cpp
+[WhenWasIt]
+Ne Zaman Oldu?
+[Check birthdays menu item]
+"Doğum günleri" menü öğesini kontrol et
+[List birthdays menu item]
+"Doğum günleri" menü öğesini listele
+[Add/change birthday]
+Doğum tarihini ekle/değiştir
+[Refresh user details]
+Kullanıcı bilgilerini yenile
+[Import birthdays]
+Doğum günlerini içe aktar
+[Export birthdays]
+Doğum günlerini dışa aktar
+[Birthday today]
+Bugün doğum günü
+[1 day to birthday]
+Doğum gününe 1 gün kaldı
+[%d days to birthday]
+Doğum gününe %d gün kaldı
+[More than %d days to birthday]
+Doğum gününe %d günden fazla var
+[WhenWasIt birthday reminder]
+WhenWasIt doğum günü hatırlatıcısı
+;file \plugins\WhenWasIt\src\notifiers.cpp
+[No upcoming birthdays.]
+Yaklaşan doğum günü yok.
+[%s has birthday in %d days.]
+%s'nin doğum gününe %d gün kaldı.
+[%s has birthday tomorrow.]
+%s'nin yarın doğum günü.
+[%s has birthday today.]
+Bugün %s'nin doğum günü.
+[%s had birthday %d days ago.]
+%s'nin doğum günü %d gün önceydi.
+[%s had birthday yesterday.]
+%s'nin doğum günü dün idi.
+[%s has birthday today (Should not happen, please report).]
+%s'nin bugün doğum günü (Böyle bir durum olmamalı, lütfen bildirin).
+[Birthday - %s]
+Doğum Günü - %s
+[He]
+O
+[She]
+O
+[He/She]
+O (erkek/kadın)
+[%s\n%s will be %d years old.]
+%s\n%s, %d yaşında olacak.
+[%s\n%s just turned %d.]
+%s\n%s az önce %d yaşına girdi.
+;file \plugins\WhenWasIt\src\options.cpp
+[Upcoming age]
+Gelecek dönem
+[Current age]
+Şu anki yaş
+[Nothing]
+Hiçbir şey
+[Dismiss]
+Kapat
+[Message window]
+Mesaj penceresi
+[All contacts]
+Tüm kişiler
+[All contacts except hidden ones]
+Gizli olanlar hariç tüm kişiler
+[All contacts except ignored ones]
+Yoksayılanlar hariç tüm kişiler
+[All contacts except hidden and ignored ones]
+Gizli ve engellenmiş kişiler hariç tüm kişiler
+[Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occurring today]]
+Yaklaşan doğum günleri hakkında bildirim gönderilirken açılır pencerenin gecikme süresini ayarlayın.\nBiçim: varsayılan gecikme süresi [ | bugün gerçekleşecek doğum günleri için gecikme süresi]
+[Birthdays]
+Doğum Günleri
+[Contacts]
+İletişim Bilgileri
+;file \plugins\WhenWasIt\src\services.cpp
+[Starting to refresh user details]
+Kullanıcı bilgilerini yenilemeye başlıyor
+[Done refreshing user details]
+Kullanıcı bilgilerinin yenilenmesi tamamlandı
+[Could not open file to import birthdays]
+Doğum günlerini içe aktarmak için dosya açılamadı
+[Error]
+Hata
+[Could not find UID '%s [%S]' in current database, skipping]
+Mevcut veritabanında '%s [%S]' UID'si bulunamadı, atlanıyor
+[Warning]
+Uyarı
+[Birthdays files]
+Doğum günleri dosyaları
+[Please select a file to import birthdays from...]
+Lütfen doğum günlerini içe aktarmak için bir dosya seçin...
+[Importing birthdays from file: %s]
+Dosyadan doğum günlerini içe aktarma: %s
+[Done importing birthdays]
+Doğum günlerinin içe aktarılması tamamlandı
+[Could not open file to export birthdays]
+Doğum günlerini dışa aktarmak için dosya açılamadı
+[Please do not edit this file by hand. Use the export function of WhenWasIt plugin.\n]
+Lütfen bu dosyayı elle düzenlemeyin. WhenWasIt eklentisinin dışa aktarma işlevini kullanın.\n
+[All Files]
+Tüm Dosyalar
+[Please select a file to export birthdays to...]
+Doğum günlerini aktarmak için lütfen bir dosya seçin...
+[Exporting birthdays to file: %s]
+Doğum günlerini dosyaya aktarma: %s
+[Done exporting birthdays]
+Doğum günlerinin dışa aktarılması tamamlandı
+;file \plugins\WhenWasIt\src\WhenWasIt.cpp
+[Birthdays (When Was It)]
+Doğum Günleri (Ne Zaman Oldu?)
+[Add/change user &birthday]
+Kullanıcı ve doğum tarihini ekle/değiştir
+[Birthday near]
+Yaklaşan doğum günü

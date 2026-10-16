@@ -1,0 +1,92 @@
+#muuid {94ced94c-a94a-4bb1-acbd-5cc6ebb689d4}
+;============================================================
+;  File: StopSpamMod.dll
+;  Plugin: StopSpam mod
+;  Version: 0.0.2.4
+;  Authors: Roman Miklashevsky, sss, Elzor
+;============================================================
+[Anti-spam plugin for Miranda NG.]
+Miranda NG için spam önleme eklentisi.
+;file \plugins\StopSpamMod\res\stopspam.rc
+[Question (Ctrl+Enter for carriage return):]
+Soru (satır sonu için Ctrl+Enter tuşlarına basın):
+[Restore defaults]
+Varsayılan ayarları geri yükle
+[Answer:]
+Cevap:
+[Congratulation:]
+Tebrikler:
+[Auth. request reply:]
+Kimlik doğrulama isteğine verilen yanıt:
+[Vars]
+Vars
+[Available accounts:]
+Mevcut hesaplar:
+[Filtered accounts:]
+Filtrelenmiş hesaplar:
+[Do not send more than]
+Şu miktardan fazlasını göndermeyin:
+[questions to one contact (0 - for no limit)]
+bir kişiye yöneltilecek sorular (0 - sınır yok)
+[Enable StopSpam-StopSpam infinite talk protection]
+StopSpam-StopSpam sonsuz konuşma korumasını etkinleştir
+[Add contact permanently]
+Kişiyi kalıcı olarak ekle
+[Enable auth. requests blocking]
+Kimlik doğrulama isteklerinin engellenmesini etkinleştir
+[Hide unanswered contacts and spammers from contact list]
+Kişi listesinden cevaplanmamış mesajları ve spam gönderenleri gizle
+[Ignore spammers (do not write messages to history)]
+Spam gönderenleri görmezden gelin (mesajları geçmişe kaydetmeyin)
+[Log spam to file]
+Spam günlüklerini dosyaya kaydet
+[Case insensitive answer checking]
+Büyük/küçük harf duyarlı olmayan cevap kontrolü
+[Disable question in invisible mode]
+Görünmez modda soruyu devre dışı bırak
+[Exclude contacts which we sending something from spam check]
+Bir şey gönderdiğimiz kişileri spam kontrolünden hariç tut
+[Remove Excluded contacts after restart]
+Yeniden başlatmanın ardından hariç tutulan kişileri kaldır
+[Add contacts to specified group:]
+Kişileri belirtilen gruba ekle:
+[Ignore URL in messages and auth requests]
+Mesajlarda ve kimlik doğrulama isteklerinde URL’leri göz ardı et
+[Use regex for answers checking]
+Cevapların doğrulanmasında düzenli ifade kullanın
+[Log Spammers to system history]
+Spam gönderenleri sistem geçmişine kaydet
+[Use math expression in question]
+Sorudaki matematik ifadesini kullanın
+[Details...]
+Ayrıntılar...
+;file \plugins\StopSpamMod\src\init.cpp
+[StopSpam]
+StopSpam
+[StopSpam Logs]
+StopSpam Günlükleri
+[Remove Temporary Contacts]
+Geçici Kişileri Sil
+;file \plugins\StopSpamMod\src\options.cpp
+[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.]
+Artık spam yok! Robotlar giremez! Sadece insanlar davetlidir!\r\n\r\nBu eklenti oldukça basit çalışır:\r\nKişi listenizdeki kullanıcılardan gelen mesajlar, herhangi bir spam önleme yazılımı olmadığı için normal şekilde ulaşırken, bilinmeyen kullanıcılardan gelen mesajlar size iletilmez. Ancak bu mesajlar göz ardı edilmez; bu eklenti basit bir soru ile yanıt verir ve kullanıcı doğru cevabı verirse, eklenti onu kişi listenize ekler, böylece sizinle iletişime geçebilir.
+[Spammers made me to install small anti-spam system you are now speaking with. Please reply "nospam" without quotes and spaces if you want to contact me.]
+Spam gönderenler, şu anda iletişim kurduğunuz bu küçük anti-spam sistemini kurmama neden oldu. Benimle iletişime geçmek istiyorsanız, lütfen tırnak işaretleri ve boşluk bırakmadan "nospam" yazarak yanıt verin.
+[Congratulations! You just passed human/robot test. Now you can write me a message.]
+Tebrikler! Az önce insan-robot testini geçtin. Artık bana bir mesaj yazabilirsin.
+[StopSpam: send a message and reply to an anti-spam bot question.]
+StopSpam: Bir mesaj gönderin ve spam önleme botunun sorusuna yanıt verin.
+[If math expression is turned on, you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result.\nMessage must contain only one expression without spaces.]
+Matematik ifadesi özelliği etkinleştirilmişse, mesaj metninde aşağıdaki ifadeyi kullanabilirsiniz:\nXX+XX-X/X*X\nHer bir X, rastgele bir sayı ile değiştirilecek ve cevap, ifadenin sonucu olacaktır.\nMesajda boşluk içermeyen tek bir ifade bulunmalıdır.
+[Info]
+Bilgi
+[Message sessions]
+Mesaj oturumları
+[General]
+Genel
+[Messages]
+Mesajlar
+[Accounts]
+Hesaplar
+[Advanced]
+İleri Düzey

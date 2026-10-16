@@ -26,7 +26,7 @@ void CTelegramProto::OnEndSession(td::ClientManager::Response&)
 
 void __cdecl CTelegramProto::ServerThread(void *)
 {
-	m_botIds.clear();
+	m_knownBotIds.clear();
 
 	bool bWasAuthorized = getBool(DBKEY_AUTHORIZED);
 	m_bTerminated = m_bAuthorized = false;
@@ -495,8 +495,6 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 	auto *pMessages = (TD::messages *)response.object.get();
 	if (pMessages->messages_.size() == 0) {
 		History::FinishLoad(GetRealContact(pUser));
-		if (pUser->isForum)
-			delete pUser;
 		return;
 	}
 	
@@ -540,26 +538,13 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 	}
 
 	// fetch next portion
-	if (pUser->isForum)
-		SendQuery(new TD::getMessageThreadHistory(pUser->chatId, lastMsgId, lastMsgId, 0, 100), &CTelegramProto::OnGetHistory, pUser);
-	else
-		SendQuery(new TD::getChatHistory(pUser->chatId, lastMsgId, 0, 100, false), &CTelegramProto::OnGetHistory, pUser);
+	SendQuery(new TD::getChatHistory(pUser->chatId, lastMsgId, 0, 100, false), &CTelegramProto::OnGetHistory, pUser);
 }
 
 INT_PTR CTelegramProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
 {
 	auto userId = GetId(hContact);
 
-	if (TD::int53 threadId = GetId(hContact, DBKEY_THREAD)) {
-		if (FindChat(userId)) {
-			auto *pUser = new TG_USER(-1, hContact, true);
-			pUser->chatId = userId;
-			pUser->isForum = pUser->isGroupChat = true;
-			SendQuery(new TD::getMessageThreadHistory(pUser->chatId, threadId, 0, 0, 100), &CTelegramProto::OnGetHistory, pUser);
-			return 0;
-		}
-	}
-	
 	if (auto *pUser = FindUser(userId))
 		SendQuery(new TD::getChatHistory(pUser->chatId, 0, 0, 100, false), &CTelegramProto::OnGetHistory, pUser);
 
@@ -673,8 +658,11 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		if (pChat->permissions_)
 			Contact::Readonly(hContact, !pChat->permissions_->can_send_basic_messages_);
 
-		if (pUser->isGroupChat && pUser->m_si == nullptr)
-			InitGroupChat(pUser, (pUser->isForum) ? TranslateT("General") : Utf2T(pChat->title_.c_str()));
+		if (pUser->isGroupChat && pUser->m_si == nullptr) {
+			InitGroupChat(pUser, Utf2T(pChat->title_.c_str()));
+			if (pUser->isForum)
+				Contact::Hide(pUser->hContact);
+		}
 	}
 	else {
 		if (pUser->isGroupChat)
@@ -1166,8 +1154,7 @@ void CTelegramProto::ProcessOption(TD::updateOption *pObj)
 			pUser->hContact = 0;
 		}
 		else {
-			m_iSavedMessages = db_add_contact();
-			Proto_AddToContact(m_iSavedMessages, m_szModuleName);
+			m_iSavedMessages = db_add_contact(m_szModuleName);
 			SetId(m_iSavedMessages, m_iOwnId);
 			Clist_SetGroup(m_iSavedMessages, m_wszDefaultGroup);
 
@@ -1182,7 +1169,7 @@ void CTelegramProto::ProcessOption(TD::updateOption *pObj)
 
 	for (auto &it : sttBotIds)
 		if (pObj->name_ == it) {
-			m_botIds.push_back(iValue);
+			m_knownBotIds.push_back(iValue);
 			return;
 		}
 }
@@ -1281,11 +1268,27 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 		case TD::userTypeDeleted::ID:
 			return;
 
-		case TD::userTypeBot::ID: // always allow bots to be processed, even if they aren't contacts
-			break;
+		case TD::userTypeBot::ID:
+			if (m_bIgnoreBots)
+				return;
+
+			if (!m_iSearchCount) {
+				for (auto &it : m_knownBotIds) {
+					if (it == pUser->id_) {
+						if (auto *pu = FindUser(it)) {
+							Contact::Hide(pu->hContact);
+							Contact::RemoveFromList(pu->hContact);
+						}
+						return;
+					}
+				}
+				// always allow bots to be processed, even if they aren't contacts
+				break;
+			}
+			__fallthrough;
 
 		case TD::userTypeRegular::ID:
-			{	auto *pu = AddFakeUser(pUser->id_, false);
+			if (auto *pu = AddFakeUser(pUser->id_, false)) {
 				if (pu->hContact != INVALID_CONTACT_ID)
 					RemoveFromClist(pu);
 
@@ -1301,22 +1304,13 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 						pu->wszNick.AppendFormat(L" %s", Utf2T(pUser->last_name_.c_str()).get());
 				}
 			}
-			__fallthrough;
+			return;
 		
 		default:
 			debugLogA("User doesn't belong to your contacts, skipping");
 			return;
 		}
 	}
-
-	for (auto &it : m_botIds)
-		if (it == pUser->id_) {
-			if (auto *pu = FindUser(it)) {
-				Contact::Hide(pu->hContact);
-				Contact::RemoveFromList(pu->hContact);
-			}
-			return;
-		}
 
 	std::string szFirstName = pUser->first_name_, szLastName = pUser->last_name_;
 	if (szLastName.empty()) {

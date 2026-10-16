@@ -319,6 +319,7 @@ BOOL UM_RemoveAll(SESSION_INFO *si)
 		return FALSE;
 
 	if (!si->pParent) {
+		mir_cslock lck(si->csLock);
 		for (auto &ui : si->arUsers) {
 			mir_free(ui->pszUID);
 			mir_free(ui->pszNick);

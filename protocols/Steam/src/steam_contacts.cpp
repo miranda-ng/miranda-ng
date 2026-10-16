@@ -333,8 +333,7 @@ MCONTACT CSteamProto::AddContact(int64_t steamId, const wchar_t *nick, bool isTe
 		return hContact;
 
 	// create contact
-	hContact = db_add_contact();
-	Proto_AddToContact(hContact, m_szModuleName);
+	hContact = db_add_contact(m_szModuleName);
 
 	SetId(hContact, DBKEY_STEAM_ID, steamId);
 	if (mir_wstrlen(nick)) {

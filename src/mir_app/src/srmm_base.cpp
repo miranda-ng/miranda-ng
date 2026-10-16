@@ -601,7 +601,7 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (wParam) {
 			m_bActive = true;
 			for (auto &it : m_arDisplayedEvents)
-				doMarkEventRead(m_hContact, it);
+				doMarkEventRead(it.second, it.first);
 			m_arDisplayedEvents.clear();
 		}
 		else m_bActive = false;
@@ -770,9 +770,9 @@ void CSrmmBaseDialog::MarkEventRead(const DB::EventInfo &dbei)
 {
 	if (!dbei.bRead) {
 		if (m_bActive)
-			doMarkEventRead(m_hContact, dbei.getEvent());
+			doMarkEventRead(dbei.hContact, dbei.getEvent());
 		else
-			m_arDisplayedEvents.push_back(dbei.getEvent());
+			m_arDisplayedEvents[dbei.getEvent()] = dbei.hContact;
 	}
 }
 

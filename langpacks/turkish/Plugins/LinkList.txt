@@ -1,0 +1,156 @@
+#muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
+;============================================================
+;  File: LinkList.dll
+;  Plugin: History linklist plus
+;  Version: 0.0.0.2
+;  Authors: Thomas Wendel, gureedo
+;============================================================
+[Generates a list of extracted URIs from the history.]
+Geçmişten çıkarılan URI’lerin bir listesini oluşturur.
+;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Search]
+Arama
+[Close]
+Kapat
+[Search for:]
+Şunu ara:
+[Message direction]
+Mesajın yönü
+[Message types]
+Mesaj türleri
+[All directions]
+Tüm yönler
+[Incoming only]
+Yalnızca gelen mesajlar
+[Outgoing only]
+Yalnızca gönderme
+[All types]
+Tüm türler
+[Mail addresses only]
+Yalnızca e-posta adresleri
+[Web addresses only]
+Yalnızca web adresleri
+[Deep search]
+Derin arama
+[Static]
+Statik
+[Color select]
+Renk seçimi
+[Incoming messages]
+Gelen mesajlar
+[Plugin default]
+Eklentinin varsayılan ayarı
+[Preview]
+Önizleme
+[Outgoing messages]
+Giden mesajlar
+[Background color]
+Arka plan rengi
+[Use Miranda settings]
+Miranda ayarlarını kullan
+[Text color]
+Metin rengi
+[General settings]
+Genel ayarlar
+[Open links always in a new window]
+Bağlantıları her zaman yeni bir pencerede aç
+[Update list on new events]
+Yeni etkinliklere ilişkin listeyi güncelle
+[Show whole message on 'mouse over' event]
+'Fare üzerine gelindiğinde' olayında mesajın tamamını göster
+[Save window position individually for each contact]
+Her bir kişi için pencere konumunu ayrı ayrı kaydet
+[Show...]
+Göster...
+[Date]
+Tarih
+[Parting line]
+Ayrım çizgisi
+[Timestamp]
+Zaman damgası
+[Direction]
+Yön
+[Type]
+Tür
+[&File]
+&Dosya
+[&Save]
+&Kaydet
+[&Close]
+&Kapat
+[&Options]
+&Seçenekler
+[Message &direction]
+Mesaj ve yön
+[&Outgoing messages only]
+&Yalnızca giden mesajlar
+[&Incoming messages only]
+&Yalnızca gelen mesajlar
+[Message &type]
+Mesaj &türü
+[&Web addresses only]
+&Yalnızca web adresleri
+[&Mail addresses only]
+&Yalnızca e-posta adresleri
+[&Clear search results]
+&Arama sonuçlarını temizle
+[&Search]
+&Arama
+[link]
+bağlantı
+[Open]
+Aç
+[Open in new window]
+Yeni pencerede aç
+[Copy to clipboard]
+Panoya kopyala
+[Show message]
+Mesajı göster
+;file \plugins\HistoryLinkListPlus\src\language.h
+[History Linklist]
+Tarih Bağlantı Listesi
+[History is empty!]
+Tarih boş!
+[There are no links in history!]
+Geçmişte hiçbir bağlantı yok!
+[Error]
+Hata
+[incoming]
+gelen
+[outgoing]
+giden
+[Filter]
+Filtre
+[no filter]
+filtre yok
+[Search filter]
+Arama filtresi
+[no settings]
+ayar yok
+;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[History]
+Tarihçe
+[Processing history...]
+İşleme geçmişi...
+[Could not create window!]
+Pencere oluşturulamadı!
+[Could not allocate memory!]
+Bellek ayrılmadı!
+[&Create Linklist]
+&Bağlantı listesi oluştur
+;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
+[Linklist plugin]
+Linklist eklentisi
+;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
+[Matches for searchtext]
+"searchtext" ile eşleşenler
+[Processing list...]
+Liste işleniyor...
+[No messages found!\nPlease change current filter options.]
+Hiçbir mesaj bulunamadı!\nLütfen mevcut filtre seçeneklerini değiştirin.
+[RTF file]
+RTF dosyası
+[All files]
+Tüm dosyalar
+[Save RTF File]
+RTF Dosyasını Kaydet

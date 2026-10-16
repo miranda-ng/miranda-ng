@@ -534,6 +534,7 @@ MIR_APP_DLL(void) Utils_InvokeAsync(MAsyncObject *pObj);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+#ifdef _WINDOWS
 class MEventHandle
 {
 	HANDLE _hEvent;
@@ -545,13 +546,14 @@ public:
 	__inline void Wait(uint32_t dwMilliseconds = INFINITE) { WaitForSingleObject(_hEvent, dwMilliseconds); }
 	__inline operator HANDLE() { return _hEvent; }
 };
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // compatibility functions
 
 #ifndef _WINDOWS
 MIR_CORE_DLL(int) GetShortPathNameW(const wchar_t*, wchar_t*, int);
-MIR_CORE_DLL(int) MessageBoxW(HWND, const wchar_t*, const wchar_t*, int);
+MIR_CORE_DLL(int) MessageBoxW(MWindow, const wchar_t*, const wchar_t*, int);
 MIR_CORE_DLL(int) WritePrivateProfileString(const wchar_t*, const wchar_t*, const wchar_t*, const wchar_t*);
 #endif
 

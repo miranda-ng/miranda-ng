@@ -80,7 +80,10 @@ EXTERN_C MIR_CORE_DLL(int) db_delete_module(MCONTACT hContact, const char *szMod
 // Returns a handle to the newly created contact on success, or NULL otherwise.
 // Triggers a db/contact/added event just before it returns.
 
-EXTERN_C MIR_CORE_DLL(MCONTACT) db_add_contact(void);
+#define DBAC_NOTINLIST 0x0001
+#define DBAC_HIDDEN    0x0002
+
+EXTERN_C MIR_CORE_DLL(MCONTACT) db_add_contact(const char *szModule, int flags = 0);
 
 // Deletes the contact hContact from the database and all events and settings associated with it.
 // The 'flags' parameter could be zero of any combination of CDF_* constants
@@ -145,13 +148,13 @@ EXTERN_C MIR_CORE_DLL(int) db_enum_settings(MCONTACT hContact, DBSETTINGENUMPROC
 #define DBVT_DELETED       0   // this setting just got deleted, no other values are valid
 #define DBVT_BYTE          1	 // bVal and cVal are valid
 #define DBVT_WORD          2	 // wVal and sVal are valid
+#define DBVT_BYTE_HIDDEN   3   // bVal and cVal are valid, no notifications
 #define DBVT_DWORD         4	 // dVal and lVal are valid
 #define DBVT_ASCIIZ      255	 // pszVal is valid
 #define DBVT_BLOB        254	 // cpbVal and pbVal are valid
 #define DBVT_UTF8        253   // pszVal is valid
 #define DBVT_WCHAR       252   // pwszVal is valid
 #define DBVT_ENCRYPTED   250   // blob of encrypted bytesw
-
 
 #define DBVTF_VARIABLELENGTH  0x80
 

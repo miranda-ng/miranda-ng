@@ -146,7 +146,7 @@ NSWebPage::~NSWebPage()
 	}
 
 	for (auto &it : m_fonts)
-		delete_font(it.second.font);
+		DeleteObject((HFONT)it.second.font);
 
 	if (m_hClipRgn)
 		DeleteObject(m_hClipRgn);
@@ -188,6 +188,14 @@ static void trim_quotes(std::string &str)
 
 uint_ptr NSWebPage::create_font(const font_description &descr, const document *, font_metrics *fm)
 {
+	std::string key = descr.hash();
+	auto it = m_fonts.find(key);
+	if (it != m_fonts.end()) {
+		if (fm)
+			*fm = it->second.metrics;
+		return it->second.font;
+	}
+
 	std::wstring font_name;
 	string_vector fonts;
 	split_string(descr.family, fonts, ",");
@@ -206,9 +214,7 @@ uint_ptr NSWebPage::create_font(const font_description &descr, const document *,
 	font_name = get_exact_font_name(font_name.c_str());
 
 	LOGFONT lf = {};
-	wcscpy_s(lf.lfFaceName, LF_FACESIZE, font_name.c_str());
-
-	lf.lfHeight = -descr.size;
+	lf.lfHeight = -(int)descr.size;
 	lf.lfWeight = descr.weight;
 	lf.lfItalic = (descr.style == font_style_italic) ? TRUE : FALSE;
 	lf.lfCharSet = DEFAULT_CHARSET;
@@ -217,25 +223,31 @@ uint_ptr NSWebPage::create_font(const font_description &descr, const document *,
 	lf.lfQuality = DEFAULT_QUALITY;
 	lf.lfStrikeOut = (descr.decoration_line & text_decoration_line_line_through) ? TRUE : FALSE;
 	lf.lfUnderline = (descr.decoration_line & text_decoration_line_underline) ? TRUE : FALSE;
+	wcscpy_s(lf.lfFaceName, LF_FACESIZE, font_name.c_str());
+
 	HFONT hFont = CreateFontIndirect(&lf);
+	font_item item;
+	item.font = (uint_ptr)hFont;
 
-	if (fm) {
-		SelectObject(m_tmp_hdc, hFont);
-		TEXTMETRIC tm = {};
-		GetTextMetrics(m_tmp_hdc, &tm);
-		fm->ascent = tm.tmAscent;
-		fm->descent = tm.tmDescent;
-		fm->height = tm.tmHeight;
-		fm->x_height = tm.tmHeight / 2;   // this is an estimate; call GetGlyphOutline to get the real value
-		fm->draw_spaces = lf.lfItalic || descr.decoration_line;
-	}
+	auto oldFont = SelectObject(m_tmp_hdc, hFont);
+	TEXTMETRIC tm = {};
+	GetTextMetrics(m_tmp_hdc, &tm);
+	SelectObject(m_tmp_hdc, oldFont);
 
-	return (uint_ptr)hFont;
+	item.metrics.ascent = tm.tmAscent;
+	item.metrics.descent = tm.tmDescent;
+	item.metrics.height = tm.tmHeight;
+	item.metrics.x_height = tm.tmHeight / 2;
+	item.metrics.draw_spaces = lf.lfItalic || descr.decoration_line;
+	m_fonts[key] = item;
+
+	if (fm)
+		*fm = item.metrics;
+	return item.font;
 }
 
-void NSWebPage::delete_font(uint_ptr hFont)
+void NSWebPage::delete_font(uint_ptr)
 {
-	DeleteObject((HFONT)hFont);
 }
 
 const char *NSWebPage::get_default_font_name() const
@@ -243,17 +255,18 @@ const char *NSWebPage::get_default_font_name() const
 	return "Times New Roman";
 }
 
-int NSWebPage::get_default_font_size() const
+pixel_t NSWebPage::get_default_font_size() const
 {
 	return 16;
 }
 
-int NSWebPage::text_width(const char *text, uint_ptr hFont)
+pixel_t NSWebPage::text_width(const char *text, uint_ptr hFont)
 {
 	SIZE size = {};
-	SelectObject(m_tmp_hdc, (HFONT)hFont);
+	auto oldFont = SelectObject(m_tmp_hdc, (HFONT)hFont);
 	Utf2T wtext(text);
 	GetTextExtentPoint32(m_tmp_hdc, wtext, (int)mir_wstrlen(wtext), &size);
+	SelectObject(m_tmp_hdc, oldFont);
 	return size.cx;
 }
 
@@ -267,7 +280,7 @@ void NSWebPage::draw_text(uint_ptr hdc, const char *text, uint_ptr hFont, web_co
 
 	SetTextColor((HDC)hdc, RGB(color.red, color.green, color.blue));
 
-	RECT rcText = { pos.left(), pos.top(), pos.right(), pos.bottom() };
+	RECT rcText = { (int)pos.left(), (int)pos.top(), (int)pos.right(), (int)pos.bottom() };
 	DrawText((HDC)hdc, Utf2T(text), -1, &rcText, DT_SINGLELINE | DT_NOPREFIX | DT_BOTTOM | DT_NOCLIP);
 
 	SelectObject((HDC)hdc, oldFont);
@@ -275,7 +288,7 @@ void NSWebPage::draw_text(uint_ptr hdc, const char *text, uint_ptr hFont, web_co
 	release_clip((HDC)hdc);
 }
 
-int NSWebPage::pt_to_px(int pt) const
+pixel_t NSWebPage::pt_to_px(float pt) const
 {
 	return MulDiv(pt, GetDeviceCaps(m_tmp_hdc, LOGPIXELSY), 72);
 }
@@ -424,7 +437,7 @@ void NSWebPage::apply_clip(HDC hdc)
 		GetWindowOrgEx(hdc, &ptView);
 
 		position clip_pos = m_clips.back();
-		m_hClipRgn = CreateRectRgn(clip_pos.left() - ptView.x, clip_pos.top() - ptView.y, clip_pos.right() - ptView.x, clip_pos.bottom() - ptView.y);
+		m_hClipRgn = CreateRectRgn((int)clip_pos.left() - ptView.x, (int)clip_pos.top() - ptView.y, (int)clip_pos.right() - ptView.x, (int)clip_pos.bottom() - ptView.y);
 		SelectClipRgn(hdc, m_hClipRgn);
 	}
 }
@@ -531,14 +544,14 @@ void NSWebPage::get_img_size(uint_ptr img, size &sz)
 {
 	Bitmap *bmp = (Bitmap *)img;
 	if (bmp) {
-		sz.width = bmp->GetWidth();
-		sz.height = bmp->GetHeight();
+		sz.width = (int)bmp->GetWidth();
+		sz.height = (int)bmp->GetHeight();
 	}
 }
 
 void NSWebPage::draw_image(uint_ptr _hdc, const background_layer &bg, const std::string &src, const std::string& /*base_url*/)
 {
-	if (src.empty() || (!bg.clip_box.width && !bg.clip_box.height))
+	if (src.empty() || (!(int)bg.clip_box.width && !(int)bg.clip_box.height))
 		return;
 
 	std::wstring url = Utf2T(src.c_str());
@@ -555,7 +568,7 @@ void NSWebPage::draw_image(uint_ptr _hdc, const background_layer &bg, const std:
 	graphics.SetClip(&reg);
 
 	Bitmap *scaled_img = nullptr;
-	if (bg.origin_box.width != (int)bgbmp->GetWidth() || bg.origin_box.height != (int)bgbmp->GetHeight()) {
+	if ((int)bg.origin_box.width != (int)bgbmp->GetWidth() || (int)bg.origin_box.height != (int)bgbmp->GetHeight()) {
 		scaled_img = new Bitmap(bg.origin_box.width, bg.origin_box.height);
 		Graphics gr(scaled_img);
 		gr.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
@@ -566,15 +579,15 @@ void NSWebPage::draw_image(uint_ptr _hdc, const background_layer &bg, const std:
 	switch (bg.repeat) {
 	case background_repeat_no_repeat:
 		{
-			graphics.DrawImage(bgbmp, bg.origin_box.x, bg.origin_box.y, bgbmp->GetWidth(), bgbmp->GetHeight());
+			graphics.DrawImage(bgbmp, (int)bg.origin_box.x, bg.origin_box.y, bgbmp->GetWidth(), bgbmp->GetHeight());
 		}
 		break;
 	case background_repeat_repeat_x:
 		{
 			CachedBitmap bmp(bgbmp, &graphics);
-			int x = bg.origin_box.x;
-			while (x > bg.clip_box.left()) x -= bgbmp->GetWidth();
-			for (; x < bg.clip_box.right(); x += bgbmp->GetWidth()) {
+			auto x = bg.origin_box.x;
+			while (x > bg.clip_box.left()) x -= (int)bgbmp->GetWidth();
+			for (; x < bg.clip_box.right(); x += (int)bgbmp->GetWidth()) {
 				graphics.DrawCachedBitmap(&bmp, x, bg.origin_box.y);
 			}
 		}
@@ -582,9 +595,9 @@ void NSWebPage::draw_image(uint_ptr _hdc, const background_layer &bg, const std:
 	case background_repeat_repeat_y:
 		{
 			CachedBitmap bmp(bgbmp, &graphics);
-			int y = bg.origin_box.y;
-			while (y > bg.clip_box.top()) y -= bgbmp->GetHeight();
-			for (; y < bg.clip_box.bottom(); y += bgbmp->GetHeight()) {
+			auto y = bg.origin_box.y;
+			while (y > bg.clip_box.top()) y -= (int)bgbmp->GetHeight();
+			for (; y < bg.clip_box.bottom(); y += (int)bgbmp->GetHeight()) {
 				graphics.DrawCachedBitmap(&bmp, bg.origin_box.x, y);
 			}
 		}
@@ -592,13 +605,13 @@ void NSWebPage::draw_image(uint_ptr _hdc, const background_layer &bg, const std:
 	case background_repeat_repeat:
 		{
 			CachedBitmap bmp(bgbmp, &graphics);
-			int x = bg.origin_box.x;
-			while (x > bg.clip_box.left()) x -= bgbmp->GetWidth();
-			int y0 = bg.origin_box.y;
-			while (y0 > bg.clip_box.top()) y0 -= bgbmp->GetHeight();
+			auto x = bg.origin_box.x;
+			while (x > bg.clip_box.left()) x -= (int)bgbmp->GetWidth();
+			auto y0 = bg.origin_box.y;
+			while (y0 > bg.clip_box.top()) y0 -= (int)bgbmp->GetHeight();
 
-			for (; x < bg.clip_box.right(); x += bgbmp->GetWidth()) {
-				for (int y = y0; y < bg.clip_box.bottom(); y += bgbmp->GetHeight()) {
+			for (; x < bg.clip_box.right(); x += (int)bgbmp->GetWidth()) {
+				for (auto y = y0; y < bg.clip_box.bottom(); y += (int)bgbmp->GetHeight()) {
 					graphics.DrawCachedBitmap(&bmp, x, y);
 				}
 			}
@@ -615,8 +628,8 @@ const float space = 2;
 
 static void draw_horz_border(Graphics &graphics, const border &border, int y, int left, int right)
 {
-	if (border.style != border_style_double || border.width < 3) {
-		if (border.width == 1) right--; // 1px-wide lines are longer by one pixel in GDI+ (the endpoint is also drawn)
+	if (border.style != border_style_double || (int)border.width < 3) {
+		if ((int)border.width == 1) right--; // 1px-wide lines are longer by one pixel in GDI+ (the endpoint is also drawn)
 		Pen pen(gdiplus_color(border.color), (float)border.width);
 		if (border.style == border_style_dotted) {
 			float dashValues[2] = { 1, 1 };
@@ -631,7 +644,7 @@ static void draw_horz_border(Graphics &graphics, const border &border, int y, in
 			Point(right, y + border.width / 2));
 	}
 	else {
-		int single_line_width = (int)round(border.width / 3.);
+		int single_line_width = (int)round((float)border.width / 3.);
 		if (single_line_width == 1) right--;
 		Pen pen(gdiplus_color(border.color), (float)single_line_width);
 		graphics.DrawLine(&pen,
@@ -645,8 +658,8 @@ static void draw_horz_border(Graphics &graphics, const border &border, int y, in
 
 static void draw_vert_border(Graphics &graphics, const border &border, int x, int top, int bottom)
 {
-	if (border.style != border_style_double || border.width < 3) {
-		if (border.width == 1) bottom--;
+	if (border.style != border_style_double || (int)border.width < 3) {
+		if ((int)border.width == 1) bottom--;
 		Pen pen(gdiplus_color(border.color), (float)border.width);
 		if (border.style == border_style_dotted) {
 			float dashValues[2] = { 1, 1 };
@@ -661,7 +674,7 @@ static void draw_vert_border(Graphics &graphics, const border &border, int x, in
 			Point(x + border.width / 2, bottom));
 	}
 	else {
-		int single_line_width = (int)round(border.width / 3.);
+		int single_line_width = (int)round((float)border.width / 3.);
 		if (single_line_width == 1) bottom--;
 		Pen pen(gdiplus_color(border.color), (float)single_line_width);
 		graphics.DrawLine(&pen,
@@ -678,16 +691,16 @@ void NSWebPage::draw_borders(uint_ptr hdc, const borders &borders, const positio
 	apply_clip((HDC)hdc);
 	Graphics graphics((HDC)hdc);
 
-	if (borders.left.width != 0) {
+	if ((int)borders.left.width != 0) {
 		draw_vert_border(graphics, borders.left, draw_pos.left(), draw_pos.top(), draw_pos.bottom());
 	}
-	if (borders.right.width != 0) {
+	if ((int)borders.right.width != 0) {
 		draw_vert_border(graphics, borders.right, draw_pos.right() - borders.right.width, draw_pos.top(), draw_pos.bottom());
 	}
-	if (borders.top.width != 0) {
+	if ((int)borders.top.width != 0) {
 		draw_horz_border(graphics, borders.top, draw_pos.top(), draw_pos.left(), draw_pos.right());
 	}
-	if (borders.bottom.width != 0) {
+	if ((int)borders.bottom.width != 0) {
 		draw_horz_border(graphics, borders.bottom, draw_pos.bottom() - borders.bottom.width, draw_pos.left(), draw_pos.right());
 	}
 

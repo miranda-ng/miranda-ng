@@ -186,8 +186,7 @@ bool CFeedEditor::OnApply()
 
 	MCONTACT hContact;
 	if (m_iItem == -1 && m_hContact == NULL) {
-		hContact = db_add_contact();
-		Proto_AddToContact(hContact, MODULENAME);
+		hContact = db_add_contact(MODULENAME);
 		g_plugin.setByte(hContact, "CheckState", 1);
 		Contact::Readonly(hContact);
 	}

@@ -1,0 +1,191 @@
+#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
+;============================================================
+;  File: AutoShutdown.dll
+;  Plugin: Auto shutdown
+;  Version: 1.4.0.2
+;  Authors: H. Herkenrath
+;============================================================
+[Adds the possibility to shutdown the computer when a specified event occurs.]
+Belirtilen bir olay gerçekleştiğinde bilgisayarı kapatma olanağı sağlar.
+;file \plugins\AutoShutdown\res\resource.rc
+[Shutdown]
+Kapatma
+[&Show confirmation dialog before shutdown]
+&Kapatma işleminden önce onay iletişim kutusu göster
+[&Countdown starts at:]
+&Geri sayım şu saatte başlıyor:
+[seconds]
+saniye
+[Shutdown events]
+Kapatma olayları
+[&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
+&Miranda NG, otomatik kapatma özelliği etkin durumdayken kapatılmışsa, aynı ayarlarla otomatik kapatmayı tekrar etkinleştir
+[&Ignore hidden or temporary contacts when watching for all contacts being offline]
+&Tüm kişilerin çevrimdışı olup olmadığını kontrol ederken gizli veya geçici kişileri göz ardı et
+[Critical shutdown events]
+Kritik sistem kapatma olayları
+[Automatically shutdown the computer and turn the power off when one of the following occurs:]
+Aşağıdakilerden biri gerçekleştiğinde bilgisayarı otomatik olarak kapatın ve gücü kesin:
+[Automatic shutdown]
+Otomatik kapatma
+[Select the automatic shutdown event]
+Otomatik kapatma olayını seçin
+[Shutdown at &specific time]
+Belirli bir saatte kapatma
+[Shutdown a&t:]
+AT&T’yi kapat:
+[Shutdown i&n:]
+i&n'nin kapatılması:
+[Shutdown when a &message is received containing the following text:]
+Aşağıdaki metni içeren bir &message alındığında sistemi kapat:
+[Shutdown when Miranda NG becomes &idle]
+Miranda NG &idle durumuna geçtiğinde kapatma
+[Configure]
+Yapılandır
+[Shutdown when &processor usage drops below:]
+İşlemci kullanımı şu seviyenin altına düştüğünde sistemi kapat:
+[(current: 0%)]
+(şu anki: %0)
+[Shutdown when all contacts are &offline]
+Tüm kişiler çevrimdışı olduğunda sistemi kapat
+[Shutdown when all &file transfers are finished]
+Tüm dosya aktarımları tamamlandığında sistemi kapat
+[&Action:]
+&Eylem:
+[Cancel]
+İptal et
+[Unsaved data in open applications except Miranda NG might get lost.]
+Miranda NG hariç, açık uygulamalardaki kaydedilmemiş veriler kaybolabilir.
+[Please click "Cancel" if you would like to abort the process.]
+İşlemi iptal etmek istiyorsanız lütfen "İptal" düğmesine tıklayın.
+[&Now!]
+&Şimdi!
+;file \plugins\AutoShutdown\src\frame.cpp
+[Shutdown at:]
+Kapatma saati:
+[Time left:]
+Kalan süre:
+[Paused]
+Duraklatıldı
+[&Unpause countdown]
+&Geri sayımı devam ettir
+[&Pause countdown]
+&Geri sayımı duraklat
+[&Cancel countdown]
+&Geri sayımı iptal et
+[Countdown on frame]
+Çerçeve üzerinde geri sayım
+[Background]
+Arka Plan
+[Progress bar]
+İlerleme çubuğu
+;file \plugins\AutoShutdown\src\main.cpp
+[Header]
+Başlık
+[Active]
+Etkin
+[Inactive]
+Etkin değil
+;file \plugins\AutoShutdown\src\options.cpp
+[Events]
+Etkinlikler
+;file \plugins\AutoShutdown\src\settingsdlg.cpp
+[Second(s)]
+Saniye(ler)
+[Minute(s)]
+Dakika(lar)
+[Hour(s)]
+Saat(ler)
+[Day(s)]
+Gün(ler)
+[Week(s)]
+Hafta(lar)
+[Month(s)]
+Ay(lar)
+[(current: %u%%)]
+(şu anki: %u%%)
+[Start/Stop automatic shutdown]
+Otomatik kapatma: Başlat/Durdur
+[Start automatic shutdown]
+Otomatik kapatmayı başlat
+[Stop automatic shutdown]
+Otomatik kapanmayı durdur
+[Stop automatic &shutdown]
+Otomatik kapatmayı durdur
+[Automatic &shutdown...]
+Otomatik kapatma...
+;file \plugins\AutoShutdown\src\shutdownsvc.cpp
+[Miranda NG is going to be automatically closed in %u second(s).]
+Miranda NG, %u saniye içinde otomatik olarak kapatılacaktır.
+[All Miranda NG protocols are going to be set to offline in %u second(s).]
+Tüm Miranda NG protokolleri %u saniye içinde çevrimdışı moduna geçecek.
+[You will be logged off automatically in %u second(s).]
+%u saniye içinde oturumunuz otomatik olarak kapatılacaktır.
+[The computer will automatically be restarted in %u second(s).]
+Bilgisayar %u saniye içinde otomatik olarak yeniden başlatılacaktır.
+[The computer will automatically be set to standby mode in %u second(s).]
+Bilgisayar, %u saniye içinde otomatik olarak bekleme moduna geçecektir.
+[The computer will automatically be set to hibernate mode in %u second(s).]
+Bilgisayar %u saniye içinde otomatik olarak hazırda bekleme moduna geçecektir.
+[The workstation will automatically get locked in %u second(s).]
+İş istasyonu %u saniye içinde otomatik olarak kilitlenecektir.
+[All dial-up connections will be closed in %u second(s).]
+Tüm çevirmeli bağlantılar %u saniye içinde sonlandırılacaktır.
+[The computer will automatically be shut down in %u second(s).]
+Bilgisayar %u saniye içinde otomatik olarak kapatılacaktır.
+[Automatic shutdown error]
+Otomatik kapatma hatası
+[The shutdown process failed!\nReason: %s]
+Kapatma işlemi başarısız oldu!\nNeden: %s
+[Unknown]
+Bilinmiyor
+[Initiating the shutdown process failed!\nReason: %s]
+Kapatma işlemi başlatılamadı!\nNeden: %s
+[Close Miranda NG]
+Miranda NG'yi kapat
+[Set Miranda NG offline]
+Miranda NG’yi çevrimdışı moduna al
+[Log off user]
+Kullanıcıyı oturumu kapat
+[Restart computer]
+Bilgisayarı yeniden başlat
+[Shutdown computer]
+Bilgisayarı kapat
+[Standby mode]
+Bekleme modu
+[Hibernate mode]
+Uyku modu
+[Lock workstation]
+İş istasyonunu kilitle
+[Hang up dial-up connections]
+Çevirmeli bağlantıları sonlandırın
+[Sets all Miranda NG protocols to offline and closes Miranda NG.]
+Tüm Miranda NG protokollerini çevrimdışı duruma getirir ve Miranda NG’yi kapatır.
+[Sets all Miranda NG protocols to offline.]
+Tüm Miranda NG protokollerini çevrimdışı duruma getirir.
+[Logs the current Windows user off so that another user can log in.]
+Başka bir kullanıcının oturum açabilmesi için mevcut Windows kullanıcısının oturumunu kapatır.
+[Shuts down Windows and then restarts Windows.]
+Windows'u kapatır ve ardından Windows'u yeniden başlatır.
+[Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power.]
+Çalışmakta olan tüm programları kapatır ve Windows’u, gücü kapatmanın güvenli olduğu bir duruma getirir.
+[Saves the current Windows session in memory and sets the system to suspend mode.]
+Geçerli Windows oturumunu bellekte kaydeder ve sistemi askıya alma moduna geçirir.
+[Saves the current Windows session on hard drive, so that the power can be turned off.]
+Mevcut Windows oturumunu sabit diske kaydeder; böylece bilgisayarın gücü kapatılabilir.
+[Locks the computer. To unlock the computer, you must log in.]
+Bilgisayarı kilitler. Bilgisayarın kilidini açmak için oturum açmanız gerekir.
+[Sets all protocols to offline and closes all RAS connections.]
+Tüm protokolleri çevrimdışı duruma getirir ve tüm RAS bağlantılarını kapatır.
+[Alerts]
+Uyarılar
+[Automatic shutdown countdown]
+Otomatik kapatma geri sayımı
+;file \plugins\AutoShutdown\src\stdafx.h
+[AutoShutdown]
+Otomatik Kapatma
+;file \plugins\AutoShutdown\src\utils.cpp
+[Toggle automatic shutdown]
+Otomatik kapanma özelliğini etkinleştir/devre dışı bırak
+[Main]
+Ana Sayfa

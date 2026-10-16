@@ -1,0 +1,302 @@
+#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
+;============================================================
+;  File: NotesReminders.dll
+;  Plugin: Sticky Notes & Reminders
+;  Version: 0.2.2.2
+;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
+;============================================================
+[Sticky Notes & Reminders Implementation for Miranda NG.]
+Miranda NG için Yapışkan Notlar ve Hatırlatıcılar Uygulaması.
+;file \plugins\NotesAndReminders\res\resource.rc
+[Default Note Size]
+Varsayılan Not Boyutu
+[Width (Pixels)]
+Genişlik (Piksel)
+[Height (Pixels)]
+Yükseklik (Piksel)
+[Notes Appearance]
+Notlar: Görünüm
+[Show Scrollbars]
+Kaydırma Çubuklarını Göster
+[Show Buttons]
+Düğmeleri Göster
+[Title Date]
+Başlık Tarih
+[Title Time]
+Başlık Zamanı
+[Startup options]
+Başlangıç seçenekleri
+[Hide notes at startup]
+Başlangıçta notları gizle
+[Reminder options]
+Hatırlatma seçenekleri
+[Add Reminder closes dialog]
+"Hatırlatıcı Ekle" seçeneği iletişim kutusunu kapatır
+[Use MCI to play alert sounds]
+MCI'yi uyarı seslerini çalmak için kullanın
+[Note transparency]
+Şeffaflık notu
+[Send Reminders through E-mail/SMS:]
+E-posta/SMS yoluyla hatırlatıcılar gönderin:
+[Open links with this program instead:]
+Bunun yerine bağlantıları bu programla açın:
+[Reset to defaults]
+Varsayılan ayarlara sıfırla
+[(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
+(MCI kullanımı, farklı seslerin aynı anda çalınmasına olanak tanır; ancak özel bir ses eklentisi yüklendiğinde bu özellik gerekli veya istenmeyebilir.)
+[Add Reminder]
+Hatırlatıcı Ekle
+[Date]
+Tarih
+[Time]
+Zaman
+[Reminder Note:]
+Hatırlatma Notu:
+[Repeat Alert Sound]
+Uyarı Sesini Tekrarla
+[Use Sound]
+Ses Kullan
+[&Add Reminder]
+&Hatırlatıcı Ekle
+[&Close]
+&Kapat
+[&View Reminders]
+&Hatırlatıcıları Görüntüle
+[Reminder]
+Hatırlatma
+[After:]
+Sonrasında:
+[On Time && Date:]
+Saat ve Tarih:
+[&Remind Again]
+&Tekrar Hatırlat
+[&Create Note]
+&Not Oluştur
+[&Dismiss]
+&Kapat
+[Reminders]
+Hatırlatmalar
+[Add New]
+Yeni Ekle
+[Edi&t Reminder]
+Düzenleme Hatırlatması
+[New &Reminder]
+Yeni ve Hatırlatma
+[&Delete Reminder]
+&Hatırlatıcıyı Sil
+[D&elete All Reminders]
+Tüm Hatırlatıcıları Sil
+[&Hide Note]
+&Notu Gizle
+[&Always On Top]
+&Her Zaman En Üstte
+[&New Note]
+&Yeni Not
+[&Delete Note]
+&Notu Sil
+[Appearance]
+Görünüş
+[Background Color]
+Arka Plan Rengi
+[Custom...]
+Özel...
+[Reset]
+Sıfırla
+[Text Color]
+Metin Rengi
+[Font]
+Yazı tipi
+[Paste Title]
+Başlığı Yapıştır
+[Reset Title]
+Başlığı Sıfırla
+[Undo]
+Geri Al
+[&Copy]
+&Kopyala
+[&Paste]
+&Yapıştır
+[C&ut]
+C&ut
+[C&lear]
+C&lear
+[&View Notes]
+&Notları Görüntüle
+[&Bring All To Front]
+&Tümünü Öne Getir
+[Edi&t Note]
+Düzenleme Notu
+[&Visible]
+&Görünür
+[Always &On Top]
+Her Zaman &En Üstte
+[Delete &All Notes]
+Tüm Notları Sil
+[&Show / Hide Notes]
+&Notları Göster / Gizle
+;file \plugins\NotesAndReminders\src\hotkeys.cpp
+[New Note]
+Yeni Not
+[Toggle Notes Visibility]
+Notların Görünürlüğünü Değiştir
+[Bring All Notes to Front]
+Tüm Notları Ön Plana Getir
+[New Reminder]
+Yeni Hatırlatma
+[View Reminders]
+Hatırlatıcıları Görüntüle
+;file \plugins\NotesAndReminders\src\main.cpp
+[Delete All Notes]
+Tüm Notları Sil
+[Show/Hide Notes]
+Notları Göster/Gizle
+[On Top Caption Icon]
+En Üstte Başlık Simgesi
+[Delete All Reminders]
+Tüm Hatırlatıcıları Sil
+[Not on Top Caption Icon]
+Üstte Değil Başlık Simgesi
+[Hide Note Icon]
+Not Simgesini Gizle
+[Remove Note Icon]
+Not Simgesini Kaldır
+[Reminder Icon]
+Hatırlatma Simgesi
+[Bring All to Front]
+Hepsini Öne Getir
+[Play Sound Icon]
+Ses Çal simgesi
+[View Notes]
+Notları Görüntüle
+[Sticky Notes]
+Yapışkan Notlar
+[Add New Note]
+Yeni Not Ekle
+[Add New Reminder]
+Yeni Hatırlatıcı Ekle
+[Notes && Reminders]
+Notlar ve Hatırlatmalar
+[Alerts]
+Uyarılar
+[Reminder triggered]
+Hatırlatma tetiklendi
+[Reminder triggered (Alternative 1)]
+Hatırlatma tetiklendi (Seçenek 1)
+[Reminder triggered (Alternative 2)]
+Hatırlatma tetiklendi (Seçenek 2)
+;file \plugins\NotesAndReminders\src\notes.cpp
+[Black]
+Siyah
+[Maroon]
+Bordo
+[Green]
+Yeşil
+[Olive]
+Zeytin
+[Navy]
+Donanma
+[Purple]
+Mor
+[Teal]
+Turkuaz
+[Gray]
+Gri
+[Silver]
+Gümüş
+[Red]
+Kırmızı
+[Orange]
+Turuncu
+[Lime]
+Kireç
+[Yellow]
+Sarı
+[Blue]
+Mavi
+[Fuchsia]
+Fuşya
+[Aqua]
+Aqua
+[White]
+Beyaz
+[Are you sure you want to delete this note?]
+Bu notu silmek istediğinizden emin misiniz?
+[Visible]
+Görünür
+[Top]
+En üstte
+[Notes]
+Notlar
+[Note text]
+Not metni
+[Date/Title]
+Tarih/Başlık
+[Are you sure you want to delete all notes?]
+Tüm notları silmek istediğinizden emin misiniz?
+;file \plugins\NotesAndReminders\src\options.cpp
+[Sticky Note Caption]
+Yapışkan Not Başlığı
+[Sticky Note Background Color]
+Yapışkan Notun Arka Plan Rengi
+[Sticky Note Body]
+Yapışkan Not Metni
+[None]
+Yok
+[Executable Files]
+Çalıştırılabilir Dosyalar
+[All Files]
+Tüm Dosyalar
+[Select Executable]
+Yürütülebilir Dosyayı Seç
+[Plugins]
+Eklentiler
+;file \plugins\NotesAndReminders\src\reminders.cpp
+[The specified time is invalid.]
+Belirtilen zaman geçersizdir.
+[Don't repeat]
+Tekrarlamayın
+[Repeat daily]
+Her gün tekrarlayın
+[Repeat weekly]
+Haftada bir tekrarlayın
+[Repeat monthly]
+Her ay tekrarlayın
+[Minutes]
+Tutanak
+[The specified time is invalid due to begin of daylight saving (summer time).]
+Yaz saati uygulamasının başlaması nedeniyle belirtilen saat geçersizdir.
+[Hour]
+Saat
+[Hours]
+Çalışma Saatleri
+[Day]
+Gün
+[Days]
+Günler
+[Week]
+Hafta
+[&Update Reminder]
+&Güncelleme Hatırlatması
+[Every]
+Her
+[Seconds]
+Saniye
+[Never]
+Asla
+[Default]
+Varsayılan
+[Alternative 1]
+Alternatif 1
+[Alternative 2]
+Alternatif 2
+[Date of activation]
+Etkinleştirme tarihi
+[Reminder text]
+Hatırlatma metni
+[Are you sure you want to delete all reminders?]
+Tüm hatırlatıcıları silmek istediğinizden emin misiniz?
+[Are you sure you want to delete this reminder?]
+Bu hatırlatıcıyı silmek istediğinizden emin misiniz?
+;file \plugins\NotesAndReminders\src\stdafx.h
+[Notes & Reminders]
+Notlar ve Hatırlatmalar

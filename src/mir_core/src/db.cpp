@@ -25,9 +25,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 #include <m_json.h>
-#include <m_messagestate.h>
+//#include <m_messagestate.h>
 
 MIR_CORE_EXPORT MDatabaseCommon* g_pCurrDb = nullptr;
+
+MIR_CORE_EXPORT HANDLE
+	g_hevSettingChanged,   // ME_DB_CONTACT_SETTINGCHANGED
+	g_hevMarkedRead,       // ME_DB_EVENT_MARKED_READ
+	g_hevEventAdded,		  // ME_DB_EVENT_ADDED
+	g_hevEventEdited, 	  // ME_DB_EVENT_EDITED
+	g_hevEventSetJson,     // ME_DB_EVENT_SETJSON
+	g_hevEventDeleted,     // ME_DB_EVENT_DELETED
+	g_hevEventDelivered,   // ME_DB_EVENT_DELIVERED
+	g_hevEventFiltered;
+
+static HANDLE
+	hevContactAdded,       // ME_DB_CONTACT_ADDED
+	hevContactDeleted;     // ME_DB_CONTACT_DELETED
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // database functions
@@ -94,15 +108,54 @@ MIR_CORE_DLL(int) db_copy_module(const char *szModule, const char *szNewModule, 
 /////////////////////////////////////////////////////////////////////////////////////////
 // contact functions
 
-MIR_CORE_DLL(MCONTACT) db_add_contact(void)
+MIR_CORE_DLL(MCONTACT) db_add_contact(const char *szModule, int flags)
 {
-	MCONTACT hNew = (g_pCurrDb) ? g_pCurrDb->AddContact() : 0;
-	Netlib_Logf(nullptr, "New contact created: %d", hNew);
-	return hNew;
+	if (!g_pCurrDb) // if there's no active database, don't even start
+		return 0;
+
+	PROTOACCOUNT *pa = nullptr;
+	const char *szProto = nullptr;
+	if (pa = Proto_GetAccount(szModule))
+		szProto = szModule;
+	else if (auto *pd = Proto_IsProtocolLoaded(szModule)) {
+		if (pd->type == PROTOTYPE_PROTOCOL || pd->type == PROTOTYPE_VIRTUAL || pd->type == PROTOTYPE_PROTOWITHACCS)
+			szProto = szModule;
+	}
+
+	if (szModule && !szProto)
+		return 0;
+
+	MCONTACT hContact = g_pCurrDb->AddContact();
+	if (szProto)
+		db_set_s(hContact, "Protocol", "p", szProto);
+	if (flags & DBAC_HIDDEN) {
+		DBVARIANT dbv;
+		dbv.type = DBVT_BYTE_HIDDEN;
+		dbv.bVal = 1;
+		g_pCurrDb->WriteContactSetting(hContact, "CList", "Hidden", &dbv);
+	}
+	if (flags & DBAC_NOTINLIST) {
+		DBVARIANT dbv;
+		dbv.type = DBVT_BYTE_HIDDEN;
+		dbv.bVal = 1;
+		g_pCurrDb->WriteContactSetting(hContact, "CList", "NotOnList", &dbv);
+	}
+
+	Netlib_Logf(nullptr, "New contact created for module %s: %d", (szProto) ? szProto : "<none>", hContact);
+
+	// send notifications
+	if (pa && pa->ppro)
+		pa->ppro->OnContactAdded(hContact);
+	NotifyEventHooks(hevContactAdded, hContact, 0);
+	return hContact;
 }
 
 MIR_CORE_DLL(int) db_delete_contact(MCONTACT hContact, uint32_t flags)
 {
+	// global contact cannot be removed
+	if (hContact == 0 || !g_pCurrDb)
+		return 1;
+
 	ptrW wszPhoto(db_get_wsa(hContact, "ContactPhoto", "File"));
 	if (wszPhoto != nullptr) {
       #ifdef _MSC_VER
@@ -117,8 +170,10 @@ MIR_CORE_DLL(int) db_delete_contact(MCONTACT hContact, uint32_t flags)
 			if (!ppro->OnContactDeleted(hContact, flags))
 				return 1;
 
+	NotifyEventHooks(hevContactDeleted, hContact);
+
 	Netlib_Logf(nullptr, "Contact deleted: %d", hContact);
-	return (g_pCurrDb) ? g_pCurrDb->DeleteContact(hContact) : 0;
+	return g_pCurrDb->DeleteContact(hContact);
 }
 
 MIR_CORE_DLL(int) db_is_contact(MCONTACT hContact)
@@ -697,4 +752,22 @@ MIR_CORE_DLL(BOOL) db_set_resident(const char *szModule, const char *szService, 
 	char str[MAXMODULELABELLENGTH * 2];
 	mir_snprintf(str, "%s/%s", szModule, szService);
 	return g_pCurrDb->SetSettingResident(bEnable, str);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+MIR_CORE_DLL(void) db_init_events()
+{
+	// create events once, they will be inherited by all database plugins
+	hevContactDeleted = CreateHookableEvent(ME_DB_CONTACT_DELETED);
+	hevContactAdded = CreateHookableEvent(ME_DB_CONTACT_ADDED);
+	g_hevSettingChanged = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
+	g_hevMarkedRead = CreateHookableEvent(ME_DB_EVENT_MARKED_READ);
+
+	g_hevEventAdded = CreateHookableEvent(ME_DB_EVENT_ADDED);
+	g_hevEventEdited = CreateHookableEvent(ME_DB_EVENT_EDITED);
+	g_hevEventDeleted = CreateHookableEvent(ME_DB_EVENT_DELETED);
+	g_hevEventSetJson = CreateHookableEvent(ME_DB_EVENT_SETJSON);
+	g_hevEventDelivered = CreateHookableEvent(ME_DB_EVENT_DELIVERED);
+	g_hevEventFiltered = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
 }

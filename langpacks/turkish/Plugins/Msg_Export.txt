@@ -1,0 +1,204 @@
+#muuid {46102b07-c215-4162-9c83-d377881da7cc}
+;============================================================
+;  File: Msg_Export.dll
+;  Plugin: Message export
+;  Version: 3.1.3.1
+;  Authors: Kennet Nielsen, mod by ring0
+;============================================================
+[Exports every message, URL or file you receive to a text file.]
+Aldığınız her mesajı, URL'yi veya dosyayı bir metin dosyasına aktarır.
+;file \plugins\Msg_Export\res\resource.rc
+[Export directory]
+Dizin dışa aktarımı
+[Browse]
+Göz at
+[Default file]
+Varsayılan dosya
+[File viewer]
+Dosya görüntüleyici
+[Use internal viewer]
+Dahili görüntüleyiciyi kullanın
+[Replace Miranda history]
+Miranda uyarısını değiştir
+[Export format]
+Dışa aktarma biçimi
+[Max column width]
+Maksimum sütun genişliği
+[Note: 0 = no limit]
+Not: 0 = sınır yok
+[Time format]
+Saat biçimi
+[Use JSON format for export]
+Dışa aktarım için JSON biçimini kullanın
+[Use UTF-8 in new files]
+Yeni dosyalarda UTF-8 kullanın
+[Append extra new line]
+Ekstra satır sonu ekle
+[Use << and >>]
+<< ve >> işaretlerini kullanın
+[Exporting old messages]
+Eski mesajları dışa aktarma
+[History file for %s (%s, format %s)]
+%s için geçmiş dosyası (%s, biçim %s)
+[&Find...]
+&Bul...
+[&External]
+&Harici
+[&Close]
+&Kapat
+[When filename changes]
+Dosya adı değiştiğinde
+[Prompt for action]
+Eyleme geçme çağrısı
+[Rename file]
+Dosyanın adını değiştir
+[Do nothing]
+Hiçbir şey yapma
+[When user is deleted]
+Kullanıcı silindiğinde
+[Delete file]
+Dosyayı sil
+[Debug]
+Hata ayıklama
+[User &details]
+Kullanıcı ve ayrıntılar
+[Export]
+Dışa Aktar
+[Set to default filename]
+Varsayılan dosya adına ayarla
+[Select all]
+Tümünü seç
+[Select none]
+Hiçbirini seçme
+[Auto filename]
+Otomatik dosya adı
+[Clear all]
+Tümünü temizle
+[Copy]
+Kopyala
+;file \plugins\Msg_Export\src\export.cpp
+[FirstName]
+Ad
+[LastName]
+Soyadı
+[e-mail]
+e-posta
+[Nick]
+Nick
+[Age]
+Yaş
+[Gender]
+Cinsiyet
+[City]
+Şehir
+[State]
+Eyalet
+[Phone]
+Telefon
+[Homepage]
+Ana Sayfa
+[About]
+Hakkında
+[      History for]
+      Tarihçesi
+[User]
+Kullanıcı
+[Account]
+Hesap
+[User ID]
+Kullanıcı Kimliği
+[Nick      :]
+Nick :
+[FirstName :]
+Ad :
+[LastName  :]
+Soyadı  :
+[e-mail    :]
+e-posta    :
+[Reason    :]
+Nedeni    :
+[Invalid Database event received. Type %d, size %d]
+Geçersiz bir veritabanı olayı alındı. Tür %d, boyut %d
+[Unknown event type %d, size %d]
+Bilinmeyen olay türü %d, boyut %d
+[%s reacted with %s to message "%s" from %s]
+%s, %s'den gelen "%s" mesajına %s ile tepki gösterdi
+[%s remove reaction %s to message "%s" from %s]
+%s, %s'den gelen "%s" mesajına verdiği tepkiyi kaldırdı
+;file \plugins\Msg_Export\src\FileViewer.cpp
+[Miranda database contains %d events]
+Miranda veritabanında %d olay bulunmaktadır
+[Failed to open file]
+Dosya açılamadı
+[Search string was not found!]
+Arama dizesi bulunamadı!
+[Save as RTF]
+RTF olarak kaydet
+[Color...]
+Renk...
+[Font...]
+Yazı tipi...
+[Syntax highlight]
+Sözdizimi vurgulaması
+[History was saved successfully in file\r\n]
+Tarih, dosyaya başarıyla kaydedildi\r\n
+;file \plugins\Msg_Export\src\main.cpp
+[Export history]
+İhracat geçmişi
+[Open E&xported History]
+İçe ve Dışa Aktarılan Geçmişi Aç
+;file \plugins\Msg_Export\src\options.cpp
+[Reading database information (Phase 1 of 2)]
+Veritabanı bilgilerinin okunması (2 aşamadan 1. aşama)
+[Sorting and writing database information (Phase 2 of 2)]
+Veritabanı bilgilerinin sıralanması ve yazılması (2 aşamadan 2. aşama)
+[Failed to open or create file:\n]
+Dosya açılamadı veya oluşturulamadı:\n
+[Max line width must be at least %d. Or use 0 for no limit.]
+Maksimum satır genişliği en az %d olmalıdır. Sınırlama olmaması için 0 değerini kullanın.
+[You need to restart Miranda to change the history function]
+Geçmiş işlevini değiştirmek için Miranda’yı yeniden başlatmanız gerekir
+[Executable files]
+Çalıştırılabilir dosyalar
+[All files]
+Tüm dosyalar
+[Select Destination Directory]
+Hedef Dizini Seçin
+[File]
+Dosya
+[No contacts found to export]
+Dışa aktarılacak kişi bulunamadı
+[Export accounts]
+Hesapları dışa aktar
+[Message export]
+Mesaj aktarımı
+[History]
+Tarihçe
+[General]
+Genel
+[Contacts]
+İletişim Bilgileri
+[Additional]
+Ek olarak
+;file \plugins\Msg_Export\src\stdafx.h
+[Miranda NG (Message Export Plugin)]
+Miranda NG (Mesaj Dışa Aktarma Eklentisi)
+;file \plugins\Msg_Export\src\utils.cpp
+[No_Group]
+No_Group
+[User has been deleted. Do you want to delete the file?]
+Kullanıcı silindi. Dosyayı silmek istiyor musunuz?
+[Failed to delete the file]
+Dosya silinemedi
+[No_Nick]
+No_Nick
+[File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
+"%s" kullanıcısına ait dosya adı değişti!\n\nEski ad:\t%s\nYeni ad:\t%s\n\nDosyanın adını değiştirmek istiyor musunuz?
+[Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
+Dosyanın adı değiştirilemedi\n\nKaynak:\t%s\nHedef:\t%s\n\nHata nedeniyle başarısız oldu: %s
+[\nError: ]
+\nHata: 
+[\nMessage has not been saved!\n]
+\nMesaj kaydedilmedi!\n
+[Do you wish to save debug information?]
+Hata ayıklama bilgilerini kaydetmek ister misiniz?

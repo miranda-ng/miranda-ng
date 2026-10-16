@@ -359,8 +359,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 		db_free(&dbv);
 	}
 
-	MCONTACT hContact = db_add_contact();
-	Proto_AddToContact(hContact, MODULENAME);
+	MCONTACT hContact = db_add_contact(MODULENAME);
 
 	/////////write to db
 	g_plugin.setByte(hContact, ON_TOP_KEY, 0);

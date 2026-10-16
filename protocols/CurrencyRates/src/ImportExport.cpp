@@ -428,7 +428,7 @@ bool import_contact(const TiXmlNode *pXmlContact, CImportContext &impctx)
 		return false;
 
 	if (NULL == cst.m_hContact) {
-		cst.m_hContact = db_add_contact();
+		cst.m_hContact = db_add_contact(MODULENAME);
 		cst.m_bNewContact = true;
 	}
 	else if (impctx.m_nFlags & CURRENCYRATES_IMPORT_SKIP_EXISTING_CONTACTS)

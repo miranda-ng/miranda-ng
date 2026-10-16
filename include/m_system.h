@@ -444,7 +444,7 @@ template<class T> struct OBJLIST : public LIST<T>
 
 	__inline void removeItem(T **p)
 	{
-		remove(int(p - items));
+		remove(int(p - this->items));
 	}
 
 	__inline T& operator[](int idx) const { return *this->items[idx]; }

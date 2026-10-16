@@ -64,8 +64,7 @@ MCONTACT CSametimeProto::AddContact(mwSametimeUser* user, bool temporary)
 	MCONTACT hContact = FindContactByUserId(id);
 	bool new_contact = false;
 	if (!hContact) {
-		hContact = db_add_contact();
-		Proto_AddToContact(hContact, m_szModuleName);
+		hContact = db_add_contact(m_szModuleName);
 		new_contact = true;
 	}
 	else if (!temporary) {

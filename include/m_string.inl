@@ -26,8 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_STRING_INL__
 
 #ifndef _MSC_VER
-	#include <algorithm>
-	#define __max std::max
+	#define __max(a, b) ((a > b) ? a : b)
 #endif
 
 template<typename BaseType>

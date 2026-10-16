@@ -1,0 +1,26 @@
+#muuid {47d489d3-310d-4ef6-bd05-699fffd5a4aa}
+;============================================================
+;  File: ZeroNotify.dll
+;  Plugin: Zero notifications
+;  Version: 0.1.0.1
+;  Authors: bidyut, Maat
+;============================================================
+[Adds options to automatically disable notifications when a protocol is in a certain status.]
+Bir protokol belirli bir durumda olduğunda bildirimleri otomatik olarak devre dışı bırakma seçenekleri ekler.
+;file \plugins\ZeroNotification\res\ZeroNotify.rc
+[No sounds when:]
+Aşağıdaki durumlarda ses gelmez:
+[No CList blink when:]
+Aşağıdaki durumlarda CList'ler yanıp sönmez:
+[No SysTray blink when:]
+Aşağıdaki durumlarda sistem tepsisi yanıp sönmez:
+;file \plugins\ZeroNotification\src\options.cpp
+[Zero Notifications]
+Sıfır Bildirim
+[Plugins]
+Eklentiler
+;file \plugins\ZeroNotification\src\stdafx.h
+[Disable &Sounds]
+&Sesleri devre dışı bırak
+[Enable &Sounds]
+&Sesleri Etkinleştir

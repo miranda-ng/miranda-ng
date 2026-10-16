@@ -1,0 +1,82 @@
+#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
+;============================================================
+;  File: MenuEx.dll
+;  Plugin: Menu item ext
+;  Version: 1.3.2.0
+;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
+;============================================================
+[Adds some useful options to a contacts menu.]
+Kişiler menüsüne bazı kullanışlı seçenekler ekler.
+;file \plugins\MenuItemEx\res\resource.rc
+[Shown menu items]
+Görüntülenen menü öğeleri
+[Hide from list]
+Listeden gizle
+[Ignore]
+Yoksay
+[Copy to Account (Ctrl+click for move to Account)]
+Hesaba Kopyala (Hesaba taşımak için Ctrl tuşunu basılı tutarak tıklayın)
+[Browse Received Files]
+Alınan Dosyalara Göz At
+[Copy IP]
+IP'yi kopyala
+[Copy MirVer]
+MirVer'i kopyala
+[Copy Status Message]
+Durum Mesajını Kopyala
+[Add item name]
+Ürün adını ekle
+[Copy ID]
+Kopyalama Kimliği
+[Add protocol name]
+Protokol adını ekle
+[Show ID in menu item]
+Menü öğesinde Kimliği göster
+[Trim too long ID]
+Çok uzun olan kimliği kırp
+[* Use Ctrl+click to see popup with the copied text]
+* Kopyalanan metni içeren açılır pencereyi görmek için Ctrl tuşunu basılı tutarak tıklayın
+[Hide contact on 'Ignore all']
+"Tümünü Yoksay" seçeneğinde kişiyi gizle
+;file \plugins\MenuItemEx\src\main.cpp
+[Always visible]
+Her zaman görünür
+[Never visible]
+Asla görünmez
+[Copy to Account]
+Hesaba Kopyala
+[Show in list]
+Listede göster
+[Copy xStatus Message]
+xStatus Mesajını Kopyala
+[Status message]
+Durum mesajı
+[xStatus title]
+xDurum başlığı
+[xStatus message]
+xDurum mesajı
+[Listening to]
+Dinlerken
+[Activity title]
+Etkinlik başlığı
+[Activity text]
+Etkinlik metni
+[All]
+Tümü
+[Messages]
+Mesajlar
+[Files]
+Dosyalar
+[User Online]
+Çevrimiçi Kullanıcı
+[Authorization]
+Yetkilendirme
+[Typing Notify]
+Yazma Bildirimi
+[Open ignore settings]
+Yoksayma ayarlarını aç
+[MenuItemEx]
+MenuItemEx
+;file \plugins\MenuItemEx\src\options.cpp
+[Customize]
+Kişiselleştir

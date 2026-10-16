@@ -391,12 +391,21 @@ void CTelegramProto::ProcessBasicGroup(TD::updateBasicGroup *pObj)
 	pUser->bLoadMembers = true;
 }
 
+void CTelegramProto::HideBots(const TD::array<TD::object_ptr<TD::botCommands>> &bots)
+{
+	for (auto &it : bots)
+		if (auto *pUser = FindUser(it->bot_user_id_))
+			Contact::Hide(pUser->hContact);
+}
+
 void CTelegramProto::ProcessBasicGroupInfo(TG_USER *pChat, TD::basicGroupFullInfo *pInfo)
 {
 	if (!pInfo->description_.empty()) {
 		setUString(pChat->hContact, "About", pInfo->description_.c_str());
 		GcChangeTopic(pChat, pInfo->description_);
 	}
+
+	HideBots(pInfo->bot_commands_);
 
 	g_chatApi.UM_RemoveAll(pChat->m_si);
 	GcAddMembers(pChat, pInfo->members_, true);
@@ -416,6 +425,8 @@ void CTelegramProto::ProcessSuperGroupInfo(TG_USER *pUser, TD::supergroupFullInf
 		else delSetting(pUser->hContact, "Link");
 	}
 	else delSetting(pUser->hContact, "Link");
+
+	HideBots(pInfo->bot_commands_);
 
 	if (!pInfo->description_.empty()) {
 		setUString(pUser->hContact, "About", pInfo->description_.c_str());
@@ -504,23 +515,28 @@ void CTelegramProto::ProcessForum(TD::updateForumTopicInfo *pForum)
 		return;
 	}
 
-	if (pUser->m_si == nullptr) {
-		debugLogA("No parent chat for id %lld, skipping", pInfo->chat_id_);
-		return;
-	}
+	CMStringW wszName(Utf2T(pForum->info_->name_.c_str()));
+	if (pInfo->is_general_)
+		wszName.Insert(0, L"#");
 
-	if (pInfo->is_general_) {
-		SetId(pUser->m_si->hContact, pForum->info_->forum_topic_id_, DBKEY_THREAD);
-		return;
-	}
+	InitForumTopic(pUser, pForum->info_->forum_topic_id_, wszName);
+}
 
-	wchar_t wszId[100];
-	mir_snwprintf(wszId, L"%lld_%lld", pInfo->chat_id_, pForum->info_->forum_topic_id_);
-
-	auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, Utf2T(pForum->info_->name_.c_str()), pUser);
+void CTelegramProto::InitForumTopic(TG_USER *pUser, TD::int32 topic_id, const wchar_t *pwszTitle)
+{
+	CMStringW wszId(FORMAT, L"%lld_%i", pUser->chatId, topic_id);
+	auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, pwszTitle, pUser);
 	si->pParent = pUser->m_si;
 
-	SetId(si->hContact, pForum->info_->forum_topic_id_, DBKEY_THREAD);
+	if (!FindChat(pUser->chatId, topic_id)) {
+		auto *pNew = new TG_USER(pUser->id, si->hContact, true);
+		pNew->isForum = true;
+		pNew->chatId = pUser->chatId;
+		pNew->forumId = topic_id;
+		m_arChats.insert(pNew);
+	}
+
+	SetId(si->hContact, topic_id, DBKEY_THREAD);
 	SetId(si->hContact, pUser->id, DBKEY_OWNER);
 
 	Chat_Mute(si->hContact, Chat_IsMuted(pUser->hContact));

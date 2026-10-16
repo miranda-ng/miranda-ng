@@ -1,0 +1,348 @@
+#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
+;============================================================
+;  File: DbEditorPP.dll
+;  Plugin: Database editor++
+;  Version: 4.1.0.4
+;  Authors: Bio, Jonathan Gordon
+;============================================================
+[Advanced Database Editor.]
+Gelişmiş Veritabanı Düzenleyicisi.
+;file \plugins\DbEditorPP\res\resource.rc
+[Search and replace]
+Ara ve değiştir
+[Search for]
+Şunu ara:
+[Exact match]
+Tam eşleşme
+[&Search]
+&Arama
+[Module name]
+Modül adı
+[Setting name]
+Ayar adı
+[Setting value]
+Ayarlanan değer
+[Case sensitive]
+Büyük/küçük harf duyarlı
+[&Cancel]
+&İptal
+[Replace with]
+Şununla değiştirin
+[Entirely]
+Tamamen
+[&Replace]
+&Değiştir
+[Restore last opened position]
+En son açılan konumu geri yükle
+[Automatically expand "Settings" when Database Editor++ starts]
+Database Editor++ başlatıldığında "Ayarlar" sekmesini otomatik olarak genişlet
+[Warn when deleting modules]
+Modülleri silerken uyarı göster
+[Use popups when watched settings change values]
+İzlenen ayarların değerleri değiştiğinde açılır pencereler kullanın
+[Popup timeout (0 for infinite)]
+Açılır pencere zaman aşımı (sonsuz için 0)
+[Background color]
+Arka plan rengi
+[Text color]
+Metin rengi
+[Add a module to contact]
+İletişim bilgilerine bir modül ekle
+[Add a module named]
+Adı
+[Add to all contacts (including Settings)]
+Tüm kişilere ekle (Ayarlar dahil)
+[Cancel]
+İptal et
+[Edit setting]
+Ayarları düzenle
+[Name]
+Adı
+[Value]
+Değer
+[Base]
+Temel
+[Hexadecimal]
+Onaltılık
+[Decimal]
+Ondalık
+[Save value as:]
+Değeri şu adla kaydet:
+[Byte]
+Byte
+[Word]
+Word
+[Dword]
+Dword
+[String]
+Dize
+[Watched database settings]
+İzlenen veritabanı ayarları
+[Copy module to contact]
+Modülü kişiye kopyala
+[Contact to copy module and settings to]
+Modülü ve ayarları şuraya kopyalamak için iletişime geçin:
+[Copy to all contacts (including Settings)]
+Tüm kişilere kopyala (Ayarlar dahil)
+[Import]
+İthalat
+[Paste the settings to import here:]
+İçe aktarmak için ayarları buraya yapıştırın:
+[Database Editor++]
+Veritabanı Düzenleyicisi++
+[&Main]
+&Ana Sayfa
+[&Refresh modules]
+&Modülleri yenileme
+[Refresh &settings]
+Yenile ve ayarlar
+[E&xit]
+E&xit
+[&Actions]
+&Eylemler
+[&Search and replace]
+&Ara ve değiştir
+[Delete &resident settings]
+&resident ayarlarını sil
+[&Delete module]
+&Modülü sil
+[&Watches]
+&Saatler
+[&View all]
+&Tümünü görüntüle
+[&Delete all]
+&Tümünü sil
+[&Export]
+&Dışa Aktar
+[Entire &database]
+&database'in tamamı
+[All &settings]
+Tüm ayarlar
+[All &contacts]
+Tüm & kişiler
+[&Import]
+&İçe Aktar
+[From a &file]
+&file dosyasından
+[From pasted &text]
+&text metninden yapıştırıldı
+[&Options]
+&Seçenekler
+[&Sort by protocol]
+&Protokolüne göre sırala
+[Show &all]
+&all'ı göster
+[Show only &loaded]
+Yalnızca &loaded öğelerini göster
+[Show only &unloaded]
+Yalnızca &yüklenmemiş olanları göster
+[Edit &Bytes in Hex]
+&Bytes’i onaltılık olarak düzenle
+[Edit &Words in Hex]
+&Words’ü Onaltılık Olarak Düzenle
+[Edit &Dwords in Hex]
+&Dword’ları Onaltılık Olarak Düzenle
+[&Inline edit]
+&Satır içi düzenleme
+[&Restore position]
+&Konumu geri yükle
+[&Open options]
+&Seçenekleri aç
+[&Edit]
+&Düzenle
+[&Copy]
+&Kopyala
+[&Delete]
+&Sil
+[Convert to]
+Şuna dönüştür
+[&Byte]
+&Byte
+[&Word]
+&Word
+[&Dword]
+&Dword
+[&String]
+&String
+[&Unicode]
+&Unicode
+[New]
+Yeni
+[BL&OB]
+BL&OB
+[&Watch]
+&İzle
+[&Refresh]
+&Yenile
+[&Rename]
+&Adını Değiştir
+[Copy to contact]
+Kişiye kopyala
+[Export module]
+Dışa aktarma modülü
+[&Add module]
+&Modül ekle
+[Export contact]
+Kişiyi dışa aktar
+[Import settings]
+Ayarları içe aktar
+[From a file]
+Bir dosyadan
+[From pasted text]
+Yapıştırılan metinden
+[Export settings]
+Ayarları dışa aktar
+[Export contacts]
+Kişileri dışa aktar
+[Import contacts]
+Kişileri içe aktar
+[Export module from all contacts]
+Tüm kişilerden modülü dışa aktar
+[Watch window]
+Gözetleme penceresi
+[Reload watch list]
+İzleme listesini yeniden yükle
+;file \plugins\DbEditorPP\src\copymodule.cpp
+[Copy module "%s"]
+"%s" modülünü kopyala
+;file \plugins\DbEditorPP\src\deletemodule.cpp
+[Are you sure you want to delete module "%S"?]
+"%S" modülünü silmek istediğinizden emin misiniz?
+[Delete module from database]
+Veritabanından modülü sil
+[Delete module from database... Loading]
+Veritabanından modülü sil... Yükleniyor
+[Delete from all contacts (including Settings)]
+Tüm kişilerden sil (Ayarlar dahil)
+;file \plugins\DbEditorPP\src\exportimport.cpp
+[INI Files]
+INI Dosyaları
+[All Files]
+Tüm Dosyalar
+[Export to file]
+Dosyaya aktar
+[Couldn't open file for writing]
+Dosya yazma amacıyla açılamadı
+[Import to "%s"]
+"%s" dosyasına aktar
+[Import from files]
+Dosyalardan içe aktarma
+;file \plugins\DbEditorPP\src\findwindow.cpp
+[Result]
+Sonuç
+[Contact]
+İletişim
+[Module]
+Modül
+[Setting]
+Ortam
+[Searching...]
+Aranıyor...
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+İşlem tamamlandı. Bulunan öğeler: %d / değiştirilen: %d / silinen: %d
+[Replaced]
+Değiştirildi
+[Deleted]
+Silindi
+[Found]
+Bulundu
+[Enter a string to search the database for]
+Veritabanında arama yapmak için bir dize girin
+[Stop]
+Dur
+;file \plugins\DbEditorPP\src\icons.cpp
+[Main icon]
+Ana simge
+[Closed module]
+Kapalı modül
+[Open module]
+Modülü aç
+[Settings]
+Ayarlar
+[Contacts group]
+Kişiler grubu
+[Unknown contact]
+Bilinmeyen kişi
+[Known contact]
+Bilinen kişi
+[Open user tree]
+Kullanıcı ağacını aç
+[Empty setting]
+Boş ayar
+[BLOB setting]
+BLOB ayarı
+[Byte setting]
+Bayt ayarı
+[Word setting]
+Kelime ayarı
+[Dword setting]
+DWORD ayarı
+[String setting]
+Dize ayarı
+[Unicode setting]
+Unicode ayarı
+[Handle]
+Kulp
+[Database]
+Veritabanı
+;file \plugins\DbEditorPP\src\main.cpp
+[Open Database Editor]
+Veritabanı Düzenleyicisini Aç
+[Open user tree in DBE++]
+DBE++'da kullanıcı ağacını aç
+;file \plugins\DbEditorPP\src\main_window.cpp
+[Are you sure you want to delete contact "%s"?]
+"%s" adlı kişiyi silmek istediğinizden emin misiniz?
+[Type]
+Tür
+[Size]
+Boyut
+[Delete resident settings from database?]
+Veritabanındaki yerleşik ayarları silmek mi?
+[%d items deleted.]
+%d öğe silindi.
+;file \plugins\DbEditorPP\src\modsettingenum.cpp
+[Error loading module list]
+Modül listesi yüklenirken hata oluştu
+[Error loading setting list]
+Ayar listesi yüklenirken hata oluştu
+;file \plugins\DbEditorPP\src\moduletree.cpp
+[Loading contacts...]
+Kişiler yükleniyor...
+[Loading modules...]
+Modüller yükleniyor...
+[Contacts]
+İletişim Bilgileri
+;file \plugins\DbEditorPP\src\options.cpp
+[Popups]
+Açılır pencereler
+;file \plugins\DbEditorPP\src\renamemodule.cpp
+[Add module to "%s"]
+"%s" dosyasına modül ekle
+;file \plugins\DbEditorPP\src\settinglist.cpp
+[Unable to store value in this data type!]
+Bu veri türüne değer kaydedilemiyor!
+[Are you sure you want to delete %d contact(s)?]
+%d kişiyi silmek istediğinizden emin misiniz?
+[Are you sure you want to delete %d setting(s)?]
+%d ayarı silmek istediğinizden emin misiniz?
+[*** encrypted ***]
+*** şifrelenmiş ***
+[*** buggy resident ***]
+*** sorunlu sakin ***
+;file \plugins\DbEditorPP\src\settingsdlg.cpp
+[Unknown DBVariant type!]
+Bilinmeyen DBVariant türü!
+[Edit setting (%s)]
+Ayarları düzenle (%s)
+[New setting (%s)]
+Yeni ayar (%s)
+;file \plugins\DbEditorPP\src\stdafx.h
+;file \plugins\DbEditorPP\src\utils.cpp
+[[UNLOADED]]
+[BOŞ]
+;file \plugins\DbEditorPP\src\watchedvars.cpp
+[*** resident ***]
+*** yerleşik ***
+[Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
+Veritabanı Ayarı Değiştirildi: \nModül: "%s", Ayar: "%s"\nYeni Değer (%s): "%s"

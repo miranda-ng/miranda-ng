@@ -1,0 +1,96 @@
+#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
+;============================================================
+;  File: TopToolBar.dll
+;  Plugin: TopToolBar
+;  Version: 0.8.0.5
+;  Authors: Bethoven
+;============================================================
+[ToptoolBar adds buttons in top frame for fast access.]
+ToptoolBar, hızlı erişim için üst çerçeveye düğmeler ekler.
+;file \plugins\TopToolBar\res\main.rc
+[Buttons order and visibility]
+Düğmelerin sırası ve görünürlüğü
+[Button height]
+Düğme yüksekliği
+[Button width]
+Düğme genişliği
+[Interval between buttons]
+Düğmeler arasındaki aralık
+[Use flat mode]
+Düz modunu kullan
+[Auto resize]
+Otomatik boyutlandırma
+[Single line]
+Tek satır
+[Buttons order:]
+Düğmelerin sırası:
+[Add separator]
+Ayırıcı ekle
+[Add launch]
+Başlatma ekle
+[Delete separator/launch button]
+Ayırıcıyı sil/başlat düğmesi
+[Name:]
+Adı:
+[Path:]
+Yol:
+[Set]
+Set
+;file \plugins\TopToolBar\src\InternalButtons.cpp
+[Show main menu]
+Ana menüyü göster
+[Show options page]
+Seçenekler sayfasını göster
+[Show accounts manager]
+Hesap yöneticisini göster
+[Find/add contacts]
+Kişileri bul/ekle
+[Show status menu]
+Durum menüsünü göster
+[Show/hide offline contacts]
+Çevrimdışı kişileri göster/gizle
+[Show offline contacts]
+Çevrimdışı kişileri göster
+[Hide offline contacts]
+Çevrimdışı kişileri gizle
+[Enable/disable metacontacts]
+Metakontakları etkinleştirme/devre dışı bırakma
+[Enable metacontacts]
+Metakontakları etkinleştir
+[Disable metacontacts]
+Metakontakları devre dışı bırak
+[Enable/disable groups]
+Grupları etkinleştirme/devre dışı bırakma
+[Disable groups]
+Grupları devre dışı bırak
+[Enable groups]
+Grupları etkinleştir
+[Enable/disable sounds]
+Sesleri etkinleştir/devre dışı bırak
+[Enable sounds]
+Sesleri etkinleştir
+[Disable sounds]
+Sesleri devre dışı bırak
+[Minimize contact list]
+Kişi listesini küçült
+[Exit]
+Çıkış
+;file \plugins\TopToolBar\src\main.cpp
+[Execute]
+Çalıştır
+[Separator]
+Ayırıcı
+;file \plugins\TopToolBar\src\toolbar.cpp
+[TopToolBar background]
+TopToolBar arka planı
+[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Clist nicer\nYou can get them at https://wiki.miranda-ng.org/Download]
+Frames hizmeti bulunamadı, bu nedenle eklenti devre dışı bırakılacaktır.\nBunu çalıştırmak için, bunu destekleyen bir kişi listesi eklentisini yüklemeniz ve/veya etkinleştirmeniz gerekir:\n- Modern kişi listesi\n- Clist nicer\nBu eklentileri https://wiki.miranda-ng.org/Download adresinden edinebilirsiniz
+[TopToolBar]
+Üst Araç Çubuğu
+;file \plugins\TopToolBar\src\ttbopt.cpp
+[Default]
+Varsayılan
+[Contact list]
+Kişi listesi
+[Toolbar]
+Araç Çubuğu

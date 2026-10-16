@@ -1,0 +1,74 @@
+#muuid {e876fe63-0701-4cda-bed5-7c73a379c1d1}
+;============================================================
+;  File: CloudFile.dll
+;  Plugin: CloudFile
+;  Version: 0.12.0.1
+;  Authors: Miranda NG team
+;============================================================
+[Allows you to transfer files via cloud services.]
+Bulut hizmetleri aracılığıyla dosya aktarmanıza olanak tanır.
+;file \protocols\CloudFile\res\resource.rc
+[Default service]
+Varsayılan hizmet
+[General]
+Genel
+[Autosend download link to contact]
+İndirme bağlantısını irtibat kişisine otomatik olarak gönder
+[Paste download link into message input area]
+İndirme bağlantısını mesaj giriş alanına yapıştırın
+[Copy download link to clipboard]
+İndirme bağlantısını panoya kopyala
+[Download link]
+İndirme bağlantısı
+[Do nothing]
+Hiçbir şey yapma
+[Try to rename]
+Adını değiştirmeyi deneyin
+[Try to replace]
+Şunu değiştirmeyi deneyin
+[On conflict when upload]
+Yükleme sırasında yaşanan çakışmalar hakkında
+[Authorization]
+Yetkilendirme
+[Cancel]
+İptal et
+[Enter authorization code:]
+Yetkilendirme kodunu girin:
+[To allow Miranda NG access to %s:]
+Miranda NG'nin %s'ye erişebilmesi için:
+[Go to this link]
+Bu bağlantıya gidin
+[Request access]
+Erişim talebi
+[Revoke access]
+Erişimi iptal et
+;file \protocols\CloudFile\src\icons.cpp
+[Upload file(s)]
+Dosya(ları) yükle
+[Dropbox]
+Dropbox
+[Google Drive]
+Google Drive
+[OneDrive]
+OneDrive
+[Yandex.Disk]
+Yandex.Disk
+;file \protocols\CloudFile\src\menus.cpp
+[Upload to]
+Şuraya yükle
+[Upload to...]
+Şuraya yükle...
+;file \protocols\CloudFile\src\options.cpp
+[None]
+Yok
+[Services]
+Hizmetler
+;file \protocols\CloudFile\src\srmm.cpp
+[Upload files to...]
+Dosyaları şuraya yükle...
+;file \protocols\CloudFile\src\Services\dropbox_service.cpp
+[Server does not respond]
+Sunucu yanıt vermiyor
+;file \protocols\CloudFile\src\Services\google_service.cpp
+;file \protocols\CloudFile\src\Services\microsoft_service.cpp
+;file \protocols\CloudFile\src\Services\yandex_service.cpp

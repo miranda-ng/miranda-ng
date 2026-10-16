@@ -166,6 +166,8 @@ ExtraIcon_SetIconByName @238
 ExtraIcon_Clear @239
 ExtraIcon_RegisterCallback @240
 ExtraIcon_RegisterIcolib @241
+Font_Import @242
+Font_ImportW @243
 IsPluginLoaded @249
 Clist_GroupBuildMenu @250
 Clist_GroupCreate @251
@@ -561,14 +563,6 @@ Menu_SetVisible @662
 ??_7MDatabaseReadonly@@6B@ @685 NONAME
 ?GetEventById@MDatabaseReadonly@@UAGIPBD0@Z @686 NONAME
 ?EditEvent@MDatabaseReadonly@@UAGHIPBUDBEVENTINFO@@@Z @688 NONAME
-g_hevContactAdded @689 NONAME
-g_hevContactDeleted @690 NONAME
-g_hevEventAdded @691 NONAME
-g_hevEventDeleted @692 NONAME
-g_hevEventEdited @693 NONAME
-g_hevEventFiltered @694 NONAME
-g_hevMarkedRead @695 NONAME
-g_hevSettingChanged @696 NONAME
 ??0GCModuleInfoBase@@QAE@XZ @697 NONAME
 ??0SESSION_INFO@@QAE@XZ @698 NONAME
 ??1GCModuleInfoBase@@QAE@XZ @699 NONAME
@@ -893,7 +887,7 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?OnOptionsApplied@CSrmmBaseDialog@@UAEXXZ @1026 NONAME
 ?Srmm_GetWindowClass@@YGPAUSrmmLogWindowClass@@_NI@Z @1027 NONAME
 ?addColor@CMPluginBase@@QAEHPBD0PB_W1K@Z @1028 NONAME
-?addFont@CMPluginBase@@QAEHPBD0PB_W111HHPAUtagLOGFONTW@@K@Z @1029 NONAME
+?addFont@CMPluginBase@@QAEHPBD0PB_W111HHPAUFontSettingsW@@@Z @1029 NONAME
 ?IsReadonly@Contact@@YG_NI@Z @1030 NONAME
 ?Readonly@Contact@@YGXI_N@Z @1031 NONAME
 ?addButton@CMPluginBase@@QAEPAXPBUBBButton@@@Z @1032 NONAME
@@ -965,8 +959,6 @@ _Netlib_DownloadFile@20 @1093 NONAME
 ?MarkEventRead@CSrmmBaseDialog@@QAEXABVEventInfo@DB@@@Z @1099 NONAME
 ?getEvent@EventInfo@DB@@QBEIXZ @1100 NONAME
 ?GetPreviewPath@PROTO_INTERFACE@@QBE?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@XZ @1101 NONAME
-g_hevEventDelivered @1102 NONAME
-g_hevEventSetJson @1103 NONAME
 ?getJson@EventInfo@DB@@QBEAAVJSONNode@@XZ @1104 NONAME
 ?setJson@EventInfo@DB@@QAEAAVJSONNode@@XZ @1105 NONAME
 ?flushJson@EventInfo@DB@@QAEXXZ @1106 NONAME

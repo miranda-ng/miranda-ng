@@ -398,8 +398,7 @@ TG_USER* CTelegramProto::AddUser(int64_t id, bool bIsChat)
 		if (pUser->hContact != INVALID_CONTACT_ID)
 			return pUser;
 
-	MCONTACT hContact = db_add_contact();
-	Proto_AddToContact(hContact, m_szModuleName);
+	MCONTACT hContact = db_add_contact(m_szModuleName);
 
 	SetId(hContact, id);
 
@@ -750,6 +749,13 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 	case TD::messageChatDeletePhoto::ID:
 		if (!isHistory)
 			ProcessAvatar(nullptr, pUser);
+		break;
+
+	case TD::messageForumTopicCreated::ID:
+		if (auto *pObj = (TD::messageForumTopicCreated *)pBody) {
+			TD::int32 topic_id = getThreadId(pMsg->topic_id_.get());
+			InitForumTopic(pUser, topic_id, Utf2T(pObj->name_.c_str()));
+		}
 		break;
 
 	case TD::messageAnimatedEmoji::ID:

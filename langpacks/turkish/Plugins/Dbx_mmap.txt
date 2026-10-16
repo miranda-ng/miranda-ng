@@ -1,0 +1,25 @@
+#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
+;============================================================
+;  File: Dbx_mmap.dll
+;  Plugin: Miranda NG mmap database driver
+;  Version: 0.95.8.1
+;  Authors: Miranda-NG project
+;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Miranda veritabanı desteği sunar: genel ayarlar, kişiler, geçmiş, kişi başına ayarlar.
+;file \plugins\Db3x_mmap\src\database.cpp
+[Miranda has detected corruption in your database. Miranda will now shut down.]
+Miranda, veritabanınızda bozulma tespit etti. Miranda şimdi kapanacak.
+[Disk is full. Miranda will now shut down.]
+Disk doldu. Miranda şimdi kapanacak.
+[Database failure. Miranda will now shut down.]
+Veritabanı hatası. Miranda şimdi kapanacak.
+[Database Error]
+Veritabanı Hatası
+[Database Panic]
+Veritabanı Panik Durumu
+;file \plugins\Db3x_mmap\src\dbheaders.cpp
+[This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?]
+Bu profil, PluginUpdater ile güncellenemeyecek kadar eskidir; önce veritabanınızın dönüştürülmesi gerekir.\n\nBu sorunu nasıl çözebileceğinizi öğrenmek ister misiniz?
+[Obsolete database format]
+Eski veritabanı biçimi

@@ -1190,11 +1190,10 @@ ICQUser* ICQ::addUser(unsigned int uin, bool persistent)
 
 	u = new ICQUser();
 	u->dwUIN = uin;
-	u->hContact = db_add_contact();
-	icqUsers.push_back(u);
-
-	Proto_AddToContact(u->hContact, protoName);
+	u->hContact = db_add_contact(protoName);
 	u->setInfo("UIN", uin);
+
+	icqUsers.push_back(u);
 
 	if (persistent)
 		getUserInfo(u, true);

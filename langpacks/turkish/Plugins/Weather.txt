@@ -1,0 +1,499 @@
+#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
+;============================================================
+;  File: Weather.dll
+;  Plugin: Weather
+;  Version: 1.1.0.1
+;  Authors: Miranda NG team
+;============================================================
+[Retrieves weather information and displays it in your contact list.]
+Hava durumu bilgilerini alır ve bunları kişi listenizde gösterir.
+;file \protocols\Weather\res\resource.rc
+[Update]
+Güncelleme
+[Brief Info]
+Kısa Bilgi
+[Webpage]
+Web sayfası
+[Close]
+Kapat
+[Options]
+Seçenekler
+[Update weather information every]
+Hava durumu bilgilerini her
+[minutes]
+dakika
+[Consider weather info updated only when condition and temperature are changed]
+Hava durumu bilgilerinin yalnızca hava koşulları ve sıcaklık değiştiğinde güncellenmesini dikkate alın
+[Remove old data when updating]
+Güncelleme yaparken eski verileri silin
+[Make the contact italic when weather alert is issued]
+Hava durumu uyarısı yayınlandığında iletişim bilgisini italik yapın
+[Modes]
+Modlar
+[Avatar only mode]
+Yalnızca Avatar modu
+[Units]
+Birimler
+[Temperature]
+Sıcaklık
+[Celsius]
+Selsiyus
+[Fahrenheit]
+Fahrenheit
+[Degree sign:]
+Derece işareti:
+[Wind]
+Rüzgâr
+[km/h]
+km/h
+[m/s]
+m/s
+[mph]
+mph
+[knots]
+düğümler
+[Visibility]
+Görünürlük
+[km]
+km
+[miles]
+mil
+[Pressure]
+Basınç
+[kPa]
+kPa
+[mb (hPa)]
+mb (hPa)
+[inches]
+inç
+[mm Hg (torr)]
+mm Hg (torr)
+[Day/Month]
+Gün/Ay
+[No change]
+Değişiklik yok
+[2 chars]
+2 karakter
+[3 chars]
+3 karakter
+[Elevation]
+Yükseklik
+[ft]
+ft
+[m]
+m
+[Do not append units to values]
+Değerlerin sonuna birim eklemeyin
+[Do not display fractional values]
+Kesirli değerleri gösterme
+[Frame]
+Çerçeve
+[Avatar size]
+Avatar boyutu
+[Edit Weather Station]
+Hava İstasyonunu Düzenle
+[Weather Station]
+Hava İstasyonu
+[City name]
+Şehir adı
+[Log Information]
+Günlük Bilgileri
+[Use internal history]
+Dahili geçmişi kullan
+[Use external file]
+Harici dosya kullan
+[Overwrite file upon update]
+Güncelleme sırasında dosyayı üzerine yaz
+[Path:]
+Yol:
+[Other Options]
+Diğer Seçenekler
+[Set as default station]
+Varsayılan istasyon olarak ayarla
+[Disable automatic update for this station]
+Bu istasyon için otomatik güncellemeyi devre dışı bırak
+[Disable Popup for this station]
+Bu istasyon için açılır pencereleri devre dışı bırak
+[Change]
+Değişiklik
+[Cancel]
+İptal et
+[Popup Options]
+Açılır Pencere Seçenekleri
+[Popup only when condition changes]
+Koşul değiştiğinde açılır pencere gösterilsin
+[Colors]
+Renkler
+[Background color]
+Arka plan rengi
+[Text color]
+Metin rengi
+[Use Windows colors]
+Windows renklerini kullan
+[Popup Actions]
+Açılır Pencere İşlemleri
+[Left Click]
+Sol Tıklama
+[Right Click]
+Sağ Tıklama
+[Popup timeout]
+Açılır pencere zaman aşımı
+[Timeout]
+Zaman aşımı
+[seconds]
+saniye
+[Default]
+Varsayılan
+[Permanent]
+Kalıcı
+[Popup Text]
+Açılır Pencere Metni
+[Popup Title]
+Açılır Pencere Başlığı
+[Variables]
+Değişkenler
+[Preview]
+Önizleme
+[Updates]
+Güncellemeler
+[Alerts]
+Uyarılar
+[Errors]
+Hatalar
+[Enter your personal API key from Visual Crossing Weather site]
+Visual Crossing Weather sitesinden kişisel API anahtarınızı girin
+[Obtain key]
+Anahtarı al
+[Contact List]
+Kişi Listesi
+[Brief Info Title]
+Kısa Bilgi Başlığı
+[Note Text]
+Not Metni
+[Extra Text]
+Ek Metin
+[External Log]
+Dış Günlük
+[History Log]
+Geçmiş Kaydı
+[Variable List]
+Değişken Listesi
+[More Variables]
+Daha Fazla Değişken
+[Reset]
+Sıfırla
+[Status Message]
+Durum Mesajı
+[Sunset]
+Gün batımı
+[Feel-like]
+Hava durumu
+[Today's Low]
+Bugünün en düşük seviyesi
+[Today's High]
+Bugünün En Yüksek Sıcaklığı
+[Sunrise]
+Güneşin doğuşu
+[Dew point]
+Çiğlenme noktası
+[Humidity]
+Nem
+[More...]
+Devamı...
+[City:]
+Şehir:
+[Menu]
+Menü
+[Dismiss Popup]
+Açılır Penceriyi Kapat
+[Open brief information]
+Kısa bilgileri aç
+[Open complete forecast]
+Tahminin tamamını aç
+[Open weather map]
+Hava durumu haritasını aç
+[View history]
+Geçmişi görüntüle
+[Open log file]
+Günlük dosyasını aç
+[Show user menu]
+Kullanıcı menüsünü göster
+[Show user detail]
+Kullanıcı ayrıntılarını göster
+[To old setting]
+Eski ayara
+[To default]
+Varsayılan ayara dönmek için
+;file \protocols\Weather\src\stdafx.h
+[N/A]
+Yok
+;file \protocols\Weather\src\weather.cpp
+[Protocol icon]
+Protokol simgesi
+[Update Disabled]
+Güncelleme Devre Dışı
+[View Log]
+Günlüğü Görüntüle
+[Update with Clear]
+Temizle ile Güncelle
+[View Brief]
+Özet Görüntüle
+[View Complete]
+Tamını Görüntüle
+[Weather Update]
+Hava Durumu Güncellemesi
+[Weather Map]
+Hava Durumu Haritası
+[Edit Settings]
+Ayarları Düzenle
+[Condition Changed]
+Durum Değişti
+[Alert Issued]
+Uyarı Yayınlandı
+;file \protocols\Weather\src\weather_addstn.cpp
+[Current weather information for %s.]
+%s için güncel hava durumu bilgileri.
+[%s is now the default weather station]
+%s artık varsayılan hava durumu istasyonu oldu
+[Weather Protocol]
+Hava Durumu Protokolü
+[Please try again after weather update is completed.]
+Hava durumu güncellemesi tamamlandıktan sonra lütfen tekrar deneyin.
+;file \protocols\Weather\src\weather_contacts.cpp
+[Weather condition was not logged.]
+Hava durumu kaydedilmedi.
+[Browse]
+Göz at
+[Text Files]
+Metin Dosyaları
+[All Files]
+Tüm Dosyalar
+;file \protocols\Weather\src\weather_conv.cpp
+[mb]
+mb
+[in]
+içinde
+[mm]
+mm
+[<unknown time>]
+<bilinmeyen zaman>
+[<Error>]
+<Hata>
+[Invalid ID format, missing "/" (10)]
+Geçersiz kimlik biçimi, "/" eksik (10)
+[Invalid service (11)]
+Geçersiz hizmet (11)
+[Invalid station (12)]
+Geçersiz istasyon (12)
+[Weather service ini for this station is not found (20)]
+Bu istasyon için hava durumu hizmeti bulunamadı (20)
+[Netlib error - check your internet connection (30)]
+Netlib hatası - İnternet bağlantınızı kontrol edin (30)
+[Empty data is retrieved (40)]
+Boş veriler alındı (40)
+[Document not found (42)]
+Belge bulunamadı (42)
+[Document too short to contain any weather data (43)]
+Belge, herhangi bir hava durumu verisini içerecek kadar uzun değil (43)
+[Unknown error (99)]
+Bilinmeyen hata (99)
+[HTTP Error: No content (204)]
+HTTP Hatası: İçerik yok (204)
+[HTTP Error: Data moved (301)]
+HTTP Hatası: Veriler başka bir adrese yönlendirildi (301)
+[HTTP Error: Use proxy (305)]
+HTTP Hatası: Proxy kullanın (305)
+[HTTP Error: Temporary redirect (307)]
+HTTP Hatası: Geçici yönlendirme (307)
+[HTTP Error: Bad request (400)]
+HTTP Hatası: Geçersiz istek (400)
+[HTTP Error: Unauthorized (401)]
+HTTP Hatası: Yetkisiz (401)
+[HTTP Error: Payment required (402)]
+HTTP Hatası: Ödeme gerekiyor (402)
+[HTTP Error: Forbidden (403)]
+HTTP Hatası: Erişim Yasak (403)
+[HTTP Error: Not found (404)]
+HTTP Hatası: Bulunamadı (404)
+[HTTP Error: Method not allowed (405)]
+HTTP Hatası: Yöntem izin verilmiyor (405)
+[HTTP Error: Proxy authentication required (407)]
+HTTP Hatası: Proxy kimlik doğrulaması gerekiyor (407)
+[HTTP Error: Gone (410)]
+HTTP Hatası: Gone (410)
+[HTTP Error: Internal server error (500)]
+HTTP Hatası: Dahili sunucu hatası (500)
+[HTTP Error: Bad gateway (502)]
+HTTP Hatası: Hata: Geçit hatası (502)
+[HTTP Error: Service unavailable (503)]
+HTTP Hatası: Hizmet kullanılamıyor (503)
+[HTTP Error: Gateway timeout (504)]
+HTTP Hatası: Ağ geçidi zaman aşımı (504)
+[HTTP Error %i]
+HTTP Hatası %i
+;file \protocols\Weather\src\weather_data.cpp
+[<Enter city name here>]
+<Buraya şehir adını girin>
+[N]
+N
+[NNE]
+NNE
+[NE]
+NE
+[ENE]
+ENE
+[E]
+E
+[ESE]
+ESE
+[ES]
+ES
+[SSE]
+SSE
+[S]
+S
+[SSW]
+SSW
+[SW]
+SW
+[WSW]
+WSW
+[W]
+W
+[WNW]
+WNW
+[WN]
+WN
+[NNW]
+NNW
+[You need to obtain the personal key and enter it in the account's Options dialog]
+Özel anahtarı almanız ve bunu hesabın Seçenekler iletişim kutusuna girmeniz gerekir
+;file \protocols\Weather\src\weather_mwin.cpp
+[Frame Font]
+Çerçeve Yazı Tipi
+[Frame Title Font]
+Çerçeve Başlığı Yazı Tipi
+[Frame Background]
+Çerçeve Arka Planı
+;file \protocols\Weather\src\weather_opt.cpp
+[Weather Condition for %n as of %u]
+%n için %u itibarıyla hava durumu
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n\\n%[Forecast Day 1]\\n\\n%[Forecast Day 2]\\n\\n%[Forecast Day 3]\\n\\n%[Forecast Day 4]\\n\\n%[Forecast Day 5]]
+Hissedilen Sıcaklık: %f\\nBasınç: %p\\nRüzgar: %i  %w\\nNem: %m\\nÇiğ Noktası: %e\\nGörüş Mesafesi: %v\\n\\nGüneşin Doğuşu: %r\\nGüneşin Batışı: %y\\n\\n5 Günlük Hava Durumu:\\n\\n%[1. Gün Tahmini]\\n\\n%[2. Gün Tahmini]\\n\\n%[3. Gün Tahmini]\\n\\n%[4. Gün Tahmini]\\n\\n%[5. Gün Tahmini]
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n\\n%[Forecast Day 1]\\n\\n%[Forecast Day 2]\\n\\n%[Forecast Day 3]\\n\\n%[Forecast Day 4]\\n\\n%[Forecast Day 5]]
+%c\\nSıcaklık: %t\\nHissedilen sıcaklık: %f\\nBasınç: %p\\nRüzgâr: %i  %w\\nNem: %m\\nÇiğ Noktası: %e\\nGörüş Mesafesi: %v\\n\\nGüneşin Doğuşu: %r\\nGüneşin Batışı: %y\\n\\n5 Günlük Hava Durumu:\\n\\n%[1. Gün Tahmini]\\n\\n%[2. Gün Tahmini]\\n\\n%[3. Gün Tahmini]\\n\\n%[4. Gün Tahmini]\\n\\n%[5. Gün Tahmini]
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%n saat %u:  %c, %t (hissedilen sıcaklık %f)  Rüzgâr: %i %w  Nem: %m
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%c, %t (hissedilen sıcaklık %f)  Rüzgâr: %i %w  Nem: %m
+[Temperature: %[Temperature]]
+Sıcaklık: %[Sıcaklık]
+[%n   (%u)]
+%n   (%u)
+[%c, %t\\nToday:  High %h, Low %l]
+%c, %t\\nBugün:  En yüksek %h, En düşük %l
+[Current condition]
+Mevcut durum
+[Current date]
+Bugünün tarihi
+[Dewpoint]
+Çiğlenme noktası
+[Feel-like temp]
+Hissedilen sıcaklık
+[Today's high]
+Bugünün en yüksek sıcaklığı
+[Wind direction]
+Rüzgâr yönü
+[Today's low]
+Bugünün en düşük seviyesi
+[Station name]
+İstasyon adı
+[Station ID]
+İstasyon Kimliği
+[Update time]
+Güncelleme saati
+[Wind speed]
+Rüzgâr hızı
+[new line]
+yeni satır
+[Here is a list of custom variables that are currently available]
+İşte şu anda kullanılabilen özel değişkenlerin listesi
+[Weather Protocol Text Preview]
+Hava Durumu Protokolü Metni Önizlemesi
+[Network]
+Ağ
+[Account]
+Hesap
+[General]
+Genel
+[Display]
+Ekran
+;file \protocols\Weather\src\weather_popup.cpp
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tmevcut hava durumu\n%d\tbugünün tarihi\n%e\tçiy noktası\n%f\thissedilen sıcaklık\n%h\tbugünün en yüksek sıcaklığı\n%i\trüzgar yönü\n%l\tbugünün en düşük sıcaklığı\n%m\nhumidite\n%n\istasyon adı\n%p\basınç\n%r\güneşin doğuş saati\n%s\istasyon kimliği\n%t\sıcaklık\n%u\güncelleme saati\n%v\görüş mesafesi\n%w\rüzgar hızı\n%y\güneşin batışı
+[%[..]\tcustom variables]
+%[..]\tözel değişkenler
+[Popups]
+Açılır pencereler
+;file \protocols\Weather\src\weather_proto.cpp
+[notifications]
+bildirimler
+[Enable/disable auto update]
+Otomatik güncellemeyi etkinleştir/devre dışı bırak
+[Auto Update Enabled]
+Otomatik Güncelleme Etkin
+[Auto Update Disabled]
+Otomatik Güncelleme Devre Dışı
+[Coordinates]
+Koordinatlar
+;file \protocols\Weather\src\weather_svcs.cpp
+[Update Weather]
+Hava Durumu Güncellemesi
+[Remove Old Data then Update]
+Eski Verileri Silin, Ardından Güncelleyin
+[Brief Information]
+Kısa Bilgi
+[Read Complete Forecast]
+Tahminin Tamamını Okuyun
+[Display in a frame]
+Çerçeve içinde sergilemek
+;file \protocols\Weather\src\weather_update.cpp
+[Unable to retrieve weather information for %s]
+%s için hava durumu bilgileri alınamadı
+[New moon]
+Yeni ay
+[Waxing crescent]
+Havai ay
+[Waxing gibbous]
+Dolunaya yaklaşan ay
+[Waning gibbous]
+Azalan dolunay
+[Waning crescent]
+Azalan hilal
+[Date]
+Tarih
+[Condition]
+Durum
+[High]
+Yüksek
+[Low]
+Düşük
+[Moon phase]
+Ay evresi
+[Feel]
+Hisset
+;file \protocols\Weather\src\weather_userinfo.cpp
+[Variable]
+Değişken
+[Information]
+Bilgi
+[No information available.\r\nPlease update weather condition first.]
+Bilgi bulunmamaktadır.\r\nLütfen önce hava durumunu güncelleyin.
+[Retrieving new data, please wait...]
+Yeni veriler alınıyor, lütfen bekleyin...
+[More Info]
+Daha Fazla Bilgi
+[Current condition for %n]
+%n için mevcut durum
+[Last update on:   %u]
+Son güncelleme tarihi:   %u

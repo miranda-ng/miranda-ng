@@ -1,0 +1,31 @@
+#muuid {0F6C73B4-2B2B-711D-FBB6-BB267DFD7208}
+;============================================================
+;  File: AsSingleWindow.dll
+;  Plugin: AsSingleWindow
+;  Version: 0.1.2.2
+;  Authors: Aleksey Smyrnov aka Soar
+;============================================================
+[Allows you to move, minimize and activate Miranda's windows as if it were a single window.]
+Miranda’nın pencerelerini, sanki tek bir pencereymiş gibi taşıyabilmenizi, küçültebilmenizi ve etkinleştirebilmenizi sağlar.
+;file \plugins\AsSingleWindow\res\optionsPage.rc
+[Windows moving]
+Pencerelerin yer değiştirmesi
+[Contact list on the left]
+Soldaki kişi listesi
+[Contact list on the right]
+Sağdaki kişi listesi
+[Don't merge windows]
+Pencereleri birleştirmeyin
+[At opening one more message window]
+Açılışta bir mesaj penceresi daha açıldığında
+[Merge windows in opening order]
+Pencereleri açıldıkları sırayla birleştir
+[Merge only first window]
+Yalnızca ilk pencereyi birleştir
+[Don't merge windows until closing]
+Kapatana kadar pencereleri birleştirme
+;file \plugins\AsSingleWindow\src\Options.cpp
+[AsSingleWindow]
+AsSingleWindow
+[Customize]
+Kişiselleştir

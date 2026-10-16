@@ -1,0 +1,359 @@
+#muuid {fadd4a8a-1fd0-4398-83bd-e378b85ed8f1}
+;============================================================
+;  File: StatusManager.dll
+;  Plugin: Status manager
+;  Version: 1.2.0.8
+;  Authors: P Boon
+;============================================================
+[A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
+Bir bağlantı denetleyicisi ve otomatik uzaklaşma modülü. Ayrıca, Miranda’nın başlangıçta ayarlaması gereken durumu belirlemenize olanak tanır; bu ayar, protokol bazında yapılandırılabilir.
+;file \plugins\StatusManager\res\resource.rc
+[Available modules]
+Mevcut modüller
+[Keep status]
+Durumu koru
+[Automatically reconnects your accounts after protocol error or internet drop.]
+Protokol hatası veya internet bağlantısının kesilmesi durumunda hesaplarınızı otomatik olarak yeniden bağlar.
+[Startup status]
+Başlangıç durumu
+[Allows you to define the status Miranda should set on startup, configurable per account.]
+Miranda’nın başlangıçta ayarlaması gereken durumu tanımlamanıza olanak tanır; bu ayar hesap başına yapılandırılabilir.
+[Advanced auto away]
+Gelişmiş otomatik uzaklaşma
+[Improved auto away module with some more options than the built in, configurable per account.]
+Yerleşik modüle göre daha fazla seçenek sunan ve hesap bazında yapılandırılabilen, geliştirilmiş otomatik uzak kalma modülü.
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Not: Değişikliklerin yürürlüğe girmesi için Miranda NG’nin yeniden başlatılması gerekecektir.
+[General]
+Genel
+[Show popups]
+Açılır pencereleri göster
+[Account connection]
+Hesap bağlantısı
+[Check connection]
+Bağlantıyı kontrol edin
+[Maximum retries (0 - infinite)]
+Maksimum deneme sayısı (0 - sonsuz)
+[Delay between retries (secs)]
+Yeniden denemeler arasındaki gecikme süresi (saniye)
+[Accounts to check]
+Kontrol edilmesi gereken hesaplar
+[Internet connection]
+İnternet bağlantısı
+[Don't reconnect if no internet connection seems available]
+İnternet bağlantısı mevcut görünmüyorsa yeniden bağlanmayın
+[Continuously check for internet connection]
+İnternet bağlantısını sürekli kontrol edin
+[Do so by pinging host]
+Bunu, ana bilgisayara ping atarak yapabilirsiniz
+[Confirm status]
+Durumu onayla
+[Close]
+Kapat
+[Cancel]
+İptal et
+[Profile]
+Profil
+[Message]
+Mesaj
+[Account:]
+Hesap:
+[Away mode]
+Dış saha modu
+[Set]
+Set
+[when full-screen mode is active]
+tam ekran modu etkin olduğunda
+[when screen saver engages]
+ekran koruyucu devreye girdiğinde
+[when workstation is locked]
+iş istasyonu kilitlendiğinde
+[when terminal session is disconnected]
+terminal oturumu kesildiğinde
+[after]
+sonra
+[minutes of inactivity]
+hareketsizlik süresi
+[After away]
+Deplasman maçından sonra
+[minutes of level 1 mode]
+1. seviye modunda geçen süre
+[only set when inactive]
+yalnızca etkin olmadığında ayarlanır
+[Monitor Miranda's activity only]
+Yalnızca Miranda'nın faaliyetlerini izleyin
+[Reset status on return]
+Geri dönüşte durumu sıfırla
+[Confirm resetting status]
+Sıfırlama durumunu onaylayın
+[Enter idle mode]
+Bekleme moduna gir
+[Only set if current status is]
+Yalnızca mevcut durum şu ise ayarlayın:
+[Command line]
+Komut satırı
+[Copy to clipboard]
+Panoya kopyala
+[Command line:]
+Komut satırı:
+[Create shortcut]
+Kısayol oluştur
+[Add new profile]
+Yeni profil ekle
+[Profile name]
+Profil adı
+[Status on startup]
+Başlangıçtaki durum
+[Activate status profile]
+Durum profilini etkinleştir
+[Set after]
+Şu olaydan sonra geçen
+[ms]
+ms
+[Note: status profiles can be created in the 'Status profiles' options screen]
+Not: Durum profilleri, ‘Durum profilleri’ seçenekler ekranında oluşturulabilir
+[Allow override]
+Geçersiz kılmaya izin ver
+[Show dialog]
+İletişim kutusunu göster
+[Timeout]
+Zaman aşımı
+[s]
+s
+[Other]
+Diğer
+[Set status to offline before exit]
+Çıkmadan önce durumu çevrimdışı olarak ayarla
+[Show CMDL]
+CMDL'yi göster
+[Window on startup]
+Başlangıçta pencere açma
+[Set window state]
+Pencere durumunu ayarla
+[Set window location]
+Pencerenin konumunu ayarla
+[Left]
+Sol
+[Top]
+En üstte
+[Set window size]
+Pencere boyutunu ayarla
+[Width]
+Genişlik
+[Height]
+Yükseklik
+[Background color]
+Arka plan rengi
+[Text color]
+Metin rengi
+[Use Windows colors]
+Windows renklerini kullan
+[Use default colors]
+Varsayılan renkleri kullan
+[On left click]
+Sol tıklama üzerine
+[On right click]
+Sağ tıklama üzerine
+[Do nothing]
+Hiçbir şey yapma
+[Close popup]
+Açılır pencereyi kapat
+[Cancel reconnecting]
+Yeniden bağlanmayı iptal et
+[Colors]
+Renkler
+[Preview]
+Önizleme
+[Events]
+Etkinlikler
+[Show when connection is lost]
+Bağlantı kesildiğinde göster
+[Show when a connection attempt is made]
+Bağlantı denemesi yapıldığında göster
+[Show when reconnection has finished]
+Yeniden bağlanma işleminin ne zaman tamamlandığını göster
+[Show other messages]
+Diğer mesajları göster
+[Default]
+Varsayılan
+[Custom]
+Özel
+[Permanent]
+Kalıcı
+[Show additional information in popups]
+Ek bilgileri açılır pencerelerde göster
+[Use Miranda's message setting]
+Miranda'nın mesaj ayarını kullan
+[Use this message:]
+Şu mesajı kullanın:
+[Use %time% for the current time, %date% for the current date]
+Geçerli saat için %time%, geçerli tarih için %date% ifadesini kullanın
+[Variables...]
+Değişkenler...
+[Specify settings for each account]
+Her hesap için ayarları belirleyin
+[Use same settings for all accounts]
+Tüm hesaplar için aynı ayarları kullan
+[Ignore Caps Lock, Num Lock and Scroll Lock keys]
+Caps Lock, Num Lock ve Scroll Lock tuşlarını yok say
+[Check interval (secs)]
+Kontrol aralığı (saniye)
+[Confirm dialog timeout (secs)]
+Onay iletişim kutusu zaman aşımı (saniye)
+[Monitor keyboard activity]
+Klavye hareketlerini izle
+[Monitor mouse activity]
+Fare hareketlerini izle
+[Ignore Ctrl, Alt, Shift, Tab, Esc and Windows keys]
+Ctrl, Alt, Shift, Tab, Esc ve Windows tuşlarını yok say
+[Ignore any key combination with above keys]
+Yukarıdaki tuşları içeren tüm tuş kombinasyonlarını yok sayın
+[Accounts]
+Hesaplar
+[Enable checking]
+Denetlemeyi etkinleştir
+[Disable checking]
+Denetlemeyi devre dışı bırak
+[Set status message]
+Durum mesajını ayarla
+[Account]
+Hesap
+[Status]
+Durum
+[Add...]
+Ekle...
+[Delete]
+Sil
+[Create a TopToolBar button]
+TopToolBar düğmesi oluşturun
+[Show confirm dialog when loading]
+Yükleme sırasında onay iletişim kutusu göster
+[Create a status menu item]
+Bir durum menü öğesi oluşturun
+[Status profiles]
+Durum profilleri
+[Hotkey]
+Kısayol tuşu
+[In submenu]
+Alt menüde
+[Timers]
+Zamanlayıcılar
+[Maximum delay (secs)]
+Maksimum gecikme süresi (saniye)
+[Maximum account connecting time (secs)]
+Maksimum hesap bağlantı süresi (saniye)
+[Reconnecting]
+Yeniden Bağlantı Kurma
+[Ignore locked status of accounts]
+Hesapların kilitli durumunu göz ardı et
+[Increase delay exponential]
+Gecikmeyi üstel olarak artır
+[Set account offline before a connection attempt]
+Bağlantı kurmaya çalışmadan önce hesabı çevrimdışı duruma getirin
+[Cancel all if an account connects from another location]
+Bir hesap başka bir konumdan bağlanırsa tüm işlemleri iptal et
+[Reconnect on APM resume]
+APM yeniden başlatıldığında yeniden bağlan
+[React on login errors]
+Giriş hatalarına tepki göster
+[Stop trying to reconnect]
+Yeniden bağlanmaya çalışmayı bırakın
+[Set delay to]
+Gecikmeyi şuna ayarla:
+[seconds]
+saniye
+[Consider connection lost after]
+Aşağıdaki durumdan sonra bağlantının kesildiğini varsayınız:
+[failed pings]
+başarısız ping denemeleri
+[Continuously check interval (secs)]
+Sürekli kontrol aralığı (saniye)
+;file \plugins\StatusManager\src\aaa_options.cpp
+[minutes of %s mode]
+%s modunun tutanakları
+[Auto away]
+Otomatik uzaklaşma
+[Rules]
+Kurallar
+[Status messages]
+Durum mesajları
+;file \plugins\StatusManager\src\commonstatus.cpp
+[<unknown>]
+<bilinmiyor>
+;file \plugins\StatusManager\src\confirmdialog.cpp
+[Set %s message for %s.]
+%s için %s mesajını ayarla.
+[<last>]
+<son>
+[<current>]
+<güncel>
+[<n/a>]
+<yok>
+[Protocol]
+Protokol
+[Closing in %d]
+%d içinde kapanış
+;file \plugins\StatusManager\src\ks_main.cpp
+[%s connected from another location]
+%s başka bir konumdan bağlandı
+[%s login error, cancel reconnecting]
+%s oturum açma hatası, yeniden bağlanmayı iptal et
+[%s login error (next retry (%d) in %d s)]
+%s oturum açma hatası (bir sonraki deneme (%d) %d saniye sonra)
+[%s status error (next retry (%d) in %d s)]
+%s durum hatası (%d saniye içinde bir sonraki deneme (%d))
+[Status error (next retry (%d) in %d s)]
+Durum hatası (%d saniye içinde bir sonraki deneme (%d))
+[Resetting status... (last try (%d))]
+Durum sıfırlanıyor... (son deneme (%d))
+[Resetting status... (next retry (%d) in %d s)]
+Durum sıfırlanıyor... (%d saniye sonra bir sonraki deneme (%d))
+[%s\t(will be set to %s)\r\n]
+%s\t(%s olarak ayarlanacak)\r\n
+[No internet connection seems available... (last try (%d))]
+İnternet bağlantısı yok gibi görünüyor... (son deneme (%d))
+[No internet connection seems available... (next retry (%d) in %d s)]
+İnternet bağlantısı yok gibi görünüyor... (%d saniye sonra (%d) numaralı deneme)
+[Status was set ok]
+Durum "Tamam" olarak ayarlandı
+[Giving up]
+Vazgeçmek
+;file \plugins\StatusManager\src\ks_options.cpp
+[You broke the Internet!]
+İnterneti alt üst ettin!
+[Basic]
+Temel
+[Advanced]
+İleri Düzey
+[Popups]
+Açılır pencereler
+;file \plugins\StatusManager\src\options.cpp
+[Status manager]
+Durum yöneticisi
+;file \plugins\StatusManager\src\ss_options.cpp
+[default]
+varsayılan
+[Hidden]
+Gizli
+[Minimized]
+Küçültülmüş
+[Normal]
+Normal
+[size: %d x %d]
+boyut: %d x %d
+[loc: %d x %d]
+konum: %d x %d
+[unknown]
+bilinmiyor
+[At least one profile must exist]
+En az bir profil bulunmalıdır
+[Your default profile will be changed]
+Varsayılan profiliniz değiştirilecektir
+;file \plugins\StatusManager\src\ss_profiles.cpp
+;file \plugins\StatusManager\src\ss_toolbars.cpp
+[Pressed toolbar icon]
+Baskılı araç çubuğu simgesi
+[Released toolbar icon]
+Serbest bırakılan araç çubuğu simgesi
+[Toolbar]
+Araç Çubuğu

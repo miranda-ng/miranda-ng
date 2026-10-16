@@ -1,0 +1,36 @@
+#muuid {dace7d41-dfa9-4772-89ae-a59a6153e6b2}
+;============================================================
+;  File: AuthState.dll
+;  Plugin: Authorization state
+;  Version: 0.0.2.3
+;  Authors: Thief, idea by snwbrdr
+;============================================================
+[If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
+Bir kişi size yetki vermemişse, bu eklenti o kişinin adının önüne bir simge yerleştirir.
+;file \plugins\AuthState\res\authstate.rc
+[Plugin settings]
+Eklenti ayarları
+[Show icons only for recently added contacts]
+Yalnızca son eklenen kişiler için simgeleri göster
+[Show Request icon]
+İstek simgesini göster
+[Show Grant icon]
+Hibe simgesini göster
+;file \plugins\AuthState\src\main.cpp
+[Request]
+Talep
+[Grant]
+Hibe
+[Request & Grant]
+Talep ve Onay
+[Disable AuthState icons]
+AuthState simgelerini devre dışı bırak
+[Enable AuthState icons]
+AuthState simgelerini etkinleştir
+[Auth state]
+Oturum durumu
+;file \plugins\AuthState\src\options.cpp
+[Customize]
+Kişiselleştir
+[Icons]
+Simgeler

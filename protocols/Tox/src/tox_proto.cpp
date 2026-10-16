@@ -56,7 +56,7 @@ INT_PTR CToxProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_FILE | PF1_AUTHREQ | PF1_MODEMSG | PF1_EXTSEARCH | PF1_SERVERCLIST;
+		return PF1_IM | PF1_FILE | PF1_AUTHREQ | PF1_MODEMSG | PF1_SERVERCLIST | PF1_BASICSEARCH;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
 	case PFLAGNUM_3:
@@ -129,14 +129,31 @@ int CToxProto::FileResume(HANDLE hTransfer, int action, const wchar_t *szFilenam
 	return OnFileResume(m_tox, hTransfer, action, szFilename);
 }
 
-HANDLE CToxProto::SearchAdvanced(HWND owner)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CToxProto::SearchThread(void *param)
 {
-	return OnSearchAdvanced(owner);
+	std::smatch match;
+	std::string query(T2Utf((wchar_t *)param));
+	std::regex regex("^\\s*([A-Fa-f0-9]{76})\\s*$");
+	if (std::regex_search(query, match, regex)) {
+		PROTOSEARCHRESULT psr = { sizeof(psr) };
+		psr.flags = PSR_UTF8;
+		psr.id.a = mir_strdup(query.c_str());
+		Contact::AddBySearch(m_szModuleName, &psr);
+
+		ProtoBroadcastAsync(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, this);
+	}
+	else ProtoBroadcastAsync(0, ACKTYPE_SEARCH, ACKRESULT_FAILED, this, (LPARAM)TranslateT("Invalid search string"));
+
+	mir_free(param);
 }
 
-HWND CToxProto::CreateExtendedSearchUI(HWND owner)
+HANDLE CToxProto::SearchBasic(const wchar_t *id)
 {
-	return OnCreateExtendedSearchUI(owner);
+	auto *pwszId = mir_wstrdup(id);
+	ForkThread(&CToxProto::SearchThread, pwszId);
+	return this;
 }
 
 int CToxProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)

@@ -1,0 +1,197 @@
+#muuid {ae708252-0df8-42ba-9ef9-9acc038eeda7}
+;============================================================
+;  File: Telegram.dll
+;  Plugin: Telegram protocol
+;  Version: 0.96.6.1
+;  Authors: Miranda NG team
+;============================================================
+[Telegram protocol support for Miranda NG.]
+Miranda NG için Telegram protokol desteği.
+;file \protocols\Telegram\res\resource.rc
+[Country:]
+Ülke:
+[Phone number:]
+Telefon numarası:
+[Default group:]
+Varsayılan grup:
+[Device name:]
+Cihaz adı:
+[Do not open chat windows on creation]
+Oluşturulduğunda sohbet pencerelerini açmayın
+[Log out]
+Çıkış
+[Compress files on send]
+Gönderirken dosyaları sıkıştır
+[Include URL preview into message text]
+Mesaj metnine URL önizlemesini ekle
+[Do not store channel history in the database]
+Kanal geçmişini veritabanında saklamayın
+[Delete contacts in Miranda when they are deleted from server]
+Sunucudan silinen kişiler, Miranda’da da silinsin
+[If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
+Bir kişi Çevrimdışı durumuna geçerse, bunun yerine bu durumu ayarla ve belirtilen zaman aşımı süresi boyunca (saniye cinsinden) önbelleğe al (0 - devre dışı)
+[After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
+Ardından, bu durumu bir kişiye atayın ve belirtilen saniye cinsinden bekleme süresi dolduktan sonra o kişiyi çevrimdışı duruma geçirin (0 - devre dışı)
+[Use MTProxy]
+MTProxy'yi kullanın
+[Host]
+Sunucu
+[Port]
+Liman
+[Secret]
+Sır
+[Software]
+Yazılım
+[Add phone contact]
+Telefon kişisini ekle
+[First name:]
+Adı:
+[Last name:]
+Soyadı:
+[Phone:]
+Telefon:
+[Cancel]
+İptal et
+[Forward message]
+Mesajı ilet
+[Forward]
+İleri
+[Add reaction]
+Tepki ekle
+[Birthday]
+Doğum Günü
+[Biography]
+Biyografi
+[User count]
+Kullanıcı sayısı
+[Channel link]
+Kanal bağlantısı
+;file \protocols\Telegram\src\auth.cpp
+[Enter email address for account verification]
+Hesap doğrulaması için e-posta adresinizi girin
+[Enter verification code received by email]
+E-posta ile aldığınız doğrulama kodunu girin
+[Enter the secret code sent to another device]
+Başka bir cihaza gönderilen gizli kodu girin
+[Enter password]
+Şifreyi girin
+[ (hint: %s)]
+ (ipucu: %s)
+[Secret code expired]
+Gizli kodun geçerlilik süresi doldu
+[Error]
+Hata
+[Invalid secret code]
+Geçersiz gizli kod
+[Invalid password]
+Şifre geçersiz
+;file \protocols\Telegram\src\avatars.cpp
+[Avatar file must be a picture in JPEG format]
+Avatar dosyası JPEG formatında bir resim olmalıdır
+[Error setting avatar]
+Avatar ayarlamada hata oluştu
+;file \protocols\Telegram\src\files.cpp
+[Too many files to be sent]
+Gönderilecek dosya sayısı çok fazla
+;file \protocols\Telegram\src\groupchat.cpp
+[Creator]
+Yaratıcı
+[Admin]
+Yönetici
+[Participant]
+Katılımcı
+[SuperAdmin]
+Süper Yönetici
+[Visitor]
+Ziyaretçi
+[&Leave chat session]
+&Sohbet oturumundan çık
+[%d member(s)]
+%d üye
+;file \protocols\Telegram\src\main.cpp
+[Telegram Premium user]
+Telegram Premium kullanıcısı
+[Reaction]
+Tepki
+[Bot]
+Bot
+;file \protocols\Telegram\src\menus.cpp
+;file \protocols\Telegram\src\options.cpp
+[Name]
+Adı
+[Platform]
+Platform
+[Country]
+Ülke
+[Last active]
+En son aktif
+[Kill session]
+Oturumu sonlandır
+[Unknown]
+Bilinmiyor
+[Network]
+Ağ
+[Account]
+Hesap
+[Advanced]
+İleri Düzey
+[Sessions]
+Oturumlar
+;file \protocols\Telegram\src\proto.cpp
+[%s error notifications]
+%s hata bildirimleri
+;file \protocols\Telegram\src\server.cpp
+[Error %d: %s]
+Hata %d: %s
+[General]
+Genel
+[Recording video...]
+Video kaydediliyor...
+[Recording video note...]
+Video notu kaydediliyor...
+[Recording voice note...]
+Sesli not kaydediliyor...
+[Uploading file...]
+Dosya yükleniyor...
+[Uploading photo...]
+Fotoğraf yükleniyor...
+[Uploading video...]
+Video yükleniyor...
+[Uploading video note...]
+Video notu yükleniyor...
+[Uploading voice note...]
+Sesli not yükleniyor...
+[Archive]
+Arşiv
+[Saved messages]
+Kaydedilmiş mesajlar
+[Service notification]
+Hizmet bildirimi
+;file \protocols\Telegram\src\userinfo.cpp
+[Unspecified]
+Belirtilmemiş
+;file \protocols\Telegram\src\utils.cpp
+[none]
+yok
+[Errors]
+Hatalar
+[Picture]
+Resim
+[Audio]
+Ses
+[seconds]
+saniye
+[Video]
+Video
+[Video note]
+Video notu
+[Voice message]
+Sesli mesaj
+[wrote]
+yazdı
+[Chat name was changed to %s]
+Sohbet adı %s olarak değiştirildi
+[SmileyAdd plugin required to support stickers]
+Çıkartmaları desteklemek için SmileyAdd eklentisi gereklidir
+[You received an invoice]
+Bir fatura aldınız

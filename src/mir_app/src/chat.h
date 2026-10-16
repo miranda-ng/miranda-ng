@@ -21,7 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma once
 
-#include <m_smileyadd.h>
 #include <m_popup.h>
 #include <m_fontservice.h>
 

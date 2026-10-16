@@ -562,12 +562,10 @@ MCONTACT CMaxProto::EnsureUserContact(const char *szUid, const wchar_t *wszFirst
 	bool bNewContact = (hContact == 0);
 
 	if (!hContact) {
-		hContact = db_add_contact();
-		Proto_AddToContact(hContact, m_szModuleName);
+		hContact = db_add_contact(m_szModuleName);
 		setString(hContact, DB_KEY_MAX_UID, szUid);
 		setByte(hContact, "Auth", 1);
 		setByte(hContact, "Grant", 1);
-		Contact::PutOnList(hContact);
 		setByte(hContact, DB_KEY_MAX_PEER_ORIGIN, MAX_PEER_ORIGIN_CHATONLY);
 	}
 

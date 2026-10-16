@@ -1,0 +1,112 @@
+#muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
+;============================================================
+;  File: Db_autobackups.dll
+;  Plugin: Db autobackuper
+;  Version: 0.1.0.7
+;  Authors: chaos.persei, sje, Kildor, Billy_Bons
+;============================================================
+[Database autobackuper plugin.]
+Veritabanı otomatik yedekleme eklentisi.
+;file \plugins\Db_autobackups\res\db_autobackups.rc
+[Automatic backups]
+Otomatik yedeklemeler
+[Enabled]
+Etkinleştirildi
+[When Miranda starts]
+Miranda başladığında
+[When Miranda exits]
+Miranda sahneden çıktığında
+[Every:]
+Her:
+[Number of backups to keep:]
+Saklanacak yedekleme sayısı:
+[Backup to folder:]
+Klasöre yedekle:
+[Browse...]
+Göz at...
+[Go to the "Options -> Customize -> Folders" to change settings]
+Ayarları değiştirmek için "Seçenekler -> Özelleştir -> Klasörler" bölümüne gidin
+[Backup file mask:]
+Yedekleme dosyası maskesi:
+[Compress backup to zip-archive]
+Yedeklemeyi ZIP arşivine sıkıştır
+[Backup profile folder]
+Yedekleme profili klasörü
+[Enable progress bar]
+İlerleme çubuğunu etkinleştir
+[Use CloudFile]
+CloudFile'ı kullanın
+[Backup NOW]
+ŞİMDİ Yedekle
+[Backup progress]
+Yedekleme ilerlemesi
+[Cancel]
+İptal et
+;file \plugins\Db_autobackups\src\backup.cpp
+[Backup in progress]
+Yedekleme devam ediyor
+[Copying database file...]
+Veritabanı dosyası kopyalanıyor...
+[Uploading to cloud failed]
+Buluta yükleme başarısız oldu
+[Error]
+Hata
+[Database backed up]
+Veritabanı yedeklendi
+[Database back up in process...]
+Veritabanı yedekleme işlemi devam ediyor...
+;file \plugins\Db_autobackups\src\main.cpp
+[Backup profile]
+Yedekleme profili
+[Save database as...]
+Veritabanını şuraya kaydet...
+[Miranda NG databases]
+Miranda NG veritabanları
+[Compressed Miranda NG databases]
+Sıkıştırılmış Miranda NG veritabanları
+[All files]
+Tüm dosyalar
+[Database]
+Veritabanı
+[Database backups]
+Veritabanı yedeklemeleri
+[Backup folder]
+Yedekleme klasörü
+[AutoBackups notifications]
+AutoBackups bildirimleri
+;file \plugins\Db_autobackups\src\options.cpp
+[days]
+gün
+[hours]
+saat
+[minutes]
+dakika
+[path to Miranda root folder]
+Miranda kök klasörünün yolu
+[path to folder containing Miranda profiles]
+Miranda profillerinin bulunduğu klasöre giden yol
+[name of current Miranda profile (filename, without extension)]
+Mevcut Miranda profilinin adı (dosya adı, uzantı hariç)
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
+%miranda_profilesdir%\\%miranda_profilename% biçiminde ayrıştırılmış bir dize döndürecektir
+[same as environment variable %APPDATA% for currently logged-on Windows user]
+Şu anda oturum açmış olan Windows kullanıcısı için %APPDATA% ortam değişkeniyle aynıdır
+[username for currently logged-on Windows user]
+Şu anda oturum açmış olan Windows kullanıcısının kullanıcı adı
+["My Documents" folder for currently logged-on Windows user]
+O anda oturum açmış olan Windows kullanıcısı için "Belgelerim" klasörü
+["Desktop" folder for currently logged-on Windows user]
+O anda Windows'ta oturum açmış olan kullanıcı için "Masaüstü" klasörü
+[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
+mevcut Windows oturumunda tanımlanmış herhangi bir ortam değişkeni (örneğin %systemroot%, %allusersprofile% vb.)
+[Variables]
+Değişkenler
+[Error creating backup folder]
+Yedekleme klasörü oluşturulurken hata oluştu
+[Next backup is scheduled to]
+Bir sonraki yedekleme şu tarihte planlanmıştır:
+[Select backup folder]
+Yedekleme klasörünü seçin
+;file \plugins\Db_autobackups\src\zip.cpp
+[Miranda NG [%s] database backup]
+Miranda NG [%s] veritabanı yedeklemesi

@@ -8,7 +8,7 @@
 
 ## HTML Parser
 
-**litehtml** uses the [gumbo-parser](https://github.com/google/gumbo-parser) to parse HTML. Gumbo is an implementation of the HTML5 parsing algorithm implemented as a pure C99 library with no outside dependencies. It's designed to serve as a building block for other tools and libraries such as linters, validators, templating languages, and refactoring and analysis tools.
+**litehtml** uses the [gumbo-parser](https://codeberg.org/gumbo-parser/gumbo-parser) to parse HTML. Gumbo is an implementation of the HTML5 parsing algorithm implemented as a pure C99 library with no outside dependencies. It's designed to serve as a building block for other tools and libraries such as linters, validators, templating languages, and refactoring and analysis tools.
 
 ## Compatibility
 
@@ -30,7 +30,7 @@ The litebrowser source codes are available on GitHub:
 ## License
 
 **litehtml** is distributed under [New BSD License](https://opensource.org/licenses/BSD-3-Clause).
-The **gumbo-parser** is disributed under [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+The **gumbo-parser** is distributed under [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 ## Links
 

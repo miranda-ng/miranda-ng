@@ -164,10 +164,10 @@ class CSteamProto : public PROTO<CSteamProto>
 	ULONG hAuthProcess = 1;
 	ULONG hMessageProcess = 1;
 	mir_cs m_addContactLock;
-	mir_cs m_setStatusLock;
 
 	// connection
 	WebSocket<CSteamProto> *m_ws;
+	HANDLE m_hServerThread;
 	
 	mir_cs m_csRequestLock;
 	std::map<uint64_t, void *> m_requestInfo;

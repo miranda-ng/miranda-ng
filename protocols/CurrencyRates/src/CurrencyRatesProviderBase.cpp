@@ -568,8 +568,7 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 
 MCONTACT CCurrencyRatesProviderBase::CreateNewContact(const CMStringW &rsName)
 {
-	MCONTACT hContact = db_add_contact();
-	Proto_AddToContact(hContact, MODULENAME);
+	MCONTACT hContact = db_add_contact(MODULENAME);
 
 	g_plugin.setWString(hContact, DB_STR_CURRENCYRATE_PROVIDER, GetInfo().m_sName);
 	g_plugin.setWString(hContact, DB_STR_CURRENCYRATE_SYMBOL, rsName);

@@ -72,6 +72,44 @@ void CreatePathToFileW(wchar_t *wszFilePath)
 	*pszLastBackslash = '\\';
 }
 
+static void InheritParentSecurity(const wchar_t *pwszFile)
+{
+	wchar_t wszParent[MAX_PATH];
+	wcsncpy_s(wszParent, MAX_PATH, pwszFile, _TRUNCATE);
+	if (wchar_t *p = wcsrchr(wszParent, L'\\'))
+		*p = 0;
+	else
+		return;
+
+	HANDLE hToken;
+	if (OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES, &hToken)) {
+		TOKEN_PRIVILEGES tp = { 1 };
+		tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+		if (LookupPrivilegeValueW(nullptr, SE_TAKE_OWNERSHIP_NAME, &tp.Privileges[0].Luid))
+			AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(tp), nullptr, nullptr);
+		CloseHandle(hToken);
+	}
+
+	DWORD dwSize = 0;
+	GetFileSecurityW(wszParent, OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION, nullptr, 0, &dwSize);
+	if (GetLastError() != ERROR_INSUFFICIENT_BUFFER)
+		return;
+
+	if (auto *pSD = (SECURITY_DESCRIPTOR*)malloc(dwSize)) {
+		if (GetFileSecurityW(wszParent, OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION, pSD, dwSize, &dwSize)) {
+			PSID pOwner, pGroup;
+			BOOL bDefaulted;
+			GetSecurityDescriptorOwner(pSD, &pOwner, &bDefaulted);
+			GetSecurityDescriptorGroup(pSD, &pGroup, &bDefaulted);
+
+			SetNamedSecurityInfoW((LPWSTR)pwszFile, SE_FILE_OBJECT,
+				OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION | DACL_SECURITY_INFORMATION,
+				pOwner, pGroup, nullptr, nullptr);
+		}
+		free(pSD);
+	}
+}
+
 int APIENTRY wWinMain(HINSTANCE /*hInstance*/, HINSTANCE, LPTSTR lpCmdLine, int)
 {
 	uint32_t dwError;
@@ -104,6 +142,8 @@ int APIENTRY wWinMain(HINSTANCE /*hInstance*/, HINSTANCE, LPTSTR lpCmdLine, int)
 		case 1:  // copy
 			if (!CopyFileW(ptszFile1, ptszFile2, FALSE))
 				dwError = GetLastError();
+			else
+				InheritParentSecurity(ptszFile2);
 			break;
 
 		case 2: // move
@@ -139,6 +179,9 @@ int APIENTRY wWinMain(HINSTANCE /*hInstance*/, HINSTANCE, LPTSTR lpCmdLine, int)
 					break;
 				}
 			}
+
+			if (!dwError)
+				InheritParentSecurity(ptszFile2);
 			break;
 
 		case 3: // erase

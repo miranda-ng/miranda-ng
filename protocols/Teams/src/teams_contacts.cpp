@@ -76,8 +76,7 @@ MCONTACT CTeamsProto::AddContact(const char *skypeId, const char *nick, bool isT
 	if (hContact)
 		return hContact;
 
-	hContact = db_add_contact();
-	Proto_AddToContact(hContact, m_szModuleName);
+	hContact = db_add_contact(m_szModuleName, isTemporary ? DBAC_NOTINLIST : 0);
 
 	setString(hContact, DBKEY_ID, skypeId);
 	setUString(hContact, "Nick", (nick) ? nick : GetSkypeNick(skypeId));
@@ -89,9 +88,6 @@ MCONTACT CTeamsProto::AddContact(const char *skypeId, const char *nick, bool isT
 
 	setByte(hContact, "Auth", 1);
 	setByte(hContact, "Grant", 1);
-
-	if (isTemporary)
-		Contact::RemoveFromList(hContact);
 	return hContact;
 }
 

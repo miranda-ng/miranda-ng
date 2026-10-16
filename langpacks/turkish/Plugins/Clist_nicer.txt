@@ -1,0 +1,649 @@
+#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+;============================================================
+;  File: Clist_nicer.dll
+;  Plugin: Clist nicer
+;  Version: 0.9.3.2
+;  Authors: Pixel, egoDust, cyreve, Nightwish
+;============================================================
+[Displays contacts, event notifications, protocol status.]
+Kişileri, etkinlik bildirimlerini ve protokol durumunu gösterir.
+;file \plugins\Clist_nicer\res\resource.rc
+[Clist nicer exception]
+Clist daha iyi bir istisna
+[Copy to clipboard]
+Panoya kopyala
+[Continue]
+Devam et
+[Exit Miranda]
+Miranda'dan Çıkış
+[Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
+İstisna yakalanmış olsa da ve Miranda ile çalışmaya devam edebilirsiniz, programı mümkün olan en kısa sürede yeniden başlatmalısınız. Bu istisna, dahili veri yapılarına zarar vermiş olabilir ve programın kararlılığını ciddi şekilde etkileyebilir.
+[Delete contact]
+Kişiyi sil
+[No]
+Hayır
+[Yes]
+Evet
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Geçmişlerini ve görmezden gelme/görünürlük ayarlarını korumak amacıyla yalnızca listeden gizle
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Kişileri tekrar görüntülemek için Seçenekler -> Kişiler -> Yoksay seçeneğini kullanın.
+[Are you sure you want to delete %s?]
+%s'yi silmek istediğinizden emin misiniz?
+[This will erase all history and settings for this contact!]
+Bu işlem, bu kişinin tüm geçmişini ve ayarlarını silecektir!
+[Contact list]
+Kişi listesi
+[Apply last active view mode]
+En son etkin görüntüleme modunu uygula
+[Show menu and status buttons]
+Menü ve durum düğmelerini göster
+[Draw sunken edge]
+Çukur kenar çiz
+[Event area]
+Etkinlik alanı
+[Set base visibility on the frames menu]
+Çerçeveler menüsünden temel görünürlük ayarını yapın
+[Auto mode]
+Otomatik mod
+[System tray icon when using multiple protocols]
+Birden fazla protokol kullanılırken sistem tepsisi simgesi
+[Show]
+Göster
+[icon when statuses differ]
+durumlar farklı olduğunda simge
+[Cycle icons every]
+Döngü simgelerini her
+[seconds, when statuses differ]
+saniye, durumlar farklı olduğunda
+[Show multiple icons]
+Birden fazla simgeyi göster
+[Only when statuses differ]
+Yalnızca durumlar farklı olduğunda
+[Do not show system tray icon tooltips on mouse over]
+Fare üzerine geldiğinde sistem tepsisi simgelerinin bilgi metinleri gösterilmesin
+[Groups]
+Gruplar
+[Draw a line alongside group names]
+Grup adlarının yanına bir çizgi çizin
+[Show number of contacts in a group]
+Bir gruptaki kişi sayısını göster
+[Hide numbers when all offline]
+Hepsi çevrimdışı olduğunda numaraları gizle
+[Sort groups alphabetically]
+Grupları alfabetik sıraya göre sırala
+[Quick search in open groups only]
+Yalnızca açık gruplarda hızlı arama
+[No expand/collapse icon]
+Genişletme/daraltma simgesi yok
+[Center group names horizontally]
+Merkezdeki grupların adları yatay olarak
+[Alignment]
+Hizalama
+[Margins (left/right)]
+Kenar boşlukları (sol/sağ)
+[Row gap]
+Satır aralığı
+[Minimum row height]
+Minimum satır yüksekliği
+[Group row height]
+Grup satır yüksekliği
+[Indent groups by]
+Grupları şu şekilde girintileştir:
+[Inner row vertical padding]
+İç satır dikey dolgu
+[Margins and spacing]
+Kenar boşlukları ve aralıklar
+[Contact list sorting]
+Kişi listesinin sıralanması
+[First by]
+İlk olarak
+[Then by]
+Sonra, şu şekilde:
+[Finally by]
+Son olarak,
+[Move events to the top of list or group]
+Olayları listenin veya grubun en üstüne taşı
+[Do not separate offline contacts]
+Çevrimdışı kişileri ayırmayın
+[Right align contacts]
+Kişileri sağa hizala
+[Avatars]
+Avatarlar
+[Show avatars]
+Avatarları göster
+[Height]
+Yükseklik
+[Draw a border around avatars]
+Avatarların etrafına bir çerçeve çizin
+[Rounded avatars]
+Yuvarlak avatarlar
+[Radius]
+Yarıçap
+[Always align icons and text for missing avatars]
+Avatar bulunmadığında simgeleri ve metni her zaman hizalayın
+[Avatar alignment]
+Avatar hizalaması
+[Don't request avatars for offline contacts]
+Çevrimdışı kişilerden avatar istemeyin
+[Second text line]
+İkinci metin satırı
+[Display status message when available]
+Mümkün olduğunda durum mesajını göster
+[Show second text line:]
+İkinci metin satırını göster:
+[Show contacts local time]
+Kişilerin yerel saatini göster
+[Only when timezone differs]
+Yalnızca saat dilimleri farklı olduğunda
+[Icons]
+Simgeler
+[Show status icons]
+Durum simgelerini göster
+[Centered when possible]
+Mümkün olduğunda ortalanmış
+[When possible, draw status icons in avatar space]
+Mümkün olduğunda, durum simgelerini avatar alanına çiz
+[Use metacontact protocol icons instead of subcontacts]
+Alt kişiler yerine metakontak protokol simgelerini kullanın
+[Use overlay icons on avatars]
+Avatarlarda üst üste bindirilmiş simgeler kullanın
+[Dim idle contacts]
+Karartılmış rölantideki kontaklar
+[Replace status icons with xStatus]
+Durum simgelerini xStatus ile değiştirin
+[Window]
+Pencere
+[Always on top]
+Her zaman zirvede
+[Show menu bar]
+Menü çubuğunu göster
+[Easy move]
+Kolay taşınma
+[Rounded border]
+Yuvarlak kenarlık
+[Border]
+Sınır
+[Title bar text:]
+Başlık çubuğu metni:
+[Show drop shadow (restart required)]
+Gölgeyi göster (yeniden başlatma gerekiyor)
+[Hide contact list after it has been idle for]
+Kullanılmadığında, kişi listesini şu süre geçtikten sonra gizle:
+[seconds]
+saniye
+[Automatically resize window to height of list]
+Pencereyi listenin yüksekliğine göre otomatik olarak yeniden boyutlandır
+[maximum]
+maksimum
+[% of screen]
+Ekranın %'si
+[Size upwards]
+Boyutu büyüt
+[If window is partially covered, bring to front instead of hiding]
+Pencere kısmen kapalıysa, gizlemek yerine öne getirin
+[Always hide on taskbar]
+Görev çubuğunda her zaman gizle
+[Client margins]
+Müşteri marjları
+[Clip border by]
+Kenarlığı kırp
+[Gap between frames]
+Kare Arasındaki Boşluk
+[Translucency options]
+Şeffaflık seçenekleri
+[Transparent contact list]
+Şeffaf kişi listesi
+[Inactive opacity:]
+Etkin olmayan opaklık:
+[Active opacity:]
+Etkin opaklık:
+[Fade contact list in/out]
+Kişi listesini yavaşça gösterme/gizleme
+[Fully transparent (like TweakUI)]
+Tamamen şeffaf (TweakUI gibi)
+[Items]
+Ürünler
+[Show divider between online and offline contacts]
+Çevrimiçi ve çevrimdışı kişiler arasında ayırıcı göster
+[Hot track items as mouse passes over]
+Fare üzerine geldiğinde öne çıkan öğeler
+[Disable drag and drop of items]
+Öğelerin sürükle ve bırak işlevini devre dışı bırak
+[Disable rename of items by clicking twice]
+İki kez tıklayarak öğelerin adının değiştirilmesini devre dışı bırakın
+[Show selection even when list is not focused]
+Listeye odaklanılmadığında bile seçimi göster
+[Use full row for selection and hottracking]
+Seçim ve hızlı izleme için tam satırı kullanın
+[Double click on avatar opens user info]
+Avatara çift tıklamak kullanıcı bilgilerini açar
+[Visual]
+Görsel
+[Scroll list smoothly]
+Listeyi akıcı bir şekilde kaydır
+[Time:]
+Saat:
+[milliseconds]
+milisaniye
+[Hide vertical scroll bar]
+Dikey kaydırma çubuğunu gizle
+[Gray out entire list when:]
+Aşağıdaki durumlarda listenin tamamını gri renkte göster:
+[Contact list background]
+Kişi listesinin arka planı
+[Use Windows colors]
+Windows renklerini kullan
+[Use background image]
+Arka plan resmi kullan
+[Stretch to width]
+Genişliğe göre uzat
+[Stretch to height]
+Boyuna göre uzatın
+[Tile horizontally]
+Yatay olarak diz
+[Tile vertically]
+Dikey olarak diz
+[Scroll with text]
+Metinle birlikte kaydırma
+[Stretch proportionally]
+Orantılı olarak uzat
+[Use these settings to skin the entire background]
+Arka planın tamamını özelleştirmek için bu ayarları kullanın
+[If you enable this, the background settings will affect the entire contact list frame.]
+Bunu etkinleştirirseniz, arka plan ayarları tüm kişi listesi çerçevesini etkileyecektir.
+[Status bar]
+Durum çubuğu
+[Show status bar]
+Durum çubuğunu göster
+[Show icons]
+Simgeleri göster
+[Show account names]
+Hesap adlarını göster
+[Show status text]
+Durum metnini göster
+[Right click opens status menu]
+Sağ tıklama durum menüsünü açar
+[Right click opens Miranda NG menu]
+Sağ tıklama, Miranda NG menüsünü açar
+[Make sections equal width]
+Bölümlerin genişliklerini eşit hale getir
+[Show bevels on panels]
+Panellerde eğimli kenarları göster
+[Show resize grip indicator]
+Boyut değiştirme tutamağı göstergesini göster
+[Draw background skin]
+Arka plan derisini çiz
+[Show extended status icons]
+Genişletilmiş durum simgelerini göster
+[Mark protocols locked from global status changes]
+Küresel durum değişikliklerinden korunmuş işaretleme protokolleri
+[Available view modes]
+Kullanılabilir görüntüleme modları
+[Include protocols]
+Protokol ekle
+[New]
+Yeni
+[Include groups]
+Grupları dahil et
+[Include status modes]
+Durum modlarını dahil et
+[Cancel]
+İptal et
+[Apply]
+Başvur
+[Sticky contacts]
+Yapışkan kişiler
+[Clear all]
+Tümünü temizle
+[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
+Sol taraftaki kişi listesini kullanarak, bu görüntüleme modu için “sabit” olacak kişileri seçebilirsiniz. Bu kişiler, standart filtre kurallarını göz ardı edecek ve yalnızca aşağıdaki durum modu filtresini kullanacaktır.
+[Protocol]
+Protokol
+[Group]
+Grup
+[Status mode]
+Durum modu
+[Automatically clear this view mode after]
+Bu görüntüleme modunu şu süreden sonra otomatik olarak temizle
+[View mode options]
+Görüntüleme modu seçenekleri
+[Editing view mode]
+Düzenleme görünümü modu
+[Last message]
+Son mesaj
+[Per contact skins:]
+Her bir temas yüzeyi için:
+[< Reload]
+< Yeniden Yükle
+[Contact list skin]
+Kişi listesi teması
+[Load this skin on startup]
+Bu görünümü başlangıçta yükle
+[Apply skin now]
+Hemen cilde uygulayın
+[Unload skin]
+Derinin çıkarılması
+[Make selection shape equal to selected item]
+Seçim şeklini seçilen öğeyle aynı hale getir
+[Blend selection with background]
+Seçimi arka planla birleştir
+[Automatically fill background with wallpaper (tiled wallpaper only)]
+Arka planı duvar kağıdıyla otomatik olarak doldur (sadece döşemeli duvar kağıtları için)
+[Apply group indent values to background drawing]
+Arka plan çizimine grup girinti değerlerini uygula
+[Use per protocol/contact skinning]
+Protokol gereği kullanım/teması olan derinin soyulması
+[Protocol skins override status text colors]
+Protokol temaları, durum metinlerinin renklerini geçersiz kılar
+[Set all buttons to skinned mode]
+Tüm düğmeleri kaplama moduna ayarla
+[Use fast gradient drawing]
+Hızlı gradyan çizim özelliğini kullanın
+[Corner radius]
+Köşe yarıçapı
+[Skin options]
+Görünüm seçenekleri
+[Group top padding]
+Grup üst dolgusu
+[Frame title bar height]
+Çerçeve başlık çubuğunun yüksekliği
+[Ignore selection for groups]
+Gruplar için seçimi yok say
+[Download more skins]
+Daha fazla tema indir
+[Load from skin file]
+Cilt dosyasından yükle
+[Export to skin file]
+Skin dosyasına aktar
+;file \plugins\Clist_nicer\src\CLCButton.cpp
+[Show menu]
+Menüyü göster
+[Show/Hide offline contacts]
+Çevrimdışı kişileri göster/gizle
+[Use/Disable groups]
+Grupları kullanma/devre dışı bırakma
+[Find and add contacts]
+Kişileri bul ve ekle
+[Accounts]
+Hesaplar
+[Open preferences]
+Tercihleri aç
+[Enable/Disable sounds]
+Sesleri etkinleştir/devre dışı bırak
+[Minimize contact list]
+Kişi listesini küçült
+[Status menu]
+Durum menüsü
+[Select view mode]
+Görüntüleme modunu seçin
+[Setup view modes]
+Görünüm modlarını ayarlama
+[Clear view mode]
+Net görüntüleme modu
+;file \plugins\Clist_nicer\src\clcopts.cpp
+[Nothing]
+Hiçbir şey
+[Name]
+Adı
+[Status]
+Durum
+[Message frequency]
+Mesaj sıklığı
+[Never]
+Asla
+[Always]
+Her zaman
+[For RTL only]
+Yalnızca RTL için
+[RTL TEXT only]
+Yalnızca RTL METİN
+[Always left]
+Her zaman solda
+[Always right]
+Her zaman haklı
+[Automatic (RTL)]
+Otomatik (RTL)
+[When space allows it]
+Yer elverdiğinde
+[When needed]
+Gerektiğinde
+[With nickname - left]
+Takma adıyla - sol
+[Far left]
+En solda
+[Far right]
+Aşırı sağ
+[With nickname - right]
+Takma adıyla - sağ
+[Row items]
+Satır öğeleri
+[Contacts]
+İletişim Bilgileri
+[Groups and layout]
+Gruplar ve düzen
+[Advanced]
+İleri Düzey
+;file \plugins\Clist_nicer\src\clcpaint.cpp
+[No events...]
+Etkinlik yok...
+;file \plugins\Clist_nicer\src\clistopts.cpp
+[Global]
+Küresel
+[Not focused]
+Odaklanmamış
+[Offline]
+Çevrimdışı
+[Online]
+Çevrimiçi
+[Away]
+Deplasman
+[Not available]
+Mevcut değil
+[Occupied]
+İşgal Altında
+[Do not disturb]
+Rahatsız etmeyin
+[Free for chat]
+Sohbet için ücretsiz
+[Invisible]
+Görünmez
+[Title bar]
+Başlık çubuğu
+[Tool Window]
+Araç Penceresi
+[Thin border]
+İnce kenarlık
+[No border]
+Sınır yok
+[General]
+Genel
+[List layout]
+Liste düzeni
+[Background]
+Arka Plan
+;file \plugins\Clist_nicer\src\clui.cpp
+[Toggle show online/offline]
+Çevrimiçi/çevrimdışı durumunu göster/gizle
+[Toggle groups]
+Grupları aç/kapat
+[Find contacts]
+Kişileri bul
+[Toggle sounds]
+Sesleri aç/kapat
+[Show TabSRMM session list]
+TabSRMM oturum listesini göster
+[Show TabSRMM menu]
+TabSRMM menüsünü göster
+[Sounds are off]
+Sesler kapalı
+[Reset view mode]
+Görünüm modunu sıfırla
+[Configure view modes]
+Görüntüleme modlarını yapılandırın
+[Setup accounts]
+Hesapları oluşturma
+[My contacts]
+Kişilerim
+[Default]
+Varsayılan
+[Overlay icons]
+Üst üste bindirilmiş simgeler
+[%s connecting]
+%s bağlanıyor
+[Connecting icons]
+Bağlantı simgeleri
+[Menu]
+Menü
+[Open main menu]
+Ana menüyü aç
+[Set status modes]
+Durum modlarını ayarla
+[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat.]
+İstenen işlemin gerçekleştirilebilmesi için geçerli bir kişi seçilmesi gerekmektedir. Lütfen kişi listesinden bir kişi seçin ve işlemi tekrarlayın.
+[Parameter mismatch]
+Parametre uyuşmazlığı
+[The service %S specified by the %S button definition was not found. You may need to install additional plugins.]
+%S düğmesi tanımında belirtilen %S hizmeti bulunamadı. Ek eklentiler yüklemeniz gerekebilir.
+[Service failure]
+Hizmet kesintisi
+[You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
+FloatingContacts eklentisine ihtiyacınız var, çünkü yerleşik kayan kişiler kaldırıldı.
+[Warning]
+Uyarı
+[Standard contacts]
+Standart kişiler
+[Online contacts to whom you have a different visibility]
+Farklı bir görünürlük ayarına sahip olduğunuz çevrimiçi kişiler
+[Offline contacts]
+Çevrimdışı kişiler
+[Contacts which are 'not on list']
+'Listede olmayan' kişiler
+[Group member counts]
+Grup üye sayıları
+[Dividers]
+Ayırıcılar
+[Offline contacts to whom you have a different visibility]
+Farklı görünürlük ayarlarına sahip olduğunuz çevrimdışı kişiler
+[Frame titles]
+Çerçeve başlıkları
+[Contact list local time]
+Kişi listesi yerel saati
+[Selected text]
+Seçili metin
+[Hottrack text]
+Hottrack metni
+[Quicksearch text]
+Hızlı arama metni
+[Embedded frames border]
+Gömülü çerçevelerin kenarlığı
+;file \plugins\Clist_nicer\src\cluiframes.cpp
+[&FrameTitle]
+&Çerçeve Başlığı
+[&Visible]
+&Görünür
+[&Show title bar]
+&Başlık çubuğunu göster
+[&Locked]
+&Kilitli
+[&Collapsed]
+&Katlanmış
+[&Floating mode]
+&Yüzen mod
+[&Border]
+&Kenarlık
+[&Skinned frame]
+&Kaplamasız çerçeve
+[&Align]
+&Hizala
+[&Top]
+&Üst
+[&Client]
+&Müşteri
+[&Bottom]
+&Alt
+[&Position]
+&Konum
+[&Up]
+&Yukarı
+[&Down]
+&Aşağı
+[Lock frame]
+Kilit çerçevesi
+[Visible]
+Görünür
+[Show title bar]
+Başlık çubuğunu göster
+[Skinned frame]
+Kaplamasız çerçeve
+[Floating]
+Yüzen
+[Frames]
+Çerçeveler
+[Show all frames]
+Tüm kareleri göster
+[Show all title bars]
+Tüm başlık çubuklarını göster
+[Hide all title bars]
+Tüm başlık çubuklarını gizle
+;file \plugins\Clist_nicer\src\extBackg.cpp
+[Load and apply]
+Yükle ve uygula
+[Skins]
+Kaplamalar
+;file \plugins\Clist_nicer\src\groupmenu.cpp
+[Show metacontact protocol icons]
+Metakontakt protokolü simgelerini göster
+[Show additional buttons]
+Ek düğmeleri göster
+[Draw sunken frame]
+Çukur çerçeve çiz
+[&Hide/show]
+&Gizle/göster
+[Appearance]
+Görünüş
+[&Options...]
+&Seçenekler...
+;file \plugins\Clist_nicer\src\viewmodes.cpp
+[Ungrouped contacts]
+Gruplanmamış kişiler
+[And]
+Ve
+[Or]
+Ya da
+[Older than]
+Şundan daha eski
+[Newer than]
+Şu tarihten daha yeni
+[Minutes]
+Tutanak
+[Hours]
+Çalışma Saatleri
+[Days]
+Günler
+[Current view mode: %S]
+Mevcut görüntüleme modu: %S
+[Filtering]
+Filtreleme
+[*** All contacts ***]
+*** Tüm kişiler ***
+[Really delete this view mode? This cannot be undone]
+Bu görüntüleme modunu gerçekten silmek istiyor musunuz? Bu işlem geri alınamaz.
+[Delete a view mode]
+Bir görüntüleme modunu silme
+[No view mode]
+Görünüm modu yok
+[A view mode with this name does already exist]
+Bu isimde bir görüntüleme modu zaten mevcut
+[Duplicate name]
+Tekrarlanan ad
+[Setup view modes...]
+Görünüm modlarını ayarla...
+[Clear current view mode]
+Mevcut görüntüleme modunu temizle
+[Select a view mode]
+Bir görüntüleme modu seçin
+[Clear view mode and return to default display]
+Net görüntü modu ve varsayılan ekrana dönme
+[View modes]
+Görüntüleme modları

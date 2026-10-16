@@ -1,0 +1,203 @@
+#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+;============================================================
+;  File: Import.dll
+;  Plugin: Import contacts and messages
+;  Version: 0.96.3.1
+;  Authors: Miranda team
+;============================================================
+[Imports contacts and messages from another Miranda profile or from an external program.]
+Başka bir Miranda profilinden veya harici bir programdan kişileri ve mesajları içe aktarır.
+;file \plugins\Import\res\resource.rc
+[This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
+Bu sihirbaz, başka bir Miranda profilinden veya harici bir programdan kişileri ve mesaj geçmişini içe aktarmanıza yardımcı olacaktır.
+[Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
+İçe aktarmak istediğiniz bilgileri seçmek için "İleri" düğmesine tıklayın veya sihirbazdan çıkıp Miranda'yı kullanmaya devam etmek için "İptal" düğmesine tıklayın.
+[It is recommended that you create a backup of your current Miranda profile before importing.]
+İçe aktarma işlemine başlamadan önce mevcut Miranda profilinizin bir yedeğini almanız tavsiye edilir.
+[If you wish to import more information, click "Next" to return to the start of the wizard, otherwise click "Finish" to start using Miranda.]
+Daha fazla bilgi aktarmak istiyorsanız, “İleri” düğmesine tıklayarak sihirbazın başlangıcına geri dönün; aksi takdirde, “Bitir” düğmesine tıklayarak Miranda’yı kullanmaya başlayın.
+[You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.]
+Muhtemelen bu sihirbazı bir daha kullanmanız gerekmeyecektir; bu nedenle, Miranda'yı her başlattığınızda onu yüklememek suretiyle bellek tasarrufu sağlayabilirsiniz. Bu durumda, “içe aktarma” menü öğesi artık kullanılamayacaktır.
+[Do not load the import plugin at startup again]
+Başlangıçta içe aktarma eklentisini bir daha yüklemeyin
+[Import completed]
+İçe aktarma tamamlandı
+[If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
+İleride sihirbazı tekrar kullanmak isterseniz, Seçenekler iletişim kutusundaki Eklentiler bölümüne giderek sihirbazın yeniden yüklenmesini sağlayabilirsiniz.
+[Choose import type:]
+İçe aktarma türünü seçin:
+[Choose directory]
+Dizini seçin
+[Choose file]
+Dosya seçin
+[&Filename:]
+&Dosya adı:
+[Now importing...]
+Şu anda içe aktarılıyor...
+[Import Information Wizard]
+İçe Aktarma Bilgileri Sihirbazı
+[&Next >]
+&Sonraki >
+[Cancel]
+İptal et
+[< &Back]
+< &Geri
+[Import all settings, contacts and all messages]
+Tüm ayarları, kişileri ve tüm mesajları içe aktar
+[Import all contacts and all messages]
+Tüm kişileri ve tüm mesajları içe aktar
+[Only import contacts]
+Yalnızca kişileri içe aktar
+[Custom import]
+Özel içe aktarma
+[Makes precise copy of the original profile, including all settings, contacts and history.]
+Orijinal profilin tüm ayarları, kişiler ve geçmişi dahil olmak üzere tam bir kopyasını oluşturur.
+[Imports only contacts and history, and a few settings. Ideal for synchronizing.]
+Yalnızca kişileri, görüşme geçmişini ve birkaç ayarı içe aktarır. Senkronizasyon için idealdir.
+[Imports contacts only, doesn't import any message history.]
+Yalnızca kişileri içe aktarır; mesaj geçmişini içe aktarmaz.
+[Custom schema: you can choose what to import.]
+Özel şema: Neyin içe aktarılacağını seçebilirsiniz.
+[Check duplicates]
+Yinelenenleri kontrol et
+[New contacts && groups]
+Yeni kişiler ve gruplar
+[System history]
+Sistem geçmişi
+[Select items to import:]
+İçe aktarılacak öğeleri seçin:
+[Incoming]
+Gelen
+[Outgoing]
+Giden
+[Only since:]
+Ancak şu tarihten itibaren:
+[Messages]
+Mesajlar
+[File Transfers]
+Dosya Aktarımları
+[Other]
+Diğer
+[Choose appropriate accounts for import]
+İçe aktarma için uygun hesapları seçin
+[Choose file type:]
+Dosya türünü seçin:
+[Enter file name for import:]
+İçe aktarmak için dosya adını girin:
+[Copy]
+Kopyala
+;file \plugins\Import\src\import.cpp
+[<New account>]
+<Yeni hesap>
+[Old account]
+Eski hesap
+[New account]
+Yeni hesap
+[Protocol %S is not loaded, skipping account %s creation]
+%S protokolü yüklenmedi, %s hesabının oluşturulması atlanıyor
+[Unable to create an account %s of protocol %S]
+%S protokolüne ait %s hesabı oluşturulamadı
+[Metacontact cannot be imported due to its ambiguity.]
+Metacontact, belirsizliği nedeniyle içe aktarılamaz.
+[Added metacontact '%s']
+'%s' meta-iletişim bilgisi eklendi
+[Added metacontact]
+Metakontakt eklendi
+[Skipping contact with no protocol]
+Herhangi bir protokol olmaksızın temasın atlanması
+[Skipping contact, account %S cannot be mapped.]
+İletişim atlandığından, %S hesabı eşleştirilemiyor.
+[Skipping contact, %S not installed.]
+Bağlantı atlanıyor, %S yüklü değil.
+[Skipping non-IM contact (%S)]
+IM dışı iletişimlerin atlanması (%S)
+[Skipping duplicate %S contact %s]
+%S kişisiyle çakışan %s kişisini atlıyorum
+[Failed to create contact %s (%s)]
+%s (%s) kişisi oluşturulamadı
+[Failed to add %S contact %s]
+%S kişisi %s eklenemedi
+[Added %S contact %s, '%s']
+%S kişisi %s, '%s' eklendi
+[Added %S contact %s]
+%S kişisi %s eklendi
+[Failed to add message]
+Mesaj eklenemedi
+[Error retrieving current profile, exiting.]
+Mevcut profil alınırken hata oluştu, program sonlandırılıyor.
+[There's no database driver to open the input file, exiting.]
+Giriş dosyasını açacak bir veritabanı sürücüsü bulunmuyor; program sonlandırılıyor.
+[Error loading source file, exiting.]
+Kaynak dosyası yüklenirken hata oluştu, program sonlandırılıyor.
+[Number of contacts in database: %d]
+Veritabanındaki kişi sayısı: %d
+[Error mapping accounts, exiting.]
+Hesap eşleştirmede hata oluştu, program sonlandırılıyor.
+[Importing contacts.]
+Kişileri içe aktarma.
+[Skipping new contacts import.]
+Yeni kişilerin içe aktarılması atlanıyor.
+[Importing system history.]
+Sistem geçmişi içe aktarılıyor.
+[Skipping system history import.]
+Sistem geçmişinin içe aktarılması atlanıyor.
+[Importing history.]
+İthalat geçmişi.
+[Skipping history import.]
+Geçmiş verilerinin içe aktarılması atlanıyor.
+[Import completed in %d seconds.]
+İçe aktarma işlemi %d saniye içinde tamamlandı.
+[Added %d contacts and %d groups.]
+%d kişi ve %d grup eklendi.
+[Added %d contacts, %d groups and %d events.]
+%d kişi, %d grup ve %d etkinlik eklendi.
+[Skipped %d contacts.]
+%d kişi atlandı.
+[Skipped %d duplicates and %d filtered events.]
+%d adet yinelenen ve %d adet filtrelenmiş olay atlandı.
+;file \plugins\Import\src\main.cpp
+[&Import...]
+&İçe Aktar...
+;file \plugins\Import\src\miranda.cpp
+[Miranda NG database]
+Miranda NG veritabanı
+[The given file does not exist. Please check that you have entered the name correctly.]
+Belirtilen dosya mevcut değil. Lütfen dosya adını doğru girip girmediğinizi kontrol edin.
+[Miranda Import]
+Miranda İthalat
+[All Files]
+Tüm Dosyalar
+[You cannot import your current profile into itself]
+Mevcut profilinizi kendi içine aktaramazsınız
+[Importing whole directory]
+Tüm dizini içe aktarma
+;file \plugins\Import\src\patterns.cpp
+[Invalid file header]
+Geçersiz dosya başlığı
+[Cannot parse file header, skipping file]
+Dosya başlığı çözümlenemiyor, dosya atlanıyor
+[Loading file '%s'...]
+'%s' dosyası yükleniyor...
+[Failed to open file <%s> for import: %d]
+İçe aktarma için <%s> dosyası açılamadı: %d
+[Failed to mmap file <%s> for import: %d]
+İçe aktarma işlemi sırasında <%s> dosyasının mmap işlemi başarısız oldu: %d
+[Failed to map view of file <%s> for import: %d]
+<%s%> dosyasının içe aktarma için görünümü eşleştirilemedi: %d
+;file \plugins\Import\src\ui.cpp
+[Import history for %s]
+%s için ithalat geçmişi
+[Miranda NG database/mContacts]
+Miranda NG veritabanı/mContacts
+[JSON file]
+JSON dosyası
+;file \plugins\Import\src\utils.cpp
+[Skipping duplicate group %s.]
+%s adlı yinelenen grup atlanıyor.
+[Import...]
+İçe aktar...
+[Import]
+İthalat
+;file \plugins\Import\src\wizard.cpp
+[Finish]
+Bitir

@@ -1,0 +1,146 @@
+#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+;============================================================
+;  File: PackUpdater.dll
+;  Plugin: Pack updater
+;  Version: 0.1.0.1
+;  Authors: Mataes, ZERO_BiT
+;============================================================
+[Simple updater for Miranda NG premodified packs.]
+Miranda NG için önceden değiştirilmiş paketlere yönelik basit bir güncelleyici.
+;file \plugins\PackUpdater\Res\Resource.rc
+[Updates found!]
+Güncellemeler bulundu!
+[Update]
+Güncelleme
+[View info]
+Bilgileri görüntüle
+[Cancel]
+İptal et
+[PackUpdater has detected updated versions\nof the following Miranda components:]
+PackUpdater, aşağıdaki Miranda bileşenlerinin güncellenmiş sürümlerini tespit etti:
+[Description]
+Açıklama
+[Downloading...]
+İndiriliyor...
+[Pack update options]
+Paket güncelleme seçenekleri
+[On startup]
+Başlangıçta
+[Remind about not installed pack update]
+Yüklenmemiş paket güncellemesi konusunda hatırlatma yapma
+[Hotkey]
+Kısayol tuşu
+[Go to Options -> Customize -> Hotkeys to change the hotkey]
+Kısayol tuşunu değiştirmek için Seçenekler -> Özelleştir -> Kısayol Tuşları menüsüne gidin
+[Notifications]
+Bildirimler
+[Message boxes]
+Mesaj kutuları
+[Errors]
+Hatalar
+[Info messages]
+Bilgilendirme mesajları
+[Progress dialogs]
+İlerleme iletişim kutuları
+[Every]
+Her
+[(but only once a day)]
+(ama günde sadece bir kez)
+[Message boxes (*)]
+Mesaj kutuları (*)
+[Back]
+Geri
+[Text]
+Metin
+[Colors]
+Renkler
+[Use cus&tom colors]
+Özel renkler kullanın
+[Use &Windows colors]
+Windows renklerini kullan
+[Use defa&ult colors]
+Varsayılan renkleri kullan
+[Preview]
+Önizleme
+[Click action]
+Tıklama eylemi
+[On left click]
+Sol tıklama üzerine
+[On right click]
+Sağ tıklama üzerine
+[Timeout]
+Zaman aşımı
+[0 = Default]
+0 = Varsayılan
+[-1 = Infinite]
+-1 = Sonsuz
+[Sec]
+Saniye
+[* Needs popup actions to be enabled]
+* Açılır pencere eylemlerinin etkinleştirilmesi gerekir
+[Not sets for "Message boxes"]
+"Mesaj kutuları" için kümeler değil
+[Boxes]
+Kutular
+[Popups]
+Açılır pencereler
+;file \plugins\PackUpdater\Src\Events.cpp
+[Check for pack updates]
+Paket güncellemelerini kontrol et
+[Pack Updater]
+Paket Güncelleyici
+;file \plugins\PackUpdater\Src\Notifications.cpp
+[An error occurred while downloading the update.]
+Güncellemeyi indirirken bir hata oluştu.
+[Component Name]
+Bileşen Adı
+[Current Version]
+Güncel Sürüm
+[New Version]
+Yeni Sürüm
+[Downloading pack updates...]
+Paket güncellemeleri indiriliyor...
+[Downloading update...]
+Güncelleme indiriliyor...
+[Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+İndirme işlemi tamamlandı. Güncellemeye başlamak ister misiniz? Tüm verileriniz kaydedilecek ve Miranda NG kapatılacaktır.
+[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+İndirme işlemi tamamlandı. Güncellemeye başlamak istiyor musunuz? Tüm verileriniz kaydedilecek ve Miranda NG kapatılacaktır.
+[You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
+Paket güncellemesini hemen yüklememeyi seçtiniz.\nBu konumdan manuel olarak yükleyebilirsiniz:\n\n%s
+;file \plugins\PackUpdater\Src\Notifications.h
+[Close popup]
+Açılır pencereyi kapat
+[Do nothing]
+Hiçbir şey yapma
+;file \plugins\PackUpdater\Src\Options.cpp
+[hours]
+saat
+[days]
+gün
+[Test]
+Test
+[Services]
+Hizmetler
+;file \plugins\PackUpdater\Src\PackUpdater.cpp
+[Clear pack updates folder]
+"Güncellemeler" klasörünü temizle
+;file \plugins\PackUpdater\Src\Utils.cpp
+['Yes' Button]
+'Evet' Düğmesi
+['No' Button]
+'Hayır' Düğmesi
+[URL for checking updates not found.]
+Güncellemeleri kontrol etmek için kullanılan URL bulunamadı.
+[Downloading version info...]
+Sürüm bilgilerini indiriliyor...
+[Name of Update's file is not supported.]
+Güncelleme dosyasının adı desteklenmiyor.
+[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
+Güncelleme yapılamıyor!\nYönetici haklarınız yok.\nLütfen Miranda NG'yi yönetici haklarıyla çalıştırın.
+[No updates found.]
+Herhangi bir güncelleme bulunamadı.
+[No files for update.]
+Güncellenecek dosya yok.
+[Update checking already started!]
+Güncelleme kontrolü başladı bile!

@@ -866,6 +866,8 @@ void Chat_Serialize(SESSION_INFO *si)
 	if (!si->pMI->bPersistent)
 		return;
 
+	mir_cslock lck(si->csLock);
+
 	JSONNode pRoleList(JSON_ARRAY); pRoleList.set_name("roles");
 	for (auto &it: si->arStatuses) {
 		JSONNode role;

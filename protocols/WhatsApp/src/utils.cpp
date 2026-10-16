@@ -154,8 +154,7 @@ WAUser* WhatsAppProto::AddUser(const char *szId, bool bTemporary)
 	if (pUser != nullptr)
 		return pUser;
 
-	MCONTACT hContact = db_add_contact();
-	Proto_AddToContact(hContact, m_szModuleName);
+	MCONTACT hContact = db_add_contact(m_szModuleName, bTemporary ? DBAC_NOTINLIST : 0);
 	setString(hContact, DBKEY_ID, szId);
 
 	pUser = new WAUser(hContact, mir_strdup(szId));
@@ -166,9 +165,6 @@ WAUser* WhatsAppProto::AddUser(const char *szId, bool bTemporary)
 	}
 	else if (m_wszDefaultGroup)
 		Clist_SetGroup(hContact, m_wszDefaultGroup);
-
-	if (bTemporary)
-		Contact::RemoveFromList(hContact);
 
 	mir_cslock lck(m_csUsers);
 	m_arUsers.insert(pUser);

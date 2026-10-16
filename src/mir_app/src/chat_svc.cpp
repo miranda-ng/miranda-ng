@@ -22,6 +22,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+#ifdef _WINDOWS
+#include <m_smileyadd.h>
+#endif
+
 CMOption<bool> Chat::bShowNicklist(CHAT_MODULE, "ShowNicklist", true);
 CMOption<bool> Chat::bShowFormatting(CHAT_MODULE, "ShowFormatting", false);  // Hidden option
 CMOption<bool> Chat::bFilterEnabled(CHAT_MODULE, "FilterEnabled", false);
@@ -944,7 +948,9 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	LoadChatIcons();
 	CheckChatCompatibility();
 
-	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);
+	#ifdef _WINDOWS
+		HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);
+	#endif
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 	HookEvent(ME_SYSTEM_MODULESLOADED, PostModulesLoaded);
 

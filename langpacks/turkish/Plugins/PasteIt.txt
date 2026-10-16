@@ -1,0 +1,165 @@
+#muuid {1aac15e8-dcec-4050-b66f-2aa0e6120c22}
+;============================================================
+;  File: PasteIt.dll
+;  Plugin: Paste it
+;  Version: 1.0.0.4
+;  Authors: Krzysztof Kral
+;============================================================
+[Uploads the text to web page and sends the URL to your friends.]
+Metni web sayfasına yükler ve URL'yi arkadaşlarınıza gönderir.
+;file \plugins\PasteIt\res\PasteIt.rc
+[Settings]
+Ayarlar
+[Default web page]
+Varsayılan web sayfası
+[Default file encoding]
+Varsayılan dosya kodlaması
+[Auto-detect UTF-8]
+UTF-8'i otomatik olarak algıla
+[Show confirmation dialog box]
+Onay iletişim kutusunu göster
+[Autosend download link to contact]
+İndirme bağlantısını irtibat kişisine otomatik olarak gönder
+[Web page settings]
+Web sayfası ayarları
+[Web page to configure]
+Yapılandırılacak web sayfası
+[Configure]
+Yapılandır
+[Default formatting]
+Varsayılan biçimlendirme
+[Auto-detect format from file extension]
+Dosya uzantısından biçimi otomatik olarak algılama
+[Public paste]
+Herkese açık yapıştırma alanı
+[Login as guest]
+Misafir olarak giriş yap
+[User key]
+Kullanıcı anahtarı
+[Get user key]
+Kullanıcı anahtarını al
+[Configure formatting]
+Biçimlendirmeyi yapılandır
+[Cancel]
+İptal et
+[Up]
+Yukarı
+[Down]
+Aşağı
+[Delete]
+Sil
+[Restore defaults]
+Varsayılan ayarları geri yükle
+[Download more]
+Daha fazlasını indir
+[Login to pastebin.com]
+pastebin.com'a giriş yapın
+[User name]
+Kullanıcı adı
+[Password]
+Şifre
+[Paste It]
+Yapıştır
+[Format]
+Biçim
+[Encoding]
+Kodlama
+[Recode]
+Yeniden Kodla
+;file \plugins\PasteIt\src\Options.cpp
+[Use default codepage]
+Varsayılan kod sayfasını kullan
+[Thai]
+Tayca
+[Japanese]
+Japonca
+[Simplified Chinese]
+Basitleştirilmiş Çince
+[Korean]
+Korece
+[Traditional Chinese]
+Geleneksel Çince
+[Central European]
+Orta Avrupa
+[Cyrillic]
+Kiril alfabesi
+[Cyrillic KOI8-R]
+Kiril KOI8-R
+[Latin I]
+Latince I
+[Greek]
+Yunanca
+[Turkish]
+Türkçe
+[Hebrew]
+İbranice
+[Arabic]
+Arapça
+[Baltic]
+Baltık
+[Vietnamese]
+Vietnamca
+[Korean (Johab)]
+Korece (Johab)
+[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+Geçersiz bir kod sayfası girdiniz. Açılır menüden bir kod sayfası seçin veya doğru numarayı girin.
+[Invalid codepage]
+Geçersiz kod sayfası
+[Services]
+Hizmetler
+[Main]
+Ana Sayfa
+[Web page]
+Web sayfası
+;file \plugins\PasteIt\src\PasteIt.cpp
+[All Files (*.*)]
+Tüm Dosyalar (*.*)
+[Paste It - Select file]
+Yapıştır - Dosya seç
+[Error]
+Hata
+[Paste from clipboard]
+Panodan yapıştır
+[Paste from file]
+Dosyadan yapıştır
+;file \plugins\PasteIt\src\PasteToWeb.cpp
+[You can only paste 1 file]
+Sadece 1 dosya yapıştırabilirsiniz
+[Cannot get data from clipboard]
+Panodan veri alınamıyor
+[File size is %d KB, do you really want to paste such a large file?]
+Dosya boyutu %d KB'dir; bu kadar büyük bir dosyayı gerçekten yapıştırmak istiyor musunuz?
+[Are You sure?]
+Emin misin?
+[Cannot read file '%s']
+'%s' dosyası okunamıyor
+[File size is larger then 10 MB, cannot be sent]
+Dosya boyutu 10 MB'den büyük; gönderilemez
+[Cannot open file '%s']
+'%s' dosyası açılamıyor
+[File '%s' is empty]
+'%s' dosyası boş
+;file \plugins\PasteIt\src\PasteToWeb1.cpp
+[None]
+Yok
+[Error during sending text to web page: %S]
+Web sayfasına metin gönderilirken hata oluştu: %S
+[Error during sending text to web page]
+Web sayfasına metin gönderilirken hata oluştu
+[Error during getting user key from web page: %S]
+Web sayfasından kullanıcı anahtarını alırken hata oluştu: %S
+[Paste expire date]
+Son kullanma tarihini yapıştır
+[Never]
+Asla
+[10 minutes]
+10 dakika
+[1 hour]
+1 saat
+[1 day]
+1 gün
+[1 month]
+1 ay
+;file \plugins\PasteIt\src\PasteToWeb2.cpp
+[Text]
+Metin

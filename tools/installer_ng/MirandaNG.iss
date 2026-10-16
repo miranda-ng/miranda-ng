@@ -1,4 +1,4 @@
-#ifdef ptx86
+﻿#ifdef ptx86
    #define MirName "Miranda32.exe"
    #define MirGroupName "Miranda NG"
    #define MirPtf ""

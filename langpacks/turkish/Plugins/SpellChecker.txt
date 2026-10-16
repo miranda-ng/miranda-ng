@@ -1,0 +1,141 @@
+#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
+;============================================================
+;  File: SpellChecker.dll
+;  Plugin: Spell checker
+;  Version: 0.3.1.0
+;  Authors: Ricardo Pescuma Domenecci, Wishmaster
+;============================================================
+[Spell checker for the message windows. Uses Hunspell to do the checking.]
+Mesaj pencereleri için yazım denetleyicisi. Denetleme işlemi için Hunspell’i kullanır.
+;file \plugins\SpellChecker\res\resource.rc
+[Replacements]
+Yedekler
+[Enable auto-replacements]
+Otomatik değiştirme özelliğini etkinleştir
+[Language:]
+Dil:
+[Add...]
+Ekle...
+[Edit...]
+Düzenle...
+[Remove]
+Kaldır
+[Add auto-replace word]
+Otomatik değiştirme kelimesi ekle
+[Wrong word:]
+Yanlış kelime:
+[No separators and all lowercase chars]
+Ayırıcı yok ve tüm karakterler küçük harf
+[Correction:]
+Düzeltme:
+[Use variables in correction]
+Düzeltmede değişkenleri kullanın
+[Cancel]
+İptal et
+[Spell Checker]
+Yazım Denetleyicisi
+[Default language:]
+Varsayılan dil:
+[Auto-replace words with dictionary suggestions]
+Kelimeleri sözlük önerileriyle otomatik olarak değiştir
+[Ignore words with numbers]
+Rakam içeren kelimeleri göz ardı et
+[Ignore words in UPPER CASE]
+BÜYÜK HARFLE yazılmış kelimeleri göz ardı et
+[Ask before sending a message with spelling errors]
+Yazım hataları içeren bir mesaj göndermeden önce bir kez daha kontrol edin
+[Download more dictionaries]
+Daha fazla sözlük indirin
+[Advanced]
+İleri Düzey
+[Underline type:]
+Altı çizili yazı tipi:
+[Show corrections in submenu]
+Alt menüde düzeltmeleri göster
+[Show all corrections in context menu (takes more time to show)]
+Bağlam menüsünde tüm düzeltmeleri göster (görüntülenmesi daha uzun sürer)
+[Show wrong word]
+Yanlış kelimeyi göster
+[Use flags]
+Bayrakları kullanın
+[Use input language to select dictionary]
+Sözlüğü seçmek için giriş dilini kullanın
+[Use dictionaries from other programs]
+Diğer programlardaki sözlükleri kullanın
+[Avoid removing underscores (slows down checking of long texts)]
+Alt çizgileri kaldırmaktan kaçının (uzun metinlerin kontrolünü yavaşlatır)
+;file \plugins\SpellChecker\src\ardialog.cpp
+[The wrong word can't be empty!]
+Yanlış kelime boş olamaz!
+[Wrong Correction]
+Yanlış Düzeltme
+[The correction can't be empty!]
+Düzeltme alanı boş bırakılamaz!
+[The correction can't be equal to the wrong word!]
+Düzeltme, yanlış kelimeyle aynı olamaz!
+;file \plugins\SpellChecker\src\dictionary.cpp
+[Tagalog (Philippines)]
+Tagalog (Filipinler)
+[German (Germany)]
+Almanca (Almanya)
+;file \plugins\SpellChecker\src\options.cpp
+[Message sessions]
+Mesaj oturumları
+[Auto-replacements]
+Otomatik değiştirmeler
+[Line]
+Satır
+[Dotted]
+Noktalı
+[Dash]
+Çizgi
+[Dash dot]
+Çizgi nokta
+[Dash dot dot]
+Çizgi nokta nokta
+[Wave]
+Dalga
+[Thick]
+Kalın
+[Wrong word]
+Yanlış kelime
+[Correction]
+Düzeltme
+;file \plugins\SpellChecker\src\spellchecker.cpp
+[Dictionaries]
+Sözlükler
+[Custom Dictionaries]
+Özel Sözlükler
+[Flags DLL]
+Bayraklar DLL'si
+[Flags]
+Bayraklar
+[Enable/disable spell checker]
+Yazım denetleyicisini etkinleştir/devre dışı bırak
+[Enabled]
+Etkinleştirildi
+[Disabled]
+Engelli
+[Unknown]
+Bilinmiyor
+;file \plugins\SpellChecker\src\utils.cpp
+[There are %d spelling errors. Are you sure you want to send this message?]
+%d yazım hatası var. Bu mesajı göndermek istediğinizden emin misiniz?
+[Other...]
+Diğer...
+[Always replace with]
+Her zaman şununla değiştirin:
+[Ignore all]
+Hepsini yok say
+[Add to dictionary]
+Sözlüğe ekle
+[Corrections]
+Düzeltmeler
+[Wrong word: %s]
+Yanlış kelime: %s
+[Language]
+Dil
+[Enable spell checking]
+Yazım denetimini etkinleştir
+[Wrong words]
+Yanlış kelimeler

@@ -529,9 +529,8 @@ static INT_PTR onChangeProto(WPARAM hContact, LPARAM lparam)
 		Proto_AddToContact(hContactNew, szNewProto);
 	}
 	else {
-		hContactNew = db_add_contact();
+		hContactNew = db_add_contact(szNewProto);
 		if (hContactNew) {
-			Proto_AddToContact(hContactNew, szNewProto);
 			RenameDbProto(hContact, hContactNew, szOldProto, szNewProto, 0);
 			RenameDbProto(hContact, hContactNew, "CList", "CList", 0);
 		}

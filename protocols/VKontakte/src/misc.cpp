@@ -289,8 +289,7 @@ MCONTACT CVkProto::FindUser(VKUserID_t dwUserid, bool bCreate)
 	if (!bCreate)
 		return 0;
 
-	MCONTACT hNewContact = db_add_contact();
-	Proto_AddToContact(hNewContact, m_szModuleName);
+	MCONTACT hNewContact = db_add_contact(m_szModuleName);
 	WriteVKUserID(hNewContact, dwUserid);
 	Clist_SetGroup(hNewContact, m_vkOptions.pwszDefaultGroup);
 	if (GetVKPeerType(dwUserid) == VKPeerType::vkPeerGroup)
@@ -679,6 +678,12 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact, bool added)
 {
 	debugLogA("CVkProto::DBAddAuthRequest");
 
+	if (!added) {
+		MsgPopup(hContact, TranslateT("The current API doesn’t allow performing the required action. Please do it on the website yourself."), TranslateT("Attention!"));
+		SvcVisitProfile(hContact, 0);
+		return;
+	}
+
 	DB::AUTH_BLOB blob(hContact,
 		T2Utf(ptrW(db_get_wsa(hContact, m_szModuleName, "Nick"))),
 		T2Utf(ptrW(db_get_wsa(hContact, m_szModuleName, "FirstName"))),
@@ -688,7 +693,7 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact, bool added)
 	dbei.szModule = m_szModuleName;
 	dbei.iTimestamp = (uint32_t)time(0);
 	dbei.flags = DBEF_UTF;
-	dbei.eventType = added ? EVENTTYPE_ADDED : EVENTTYPE_AUTHREQUEST;
+	dbei.eventType = EVENTTYPE_ADDED;
 	dbei.cbBlob = blob.size();
 	dbei.pBlob = blob;
 	db_event_add(hContact, &dbei);

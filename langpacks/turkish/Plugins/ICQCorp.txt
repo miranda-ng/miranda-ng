@@ -1,0 +1,61 @@
+#muuid {4b5ea279-0014-431f-ab27-f76d4b284893}
+;============================================================
+;  File: ICQCorp.dll
+;  Plugin: ICQ corporate protocol
+;  Version: 0.2.0.3
+;  Authors: Miranda NG team, Eugene Tarasenko
+;============================================================
+[ICQ corporate protocol support for Miranda NG.]
+Miranda NG için ICQ kurumsal protokol desteği.
+;file \protocols\ICQCorp\res\resource.rc
+[UIN:]
+UIN:
+[External IP:]
+Dış IP:
+[Internal IP:]
+Dahili IP:
+[Port:]
+Liman:
+[ICQ Version:]
+ICQ Sürümü:
+[Miranda Version:]
+Miranda Sürümü:
+[Ping:]
+Ping:
+[Login Server:]
+Oturum Açma Sunucusu:
+[ICQ number:]
+ICQ numarası:
+[Password:]
+Şifre:
+[These changes will take effect the next time you connect to the ICQ network.]
+Bu değişiklikler, ICQ ağına bir sonraki bağlandığınızda yürürlüğe girecektir.
+;file \protocols\ICQCorp\src\options.cpp
+[Network]
+Ağ
+;file \protocols\ICQCorp\src\protocol.cpp
+[ICQ Corporate plugin used only WinSock v2.2 or later.]
+ICQ Kurumsal eklentisi yalnızca WinSock v2.2 veya daha yeni sürümlerini kullanıyordu.
+[You need specify ICQ Corporate login server.]
+ICQ Kurumsal oturum açma sunucusunu belirtmeniz gerekmektedir.
+[Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to Options -> Network -> ICQCorp and try again.]
+ICQ Corp numaranız ve şifreniz, ICQ Kurumsal sunucusu tarafından reddedildi. Lütfen Seçenekler -> Ağ -> ICQCorp menüsüne gidin ve tekrar deneyin.
+;file \protocols\ICQCorp\src\services.cpp
+[ICQ number]
+ICQ numarası
+[%d file]
+%d dosya
+[%d files]
+%d dosya
+[%d directory]
+%d dizini
+[%d directories]
+%d dizin
+;file \protocols\ICQCorp\src\transfer.cpp
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Göndermeyi seçtiğiniz dosyalardan biri artık diskten okunamadığı için dosya aktarımınız iptal edildi. Bu dosyayı silmiş veya başka bir yere taşımış olabilirsiniz.
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+Miranda, yazma işlemi gerçekleştirmek üzere hedef dosyayı açamadığı için dosya alma işleminiz iptal edildi. Okunur bir klasöre kaydetmeye çalışıyor olabilirsiniz.
+;file \protocols\ICQCorp\src\user.cpp
+[<not specified>]
+<belirtilmemiş>

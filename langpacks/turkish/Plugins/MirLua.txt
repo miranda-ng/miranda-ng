@@ -1,0 +1,50 @@
+#muuid {27d41d81-991f-4dc6-8749-b0321c87e694}
+;============================================================
+;  File: MirLua.dll
+;  Plugin: MirLua
+;  Version: 0.11.9.2
+;  Authors: Miranda NG team
+;============================================================
+[Extends Miranda NG functionality with Lua scripts.]
+Miranda NG’nin işlevselliğini Lua betikleriyle genişletir.
+;file \plugins\MirLua\res\resource.rc
+[Reload all]
+Tümünü yeniden yükle
+[Scripts]
+Senaryolar
+[Popup on script error]
+Komut dosyası hatasında açılır pencere
+[General]
+Genel
+[Popup on obsolete methods]
+Eski yöntemlerle ilgili açılır pencere
+[Auto evaluation]
+Otomatik değerlendirme
+[Evaluate]
+Değerlendir
+;file \plugins\MirLua\src\icons.cpp
+[Script]
+Senaryo
+[Loaded]
+Yüklendi
+[Failed]
+Başarısız
+[Open]
+Aç
+[Reload]
+Yeniden Yükle
+[Compile]
+Derle
+;file \plugins\MirLua\src\options.cpp
+[Common scripts]
+Yaygın komut dosyaları
+[Services]
+Hizmetler
+;file \plugins\MirLua\src\plugin.cpp
+[C Libs Folder]
+C Libs Klasörü
+[Scripts folder]
+Scripts klasörü
+;file \plugins\MirLua\src\stdafx.h
+[MirLua]
+MirLua

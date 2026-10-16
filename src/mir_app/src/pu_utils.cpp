@@ -193,10 +193,11 @@ MIR_APP_DLL(bool) PU::PrepareEscalation(const wchar_t *pwszFile)
 			return true;
 		}
 
-		uint32_t dwError = GetLastError();
-		if (dwError == ERROR_CANCELLED) {
-			// The user refused to allow privileges elevation.
-			// Do nothing ...
+		// If ShellExecuteEx failed for any reason (user cancelled UAC, etc.),
+		// close the pipe and reset it so the user can retry elevation later.
+		if (g_hPipe != nullptr) {
+			CloseHandle(g_hPipe);
+			g_hPipe = nullptr;
 		}
 	}
 	return false;

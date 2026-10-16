@@ -105,6 +105,7 @@ void CSteamProto::OnGotRsaKey(const CAuthenticationGetPasswordRSAPublicKeyRespon
 void CSteamProto::OnBeginSession(const CAuthenticationBeginAuthSessionViaCredentialsResponse &reply, const CMsgProtoBufHeader &hdr)
 {
 	if (hdr.failed()) {
+		ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_WRONGPROTOCOL);
 		Logout();
 		return;
 	}

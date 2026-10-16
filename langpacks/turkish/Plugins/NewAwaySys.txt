@@ -1,0 +1,343 @@
+#muuid {b2dd9270-ce5e-11df-bd3d-0800200c9a66}
+;============================================================
+;  File: NewAwaySys.dll
+;  Plugin: New Away System Mod
+;  Version: 0.4.0.5
+;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
+;============================================================
+[Allows you to handle your status messages in a convenient way.]
+Durum mesajlarınızı pratik bir şekilde yönetmenizi sağlar.
+;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
+[Enable autoreply]
+Otomatik yanıtı etkinleştir
+[On event...]
+Bir etkinlikte...
+[Save autoreply to the history]
+Otomatik yanıtı geçmişe kaydet
+[Reply only when Idle]
+Yalnızca boşta olduğunda yanıt ver
+[Reply only when contact's message window is closed]
+Yalnızca kişinin mesaj penceresi kapalıyken yanıt ver
+[Send maximum]
+Maksimum gönder
+[times (-1=infinite)]
+kez (-1 = sonsuz)
+[Reset this counter also when I just change my status text\n(when status icon remains the same)]
+Durum metnini değiştirdiğimde de bu sayacı sıfırla\n(durum simgesi aynı kaldığında)
+[Disable autoreply when...]
+Aşağıdaki durumlarda otomatik yanıtı devre dışı bırak...
+[On&line]
+On&line
+[&Away]
+&Away
+[&Not available]
+&Mevcut değil
+[Occ&upied]
+Meşgul
+[&Do not disturb]
+&Rahatsız etmeyin
+[&Free for chat]
+&Sohbet için ücretsiz
+[&Invisible]
+&Görünmez
+[Autoreply format:]
+Otomatik yanıt biçimi:
+[V]
+V
+[%extratext% is your status message]
+%extratext% durum mesajınızdır
+[&Variables]
+&Değişkenler
+[Se&ttings]
+Ayarlar
+[Ignore requests]
+İstekleri yok say
+[Send an autoreply]
+Otomatik yanıt gönder
+[&Delete]
+&Sil
+[New &category]
+Yeni &kategori
+[Save as &new]
+"&new" olarak kaydet
+[&Save]
+&Kaydet
+[Title:]
+Başlık:
+[Use this message as default for]
+Bu mesajı şunun için varsayılan olarak kullanın:
+[New message]
+Yeni mesaj
+[New category]
+Yeni kategori
+[Delete]
+Sil
+[Wait]
+Bekle
+[seconds before closing the status message dialog (-1=don't close)]
+durum mesajı iletişim kutusunu kapatmadan önceki saniye sayısı (-1=kapatma)
+[Store]
+Mağaza
+[most recent messages (0=disable)]
+en son mesajlar (0=devre dışı)
+[Store for each status separately]
+Her bir durum için ayrı ayrı saklayın
+[Use default...]
+Varsayılanı kullan...
+[Use the most recent message]
+En son mesajı kullanın
+[Use the default message]
+Varsayılan mesajı kullanın
+[Reset per-protocol messages when changing global status]
+Genel durum değiştirildiğinde protokol bazlı mesajları sıfırla
+[Store protocol messages for each status separately]
+Her durum için protokol mesajlarını ayrı ayrı saklayın
+[Store protocol autoreply settings for each status separately]
+Her durum için protokol otomatik yanıt ayarlarını ayrı ayrı kaydedin
+[Remember last message used for a contact...]
+Bir kişi için en son kullanılan mesajı hatırla...
+[Store contact autoreply/ignore settings for each status separately]
+Her durum için otomatik yanıt/görmezden gelme ayarlarını ayrı ayrı kaydet
+[Use protocol specific nick for %nas_mynick%]
+%nas_mynick% için protokole özgü takma ad kullanın
+[Update status messages every]
+Durum mesajlarını her
+[seconds]
+saniye
+[Don't show the message dialog for]
+Aşağıdaki durumlarda mesaj penceresi görüntülenmesin:
+[%s message for %s]
+%s için %s mesajı
+[Retrieving %s message...]
+%s mesajını alınıyor...
+[&Cancel]
+&İptal
+[Notify of requests]
+İstekleri bildirme
+[Don't notify of requests]
+İstekler hakkında bildirim gönderme
+[Autoreply on]
+Otomatik yanıt açık
+[Autoreply off]
+Otomatik Yanıt Kapalı
+[Don't send status message]
+Durum mesajı gönderme
+[Note: these settings are applied to all status modes at once.]
+Not: Bu ayarlar tüm durum modlarına aynı anda uygulanır.
+[Means the setting is different for different status modes / contacts]
+Bu, farklı durum modları / kişiler için ayarın farklı olduğu anlamına gelir
+[Set away message window options]
+Otomatik yanıt penceresinin seçeneklerini ayarla
+[Show predefined &messages]
+Önceden tanımlanmış mesajları göster
+[Show &contacts]
+Göster & İletişim Bilgileri
+[Save default window settings &automatically]
+Varsayılan pencere ayarlarını kaydet ve otomatik olarak
+[&Save current window settings as default]
+&Mevcut pencere ayarlarını varsayılan olarak kaydet
+[Disable parsing of status messages by Variables plugin]
+Variables eklentisi tarafından durum mesajlarının ayrıştırılmasını devre dışı bırak
+[Create new &message]
+Yeni &message oluştur
+[Create new &category]
+Yeni &kategori oluştur
+[&Rename]
+&Adını Değiştir
+[Set as &default for]
+Şunun için &varsayılan olarak ayarla
+;file \plugins\NewAwaySysMod\src\AwayOpt.cpp
+[Create new message]
+Yeni mesaj oluştur
+[Create new category]
+Yeni kategori oluştur
+[Open Variables help dialog]
+"Değişkenleri Aç" yardım iletişim kutusu
+[Your most recent status messages are placed in this category. It's not recommended that you put your messages manually here, as they'll be replaced by your recent messages.]
+En son durum mesajlarınız bu kategoriye eklenir. Mesajlarınızı buraya manuel olarak eklemeniz önerilmez, çünkü bunlar en son mesajlarınızla değiştirilecektir.
+[You can put your frequently used and favorite messages in this category.]
+Sık kullandığınız ve favori mesajlarınızı bu kategoriye ekleyebilirsiniz.
+[When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e., disabled state is more restrictive).]
+Bu onay kutusu işaretlendiğinde, NewAwaySys, durum modu değişmemiş olsa bile son durum mesajı değişikliğinden itibaren “gönderim sayısını” sayar.\nOnay kutusu işaretlenmediğinde ise “gönderim sayısı”, son durum modu değişikliğinden itibaren sayılır (yani, devre dışı durum daha kısıtlayıcıdır).
+[Message]
+Mesaj
+[File]
+Dosya
+[** All contacts **]
+** Tüm kişiler **
+[** Not-on-list contacts **]
+** Listede yer almayan kişiler **
+[Status messages]
+Durum mesajları
+[Main options]
+Ana seçenekler
+[Autoreply]
+Otomatik Yanıt
+[Contacts]
+İletişim Bilgileri
+[Predefined messages]
+Önceden tanımlanmış mesajlar
+[Recent messages]
+Son mesajlar
+[Gone fragging]
+Oyun oynamaya gittim
+[Been fragging since %nas_awaysince_time%, I'll message you later when the adrenaline wears off.]
+%nas_awaysince_time%'dan beri fragging yapıyorum, adrenalinim düştüğünde sana mesaj atarım.
+[Creepy]
+Ürkütücü
+[Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, i'll tell him you dropped by...]
+Efendin %nas_mynick%, sadece ?nas_awaysince_date(dddd) olarak bilinen günden beri %nas_statdesc% durumundadır... Geri döndüğünde, ona uğradığını söyleyeceğim...
+[Default messages]
+Varsayılan mesajlar
+[Online]
+Çevrimiçi
+[Yep, I'm here.]
+Evet, buradayım.
+[Away]
+Deplasman
+[Been gone since %nas_awaysince_time%, will be back later.]
+%nas_awaysince_time% zamandır yoktum, daha sonra geri döneceğim.
+[Not available]
+Mevcut değil
+[Give it up, I'm not in!]
+Vazgeç artık, ben yokum!
+[Occupied]
+İşgal Altında
+[Not right now.]
+Şu anda değil.
+[Do not disturb]
+Rahatsız etmeyin
+[Give a guy some peace, would ya?]
+Adama biraz rahat verin, olur mu?
+[Free for chat]
+Sohbet için ücretsiz
+[I'm a chatbot!]
+Ben bir sohbet robotuyum!
+[Invisible]
+Görünmez
+[I'm hiding from the mafia.]
+Mafyadan saklanıyorum.
+;file \plugins\NewAwaySysMod\src\AwaySys.cpp
+[Toggle Off]
+Kapat
+[Toggle On]
+Aç
+[Dot]
+Nokta
+[Ignore]
+Yoksay
+[Indefinite]
+Belirsiz
+[Set status message]
+Durum mesajını ayarla
+[Add]
+Ekle
+[Save]
+Kaydet
+[Settings]
+Ayarlar
+[Set %s message for the contact]
+Kişi için %s mesajını ayarla
+[Re&ad %s message]
+%s mesajını yeniden oku
+[Toggle autoreply on/off]
+Otomatik yanıtı aç/kapat
+[Toggle autoreply off]
+Otomatik yanıtı devre dışı bırak
+[Toggle autoreply on]
+Otomatik yanıtı etkinleştir
+[New Away System]
+Yeni Deplasman Sistemi
+[Away since time in default format; ?nas_awaysince_time(x) in format x]
+Varsayılan biçimdeki “Away since time”; x biçiminde ?nas_awaysince_time(x)
+[Away since date in default format; ?nas_awaysince_date(x) in format x]
+Varsayılan biçimde "Away since date"; x biçiminde ?nas_awaysince_date(x)
+[Status description]
+Durum açıklaması
+[Your nick for current protocol]
+Mevcut protokol için kullandığınız takma adınız
+[Number of status message requests from the contact]
+Kişiden gelen durum mesajı isteklerinin sayısı
+[Number of messages from the contact]
+Kişiden gelen mesaj sayısı
+[Time passed until request]
+Talep gelene kadar zaman geçti
+[Returns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)]
+Başlığına göre önceden tanımlanmış mesajlarınızdan birini döndürür: ?nas_predefinedmessage(creepy)
+[Current protocol name]
+Mevcut protokol adı
+[Stranger]
+Yabancı
+[%d hours]
+%d saat
+[%d minutes]
+%d dakika
+[%d seconds]
+%d saniye
+[Read status message]
+Durum mesajını oku
+[On]
+Tarih:
+[Off]
+Kapalı
+[Use the default setting]
+Varsayılan ayarı kullanın
+[NewAwaySys: Incoming status message request]
+NewAwaySys: Gelen durum mesajı isteği
+;file \plugins\NewAwaySysMod\src\MsgTree.cpp
+[You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
+Aynı anda birden fazla mesaj ağacında değişiklik yaptınız.\r\nDeğişiklikleri " içinde bırakmak istiyor musunuz?
+[" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead.]
+" iletişim kutusu mu?\r\nBu iletişim kutusundaki değişiklikleri kaydetmek için Evet'e, değişiklikleri iptal edip bunun yerine diğer mesaj ağacındaki değişiklikleri kaydetmek için Hayır'a basın.
+[Do you really want to delete this category with its messages?]
+Bu kategoriyi, içindeki mesajlarla birlikte gerçekten silmek istiyor musunuz?
+[Do you really want to delete this message?]
+Bu mesajı gerçekten silmek istiyor musunuz?
+;file \plugins\NewAwaySysMod\src\Notification.cpp
+[Error #%d]
+Hata #%d
+[Can't open log file ]
+Günlük dosyasını açamıyorum 
+;file \plugins\NewAwaySysMod\src\ReadAwayMsg.cpp
+[&Close]
+&Kapat
+;file \plugins\NewAwaySysMod\src\SetAwayMsg.cpp
+[Save, replacing the selected message]
+Seçilen mesajı değiştirerek kaydet
+[Save as a new message]
+Yeni mesaj olarak kaydet
+[Show settings menu]
+Ayarlar menüsünü göster
+[Don't send the status message to selected contact(s)]
+Seçilen kişilere durum mesajını gönderme
+[Send an autoreply to selected contact(s)]
+Seçilen kişilere otomatik yanıt gönder
+[Apply]
+Başvur
+[Do you want to apply the message?]
+Mesajı uygulamak istiyor musunuz?
+[Set message for]
+Şu mesajı ayarla:
+[Statuses]
+Durumlar
+[for]
+için
+[available autoreply only]
+Yalnızca otomatik yanıt seçeneği mevcuttur
+[all accounts]
+tüm hesaplar
+[Closing in %d]
+%d içinde kapanış
+;file \plugins\NewAwaySysMod\src\stdafx.h
+[Miranda NG autoreply >\r\n%extratext%]
+Miranda NG otomatik yanıtı >\r\n%extratext%
+[extended status]
+genişletilmiş durum
+[Away System]
+Deplasman Sistemi
+[Status]
+Durum
+[Popups]
+Açılır pencereler
+[Variables plugin is not installed]
+"Değişkenler" eklentisi yüklü değil

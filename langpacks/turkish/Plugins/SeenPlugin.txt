@@ -1,0 +1,263 @@
+#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
+;============================================================
+;  File: SeenPlugin.dll
+;  Plugin: Last seen
+;  Version: 5.0.5.6
+;  Authors: Heiko Schillinger, YB
+;============================================================
+[Logs when a user was last seen online and which users were online while you were away.]
+Bir kullanıcının en son ne zaman çevrimiçi görüldüğünü ve siz çevrimdışı olduğunuz sırada hangi kullanıcıların çevrimiçi olduğunu kaydeder.
+;file \plugins\SeenPlugin\res\resource.rc
+[Last seen options]
+En son görüntülenen seçenekler
+[Last seen menu item]
+En son görüntülenen menü öğesi
+[Show icon]
+Simgeyi göster
+[User info tab]
+Kullanıcı bilgileri sekmesi
+[Log to file]
+Dosyaya kaydet
+[Log to history]
+Geçmişe kaydet
+[Maximum size]
+Maksimum boyut
+[Variable list]
+Değişken listesi
+[Enable Idle support]
+Bekleme desteği etkinleştir
+[Ignore contacts going offline]
+Çevrimdışı olan kişileri göz ardı et
+[Enable 'Missed Ones' feature]
+"Kaçırılanlar" özelliğini etkinleştir
+[Count times]
+Sayım sayısı
+[Accounts to watch:]
+Takip edilmesi gereken hesaplar:
+[Use popups]
+Açılır pencereler kullanın
+[Title]
+Başlık
+[Text]
+Metin
+[Popup Colors]
+Açılır Pencere Renkleri
+[Online]
+Çevrimiçi
+[Away]
+Deplasman
+[Not available]
+Mevcut değil
+[Occupied]
+İşgal Altında
+[Do not disturb]
+Rahatsız etmeyin
+[Free for chat]
+Sohbet için ücretsiz
+[Invisible]
+Görünmez
+[Offline]
+Çevrimdışı
+[Reset colors]
+Renkleri sıfırla
+[Last seen plugin]
+"Son Görüntülenme" eklentisi
+[You missed following contacts:]
+Aşağıdaki kişileri takip etmeyi unutmuşsunuz:
+[Alert when user status changes]
+Kullanıcı durumu değiştiğinde uyarı gönder
+[User Menu]
+Kullanıcı Menüsü
+[View User's Details]
+Kullanıcının Ayrıntılarını Görüntüle
+[Send Instant Message]
+Anlık Mesaj Gönder
+;file \plugins\SeenPlugin\src\history.cpp
+[last seen history]
+son görüntülenme geçmişi
+[Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
+Tarih: %d.%m.%y(%Y) \n Tarih açıklaması: %W - %w - %E - %e \n Saat: %H:%M:%S (%h-%p) \n kullanıcı: %n - %u \n Durum: %s \n IP: %i - %r
+;file \plugins\SeenPlugin\src\main.cpp
+[Clock]
+Saat
+[LastSeen]
+Son Görülme Tarihi
+[User status change]
+Kullanıcı durumundaki değişiklik
+[Changed to Online]
+"Çevrimiçi" olarak değiştirildi
+[User Logged Off]
+Kullanıcı Oturumu Kapatıldı
+[User Logged In]
+Kullanıcı Oturum Açtı
+;file \plugins\SeenPlugin\src\menu.cpp
+[<unknown>]
+<bilinmiyor>
+[Last seen]
+En son görüldü
+;file \plugins\SeenPlugin\src\options.cpp
+[year (4 digits)]
+yıl (4 basamaklı)
+[year (2 digits)]
+yıl (2 basamaklı)
+[month]
+ay
+[name of month]
+ayın adı
+[short name of month]
+ayın kısaltması
+[day]
+gün
+[weekday (full)]
+hafta içi (tam)
+[weekday (abbreviated)]
+hafta içi (kısaltılmış)
+[hours (24)]
+saat (24)
+[hours (12)]
+saat (12)
+[AM/PM]
+Sabah/Akşam
+[minutes]
+dakika
+[seconds]
+saniye
+[username]
+kullanıcı adı
+[nick]
+nick
+[UIN/handle]
+UIN/kimlik numarası
+[group]
+grup
+[status]
+durum
+[status message]
+durum mesajı
+[old status]
+eski durum
+[external IP]
+dış IP
+[internal IP]
+iç IP
+[client info]
+müşteri bilgileri
+[protocol]
+protokol
+[account]
+hesap
+[tabulator]
+tabulatör
+[line break]
+satır sonu
+[-- Date --]
+-- Tarih --
+[-- Time --]
+-- Saat --
+[-- User --]
+-- Kullanıcı --
+[-- Format --]
+-- Biçim --
+[Note:]
+Not:
+[Use # for empty string]
+Boş dize için # kullanın
+[instead of <unknown>]
+<bilinmiyor> yerine
+[Last Seen variables]
+"Son Görülme" değişkenleri
+[Contacts]
+İletişim Bilgileri
+[Popups]
+Açılır pencereler
+;file \plugins\SeenPlugin\src\stdafx.h
+[%n is %s (%u)]
+%n, %s (%u) değerindedir
+[%i(%r)%bWas %o]
+%i(%r)%b%o idi
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
+Ad:%t%N%bDurum:%t%s%bGün:%t%d.%m.%Y%bSaat:%t%H:%M:%S%bÖnceki Durum:%t%o%b%b%P Kimliği:%t%u%bDış IP:%t%i%bDahili IP:%t%r%bİstemci Kimliği: %t%C%b%bDurum Mesajı:%t%T
+;file \plugins\SeenPlugin\src\userinfo.cpp
+;file \plugins\SeenPlugin\src\utils.cpp
+[Sunday]
+Pazar
+[Monday]
+Pazartesi
+[Tuesday]
+Salı
+[Wednesday]
+Çarşamba
+[Thursday]
+Perşembe
+[Friday]
+Cuma
+[Saturday]
+Cumartesi
+[Sun.]
+Pazar.
+[Mon.]
+Pzt.
+[Tue.]
+Salı
+[Wed.]
+Çar.
+[Thu.]
+Perşembe
+[Fri.]
+Cuma
+[Sat.]
+Cumartesi
+[January]
+Ocak
+[February]
+Şubat
+[March]
+Mart
+[April]
+Nisan
+[May]
+Mayıs
+[June]
+Haziran
+[July]
+Temmuz
+[August]
+Ağustos
+[September]
+Eylül
+[October]
+Ekim
+[November]
+Kasım
+[December]
+Aralık
+[Jan.]
+Ocak.
+[Feb.]
+Şubat
+[Mar.]
+Mart.
+[Apr.]
+Nisan
+[Jun.]
+Haziran
+[Jul.]
+Temmuz.
+[Aug.]
+Ağustos
+[Sep.]
+Eylül.
+[Oct.]
+Ekim
+[Nov.]
+Kasım
+[Dec.]
+Aralık
+[<never seen>]
+<hiç görmedim>
+[Idle]
+Boşta
+[Unknown]
+Bilinmiyor
+[Not Idle]
+Boşta Değil

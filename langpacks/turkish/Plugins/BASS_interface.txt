@@ -1,0 +1,68 @@
+#muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
+;============================================================
+;  File: BASS_interface.dll
+;  Plugin: BASS Interface
+;  Version: 0.0.0.14
+;  Authors: tico-tico
+;============================================================
+[Un4seen's BASS interface Miranda NG plugin.]
+Un4seen'in BASS arayüzü için Miranda NG eklentisi.
+;file \plugins\BASS_interface\res\Bass.rc
+[Un4seen's BASS interface]
+Un4seen’in BASS arayüzü
+[bass.dll loading error]
+bass.dll yükleme hatası
+[Current bass.dll path:]
+bass.dll dosyasının mevcut yolu:
+[Maximum number of BASS internal channels:]
+BASS dahili kanallarının maksimum sayısı:
+[Output device:]
+Çıkış aygıtı:
+[Volume:]
+Hacim:
+[Quiet time:]
+Sessiz zaman:
+[Play only if]
+Sadece şu durumlarda oyna:
+[Offline]
+Çevrimdışı
+[Online]
+Çevrimiçi
+[Away]
+Deplasman
+[Not available]
+Mevcut değil
+[Occupied]
+İşgal Altında
+[Do not disturb]
+Rahatsız etmeyin
+[Free for chat]
+Sohbet için ücretsiz
+[Invisible]
+Görünmez
+[Preview]
+Önizleme
+;file \plugins\BASS_interface\src\Main.cpp
+[Un4seen's BASS version: %d.%d.%d.%d]
+Un4seen'in BASS sürümü: %d.%d.%d.%d
+[--default device--]
+--varsayılan aygıt--
+[Sounds]
+Sesler
+[Disable sounds]
+Sesleri devre dışı bırak
+[Enable sounds]
+Sesleri etkinleştir
+[Frame background]
+Çerçeve arka planı
+[BASS Interface]
+BASS Arayüzü
+[Bass Interface]
+Bas Arayüzü
+[Bass library]
+Bas ses kütüphanesi
+[Sounds enabled]
+Sesler etkinleştirildi
+[Sounds disabled]
+Ses devre dışı bırakılmış
+;file \plugins\BASS_interface\src\stdafx.h

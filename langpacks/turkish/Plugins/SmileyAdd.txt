@@ -1,0 +1,102 @@
+#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
+;============================================================
+;  File: SmileyAdd.dll
+;  Plugin: SmileyAdd
+;  Version: 0.3.3.1
+;  Authors: Peacow, nightwish, bid, borkra
+;============================================================
+[Smiley support for Miranda NG.]
+Miranda NG için Smiley desteği.
+;file \plugins\SmileyAdd\res\resource.rc
+[Display]
+Ekran
+[Replace only smileys surrounded by spaces]
+Yalnızca boşluklarla çevrili ifadeleri değiştir
+[Scale smiley to text height]
+Smiley'i metin yüksekliğine göre ölçeklendir
+[High quality smiley scaling]
+Yüksek kaliteli smiley ölçeklendirme
+[Animate]
+Canlandır
+[Maximum sticker height]
+Maksimum etiket yüksekliği
+[Minimum smiley height]
+Asgari gülen yüz yüksekliği
+[Smiley selector]
+Smiley seçici
+[Input area]
+Giriş alanı
+[Enable smileys]
+Smiley'leri etkinleştir
+[Don't replace at cursor]
+İmleç konumunda değiştirme
+[Surround inserted smiley with spaces]
+Eklenen gülen yüzün etrafını boşluklarla çevreleyin
+[Use first smiley for selection size]
+Seçim boyutu için ilk gülen yüz simgesini kullanın
+[IEView style window]
+IEView tarzı pencere
+[Horizontal sorting]
+Yatay sıralama
+[Download more smileys]
+Daha fazla smiley indir
+[Specify smiley pack for each category]
+Her kategori için bir smiley paketi belirleyin
+[Name:]
+Adı:
+[Author:]
+Yazar:
+[Version:]
+Sürüm:
+[Preview]
+Önizleme
+[Use per protocol global smiley packs]
+Protokol gereği genel smiley paketlerini kullanın
+;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
+[Show smiley selection window]
+Smiley seçim penceresini göster
+;file \plugins\SmileyAdd\src\download.cpp
+[SmileyAdd]
+SmileyEkle
+[Smiley packs' folder]
+Smiley paketleri klasörü
+[Smiley cache]
+Smiley önbelleği
+;file \plugins\SmileyAdd\src\main.cpp
+[Button smiley]
+Düğme suratlı
+[Assign smiley category]
+Gülücük kategorisi atama
+[Background color]
+Arka plan rengi
+;file \plugins\SmileyAdd\src\options.cpp
+[Smiley packs]
+Smiley paketleri
+[All files]
+Tüm dosyalar
+[Smileys]
+Gülücükler
+[Customize]
+Kişiselleştir
+[General]
+Genel
+[Categories]
+Kategoriler
+;file \plugins\SmileyAdd\src\services.cpp
+[Protocol specific]
+Protokolüne özgü
+;file \plugins\SmileyAdd\src\smileys.cpp
+[Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
+"%s" kategorisi için %s smiley paketi bulunamadı.\nSeçenekler -> Özelleştir -> Smiley'ler bölümünden doğru smiley paketini seçin.
+[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
+Smiley paketi yüklenirken sorunlar yaşandı (bu sorun düzeltilmiş olmalı).\nAyrıntılar için ağ günlüğüne bakınız.
+[Smiley #%u in file %s for smiley pack %s not found.]
+%s smiley paketi için %s dosyasındaki #%u smiley'i bulunamadı.
+[%s global smiley pack]
+%s genel smiley paketi
+[Standard]
+Standart
+[Emoji]
+Emoji
+[Regular expression "%s" in smiley pack "%s" malformed.]
+"%s" smiley paketindeki "%s" düzenli ifadesi hatalı biçimlendirilmiş.

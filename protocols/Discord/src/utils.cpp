@@ -332,8 +332,7 @@ CDiscordUser* CDiscordProto::PrepareUser(const JSONNode &user)
 	}
 
 	if (pUser->hContact == 0) {
-		MCONTACT hContact = db_add_contact();
-		Proto_AddToContact(hContact, m_szModuleName);
+		MCONTACT hContact = db_add_contact(m_szModuleName);
 
 		Clist_SetGroup(hContact, m_wszDefaultGroup);
 		setId(hContact, DB_KEY_ID, id);

@@ -310,15 +310,15 @@ void importSettings(MCONTACT hContact, char *utf8)
 						if (p1 && p2 && p1 + 3 < p2 && p2 - p1 < _countof(szProto)) {
 							strncpy(szProto, p1 + 1, p2 - p1 - 3);
 							hContact = CheckNewContact(szProto, uid, szUID);
+							if (hContact == INVALID_CONTACT_ID) {
+								if (MCONTACT temp = db_add_contact(szProto))
+									hContact = temp;
+								else
+									return; // smth went terribly wrong
+							}
 						}
 					}
 				}
-			}
-
-			if (hContact == INVALID_CONTACT_ID) {
-				MCONTACT temp = db_add_contact();
-				if (temp)
-					hContact = temp;
 			}
 		}
 		else if (importstring[i] == '[' && !strchr(&importstring[i + 1], '=')) { // get the module

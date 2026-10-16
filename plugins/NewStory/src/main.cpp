@@ -212,6 +212,7 @@ int CMPlugin::Unload()
 	WindowList_Destroy(g_hNewstoryWindows);
 	WindowList_Destroy(g_hNewstoryHistLogs);
 
+	delete m_pNoImage;
 	GdiplusShutdown(m_gdiplusToken);
 
 	UnregisterSrmmLog(m_log);

@@ -42,22 +42,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 function Proto_RegisterModule(iType:int; name:PAnsiChar) : int; stdcall; external AppDLL;
 
 {
-  Affect : Add the given protocol module to the chain for a contact, see notes
-  Returns: 0 success, [non zero] on failure
-  Notes  : The module is added to the correct positioning according to it's
-           registered type.
-}
-
-function Proto_AddToContact(hContact:TMCONTACT; proto:PAnsiChar) : int; stdcall; external AppDLL;
-
-{
-  Affect : Remove the given protocol name from the chain for the given contact
-  Returns: 0 on success, [non zero] on failure
-}
-
-function Proto_RemoveFromContact(hContact:TMCONTACT; proto:PAnsiChar) : int; stdcall; external AppDLL;
-
-{
   Affect : Call the next service in the chain for the send operation, see notes
   Return : Return value should be returned by CallService(MS_PROTO_CHAINSEND,wParam,lParam)
   Notes  : wParam MUST remain untouched, lParam is a pointer to a CSSDATA structure

@@ -144,8 +144,7 @@ public:
 		if (!EnterString(&es))
 			return;
 
-		Account *p = new Account(db_add_contact());
-		Proto_AddToContact(p->hContact, MODULENAME);
+		Account *p = new Account(db_add_contact(MODULENAME));
 		g_accs.insert(p);
 
 		p->szName = _T2A(es.ptszResult);

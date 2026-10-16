@@ -437,7 +437,7 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::WriteContactSetting(MCONTACT contactID, con
 	size_t moduleNameLen = strlen(szModule);
 
 	// used for notifications
-	DBCONTACTWRITESETTING dbcwNotif = {szModule, szSetting, *dbv};
+	DBCONTACTWRITESETTING dbcwNotif = { szModule, szSetting, *dbv };
 	if (dbcwNotif.value.type == DBVT_WCHAR) {
 		if (dbcwNotif.value.pszVal != nullptr) {
 			T2Utf val(dbcwNotif.value.pwszVal);
@@ -450,8 +450,11 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::WriteContactSetting(MCONTACT contactID, con
 		else return 1;
 	}
 
-	if (dbcwNotif.szModule == nullptr || dbcwNotif.szSetting == nullptr)
-		return 1;
+	bool bSendNotif = true;
+	if (dbcwNotif.value.type == DBVT_BYTE_HIDDEN) {
+		bSendNotif = false;
+		dbcwNotif.value.type = DBVT_BYTE;
+	}
 
 	DBCONTACTWRITESETTING dbcwWork = dbcwNotif;
 
@@ -520,7 +523,9 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::WriteContactSetting(MCONTACT contactID, con
 			return 1;
 
 	lck.unlock();
-	NotifyEventHooks(g_hevSettingChanged, contactID, (LPARAM)&dbcwNotif);
+
+	if (bSendNotif)
+		NotifyEventHooks(g_hevSettingChanged, contactID, (LPARAM)&dbcwNotif);
 	return 0;
 }
 

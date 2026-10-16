@@ -1,0 +1,219 @@
+#muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
+;============================================================
+;  File: mRadio.dll
+;  Plugin: mRadio Mod
+;  Version: 0.0.2.4
+;  Authors: Awkward
+;============================================================
+[This plugin plays and records Internet radio streams. Also local media files can be played.]
+Bu eklenti, internet radyo yayınlarını dinletir ve kaydeder. Ayrıca yerel medya dosyaları da oynatılabilir.
+[mRadio Mod]
+mRadio Mod
+[REC]
+REC
+[Cave]
+Mağara
+[Arena]
+Arena
+[Genre]
+Tür
+[Plain]
+Sade
+[Alley]
+Sokak
+[Dizzy]
+Baş dönmesi
+[Generic]
+Genel
+[Bathroom]
+Banyo
+[Parking Lot]
+Otopark
+[Stone Corridor]
+Taş Koridor
+[Sewer Pipe]
+Kanalizasyon Borusu
+[Auditorium]
+Konferans Salonu
+[Carpeted Hallway]
+Halı Kaplı Koridor
+[Play from first]
+İlkinden oyna
+[Shuffle playlist]
+Çalma listesini rastgele sırala
+[Loop single media]
+Tekli medyayı döngüye al
+[Station Name]
+İstasyon Adı
+[Timeout, ms]
+Zaman aşımı, ms
+[PreBuf, %]
+PreBuf, %
+[Hallway]
+Koridor
+[Mountains]
+Dağlar
+[Use EAX]
+EAX'i kullanın
+[Under Water]
+Su Altında
+[Station URL (required)]
+İstasyon URL'si (zorunlu)
+[To INI]
+INI’ye
+[Buffer, ms]
+Tampon, ms
+[Add station]
+İstasyon ekle
+[Add Station]
+İstasyon Ekle
+[Bitrate]
+Bit hızı
+[Stone Room]
+Taş Oda
+[Living Room]
+Oturma Odası
+[Drugged]
+Uyuşturulmuş
+[Record path]
+Yol kaydet
+[Padded Cell]
+Yastıklı Hücre
+[Autoconnect last station]
+Son istasyonu otomatik olarak bağla
+[Concert Hall]
+Konser Salonu
+[Psychotic]
+Psikotik
+[Forest]
+Orman
+[City]
+Şehir
+[To list]
+Listeye eklemek için
+[Hangar]
+Hangar
+[Offline station as Offline]
+Çevrimdışı istasyon, Çevrimdışı olarak
+[Protocol depending status]
+Protokol durumuna bağlı
+[Continuous record]
+Sürekli kayıt
+[Quarry]
+Taş ocağı
+[Sorry!]
+Üzgünüm!
+[bass.dll not found!]
+bass.dll bulunamadı!
+[Station]
+İstasyon
+[Custom INI file]
+Özel INI dosyası
+[Radio station URL]
+Radyo istasyonunun URL'si
+[Start record]
+Kaydı başlat
+[Stop record]
+Kaydı durdur
+[Currently played URL]
+Şu anda oynatılan URL
+[Current stream title]
+Mevcut akışın başlığı
+[Station/playlist URL]
+İstasyon/çalma listesi URL'si
+[Currently used decoder]
+Şu anda kullanılan kod çözücü
+[connecting]
+bağlantı
+[aborting]
+iptal etme
+[Can't initialize device]
+Aygıt başlatılamıyor
+[Can't connect to net. Please, clear 'Work offline' option in Internet settings]
+İnternete bağlanamıyorum. Lütfen İnternet ayarlarından “Çevrimdışı çalış” seçeneğinin işaretini kaldırın.
+[Start broadcasting]
+Yayına başla
+[Stop broadcasting]
+Yayını durdur
+[Start/Stop broadcasting]
+Yayını başlat/durdur
+[Start/Stop Record]
+Başlatma/Durdurma Kaydı
+[Record]
+Kayıt
+[Status message template]
+Durum mesajı şablonu
+[Equalizer presets]
+Ekolayzer ön ayarları
+[Export All]
+Tümünü Dışa Aktar
+[Current status]
+Mevcut durum
+[Broadcast ON]
+Yayın Başladı
+[Broadcast OFF]
+Yayın KAPALI
+[Add EQ preset]
+EQ ön ayarını ekle
+[Delete EQ preset]
+EQ ön ayarını sil
+[BASS library path (empty for default)]
+BASS kütüphane yolu (varsayılan olarak boş)
+[Tries to connect]
+Bağlanmaya çalışıyor
+[Mute]
+Sessize al
+[mRadio volume control]
+mRadio ses seviyesi ayarı
+[mRadio off]
+mRadio kapalı
+[mRadio on]
+mRadio açık
+[Import File]
+Dosya İçe Aktar
+[Play Station]
+PlayStation
+[Forced Mono]
+Zorunlu Mono
+[Play/Pause]
+Oynat/Duraklat
+[Oops! BASS error]
+Oops! BASS hatası
+[Mute with Miranda]
+Miranda ile Sesi Kapat
+[Advanced]
+İleri Düzey
+[Stop]
+Dur
+[Play]
+Oyna
+[Frame background]
+Çerçeve arka planı
+[OFF]
+KAPALI
+[Volume]
+Hacim
+[Device list]
+Cihaz listesi
+[Equalizer]
+Ekolayzer
+[New]
+Yeni
+[Quick Open]
+Hızlı Açma
+[bass.dll not found! Choose bass.dll path manually]
+bass.dll bulunamadı! bass.dll dosyasının yolunu elle seçin
+[min]
+dk
+[max]
+maksimum
+[Status Message]
+Durum Mesajı
+[All files]
+Tüm dosyalar
+[Playlist files]
+Çalma listesi dosyaları
+[BASS built-in]
+BASS yerleşik
+[All supported formats]
+Desteklenen tüm formatlar

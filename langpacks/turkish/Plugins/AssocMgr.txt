@@ -1,0 +1,63 @@
+#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
+;============================================================
+;  File: AssocMgr.dll
+;  Plugin: File association manager
+;  Version: 0.2.1.1
+;  Authors: H. Herkenrath
+;============================================================
+[Handles file type associations and URLs like gg, mirpu, xmpp.]
+gg, mirpu, xmpp gibi dosya türü ilişkilendirmelerini ve URL’leri yönetir.
+;file \plugins\AssocMgr\res\resource.rc
+[Registered associations for Miranda NG:]
+Miranda NG için kayıtlı dernekler:
+[Miscellaneous]
+Çeşitli
+[&Start Miranda NG automatically when the computer starts (using current profile)]
+&Bilgisayar açıldığında Miranda NG'yi otomatik olarak başlat (mevcut profili kullanarak)
+[Only associate with Miranda NG while it is &running]
+Miranda NG yalnızca çalışır durumdayken onunla etkileşim kurun
+;file \plugins\AssocMgr\src\assoclist.cpp
+[%hs files]
+%hs dosyaları
+[Type]
+Tür
+[Description]
+Açıklama
+[URLs on websites]
+Web sitelerindeki URL’ler
+[File types]
+Dosya türleri
+[File association error]
+Dosya ilişkilendirme hatası
+[There was an error writing to the registry to modify the file/url associations.\nReason: %s]
+Dosya/URL ilişkilendirmelerini değiştirmek için kayıt defterine yazma işlemi sırasında bir hata oluştu.\nNeden: %s
+[Unknown]
+Bilinmiyor
+[Autostart error]
+Otomatik başlatma hatası
+[There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
+Otomatik başlatma listesini değiştirmek için kayıt defterine yazma işlemi sırasında bir hata oluştu.\n\nSebep: %s
+[Services]
+Hizmetler
+[Associations]
+Dernekler
+[Miranda NG database]
+Miranda NG veritabanı
+;file \plugins\AssocMgr\src\dde.cpp
+[Miranda NG could not open file]
+Miranda NG dosyayı açamadı
+[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this file type.]
+Miranda NG, "%S" dosyasını açamadı.\n\nBu dosya türü için kayıtlı bir işleyici bulunmamaktadır.
+[Miranda NG was not able to open "%S".\n\nThe file could not be processed.]
+Miranda NG, "%S" dosyasını açamadı.\n\nDosya işlenemedi.
+[Miranda NG could not open URL]
+Miranda NG, URL'yi açamadı
+[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
+Miranda NG, "%S" dosyasını açamadı.\n\nBu URL türü için kayıtlı bir işleyici bulunmamaktadır.
+[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and cannot be parsed.]
+Miranda NG, "%S" dosyasını açamadı.\n\nVerilen URL geçersiz ve ayrıştırılamıyor.
+;file \plugins\AssocMgr\src\reg.cpp
+[Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
+Erişim başarısız oldu:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
+[Registry warning]
+Kayıt defteri uyarısı

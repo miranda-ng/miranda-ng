@@ -61,17 +61,14 @@ MCONTACT CJabberProto::DBCreateContact(const char *jid, const char *nick, bool t
 	else
 		strncpy_s(szJid, jid, _TRUNCATE);
 
-	MCONTACT hNewContact = db_add_contact();
-	Proto_AddToContact(hNewContact, m_szModuleName);
+	MCONTACT hNewContact = db_add_contact(m_szModuleName, temporary ? DBAC_NOTINLIST : 0);
 	setUString(hNewContact, "jid", szJid);
 	if (nick != nullptr && *nick != '\0')
 		setUString(hNewContact, "Nick", nick);
 	else
 		setUString(hNewContact, "Nick", ptrA(JabberNickFromJID(szJid)));
 
-	if (temporary)
-		Contact::RemoveFromList(hNewContact);
-	else
+	if (!temporary)
 		SendGetVcard(hNewContact);
 	
 	if (JABBER_LIST_ITEM *pItem = ListAdd(LIST_ROSTER, jid, hNewContact))

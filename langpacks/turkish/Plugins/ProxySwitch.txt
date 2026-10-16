@@ -1,0 +1,75 @@
+#muuid {4df0c267-6efb-4410-b651-385f87158509}
+;============================================================
+;  File: ProxySwitch.dll
+;  Plugin: ProxySwitch
+;  Version: 1.0.0.1
+;  Authors: Petr Smejkal
+;============================================================
+[Watches IP address changes, displays popups, and adjusts the proxy settings of Miranda, Internet Explorer and Firefox.]
+IP adresindeki değişiklikleri izler, açılır pencereler gösterir ve Miranda, Internet Explorer ile Firefox’un proxy ayarlarını düzenler.
+;file \plugins\ProxySwitch\res\resource.rc
+[Network addresses]
+Ağ adresleri
+[Direct connection]
+Doğrudan bağlantı
+[Use proxy]
+Proxy kullan
+[General]
+Genel
+[Manage Miranda NG proxy]
+Miranda NG proxy'sini yönet
+[Manage Internet Explorer proxy]
+Internet Explorer proxy ayarlarını yönet
+[Manage Firefox proxy]
+Firefox proxy ayarlarını yönet
+[Reconnect if IP address changes]
+IP adresi değişirse yeniden bağlan
+[Hide interfaces]
+Arayüzleri gizle
+[Popup options]
+Açılır pencere seçenekleri
+[Enable popups]
+Pop-up'ları etkinleştir
+[Text color]
+Metin rengi
+[Background color]
+Arka plan rengi
+[Use default colors]
+Varsayılan renkleri kullan
+[Show proxy status on change]
+Değişiklik olduğunda proxy durumunu göster
+[Restart of Miranda NG is required.]
+Miranda NG'nin yeniden başlatılması gerekiyor.
+[Enter semicolon (;) separated list of IP network addresses in any of the formats below:\n\tIP/bits\t(10.0.0.1/24)\t\tIP/mask\t(10.0.0.1/255.255.255.0)\n\tIP1-2\t(10.0.0.1-50)\t\tIP1-IP2\t(10.0.0.1-10.0.2.255)]
+Aşağıdaki formatlardan herhangi birinde, noktalı virgülle (;) ayrılmış IP ağ adresleri listesini girin:\n\tIP/bit\t(10.0.0.1/24)\t\tIP/maske\t(10.0.0.1/255.255.255.0)\n\tIP1-2\t(10.0.0.1-50)\t\tIP1-IP2\t(10.0.0.1-10.0.2.255)
+[Any entry in the 'Use proxy' list can be prefixed by an exclamation mark (!) to increase its priority. Entries with wrong syntax will be ignored. The plugin checks the IP addresses in the following way:]
+“Proxy kullan” listesindeki herhangi bir girdinin önüne bir ünlem işareti (!) eklenerek önceliği artırılabilir. Sözdizimi hatalı girdiler göz ardı edilir. Eklenti, IP adreslerini şu şekilde kontrol eder:
+[\t1) Use proxy if any interface has prioritized 'Use proxy' address\n\t2) Don't use proxy if any interface has 'Direct connection' address\n\t3) Use proxy if any interface has 'Use proxy' address\n\t4) Do nothing if unknown or no address found]
+\t1) Herhangi bir arayüzde “Proxy kullan” adresi öncelikli olarak ayarlanmışsa proxy kullan\n\t2) Herhangi bir arayüzde “Doğrudan bağlantı” adresi varsa proxy kullanma\n\t3) Herhangi bir arayüzde “Proxy kullan” adresi varsa proxy kullan\n\t4) Bilinmiyorsa veya adres bulunamıyorsa hiçbir işlem yapma
+[Cancel]
+İptal et
+;file \plugins\ProxySwitch\src\ip.cpp
+[Proxy]
+Vekil
+[Direct]
+Doğrudan
+[disconnected]
+bağlantısı kesilmiş
+;file \plugins\ProxySwitch\src\main.cpp
+[Current IP address]
+Mevcut IP adresi
+[IP change notification]
+IP adresi değişikliği bildirimi
+[Show my &IP addresses]
+IP adreslerimi göster
+[Proxy settings && interfaces]
+Vekil ayarları ve arayüzler
+[Disable proxy]
+Proxy'yi devre dışı bırak
+[Enable proxy]
+Proxy'yi etkinleştir
+;file \plugins\ProxySwitch\src\opt.cpp
+[Services]
+Hizmetler
+[ProxySwitch]
+ProxySwitch

@@ -1,0 +1,74 @@
+#muuid {2f093b88-f389-44f1-9e2a-37c29194203a}
+;============================================================
+;  File: IEHistory.dll
+;  Plugin: IE History
+;  Version: 0.0.1.7
+;  Authors: Cristian Libotean, Miranda NG team
+;============================================================
+[Shows the history for a given contact using IEView.]
+IEView kullanarak belirli bir kişinin iletişim geçmişini gösterir.
+;file \plugins\IEHistory\res\IEHistory.rc
+[Dialog]
+Diyalog
+[Close]
+Kapat
+[&Prev]
+&Önceki
+[&Next]
+&Sonraki
+[&Search]
+&Arama
+[Number of events to load]
+Yüklenecek etkinlik sayısı
+[Load all events]
+Tüm etkinlikleri yükle
+[Load only]
+Yalnızca yükle
+[events per page]
+sayfa başına olay sayısı
+[Show last page first]
+Son sayfayı önce göster
+[Other options]
+Diğer seçenekler
+[Load items in background]
+Öğeleri arka planda yükle
+[RTL is default text direction]
+RTL varsayılan metin yönüdür
+[Search]
+Arama
+[&Find next]
+&Sonrakini bul
+[Cancel]
+İptal et
+[Text:]
+Metin:
+[Direction]
+Yön
+[Up]
+Yukarı
+[Down]
+Aşağı
+;file \plugins\IEHistory\src\dlgHandlers.cpp
+[System History]
+Sistem Geçmişi
+[Out of a total of]
+Toplam sayının
+[You can't close the window now, wait for all events to load.]
+Şu anda pencereyi kapatamazsınız; tüm olayların yüklenmesini bekleyin.
+[Error]
+Hata
+[Text search]
+Metin araması
+[Time search]
+Zamana göre arama
+[Time:]
+Saat:
+[Search finished. No more entries...]
+Arama tamamlandı. Başka kayıt yok...
+[Information]
+Bilgi
+[History]
+Tarihçe
+;file \plugins\IEHistory\src\IEHistory.cpp
+[View &history]
+Geçmişi Görüntüle

@@ -35,8 +35,7 @@ void dc_set_config(dc_context_t *context, const char *key, int value)
 
 MCONTACT CDeltaChatProto::AddContact()
 {
-	MCONTACT hContact = db_add_contact();
-	Proto_AddToContact(hContact, m_szModuleName);
+	MCONTACT hContact = db_add_contact(m_szModuleName);
 
 	if (mir_wstrlen(m_defaultGroup))
 		Clist_SetGroup(hContact, m_defaultGroup);

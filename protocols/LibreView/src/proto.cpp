@@ -152,15 +152,12 @@ MCONTACT CLibreViewProto::EnsureAccountContact()
 	if (m_hContact)
 		return m_hContact;
 
-	MCONTACT hContact = db_add_contact();
+	MCONTACT hContact = db_add_contact(m_szModuleName);
 	if (hContact == 0)
 		return 0;
 
-	Proto_AddToContact(hContact, m_szModuleName);
-
 	// Use account name as contact Nick
 	setWString(hContact, "Nick", m_tszUserName);
-
 
 	m_hContact = hContact;
 	Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
@@ -203,12 +200,17 @@ bool CLibreViewProto::Login()
 		// Check for API error status
 		int status = root["status"].as_int();
 		if (status != 0) {
-			CMStringW errorMsg = root["error"]["message"].as_mstring();
-			if (errorMsg.IsEmpty())
-				errorMsg = TranslateT("Login failed");
+			if (status == MAINTENANCE_STATUS)
+				m_lastServerStatus = MAINTENANCE_STATUS;
+			else {
+				m_lastServerStatus = status;
+				CMStringW errorMsg = root["error"]["message"].as_mstring();
+				if (errorMsg.IsEmpty())
+					errorMsg = TranslateT("Login failed");
 
-			// Show popup notification
-			PUShowMessageW(CMStringW(FORMAT, L"%s: %s", TranslateT("Login error"), errorMsg.c_str()), SM_ERROR);
+				// Show popup notification
+				PUShowMessageW(CMStringW(FORMAT, L"%s: %s", TranslateT("Login error"), errorMsg.c_str()), SM_ERROR);
+			}
 			return false;
 		}
 
@@ -333,6 +335,23 @@ void UpdateContactDisplay(MCONTACT hContact)
 	CLibreViewProto *ppro = g_plugin.getInstance(hContact);
 	const bool bUseMgdl = ppro && ppro->DisplayUnits == 1;
 
+	// Get account name from Nick (always set to account name)
+	CMStringW title = ppro->getMStringW(hContact, "Nick");
+
+	// Check sensor state
+	uint32_t activation = ppro ? ppro->getDword(hContact, "SensorActivationTime", 0) : 0;
+	if (IsSensorExpired(activation)) {
+		CMStringW expiredMsg(FORMAT, L"%s: %s", title.c_str(), TranslateT("sensor expired"));
+		db_set_ws(hContact, "CList", "MyHandle", expiredMsg);
+		return;
+	}
+	uint32_t warmupMinutes = ppro ? ppro->getDword(hContact, "SensorWarmupMinutes", 0) : 0;
+	if (IsSensorWarmingUp(activation, warmupMinutes)) {
+		CMStringW warmupMsg(FORMAT, L"%s: %s", title.c_str(), TranslateT("warming up"));
+		db_set_ws(hContact, "CList", "MyHandle", warmupMsg);
+		return;
+	}
+
 	// Get API units from database
 	const int apiUnits = ppro ? ppro->getDword(hContact, "GlucoseUnits", 0) : 0;
 	const bool bApiMgdl = apiUnits == 1;
@@ -345,9 +364,6 @@ void UpdateContactDisplay(MCONTACT hContact)
 	const wchar_t *pwszUnit = GetLocalizedUnit(bUseMgdl);
 	int trendValue = ppro->getDword(hContact, "TrendArrow", 0);
 	CMStringW trendArrow(TrendToArrow(trendValue));
-
-	// Get account name from Nick (always set to account name)
-	CMStringW title = ppro->getMStringW(hContact, "Nick");
 
 	CMStringW clistName;
 	if (!valueText.IsEmpty())
@@ -412,6 +428,8 @@ static void AddHistoryEvent(MCONTACT hContact, const CMStringW &timestamp)
 
 bool CLibreViewProto::FetchGlucose()
 {
+	m_lastServerStatus = 0;
+
 	if (szToken.IsEmpty() || szAccountHash.IsEmpty() || szPatientId.IsEmpty())
 		if (!Login())
 			return false;
@@ -426,6 +444,16 @@ bool CLibreViewProto::FetchGlucose()
 		// Show popup for network/HTTP errors
 		PUShowMessageW(TranslateT("Failed to connect to LibreView server. Please check your internet connection and try again."), SM_WARNING);
 		return false;
+	}
+
+	{
+		int status = root["status"].as_int();
+		if (status != 0) {
+			m_lastServerStatus = status;
+			if (status != MAINTENANCE_STATUS)
+				ClearAuth();
+			return false;
+		}
 	}
 
 	JSONNode data = root["data"];
@@ -451,6 +479,9 @@ bool CLibreViewProto::FetchGlucose()
 		// API returns GMT/UTC time, store as-is
 		setDword(m_hContact, "SensorActivationTime", sensorActivationTime);
 	}
+
+	uint32_t warmupMinutes = connection["sensor"]["w"].as_int();
+	setDword(m_hContact, "SensorWarmupMinutes", warmupMinutes);
 
 	JSONNode measurement = connection["glucoseMeasurement"];
 	int trend = measurement["TrendArrow"].as_int();
@@ -491,7 +522,13 @@ bool CLibreViewProto::FetchGlucose()
 	RefreshGraphWindow();
 
 	// Create StatusMsg first so UpdateContactDisplay can access it
-	CMStringW statusMsg = trendText;
+	CMStringW statusMsg;
+	if (IsSensorExpired(sensorActivationTime))
+		statusMsg = TranslateT("sensor expired");
+	else if (IsSensorWarmingUp(sensorActivationTime, warmupMinutes))
+		statusMsg = TranslateT("warming up");
+	else
+		statusMsg = trendText;
 
 	// Force status update to refresh StatusMsg display
 	setWord(m_hContact, "Status", ID_STATUS_ONLINE);

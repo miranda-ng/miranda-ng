@@ -1,0 +1,85 @@
+#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
+;============================================================
+;  File: ChangeKeyboardLayout.dll
+;  Plugin: Change keyboard layout
+;  Version: 0.0.1.6
+;  Authors: Yasnovidyashii
+;============================================================
+[Plugin for changing keyboard layout of text (multilayout).]
+Metnin klavye düzenini değiştirmek için eklenti (çoklu düzen).
+;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
+[Hotkeys]
+Kısayol tuşları
+[Changing layout:]
+Düzeni değiştirme:
+["Current word" mode]
+"Geçerli kelime" modu
+[Changing layout (alternative):]
+Düzenin değiştirilmesi (alternatif):
+[Inverting lettercase:]
+Büyük/küçük harfleri ters çevirme:
+[Options]
+Seçenekler
+[Two-way changing layout (experimental)]
+İki yönlü düzen değiştirme (deneysel)
+[Log operations]
+Günlük işlemleri
+[Copy result to clipboard]
+Sonucu panoya kopyala
+[Show result in Popup]
+Sonucu açılır pencerede göster
+[Strings for keyboard layouts]
+Klavye düzenleri için dizgiler
+[Default]
+Varsayılan
+[Invert current state]
+Mevcut durumu tersine çevir
+[Switch off]
+Kapat
+[Leave as it is]
+Olduğu gibi bırakın
+[Set Caps Lock state when inverting lettercase:]
+Büyük/küçük harfleri ters çevirirken Caps Lock durumunu ayarla:
+[Change active keyboard layout in system]
+Sistemdeki etkin klavye düzenini değiştir
+[Colors]
+Renkler
+[Use default colors]
+Varsayılan renkleri kullan
+[Use Windows colors]
+Windows renklerini kullan
+[Use custom colors]
+Özel renkler kullanın
+[Back]
+Geri
+[Text]
+Metin
+[Timeout]
+Zaman aşımı
+[Permanent]
+Kalıcı
+[Custom]
+Özel
+[On left click]
+Sol tıklama üzerine
+[Copy to clipboard]
+Panoya kopyala
+[Dismiss]
+Kapat
+[On right click]
+Sağ tıklama üzerine
+[Preview]
+Önizleme
+;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
+[Changing Layout]
+Düzenin Değiştirilmesi
+[Changing Case]
+Büyük/Küçük Harf Değiştirme
+[Message sessions]
+Mesaj oturumları
+[Popups]
+Açılır pencereler
+;file \plugins\ChangeKeyboardLayout\src\main.cpp
+;file \plugins\ChangeKeyboardLayout\src\stdafx.h
+[ChangeKeyboardLayout]
+Klavye Düzenini Değiştir

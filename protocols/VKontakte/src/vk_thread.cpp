@@ -909,9 +909,12 @@ INT_PTR __cdecl CVkProto::SvcAddAsFriend(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcAddAsFriend");
 	VKUserID_t iUserId = ReadVKUserID(hContact);
-	if (!IsOnline() || iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER)
+	if (iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER)
 		return 1;
-	ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, (LPARAM)TranslateT("Please authorize me to add you to my friend list."));
+
+	MsgPopup(hContact, TranslateT("The current API doesn’t allow performing the required action. Please do it on the website yourself."), TranslateT("Attention!"));
+	SvcVisitProfile(hContact, 0);
+
 	return 0;
 }
 
@@ -926,142 +929,6 @@ INT_PTR CVkProto::SvcWipeNonFriendContacts(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM flag)
-{
-	debugLogA("CVkProto::SvcDeleteFriend");
-	VKUserID_t iUserId = ReadVKUserID(hContact);
-	if (!IsOnline() || iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER)
-		return 1;
-
-	if (flag == 0) {
-		CMStringW pwszMsg;
-		ptrW pwszNick(db_get_wsa(hContact, m_szModuleName, "Nick"));
-		pwszMsg.AppendFormat(TranslateT("Are you sure to delete %s from your friend list?"), IsEmpty(pwszNick) ? TranslateT("(Unknown contact)") : pwszNick.get());
-		if (IDNO == MessageBoxW(nullptr, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
-			return 1;
-	}
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.delete.json", true, &CVkProto::OnReceiveDeleteFriend)
-		<< INT_PARAM("user_id", iUserId))->pUserInfo = new CVkSendMsgParam(hContact);
-
-	return 0;
-}
-
-void CVkProto::OnReceiveDeleteFriend(MHttpResponse *reply, AsyncHttpRequest *pReq)
-{
-	debugLogA("CVkProto::OnReceiveDeleteFriend %d", reply->resultCode);
-	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
-	if (reply->resultCode == 200 && param) {
-		JSONNode jnRoot;
-		const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
-		if (jnResponse) {
-			CMStringW wszNick(db_get_wsm(param->hContact, m_szModuleName, "Nick"));
-			if (wszNick.IsEmpty())
-				wszNick = TranslateT("(Unknown contact)");
-			CMStringW wszMsgFormat, wszMsg;
-
-			if (jnResponse["success"].as_bool()) {
-				if (jnResponse["friend_deleted"].as_bool())
-					wszMsgFormat = TranslateT("User %s was deleted from your friend list");
-				else if (jnResponse["out_request_deleted"].as_bool())
-					wszMsgFormat = TranslateT("Your request to the user %s was deleted");
-				else if (jnResponse["in_request_deleted"].as_bool())
-					wszMsgFormat = TranslateT("Friend request from the user %s declined");
-				else if (jnResponse["suggestion_deleted"].as_bool())
-					wszMsgFormat = TranslateT("Friend request suggestion for the user %s deleted");
-
-				wszMsg.AppendFormat(wszMsgFormat, wszNick.c_str());
-				MsgPopup(param->hContact, wszMsg, wszNick);
-				setByte(param->hContact, "Auth", 1);
-			}
-			else {
-				wszMsg = TranslateT("User or request was not deleted");
-				MsgPopup(param->hContact, wszMsg, wszNick);
-			}
-		}
-	}
-
-	if (param && (!pReq->bNeedsRestart || m_bTerminated)) {
-		delete param;
-		pReq->pUserInfo = nullptr;
-	}
-}
-
-INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
-{
-	debugLogA("CVkProto::SvcBanUser");
-	VKUserID_t iUserId = ReadVKUserID(hContact);
-	if (!IsOnline() || iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER)
-		return 1;
-
-	CMStringA code(FORMAT, "var userID=\"%d\";API.account.banUser({\"user_id\":userID});", iUserId);
-	CMStringW wszVarWarning;
-
-	if (m_vkOptions.bReportAbuse) {
-		debugLogA("CVkProto::SvcBanUser m_vkOptions.bReportAbuse = true");
-		code += "API.users.report({\"user_id\":userID,type:\"spam\"});";
-		wszVarWarning = TranslateT(" report abuse on him/her");
-	}
-	if (m_vkOptions.bClearServerHistory) {
-		debugLogA("CVkProto::SvcBanUser m_vkOptions.bClearServerHistory = true");
-		code += "API.messages.deleteConversation({\"peer_id\":userID});";
-		if (!wszVarWarning.IsEmpty())
-			wszVarWarning.AppendChar(L',');
-		wszVarWarning += TranslateT(" clear server history with him/her");
-	}
-	if (m_vkOptions.bRemoveFromFrendlist) {
-		debugLogA("CVkProto::SvcBanUser m_vkOptions.bRemoveFromFrendlist = true");
-		code += "API.friends.delete({\"user_id\":userID});";
-		if (!wszVarWarning.IsEmpty())
-			wszVarWarning.AppendChar(L',');
-		wszVarWarning += TranslateT(" remove him/her from your friend list");
-	}
-	if (m_vkOptions.bRemoveFromCList) {
-		debugLogA("CVkProto::SvcBanUser m_vkOptions.bRemoveFromClist = true");
-		if (!wszVarWarning.IsEmpty())
-			wszVarWarning.AppendChar(L',');
-		wszVarWarning += TranslateT(" remove him/her from your contact list");
-	}
-
-	if (!wszVarWarning.IsEmpty())
-		wszVarWarning += ".\n";
-	code += "return 1;";
-
-	ptrW pwszNick(db_get_wsa(hContact, m_szModuleName, "Nick"));
-	CMStringW pwszMsg(FORMAT, TranslateT("Are you sure to ban %s? %s%sContinue?"),
-		IsEmpty(pwszNick) ? TranslateT("(Unknown contact)") : pwszNick,
-		wszVarWarning.IsEmpty() ? L" " : TranslateT("\nIt will also"),
-		wszVarWarning.IsEmpty() ? L"\n" : wszVarWarning);
-
-	if (IDNO == MessageBoxW(nullptr, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
-		return 1;
-
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveSmth)
-		<< CHAR_PARAM("code", code.c_str()));
-
-	if (m_vkOptions.bRemoveFromCList)
-		DeleteContact(hContact);
-
-	return 0;
-}
-
-INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
-{
-	debugLogA("CVkProto::SvcReportAbuse");
-	VKUserID_t iUserId = ReadVKUserID(hContact);
-	if (!IsOnline() || iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER)
-		return 1;
-
-	CMStringW wszNick(db_get_wsm(hContact, m_szModuleName, "Nick")),
-		pwszMsg(FORMAT, TranslateT("Are you sure to report abuse on %s?"), wszNick.IsEmpty() ? TranslateT("(Unknown contact)") : wszNick);
-	if (IDNO == MessageBoxW(nullptr, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
-		return 1;
-
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.report.json", true, &CVkProto::OnReceiveSmth)
-		<< INT_PARAM("user_id", iUserId)
-		<< CHAR_PARAM("type", "spam"));
-
-	return 0;
-}
 
 INT_PTR __cdecl CVkProto::SvcOpenBroadcast(WPARAM hContact, LPARAM)
 {

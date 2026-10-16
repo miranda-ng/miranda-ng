@@ -52,8 +52,7 @@ public:
 
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
 
-	HANDLE   SearchAdvanced(HWND owner) override;
-	HWND     CreateExtendedSearchUI(HWND owner) override;
+	HANDLE   SearchBasic(const wchar_t *id) override;
 
 	int      SendMsg(MCONTACT hContact, MEVENT, const char *msg) override;
 
@@ -182,15 +181,14 @@ private:
 	// contacts search
 	static INT_PTR CALLBACK SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	HANDLE OnSearchAdvanced(HWND owner);
-	HWND   OnCreateExtendedSearchUI(HWND owner);
-
 	// messages
 	std::map<uint64_t, UINT> messages;
 
 	void InitCustomDbEvents();
 
 	static INT_PTR EventGetIcon(WPARAM wParam, LPARAM lParam);
+
+	void __cdecl SearchThread(void *arg);
 
 	void __cdecl SendMessageAsync(void *arg);
 	int OnSendMessage(MCONTACT hContact, const char *message);

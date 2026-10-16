@@ -247,9 +247,6 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_GOTOSITEIM, &CVkProto::SvcGoToSiteIM);
 	CreateProtoService(PS_CREATECHAT, &CVkProto::SvcCreateChat);
 	CreateProtoService(PS_ADDASFRIEND, &CVkProto::SvcAddAsFriend);
-	CreateProtoService(PS_DELETEFRIEND, &CVkProto::SvcDeleteFriend);
-	CreateProtoService(PS_BANUSER, &CVkProto::SvcBanUser);
-	CreateProtoService(PS_REPORTABUSE, &CVkProto::SvcReportAbuse);
 	CreateProtoService(PS_OPENBROADCAST, &CVkProto::SvcOpenBroadcast);
 	CreateProtoService(PS_LOADVKNEWS, &CVkProto::SvcLoadVKNews);
 	CreateProtoService(PS_WIPENONFRIENDS, &CVkProto::SvcWipeNonFriendContacts);
@@ -298,27 +295,6 @@ void CVkProto::InitMenus()
 	mi.name.w = LPGENW("Add as friend");
 	SET_UID(mi, 0xf11b9a7f, 0x569, 0x4023, 0xb0, 0xd6, 0xa3, 0x16, 0xf6, 0xd4, 0xfb, 0xb5);
 	m_hContactMenuItems[CMI_ADDASFRIEND] = Menu_AddContactMenuItem(&mi, m_szModuleName);
-
-	mi.pszService = PS_DELETEFRIEND;
-	mi.position = -200001000 + CMI_DELETEFRIEND;
-	mi.hIcolibItem = g_plugin.getIconHandle(IDI_FRIENDDEL);
-	mi.name.w = LPGENW("Delete from friend list");
-	SET_UID(mi, 0x1e26514, 0x854f, 0x4e60, 0x8c, 0xf8, 0xab, 0xaa, 0xe0, 0xc3, 0xa5, 0xa7);
-	m_hContactMenuItems[CMI_DELETEFRIEND] = Menu_AddContactMenuItem(&mi, m_szModuleName);
-
-	mi.pszService = PS_BANUSER;
-	mi.position = -200001000 + CMI_BANUSER;
-	mi.hIcolibItem = g_plugin.getIconHandle(IDI_BAN);
-	mi.name.w = LPGENW("Ban user");
-	SET_UID(mi, 0x7ba06bab, 0xf770, 0x4938, 0x9c, 0x76, 0xef, 0x40, 0xbc, 0x55, 0x0, 0x9b);
-	m_hContactMenuItems[CMI_BANUSER] = Menu_AddContactMenuItem(&mi, m_szModuleName);
-
-	mi.pszService = PS_REPORTABUSE;
-	mi.position = -200001000 + CMI_REPORTABUSE;
-	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ABUSE);
-	mi.name.w = LPGENW("Report abuse");
-	SET_UID(mi, 0x56454cb9, 0xd80, 0x4050, 0xbe, 0xfc, 0x2c, 0xf6, 0x10, 0x2a, 0x7d, 0x19);
-	m_hContactMenuItems[CMI_REPORTABUSE] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = PS_OPENBROADCAST;
 	mi.position = -200001000 + CMI_OPENBROADCAST;
@@ -419,9 +395,6 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(m_hContactMenuItems[CMI_MARKMESSAGESASREAD], iUserId != VK_FEED_USER);
 	Menu_ShowItem(m_hContactMenuItems[CMI_WALLPOST], !isChatRoom(hContact));
 	Menu_ShowItem(m_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend && !isChatRoom(hContact) && iUserId != VK_FEED_USER && !bIsGroup);
-	Menu_ShowItem(m_hContactMenuItems[CMI_DELETEFRIEND], bisFriend && iUserId != VK_FEED_USER && !bIsGroup);
-	Menu_ShowItem(m_hContactMenuItems[CMI_BANUSER], !isChatRoom(hContact) && iUserId != VK_FEED_USER && !bIsGroup);
-	Menu_ShowItem(m_hContactMenuItems[CMI_REPORTABUSE], !isChatRoom(hContact) && iUserId != VK_FEED_USER && !bIsGroup);
 	Menu_ShowItem(m_hContactMenuItems[CMI_OPENBROADCAST], !isChatRoom(hContact) && bisBroadcast);
 
 	Menu_ShowItem(m_hContactMenuItems[CMI_CHATCHANGETOPIC], isChatRoom(hContact));
@@ -665,11 +638,9 @@ MCONTACT CVkProto::AddToList(int, PROTOSEARCHRESULT *psr)
 	return hContact;
 }
 
-int CVkProto::AuthRequest(MCONTACT hContact, const wchar_t *message)
+int CVkProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 {
 	debugLogA("CVkProto::AuthRequest");
-	if (!IsOnline())
-		return 1;
 
 	VKUserID_t iUserId = ReadVKUserID(hContact);
 	if (iUserId == VK_INVALID_USER || !hContact || iUserId == VK_FEED_USER)
@@ -678,56 +649,12 @@ int CVkProto::AuthRequest(MCONTACT hContact, const wchar_t *message)
 	if (iUserId < 0)
 		return 1;
 
-
-	wchar_t msg[501] = { 0 };
-	if (message)
-		wcsncpy_s(msg, _countof(msg), message, _TRUNCATE);
-
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.add.json", true, &CVkProto::OnReceiveAuthRequest)
-		<< INT_PARAM("user_id", iUserId)
-		<< WCHAR_PARAM("text", msg))->pUserInfo = new CVkSendMsgParam(hContact);
+	MsgPopup(hContact, TranslateT("The current API doesn’t allow performing the required action. Please do it on the website yourself."), TranslateT("Attention!"));
+	SvcVisitProfile(hContact, 0);
 
 	return 0;
 }
 
-void CVkProto::OnReceiveAuthRequest(MHttpResponse *reply, AsyncHttpRequest *pReq)
-{
-	debugLogA("CVkProto::OnReceiveAuthRequest %d", reply->resultCode);
-	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
-	if (reply->resultCode == 200 && param) {
-		JSONNode jnRoot;
-		const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
-		if (jnResponse) {
-			int iRet = jnResponse.as_int();
-			setByte(param->hContact, "Auth", 0);
-			if (iRet == 2) {
-				CMStringW msg, wszNick(db_get_wsm(param->hContact, m_szModuleName, "Nick"));
-				if (wszNick.IsEmpty())
-					wszNick = TranslateT("(Unknown contact)");
-				msg.AppendFormat(TranslateT("User %s added as friend"), wszNick.c_str());
-				MsgPopup(param->hContact, msg, wszNick);
-			}
-		}
-		else {
-			switch (pReq->m_iErrorCode) {
-			case VKERR_HIMSELF_AS_FRIEND:
-				MsgPopup(param->hContact, TranslateT("You cannot add yourself as friend"), TranslateT("Error"), true);
-				break;
-			case VKERR_YOU_ON_BLACKLIST:
-				MsgPopup(param->hContact, TranslateT("Cannot add this user to friends as they have put you on their blacklist"), TranslateT("Error"), true);
-				break;
-			case VKERR_USER_ON_BLACKLIST:
-				MsgPopup(param->hContact, TranslateT("Cannot add this user to friends as you put him on blacklist"), TranslateT("Error"), true);
-				break;
-			}
-		}
-	}
-
-	if (param && (!pReq->bNeedsRestart || m_bTerminated)) {
-		delete param;
-		pReq->pUserInfo = nullptr;
-	}
-}
 
 int CVkProto::Authorize(MEVENT hDbEvent)
 {
@@ -750,7 +677,10 @@ int CVkProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	return SvcDeleteFriend(hContact, (LPARAM)true);
+	MsgPopup(hContact, TranslateT("The current API doesn’t allow performing the required action. Please do it on the website yourself."), TranslateT("Attention!"));
+	SvcVisitProfile(hContact, 0);
+
+	return 0;
 }
 
 int CVkProto::UserIsTyping(MCONTACT hContact, int type)
@@ -795,9 +725,6 @@ bool CVkProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 
 	if (!Contact::OnList(hContact) || getBool(hContact, "SilentDelete") || isChatRoom((MCONTACT)hContact))
 		return true;
-
-	if (flags & CDF_DEL_CONTACT && !getBool(hContact, "Auth", true))
-		SvcDeleteFriend(hContact, 1);
 
 	return true;
 }

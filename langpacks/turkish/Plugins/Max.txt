@@ -1,0 +1,99 @@
+#muuid {a7e4f9c2-1d8b-4e5a-9c3f-8b2e1d0c9a8f}
+;============================================================
+;  File: Max.dll
+;  Plugin: Max protocol
+;  Version: 0.1.0.1
+;  Authors: Miranda NG contributors
+;============================================================
+[Max protocol support for Miranda NG.]
+Miranda NG için Max protokol desteği.
+;file \protocols\Max\res\max.rc
+[Default group:]
+Varsayılan grup:
+[Compress files on send]
+Gönderirken dosyaları sıkıştır
+[Link a device]
+Bir cihazı bağla
+[Open Max application on your mobile phone, choose device linking and scan this QR code. The window closes automatically after successful login.]
+Cep telefonunuzda Max uygulamasını açın, cihaz bağlama seçeneğini seçin ve bu QR kodunu tarayın. Oturum açma işlemi başarıyla tamamlandıktan sonra pencere otomatik olarak kapanır.
+[First name]
+Adı
+[Last name]
+Soyadı
+[Phone number]
+Telefon numarası
+[Biography]
+Biyografi
+[Forward message(s)]
+Mesajları ilet
+[Cancel]
+İptal et
+;file \protocols\Max\src\connection.cpp
+[Enter password]
+Şifreyi girin
+[ (hint: %s)]
+ (ipucu: %s)
+[Max]
+Max
+[QR login failed or timed out.]
+QR koduyla oturum açma işlemi başarısız oldu veya zaman aşımına uğradı.
+;file \protocols\Max\src\main.cpp
+[Protocol icon]
+Protokol simgesi
+[Protocols]
+Protokol
+;file \protocols\Max\src\max_proto.cpp
+[Forward]
+İleri
+[Max user ID]
+Maksimum kullanıcı kimliği
+[Gateway is not connected]
+Ağ geçidi bağlı değil
+[Missing chat ID for this contact]
+Bu kişi için sohbet kimliği eksik
+[Message send failed]
+Mesaj gönderilemedi
+[Cannot load server history: gateway is not connected.]
+Sunucu geçmişi yüklenemiyor: ağ geçidi bağlı değil.
+[Cannot load server history: chat ID is missing for this contact.]
+Sunucu geçmişi yüklenemiyor: Bu kişi için sohbet kimliği eksik.
+[Cannot remove server chat: not connected.]
+Sunucu sohbeti kaldırılamıyor: bağlantı yok.
+[Could not leave the chat on the server.]
+Sunucudaki sohbetten çıkılamadı.
+[Cannot remove server chat: dialog ID is unknown.]
+Sunucu sohbeti kaldırılamıyor: diyalog kimliği bilinmiyor.
+[Could not delete the dialog on the server.]
+Sunucudaki iletişim kutusu silinemedi.
+[You must be online to save your profile.]
+Profilinizi kaydetmek için çevrimiçi olmanız gerekir.
+[First name cannot be empty.]
+Ad alanı boş bırakılamaz.
+[Could not save your profile on the server.]
+Profiliniz sunucuya kaydedilemedi.
+[Too many requests. Please wait before trying again.]
+Çok fazla istek geldi. Lütfen bir süre bekledikten sonra tekrar deneyin.
+[Server rejected web sync credentials for this token (login.cred).]
+Sunucu, bu belirteç (login.cred) için web senkronizasyonu kimlik bilgilerini reddetti.
+[Network]
+Ağ
+[Account]
+Hesap
+;file \protocols\Max\src\messages.cpp
+[Reaction]
+Tepki
+[SmileyAdd plugin required to support stickers]
+Çıkartmaları desteklemek için SmileyAdd eklentisi gereklidir
+[Sticker]
+Etiket
+[Unknown]
+Bilinmiyor
+[wrote]
+yazdı
+[Forwarded message]
+Yönlendirilmiş mesaj
+;file \protocols\Max\src\roster.cpp
+[Members]
+Üyeler
+[Favorites]
+Favoriler

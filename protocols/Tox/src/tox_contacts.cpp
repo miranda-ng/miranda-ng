@@ -78,8 +78,7 @@ MCONTACT CToxProto::AddContact(const char *address, const wchar_t *nick, const w
 	if (hContact)
 		return hContact;
 
-	hContact = db_add_contact();
-	Proto_AddToContact(hContact, m_szModuleName);
+	hContact = db_add_contact(m_szModuleName, isTemporary ? DBAC_NOTINLIST : 0);
 
 	setString(hContact, TOX_SETTINGS_ID, address);
 
@@ -97,8 +96,6 @@ MCONTACT CToxProto::AddContact(const char *address, const wchar_t *nick, const w
 		setByte(hContact, "Auth", 1);
 		setByte(hContact, "Grant", 1);
 	}
-	else
-		Contact::RemoveFromList(hContact);
 
 	return hContact;
 }

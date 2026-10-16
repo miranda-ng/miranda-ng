@@ -143,10 +143,9 @@ begin
   pc:=GetParamSectionStr(section,'URL');
   if pc<>nil then
   begin
-    result:=db_add_contact();
+    result:=db_add_contact(PluginName);
     if result<>0 then
     begin
-      Proto_AddToContact(result,PluginName);
       DBWriteString(result,PluginName,optStationURL,pc);
       DBWriteString(result,PluginName,optFirstName ,pc);
 
@@ -279,10 +278,9 @@ begin
   filter:=ConstructFilter;
   if ShowDlgW(@buf,nil,filter) then
   begin
-    result:=db_add_contact();
+    result:=db_add_contact(PluginName);
     if result<>0 then
     begin
-      Proto_AddToContact(result,PluginName);
       DBWriteByte(result,strCList,'NotOnList',1);
       // URL
       DBWriteUnicode(result,PluginName,optStationURL,@buf);

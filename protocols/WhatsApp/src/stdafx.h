@@ -18,6 +18,7 @@ Copyright © 2019-26 George Hazan
 #include <map>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include <newpluginapi.h>
 #include <m_avatars.h>

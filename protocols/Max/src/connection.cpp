@@ -721,6 +721,15 @@ bool CMaxProto::SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONN
 		return false;
 	}
 
+	// If we disconnected while waiting, discard the response immediately.
+	if (m_bTerminated) {
+		debugLogA("Max: request aborted due to disconnect (opcode %u, seq %llu)", (unsigned)opcode, (unsigned long long)seq);
+		m_waitSeq = 0;
+		m_waitOpcode = -1;
+		m_szPendingResponse.Empty();
+		return false;
+	}
+
 	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
 	if (!resp) {
 		debugLogA("Max: empty/invalid JSON after response (opcode %u)", (unsigned)opcode);
@@ -1596,6 +1605,13 @@ bool CMaxProto::ApiRequestQrCode(WebSocket<CMaxProto> *ws, CMStringA &outTrackId
 
 		if (WaitForSingleObject(m_hWaitEvent, 10000) != WAIT_OBJECT_0) {
 			debugLogA("Max: request timeout (opcode 288, waited seq %llu)", (unsigned long long)m_waitSeq);
+			m_waitSeq = 0;
+			m_waitOpcode = -1;
+			return false;
+		}
+
+		if (m_bTerminated) {
+			debugLogA("Max: request aborted due to disconnect (opcode 288)");
 			m_waitSeq = 0;
 			m_waitOpcode = -1;
 			return false;

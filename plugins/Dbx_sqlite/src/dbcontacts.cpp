@@ -54,24 +54,14 @@ MCONTACT CDbxSQLite::AddContact()
 	}
 
 	DBCachedContact *cc = m_cache->AddContactToCache(hContact);
-	if (cc == nullptr)
-		return INVALID_CONTACT_ID;
-
-	NotifyEventHooks(g_hevContactAdded, hContact);
-	return hContact;
+	return (cc == nullptr) ? INVALID_CONTACT_ID : hContact;
 }
 
 int CDbxSQLite::DeleteContact(MCONTACT hContact)
 {
-	// global contact cannot be removed
-	if (hContact == 0)
-		return 1;
-
 	DBCachedContact *cc = m_cache->GetCachedContact(hContact);
 	if (cc == nullptr)
 		return 1;
-
-	NotifyEventHooks(g_hevContactDeleted, hContact);
 
 	mir_cslockfull lock(m_csDbAccess);
 

@@ -441,7 +441,7 @@ public:
 	static JSONNode * newJSONNode_Shallow(const JSONNode & orig);
 JSON_PRIVATE
 	static JSONNode * newJSONNode(const JSONNode & orig		JSON_MUTEX_COPY_DECL2);
-	static JSONNode * newJSONNode(internalJSONNode * internal_t);
+	static JSONNode * newJSONNode(class internalJSONNode * internal_t);
 	//used by JSONWorker
 	JSONNode(const json_string & unparsed);
 	JSONNode(internalJSONNode * internal_t);

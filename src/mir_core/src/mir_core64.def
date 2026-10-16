@@ -1596,3 +1596,12 @@ IsWine @1817 NONAME
 ?SetStyle@CCtrlClc@@QEAAXI@Z @1821 NONAME
 ?GetStyle@CCtrlClc@@QEBAIXZ @1822 NONAME
 ?RemoveBbcodes@@YAXAEAV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@_N@Z @1823 NONAME
+?db_init_events@@YAXXZ @1824 NONAME
+g_hevEventAdded @1825 NONAME
+g_hevEventDeleted @1826 NONAME
+g_hevEventDelivered @1827 NONAME
+g_hevEventEdited @1828 NONAME
+g_hevEventFiltered @1829 NONAME
+g_hevEventSetJson @1830 NONAME
+g_hevMarkedRead @1831 NONAME
+g_hevSettingChanged @1832 NONAME

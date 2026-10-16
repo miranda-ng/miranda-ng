@@ -1,0 +1,78 @@
+#muuid {2fd0df15-7098-41ce-aa92-ff621806e38b}
+;============================================================
+;  File: Exchange.dll
+;  Plugin: Exchange notifier plugin
+;  Version: 0.1.3.4
+;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
+;============================================================
+[Notifies you if you have unread email on an exchange server.]
+Exchange sunucusunda okunmamış e-postalarınız varsa sizi bilgilendirir.
+;file \plugins\Exchange\res\exchange.rc
+[Unread emails]
+Okunmamış e-postalar
+[Close]
+Kapat
+[Mark as read]
+Okundu olarak işaretle
+[Connection]
+Bağlantı
+[Username:]
+Kullanıcı adı:
+[Password:]
+Şifre:
+[Server:]
+Sunucu:
+[Preferences]
+Tercihler
+[Check every]
+Her birini kontrol edin
+[seconds]
+saniye
+[Force reconnect every]
+Her [süre]'de yeniden bağlanmayı zorla
+[minutes]
+dakika
+[Check server before trying to connect]
+Bağlanmaya çalışmadan önce sunucuyu kontrol edin
+[Try to connect]
+Bağlanmayı deneyin
+[times before giving up]
+vazgeçmeden önce birkaç kez
+[Show email notifications using popup module]
+Açılır pencere modülünü kullanarak e-posta bildirimlerini göster
+;file \plugins\Exchange\src\dlg_handlers.cpp
+[Entry ID]
+Giriş Kimliği
+[Subject]
+Konu
+[Sender]
+Gönderen
+;file \plugins\Exchange\src\emails.cpp
+[Maximum number of retries reached.\nPlugin will stop trying to connect automatically.]
+Maksimum yeniden deneme sayısına ulaşıldı.\nEklenti, otomatik olarak bağlanmaya çalışmayı durduracaktır.
+[Server not available]
+Sunucu kullanılamıyor
+[Server is not configured...]
+Sunucu yapılandırılmamış...
+[You have %d unread emails...]
+%d adet okunmamış e-postanız var...
+[You have one unread email...]
+Okunmamış bir e-postanız var...
+[Cannot connect to Exchange server...]
+Exchange sunucusuna bağlanılamıyor...
+[Exchange email]
+E-posta değişimi
+[Do you want to see the email headers?]
+E-posta başlıklarını görmek ister misiniz?
+;file \plugins\Exchange\src\hooked_events.cpp
+[Check exchange mailbox]
+Değişim posta kutusunu kontrol et
+[Exchange notify]
+Değişim bildirimi
+[Plugins]
+Eklentiler
+[Forcefully reconnecting to Exchange server ...]
+Exchange sunucusuna zorla yeniden bağlanılıyor...
+;file \plugins\Exchange\src\MirandaExchange.cpp
+[Connecting to Exchange ...]
+Exchange'e bağlanılıyor...

@@ -77,6 +77,11 @@ struct FontSettingsW
 	wchar_t  szFace[LF_FACESIZE];
 };
 
+#ifdef _WINDOWS
+EXTERN_C MIR_APP_DLL(void) Font_Import(FontSettings &settings, LOGFONTA &lf);
+EXTERN_C MIR_APP_DLL(void) Font_ImportW(FontSettingsW &settings, LOGFONTW &lf);
+#endif
+
 // a font identifier structure - used for registering a font, and getting one out again
 
 // WARNING: do not use Translate(TS) for name or group as they

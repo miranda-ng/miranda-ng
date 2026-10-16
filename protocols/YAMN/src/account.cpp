@@ -53,8 +53,7 @@ YAMNMAIL* CAccount::CreateMail()
 void CAccount::RefreshContact()
 {
 	if (hContact == 0) {
-		hContact = db_add_contact();
-		Proto_AddToContact(hContact, YAMN_DBMODULE);
+		hContact = db_add_contact(YAMN_DBMODULE);
 		g_plugin.setString(hContact, "Id", Name);
 		g_plugin.setString(hContact, "Nick", Name);
 		g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);

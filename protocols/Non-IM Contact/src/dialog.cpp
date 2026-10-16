@@ -284,8 +284,7 @@ void DoPropertySheet(MCONTACT hContact)
 INT_PTR addContact(WPARAM, LPARAM)
 {
 	char tmp[256];
-	MCONTACT hContact = db_add_contact();
-	Proto_AddToContact(hContact, MODNAME);
+	MCONTACT hContact = db_add_contact(MODNAME);
 	Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
 	g_plugin.setWString(hContact, "Nick", TranslateT("New Non-IM Contact"));
 	DoPropertySheet(hContact);
@@ -300,8 +299,7 @@ INT_PTR editContact(WPARAM wParam, LPARAM)
 	MCONTACT hContact = wParam;
 	char tmp[256];
 	if (!hContact) {
-		hContact = db_add_contact();
-		Proto_AddToContact(hContact, MODNAME);
+		hContact = db_add_contact(MODNAME);
 		Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
 		g_plugin.setString(hContact, "Nick", Translate("New Non-IM Contact"));
 	}

@@ -37,6 +37,7 @@
 #define IDC_RESIDENT_CHANNELS           1019
 #define IDC_BIO                         1020
 #define IDC_BIRTHDAY                    1021
+#define IDC_IGNORE_BOTS                 1022
 #define IDC_SESSIONS                    1023
 #define IDC_LINK                        1024
 #define IDC_SOFTWARE                    1025

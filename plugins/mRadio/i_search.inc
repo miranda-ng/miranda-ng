@@ -282,10 +282,9 @@ begin
 
       if lurl<>nil then
       begin
-        hContact:=db_add_contact();
+        hContact:=db_add_contact(PluginName);
         if hContact<>0 then
         begin
-          Proto_AddToContact(hContact,PluginName);
           // URL
           DBWriteUnicode(hContact,PluginName,optStationURL,lurl);
           DBWriteUnicode(hContact,PluginName,optFirstName ,lurl);

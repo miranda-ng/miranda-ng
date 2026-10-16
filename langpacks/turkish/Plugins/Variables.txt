@@ -1,0 +1,375 @@
+#muuid {59b0036e-5403-422e-883b-c9aaf425682b}
+;============================================================
+;  File: Variables.dll
+;  Plugin: Variables
+;  Version: 0.2.3.12
+;  Authors: P Boon
+;============================================================
+[Adds support for dynamic variables in strings for plugins.]
+Eklentiler için dizgelerdeki dinamik değişkenlere destek eklenmiştir.
+;file \plugins\Variables\res\Variables.rc
+[Parse options]
+Seçenekleri ayrıştır
+[Automatically strip "end of line" characters]
+"Satır sonu" karakterlerini otomatik olarak kaldır
+[Automatically strip white space]
+Boşlukları otomatik olarak kaldır
+[Automatically strip all non-parsing characters]
+Ayrıştırılamayan tüm karakterleri otomatik olarak kaldır
+[Test area]
+Test alanı
+[Click on the help button to get more information]
+Daha fazla bilgi almak için yardım düğmesine tıklayın
+[Parse the following string at startup]
+Başlangıçta aşağıdaki dizeyi ayrıştır
+[Auto parse]
+Otomatik ayrıştırma
+[Parse]
+Ayrıştır
+[Please enter your input below]
+Lütfen aşağıya girdinizi girin
+[Don't set a contact]
+Kişi eklemeyin
+[Set to the following contact]
+Aşağıdaki kişiye atayın
+[The token %subject% is translated into a special contact, which depends on the situation in which the string is parsed. Use this dialog to simulate the contact to which %subject% translates. An example for using this token is: !cinfo(%subject%,display).]
+%subject% simgesi, dizgenin çözümlendiği duruma bağlı olarak özel bir kişiye dönüştürülür. Bu iletişim kutusunu, %subject% simgesinin dönüştürüldüğü kişiyi simüle etmek için kullanın. Bu simgenin kullanımına ilişkin bir örnek şöyledir: !cinfo(%subject%,display).
+[Description]
+Açıklama
+[Setting]
+Ortam
+[The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]
+%extratext% simgesi, dizgenin ayrıştırıldığı duruma bağlı olarak bir dizgeye dönüştürülür. Bu iletişim kutusunu, %extratext% simgesinin dönüştürüldüğü dizgeyi simüle etmek için kullanın.
+[Close]
+Kapat
+[The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
+"Değişkenler" eklentisi, çeşitli belirteçleri belirli bir değere dönüştürür. Örneğin: "Miranda %mirandaversion% kullanıyorum." %mirandaversion% alt dizesi, doğru sürüm numarasına dönüştürülecektir. Aşağıdaki liste, kullanılabilir tüm belirteçleri göstermektedir.
+[Notes]
+Notlar
+[Variables...]
+Değişkenler...
+;file \plugins\Variables\src\help.cpp
+[Token]
+Jeton
+[Tokens]
+Jetonlar
+[Input]
+Giriş
+[Cancel]
+İptal et
+[Help]
+Yardım
+[Variables Help]
+Değişkenler Yardımı
+[Open String Formatting Help]
+Açık Dize Biçimlendirme Yardımı
+;file \plugins\Variables\src\options.cpp
+[Services]
+Hizmetler
+[Variables]
+Değişkenler
+;file \plugins\Variables\src\parse_alias.cpp
+[Alias]
+Takma ad
+[user defined]
+kullanıcı tanımlı
+[stores y as alias named x]
+y'yi x adında bir takma ad olarak kaydeder
+;file \plugins\Variables\src\parse_external.cpp
+[Stopped]
+Durdu
+[Paused]
+Duraklatıldı
+[External Applications]
+Harici Uygulamalar
+[retrieves song name of the song currently playing in Winamp]
+Winamp’ta o anda çalmakta olan şarkının adını alır
+[retrieves current Winamp state (Playing/Paused/Stopped)]
+Winamp’ın o anki durumunu (Çalıyor/Duraklatılmış/Durdurulmuş) alır
+;file \plugins\Variables\src\parse_inet.cpp
+[Internet Related]
+İnternetle İlgili
+[converts each non-html character into hex format]
+HTML karakteri olmayan her karakteri onaltılık biçime dönüştürür
+[converts each hex value into non-html character]
+her bir onaltılık değeri HTML dışı bir karaktere dönüştürür
+[converts a 32-bit number to IPv4 dotted notation]
+32 bitlik bir sayıyı IPv4 noktalı gösterimine dönüştürür
+[converts a 32-bit number (in host byte order) to IPv4 dotted notation]
+32 bitlik bir sayıyı (ana bilgisayar bayt sırasına göre) IPv4 noktalı gösterimine dönüştürür
+;file \plugins\Variables\src\parse_logic.cpp
+[Logical Expressions]
+Mantıksal İfadeler
+[performs logical AND (x && y && ...)]
+mantıksal VE işlemini gerçekleştirir (x && y && ...)
+[boolean FALSE]
+boolean FALSE
+[performs w, then shows z and performs y while x is TRUE]
+w işlemini gerçekleştirir, ardından z değerini gösterir ve x TRUE olduğu sürece y işlemini gerçekleştirir
+[shows y if x is TRUE, otherwise it shows z]
+x TRUE ise y'yi gösterir, aksi takdirde z'yi gösterir
+[shows x if x is TRUE, otherwise it shows y (if(x,x,y))]
+x TRUE ise x'i gösterir, aksi takdirde y'yi gösterir (if(x,x,y))
+[the first argument parsed successfully]
+İlk argüman başarıyla işlendi
+[y if w = x, else z]
+y, eğer w = x ise, aksi takdirde z
+[y if w > x, else z]
+y, eğer w > x ise; aksi takdirde z
+[y if string length of w > x, else z]
+y, eğer w dizesinin uzunluğu x'ten büyükse; aksi takdirde z
+[TRUE if x = y]
+x = y ise TRUE
+[TRUE if x > y]
+x > y ise TRUE
+[TRUE if x is longer than y]
+x, y’den uzunsa TRUE
+[performs logical NOT (!x)]
+mantıksal DEĞİL (!x) işlemini gerçekleştirir
+[performs logical OR (x || y || ...)]
+mantıksal VEYA işlemini gerçekleştirir (x || y || ...)
+[boolean TRUE]
+boolean TRUE
+[performs logical XOR (x ^ y)]
+mantıksal XOR (x ^ y) işlemini gerçekleştirir
+;file \plugins\Variables\src\parse_math.cpp
+[Mathematical Functions]
+Matematiksel Fonksiyonlar
+[x + y + ...]
+x + y + ...
+[x divided by y]
+x'in y'ye bölünmesi
+[converts decimal value x to hex value and padds to length y]
+x ondalık değerini onaltılık değere dönüştürür ve y uzunluğuna tamamlar
+[x modulo y (remainder of x divided by y)]
+x mod y (x'in y'ye bölünmesinden elde edilen kalan)
+[x times y]
+x çarpı y
+[x times y divided by z]
+x çarpı y bölü z
+[minimum value of (decimal) arguments]
+(ondalık) argümanların minimum değeri
+[maximum value of (decimal) arguments]
+(ondalık) argümanların en büyük değeri
+[pads decimal value x to length y with zeros]
+x ondalık değerini y uzunluğunda sıfırlarla doldurur
+[random number]
+rastgele sayı
+[x - y - ...]
+x - y - ...
+;file \plugins\Variables\src\parse_metacontacts.cpp
+[Metacontacts]
+Metakontaktlar
+[get parent metacontact of contact x]
+x numaralı kişinin üst metakontaktını al
+[get default subcontact x]
+varsayılan alt kişiyi x al
+[get the 'most online' subcontact x]
+'en çok çevrimiçi' alt kişiyi x'i bul
+;file \plugins\Variables\src\parse_miranda.cpp
+[Miranda Core Global]
+Miranda Core Global
+[path to Miranda root folder]
+Miranda kök klasörünün yolu
+[path to folder containing Miranda profiles]
+Miranda profillerinin bulunduğu klasöre giden yol
+[name of current Miranda profile (filename, without extension)]
+Mevcut Miranda profilinin adı (dosya adı, uzantı hariç)
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
+%miranda_profilesdir%\\%miranda_profilename% biçiminde ayrıştırılmış bir dize döndürecektir
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%\\AvatarCache]
+%miranda_profilesdir%\\%miranda_profilename%\\AvatarCache dizesini ayrıştırılmış olarak döndürecektir
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%\\Logs]
+%miranda_profilesdir%\\%miranda_profilename%\\Logs dizesini ayrıştırılmış halde döndürecektir
+[Miranda Core OS]
+Miranda Core İşletim Sistemi
+[same as environment variable %APPDATA% for currently logged-on Windows user]
+Şu anda oturum açmış olan Windows kullanıcısı için %APPDATA% ortam değişkeniyle aynıdır
+[username for currently logged-on Windows user]
+Şu anda oturum açmış olan Windows kullanıcısının kullanıcı adı
+["My Documents" folder for currently logged-on Windows user]
+O anda oturum açmış olan Windows kullanıcısı için "Belgelerim" klasörü
+["Desktop" folder for currently logged-on Windows user]
+O anda Windows'ta oturum açmış olan kullanıcı için "Masaüstü" klasörü
+[Miranda Related]
+Miranda ile İlgili
+[translates status code x into a status description]
+x durum kodunu bir durum açıklamasına çevirir
+[zth contact with property y described by x, example: (unregistered,nick) (z is optional)]
+x ile tanımlanan y özelliğiyle z'inci temas, örnek: (kayıtlı değil, takma ad) (z isteğe bağlıdır)
+[number of contacts with property y described by x, example: (unregistered,nick)]
+x ile tanımlanan y mülküyle ilgili kişi sayısı, örnek: (kayıt dışı, takma ad)
+[info property y of contact x]
+x numaralı kişinin y bilgisi
+[database profile name]
+veritabanı profili adı
+[database profile path]
+veritabanı profil yolu
+[database setting z of module y of contact x and return w if z doesn't exist (w is optional)]
+x numaralı kişinin y modülüne ait z veritabanı ayarını al ve z mevcut değilse w değerini döndür (w isteğe bağlıdır)
+[get event for contact x (optional), according to y,z,w, see documentation]
+x numaralı kişiye ait olayı al (isteğe bağlı), y, z, w değerlerine göre; belgelere bakınız
+[get last seen time of contact x in format y (y is optional)]
+x ile yapılan son temasın görüldüğü zamanı y biçiminde al (y isteğe bağlıdır)
+[get last seen date of contact x in format y (y is optional)]
+x adlı kişinin en son görüldüğü tarihi y biçiminde al (y isteğe bağlıdır)
+[get last seen status of contact x]
+x numaralı kişinin en son görülme durumunu al
+[path to the Miranda NG executable]
+Miranda NG yürütülebilir dosyasının yolu
+[current status description of protocol x (without x, the global status is retrieved)]
+x protokolünün mevcut durum açıklaması (x belirtilmezse, genel durum alınır)
+[info property y of protocol ID x]
+x protokol kimliğine ait y bilgi özelliği
+[retrieves the subject, depending on situation]
+duruma göre konuyu alır
+[translates x]
+x’i çevirir
+[get the version of Miranda]
+Miranda'nın sürümünü öğrenin
+[get the contact display name]
+iletişim bilgilerinin görüntü adını al
+[get the date and time (using Miranda format)]
+tarih ve saati al (Miranda biçimini kullanarak)
+[TRUE if service function exists]
+Hizmet işlevi varsa TRUE
+;file \plugins\Variables\src\parse_regexp.cpp
+[Regular Expressions]
+Düzenli İfadeler
+[(ANSI input only) the number of substring matches found in y with pattern x]
+(Yalnızca ANSI girişi) y dizisinde x deseniyle eşleşen alt dizilerin sayısı
+[(ANSI input only) substring match number z found in subject y with pattern x]
+(Yalnızca ANSI girişi) y başlığında x deseniyle eşleşen z numaralı alt dize bulundu
+;file \plugins\Variables\src\parse_str.cpp
+[String Functions]
+Dize İşlevleri
+[converts each first letter of a word to uppercase, all others to lowercase]
+bir kelimenin her bir harfinin ilk harfini büyük harfe, geri kalanını ise küçük harfe dönüştürür
+[converts each first letter of a word to uppercase]
+bir kelimenin her bir harfinin ilk harfini büyük harfe dönüştürür
+[inserts 'end of line' character]
+'satır sonu' karakterini ekler
+[depends on calling plugin]
+eklentinin çağrılmasına bağlıdır
+[replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
+\\n (Unix) karakterinin tüm örneklerini \\r\\n (Windows) ile değiştir
+[cuts x after the first line and appends y (y is optional)]
+ilk satırdan sonra x karakterini keser ve y karakterini ekler (y isteğe bağlıdır)
+[replaces all end of line characters by y (y is optional)]
+tüm satır sonu karakterlerini y ile değiştirir (y isteğe bağlıdır)
+[inserts string y at position z in string x]
+x dizesinin z konumuna y dizesini ekler
+[trims x to length y, keeping first y characters]
+x'i y uzunluğunda keser ve ilk y karakteri korur
+[length of x]
+x'in uzunluğu
+[the number of lines in string x]
+x dizgesindeki satır sayısı
+[the longest string of the arguments]
+argümanlar arasındaki en uzun dize
+[converts x to lowercase]
+x harfini küçük harfe dönüştürür
+[no operation, x as given]
+işlem yok, x verilen değerde
+[pads x to length y prepending character z (z is optional)]
+x adet y uzunluğundaki pedlere z karakteri eklenir (z isteğe bağlıdır)
+[pads x to length y appending character z (z is optional)]
+x adedindeki bloklara y uzunluğunda z karakteri eklenir (z isteğe bağlıdır)
+[pads x to length y prepending character z, or cut if x is longer (z is optional)]
+x genişliğindeki blokları y uzunluğuna getirmek için baştan z karakterini ekler veya x daha uzunsa keser (z isteğe bağlıdır)
+[pads x to length y appending character z, or cut if x is longer (z is optional)]
+x genişliğindeki blokları y uzunluğuna kadar karakter z ekleyerek birleştirir veya x daha uzunsa keser (z isteğe bağlıdır)
+[repeats x y times]
+x'i y kez tekrarlar
+[replace all occurrences of y in x with z, multiple y and z arguments allowed]
+x içindeki tüm y karakterlerini z ile değiştir; birden fazla y ve z argümanı kullanılabilir
+[trims x to length y, keeping last y characters]
+x'i y uzunluğunda keser ve son y karakteri korur
+[moves string x, z characters to the left and trims it to y characters]
+x ve z karakterlerini sola kaydırır ve y karakter uzunluğunda keser
+[TRUE if x equals y]
+x, y’ye eşitse TRUE
+[TRUE if x equals any of the following arguments]
+x, aşağıdaki argümanlardan herhangi birine eşitse TRUE
+[TRUE if the first z characters of x equal y]
+x'in ilk z karakteri y'ye eşitse TRUE
+[TRUE if x equals y, ignoring case]
+x, y’ye eşitse TRUE; büyük/küçük harf farkı göz ardı edilir
+[TRUE if the first z characters of x equal y, ignoring case]
+x'in ilk z karakteri y'ye eşitse (büyük/küçük harf farkı gözetilmeden) TRUE
+[the shortest string of the arguments]
+argümanlar arasındaki en kısa dize
+[location of first occurrence of character y in string x]
+x dizesinde y karakterinin ilk geçtiği konum
+[location of last occurrence of character y in string x]
+x dizesinde y karakterinin son görüldüğü konum
+[location of first occurrence of string y in x]
+x dizisinde y dizesinin ilk geçtiği konum
+[substring of x starting from position y to z]
+x dizisinin y konumundan başlayıp z konumuna kadar olan alt dizisi
+[the xth string of the arguments]
+argümanların x'inci dizesi
+[z if y equals x, multiple y and z arguments allowed]
+z (eğer y, x'e eşitse; y ve z argümanlarının birden fazla kullanılması mümkündür)
+[removes white spaces in before and after x]
+x'in önündeki ve arkasındaki boşlukları kaldırır
+[inserts x tab characters (x is optional)]
+x adet sekme karakteri ekler (x isteğe bağlıdır)
+[converts x to upper case]
+x harfini büyük harfe dönüştürür
+[words (separated by white spaces) number y to z from string x (z is optional)]
+x dizisinden y'den z'ye kadar olan kelimeler (boşluklarla ayrılmış) (z isteğe bağlıdır)
+;file \plugins\Variables\src\parse_system.cpp
+[System Functions]
+Sistem İşlevleri
+[computer name]
+bilgisayar adı
+[CPU load of process x (without extension) (x is optional)]
+x işleminin CPU yükü (uzantı hariç) (x isteğe bağlıdır)
+[current date in format y (y is optional)]
+y biçiminde güncel tarih (y isteğe bağlıdır)
+[current time in format y (y is optional)]
+y biçiminde geçerli saat (y isteğe bağlıdır)
+[the directory y directories above x]
+x'in bir üstündeki y dizini ve altındaki dizinler
+[strips y directories from x]
+x’ten y dizinlerini ayırır
+[number of seconds between date x and y (x and y in format: M/d/yy H:m:s)]
+x ve y tarihleri arasındaki saniye sayısı (x ve y, M/g/yy H:d:s biçiminde)
+[TRUE if directory x exists]
+x dizini varsa TRUE
+[TRUE if file x exists]
+x dosyası varsa TRUE
+[window title of first window of class x]
+x sınıfına ait ilk pencerenin pencere başlığı
+[shows files and directories of directory x, with filter y, separated by z (y and z optional)]
+x dizinindeki dosya ve dizinleri, y filtresiyle ve z ile ayrılmış olarak gösterir (y ve z isteğe bağlıdır)
+[TRUE if process x is running]
+x işlemi çalışıyorsa TRUE
+[value y from registry key x (REG_SZ (string) values only)]
+x kayıt defteri anahtarından y değerini al (yalnızca REG_SZ (dize) türündeki değerler)
+[formats timestamp x (seconds since 1/1/1970) in date format y]
+zaman damgası x’i (1/1/1970’den bu yana geçen saniye sayısı) tarih biçimi y’ye dönüştürür
+[formats timestamp x (seconds since 1/1/1970) in time format y]
+zaman damgası x’i (1/1/1970’ten bu yana geçen saniye sayısı) y zaman biçimine dönüştürür
+[y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]
+y > 0: x dosyasındaki y numaralı satır, y = 0: dosyanın tamamı, y < 0: sonundan itibaren y numaralı satır, y = r: rastgele bir satır
+[uptime in seconds]
+çalışma süresi (saniye cinsinden)
+[expand environment variable x]
+x ortam değişkenini genişlet
+[user name]
+kullanıcı adı
+[text from clipboard]
+panodan alınan metin
+;file \plugins\Variables\src\parse_variables.cpp
+[variable set by put(s) with name x]
+x adında bir put(s) tarafından ayarlanan değişken
+[x, and stores y as variable named x]
+x ve y’yi x adlı değişken olarak saklar
+[only stores y as variables x]
+y değerini yalnızca x değişkenleri olarak saklar
+;file \plugins\Variables\src\stdafx.h
+[--- Special characters ---\r\n\r\nThe following characters have a special meaning in a formatting string:\r\n\r\n?<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will be parsed again. Example: Today is ?cdate(yyyy/MM/dd).\r\n\r\n!<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will not be parsed again. Example: Message waiting: !message(,first,rcvd,unread).\r\n\r\n%<field>%\r\nThis will parse the given field. Example: I installed Miranda at: %mirandapath%.\r\n\r\n`<string>`\r\nThis will not parse the given string, any function, field or special character in the string will shown in the result without being translated. Example: Use `%mirandapath%` to show the installation path.\r\n\r\n#<comment>\r\nThis will add a comment in the formatting string. Everything from the # character to the end of the line will be removed. Example: %dbprofile% #this is a useless comment.\r\n\r\n\r\n--- Contacts ---\r\n\r\nWhenever a functions requires a contact as an argument, you can specify it in two ways:\r\n\r\n(1) Using a unique ID (for example JID for Jabber) or, a protocol ID followed by a unique ID in the form <PROTOID:UNIQUEID>, for example <JABBER:miranda@example.com>.\r\n\r\n(2) Using the contact function:\r\n?contact(x,y)\r\nA contact will be searched which will have value x for its property y, y can be one of the following:\r\nfirst, last, nick, email, ID or display\r\n\r\nFor example: ?contact(miranda@example.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.]
+--- Özel karakterler ---\r\n\r\nAşağıdaki karakterler biçimlendirme dizesinde özel bir anlam taşır:\r\n\r\n?<işlev>(<argümanlar>)\r\nBu, verilen argümanlarla işlevi çözümler; sonuç ise yeniden çözümlenir. Örnek: Bugün ?cdate(yyyy/MM/dd).\r\n\r\n!<fonksiyon>(<argümanlar>)\r\nBu, verilen argümanlarla fonksiyonu çözümler; sonuç tekrar çözümlenmez. Örnek: Bekleyen mesaj: !message(,first,rcvd,unread).\r\n\r\n%<alan>%\r\nBu, belirtilen alanı işleyecektir. Örnek: Miranda'yı şu konuma yükledim: %mirandapath%.\r\n\r\n`<string>`\r\nBu, verilen dizeyi ayrıştırmaz; dizedeki herhangi bir işlev, alan veya özel karakter, çevrilmeden sonuçta gösterilir. Örnek: Kurulum yolunu göstermek için `%mirandapath%` kullanın.\r\n\r\n#<comment>\r\nBu, biçimlendirme dizesine bir yorum ekler. # karakterinden satır sonuna kadar olan her şey kaldırılacaktır. Örnek: %dbprofile% #bu gereksiz bir açıklamadır.\r\n\r\n\r\n--- Kişiler ---\r\n\r\nBir işlevin argüman olarak bir kişiye ihtiyacı olduğunda, bunu iki şekilde belirtebilirsiniz:\r\n\r\n(1) Benzersiz bir kimlik (örneğin Jabber için JID) veya <PROTOID:UNIQUEID> biçiminde bir protokol kimliği ve ardından gelen benzersiz bir kimlik kullanarak, örneğin <JABBER:miranda@example.com>.\r\n\r\n(2) contact işlevini kullanarak:\r\n?contact(x,y)\r\ny özelliğinin değeri x olan bir kişi aranacaktır; y, aşağıdakilerden biri olabilir:\r\nfirst, last, nick, email, ID veya display\r\n\r\nÖrneğin: ?contact(miranda@example.com,email) veya ?contact(Miranda,nick). contact işlevi, verilen argümanlara göre benzersiz bir kişiyi döndürür; verilen özelliğe sahip hiçbir kişi yoksa veya birden fazla kişi varsa hiçbir sonuç döndürmez.
+;file \plugins\Variables\src\variables.cpp

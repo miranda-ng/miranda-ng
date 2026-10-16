@@ -1,0 +1,34 @@
+#muuid {1fdbd8f0-3929-41bc-92d1-020779460769}
+;============================================================
+;  File: Toaster.dll
+;  Plugin: Toaster
+;  Version: 0.11.2.1
+;  Authors: Miranda NG team
+;============================================================
+[Provides popup services based on Windows toast notification for different plugins.]
+Farklı eklentiler için Windows bildirim pencerelerine dayalı açılır pencere hizmetleri sunar.
+;file \plugins\Toaster\res\resource.rc
+[Preview]
+Önizleme
+[Add shortcut]
+Kısayol ekle
+[Enable popups]
+Pop-up'ları etkinleştir
+;file \plugins\Toaster\src\main.cpp
+[Popup mode]
+Açılır pencere modu
+[This plugin requires Windows 8 or higher]
+Bu eklenti, Windows 8 veya daha yeni bir sürümü gerektirir
+[Failed to create temporary directory]
+Geçici dizin oluşturulamadı
+;file \plugins\Toaster\src\options.cpp
+[Failed to create shortcut]
+Kısayol oluşturulamadı
+[Shortcut was added to the start menu]
+Başlat menüsüne kısayol eklendi
+[Information]
+Bilgi
+[Warning]
+Uyarı
+[Error]
+Hata

@@ -119,7 +119,7 @@ void CToxProto::UpdateNodes()
 	VARSW path(TOX_JSON_PATH);
 
 	debugLogA(__FUNCTION__": updating nodes");
-	HttpRequest request(REQUEST_GET, "https://nodes.tox.chat/json");
+	HttpRequest request(REQUEST_GET, "https://nodes.tox.st/json");
 	NLHR_PTR response(request.Send(m_hNetlibUser));
 	if (!response || response->resultCode != HTTP_CODE_OK || response->body.IsEmpty()) {
 		debugLogA(__FUNCTION__": failed to dowload tox.json");
@@ -128,7 +128,7 @@ void CToxProto::UpdateNodes()
 
 	JSONNode root = JSONNode::parse(response->body);
 	if (root.empty()) {
-		debugLogA(__FUNCTION__": failed to dowload tox.json");
+		debugLogA(__FUNCTION__": failed to download tox.json");
 		return;
 	}
 

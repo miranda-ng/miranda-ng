@@ -640,7 +640,7 @@ MIR_CORE_DLL(time_t) Utils_IsoToUnixTime(const char *stamp)
 
 struct
 {
-	wchar_t *pStart, *pEnd;
+	const wchar_t *pStart, *pEnd;
 	size_t cbStart, cbEnd;
 }
 static bbcodes[] =

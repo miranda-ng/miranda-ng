@@ -191,8 +191,7 @@ MCONTACT CMLan::FindContact(in_addr addr, const char *nick, bool add_to_list, bo
 	}
 
 	if (add_to_list) {
-		MCONTACT res = db_add_contact();
-		Proto_AddToContact(res, MODULENAME);
+		MCONTACT res = db_add_contact(MODULENAME);
 		g_plugin.setDword(res, "ipaddr", addr.S_un.S_addr);
 		g_plugin.setString(res, "Nick", nick);
 

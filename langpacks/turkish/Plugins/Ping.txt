@@ -1,0 +1,171 @@
+#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
+;============================================================
+;  File: Ping.dll
+;  Plugin: Ping
+;  Version: 0.9.1.2
+;  Authors: Scott Ellis
+;============================================================
+[Ping labelled IP addresses or domain names.]
+Ping komutuyla etiketlenmiş IP adresleri veya alan adları.
+;file \plugins\Ping\res\ping.rc
+[Delay between pings (secs):]
+Pingler arasındaki gecikme süresi (saniye):
+[Timeout]
+Zaman aşımı
+[Ping timeout (secs):]
+Ping zaman aşımı (saniye):
+[Logging]
+Ağaç kesimi
+[Log to File]
+Dosyaya Kaydet
+[Log Filename:]
+Günlük Dosya Adı:
+[Network]
+Ağ
+[Popups]
+Açılır pencereler
+[Reply]
+Yanıtla
+[Block Repetitions]
+Blok Tekrarları
+[View Log]
+Günlüğü Görüntüle
+[Browse...]
+Göz at...
+[Interface]
+Arayüz
+[Do not change icon when testing]
+Test sırasında simgeyi değiştirmeyin
+[Use Options -> Customize -> Fonts and colors to change text size and color.]
+Metin boyutunu ve rengini değiştirmek için Seçenekler -> Özelleştir -> Yazı tipleri ve renkler seçeneğini kullanın.
+[Indent:]
+Girinti:
+[Row height:]
+Satır yüksekliği:
+[Repeats for success/failure:]
+Başarı/başarısızlık durumunda tekrarlama sayısı:
+[Attach to contact list]
+Kişi listesine ekle
+[Use CSV format]
+CSV biçimini kullanın
+[Add]
+Ekle
+[Remove]
+Kaldır
+[Edit]
+Düzenle
+[Up]
+Yukarı
+[Down]
+Aşağı
+[Edit Host]
+Sunucuyu Düzenle
+[Contact]
+İletişim
+[Address:]
+Adres:
+[Label:]
+Etiket:
+[TCP Connect]
+TCP Bağlantısı
+[Port:]
+Liman:
+[Protocols]
+Protokol
+[Control Protocol:]
+Kontrol Protokolü:
+[On success, if my status is:]
+İşlem başarılı olursa, durumum şuysa:
+[Set my status to:]
+Durumumu şuna ayarla:
+[Execute the following command on double-click:]
+Çift tıkladığınızda aşağıdaki komutu çalıştırın:
+[(Optional) Command Parameters:]
+(İsteğe bağlı) Komut Parametreleri:
+[Cancel]
+İptal et
+[Menu]
+Menü
+[Graph]
+Grafik
+[Enable]
+Etkinleştir
+[Disable all pings]
+Tüm ping'leri devre dışı bırak
+[Enable all pings]
+Tüm pingleri etkinleştir
+[Options...]
+Seçenekler...
+[Hosts...]
+Sunucular...
+;file \plugins\Ping\src\menu.cpp
+[Ping]
+Ping
+;file \plugins\Ping\src\options.cpp
+[<none>]
+<yok>
+[<all>]
+<tümü>
+[Text Files (*.txt)]
+Metin Dosyaları (*.txt)
+[All Files]
+Tüm Dosyalar
+[Open log file]
+Günlük dosyasını aç
+[Settings]
+Ayarlar
+[Hosts]
+Sunucular
+;file \plugins\Ping\src\ping.cpp
+[Responding]
+Yanıt verme
+[Not Responding]
+Yanıt Vermiyor
+[Testing]
+Test
+[Disabled]
+Engelli
+;file \plugins\Ping\src\pinggraph.cpp
+[Show grid lines]
+Kılavuz çizgilerini göster
+[Show stats]
+İstatistikleri göster
+[%d ms]
+%d ms
+[AVG %.1lf ms]
+AVG % .1lf ms
+[MAX %hd ms]
+MAX %hd ms
+[MIN %hd ms]
+MIN %hd ms
+[Ping Graph]
+Ping Grafiği
+;file \plugins\Ping\src\pingthread.cpp
+[%s - setting status of protocol '%S' (%d)]
+%s - '%S' protokolünün durumunu ayarlama (%d)
+[Ping Reply]
+Ping Yanıtı
+[%s - reply, %d]
+%s - yanıt, %d
+[Ping Timeout]
+Ping Zaman Aşımı
+[%s - timeout]
+%s - zaman aşımı
+[Disable]
+Devre dışı bırak
+[enabled]
+etkinleştirildi
+[double clicked]
+çift tıklanmış
+[Show/Hide &Ping Window]
+&Ping Penceresini Göster/Gizle
+[List]
+Liste
+;file \plugins\Ping\src\rawping.cpp
+[Host %s requests that you reduce the amount of traffic you are sending.]
+%s sunucusu, gönderdiğiniz trafik miktarını azaltmanızı talep ediyor.
+;file \plugins\Ping\src\utils.cpp
+[Unknown Address]
+Adres Bilinmiyor
+[Unknown]
+Bilinmiyor

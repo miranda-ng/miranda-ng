@@ -124,15 +124,18 @@ void FreeProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *fts);
 void CopyProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src);
 void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src);
 
-wchar_t *PFTS_StringToTchar(int flags, const MAllStrings s);
+wchar_t* PFTS_StringToTchar(int flags, const MAllStrings s);
 int  PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS *ft, const MAllStrings s, wchar_t *r);
 
 MFilePath CreateUniqueFileName(const wchar_t *pszOriginalFile);
 MFilePath FindUniqueFileName(const wchar_t *pszOriginalFile, bool bSkipExisting);
 
+#ifdef _WINDOWS
 int  GetRegValue(HKEY hKeyBase, const wchar_t *szSubKey, const wchar_t *szValue, wchar_t *szOutput, int cbOutput);
-void GetSensiblyFormattedSize(__int64 size, wchar_t *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed);
 void UnixTimeToFileTime(int unixTime, FILETIME *ft);
+#endif
+
+void GetSensiblyFormattedSize(int64_t size, wchar_t *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed);
 
 // downloads or launches cloud file
 
@@ -154,15 +157,17 @@ struct OFD_Download : public OFD_Callback
 {
 	void Invoke(const OFDTHREAD &ofd) override
 	{
-		FILETIME ft;
-		UnixTimeToFileTime(ofd.dwTimestamp, &ft);
-		if (HANDLE hFile = CreateFileW(ofd.wszPath, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr)) {
-			SetFileTime(hFile, &ft, &ft, &ft);
-			CloseHandle(hFile);
-		}
+		#ifdef _WINDOWS
+			FILETIME ft;
+			UnixTimeToFileTime(ofd.dwTimestamp, &ft);
+			if (HANDLE hFile = CreateFileW(ofd.wszPath, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr)) {
+				SetFileTime(hFile, &ft, &ft, &ft);
+				CloseHandle(hFile);
+			}
 
-		if (ofd.bOpen)
-			ShellExecuteW(nullptr, L"open", ofd.wszPath, nullptr, nullptr, SW_SHOWDEFAULT);
+			if (ofd.bOpen)
+				ShellExecuteW(nullptr, L"open", ofd.wszPath, nullptr, nullptr, SW_SHOWDEFAULT);
+		#endif
 	}
 };
 
@@ -179,7 +184,9 @@ public:
 
 	void Invoke(const OFDTHREAD &ofd) override
 	{
-		CopyFileW(ofd.wszPath, m_path, false);
+		#ifdef _WINDOWS
+			CopyFileW(ofd.wszPath, m_path, false);
+		#endif
 	}
 };
 

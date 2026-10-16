@@ -148,14 +148,24 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **file
 
 	CVkFileUploadParam *fup = new CVkFileUploadParam(hContact, desc, files);
 
-	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)fup);
-
 	if (!fup->IsAccess()) {
 		SendFileFailed(fup, VKERR_FILE_NOT_EXIST);
 		return (HANDLE)nullptr;
 	}
 
-	AsyncHttpRequest *pReq;
+	fup = SendFile(fup);
+
+	if (files[1])
+		SendFile(hContact, L"", &files[1]);
+
+	return (HANDLE)fup;
+}
+
+CVkFileUploadParam* CVkProto::SendFile(CVkFileUploadParam *fup)
+{
+	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)fup);
+
+	AsyncHttpRequest* pReq;
 	switch (fup->GetType()) {
 	case CVkFileUploadParam::typeImg:
 		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/photos.getMessagesUploadServer.json", true, &CVkProto::OnReciveUploadServer);
@@ -172,20 +182,18 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **file
 		break;
 	default:
 		SendFileFailed(fup, VKERR_FTYPE_NOT_SUPPORTED);
-		return (HANDLE)nullptr;
+		return nullptr;
 	}
 	pReq->pUserInfo = fup;
 	Push(pReq);
 
-	if (files[1])
-		SendFile(hContact, L"", &files[1]);
-
-	return (HANDLE)fup;
+	return fup;
 }
 
 void CVkProto::SendFileFailed(CVkFileUploadParam *fup, int ErrorCode)
 {
 	CMStringW wszError;
+	bool bRetry = false;
 	switch (ErrorCode) {
 	case VKERR_OFFLINE:
 		wszError = TranslateT("Protocol is offline");
@@ -204,6 +212,7 @@ void CVkProto::SendFileFailed(CVkFileUploadParam *fup, int ErrorCode)
 		break;
 	case VKERR_FILE_NOT_UPLOADED:
 		wszError = TranslateT("File upload error");
+		bRetry = true;
 		break;
 	case VKERR_INVALID_URL:
 		wszError = TranslateT("Upload server returned empty URL");
@@ -213,18 +222,22 @@ void CVkProto::SendFileFailed(CVkFileUploadParam *fup, int ErrorCode)
 		break;
 	case VKERR_INVALID_PARAMETERS:
 		wszError = TranslateT("One of the parameters specified was missing or invalid");
+		bRetry = true;
 		break;
 	case VKERR_COULD_NOT_SAVE_FILE:
 		wszError = TranslateT("Couldn't save file");
 		break;
 	case VKERR_INVALID_ALBUM_ID:
 		wszError = TranslateT("Invalid album id");
+		bRetry = true;
 		break;
 	case VKERR_INVALID_SERVER:
 		wszError = TranslateT("Invalid server");
+		bRetry = true;
 		break;
 	case VKERR_INVALID_HASH:
 		wszError = TranslateT("Invalid hash");
+		bRetry = true;
 		break;
 	case VKERR_INVALID_AUDIO:
 		wszError = TranslateT("Invalid audio");
@@ -234,6 +247,7 @@ void CVkProto::SendFileFailed(CVkFileUploadParam *fup, int ErrorCode)
 		break;
 	case VKERR_INVALID_FILENAME:
 		wszError = TranslateT("Invalid filename");
+		bRetry = true;
 		break;
 	case VKERR_INVALID_FILESIZE:
 		wszError = TranslateT("Invalid filesize");
@@ -241,8 +255,15 @@ void CVkProto::SendFileFailed(CVkFileUploadParam *fup, int ErrorCode)
 	default:
 		wszError = TranslateT("Unknown error occurred");
 	}
+	
+	debugLogW(L"CVkProto::SendFileFiled error code = %d (%s) Retry = %d", ErrorCode, wszError.c_str(), MAX_RETRIES - fup->iRetry + 1);
+	
+	if (bRetry && (--fup->iRetry)) {
+		SendFile(fup);
+		return;
+	}
+
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ErrorCode == VKERR_AUDIO_DEL_COPYRIGHT ? ACKRESULT_DENIED : ACKRESULT_FAILED, (HANDLE)fup);
-	debugLogW(L"CVkProto::SendFileFiled error code = %d (%s)", ErrorCode, wszError.c_str());
 	MsgPopup(wszError, TranslateT("File upload error"), true);
 	delete fup;
 }
@@ -289,9 +310,8 @@ void CVkProto::OnReciveUploadServer(MHttpResponse *reply, AsyncHttpRequest *pReq
 		SendFileFailed(fup, VKERR_ERR_READ_FILE);
 		return;
 	}
-	fseek(pFile, 0, SEEK_SET);
 
-	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)fup);
+	fseek(pFile, 0, SEEK_SET);
 
 	AsyncHttpRequest *pUploadReq = new AsyncHttpRequest(this, REQUEST_POST, uri, false, &CVkProto::OnReciveUpload);
 	pUploadReq->m_bApiReq = false;
@@ -378,12 +398,11 @@ void CVkProto::OnReciveUpload(MHttpResponse *reply, AsyncHttpRequest *pReq)
 	AsyncHttpRequest *pUploadReq;
 
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)fup);
-	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)fup);
 
 	switch (fup->GetType()) {
 	case CVkFileUploadParam::typeImg:
 		upload = jnRoot["photo"].as_mstring();
-		if (upload == L"[]") {
+		if (upload == L"[]" || upload.IsEmpty()) {
 			SendFileFailed(fup, VKERR_INVALID_PARAMETERS);
 			return;
 		}
@@ -392,7 +411,7 @@ void CVkProto::OnReciveUpload(MHttpResponse *reply, AsyncHttpRequest *pReq)
 		break;
 	case CVkFileUploadParam::typeAudio:
 		upload = jnRoot["audio"].as_mstring();
-		if (upload == L"[]") {
+		if (upload == L"[]" || upload.IsEmpty()) {
 			SendFileFailed(fup, VKERR_INVALID_PARAMETERS);
 			return;
 		}
@@ -479,6 +498,8 @@ void CVkProto::OnReciveUploadFile(MHttpResponse *reply, AsyncHttpRequest *pReq)
 		SendFileFailed(fup, VKERR_FTYPE_NOT_SUPPORTED);
 		return;
 	}
+
+	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)fup);
 
 	AsyncHttpRequest *pMsgReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh);
 

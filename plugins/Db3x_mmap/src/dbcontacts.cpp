@@ -36,9 +36,6 @@ STDMETHODIMP_(int) CDb3Mmap::GetContactSize(void)
 
 STDMETHODIMP_(int) CDb3Mmap::DeleteContact(MCONTACT contactID)
 {
-	if (contactID == 0) // global contact cannot be removed
-		return 1;
-
 	mir_cslockfull lck(m_csDbAccess);
 	uint32_t ofsContact = GetContactOffset(contactID);
 
@@ -50,15 +47,6 @@ STDMETHODIMP_(int) CDb3Mmap::DeleteContact(MCONTACT contactID)
 		log0("FATAL: del of user chain attempted.");
 		return 1;
 	}
-
-	lck.unlock();
-	log0("del contact");
-
-	// call notifier while outside mutex
-	NotifyEventHooks(g_hevContactDeleted, contactID, 0);
-
-	// get back in
-	lck.lock();
 
 	// delete settings chain
 	uint32_t ofsThis = dbc->ofsFirstSettings;
@@ -135,8 +123,6 @@ STDMETHODIMP_(MCONTACT) CDb3Mmap::AddContact()
 
 	DBCachedContact *cc = m_cache->AddContactToCache(dbc.dwContactID);
 	cc->dwOfsContact = ofsNew;
-
-	NotifyEventHooks(g_hevContactAdded, dbc.dwContactID, 0);
 	return dbc.dwContactID;
 }
 

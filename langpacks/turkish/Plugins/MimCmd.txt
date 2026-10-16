@@ -1,0 +1,29 @@
+#muuid {7efa77d0-5ca2-485e-a045-609b988f3718}
+;============================================================
+;  File: MimCmd.exe
+;  Plugin: MimCmd
+;  Version: 0.1.0.1
+;  Authors: Cristian Libotean
+;============================================================
+[This will tell Miranda to run the specified command.]
+Bu, Miranda’ya belirtilen komutu çalıştırmasını söyleyecektir.
+;file \plugins\MimCmd\src\commands.cpp
+[No help for '%s'.]
+'%s' için yardım yok.
+[Available commands: ]
+Kullanılabilir komutlar: 
+[Miranda has been closed or an error has occurred while waiting for the result, could not process request.]
+Miranda kapatıldı ya da sonucu beklerken bir hata oluştu; istek işleme alınamadı.
+;file \plugins\MimCmd\src\MimCmd.cpp
+[%s usage:\n]
+%s kullanımı:\n
+[%s <command> [<param> [<param> [...]]].\n]
+%s <komut> [<param> [<param> [...]]].\n
+[This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n]
+Bu komut, Miranda’ya belirtilen komutu çalıştırmasını söyler. Komutlar sıfır, bir veya daha fazla parametre içerebilir. Olası komutların listesini görmek için '%s help' komutunu kullanın.\n
+[No command can have more than %d parameters.\n]
+Hiçbir komut %d'den fazla parametreye sahip olamaz.\n
+[%s version %s]
+%s sürümü %s
+[Unknown command '%s'.\n]
+'%s' komutu bilinmiyor.\n

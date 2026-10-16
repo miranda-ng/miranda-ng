@@ -1,0 +1,352 @@
+#muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
+;============================================================
+;  File: Webview.dll
+;  Plugin: Webview
+;  Version: 0.1.3.3
+;  Authors: Vincent Joyce
+;============================================================
+[Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
+Web sayfalarını kişi listenize kişi olarak ekler ve bu sayfalardaki metinleri görüntüleyebilir ve/veya bir pencerede bu sayfalara ilişkin değişiklik uyarıları verebilir.
+;file \protocols\WebView\res\webview.rc
+[Webview]
+Web Görünümü
+[Update data every]
+Verileri her
+[minutes]
+dakika
+[Delay update on start]
+Başlangıçta güncellemeyi geciktir
+[seconds]
+saniye
+[Hide icon on status bar]
+Durum çubuğundaki simgeyi gizle
+[Load page on window open]
+Pencere açıldığında sayfayı yükle
+[Update data on startup]
+Başlangıçta verileri güncelle
+[Only update window on alert]
+Yalnızca uyarı sırasında pencereyi güncelle
+[Window appearance]
+Pencerenin görünümü
+[Background color:]
+Arka plan rengi:
+[Text color:]
+Metin rengi:
+[Bold]
+Kalın
+[Italic]
+İtalik
+[Underline]
+Altı çizili
+[Save individual window positions]
+Tek tek pencere konumlarını kaydet
+[Error messages]
+Hata mesajları
+[Suppress error messages]
+Hata mesajlarını gizle
+[Display using popup or OSD plugin]
+Açılır pencere veya OSD eklentisi kullanarak görüntüleme
+[Expert options]
+Uzman seçenekleri
+[Disable download protection]
+İndirme korumasını devre dışı bırak
+[(not recommended)]
+(tavsiye edilmez)
+[Display data in popup on alert]
+Uyarı durumunda verileri açılır pencerede göster
+[Display data in popup]
+Verileri açılır pencerede göster
+[You may need to restart Miranda NG for this change to take effect.]
+Bu değişikliğin yürürlüğe girmesi için Miranda NG'yi yeniden başlatmanız gerekebilir.
+[Contact name:]
+İrtibat kişisi:
+[URL:]
+URL:
+[Display]
+Ekran
+[Between start and end strings]
+Başlangıç ve bitiş dizeleri arasında
+[Whole web page]
+Web sayfasının tamamı
+[Start:]
+Başlangıç:
+[End:]
+Son:
+[Copy strings to alerts]
+Dizeleri uyarı mesajlarına kopyala
+[Double click action]
+Çift tıklama eylemi
+[Opens web page]
+Web sayfasını açar
+[Opens data window]
+Veri penceresini açar
+[Display clean-up]
+Ekran temizliği
+[Remove HTML]
+HTML'yi kaldır
+[Cancel]
+İptal et
+[Apply]
+Başvur
+[Find]
+Bul
+[&Find next]
+&Sonrakini bul
+[Find what:]
+Şunu bulun:
+[Search was completed.]
+Arama tamamlandı.
+[Events and alerts]
+Olaylar ve uyarılar
+[Enable alerts]
+Uyarıları etkinleştir
+[Always log to file]
+Her zaman dosyaya günlüğe kaydet
+[Add time and date of alert to contact name]
+İletişim adının yanına uyarı tarihini ve saatini ekle
+[Use 24 hour time format instead of 12 hour]
+12 saatlik saat biçimi yerine 24 saatlik saat biçimini kullanın
+[Add as prefix]
+Önek olarak ekle
+[Add as suffix]
+Son ek olarak ekle
+[Alert when:]
+Aşağıdaki durumlarda uyarı ver:
+[Alert type:]
+Uyarı türü:
+[Test conditions]
+Test koşulları
+[Alert when string is present on web page]
+Web sayfasında bir dize bulunduğunda uyarı ver
+[String:]
+Dize:
+[Alert when specific area of web page changes]
+Web sayfasının belirli bir bölümü değiştiğinde uyarı ver
+[Log to file]
+Dosyaya kaydet
+[Log file:]
+Günlük dosyası:
+[Append data to file]
+Dosyaya veri ekleme
+[Save as raw data]
+Ham veri olarak kaydet
+[Popup timeout]
+Açılır pencere zaman aşımı
+[Timeout]
+Zaman aşımı
+[Default]
+Varsayılan
+[Permanent]
+Kalıcı
+[Preview]
+Önizleme
+[Colors]
+Renkler
+[Use custom colors]
+Özel renkler kullanın
+[Use Windows colors]
+Windows renklerini kullan
+[Use same colors as data window]
+Veri penceresiyle aynı renkleri kullanın
+[Background]
+Arka Plan
+[Text]
+Metin
+[Left click action]
+Sol tıklama eylemi
+[Open data display window]
+Açık veri görüntüleme penceresi
+[Open web page]
+Web sayfasını aç
+[Dismiss popup]
+Açılır pencereyi kapat
+[Right click action]
+Sağ tıklama eylemi
+[Log]
+Günlük
+[&Copy]
+&Kopyala
+[C&ut]
+C&ut
+[&Delete]
+&Sil
+[&Paste]
+&Yapıştır
+[Co&py all]
+Tümünü kopyala
+[&Select all]
+&Tümünü seç
+[C&lear all]
+Tümünü temizle
+;file \protocols\WebView\src\main.cpp
+[Alert event]
+Uyarı olayı
+[Auto update disabled]
+Otomatik güncelleme devre dışı bırakıldı
+[Auto update enabled]
+Otomatik güncelleme etkinleştirildi
+[Update all Webview sites]
+Tüm WebView sitelerini güncelle
+[Mark all Webview sites as read]
+Tüm Webview sitelerini okundu olarak işaretle
+[Open cache folder]
+Önbellek klasörünü aç
+[%d minutes to update]
+Güncelleme için %d dakika kaldı
+[Open/Close window]
+Pencereyi aç/kapat
+[Update data]
+Verileri güncelle
+[Contact options]
+İletişim seçenekleri
+[Contact alert options]
+İletişim uyarı seçenekleri
+[Ping web site]
+Ping web sitesi
+[Stop data processing]
+Veri işlemeyi durdurun
+;file \protocols\WebView\src\webview.cpp
+[All Webview sites have been updated.]
+Tüm Webview siteleri güncellenmiştir.
+;file \protocols\WebView\src\webview_alerts.cpp
+[Cannot write to file]
+Dosyaya yazamıyor
+[Last updated on]
+Son güncelleme tarihi:
+[Start/end strings not found or strings not set.]
+Başlangıç/bitiş dizeleri bulunamadı veya dizeler ayarlanmamış.
+[Alert start/end strings not found or strings not set.]
+Uyarı başlangıç/bitiş dizeleri bulunamadı veya dizeler ayarlanmadı.
+[The string]
+Dize
+[has been found on the web page]
+web sayfasında bulunmuştur
+[Download successful; about to process data...]
+İndirme işlemi başarıyla tamamlandı; veriler işlenmek üzere...
+[Unknown alert type.]
+Bilinmeyen uyarı türü.
+[Cannot read from file]
+Dosyadan okunamıyor
+[Cannot write to file 1]
+1 numaralı dosyaya yazılmıyor
+[The web page has changed.]
+Web sayfası değişti.
+[Cannot write to file 2]
+2 numaralı dosyaya yazamıyor
+[Specific part of the web page has changed.]
+Web sayfasının belirli bir bölümü değiştirilmiştir.
+[Cannot read from cache file]
+Önbellek dosyasından okunamıyor
+[Loaded from cache]
+Önbellekten yüklendi
+;file \protocols\WebView\src\webview_datawnd.cpp
+[ERROR: You have two or more Webview contacts with the same URL and contact name.]
+HATA: Aynı URL’ye ve kişi adına sahip iki veya daha fazla Webview kişiniz var.
+[Alert options]
+Uyarı seçenekleri
+[Stop processing]
+İşlemi durdur
+[Click here to open this URL in a browser window.]
+Bu URL’yi bir tarayıcı penceresinde açmak için buraya tıklayın.
+[Stick to the front]
+Önde kalın
+[Disable stick to the front]
+"Öne yapış" özelliğini devre dışı bırak
+;file \protocols\WebView\src\webview_getdata.cpp
+[URL not supplied]
+URL belirtilmemiştir
+[Download in progress, please wait...]
+İndirme işlemi devam ediyor, lütfen bekleyin...
+[Updating...]
+Güncelleniyor...
+[The server replied with a failure code]
+Sunucu bir hata kodu ile yanıt verdi
+[The server is down or lagging.]
+Sunucu kapalı ya da gecikme yaşıyor.
+[Invalid search parameters.]
+Geçersiz arama parametreleri.
+[Both search strings not found or strings not set.]
+Her iki arama dizesi de bulunamadı ya da dizeler belirlenmemiş.
+[at the time]
+o sırada
+[Processing data (Stage 1)]
+Verilerin işlenmesi (1. Aşama)
+[Processing data stopped by user.]
+Kullanıcı tarafından veri işleme durduruldu.
+[Processing data (Stage 2)]
+Verilerin işlenmesi (2. Aşama)
+[Processing data (Stage 3)]
+Verilerin işlenmesi (3. Aşama)
+[Processing data (Stage 4)]
+Verilerin işlenmesi (4. Aşama)
+[Processing data (Stage 5)]
+Verilerin işlenmesi (5. Aşama)
+[Processing data (Stage 6)]
+Verilerin işlenmesi (6. Aşama)
+[Processing data (Stage 7)]
+Verilerin işlenmesi (7. Aşama)
+[Processing data (Stage 8)]
+Verilerin işlenmesi (8. Aşama)
+[Alert!]
+Uyarı!
+[Online]
+Çevrimiçi
+[A site is already downloading, try again in a moment.]
+Bir sayfa halihazırda indiriliyor; bir süre sonra tekrar deneyin.
+[Bytes in display]
+Ekrandaki bayt sayısı
+[Bytes downloaded]
+İndirilen bayt sayısı
+[Alert test conditions not met; press the refresh button to view content.]
+Uyarı: Test koşulları karşılanmadı; içeriği görüntülemek için yenileme düğmesine basın.
+;file \protocols\WebView\src\webview_opts.cpp
+[This is a preview popup.]
+Bu bir önizleme açılır penceresidir.
+[Network]
+Ağ
+[Popups]
+Açılır pencereler
+;file \protocols\WebView\src\webview_services.cpp
+[Invalid symbol present in contact name.]
+Kontak adında geçersiz bir sembol bulunmaktadır.
+[Cache folder does not exist.]
+Önbellek klasörü mevcut değil.
+[Missing "psite.bat" file.]
+"psite.bat" dosyası eksik.
+[Site URL]
+Site URL'si
+[Please select site in Find/Add contacts...]
+Lütfen “Kişileri Bul/Ekle...” bölümünden bir site seçin...
+;file \protocols\WebView\src\webview_ui.cpp
+[No whitespace removal]
+Boşluklar kaldırılmıyor
+[Minimal level of whitespace removal]
+Boşlukların en az düzeyde kaldırılması
+[Medium level of whitespace removal]
+Orta düzeyde boşluk giderme
+[Large level of whitespace removal]
+Yüksek düzeyde boşluk kaldırma
+[Remove all whitespace]
+Tüm boşlukları kaldır
+[Popup plugin]
+Açılır pencere eklentisi
+[Use OSD plugin]
+OSD eklentisini kullanın
+[A string is present]
+Bir dize mevcut
+[The web page changes]
+Web sayfasında değişiklikler
+[A specific part of web page changes]
+Web sayfasının belirli bir bölümü değişiyor
+[You need to supply a search string.]
+Bir arama dizesi girmeniz gerekiyor.
+[You need to supply a start string.]
+Bir başlangıç dizesi girmeniz gerekiyor.
+[You need to supply an end string.]
+Bir son dize girmeniz gerekiyor.
+[You need to supply a file name and path.]
+Bir dosya adı ve yolu belirtmeniz gerekir.
+[You need to supply a URL.]
+Bir URL girmeniz gerekiyor.
+[You need to supply a name for the contact.]
+Kişi için bir isim girmeniz gerekiyor.

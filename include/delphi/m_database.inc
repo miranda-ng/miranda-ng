@@ -218,7 +218,7 @@ function db_set_resident(const szModule:PAnsiChar; const szSetting:PAnsiChar; bE
 
 ///////////////////////////////////////////////////////////////////////////////
 
-function db_add_contact() : TMCONTACT; stdcall; external CoreDLL;
+function db_add_contact(const szModule:PAnsiChar) : TMCONTACT; stdcall; external CoreDLL;
 
 function db_is_contact(hContact:TMCONTACT) : int; stdcall; external CoreDLL;
 

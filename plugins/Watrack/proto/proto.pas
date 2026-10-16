@@ -280,19 +280,6 @@ begin
     AddEvent(hContact,EVENTTYPE_WAT_REQUEST,DBEF_SENT,nil,0);
 end;
 
-procedure RegisterContacts;
-var
-  hContact:TMCONTACT;
-begin
-  hContact:=db_find_first();
-  while hContact<>0 do
-  begin
-    if not IsChat(hContact) then
-      Proto_AddToContact(hContact,PluginShort);
-    hContact:=db_find_next(hContact);
-  end;
-end;
-
 function OnContactMenu(hContact:WPARAM;lParam:LPARAM):int;cdecl;
 begin
   if IsMirandaUser(hContact)<=0 then
@@ -358,7 +345,6 @@ begin
   hContactMenuItem := Menu_AddContactMenuItem(@mi);
 
   SetProtocol;
-  RegisterContacts;
   hGCI:=CreateServiceFunction(MS_WAT_GETCONTACTINFO,@SendRequest);
   HookEvent(ME_CLIST_PREBUILDCONTACTMENU,@OnContactMenu);
 end;

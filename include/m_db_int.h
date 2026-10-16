@@ -377,9 +377,7 @@ struct DATABASELINK
 /////////////////////////////////////////////////////////////////////////////////////////
 // global database event handles
 
-EXTERN_C MIR_APP_EXPORT HANDLE
-	g_hevContactDeleted,   // ME_DB_CONTACT_DELETED
-	g_hevContactAdded,     // ME_DB_CONTACT_ADDED
+EXTERN_C MIR_CORE_EXPORT HANDLE
 	g_hevSettingChanged,   // ME_DB_CONTACT_SETTINGCHANGED
 	g_hevMarkedRead,       // ME_DB_EVENT_MARKED_READ
 	g_hevEventAdded,       // ME_DB_EVENT_ADDED

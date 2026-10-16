@@ -44,6 +44,7 @@ struct CVkFileUploadParam : public MZeroedObject {
 	char *szFname;
 	MCONTACT hContact;
 	VKFileType vkFileType;
+	int iRetry;
 
 	CVkFileUploadParam(MCONTACT _hContact, const wchar_t *_desc, wchar_t **_files);
 	~CVkFileUploadParam();

@@ -1,0 +1,664 @@
+#muuid {32579908-724b-467f-adad-22b6359a749a}
+;============================================================
+;  File: VKontakte.dll
+;  Plugin: VKontakte protocol
+;  Version: 0.1.19.8
+;  Authors: Miranda NG team
+;============================================================
+[VKontakte protocol support for Miranda NG.]
+Miranda NG için VKontakte protokol desteği.
+;file \protocols\VKontakte\res\resource.rc
+[Show in protocol menu]
+Protokol menüsünde göster
+[Create new chat]
+Yeni sohbet oluştur
+[Status message]
+Durum mesajı
+[Send message to my wall]
+Duvarıma mesaj gönder
+[Load news from VK]
+VK'dan haberleri yükle
+[Load history for all contacts from VK]
+VK’daki tüm kişilerin yükleme geçmişi
+[Wipe contacts missing in friend list]
+Arkadaş listesinde eksik olan kişileri sil
+[Visit profile]
+Profili ziyaret et
+[Support BBCode for NewStory]
+NewStory için BBCode desteği
+[[img] BBCode support for image]
+[img] Resim için BBCode desteği
+[off]
+kapalı
+[for preview max height 320 px]
+önizleme için maksimum yükseklik 320 px
+[for original size images]
+orijinal boyutlu resimler için
+[for preview max 130*130 px]
+önizleme için en fazla 130×130 piksel
+[for preview max 604*604 px]
+önizleme için en fazla 604×604 piksel
+[BBCode support on news and event notifications]
+Haber ve etkinlik bildirimlerinde BBCode desteği
+[basic ([b], [i], [u], [s])]
+temel ([b], [i], [u], [s])
+[advanced (+[url], [size], [color], [code])]
+gelişmiş (+[url], [boyut], [renk], [kod])
+[Use this setting also for attachments on news and notifications]
+Bu ayarı haberler ve bildirimlerdeki ekler için de kullanın
+[BBCode support on attachments]
+Eklerde BBCode desteği
+[Other]
+Diğer
+[Process stickers as smileys]
+Etiketleri gülen yüzler olarak işleme
+[Shorten links for audio attachments]
+Ses ekleri için bağlantıları kısaltın
+[Use non-standard popups for news and event notifications]
+Haber ve etkinlik bildirimleri için standart dışı açılır pencereler kullanın
+[Add original message version in edited message]
+Düzenlenen mesaja orijinal mesajın bir kopyasını ekle
+[News and event notifications]
+Haberler ve etkinlik bildirimleri
+[WARNING: Causes excessive network traffic!!!]
+UYARI: Aşırı ağ trafiğine neden olur!!!
+[Enable news feeds]
+Haber akışlarını etkinleştir
+[Interval for news updates (min):]
+Haber güncellemeleri aralığı (dakika):
+[Enable event notifications]
+Olay bildirimlerini etkinleştir
+[Interval for notification updates (min):]
+Bildirim güncellemeleri aralığı (dk):
+[Mark notification as viewed on receive]
+Bildirimi alındığında “görüldü” olarak işaretle
+[Special contact always enabled]
+Özel iletişim her zaman etkindir
+[Autoclear news and notification history]
+Haber ve bildirim geçmişini otomatik olarak temizle
+[News types]
+Haber türleri
+[Wall posts]
+Duvar gönderileri
+[Photos]
+Fotoğraflar
+[Photos tags]
+Fotoğraf etiketleri
+[Wall photos]
+Duvar fotoğrafları
+[News sources]
+Haber kaynakları
+[Friends]
+Arkadaşlar
+[Groups]
+Gruplar
+[Include banned sources]
+Yasaklanmış kaynakları dahil et
+[Pages]
+Sayfalar
+[Subscriptions to users]
+Kullanıcılara yönelik abonelikler
+[No reposts]
+Yeniden paylaşımlara izin verilmez
+[Notifications types]
+Bildirim türleri
+[Comments]
+Yorumlar
+[Likes]
+Beğeniler
+[Invites]
+Davetiyeler
+[Reposts]
+Yeniden paylaşımlar
+[Mentions in comments]
+Yorumlarda geçen adlar
+[Accepted friend requests]
+Kabul edilen arkadaşlık istekleri
+[Open VKontakte site]
+VKontakte sitesini aç
+[Token Request]
+Jeton Talebi
+[Advanced]
+İleri Düzey
+[Do not open chat windows on creation]
+Oluşturulduğunda sohbet pencerelerini açmayın
+[Sync read message status from server]
+Sunucudan okunmuş mesaj durumunu senkronize et
+[Always notify as unread for all incoming message]
+Gelen tüm mesajlar için her zaman “okunmamış” olarak işaretle
+[Force invisible status upon user activity]
+Kullanıcı etkinliği durumunda görünmez durumunu zorla
+[Invisible interval timeout (min):]
+Görünmez aralık zaman aşımı (dk):
+[Send VK-objects links as attachments]
+VK nesnelerinin bağlantılarını ek olarak gönder
+[and load sent attachments]
+ve gönderilen ekleri yükle
+[Notify about changes of contacts audio broadcast]
+Kişilerde yapılan değişiklikler hakkında sesli duyuru
+[When I ban user...]
+Bir kullanıcıyı engellediğimde...
+[Report abuse]
+Kötüye kullanımı bildir
+[Clear server history]
+Sunucu geçmişini temizle
+[Remove from friend list]
+Arkadaş listesinden çıkar
+[Remove from contact list]
+Kişi listesinden sil
+[Broadcast music...]
+Yayın müziği...
+[as regular status for unknown music and audio status otherwise]
+bilinmeyen müzikler için “normal” durum, diğer durumlarda ise “ses” durumu
+[as audio status only]
+yalnızca ses durumu olarak
+[as regular status only]
+yalnızca normal statü olarak
+[Local settings]
+Yerel ayarlar
+[Contact list group:]
+Kişi listesi grubu:
+[Language for names and titles:]
+İsimler ve unvanlar için dil:
+[Mark message as read:]
+Mesajı okundu olarak işaretle:
+[Sync history on protocol online:]
+Protokol üzerinden çevrimiçi senkronizasyon geçmişi:
+[Load last messages when message window open and local history is empty]
+Mesaj penceresi açıldığında ve yerel geçmiş boş olduğunda son mesajları yükle
+[Use local time for received messages]
+Alınan mesajlar için yerel saati kullanın
+[Load only friends to local contact list]
+Yalnızca arkadaşları yerel kişi listesine yükle
+[Bots challenge test]
+Botlara yönelik zorlu test
+[Instruction:]
+Talimat:
+[Submit]
+Gönder
+[Cancel]
+İptal et
+[Open in browser]
+Tarayıcıda aç
+[Invite user to chat]
+Kullanıcıyı sohbete davet et
+[Choose one of your contacts to be invited:]
+Davet edilecek kişilerden birini seçin:
+[Share]
+Paylaş
+[URL:]
+URL:
+[Only for friends]
+Sadece arkadaşlar için
+[Mark contacts for forwarding messages]
+Mesajları iletmek için kişileri işaretleyin
+[Mark contacts you want to forward messages]
+Mesajları iletmek istediğiniz kişileri işaretleyin
+[Enter accompanying message]
+Ekteki mesajı girin
+;file \protocols\VKontakte\src\misc.cpp
+[Notification icon]
+Bildirim simgesi
+[Read message icon]
+Mesajı oku simgesi
+[Visit profile icon]
+Profil simgesini ziyaret et
+[Load server history icon]
+Sunucu geçmişini yükle simgesi
+[Add to friend list icon]
+Arkadaş listesine ekle simgesi
+[Delete from friend list icon]
+Arkadaş listesinden sil simgesi
+[Report abuse icon]
+Kötüye kullanım bildir simgesi
+[Ban user icon]
+Kullanıcı simgesini yasakla
+[Broadcast icon]
+Yayın simgesi
+[Status icon]
+Durum simgesi
+[Wall message icon]
+Duvar mesajı simgesi
+[Mark messages as read icon]
+Mesajları okundu olarak işaretle simgesi
+[Forward icon]
+İleri simgesi
+[Reload messages icon]
+Mesajları yeniden yükle simgesi
+[Protocols]
+Protokol
+[VKontakte]
+VKontakte
+[Access denied! Data will not be sent or received.]
+Erişim reddedildi! Veriler ne gönderilecek ne de alınacaktır.
+[Error]
+Hata
+[Error %d. Data will not be sent or received.]
+%d hatası. Veriler gönderilmeyecek veya alınmayacaktır.
+[Captcha processing error.]
+Captcha işleme hatası.
+[You have to validate your account before you can use VK in Miranda NG]
+Miranda NG'de VK'yi kullanabilmek için önce hesabınızı doğrulamanız gerekir
+[One of the parameters specified was missing or invalid]
+Belirtilen parametrelerden biri eksik veya geçersizdi
+[Access to adding post denied]
+Gönderi ekleme izni reddedildi
+[Can't send messages for users from blacklist]
+Kara listede yer alan kullanıcılara mesaj gönderilemez
+[Can't send messages for users without dialogs]
+Diyalog penceresi olmayan kullanıcılara mesaj gönderilemez
+[Can't send messages to this user due to their privacy settings]
+Bu kullanıcının gizlilik ayarları nedeniyle ona mesaj gönderilemiyor
+[Message is too long]
+Mesaj çok uzun
+[Enter new nickname]
+Yeni takma ad girin
+[Message read: %s]
+Okunan mesaj: %s
+[has invited you to a group]
+sizi bir gruba davet etti
+[has invited you to subscribe to a page]
+sizi bir sayfaya abone olmaya davet etti
+[invites you to event]
+sizi etkinliğe davet ediyor
+[commented on your post]
+gönderine yorum yaptı
+[commented on your photo]
+fotoğrafına yorum yaptı
+[commented on your video]
+videona yorum yaptı
+[replied to your comment]
+yorumunuza yanıt verdim
+[replied to your comment to photo]
+fotoğrafa yaptığınız yoruma yanıt verdim
+[replied to your comment to video]
+videoya yaptığınız yoruma yanıt verdim
+[replied to your topic]
+konunuza yanıt verdim
+[liked your post]
+gönderini beğendim
+[liked your comment]
+Yorumunu beğendim
+[liked your photo]
+fotoğrafını beğendim
+[liked your video]
+videonu beğendim
+[liked your comment to photo]
+Fotoğrafa yaptığın yorumu beğendim
+[liked your comment to video]
+videoya yaptığın yorumu beğendim
+[liked your comment to topic]
+konuya yaptığın yorumu beğendim
+[shared your post]
+gönderini paylaştın
+[shared your photo]
+fotoğrafını paylaştın
+[shared your video]
+videonu paylaştın
+[Photo]
+Fotoğraf
+[Video]
+Video
+[Attachments:]
+Ekler:
+[Audio]
+Ses
+[Audio message]
+Sesli mesaj
+[Transcription]
+Transkripsiyon
+[Graffiti]
+Grafiti
+[Link]
+Bağlantı
+[Document]
+Belge
+[Wall post]
+Duvar paylaşımı
+[(Unknown contact)]
+(Bilinmeyen kişi)
+[Wall reply]
+Duvar yanıtı
+[from]
+kaynak:
+[Story]
+Hikaye
+[Sticker]
+Etiket
+[Product]
+Ürün
+[Price]
+Fiyat
+[Gift]
+Hediye
+[Unsupported or unknown attachment type: %s]
+Desteklenmeyen veya bilinmeyen ek türü: %s
+[Text]
+Metin
+[Message from]
+Mesaj gönderen
+[at]
+'de
+[User restored control over own page]
+Kullanıcı, kendi sayfası üzerindeki kontrolünü geri kazandı
+[User was deactivated (deleted)]
+Kullanıcının hesabı devre dışı bırakıldı (silindi)
+[User was deactivated (banned)]
+Kullanıcının hesabı devre dışı bırakıldı (engellendi)
+;file \protocols\VKontakte\src\vk_chats.cpp
+[Participants]
+Katılımcılar
+[Owners]
+Sahipler
+[Adding bots, MUC or groups to MUC is not supported]
+Botları, MUC’leri veya grupları MUC’e eklemek desteklenmemektedir
+[Not supported]
+Desteklenmiyor
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Bu sohbet, içindeki tüm içeriklerle birlikte kalıcı olarak silinecek. Bu işlem geri alınamaz. Emin misiniz?
+[Warning]
+Uyarı
+[%x at %X]
+%x, %X'te
+[Edited message (updated %s):\n]
+Düzenlenmiş mesaj (%s güncellendi):\n
+[\nOriginal message:\n]
+\nOrijinal mesaj:\n
+[create chat]
+sohbet oluştur
+[kick user]
+kullanıcıyı atmak
+[left chat]
+sohbetten çıktı
+[invite user]
+kullanıcıyı davet et
+[returned to chat]
+sohbete geri döndü
+[change chat title to]
+sohbet başlığını şuna değiştir:
+[pin message]
+mesajı sabitle
+[unpin message]
+mesajı sabitlemeden kaldır
+[changed chat cover:]
+sohbet arka planı değiştirildi:
+[deleted chat cover]
+silinmiş sohbet kapağı
+[chat action not supported]
+sohbet işlevi desteklenmiyor
+[Unknown]
+Bilinmiyor
+[Enter new chat title]
+Yeni sohbet başlığı girin
+[You've been kicked by ]
+Şu kişi tarafından atıldın: 
+[Chat]
+Sohbet
+[Kick bots is not supported]
+Kick botları desteklenmemektedir
+[&Invite a user]
+&Bir kullanıcıyı davet et
+[View/change &topic]
+&topic'i görüntüle/değiştir
+[&Destroy room]
+&Odayı yok et
+[&User details]
+&Kullanıcı bilgileri
+[Change nick]
+Takma adı değiştir
+[&Kick]
+&Kick
+[%s is typing a message...]
+%s bir mesaj yazıyor...
+[Create group chat]
+Grup sohbeti oluştur
+[Mark users you want to invite to a new chat]
+Yeni bir sohbete davet etmek istediğiniz kullanıcıları işaretleyin
+[New chat's title:]
+Yeni sohbetin başlığı:
+;file \protocols\VKontakte\src\vk_dialogs.cpp
+[Enter the text you see]
+Gördüğünüz metni girin
+[Logon for ]
+Şu hesapla oturum aç: 
+[To log into the VKontakte protocol, you need to authorize in the browser and copy the received address from its address bar into the field below.\nDo not change anything when copying!\nYou will have to ignore the anti-copy message that you will see in your browser. Unfortunately, Miranda NG cannot authorize you in any other way right now.]
+VKontakte protokolüne giriş yapmak için tarayıcıda oturum açmanız ve adres çubuğunda görünen adresi aşağıdaki alana kopyalamanız gerekir.\nKopyalarken hiçbir şeyi değiştirmeyin!\nTarayıcınızda göreceğiniz kopyalamayı engelleyen uyarıyı göz ardı etmeniz gerekecektir. Maalesef, Miranda NG şu anda başka bir şekilde oturum açmanıza izin verememektedir.
+[Wall message for %s]
+%s için duvar mesajı
+;file \protocols\VKontakte\src\vk_feed.cpp
+[New news]
+Yeni haberler
+[New notifications]
+Yeni bildirimler
+[User was tagged in these photos:]
+Kullanıcı şu fotoğraflarda etiketlenmiştir:
+[(photos)]
+(fotoğraflar)
+[(attachments)]
+(ekler)
+[News from %s\n%s]
+%s'den haberler\n%s
+[News from %s]
+%s'den haberler
+[\tRepost from %s\n%s]
+\t%s'den yeniden paylaşım\n%s
+[Repost from %s]
+%s'den yeniden paylaşım
+[Video description:]
+Video açıklaması:
+[Post text:]
+Gönderi metni:
+[Topic text:]
+Konu metni:
+;file \protocols\VKontakte\src\vk_files.cpp
+[Protocol is offline]
+Protokol çevrimdışı
+[File does not exist]
+Dosya mevcut değil
+[File type not supported]
+Dosya türü desteklenmiyor
+[Error open file]
+Dosya açılırken hata oluştu
+[Error read file]
+Dosya okunurken hata oluştu
+[File upload error]
+Dosya yükleme hatası
+[Upload server returned empty URL]
+Yükleme sunucusu boş bir URL döndürdü
+[Invalid or unknown recipient user ID]
+Geçersiz veya bilinmeyen alıcı kullanıcı kimliği
+[Couldn't save file]
+Dosya kaydedilemedi
+[Invalid album id]
+Geçersiz albüm kimliği
+[Invalid server]
+Geçersiz sunucu
+[Invalid hash]
+Geçersiz hash
+[Invalid audio]
+Geçersiz ses
+[The audio file was removed by the copyright holder and cannot be reuploaded]
+Ses dosyası telif hakkı sahibi tarafından kaldırılmıştır ve yeniden yüklenemez
+[Invalid filename]
+Geçersiz dosya adı
+[Invalid filesize]
+Geçersiz dosya boyutu
+[Unknown error occurred]
+Bilinmeyen bir hata oluştu
+;file \protocols\VKontakte\src\vk_history.cpp
+[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
+vk.com'dan tüm mesajları yeniden yüklemeye emin misiniz?\nYerel iletişim geçmişi silinecek ve sunucudan yeniden yüklenecektir.\nBu işlem uzun sürebilir.\nDevam etmek istiyor musunuz?
+[Attention!]
+Dikkat!
+[Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nDo you want to continue?]
+vk.com'daki tüm kişiler için tüm mesajları yeniden yüklemek istediğinizden emin misiniz?\nYerel kişi geçmişi silinecek ve sunucudan yeniden yüklenecektir.\nBu işlem çok uzun sürebilir ve/veya Miranda veritabanında bozulmalara neden olabilir.\nDevam etmek istiyor musunuz?
+[Error loading message history from server.]
+Sunucudan mesaj geçmişi yüklenirken hata oluştu.
+[Loading messages for all contacts is completed.]
+Tüm kişiler için mesajların yüklenmesi tamamlandı.
+[Loading history]
+Geçmişi yüklüyor
+[Error loading message history for %s from server.]
+Sunucudan %s için mesaj geçmişi yüklenirken hata oluştu.
+;file \protocols\VKontakte\src\vk_messages.cpp
+[Me]
+Ben
+;file \protocols\VKontakte\src\vk_options.cpp
+[Network]
+Ağ
+[Account]
+Hesap
+[News and notifications]
+Haberler ve bildirimler
+[View]
+Görüntüle
+[Menu]
+Menü
+[Account language]
+Hesap dili
+[English]
+İngilizce
+[Russian]
+Rusça
+[Belarusian]
+Belaruslu
+[Ukrainian]
+Ukraynaca
+[Spanish]
+İspanyolca
+[Finnish]
+Fince
+[German]
+Almanca
+[Italian]
+İtalyanca
+[automatically]
+otomatik olarak
+[for last 1 day]
+son 1 gün boyunca
+[for last 3 days]
+son 3 gündür
+[on read]
+okunduğunda
+[on receive]
+alındığında
+[on reply]
+cevap olarak
+[on typing]
+yazarken
+[These changes will take effect after Miranda NG restart.\nWould you like to restart it now?]
+Bu değişiklikler, Miranda NG yeniden başlatıldıktan sonra yürürlüğe girecektir.\nŞimdi yeniden başlatmak ister misiniz?
+[VKontakte protocol]
+VKontakte protokolü
+;file \protocols\VKontakte\src\vk_pollserver.cpp
+[This message has been marked as spam in %s:\n]
+Bu mesaj %s'de spam olarak işaretlenmiştir:\n
+[This message has been deleted by sender in %s:\n]
+Bu mesaj, %s'de gönderen tarafından silinmiştir:\n
+;file \protocols\VKontakte\src\vk_proto.cpp
+[Newsfeed & notification event]
+Haber akışı ve bildirim olayı
+[Forward]
+İleri
+[Reload messages]
+Mesajları yeniden yükle
+[Go to site IM]
+Siteye git IM
+[Mark messages as read]
+Mesajları okundu olarak işaretle
+[Send message to user's wall]
+Kullanıcının duvarına mesaj gönder
+[Add as friend]
+Arkadaş olarak ekle
+[Delete from friend list]
+Arkadaş listesinden sil
+[Ban user]
+Kullanıcıyı engelle
+[Open broadcast]
+Canlı yayın
+[View/change topic]
+Konuyu görüntüle/değiştir
+[Invite a user]
+Bir kullanıcıyı davet et
+[Destroy room]
+Odayı yok et
+[Reload messages from vk.com...]
+vk.com'dan mesajları yeniden yükle...
+[for last week]
+geçen hafta için
+[for last 30 days]
+son 30 gün boyunca
+[for last 90 days]
+son 90 gün boyunca
+[for all time]
+sonsuza dek
+[Errors]
+Hatalar
+[Notifications]
+Bildirimler
+[VK user activate/deactivate action]
+VK kullanıcısının etkinleştirme/devre dışı bırakma işlemi
+[User %s added as friend]
+%s kullanıcısı arkadaş olarak eklendi
+[You cannot add yourself as friend]
+Kendinizi arkadaş olarak ekleyemezsiniz
+[Cannot add this user to friends as they have put you on their blacklist]
+Bu kullanıcı sizi kara listesine eklediği için onu arkadaş listenize ekleyemezsiniz
+[Cannot add this user to friends as you put him on blacklist]
+Bu kullanıcıyı kara listeye eklediğiniz için arkadaş listenize ekleyemezsiniz
+;file \protocols\VKontakte\src\vk_status.cpp
+[Loading status message from vk.com.\nThis may take some time.]
+vk.com'dan durum mesajı yükleniyor.\nBu işlem biraz zaman alabilir.
+[Waiting...]
+Bekleniyor...
+[Enter new status message]
+Yeni durum mesajı girin
+;file \protocols\VKontakte\src\vk_thread.cpp
+[%s is listening to]
+%s şu anda şunu dinliyor:
+[Interests]
+İlgi alanları
+[Activities]
+Etkinlikler
+[Music]
+Müzik
+[Movies]
+Filmler
+[TV]
+TV
+[Books]
+Kitaplar
+[Games]
+Oyunlar
+[Quotes]
+Alıntılar
+[Please authorize me to add you to my friend list.]
+Lütfen sizi arkadaş listeme eklemem için bana izin verin.
+[Are you sure to wipe local contacts missing in your friend list?]
+Arkadaş listenizde bulunmayan yerel kişileri silmek istediğinizden emin misiniz?
+[Are you sure to delete %s from your friend list?]
+%s'yi arkadaş listenizden silmek istediğinizden emin misiniz?
+[User %s was deleted from your friend list]
+%s adlı kullanıcı arkadaş listenizden silindi
+[Your request to the user %s was deleted]
+%s kullanıcısına yönelik isteğiniz silindi
+[Friend request from the user %s declined]
+%s kullanıcısından gelen arkadaşlık isteği reddedildi
+[Friend request suggestion for the user %s deleted]
+%s kullanıcısına yönelik arkadaşlık isteği önerisi silindi
+[User or request was not deleted]
+Kullanıcı veya istek silinmedi
+[ report abuse on him/her]
+ onu şikayet et
+[ clear server history with him/her]
+ onunla birlikte sunucu geçmişini temizlemek
+[ remove him/her from your friend list]
+ onu arkadaş listenizden çıkarın
+[ remove him/her from your contact list]
+ onu kişi listenizden silin
+[Are you sure to ban %s? %s%sContinue?]
+%s'yi engellemek istediğinizden emin misiniz? %s%sDevam etmek istiyor musunuz?
+[\nIt will also]
+\nAyrıca
+[Are you sure to report abuse on %s?]
+%s ile ilgili kötüye kullanım bildirmek istediğinizden emin misiniz?

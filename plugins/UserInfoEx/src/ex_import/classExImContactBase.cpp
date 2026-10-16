@@ -226,13 +226,8 @@ MCONTACT CExImContactBase::toDB()
 		}
 
 		// create new contact
-		_hContact = db_add_contact();
+		_hContact = db_add_contact(_pszProto);
 		if (!_hContact) {
-			return _hContact = INVALID_CONTACT_ID;
-		}
-		// Add the protocol to the new contact
-		if (Proto_AddToContact(_hContact, _pszProto)) {
-			db_delete_contact(_hContact);
 			return _hContact = INVALID_CONTACT_ID;
 		}
 		// write uid to protocol module

@@ -1,0 +1,66 @@
+#muuid {7993ab24-1fda-428c-a89b-be377a10be3a}
+;============================================================
+;  File: ShlExt.dll
+;  Plugin: Shell extension
+;  Version: 2.2.0.4
+;  Authors: Sam Kothari, Miranda NG team
+;============================================================
+[Windows Explorer extension for Miranda NG.]
+Miranda NG için Windows Gezgini eklentisi.
+;file \plugins\ShellExt\res\shldlgs.rc
+[Display contacts in their assigned groups (if any)]
+Kişileri, atanmış oldukları gruplar halinde (varsa) göster
+[Only if/when the contact list is using them]
+Yalnızca kişi listesi bunları kullanıyorsa
+[Display hidden, ignored or temporary contacts]
+Gizli, göz ardı edilen veya geçici kişileri göster
+[Menus]
+Menüler
+[Shell Status]
+Kabuk Durumu
+[Shell context menus]
+Shell bağlam menüleri
+[Do not display the profile name in use]
+Kullanımdaki profil adını gösterme
+[Show contacts that you have set privacy rules for]
+Gizlilik kuralları belirlediğiniz kişileri göster
+[Remove]
+Kaldır
+[Do not show status icons in menus]
+Menülerde durum simgelerini gösterme
+[Do not show contacts that are offline, even if my contact list does]
+Kişi listemde görünseler bile, çevrimdışı olan kişileri gösterme
+;file \plugins\ShellExt\src\options.cpp
+[Problem, registration missing/deleted.]
+Sorun: Kayıt eksik veya silinmiş.
+[Successfully created shell registration.]
+Kabuk kaydı başarıyla oluşturuldu.
+[Not Approved]
+Onaylanmadı
+[Approved]
+Onaylandı
+[Are you sure? This will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
+Emin misiniz? Bu işlem, veritabanınızda saklanan tüm ayarları ve shlext'in Explorer ile çalışabilmesi için oluşturulan tüm kayıt defteri girdilerini silecektir.
+[Disable/Remove shlext]
+shlext'i devre dışı bırak/kaldır
+[Services]
+Hizmetler
+;file \plugins\ShellExt\src\shlcom.cpp
+[Recently]
+Son zamanlarda
+[Clear entries]
+Girdileri temizle
+[Unable to delete registry key for 'shlext COM', this key may already be deleted or you may need admin rights.]
+'shlext COM' kayıt defteri anahtarı silinemiyor; bu anahtar zaten silinmiş olabilir veya yönetici haklarına ihtiyacınız olabilir.
+[Problem]
+Sorun
+[Unable to delete registry key for 'File context menu handlers', this key may already be deleted or you may need admin rights.]
+"Dosya bağlam menüsü işleyicileri" için kayıt defteri anahtarı silinemiyor; bu anahtar zaten silinmiş olabilir veya yönetici haklarına ihtiyacınız olabilir.
+[Unable to delete registry key for 'Directory context menu handlers', this key may already be deleted or you may need admin rights.]
+"Dizin bağlam menüsü işleyicileri" için kayıt defteri anahtarı silinemiyor; bu anahtar zaten silinmiş olabilir veya yönetici haklarına ihtiyacınız olabilir.
+[Unable to delete registry entry for 'Approved context menu handlers', this key may already be deleted or you may need admin rights.]
+"Onaylanmış bağlam menüsü işleyicileri" için kayıt defteri girdisi silinemiyor; bu anahtar zaten silinmiş olabilir veya yönetici haklarına ihtiyacınız olabilir.
+[Shell context menus requires your permission to register with Windows Explorer (one time only).]
+Shell bağlam menülerinin Windows Gezgini’ne kaydedilebilmesi için izninize ihtiyaç vardır (sadece bir kez).
+[Miranda NG - Shell context menus (shellext.dll)]
+Miranda NG - Kabuk bağlam menüleri (shellext.dll)

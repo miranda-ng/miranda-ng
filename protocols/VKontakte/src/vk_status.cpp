@@ -85,15 +85,12 @@ void CVkProto::SetServerStatus(int iNewStatus)
 			m_bSetBroadcast = false;
 		}
 		m_iStatus = ID_STATUS_OFFLINE;
-		if (iOldStatus != ID_STATUS_OFFLINE && iOldStatus != ID_STATUS_INVISIBLE)
-			;// Unsupported: Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
 	}
 	else if (iNewStatus != ID_STATUS_INVISIBLE) {
 		m_bNeedSendOnline = true;
 		if (iOldStatus == ID_STATUS_ONLINE)
 			return;
 		m_iStatus = ID_STATUS_ONLINE;
-		// Unsupported: Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOnline.json", true, &CVkProto::OnReceiveSmth));
 	}
 	else {
 		m_bNeedSendOnline = false;
@@ -101,8 +98,7 @@ void CVkProto::SetServerStatus(int iNewStatus)
 			RetrieveStatusMsg(oldStatusMsg);
 			m_bSetBroadcast = false;
 		}
-		m_iStatus = ID_STATUS_INVISIBLE;
-		// Unsupported: Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
+		m_iStatus = ID_STATUS_INVISIBLE;	
 	}
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);

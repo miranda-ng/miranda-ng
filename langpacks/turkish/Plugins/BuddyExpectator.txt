@@ -1,0 +1,138 @@
+#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
+;============================================================
+;  File: BuddyExpectator.dll
+;  Plugin: Buddy expectator
+;  Version: 0.1.2.3
+;  Authors: Anar Ibragimoff, sje, Thief
+;============================================================
+[Reacts to the return of contacts, or to the extended absence of contacts, with notifications and other actions.]
+Kişilerin geri dönmesine veya uzun süre ortada olmamalarına bildirimler ve diğer eylemlerle tepki verir.
+;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
+[When a contact returns after]
+Bir kişi geri döndüğünde
+[or comes online for the first time]
+ya da ilk kez çevrimiçi oluyor
+[Show a popup]
+Bir açılır pencere göster
+[Add an event (flashing icon) to the contact]
+Kişiye bir etkinlik (yanıp sönen simge) ekle
+[On event action (double click) or popup click:]
+Bir olay gerçekleştiğinde (çift tıklama) veya açılır pencerede tıklama yapıldığında:
+[Open User Details]
+Kullanıcı Ayrıntılarını Aç
+[Open message window]
+Mesaj penceresini aç
+[Return notification]
+İade bildirimi
+[Long time no see]
+Uzun zamandır görüşemedik
+[When a contact is absent for]
+Bir kişi şu süre boyunca yok olduğunda
+[Hide when no messages for]
+Aşağıdakiler için mesaj olmadığında gizle:
+[Enable "Miss you" feature]
+"Seni özledim" özelliğini etkinleştir
+[Colors]
+Renkler
+[Background]
+Arka Plan
+[Text]
+Metin
+[Use default colors]
+Varsayılan renkleri kullan
+[Use Windows colors]
+Windows renklerini kullan
+[Delay]
+Gecikme
+[Default]
+Varsayılan
+[Custom]
+Özel
+[Permanent]
+Kalıcı
+[sec]
+sn
+[Preview]
+Önizleme
+[Last seen online:]
+En son çevrimiçi görüldü:
+[Last input message:]
+Son gelen mesaj:
+[Custom absence period:]
+Özel devamsızlık süresi:
+[days]
+gün
+[Never hide this contact]
+Bu kişiyi asla gizleme
+[Enable Miss You]
+"Miss You" Özelliğini Etkinleştir
+[Notify always]
+Her zaman bildir
+;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
+[Tray/popup icon]
+Tepsi/açılır pencere simgesi
+[Enabled]
+Etkinleştirildi
+[Disabled]
+Engelli
+[Hide]
+Gizle
+[Never hide]
+Asla saklanma
+[Hiding %s (%S)]
+%s (%S) gizleniyor
+[%d days since last message]
+Son mesajdan bu yana %d gün geçti
+[Disable Miss You]
+"Miss You" Özelliğini Devre Dışı Bırak
+[You awaited this contact!]
+Bu teması bekliyordunuz!
+[has gone online for the first time.]
+ilk kez çevrimiçi hale geldi.
+[has returned after a long absence.]
+uzun bir aradan sonra geri döndü.
+[has returned after being absent since %#x]
+%#x'ten beri ortalarda görünmeyen kişi geri döndü
+[has not returned after a long absence.]
+uzun bir aradan sonra geri dönmedi.
+[has not returned after being absent since %#x]
+%#x'ten beri ortalarda görünmüyor ve geri dönmedi
+[BuddyExpectator]
+BuddyExpectator
+[Contact returned]
+İletişim bilgisi geri döndü
+[Contact still absent]
+Hala iletişim kurulamıyor
+[Miss you event]
+"Seni özlüyorum" etkinliği
+[Hide contact event]
+Kişi etkinliğini gizle
+[Hide contact]
+Kişiyi gizle
+[Buddy Expectator]
+Buddy Expectator
+;file \plugins\BuddyExpectator\src\options.cpp
+[weeks]
+hafta
+[months]
+aylar
+[years]
+yıl
+[Do nothing]
+Hiçbir şey yapma
+[Delete the contact]
+Kişiyi sil
+[Contact name]
+İrtibat kişisi
+[has returned after being absent since %d days]
+%d gündür ortalarda görünmeyen kişi geri döndü
+[Contacts]
+İletişim Bilgileri
+[Popups]
+Açılır pencereler
+[not detected]
+tespit edilmedi
+[not found]
+bulunamadı
+[This contact has been absent for an extended period of time.]
+Bu kişi uzun bir süredir ortalarda görünmüyor.

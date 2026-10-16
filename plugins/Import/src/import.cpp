@@ -581,8 +581,7 @@ void CImportBatch::ImportMeta(DBCachedContact *ccSrc)
 
 		// do we need to add a new metacontact?
 		if (hDest == INVALID_CONTACT_ID) {
-			hDest = db_add_contact();
-			db_set_s(hDest, "Protocol", "p", META_PROTO);
+			hDest = db_add_contact(META_PROTO);
 			CopySettings(ccSrc->contactID, META_PROTO, hDest, META_PROTO);
 
 			ccDst = dstDb->getCache()->GetCachedContact(hDest);
@@ -596,13 +595,12 @@ void CImportBatch::ImportMeta(DBCachedContact *ccSrc)
 				for (int i = 0; i < ccSrc->nSubs; i++) {
 					MCONTACT hSub = MapContact(ccSrc->pSubs[i]);
 					if (hSub == INVALID_CONTACT_ID) {
-						hSub = db_add_contact();
-
 						DBCachedContact *ccSub = srcDb->getCache()->GetCachedContact(ccSrc->pSubs[i]);
 						if (ccSub && ccSub->szProto) {
-							Proto_AddToContact(hDest, ccSub->szProto);
+							hSub = db_add_contact(ccSub->szProto);
 							CopySettings(ccSrc->contactID, ccSub->szProto, hSub, ccSub->szProto);
 						}
+						else continue;
 					}
 
 					ccDst->pSubs[i] = hSub;
@@ -743,7 +741,7 @@ MCONTACT CImportBatch::ImportContact(MCONTACT hSrc)
 		tszNick = myGetWs(hSrc, cc->szProto, "Nick");
 
 	// adding missing contact
-	MCONTACT hDst = db_add_contact();
+	MCONTACT hDst = db_add_contact(szDstModuleName);
 	if (hDst == INVALID_CONTACT_ID) {
 		nSkippedContacts++;
 		AddMessage(LPGENW("Failed to create contact %s (%s)"), cc->szProto, pszUniqueID);
@@ -755,12 +753,6 @@ MCONTACT CImportBatch::ImportContact(MCONTACT hSrc)
 
 	if (dbv.type != 0)
 		db_set(hDst, szDstModuleName, pszUniqueSetting, &dbv);
-
-	if (Proto_AddToContact(hDst, szDstModuleName) != 0) {
-		db_delete_contact(hDst);
-		AddMessage(LPGENW("Failed to add %S contact %s"), szDstModuleName, pszUniqueID);
-		return INVALID_CONTACT_ID;
-	}
 
 	CreateGroup(tszGroup, hDst);
 

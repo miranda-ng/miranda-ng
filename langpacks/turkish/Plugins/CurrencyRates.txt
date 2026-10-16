@@ -1,0 +1,249 @@
+#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+;============================================================
+;  File: CurrencyRates.dll
+;  Plugin: Currency Rates
+;  Version: 0.2.1.3
+;  Authors: Dioksin
+;============================================================
+[Shows currency rates.]
+Döviz kurlarını gösterir.
+;file \protocols\CurrencyRates\res\Forex.rc
+[Variable List]
+Değişken Listesi
+[Edit Settings]
+Ayarları Düzenle
+[Use contact specific settings]
+Kişiye özel ayarları kullan
+[Log]
+Günlük
+[Use &Internal History]
+Kullanım ve Dahili Geçmiş
+[&Format:]
+&Biçim:
+[&Variables...]
+&Değişkenler...
+[&Add to History only if Value Changed]
+&Yalnızca değer değiştiğinde geçmişe ekle
+[Use &External File]
+"Dış Dosya"yı Kullan
+[&Select File:]
+&Dosya Seç:
+[&Browse...]
+&Göz at...
+[Variables Allowed: %miranda_userdata%,%currencyratename%]
+İzin Verilen Değişkenler: %miranda_userdata%, %currencyratename%
+[F&ormat:]
+Biçim:
+[V&ariables...]
+Değişkenler...
+[Add to &Log only if Value Changed]
+Yalnızca değer değiştiğinde &Log’a ekle
+[Show &Popup Window]
+Göster ve Açılır Pencere
+[Show Popup Window Only if Value &Changed]
+Yalnızca Değer Değiştiğinde Açılır Pencereyi Göster
+[Cancel]
+İptal et
+[Currency Converter]
+Para Birimi Dönüştürücü
+[&to:]
+&kime:
+[&Swap]
+&Değiştir
+[Convert]
+Dönüştür
+[Info provided by <a href="http://www.google.com">Google</a>]
+Bilgiler <a href="http://www.google.com">Google</a> tarafından sağlanmıştır.
+[Close]
+Kapat
+[Current Rate:]
+Güncel Oran:
+[Rate Fetch Time:]
+Fiyat Alma Süresi:
+[Previous Rate:]
+Önceki Oran:
+[Provider:]
+Sağlayıcı:
+[&Add]
+&Ekle
+[&Watched currency rates:]
+&İzlenen döviz kurları:
+[&Remove]
+&Kaldır
+[&Refresh Rates Every:]
+&Yenileme Sıklığı:
+[&Display in Contact List as:]
+&Kişi listesinde şu şekilde göster:
+[&Status Message:]
+&Durum Mesajı:
+[&Tendency:]
+&Eğilim:
+[&Personal key:]
+&Özel anahtar:
+[Get key]
+Anahtarı al
+[Colors]
+Renkler
+[Use default colors]
+Varsayılan renkleri kullan
+[Use custom colors]
+Özel renkler kullanın
+[Background color]
+Arka plan rengi
+[Text color]
+Metin rengi
+[Timeout]
+Zaman aşımı
+[Default]
+Varsayılan
+[Custom]
+Özel
+[Permanent]
+Kalıcı
+[Do not add to popup's history]
+Açılır pencerenin geçmişine ekleme yapma
+[Preview]
+Önizleme
+[Rate Info]
+Fiyat Bilgileri
+[Add currency pair]
+Döviz çifti ekle
+[From:]
+Gönderen:
+[To:]
+Kime:
+;file \protocols\CurrencyRates\src\Chart.h
+[There is nothing to show]
+Gösterilecek bir şey yok
+;file \protocols\CurrencyRates\src\CurrencyConverter.cpp
+[Info provided by]
+Bilgi kaynağı:
+[Enter positive number.]
+Pozitif bir sayı girin.
+;file \protocols\CurrencyRates\src\CurrencyRateInfoDlg.cpp
+[Currency Rate]
+Döviz Kuru
+;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
+[Currency Rates]
+Döviz Kurları
+[Test contact]
+Test irtibat bilgisi
+[From Currency Full Name]
+Para Biriminin Tam Adı
+[From Currency Short Name]
+Para Biriminin Kısaltmasından
+[Into Currency Full Name]
+Para Birimi Tam Adı
+[Into Currency Short Name]
+Para Birimi Kısaltmasına
+[Short notation for "%f/%i"]
+"%f/%i" için kısa gösterim
+[Source of information]
+Bilgi kaynağı
+[Rate value]
+Oran değeri
+[Rate delta]
+Oran farkı
+[Previous rate value]
+Önceki oran değeri
+[Fetch time]
+Alma süresi
+[Fetch date]
+Tarihi al
+[Fetch time and date]
+Tarih ve saati al
+[Percent character (%)]
+Yüzde işareti (%)
+[Tabulation]
+Tablolaştırma
+[Left slash (\\)]
+Sol eğik çizgi (\\)
+;file \protocols\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
+[Error occurred during HTML parsing.]
+HTML ayrıştırma işlemi sırasında bir hata oluştu.
+[Error occurred during site access.]
+Siteye erişim sırasında bir hata oluştu.
+;file \protocols\CurrencyRates\src\EconomicRateInfo.h
+[CurrencyRates]
+Döviz Kurları
+;file \protocols\CurrencyRates\src\Forex.cpp
+[Auto Update Enabled]
+Otomatik Güncelleme Etkin
+[Auto Update Disabled]
+Otomatik Güncelleme Devre Dışı
+[Enable/Disable Auto Update]
+Otomatik Güncellemeyi Etkinleştir/Devre Dışı Bırak
+[Refresh All Rates]
+Tüm Fiyatları Yenile
+[Currency Converter...]
+Para Birimi Dönüştürücü...
+[Export All Currency Rates]
+Tüm Döviz Kurlarını Dışa Aktar
+[Import All Currency Rates]
+Tüm Döviz Kurlarını İçe Aktar
+[Refresh]
+Yenile
+[Open Log File...]
+Günlük Dosyasını Aç...
+[Chart...]
+Grafik...
+[Edit Settings...]
+Ayarları Düzenle...
+[Enable/Disable Currency Rates Auto Update]
+Döviz Kurlarının Otomatik Güncellemesini Etkinleştir/Devre Dışı Bırak
+[Currency Rates Auto Update Enabled]
+Döviz Kurları Otomatik Güncellemesi Etkinleştirildi
+[Currency Rates Auto Update Disabled]
+Döviz Kurları Otomatik Güncellemesi Devre Dışı
+[Currency Symbol]
+Para Birimi Sembolü
+[Protocol icon]
+Protokol simgesi
+[Currency Rate up]
+Döviz Kuru Yükseldi
+[Currency Rate down]
+Döviz kuru düştü
+[Currency Rate not changed]
+Döviz kuru değişmedi
+[Currency Rate Section]
+Döviz Kuru Bölümü
+[Export]
+Dışa Aktar
+[Swap button]
+Değiştir düğmesi
+[Import]
+İthalat
+;file \protocols\CurrencyRates\src\HTTPSession.cpp
+[This plugin requires a personal key. Open the Options dialog to obtain it.]
+Bu eklenti için bir kişisel anahtar gereklidir. Anahtarı almak için Seçenekler iletişim kutusunu açın.
+;file \protocols\CurrencyRates\src\ImportExport.cpp
+[XML File (*.xml)]
+XML Dosyası (*.xml)
+[All files (*.*)]
+Tüm dosyalar (*.*)
+;file \protocols\CurrencyRates\src\Options.cpp
+[Seconds]
+Saniye
+[Minutes]
+Tutanak
+[Hours]
+Çalışma Saatleri
+[Enter log file name.]
+Günlük dosyasının adını girin.
+[Enter log file format.]
+Günlük dosyası biçimini girin.
+[Enter history format.]
+Tarih biçimini girin.
+[Network]
+Ağ
+[General]
+Genel
+[Advanced]
+İleri Düzey
+[Popups]
+Açılır pencereler
+;file \protocols\CurrencyRates\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+Günlük Dosyaları (*.txt, *.log)
+[Enter popup window format.]
+Açılır pencere formatını girin.

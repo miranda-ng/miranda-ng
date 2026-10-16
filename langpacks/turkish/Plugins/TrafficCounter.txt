@@ -1,0 +1,151 @@
+#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
+;============================================================
+;  File: TrafficCounter.dll
+;  Plugin: Traffic counter
+;  Version: 0.1.1.9
+;  Authors: Ghost, Mironych
+;============================================================
+[Adding traffic and time counters.]
+Trafik ve zaman sayaçlarının eklenmesi.
+;file \plugins\TrafficCounter\res\resource.rc
+[Selected totals]
+Seçilen toplamlar
+[Accounts]
+Hesaplar
+[Units]
+Birimler
+[Clear statistics]
+Net istatistikler
+[Notification]
+Bildirim
+[Notify me on every]
+Her seferinde bana bildirim gönder
+[kilobytes]
+kilobayt
+[minutes]
+dakika
+[Background color:]
+Arka plan rengi:
+[Text color:]
+Metin rengi:
+[Reset to default]
+Varsayılan ayarlara sıfırla
+[Popup timeout]
+Açılır pencere zaman aşımı
+[Default]
+Varsayılan
+[Custom]
+Özel
+[Test]
+Test
+[Show now]
+Şimdi göster
+[Space between lines:]
+Satır aralığı:
+[Counters format string:]
+Sayacın biçim dizesi:
+[Tooltip format string:]
+Araç ipucu biçim dizesi:
+[Display traffic for current]
+Mevcut trafiği göster
+;file \plugins\TrafficCounter\src\options.cpp
+[Display]
+Ekran
+[Icon]
+Simge
+[Account name]
+Hesap adı
+[Current traffic]
+Anlık trafik durumu
+[Total traffic]
+Toplam trafik
+[Current online]
+Şu anda çevrimiçi
+[Total online]
+Toplam çevrimiçi
+[General]
+Genel
+[Draw frame as skin element]
+Çerçeveyi kaplama öğesi olarak çiz
+[Show tooltip in traffic window]
+Trafik penceresinde araç ipucunu göster
+["Toggle traffic counter" in main menu]
+Ana menüdeki "Trafik sayacını aç/kapat" seçeneği
+[Visible accounts]
+Görünür hesaplar
+[Summary traffic for visible accounts]
+Görünür hesaplara ilişkin trafik özeti
+[Overall traffic]
+Toplam trafik
+[Hide now]
+Şimdi gizle
+[Day]
+Gün
+[Week]
+Hafta
+[Month]
+Ay
+[Year]
+Yıl
+[Services]
+Hizmetler
+[Options]
+Seçenekler
+[Traffic counter]
+Ziyaretçi sayacı
+[Statistics]
+İstatistikler
+[Popups]
+Açılır pencereler
+;file \plugins\TrafficCounter\src\statistics.cpp
+[Bytes]
+Bayt
+[KB]
+KB
+[MB]
+MB
+[Adaptive]
+Uyarlanabilir
+[Hourly]
+Saatlik
+[Daily]
+Günlük
+[Weekly]
+Haftalık
+[Monthly]
+Aylık
+[Yearly]
+Yıllık
+[Period]
+Dönem
+[Incoming]
+Gelen
+[Outgoing]
+Giden
+[Sum]
+Toplam
+[Online]
+Çevrimiçi
+[Now traffic statistics for selected accounts will be cleared.\nContinue?]
+Şimdi, seçilen hesaplara ait trafik istatistikleri silinecek.\nDevam etmek istiyor musunuz?
+[Couldn't read statistics file]
+İstatistik dosyasını okuyamadı
+[Traffic Counter]
+Ziyaretçi Sayacı
+;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Toggle traffic counter]
+Trafik sayacını aç/kapat
+[Traffic counter notification]
+Trafik sayacı bildirimi
+[%d kilobytes sent]
+%d kilobayt gönderildi
+[%d kilobytes received]
+%d kilobayt alındı
+[Font]
+Yazı tipi
+[Show/Hide frame]
+Çerçeveyi göster/gizle
+[Hide traffic window]
+Trafik penceresini gizle
+[Clear the current (Now:) value]
+Mevcut (Şu an:) değerini sil

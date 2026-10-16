@@ -89,7 +89,8 @@ CVkFileUploadParam::CVkFileUploadParam(MCONTACT _hContact, const wchar_t *_desc,
 	wszFileName(mir_wstrdup(_files[0])),
 	szAtr(nullptr),
 	szFname(nullptr),
-	vkFileType(typeInvalid)
+	vkFileType(typeInvalid),
+	iRetry(MAX_RETRIES)
 {}
 
 CVkFileUploadParam::~CVkFileUploadParam()

@@ -19,16 +19,17 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v5
 
     - name: Packages
       # Install required packages
       run: |
         sudo apt-get update
-        sudo apt-get install -yq --no-install-recommends --no-install-suggests libcairo2-dev libpango1.0-dev libgtk-3-dev
+        sudo apt-get install -yq --no-install-recommends --no-install-suggests libcairo2-dev libpango1.0-dev libgtk-3-dev clang-tidy
 
     - name: Configure CMake
-      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a
+      # single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: cmake -B ${{github.workspace}}/build -DLITEHTML_BUILD_TESTING=ON -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
@@ -39,6 +40,6 @@ jobs:
     - name: Test
       working-directory: ${{github.workspace}}/build
       # Execute tests defined by the CMake configuration.
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more details
       run: ctest -C ${{env.BUILD_TYPE}} --test-dir litehtml-tests-build --rerun-failed --output-on-failure -j3
 

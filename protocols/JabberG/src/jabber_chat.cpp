@@ -243,7 +243,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const char *r
 	}
 
 	GCEVENT gce = { item->si, 0 };
-	gce.dwFlags = GCEF_UTF8 | ((item->bChatLogging) ? 0 : GCEF_SILENT);
+	gce.dwFlags = GCEF_UTF8 | ((item->bChatLogging) ? GCEF_ADDTOLOG : GCEF_SILENT);
 	gce.pszNick.a = nick;
 	gce.pszUID.a = resource;
 	gce.pszUserInfo.a = jid;

@@ -60,8 +60,7 @@ MCONTACT CWeatherProto::AddToList(int, PROTOSEARCHRESULT *psr)
 	if (psr->cbSize < sizeof(PROTOSEARCHRESULT))
 		return 0;
 	
-	MCONTACT hContact = db_add_contact();
-	Proto_AddToContact(hContact, m_szModuleName);
+	MCONTACT hContact = db_add_contact(m_szModuleName);
 	// suppress online notification for the new contact
 	Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
 

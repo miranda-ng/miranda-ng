@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_SRMM_INT_H__
 #define M_SRMM_INT_H__ 1
 
-#include <vector>
+#include <map>
 
 #include <m_gui.h>
 
@@ -306,7 +306,7 @@ class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 
 	void ProcessToolbarHotkey(INT_PTR iButtonFrom);
 
-	std::vector<MEVENT> m_arDisplayedEvents;
+	std::map<MEVENT, MCONTACT> m_arDisplayedEvents;
 
 	void onClick_BIU(CCtrlButton *);
 	void onClick_Color(CCtrlButton *);

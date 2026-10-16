@@ -337,8 +337,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						i++;
 					}
 					free(replace);
-					MCONTACT hContact2 = db_add_contact();
-					Proto_AddToContact(hContact2, MODNAME);
+					MCONTACT hContact2 = db_add_contact(MODNAME);
 					Ignore_Ignore(hContact2, IGNOREEVENT_USERONLINE);
 					g_plugin.setString(hContact2, "Nick", Translate("New Non-IM Contact"));
 					// blank dbVar2 so the replaceing doesnt crash..
@@ -393,12 +392,12 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				char dbVar1[2000];
 				MCONTACT hContact1 = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				if (!db_get_static(hContact1, MODNAME, "Name", dbVar1, _countof(dbVar1))) {
-					MCONTACT hContact2 = db_add_contact();
+					MCONTACT hContact2 = db_add_contact(MODNAME);
 					if (!hContact2) {
 						msg("contact did not get created", "");
 						return 0;
 					}
-					Proto_AddToContact(hContact2, MODNAME);
+
 					Ignore_Ignore(hContact2, IGNOREEVENT_USERONLINE);
 					g_plugin.setString(hContact2, "Nick", Translate("New Non-IM Contact"));
 					g_plugin.setString(hContact2, "Name", dbVar1);
@@ -627,11 +626,11 @@ INT_PTR ImportContacts(WPARAM, LPARAM)
 			}
 
 			if (MessageBoxA(nullptr, msg, modFullname, MB_YESNO) == IDYES) {
-				if (!(hContact = db_add_contact())) {
+				if (!(hContact = db_add_contact(MODNAME))) {
 					msg("contact did get created", "");
 					continue;
 				}
-				Proto_AddToContact(hContact, MODNAME);
+
 				Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
 				g_plugin.setString(hContact, "Nick", Translate("New Non-IM Contact"));
 				g_plugin.setString(hContact, "Name", name);

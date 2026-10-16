@@ -1,0 +1,52 @@
+#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
+;============================================================
+;  File: AddContactPlus.dll
+;  Plugin: Add contact+
+;  Version: 0.9.9.2
+;  Authors: Bartosz 'Dezeath' Białek
+;============================================================
+[Provides the ability to quickly add new contacts.]
+Yeni kişileri hızlı bir şekilde ekleme olanağı sunar.
+;file \plugins\AddContactPlus\res\resource.rc
+[Add contact]
+Kişi ekle
+[Add a contact to your contact list]
+Kişi listene bir kişi ekle
+[Account:]
+Hesap:
+[Contact ID:]
+İletişim Kimliği:
+[Custom name:]
+Özel ad:
+[Group:]
+Grup:
+[Options]
+Seçenekler
+[Add temporarily]
+Geçici olarak ekle
+[Send authorization request]
+Yetki talebi gönder
+[Authorization request]
+Yetki talebi
+[&Add]
+&Ekle
+[&Cancel]
+&İptal
+;file \plugins\AddContactPlus\src\addcontact.cpp
+[Please authorize my request and add me to your contact list.]
+Lütfen talebimi onaylayın ve beni kişi listenize ekleyin.
+[None]
+Yok
+[The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
+Bu kişi, kişi listenize eklenemiyor. Lütfen kişi kimliğinin doğru girildiğinden emin olun.
+[The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
+Bu kişi, kişi listenize eklenemiyor. Seçilen hesaba giriş yapmadıysanız, lütfen giriş yapmayı deneyin. Ayrıca, kişi kimliğinin doğru girildiğinden emin olun.
+;file \plugins\AddContactPlus\src\main.cpp
+[&Add contact...]
+&Kişi ekle...
+[Open add contact dialog]
+Kişi ekle iletişim kutusunu aç
+[Main]
+Ana Sayfa
+[AddContact+]
+AddContact+

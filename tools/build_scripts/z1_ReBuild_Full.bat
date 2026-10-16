@@ -62,6 +62,7 @@ cscript /nologo translate.js /sourcelang:"german" /release:"..\..\%comp%\Release
 cscript /nologo translate.js /sourcelang:"polish" /release:"..\..\%comp%\Release%tp%\Languages\langpack_polish.txt"
 cscript /nologo translate.js /sourcelang:"russian" /release:"..\..\%comp%\Release%tp%\Languages\langpack_russian.txt"
 cscript /nologo translate.js /sourcelang:"spanish" /release:"..\..\%comp%\Release%tp%\Languages\langpack_spanish.txt"
+cscript /nologo translate.js /sourcelang:"turkish" /release:"..\..\%comp%\Release%tp%\Languages\langpack_turkish.txt"
 cscript /nologo translate.js /sourcelang:"ukrainian" /release:"..\..\%comp%\Release%tp%\Languages\langpack_ukrainian.txt"
 popd
 

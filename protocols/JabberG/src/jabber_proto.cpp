@@ -442,7 +442,7 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 	debugLogA("Send 'authorization denied' to %s", auth.get_email());
 
 	ptrA newJid(dbei.flags & DBEF_UTF ? mir_strdup(auth.get_email()) : mir_utf8encode(auth.get_email()));
-	m_ThreadInfo->send(XmlNode("presence") << XATTR("to", newJid) << XATTR("type", "unsubscribed"));
+	m_ThreadInfo->send(XmlNode("presence") << XATTR("to", newJid) << XATTR("type", "unsubscribe"));
 	return 0;
 }
 

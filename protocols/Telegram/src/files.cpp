@@ -65,6 +65,10 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 			}
 	}
 
+	// uploaded files have no remote metadata, don't treat them as downloads
+	if (pRemote->unique_id_.empty())
+		return;
+
 	Utf2T wszExistingFile(pLocal->path_.c_str());
 
 	if (auto *ft = FindFile(pRemote->unique_id_)) {

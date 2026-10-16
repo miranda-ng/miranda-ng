@@ -160,8 +160,7 @@ public:
 						parent = parent->Parent()->ToElement();
 					}
 
-					MCONTACT hContact = db_add_contact();
-					Proto_AddToContact(hContact, MODULENAME);
+					MCONTACT hContact = db_add_contact(MODULENAME);
 					Contact::Readonly(hContact);
 					g_plugin.setWString(hContact, "Nick", text);
 					g_plugin.setWString(hContact, "URL", url);

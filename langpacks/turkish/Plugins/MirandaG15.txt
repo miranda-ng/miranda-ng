@@ -1,0 +1,205 @@
+#muuid {798221e1-e47a-4dc8-9077-1e576f9c4307}
+;============================================================
+;  File: MirandaG15.dll
+;  Plugin: MirandaG15
+;  Version: 0.1.2.1
+;  Authors: Martin Kleinhans
+;============================================================
+[Provides an interface to use Miranda from the LCD of various Logitech devices.]
+Çeşitli Logitech cihazlarının LCD ekranından Miranda'yı kullanmak için bir arayüz sağlar.
+;file \plugins\MirandaG15\res\MirandaG15.rc
+[General settings]
+Genel ayarlar
+[Show softkey labels]
+Yazılım tuşlarının etiketlerini göster
+[Fonts]
+Yazı tipleri
+[Event log:]
+Olay günlüğü:
+[Sample]
+Örnek
+[Message log:]
+Mesaj günlüğü:
+[Contact list:]
+İletişim listesi:
+[Titles:]
+Başlıklar:
+[Notifications:]
+Bildirimler:
+[Turn off backlights]
+Arka ışıkları kapatın
+[If the applet is active:]
+Applet etkinse:
+[Use the VolumeWheel to scroll up and down (might affect system performance)]
+Ses tekerleğini kullanarak yukarı ve aşağı kaydırın (sistem performansını etkileyebilir)
+[Show seconds in timestamps]
+Zaman damgalarında saniyeleri göster
+[Use transition effects when changing screens]
+Ekranlar arasında geçiş yaparken geçiş efektleri kullanın
+[Credits]
+Kaynakça
+[About]
+Hakkında
+[Device:]
+Cihaz:
+[If the screensaver is active:]
+Ekran koruyucu etkinse:
+[Lock the screen]
+Ekranı kilitle
+[Skip driver missing notification]
+Sürücünün kayıp olduğu bildirimini atla
+[Notification screen title]
+Bildirim ekranının başlığı
+[Hide it]
+Gizle
+[Show the plugin name]
+Eklenti adını göster
+[Show a short event summary]
+Etkinliğin kısa bir özetini göster
+[Size of the log]
+Kütüğün boyutu
+[Notification duration]
+Bildirim süresi
+[events]
+etkinlikler
+[seconds]
+saniye
+[Notification types]
+Bildirim türleri
+[Incoming messages]
+Gelen mesajlar
+[Contact signs off]
+Contact, yayını sonlandırıyor
+[Contact changes status]
+İletişim bilgilerinin durumu değişti
+[Contact list events]
+Kişi listesindeki etkinlikler
+[Incoming file transfers]
+Gelen dosya aktarımları
+[Protocol disconnected]
+Protokol bağlantısı kesildi
+[Protocol connected]
+Protokol bağlandı
+[Protocol status changes]
+Protokol durumundaki değişiklikler
+[Show only events from the following protocols:]
+Yalnızca aşağıdaki protokollere ait olayları göster:
+[Contact signs on]
+İletişim işaretleri açık
+[When a chat session is active, skip the following notifications for that contact:]
+Bir sohbet oturumu aktifken, o kişi için aşağıdaki bildirimleri atla:
+[Chat session specific]
+Sohbet oturumuna özgü
+[Show timestamps]
+Zaman damgalarını göster
+[Messages]
+Mesajlar
+[User events]
+Kullanıcı olayları
+[Emotes]
+Duygu ifadeleri
+[Status changes]
+Durum değişiklikleri
+[Group chat events:]
+Grup sohbeti etkinlikleri:
+[Notices]
+Duyurular
+[Channel events]
+Kanal etkinlikleri
+[Cut off nicknames after]
+Takma adları şu noktadan sonra kes
+[chars]
+karakter
+[Show protocol labels]
+Protokol etiketlerini göster
+[Don't skip when replying]
+Cevap verirken atlama
+[Exceptions:]
+İstisnalar:
+[Cut off channel names after]
+Kanal adlarını şu noktadan sonra kes
+[Show the contacts protocols]
+İletişim protokollerini göster
+[Hide offline users]
+Çevrimdışı kullanıcıları gizle
+[Use ignore settings]
+Yoksayma ayarlarını kullan
+[Use groups/subgroups]
+Grupları/alt grupları kullanın
+[Grouped mode]
+Gruplu mod
+[Draw tree lines]
+Ağaç çizgileri çizin
+[Show counters behind group names]
+Grup adlarının arkasında sayaçları göster
+[Reset selection]
+Seçimi sıfırla
+[When opening the contact list screen:]
+Kişi listesi ekranını açarken:
+[Don't change group states]
+Grup durumlarını değiştirmeyin
+[Collapse all groups]
+Tüm grupları daralt
+[Show only contacts from the following protocols:]
+Yalnızca aşağıdaki protokollere ait kişileri göster:
+[Protocol filter]
+Protokol filtresi
+[Expand all groups]
+Tüm grupları genişlet
+[Use two columns]
+İki sütun kullanın
+[Fade out selection rectangle]
+Seçim dikdörtgenini yavaşça karart
+[Typing notifications]
+Yazma bildirimleri
+[Show typing notifications]
+Yazma bildirimlerini göster
+[Send typing notifications]
+Yazma bildirimleri gönder
+[Maximizing]
+Maksimize etme
+[When maximized:]
+Tam ekran modunda:
+[Hide title]
+Başlığı gizle
+[Hide labels]
+Etiketleri gizle
+[Show only new messages]
+Yalnızca yeni mesajları göster
+[Mark incoming messages as read]
+Gelen mesajları okundu olarak işaretle
+[Maximized scrolling]
+Kaydırma alanı genişletildi
+[Size of the log:]
+Günlüğün boyutu:
+[On incoming messages:]
+Gelen mesajlarda:
+[Do nothing]
+Hiçbir şey yapma
+[Scroll to the first line]
+İlk satıra ilerleyin
+[Scroll to the last line]
+Son satıra kadar kaydırın
+[Replying]
+Yanıtlama
+[Show line break indicators]
+Satır sonu göstergelerini göster
+[Send messages with Enter, insert line breaks with Ctrl+Enter]
+Enter tuşuyla mesaj gönderin, Ctrl+Enter tuşlarıyla satır sonu ekleyin
+[Maximized replying]
+Yanıtlama işlevi en üst düzeye çıkarılmış
+[Close chat after]
+Şu süreden sonra sohbeti kapat
+[When in background]
+Arka planda çalışırken
+;file \plugins\MirandaG15\src\CConfig.cpp
+[Appearance]
+Görünüş
+[Notifications]
+Bildirimler
+[Chat sessions]
+Sohbet oturumları
+[Contact list]
+Kişi listesi
+[No device attached]
+Bağlı cihaz yok

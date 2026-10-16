@@ -1,0 +1,415 @@
+#muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
+;============================================================
+;  File: SecureIM.dll
+;  Plugin: SecureIM
+;  Version: 1.0.12.6
+;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
+;============================================================
+[SecureIM plugin for Miranda NG.]
+Miranda NG için SecureIM eklentisi.
+;file \plugins\SecureIM\res\resource.rc
+[User List]
+Kullanıcı Listesi
+[Enable Secure Offline messages]
+Güvenli Çevrimdışı Mesajları Etkinleştir
+[Enable Secure File Transfer]
+Güvenli Dosya Aktarımını Etkinleştir
+[Always show status icons in contact list]
+Kişi listesinde durum simgelerini her zaman göster
+[Context Menu only for "Miranda" clients]
+Yalnızca "Miranda" istemcileri için bağlam menüsü
+[Status in Context Menu]
+Bağlam Menüsündeki Durum
+[Always secured if possible]
+Mümkünse her zaman emniyetli
+[Not secured for NotOnList]
+NotOnList için güvenli değil
+[Auto accept RSA key (NOT SECURED)]
+RSA anahtarını otomatik olarak kabul et (GÜVENLİ DEĞİLDİR)
+[Mode in Context Menu]
+Bağlam Menüsündeki Mod
+[Key Exchange Timeout:]
+Anahtar Değişimi Zaman Aşımı:
+[sec]
+sn
+[Offline Key Timeout:]
+Çevrimdışı Anahtar Zaman Aşımı:
+[days]
+gün
+[Reset All]
+Tümünü Sıfırla
+[Accounts]
+Hesaplar
+[Split Messages]
+Mesajları Bölme
+[Online:]
+Çevrimiçi:
+[Offline:]
+Çevrimdışı:
+[RSA Key]
+RSA Anahtarı
+[SHA-1:]
+SHA-1:
+[Public]
+Genel
+[&Copy SHA-1]
+&SHA-1 Kopyası
+[E&xport]
+İhracat
+[Private]
+Özel
+[&Export]
+&Dışa Aktar
+[&Import]
+&İçe Aktar
+[Set &keyrings...]
+Anahtarlıklar'ı ayarla...
+[Disable keyrings use]
+Anahtar halkalarının kullanımını devre dışı bırak
+[Load &Private key]
+Gizli anahtarı yükle
+[Basic]
+Temel
+[Executable:]
+Çalıştırılabilir dosya:
+[Home Directory:]
+Ana Dizin:
+[Temp Dir:]
+Geçici Dizin:
+[Key Assignment]
+Anahtar Ödev
+[Debug]
+Hata ayıklama
+[Log to File]
+Dosyaya Kaydet
+[Save Pass]
+Geçiş Kartını Kaydet
+[Back]
+Geri
+[Text]
+Metin
+[Key agreement colors]
+Anahtar anlaşma renkleri
+[Secure connection colors]
+Güvenli bağlantı renkleri
+[Send/Receive encrypted colors]
+Şifrelenmiş renkleri gönderme/alma
+[SecureIM Popup Colors]
+SecureIM Açılır Pencere Renkleri
+[Preview]
+Önizleme
+[Events]
+Etkinlikler
+[Popup Timeout]
+Açılır Pencere Zaman Aşımı
+[Time in Seconds]
+Saniye cinsinden süre
+[0 = Default Popup Timeout Value]
+0 = Varsayılan açılır pencere zaman aşımı değeri
+[Show a popup on established connection]
+Bağlantı kurulduğunda bir açılır pencere göster
+[Show a popup on disabled connection]
+Bağlantı kesildiğinde bir açılır pencere göster
+[Show a popup on key send]
+Tuşa basıldığında bir açılır pencere göster
+[Show a popup on key received]
+Anahtar alındığında bir açılır pencere göster
+[Show a popup on each secure send]
+Her güvenli gönderimde bir açılır pencere göster
+[Show a popup on each secure receive]
+Her güvenli alım sırasında bir açılır pencere göster
+[Please type in your password]
+Lütfen şifrenizi girin
+[Username:]
+Kullanıcı adı:
+[Password:]
+Şifre:
+[Cancel]
+İptal et
+[SecureIM plugin Passphrase of private key]
+SecureIM eklentisi: Özel anahtarın parolası
+[Enter passphrase for the secret key:]
+Gizli anahtar için şifre ifadesini girin:
+[Mode]
+Mod
+[Native SecureIM]
+Native SecureIM
+[PGP SecureIM]
+PGP SecureIM
+[GPG SecureIM]
+GPG SecureIM
+[RSA/AES SecureIM]
+RSA/AES SecureIM
+[Status]
+Durum
+[Always Try to Establish Secure IM]
+Her Zaman Güvenli Anlık Mesajlaşma Sağlamaya Çalışın
+[Secure IM Enabled]
+Güvenli Anlık Mesajlaşma Özelliği Etkin
+[Secure IM Disabled]
+Güvenli Anlık Mesajlaşma Devre Dışı
+[Pre-shared key]
+Önceden paylaşılmış anahtar
+[Set key]
+Anahtar ayarla
+[Delete key]
+Sil tuşu
+[Set pre-shared key]
+Önceden paylaşılmış anahtarı ayarla
+[Delete pre-shared key]
+Önceden paylaşılmış anahtarı sil
+[Public key]
+Açık anahtar
+[Export key]
+Dışa aktarma anahtarı
+[Import key]
+İçe aktarma anahtarı
+[Export public key]
+Açık anahtarı dışa aktar
+[Import public key]
+Genel anahtarı içe aktar
+[Delete public key]
+Genel anahtarı sil
+;file \plugins\SecureIM\src\crypt_dll.cpp
+[Key exchange failed...]
+Anahtar değişimi başarısız oldu...
+[SecureIM: Error while decrypting the message, bad message length.]
+SecureIM: Mesajın şifresini çözerken hata oluştu; mesaj uzunluğu geçersiz.
+[SecureIM: Error while decrypting the message, bad message CRC.]
+SecureIM: Mesajın şifresinin çözülmesi sırasında hata oluştu, mesajın CRC değeri hatalı.
+[SecureIM: Error while decrypting the message.]
+SecureIM: Mesajın şifresini çözerken hata oluştu.
+;file \plugins\SecureIM\src\crypt_misc.cpp
+[User has not answered to key exchange!\nYour messages are still in SecureIM queue, do you want to send them unencrypted now?]
+Kullanıcı anahtar değişimine yanıt vermedi!\nMesajlarınız hâlâ SecureIM kuyruğunda; bunları şimdi şifresiz olarak göndermek ister misiniz?
+;file \plugins\SecureIM\src\crypt_popups.cpp
+[SecureIM disabled...]
+SecureIM devre dışı...
+[SecureIM established...]
+SecureIM kuruldu...
+[Sending key...]
+Anahtar gönderiliyor...
+[Key received...]
+Anahtar alındı...
+[Sending message...]
+Mesaj gönderiliyor...
+[Message received...]
+Mesaj alındı...
+;file \plugins\SecureIM\src\loadicons.cpp
+[Contact List]
+Kişi Listesi
+[Connection Disabled]
+Bağlantı Devre Dışı
+[Connection Established]
+Bağlantı Kuruldu
+[Contact Menu]
+İletişim Menüsü
+[Disable Secure Connection]
+Güvenli Bağlantıyı Devre Dışı Bırak
+[Establish Secure Connection]
+Güvenli Bağlantı Kurma
+[Message Window]
+Mesaj Penceresi
+[Popups]
+Açılır pencereler
+[Secure Connection Disabled]
+Güvenli Bağlantı Devre Dışı
+[Secure Connection Established]
+Güvenli Bağlantı Kuruldu
+[Secure Connection In Process]
+Güvenli Bağlantı Oluşturuluyor
+[Recv Secured Message]
+Güvenli Mesaj Alındı
+[Sent Secured Message]
+Güvenli Mesaj Gönderildi
+[Menu State]
+Menü Durumu
+[Disabled]
+Engelli
+[Enabled]
+Etkinleştirildi
+[Always Try]
+Her Zaman Deneyin
+[Overlays]
+Üst Katmanlar
+[Native mode]
+Yerel mod
+[PGP mode]
+PGP modu
+[GPG mode]
+GPG modu
+[RSA/AES mode]
+RSA/AES modu
+[SecureIM status]
+SecureIM durumu
+;file \plugins\SecureIM\src\main.cpp
+[SecureIM mode (Native)]
+SecureIM modu (Yerel)
+[SecureIM mode (PGP)]
+SecureIM modu (PGP)
+[SecureIM mode (GPG)]
+SecureIM modu (GPG)
+[SecureIM mode (RSA/AES)]
+SecureIM modu (RSA/AES)
+[SecureIM mode (RSA)]
+SecureIM modu (RSA)
+[SecureIM status (disabled)]
+SecureIM durumu (devre dışı)
+[SecureIM status (enabled)]
+SecureIM durumu (etkin)
+[SecureIM status (always try)]
+SecureIM durumu (her zaman dene)
+[Native]
+Yerli
+[Always try]
+Her zaman dene
+[SecureIM]
+SecureIM
+[Icons]
+Simgeler
+[Incoming Secure Message]
+Gelen Güvenli Mesaj
+[Outgoing Secure Message]
+Giden Güvenli Mesaj
+[Create SecureIM connection]
+SecureIM bağlantısı oluştur
+[Disable SecureIM connection]
+SecureIM bağlantısını devre dışı bırak
+[Load PGP Key]
+PGP Anahtarını Yükle
+[Unload PGP Key]
+PGP Anahtarını Kaldır
+[Load GPG Key]
+GPG Anahtarını Yükle
+[Unload GPG Key]
+GPG Anahtarını Kaldır
+[SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
+cryptopp.dll dosyası eksik veya sürümü yanlış olduğu için SecureIM yüklenmeyecek!
+;file \plugins\SecureIM\src\options.cpp
+[ASC files]
+ASC dosyaları
+[All files]
+Tüm dosyalar
+[Open Key File]
+Anahtar Dosyasını Aç
+[Save Private Key File]
+Özel Anahtar Dosyasını Kaydet
+[Save Public Key File]
+Açık Anahtar Dosyasını Kaydet
+[Load Private Key File]
+Özel Anahtar Dosyasını Yükle
+[Load Public Key File]
+Genel Anahtar Dosyasını Yükle
+[Password is too short!]
+Şifre çok kısa!
+[The new settings will become valid when you restart Miranda NG!]
+Miranda NG'yi yeniden başlattığınızda yeni ayarlar geçerli hale gelecektir!
+[Nickname]
+Takma ad
+[Account]
+Hesap
+[User ID]
+Kullanıcı Kimliği
+[Can't export RSA public key!]
+RSA açık anahtarı dışa aktarılamıyor!
+[Can't import RSA public key!]
+RSA açık anahtarı içe aktarılamıyor!
+[Name]
+Adı
+[Can't export RSA private key!]
+RSA özel anahtarı dışa aktarılamıyor!
+[Can't import RSA private key!]
+RSA özel anahtarı içe aktarılamıyor!
+[Keyrings disabled!]
+Anahtarlıklar devre dışı bırakıldı!
+[This version not supported!]
+Bu sürüm desteklenmiyor!
+[Keyrings loaded.]
+Anahtarlıklar yüklendi.
+[Keyrings not loaded!]
+Anahtarlıklar yüklenmedi!
+[Private key loaded.]
+Özel anahtar yüklendi.
+[Private key not loaded!]
+Özel anahtar yüklenmedi!
+[PGP SDK v%i.%i.%i found.]
+PGP SDK v%i.%i.%i bulundu.
+[PGP SDK not found!]
+PGP SDK bulunamadı!
+[(none)]
+(yok)
+[Key ID]
+Anahtar Kimliği
+[Executable Files]
+Çalıştırılabilir Dosyalar
+[Select GnuPG Executable]
+GnuPG Yürütülebilir Dosyasını Seç
+[Services]
+Hizmetler
+[General]
+Genel
+;file \plugins\SecureIM\src\popupOptions.cpp
+[Key Popup]
+Anahtar Açılır Penceresi
+[Secure Popup]
+Güvenli Açılır Pencere
+[Message Popup]
+Mesaj Açılır Penceresi
+;file \plugins\SecureIM\src\svcs_menu.cpp
+[Can't change mode! Secure connection established!]
+Modu değiştiremiyorum! Güvenli bağlantı kuruldu!
+;file \plugins\SecureIM\src\svcs_proto.cpp
+[SecureIM received unencrypted message:\n]
+SecureIM şifrelenmemiş bir mesaj aldı:\n
+[Key from disabled...]
+Devre dışı durumdan anahtar...
+[SecureIM: Sorry, unable to decrypt this message because you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
+SecureIM: Üzgünüz, bilgisayarınızda PGP/GPG yüklü olmadığı için bu mesajın şifresini çözemiyoruz. Daha fazla bilgi için www.pgp.com veya www.gnupg.org adreslerini ziyaret edin.
+[SecureIM received encrypted message:\n]
+SecureIM şifreli bir mesaj aldı:\n
+[Sending back secure message...]
+Güvenli mesaj geri gönderiliyor...
+[Sent back message received...]
+Geri gönderilen mesaj alındı...
+[Bad key received...]
+Hatalı anahtar alındı...
+[SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
+SecureIM, PGP/GPG anahtarını yükleyemiyor! PGP/GPG ayarlarını kontrol edin!
+[SecureIM can't encrypt message! Check trust of PGP/GPG key!]
+SecureIM mesajı şifreleyemiyor! PGP/GPG anahtarının güvenilirliğini kontrol edin!
+[SecureIM not enabled! You must enable SecureIM with this user...]
+SecureIM etkinleştirilmemiş! Bu kullanıcıyla SecureIM'i etkinleştirmeniz gerekiyor...
+[Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!]
+Şifreli mesaj gönderilemiyor!\nKullanıcı şu anda çevrimdışı ve güvenlik anahtarının geçerlilik süresi dolmuş. Mesajınızı göndermek istiyor musunuz?\nMesajınız şifrelenmeden gönderilecektir!
+;file \plugins\SecureIM\src\svcs_rsa.cpp
+[SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA-1: %s Old SHA-1: %s]
+SecureIM, %s adresinden gelen YENİ RSA açık anahtarını otomatik olarak kabul etti. UIN: %s Yeni SHA-1: %s Eski SHA-1: %s
+[SecureIM auto accepted RSA Public key from: %s uin: %s SHA-1: %s]
+SecureIM, şu adresten gelen RSA açık anahtarını otomatik olarak kabul etti: %s uin: %s SHA-1: %s
+[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA-1: %s\n\nOld SHA-1: %s\n\nDo you Replace this Key?]
+SecureIM, "%s" adresinden YENİ bir RSA Açık Anahtarı aldı.\n\nYeni SHA-1: %s\n\nEski SHA-1: %s\n\nBu anahtarı değiştirmek istiyor musunuz?
+[SecureIM received RSA Public Key from "%s"\n\nSHA-1: %s\n\nDo you Accept this Key?]
+SecureIM, "%s" adresinden bir RSA Açık Anahtarı aldı\n\nSHA-1: %s\n\nBu anahtarı kabul ediyor musunuz?
+[Session closed by receiving incorrect message type]
+Yanlış mesaj türü alındığı için oturum kapatıldı
+[Session closed by other side on error]
+Hata nedeniyle karşı taraf tarafından oturum kapatıldı
+[Error while decoding AES message]
+AES mesajını çözme sırasında hata oluştu
+[Error while decoding RSA message]
+RSA mesajının kodunun çözülmesi sırasında hata oluştu
+[Session closed on timeout]
+Zaman aşımı nedeniyle oturum kapatıldı
+[Session closed by other side when status "disabled"]
+Durum "devre dışı" olduğunda oturum karşı tarafça kapatıldı
+[Session closed on error: %02x]
+Hata nedeniyle oturum kapatıldı: %02x
+;file \plugins\SecureIM\src\svcs_srmm.cpp
+[SecureIM [Native]]
+SecureIM [Yerel]
+[SecureIM [PGP]]
+SecureIM [PGP]
+[SecureIM [GPG]]
+SecureIM [GPG]
+[SecureIM [RSA/AES]]
+SecureIM [RSA/AES]

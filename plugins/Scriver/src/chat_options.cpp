@@ -169,6 +169,26 @@ public:
 
 	bool OnInitDialog() override
 	{
+		if (Srmm_IsCustomLogUsed(true)) {
+			spin2.Disable();
+			m_opts.Disable();
+			::EnableWindow(GetWindow(m_hwnd, IDC_CHAT_LOGTIMESTAMP), FALSE);
+			::EnableWindow(GetWindow(m_hwnd, IDC_CHAT_LOGTIMESTAMP), FALSE);
+			::EnableWindow(GetWindow(m_hwnd, IDC_CHAT_TIMESTAMP), FALSE);
+			::EnableWindow(GetWindow(m_hwnd, IDC_CHAT_OUTSTAMP), FALSE);
+			::EnableWindow(GetWindow(m_hwnd, IDC_CHAT_INSTAMP), FALSE);
+			::EnableWindow(GetWindow(m_hwnd, IDC_CHAT_HIGHLIGHT), FALSE);
+			::EnableWindow(GetWindow(m_hwnd, IDC_CHAT_LOGLIMIT), FALSE);
+			::EnableWindow(GetWindow(m_hwnd, IDC_CHAT_LOGTIMESTAMP), FALSE);
+		}
+		else {
+			SetDlgItemText(m_hwnd, IDC_CHAT_HIGHLIGHTWORDS, g_Settings.pszHighlightWords);
+			SetDlgItemText(m_hwnd, IDC_CHAT_LOGTIMESTAMP, g_Settings.pszTimeStampLog);
+			SetDlgItemText(m_hwnd, IDC_CHAT_TIMESTAMP, g_Settings.pszTimeStamp);
+			SetDlgItemText(m_hwnd, IDC_CHAT_OUTSTAMP, g_Settings.pszOutgoingNick);
+			SetDlgItemText(m_hwnd, IDC_CHAT_INSTAMP, g_Settings.pszIncomingNick);
+		}
+
 		spin2.SetPosition(db_get_w(0, CHAT_MODULE, "LogLimit", 100));
 		spin3.SetPosition(db_get_w(0, CHAT_MODULE, "LoggingLimit", 100));
 
@@ -214,11 +234,6 @@ public:
 		rect.left = -85;
 		hPathTip = CreateToolTip(GetDlgItem(m_hwnd, IDC_CHAT_LOGDIRECTORY), tszTooltipText, TranslateT("Variables"), &rect);
 
-		SetDlgItemText(m_hwnd, IDC_CHAT_HIGHLIGHTWORDS, g_Settings.pszHighlightWords);
-		SetDlgItemText(m_hwnd, IDC_CHAT_LOGTIMESTAMP, g_Settings.pszTimeStampLog);
-		SetDlgItemText(m_hwnd, IDC_CHAT_TIMESTAMP, g_Settings.pszTimeStamp);
-		SetDlgItemText(m_hwnd, IDC_CHAT_OUTSTAMP, g_Settings.pszOutgoingNick);
-		SetDlgItemText(m_hwnd, IDC_CHAT_INSTAMP, g_Settings.pszIncomingNick);
 		CheckDlgButton(m_hwnd, IDC_CHAT_HIGHLIGHT, g_Settings.bHighlightEnabled ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_CHAT_LOGGING, g_Settings.bLoggingEnabled ? BST_CHECKED : BST_UNCHECKED);
 		return true;
@@ -369,9 +384,7 @@ void ChatOptInitialize(WPARAM wParam)
 	odp.szTab.a = LPGEN("General");
 	g_plugin.addOptions(wParam, &odp);
 
-	if (!Srmm_IsCustomLogUsed(true)) {
-		odp.pDialog = new CLogOptsDlg();
-		odp.szTab.a = LPGEN("Log formatting");
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.pDialog = new CLogOptsDlg();
+	odp.szTab.a = LPGEN("Log formatting");
+	g_plugin.addOptions(wParam, &odp);
 }

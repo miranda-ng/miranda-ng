@@ -57,7 +57,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct FOLDERSDATA
 {
-	DWORD flags;                   // FF_* flags
+	uint32_t flags;                // FF_* flags
 	HPLUGIN plugin;                // plugin which owns a folder
 	LPCSTR szSection;              // section name, if it doesn't exist it will be created otherwise it will just add this entry to it
 	LPCSTR szName;                 // entry name - will be shown in options
@@ -88,7 +88,7 @@ struct FOLDERSGETDATA
 {
 	int nMaxPathSize;      // maximum size of buffer. This represents the number of characters that can be copied to it (so for unicode strings you don't send the number of bytes but the length of the string).
 	MAllStrings szPath;    // pointer to the buffer that receives the path without the last "\\"
-	DWORD flags;           // FF_* flags
+	uint32_t flags;        // FF_* flags
 };
 
 /*Folders/Get/Path service

@@ -49,10 +49,8 @@ MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *p
 	}
 	else {
 		// here we create a new one since no one is to be found
-		if ((hContact = db_add_contact()) == 0)
+		if ((hContact = db_add_contact(pszModule)) == 0)
 			return 0;
-
-		Proto_AddToContact(hContact, pszModule);
 
 		// create the 'Chat rooms' group only if needed
 		if (bNeedGroup) {

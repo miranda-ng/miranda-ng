@@ -218,6 +218,33 @@ void UpdateFontSettings(FontIDW *font_id, FontSettingsW *fontsettings)
 /////////////////////////////////////////////////////////////////////////////////////////
 // RegisterFont service
 
+#ifdef _WINDOWS
+MIR_APP_DLL(void) Font_Import(FontSettings &settings, LOGFONTA &lf)
+{
+	settings.size = (char)lf.lfHeight;
+	if (lf.lfItalic) settings.style |= DBFONTF_ITALIC;
+	if (lf.lfWeight != FW_NORMAL) settings.style |= DBFONTF_BOLD;
+	if (lf.lfUnderline) settings.style |= DBFONTF_UNDERLINE;
+	if (lf.lfStrikeOut) settings.style |= DBFONTF_STRIKEOUT;
+	settings.charset = lf.lfCharSet;
+	mir_strncpy(settings.szFace, lf.lfFaceName, _countof(settings.szFace)); /* buffer safe */
+}
+
+MIR_APP_DLL(void) Font_ImportW(FontSettingsW &settings, LOGFONTW &lf)
+{
+	settings.size = (char)lf.lfHeight;
+	if (lf.lfItalic) settings.style |= DBFONTF_ITALIC;
+	if (lf.lfWeight != FW_NORMAL) settings.style |= DBFONTF_BOLD;
+	if (lf.lfUnderline) settings.style |= DBFONTF_UNDERLINE;
+	if (lf.lfStrikeOut) settings.style |= DBFONTF_STRIKEOUT;
+	settings.charset = lf.lfCharSet;
+	mir_wstrncpy(settings.szFace, lf.lfFaceName, _countof(settings.szFace)); /* buffer safe */
+}
+#endif
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// RegisterFont service
+
 static int sttRegisterFontWorker(FontIDW *font_id, HPLUGIN pPlugin)
 {
 	for (auto &F : font_id_list)

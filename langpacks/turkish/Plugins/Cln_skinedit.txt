@@ -1,0 +1,73 @@
+#muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
+;============================================================
+;  File: Cln_skinedit.dll
+;  Plugin: Skin editor for Clist nicer
+;  Version: 0.0.0.4
+;  Authors: Nightwish, Pixel
+;============================================================
+[Allows inline skin item editing for Clist nicer.]
+Clist'te skin öğelerinin satır içi düzenlenmesine olanak tanır.
+;file \plugins\Cln_skinedit\res\skinedit.rc
+[Skin items]
+Cilt ürünleri
+[General]
+Genel
+[Gradient]
+Gradyan
+[Left to right]
+Soldan sağa
+[Right to left]
+Sağdan sola
+[Top to bottom]
+Yukarıdan aşağıya
+[Bottom to top]
+Aşağıdan yukarıya
+[Round corners]
+Yuvarlak köşeler
+[Top-Left]
+Sol üst köşe
+[Top-Right]
+Sağ üst köşe
+[Bottom-Right]
+Sağ alt köşe
+[Bottom-Left]
+Sol alt köşe
+[Item colors]
+Ürün renkleri
+[First color]
+İlk renk
+[Text color]
+Metin rengi
+[Second color]
+İkinci renk
+[Transparent]
+Şeffaf
+[Alpha (percent)]
+Alfa (yüzde)
+[Item margins]
+Ürün kâr marjları
+[Item borders]
+Öğe kenarlıkları
+[Border style]
+Sınır stili
+[3D border (bright / dark)]
+3D kenarlık (açık / koyu)
+[Item ignored]
+Öğe göz ardı edildi
+[Dialog]
+Diyalog
+[Not yet supported]
+Henüz desteklenmiyor
+;file \plugins\Cln_skinedit\src\main.cpp
+[Copy from]
+Şuradan kopyala:
+[<None>]
+<Yok>
+[Raised]
+Yükseltildi
+[Sunken]
+Batık
+[Bumped]
+Yükseltildi
+[Etched]
+Asitle kazınmış

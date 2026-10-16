@@ -19,6 +19,8 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
+#include <vector>
+
 // check if Feed is currently updating
 bool ThreadRunning;
 static mir_cs g_csUpdate;

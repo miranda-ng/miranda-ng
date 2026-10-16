@@ -1,0 +1,197 @@
+#muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
+;============================================================
+;  File: CmdLine.dll
+;  Plugin: Command line
+;  Version: 0.1.0.1
+;  Authors: Cristian Libotean
+;============================================================
+[This plugin lets you control Miranda from the command line.]
+Bu eklenti, Miranda'yı komut satırından kontrol etmenizi sağlar.
+;file \plugins\CmdLine\src\CmdLine.cpp
+[Could not initialize CmdLine plugin properly]
+CmdLine eklentisi düzgün bir şekilde başlatılamadı
+[Error]
+Hata
+;file \plugins\CmdLine\src\mimcmd_data.h
+[Changes account status either globally or per account.\nUsage: status <status> [<account>].\nPossible values for <status> are: offline, online, away, dnd, na, occupied, freechat, invisible.\n<Account> is an optional parameter specifying the account to set the status for. If it's not specified then the command will issue a global status change.]
+Hesap durumunu genel olarak ya da hesap bazında değiştirir.\nKullanım: status <durum> [<hesap>].\n<durum> için geçerli değerler şunlardır: offline, online, away, dnd, na, occupied, freechat, invisible.\n<hesap>, durumun ayarlanacağı hesabı belirten isteğe bağlı bir parametredir. Belirtilmezse, komut genel bir durum değişikliği gerçekleştirir.
+[Changes away message either globally or per account.\nUsage: awaymsg <message> [<account>].\n<Message> is the new away message.\n<Account> is an optional parameter specifying the account to set the away message for. If not specified then the away message will be set globally.]
+Uzakta mesajını genel olarak veya hesap bazında değiştirir.\nKullanım: awaymsg <mesaj> [<hesap>].\n<Mesaj>, yeni uzakta mesajıdır.\n<Hesap>, uzakta mesajının ayarlanacağı hesabı belirten isteğe bağlı bir parametredir. Belirtilmezse, uzakta mesajı genel olarak ayarlanır.
+[Changes extended status either globally or per account.\nUsage: xstatus <xStatus> [<account>].\n<xStatus> is the new extended status to set. Possible values are: ...\n<Account> is an optional parameter specifying the account for which extended status is set. If not specified then extended status for all accounts will be changed.\nNOTE: Not all accounts/protocols support extended status.]
+Genişletilmiş durumu ya genel olarak ya da hesap bazında değiştirir.\nKullanım: xstatus <xStatus> [<account>].\n<xStatus>, ayarlanacak yeni genişletilmiş durumdur. Olası değerler şunlardır: ...\n<Hesap>, genişletilmiş durumun ayarlanacağı hesabı belirten isteğe bağlı bir parametredir. Belirtilmezse, tüm hesapların genişletilmiş durumu değiştirilir.\nNOT: Tüm hesaplar/protokoller genişletilmiş durumu desteklemez.
+[Disables or enables popups display.\nUsage: popups (disable | enable | toggle).\nThe command will either enable or disable popups display.]
+Açılır pencerelerin görüntülenmesini devre dışı bırakır veya etkinleştirir.\nKullanım: popups (disable | enable | toggle).\nBu komut, açılır pencerelerin görüntülenmesini etkinleştirir veya devre dışı bırakır.
+[Disables or enables sounds.\nUsage: sounds (disable | enable | toggle).\nThe command will either disable or enable sounds.]
+Sesleri devre dışı bırakır veya etkinleştirir.\nKullanım: sounds (disable | enable | toggle).\nBu komut, sesleri devre dışı bırakır veya etkinleştirir.
+[Hides or shows the contact list window.\nUsage: clist (show | hide | toggle).\nThe command will either show or hide the contact list window.]
+Kişi listesi penceresini gösterir veya gizler.\nKullanım: clist (show | hide | toggle).\nBu komut, kişi listesi penceresini gösterir veya gizler.
+[Closes Miranda.\nUsage: quit [wait].\nIf wait is used then the command will return only when CmdLine plugin has been unloaded by Miranda.]
+Miranda'yı kapatır.\nKullanım: quit [wait].\nWait parametresi kullanılırsa, komut ancak CmdLine eklentisi Miranda tarafından kaldırıldığında geri döner.
+[Provides help on other commands.\nUsage: help [<command>].\nThe command will print help information for other commands. If run without any parameters it will print available commands.]
+Diğer komutlar hakkında yardım sağlar.\nKullanım: help [<komut>].\nBu komut, diğer komutlara ilişkin yardım bilgilerini görüntüler. Herhangi bir parametre olmadan çalıştırıldığında, kullanılabilir komutları listeler.
+[Notifies Exchange plugin to check for email.\nUsage: exchange check.]
+Exchange eklentisine e-posta kontrolü yapması için bildirim gönderir.\nKullanım: exchange check.
+[Notifies YAMN plugin to check for email.\nUsage: yamn check.]
+YAMN eklentisine e-posta kontrolü yapması için bildirim gönderir.\nKullanım: yamn check.
+[Calls a Miranda service.\nUsage: callservice <service> (d|s)<wParam> (d|s)<lParam>.\nThe command will call Miranda <service> service using wParam and lParam as arguments; the first letter of the parameter must be either 'd' if the parameter is a decimal number or 's' if the parameter is a string. Be careful when you use this function as you can only pass numbers and strings as data.\nNOTE: If you pass invalid data to a service, Miranda might crash.]
+Bir Miranda hizmetini çağırır.\nKullanım: callservice <hizmet> (d|s)<wParam> (d|s)<lParam>.\nBu komut, wParam ve lParam parametrelerini kullanarak Miranda <hizmet> hizmetini çağırır; parametrenin ilk harfi, parametre ondalık bir sayı ise 'd', parametre bir dize ise 's' olmalıdır. Bu işlevi kullanırken dikkatli olun, çünkü veri olarak yalnızca sayılar ve dizeler aktarabilirsiniz.\nNOT: Bir servise geçersiz veri aktarırsanız, Miranda çökebilir.
+[Sends a message to the specified contact(s).\nUsage: message <contact> [<contact> [<contact> [...]]] <message>.\nThe command will send <message> to the specified contact(s) - at least one contact must be specified - all parameters except the last one are considered recipients.\n<Contact> has the following format: <name>[:<account>]. <Name> is the contact display name or unique ID and <account> is an optional parameter representing the account of the contact (useful in case there is more than one contact with the same name).\nNOTE: The message string cannot exceed 512 characters. You can use \\n for new line (and \\\\n for \\n).]
+Belirtilen kişiye/kişilere bir mesaj gönderir.\nKullanım: message <kişi> [<kişi> [<kişi> [...]]] <mesaj>.\nBu komut, <mesaj>'ı belirtilen kişiye/kişilere gönderir — en az bir kişi belirtilmelidir — son parametre hariç tüm parametreler alıcı olarak kabul edilir.\n<Kişi>, şu biçime sahiptir: <ad>[:<hesap>]. <Ad>, kişinin görüntü adıdır veya benzersiz kimliğidir ve <hesap>, kişinin hesabını temsil eden isteğe bağlı bir parametredir (aynı ada sahip birden fazla kişi olması durumunda kullanışlıdır).\nNOT: Mesaj dizesi 512 karakteri geçemez. Yeni satır için \\n (ve \\n yerine \\\\n) kullanabilirsiniz.
+[Allows you to manage database settings.\nUsage:\n  db set <module> <name> (b|i|d|s|w)<value>\n  db delete <module> <name>\n  db get <module> <name>.\nThe command can set a database entry to the specified value (if the entry does not exist, it will be created) as well as read or delete a specified database entry. <Module> is the name of the module where the key should be located, <name> is the name of the key and <value> is the value to be written. A character must be placed before <value> in order to specify what kind of data to write: b - byte, i - integer (word), d - double word, s - string, w - wide string.]
+Veritabanı ayarlarını yönetmenizi sağlar.\nKullanım:\n  db set <modül> <ad> (b|i|d|s|w)<değer>\n  db delete <modül> <ad>\n  db get <modül> <ad>.\Bu komut, bir veritabanı girdisini belirtilen değere ayarlayabilir (girdi mevcut değilse oluşturulur) ve ayrıca belirtilen bir veritabanı girdisini okuyabilir veya silebilir. <Modül>, anahtarın bulunması gereken modülün adıdır; <ad>, anahtarın adıdır ve <değer>, yazılacak değerdir. Yazılacak verinin türünü belirtmek için <değer> öncesine bir karakter eklenmelidir: b - bayt, i - tamsayı (kelime), d - çift kelime, s - dize, w - geniş dize.
+[Configures proxy settings either globally or per account.\nUsage: proxy (global|<account>) <setting> [<params>].\n<Setting> is one of the following settings:\n  status (disable | enable | toggle)\n  server <proxy type> <server> <port>.]
+Proxy ayarlarını genel olarak ya da hesap bazında yapılandırır.\nKullanım: proxy (global|<hesap>) <ayar> [<parametreler>].\n<Ayar>, aşağıdaki ayarlardan biridir:\n  status (disable | enable | toggle)\n  server <proxy türü> <sunucu> <bağlantı noktası>.
+[Allows you to search/list contacts or open message windows for specified contacts.\nUsage:\n  contacts list [<keyword> [account:<account>] [id:<id>] [status:<status>] [<keyword> [...]]].\nThe command will search all contacts and display the ones matching the search criteria. To search for a specific account use the keyword 'account:<account>'. To search for contacts that have a certain ID use the keyword 'id:<id>'. To search for contacts that have a certain status use 'status:<status>'.\n  contacts open [<keyword> [account:<account>] [id:<id>] [status:<status>] [<keyword> [...]]].\nThe command will open a message window for all contacts that match the search criteria. To search for a specific account use the keyword 'account:<account>'. To search for contacts that have a certain ID use the keyword 'id:<id>'. To search for contacts that have a certain status use 'status:<status>'. If no keyword is specified, the command will open a message window for all contacts that have unread messages.]
+Kişileri aramanıza/listelemenize veya belirli kişiler için mesaj pencerelerini açmanıza olanak tanır.\nKullanım:\n  contacts list [<anahtar kelime> [account:<hesap>] [id:<id>] [status:<status>] [<anahtar kelime> [...]]].\nBu komut, tüm kişileri arar ve arama kriterlerine uyanları görüntüler. Belirli bir hesabı aramak için 'account:<account>' anahtar sözcüğünü kullanın. Belirli bir ID'ye sahip kişileri aramak için 'id:<id>' anahtar sözcüğünü kullanın. Belirli bir duruma sahip kişileri aramak için 'status:<status>' kullanın.\n  contacts open [<anahtar sözcük> [account:<account>] [id:<id>] [status:<status>] [<anahtar kelime> [...]]].\nBu komut, arama kriterlerine uyan tüm kişiler için bir mesaj penceresi açar. Belirli bir hesabı aramak için 'account:<hesap>' anahtar kelimesini kullanın. Belirli bir kimliğe sahip kişileri aramak için 'id:<id>' anahtar kelimesini kullanın. Belirli bir duruma sahip kişileri aramak için 'status:<status>' anahtar kelimesini kullanın. Herhangi bir anahtar kelime belirtilmezse, komut okunmamış mesajları olan tüm kişiler için bir mesaj penceresi açar.
+[Shows history or unread messages for a contact.\nUsage: history <command> <contact>.\n<Command> is one of the following commands:\n  unread - show unread messages for that contact.\n  show <contact> <start> <finish> - show history from event number <start> to <finish>. If any number is negative, it is interpreted as a relative index from the last event number +1 (so the last event for a contact is -1).]
+Bir kişinin geçmişini veya okunmamış mesajlarını gösterir.\Kullanım: history <komut> <kişi>.\n<Komut>, aşağıdaki komutlardan biridir:\n  unread - o kişinin okunmamış mesajlarını gösterir.\n  show <kişi> <başlangıç> <bitiş> - <başlangıç> numaralı olaydan <bitiş> numaralı olaya kadar olan geçmişi gösterir. Herhangi bir sayı negatifse, son olay numarası +1'den itibaren göreceli bir indeks olarak yorumlanır (yani bir kişinin son olayı -1'dir).
+[Shows version information for Miranda and CmdLine plugin. If CrashDumper plugin is installed, it will use its report instead.\nUsage: version.\nThe command will print Miranda's and CmdLine's version numbers or, if CrashDumper plugin is installed, it will show Version Info report.]
+Miranda ve CmdLine eklentisinin sürüm bilgilerini gösterir. CrashDumper eklentisi yüklüyse, onun raporunu kullanır.\nKullanım: version.\nBu komut, Miranda ve CmdLine'ın sürüm numaralarını görüntüler; CrashDumper eklentisi yüklüyse ise Sürüm Bilgisi raporunu gösterir.
+[Changes the user's nickname on the given protocol to the new name.\nUsage: setnickname <protocol> new_nickname.]
+Belirtilen protokolde kullanıcının takma adını yeni adla değiştirir.\nKullanım: setnickname <protokol> yeni_takma_ad.
+[Ignores or removes ignore flags for specific contacts.\nUsage:\n  ignore (block | unblock) <contact> [<contact> [<contact> [...]]].\nThe command will set or remove ignore flags for the specified contacts]
+Belirli kişiler için görmezden gelme işaretlerini yok sayar veya kaldırır.\nKullanım:\n  ignore (block | unblock) <kişi> [<kişi> [<kişi> [...]]].\nBu komut, belirtilen kişiler için görmezden gelme işaretlerini ayarlar veya kaldırır
+[Executes Lua script via MirLua plugin.\nUsage:\n  call [<module>] <function>\n  exec "<path>"\n  eval "<code>"]
+MirLua eklentisi aracılığıyla Lua betiğini çalıştırır.\nKullanım:\n  call [<modül>] <işlev>\n  exec "<yol>"\n  eval "<code>"
+;file \plugins\CmdLine\src\mimcmd_handlers.cpp
+[Wrong number of parameters for command '%s'.]
+'%s' komutu için parametre sayısı yanlış.
+[Unknown parameter '%s' for command '%s'.]
+'%s' komutu için '%s' parametresi bilinmiyor.
+[Current global status: %s.%s]
+Güncel küresel durum: %s.%s
+[Changed global status to '%s' (previous status was '%s').]
+Genel durum '%s' olarak değiştirildi (önceki durum '%s' idi).
+[Changed '%s' status to '%s' (previous status was '%s').]
+'%s' durumunu '%s' olarak değiştirdi (önceki durum '%s' idi).
+['%s' doesn't seem to be a valid account.]
+'%s' geçerli bir hesap gibi görünmüyor.
+[Failed to change status for account '%s' to '%s'.]
+'%s' hesabının durumunu '%s' olarak değiştiremedi.
+[Failed to set '%s' status message to '%s' (status is '%s').]
+'%s' durum mesajı '%s' olarak ayarlanamadı (durum '%s'dir).
+[Successfully set '%s' status message to '%s' (status is '%s').]
+'%s' durum mesajı başarıyla '%s' olarak ayarlandı (durum '%s').
+[Account '%s' does not support away messages, skipping.]
+'%s' hesabı uzakta mesajlarını desteklemiyor, atlanıyor.
+[Changed '%s' status message to '%s' (status is '%s').]
+'%s' durum mesajı '%s' olarak değiştirildi (durum '%s'dir).
+[Failed to change status message for account '%s' to '%s' (status is '%s').]
+'%s' hesabının durum mesajını '%s' olarak değiştiremedi (durum '%s').
+[Popups are currently enabled.]
+Şu anda açılır pencereler etkin durumdadır.
+[Popups are currently disabled.]
+Şu anda açılır pencereler devre dışı bırakılmıştır.
+[Popups were enabled successfully.]
+Açılır pencereler başarıyla etkinleştirildi.
+[Popups could not be enabled.]
+Açılır pencereler etkinleştirilemedi.
+[Popups were disabled successfully.]
+Açılır pencereler başarıyla devre dışı bırakıldı.
+[Popups could not be disabled.]
+Açılır pencereler devre dışı bırakılamadı.
+[Sounds are currently enabled.]
+Sesler şu anda açıktır.
+[Sounds are currently disabled.]
+Sesler şu anda devre dışıdır.
+[Sounds were enabled successfully.]
+Sesler başarıyla etkinleştirildi.
+[Sounds were disabled successfully.]
+Sesler başarıyla devre dışı bırakıldı.
+[Contact list is currently shown.]
+Şu anda kişi listesi görüntüleniyor.
+[Contact list is currently hidden.]
+Kişi listesi şu anda gizlenmiş durumda.
+[Contact list was shown successfully.]
+Kişi listesi başarıyla görüntülendi.
+[Contact list was hidden successfully.]
+Kişi listesi başarıyla gizlendi.
+[Issued a quit command.]
+"quit" komutu verildi.
+[Issued a quit and wait command.]
+"Çık ve bekle" komutu verildi.
+[Issued check email command to Exchange plugin.]
+Exchange eklentisine “check email” komutu gönderildi.
+[Exchange plugin is not running.]
+Exchange eklentisi çalışmıyor.
+[Issued check email command to YAMN plugin.]
+YAMN eklentisine “check email” komutu gönderildi.
+[YAMN plugin is not running.]
+YAMN eklentisi çalışmıyor.
+[CallService call successful: service '%s' returned %p.]
+CallService çağrısı başarılı: '%s' hizmeti %p değerini döndürdü.
+[Invalid parameter '%s' passed to CallService command.]
+CallService komutuna '%s' adlı geçersiz bir parametre aktarıldı.
+[Service '%s' does not exist.]
+'%s' hizmeti mevcut değil.
+[Message sent to '%s'.]
+'%s' adresine mesaj gönderildi.
+[Message to '%s' was marked as sent but the account seems to be offline]
+'%s'ye gönderilen mesaj "gönderildi" olarak işaretlendi, ancak hesap çevrimdışı görünüyor
+[Could not send message to '%s'.]
+'%s' adresine mesaj gönderilemedi.
+[Timed out while waiting for acknowledgment for contact '%s'.]
+'%s' bağlantısı için onay beklenirken zaman aşımı meydana geldi.
+[Could not find contact handle for contact '%s'.]
+'%s' adlı kişi için kişi tanıtıcısı bulunamadı.
+[byte:%d]
+bayt:%d
+[word:%d]
+kelime:%d
+[dword:%ld]
+dword:%ld
+[string:'%s']
+dize:'%s'
+[wide string:'%S']
+geniş dize: '%S'
+[utf8:'%s']
+utf8:'%s'
+[blob:N/A]
+blob: Yok
+[unknown value]
+bilinmeyen değer
+[Setting '%s/%s' deleted.]
+'%s/%s' ayarı silindi.
+[string]
+dize
+[byte]
+bayt
+[word]
+kelime
+[dword]
+dword
+[wide string]
+geniş ip
+[Wrote '%S:%s' to database entry '%S/%S'.]
+'%S:%s' ifadesi, '%S/%S' veritabanı kaydına yazıldı.
+[Could not retrieve setting '%S/%S': %S.]
+'%S/%S' ayarı alınamadı: %S.
+[Setting '%S/%S' was not found.]
+'%S/%S' ayarı bulunamadı.
+['%S' proxy was disabled.]
+'%S' proxy'si devre dışı bırakıldı.
+['%S' proxy was enabled.]
+'%S' proxy'si etkinleştirildi.
+[%S proxy server: %S %S:%d.]
+%S proxy sunucusu: %S %S:%d.
+[%S proxy set to %s %S:%d.]
+%S proxy'si %s %S:%d olarak ayarlandı.
+[%S The port or the proxy type parameter is invalid.]
+%S Bağlantı noktası veya proxy türü parametresi geçersiz.
+[[me]]
+[ben]
+[No unread messages found.]
+Okunmamış mesaj bulunamadı.
+[%s:%S - %d unread events.]
+%s:%S - %d adet okunmamış olay.
+[Contact '%s' has %d events in history.]
+'%s' ile olan iletişim geçmişinde %d olay bulunmaktadır.
+[Error setting nickname to '%s' for protocol '%s']
+'%s' protokolü için '%s' takma adı ayarlanırken hata oluştu
+[Command '%s' is not currently supported.]
+'%s' komutu şu anda desteklenmemektedir.
+;file \plugins\CmdLine\src\services.cpp
+[Could not create CommandLine listening server!]
+CommandLine dinleme sunucusu oluşturulamadı!
+[You can only run one instance of CmdLine plugin.]
+CmdLine eklentisinin yalnızca bir örneğini çalıştırabilirsiniz.

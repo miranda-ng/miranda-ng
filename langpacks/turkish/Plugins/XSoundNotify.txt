@@ -1,0 +1,47 @@
+#muuid {a01e25f7-a6ef-4b40-8cac-755a2f2e55b5}
+;============================================================
+;  File: XSoundNotify.dll
+;  Plugin: XSoundNotify
+;  Version: 1.2.0.1
+;  Authors: Roman Torsten
+;============================================================
+[Provides extended options for sound notifications.]
+Sesli bildirimler için genişletilmiş seçenekler sunar.
+;file \plugins\XSoundNotify\res\XSoundNotify.rc
+[Account:]
+Hesap:
+[Nick:]
+Nick:
+[Sound:]
+Ses:
+[Not set]
+Ayarlanmamış
+[Choose]
+Seç
+[Test play]
+Deneme oynama
+[Reset]
+Sıfırla
+[Ignore sound for this contact]
+Bu kişi için ses uyarısını yok say
+[Cancel]
+İptal et
+;file \plugins\XSoundNotify\src\dialog.cpp
+[Custom sound for %s (%s)]
+%s için özel ses (%s)
+[Sound files]
+Ses dosyaları
+[WAV files]
+WAV dosyaları
+;file \plugins\XSoundNotify\src\options.cpp
+[All contacts]
+Tüm kişiler
+[Sounds]
+Sesler
+[XSound Notify]
+XSound Bildirimi
+;file \plugins\XSoundNotify\src\xsn_main.cpp
+[Self status]
+Kişisel durum
+[Custom contact sound]
+Kişiye özel arama sesi

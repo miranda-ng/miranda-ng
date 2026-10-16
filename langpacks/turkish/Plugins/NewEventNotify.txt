@@ -1,0 +1,130 @@
+#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
+;============================================================
+;  File: NewEventNotify.dll
+;  Plugin: NewEventNotify
+;  Version: 0.2.2.7
+;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
+;============================================================
+[Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
+Bir mesaj, URL, dosya veya başka herhangi bir olay aldığınızda bir açılır pencere görüntüleyerek sizi bilgilendirir.
+;file \plugins\NewEventNotify\res\resource.rc
+[Limit message preview to]
+Mesaj önizlemesini şunlarla sınırla:
+[characters]
+karakterler
+[Message]
+Mesaj
+[File]
+Dosya
+[Errors]
+Hatalar
+[Others]
+Diğerleri
+[Text]
+Metin
+[Background]
+Arka Plan
+[Use default colors]
+Varsayılan renkleri kullan
+[Use Windows colors]
+Windows renklerini kullan
+[Timeout, secs]
+Zaman aşımı, saniye
+[Preview]
+Önizleme
+[(timeout -1 means forever, 0 - default)]
+(zaman aşımı -1 “sonsuza kadar”, 0 ise “varsayılan” anlamına gelir)
+[Don't show popup when message dialog is already open]
+Mesaj iletişim kutusu zaten açıksa açılır pencere gösterme
+[Hide popup when sending new message]
+Yeni mesaj gönderirken açılır pencereyi gizle
+[Open reply dialog instead of reading the message]
+Mesajı okumak yerine yanıt iletişim kutusunu aç
+[Merge popups from one user]
+Bir kullanıcıya ait açılır pencereleri birleştir
+[Show date]
+Tarihi göster
+[Show time]
+Gösteri zamanı
+[Show headers]
+Başlıkları göster
+[Number of messages being shown]
+Görüntülenen mesaj sayısı
+[Last message display first]
+En son mesajlar önce gösterilsin
+[Last message display last]
+Son mesaj en son gösterilir
+;file \plugins\NewEventNotify\src\main.cpp
+[New event notifications]
+Yeni etkinlik bildirimleri
+;file \plugins\NewEventNotify\src\options.cpp
+[General options]
+Genel seçenekler
+[Show preview of event in popup]
+Etkinliğin önizlemesini açılır pencerede göster
+[Enable event notifications for instant messages]
+Anlık mesajlar için olay bildirimlerini etkinleştir
+[Enable event notifications for group chats]
+Grup sohbetleri için olay bildirimlerini etkinleştir
+[Notify me of...]
+Şunlar hakkında beni bilgilendir...
+[Error]
+Hata
+[Left click actions]
+Sol tıklama eylemleri
+[Dismiss popup]
+Açılır pencereyi kapat
+[Open event]
+Açık etkinlik
+[Dismiss event]
+Etkinliği kapat
+[Right click actions]
+Sağ tıklama eylemleri
+[Timeout actions]
+Zaman aşımı eylemleri
+[Misc options]
+Çeşitli seçenekler
+[No popups for RSS contacts]
+RSS kişileri için açılır pencere gösterilmez
+[No popups for read messages (conflicts with anti-spam plugin)]
+Okunan mesajlar için açılır pencere gösterilmez (spam önleme eklentisiyle çakışır)
+[Event Notify]
+Etkinlik Bildirimi
+[Popups]
+Açılır pencereler
+[Main options]
+Ana seçenekler
+[Message events]
+Mesaj olayları
+[Event types]
+Etkinlik türleri
+;file \plugins\NewEventNotify\src\popup.cpp
+[Received %d contacts.]
+%d kişi kaydedildi.
+[ added you to the contact list]
+ Seni kişi listesine ekledim
+[ requested authorization]
+ yetki talebi
+[This is a sample message event :-)]
+Bu, örnek bir mesaj olayıdır :-)
+[This is a sample file event :-D]
+Bu bir örnek dosya olayı :-D
+[This is a sample error event :-D]
+Bu bir örnek hata olayı :-D
+[This is a sample other event ;-D]
+Bu, başka bir etkinliğin örneğidir ;-D
+[Plugin Test]
+Eklenti Testi
+[[b]Number of new message(s): %d[/b]\n]
+[b]Yeni mesaj sayısı: %d[/b]\n
+;file \plugins\NewEventNotify\src\stdafx.h
+[Contacts]
+İletişim Bilgileri
+[You were added!]
+Eklendiniz!
+[Requests your authorization]
+Onayınızı talep ediyor
+[Unknown Event]
+Bilinmeyen Olay
+[Notify of new events]
+Yeni etkinliklerden haberdar ol

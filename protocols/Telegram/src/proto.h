@@ -220,7 +220,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	TD::object_ptr<TD::AuthorizationState> pAuthState;
 	TD::object_ptr<TD::ConnectionState> pConnState;
 
-	TD::array<TD::int53> m_botIds;
+	TD::array<TD::int53> m_knownBotIds;
 
 	mir_cs m_csMarkRead;
 	TD::int53 m_markChatId = 0;
@@ -344,6 +344,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void InitGroupChat(TG_USER *pUser, const wchar_t *pwszTitle);
 	void StartGroupChat(td::ClientManager::Response &response, void *pUserData);
 	
+	void InitForumTopic(TG_USER *pUser, TD::int32 topic_id, const wchar_t *pwszTitle);
+
 	void Chat_SendPrivateMessage(GCHOOK *gch);
 	void Chat_LogMenu(GCHOOK *gch);
 
@@ -373,6 +375,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	TG_USER* AddFakeUser(int64_t id, bool bIsChat);
 	TG_USER* GetSender(const TD::MessageSender *pSender);
 	
+	void     HideBots(const TD::array<TD::object_ptr<TD::botCommands>> &bots);
+
 	TG_SUPER_GROUP* FindSuperGroup(int64_t id);
 
 	int64_t  GetId(MCONTACT, const char *pszSetting = DBKEY_ID);
@@ -473,6 +477,7 @@ public:
 	CMOption<bool>     m_bResidentChannels; // don't store channel messages in a database
 	CMOption<bool>     m_bCompressFiles;    // embed pictures & videos into a message on send
 	CMOption<bool>     m_bDeleteContacts;   // delete contacts from Miranda when they are deleted from server
+	CMOption<bool>     m_bIgnoreBots;       // never add bots to the contact list
 	CMOption<uint32_t> m_iTimeDiff1;		    // set this status to m_iStatus1 after this interval of secs
 	CMOption<uint32_t> m_iStatus1;
 	CMOption<uint32_t> m_iTimeDiff2;        // set this status to m_iStatus2 after this interval of secs
