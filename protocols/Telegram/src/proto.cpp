@@ -531,7 +531,7 @@ int CTelegramProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *p
 			iReplyId = dbei2id(dbei);
 	}
 
-	int msgid = SendTextMessage(pUser->chatId, 0, iReplyId, pszMessage);
+	int msgid = SendTextMessage(pUser->chatId, GetId(hContact, DBKEY_THREAD), iReplyId, pszMessage);
 	if (msgid != -1)
 		m_arOwnMsg.insert(new TG_OWN_MESSAGE(hContact, (HANDLE)msgid));
 
