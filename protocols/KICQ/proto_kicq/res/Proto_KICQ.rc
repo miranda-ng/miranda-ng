@@ -1,0 +1,21 @@
+// The classic ICQ daisies, taken from Jasmine IM like the rest of the protocol:
+// green online, red offline, white card for away.
+//
+#include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+#include "afxres.h"
+#undef APSTUDIO_READONLY_SYMBOLS
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+
+// the icon with the lowest id goes first, so that it represents the file
+IDI_ONLINE              ICON                    "Online.ico"
+IDI_OFFLINE             ICON                    "Offline.ico"
+IDI_AWAY                ICON                    "Away.ico"
+IDI_FREE4CHAT           ICON                    "FreeChat.ico"
+IDI_INVISIBLE           ICON                    "Invisible.ico"
+IDI_NA                  ICON                    "NA.ico"
+IDI_LOAD                ICON                    "Connecting.ico"
+IDI_DND                 ICON                    "DND.ico"
+IDI_OCCUPIED            ICON                    "Occupied.ico"

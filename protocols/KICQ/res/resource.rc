@@ -1,0 +1,96 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ACCMGRUI DIALOGEX 0, 0, 186, 110
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "UIN:",IDC_STATIC,0,7,60,8
+    EDITTEXT        IDC_UIN,62,5,123,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Password:",IDC_STATIC,0,23,60,8
+    EDITTEXT        IDC_PASSWORD,62,21,123,12,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "Server:",IDC_STATIC,0,39,60,8
+    EDITTEXT        IDC_SERVER,62,37,123,12,ES_AUTOHSCROLL
+    LTEXT           "Port:",IDC_STATIC,0,55,60,8
+    EDITTEXT        IDC_PORT,62,53,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Default group:",IDC_STATIC,0,71,60,8
+    EDITTEXT        IDC_GROUP,62,69,123,12,ES_AUTOHSCROLL
+    LTEXT           "Only the first 8 characters of the password are used by the ICQ login of this server.",IDC_STATIC,0,87,185,18
+END
+
+IDD_OPTIONS DIALOGEX 0, 0, 305, 140
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Account",IDC_STATIC,7,7,291,62
+    LTEXT           "UIN:",IDC_STATIC,15,22,80,8
+    EDITTEXT        IDC_UIN,100,20,120,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Password:",IDC_STATIC,15,40,80,8
+    EDITTEXT        IDC_PASSWORD,100,38,120,12,ES_PASSWORD | ES_AUTOHSCROLL
+    GROUPBOX        "Connection",IDC_STATIC,7,73,291,62
+    LTEXT           "Server:",IDC_STATIC,15,88,80,8
+    EDITTEXT        IDC_SERVER,100,86,120,12,ES_AUTOHSCROLL
+    LTEXT           "Port:",IDC_STATIC,15,104,80,8
+    EDITTEXT        IDC_PORT,100,102,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Default group:",IDC_STATIC,15,120,80,8
+    EDITTEXT        IDC_GROUP,100,118,120,12,ES_AUTOHSCROLL
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE
+BEGIN
+    "..\src\resource.h\0"
+END
+
+2 TEXTINCLUDE
+BEGIN
+    "#include ""winres.h""\0"
+END
+
+3 TEXTINCLUDE
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+IDI_KICQ                ICON                    "kicq.ico"
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
