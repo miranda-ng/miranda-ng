@@ -50,7 +50,7 @@ int CTelegramProto::OnPrebuildNSMenu(WPARAM hContact, LPARAM)
 	else {
 		Menu_ShowItem(hmiForward, 0 == getByte(hContact, "Protected"));
 
-		auto *pUser = FindUser(GetId(hContact));
+		auto *pUser = Contact2user(hContact);
 		Menu_ShowItem(hmiReaction, pUser && pUser->pReactions);
 	}
 	return 0;

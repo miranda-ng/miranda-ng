@@ -167,7 +167,7 @@ void CTelegramProto::GcAddMembers(TG_USER *pChat, const TD::array<TD::object_ptr
 int CTelegramProto::GcMuteHook(WPARAM hContact, LPARAM mode)
 {
 	if (Proto_IsProtoOnContact(hContact, m_szModuleName)) {
-		if (auto *pUser = FindUser(GetId(hContact))) {
+		if (auto *pUser = Contact2user(hContact)) {
 			auto settings = TD::make_object<TD::chatNotificationSettings>();
 			memcpy(settings.get(), &pUser->notificationSettings, sizeof(pUser->notificationSettings));
 

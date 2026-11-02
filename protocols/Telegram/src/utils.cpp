@@ -170,7 +170,7 @@ TD::int53 dbei2id(const DBEVENTINFO &dbei)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-const char *getName(const TD::usernames *pName)
+const char* getName(const TD::usernames *pName)
 {
 	return (pName == nullptr) ? TranslateU("none") : pName->editable_username_.c_str();
 }
@@ -359,6 +359,18 @@ TG_SUPER_GROUP* CTelegramProto::FindSuperGroup(int64_t id)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Users
+
+TG_USER* CTelegramProto::Contact2user(MCONTACT hContact)
+{
+	int64_t id = GetId(hContact), forumId = GetId(hContact, DBKEY_THREAD);
+	if (forumId != 0)
+		return FindChat(id, forumId);
+
+	if (auto *pUser = FindChat(id))
+		return pUser;
+
+	return FindUser(id);
+}
 
 TG_USER* CTelegramProto::FindChat(int64_t id)
 {

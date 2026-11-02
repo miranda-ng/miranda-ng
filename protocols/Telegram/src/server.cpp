@@ -555,7 +555,7 @@ INT_PTR CTelegramProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
 
 INT_PTR CTelegramProto::SvcCanEmptyHistory(WPARAM hContact, LPARAM bIncoming)
 {
-	if (auto *pUser = FindUser(GetId(hContact))) {
+	if (auto *pUser = Contact2user(hContact)) {
 		if (auto *pGroup = FindSuperGroup(pUser->id))
 			if (pGroup->group->is_channel_)
 				return 0;
@@ -571,7 +571,7 @@ INT_PTR CTelegramProto::SvcCanEmptyHistory(WPARAM hContact, LPARAM bIncoming)
 
 INT_PTR CTelegramProto::SvcEmptyServerHistory(WPARAM hContact, LPARAM lParam)
 {
-	if (auto *pUser = FindUser(GetId(hContact)))
+	if (auto *pUser = Contact2user(hContact))
 		if (pUser->chatId != -1)
 			SendQuery(new TD::deleteChatHistory(pUser->chatId, false, (lParam & CDF_FOR_EVERYONE) != 0));
 	return 0;

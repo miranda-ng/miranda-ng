@@ -327,7 +327,7 @@ void CTelegramProto::InitNextFileSend(TG_FILE_REQUEST *ft)
 		TD::sendMessage *pMessage = nullptr;
 		TD::sendMessageAlbum *pAlbum = nullptr;
 
-		auto *pUser = FindUser(GetId(ft->m_hContact));
+		auto *pUser = Contact2user(ft->m_hContact);
 		if (pUser == nullptr) {
 			debugLogA("request from unknown contact %d, ignored", ft->m_hContact);
 			return;
@@ -422,7 +422,7 @@ void CTelegramProto::InitNextFileSend(TG_FILE_REQUEST *ft)
 
 HANDLE CTelegramProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles)
 {
-	auto *pUser = FindUser(GetId(hContact));
+	auto *pUser = Contact2user(hContact);
 	if (pUser == nullptr) {
 		debugLogA("request from unknown contact %d, ignored", hContact);
 		return nullptr;

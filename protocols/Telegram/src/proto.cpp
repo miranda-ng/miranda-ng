@@ -221,7 +221,7 @@ int CTelegramProto::OnWindowEvent(WPARAM wParam, LPARAM lParam)
 	if (!Proto_IsProtoOnContact(pDlg->m_hContact, m_szModuleName))
 		return 0;
 
-	auto *pUser = FindUser(GetId(pDlg->m_hContact));
+	auto *pUser = Contact2user(pDlg->m_hContact);
 	if (pUser == nullptr)
 		return 0;
 
@@ -259,7 +259,7 @@ void CTelegramProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flag
 	if (!hContact || !(flags & CDF_DEL_HISTORY))
 		return;
 
-	auto *pUser = FindUser(GetId(hContact));
+	auto *pUser = Contact2user(hContact);
 	if (!pUser)
 		return;
 
@@ -286,7 +286,7 @@ void CTelegramProto::OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO 
 	if (!hContact)
 		return;
 
-	auto *pUser = FindUser(GetId(hContact));
+	auto *pUser = Contact2user(hContact);
 	if (!pUser)
 		return;
 
@@ -302,7 +302,7 @@ void CTelegramProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
 	if (!hContact)
 		return;
 
-	auto *pUser = FindUser(GetId(hContact));
+	auto *pUser = Contact2user(hContact);
 	if (!pUser)
 		return;
 
@@ -358,7 +358,7 @@ MCONTACT CTelegramProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 
 int CTelegramProto::AuthRequest(MCONTACT hContact, const wchar_t *)
 {
-	auto *pUser = FindUser(GetId(hContact));
+	auto *pUser = Contact2user(hContact);
 	if (pUser == nullptr)
 		return 1;  // error
 
@@ -409,7 +409,7 @@ INT_PTR CTelegramProto::GetCaps(int type, MCONTACT hContact)
 
 int CTelegramProto::GetInfo(MCONTACT hContact, int)
 {
-	if (auto *pUser = FindUser(GetId(hContact))) {
+	if (auto *pUser = Contact2user(hContact)) {
 		if (!pUser->isGroupChat)
 			SendQuery(new TD::getUserFullInfo(pUser->id), &CTelegramProto::OnGetUserInfo, pUser);
 		else {
@@ -584,7 +584,7 @@ int CTelegramProto::SetStatus(int iNewStatus)
 
 int CTelegramProto::UserIsTyping(MCONTACT hContact, int type)
 {
-	if (auto *pUser = FindUser(GetId(hContact)))
+	if (auto *pUser = Contact2user(hContact))
 		if (type == PROTOTYPE_SELFTYPING_ON)
 			SendQuery(new TD::sendChatAction(pUser->chatId, 0, "", TD::make_object<TD::chatActionTyping>()));
 

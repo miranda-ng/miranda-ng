@@ -140,7 +140,7 @@ int CTelegramProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 		if (!szProto || mir_strcmp(szProto, m_szModuleName))
 			return 0;
 
-		auto *pUser = FindUser(GetId(hContact));
+		auto *pUser = Contact2user(hContact);
 		if (pUser && pUser->isChannel)
 			uip.pDialog = new CChannelInfoDlg(this);
 		else
