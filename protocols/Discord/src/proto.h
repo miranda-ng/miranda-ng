@@ -558,6 +558,8 @@ public:
 	int      AuthDeny(MEVENT hDbEvent, const wchar_t* szReason) override;
 	int      AuthRequest(MCONTACT hContact, const wchar_t*) override;
 
+	int      GetInfo(MCONTACT hContact, int infoType) override;
+
 	HANDLE   GetAwayMsg(MCONTACT hContact) override;
 	int      SetAwayMsg(int iStatus, const wchar_t *msg) override;
 
@@ -647,7 +649,8 @@ public:
 	void OnReceiveLogout(MHttpResponse*, AsyncHttpRequest*);
 	void OnReceiveMarkRead(MHttpResponse*, AsyncHttpRequest *);
 	void OnReceiveMessageAck(MHttpResponse*, AsyncHttpRequest*);
-	void OnReceiveToken(MHttpResponse*, AsyncHttpRequest*);
+	void OnReceiveProfile(MHttpResponse *, AsyncHttpRequest *);
+	void OnReceiveToken(MHttpResponse *, AsyncHttpRequest *);
 	void OnReceiveUserinfo(MHttpResponse*, AsyncHttpRequest*);
 
 	void RetrieveMyInfo();
