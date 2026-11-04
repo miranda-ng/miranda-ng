@@ -122,21 +122,6 @@ INT_PTR CSametimeProto::GetCaps(int type, MCONTACT)
 	}
 }
 
-int CSametimeProto::GetInfo(MCONTACT hContact, int infoType)
-{
-	// GetInfo - retrieves a contact info
-	debugLogW(L"CSametimeProto::GetInfo()  hContact=[%x], infoType=[%d]", hContact, infoType);
-
-	if (Contact::IsGroupChat(hContact))
-		return 1;
-
-	if (!session)
-		return 1;
-
-	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, 0);
-	return 0;
-}
-
 HANDLE CSametimeProto::SearchBasic(const wchar_t* id)
 {
 	debugLogW(L"CSametimeProto::SearchBasic()  id:len=[%d]", id == nullptr ? -1 : mir_wstrlen(id));

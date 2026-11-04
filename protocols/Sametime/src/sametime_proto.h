@@ -18,7 +18,6 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	int      FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason) override;
 
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
-	int      GetInfo(MCONTACT hContact, int infoType) override;
 
 	HANDLE   SearchBasic(const wchar_t* id) override;
 	HANDLE   SearchAdvanced(HWND owner) override;
