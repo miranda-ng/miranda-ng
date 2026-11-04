@@ -445,9 +445,8 @@ void CDiscordProto::OnSendMsg(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 		}
 
 		if (iReqNum != -1) {
-			CMStringW wszErrorMsg(root.data()["message"].as_mstring());
-			if (wszErrorMsg.IsEmpty())
-				wszErrorMsg = TranslateT("Message send failed");
+			auto &nodeMsg = root.data()["message"];
+			CMStringW wszErrorMsg(nodeMsg ? nodeMsg.as_mstring() : TranslateT("Message send failed"));
 			ProtoBroadcastAck(pReq->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)iReqNum, (LPARAM)wszErrorMsg.c_str());
 		}
 	}
