@@ -693,18 +693,15 @@ function fixHexa(string) {
     });
 }
 
-//Removes duplicates, not mine, found at http://dreaminginjavascript.wordpress.com/2008/08/22/eliminating-duplicates/
+//Removes duplicates from array while preserving original order
 function eliminateDuplicates(arr) {
-    var i,
-        len = arr.length,
-        out = [],
-        obj = {};
-
-    for (i = 0; i < len; i++) {
-        obj[arr[i]] = 0;
-    }
-    for (i in obj) {
-        out.push(i);
+    var out = [], seen = {};
+    for (var i = 0; i < arr.length; i++) {
+        var item = arr[i];
+        if (seen[item] !== 1) {
+            seen[item] = 1;
+            out.push(item);
+        }
     }
     return out;
 }
