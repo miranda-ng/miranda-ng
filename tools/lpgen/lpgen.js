@@ -117,7 +117,7 @@ while (!sln_stream.AtEndOfStream) {
     //read one line into slnline
     var slnline = sln_stream.ReadLine();
     //find a project definition in sln file by RegExp
-    sln_project_regexp = slnline.match(/(?:Project\(\"\{[\w\d-]+\}\"\)\x20+\=\x20+\"(.+?)\",\x20*?\"\.\.)(\\(:?plugins|protocols|src\\core).*vcxproj)(?=",)/i);
+    sln_project_regexp = slnline.match(/(?:Project\(\"\{[\w\d-]+\}\"\)\x20+\=\x20+\"(.+?)\",\x20*?\"\.\.)(\\(?:plugins|protocols|src\\core).*vcxproj)(?=",)/i);
     // if exist sln_project_regexp, add to array, adding leading path to "trunk"
     if (sln_project_regexp) {
         //RegExp for unneeded modules, such as crypting library, zlib.dll etc.
