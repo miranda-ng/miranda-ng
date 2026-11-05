@@ -126,7 +126,6 @@ Source: "Files\Settings\mirandaboot_portable.ini"; DestDir: "{app}"; Components:
 Source: "Files\Settings\autoexec_sounds.ini"; DestDir: "{app}"; Components: sounds; Flags: ignoreversion; AfterInstall: ShowPercent() 
 
 ; Installer add-ons
-Source: "Installer\ISWin7.dll"; Flags: dontcopy 
 Source: "Installer\descctrl.dll"; Flags: dontcopy
 
 [Components]
@@ -523,14 +522,6 @@ var
 
 //--Functions called from external DLLs--
 
-// Aero effects
-procedure iswin7_add_glass(Handle:HWND; Left, Top, Right, Bottom : Integer; GDIPLoadMode: boolean);
-external 'iswin7_add_glass@files:iswin7.dll stdcall';
-procedure iswin7_add_button(Handle:HWND);
-external 'iswin7_add_button@files:iswin7.dll stdcall';
-procedure iswin7_free;
-external 'iswin7_free@files:iswin7.dll stdcall';
-
 // Components description
 function EnableDescription(ComponentsListHandle: HWND; DescLabelHandle: HWND; DescStrings: PAnsiChar): BOOL;
 external 'enabledesc@files:descctrl.dll stdcall';
@@ -738,24 +729,9 @@ end;
 
 // Initialization beginning
 procedure InitializeWizard();
-var
-  Version: TWindowsVersion;
 begin
   // Shrinking bottom border (looks nicer this way)
   WizardForm.Bevel.Height := 1;
-
-  GetWindowsVersionEx(Version);
-  if Version.NTPlatform and
-     (Version.Major <= 6) and
-     (Version.Minor < 2) then
-  begin
-    // Initializing library
-    iswin7_add_button(WizardForm.BackButton.Handle);
-    iswin7_add_button(WizardForm.NextButton.Handle);
-    iswin7_add_button(WizardForm.CancelButton.Handle);
-    //Do not touch 'True' parameter, it's for htuos ))
-    iswin7_add_glass(WizardForm.Handle, 0, 0, 0, 47, True);
-  end;
 
   // Component list
   ComponentList := TStringList.Create();
@@ -903,16 +879,6 @@ end;
 
 // Setup deinitialization
 procedure DeinitializeSetup();
-var
-  Version: TWindowsVersion;
 begin
-  GetWindowsVersionEx(Version);
-  if Version.NTPlatform and
-     (Version.Major <= 6) and
-     (Version.Minor < 2) then
-  begin
-    // Deinitializing library
-    iswin7_free;
-  end;
   DisableDescription();
 end;
