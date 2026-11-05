@@ -117,7 +117,7 @@ while (!sln_stream.AtEndOfStream) {
     //read one line into slnline
     var slnline = sln_stream.ReadLine();
     //find a project definition in sln file by RegExp
-    sln_project_regexp = slnline.match(/(?:Project\(\"\{[\w\d-]+\}\"\)\x20+\=\x20+\"(.+?)\",\x20*?\"\.\.)(\\(:?plugins|protocols).*vcxproj)(?=",)/i);
+    sln_project_regexp = slnline.match(/(?:Project\(\"\{[\w\d-]+\}\"\)\x20+\=\x20+\"(.+?)\",\x20*?\"\.\.)(\\(:?plugins|protocols|src\\core).*vcxproj)(?=",)/i);
     // if exist sln_project_regexp, add to array, adding leading path to "trunk"
     if (sln_project_regexp) {
         //RegExp for unneeded modules, such as crypting library, zlib.dll etc.
@@ -192,9 +192,13 @@ function GenerateCore() {
     corehead.push(";  Version: " + ver);
     corehead.push(";============================================================");
     //find all *.rc files and list files in array
-    FindFiles(core, "\\.rc$", core_rc);
+    var mir_app = core + "\\mir_app";
+    var mir_core = core + "\\mir_core";
+    //find all *.rc files and list files in array
+    FindFiles(mir_app, "\\.rc$", core_rc);
     //find all source files and list files in array
-    FindFiles(core, "\\.h$|\\.cpp$|\\.c$", core_src);
+    FindFiles(mir_app, "\\.h$|\\.cpp$|\\.c$", core_src);
+    FindFiles(mir_core, "\\.h$|\\.cpp$|\\.c$", core_src);
 	//find all source files and list files in array
     FindFiles(include, "\\.h$", include_src);
     //Parse files "core_rc", put result into "corestrings" using "ParseRCFile" function
