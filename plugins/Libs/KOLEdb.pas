@@ -1940,8 +1940,8 @@ begin
   R := fRowSetChg.SetData( fRowHandle, fAccessor, fRowBuffers.Items[ fCurIndex ] );
   if R <> HResult( $00040EDA {DB_S_ERRORSOCCURED} ) then
     CheckOLE( R )
-  { // я вижу только статус DBSTATUS_E_INTEGRITYVIOLATION касательно 0-й колонки,
-    // которую никто не просил добавлять во время выборки.
+  { // СЏ РІРёР¶Сѓ С‚РѕР»СЊРєРѕ СЃС‚Р°С‚СѓСЃ DBSTATUS_E_INTEGRITYVIOLATION РєР°СЃР°С‚РµР»СЊРЅРѕ 0-Р№ РєРѕР»РѕРЅРєРё,
+    // РєРѕС‚РѕСЂСѓСЋ РЅРёРєС‚Рѕ РЅРµ РїСЂРѕСЃРёР» РґРѕР±Р°РІР»СЏС‚СЊ РІРѕ РІСЂРµРјСЏ РІС‹Р±РѕСЂРєРё.
   else
   begin
     asm

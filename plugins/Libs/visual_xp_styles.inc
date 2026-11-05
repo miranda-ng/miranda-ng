@@ -134,7 +134,7 @@ procedure CheckThemes;
  function IsManifestFilePresent : boolean;
  begin
   Result := false;
-  if FileExists(ParamStr(0) + '.manifest') then //dufa. в случае с DLL ExePath вернет путь до нее, а не до EXE
+  if FileExists(ParamStr(0) + '.manifest') then //dufa. РІ СЃР»СѓС‡Р°Рµ СЃ DLL ExePath РІРµСЂРЅРµС‚ РїСѓС‚СЊ РґРѕ РЅРµРµ, Р° РЅРµ РґРѕ EXE
    begin
     Result := true;
     exit;

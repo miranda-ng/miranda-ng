@@ -1,7 +1,7 @@
 unit KOLSizer;
 //
 // purpose: KOL control sizercontrol and design grid
-//  author: © 2004, Thaddy de Koning
+//  author: Â© 2004, Thaddy de Koning
 // Remarks: Tnx in part to Marco Cantu for the sizer idea in DDH3
 //          copyrighted freeware.
 //

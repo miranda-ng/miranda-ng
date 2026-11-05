@@ -19,16 +19,16 @@ var
   ppc:pWideChar;
 begin
   case code of
-    401: begin // Требуется авторизация
+    401: begin // РўСЂРµР±СѓРµС‚СЃСЏ Р°РІС‚РѕСЂРёР·Р°С†РёСЏ
       ppc:='Authorization required'; 
     end;
-    403: begin // Имя пользователя или пароль не подошли
+    403: begin // РРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РёР»Рё РїР°СЂРѕР»СЊ РЅРµ РїРѕРґРѕС€Р»Рё
       ppc:='User name of password wrong';
     end;
-    404: begin // Не найдено, неправильные параметры
+    404: begin // РќРµ РЅР°Р№РґРµРЅРѕ, РЅРµРїСЂР°РІРёР»СЊРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹
       ppc:='Not found / wrong parameters';
     end;
-    500: begin // параметр запроса отсутствует
+    500: begin // РїР°СЂР°РјРµС‚СЂ Р·Р°РїСЂРѕСЃР° РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚
       ppc:='Wrong query parameters';
     end;
   else

@@ -1435,7 +1435,7 @@ begin
 end;
 
 procedure THistoryFrm.DeleteHistoryItem(ItemIdx: Integer);
-// history[itemidx] löschen (also row-1)
+// history[itemidx] lÑ†schen (also row-1)
 // var
 // p: integer;
 begin

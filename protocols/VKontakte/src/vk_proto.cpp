@@ -649,7 +649,7 @@ int CVkProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 	if (iUserId < 0)
 		return 1;
 
-	MsgPopup(hContact, TranslateT("The current API doesn’t allow performing the required action. Please do it on the website yourself."), TranslateT("Attention!"));
+	MsgPopup(hContact, TranslateT("The current API doesnâ€™t allow performing the required action. Please do it on the website yourself."), TranslateT("Attention!"));
 	SvcVisitProfile(hContact, 0);
 
 	return 0;
@@ -677,7 +677,7 @@ int CVkProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	MsgPopup(hContact, TranslateT("The current API doesn’t allow performing the required action. Please do it on the website yourself."), TranslateT("Attention!"));
+	MsgPopup(hContact, TranslateT("The current API doesnâ€™t allow performing the required action. Please do it on the website yourself."), TranslateT("Attention!"));
 	SvcVisitProfile(hContact, 0);
 
 	return 0;

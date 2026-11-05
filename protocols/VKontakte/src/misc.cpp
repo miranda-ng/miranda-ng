@@ -679,7 +679,7 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact, bool added)
 	debugLogA("CVkProto::DBAddAuthRequest");
 
 	if (!added) {
-		MsgPopup(hContact, TranslateT("The current API doesn’t allow performing the required action. Please do it on the website yourself."), TranslateT("Attention!"));
+		MsgPopup(hContact, TranslateT("The current API doesn't allow performing the required action. Please do it on the website yourself."), TranslateT("Attention!"));
 		SvcVisitProfile(hContact, 0);
 		return;
 	}

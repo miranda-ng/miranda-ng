@@ -1038,14 +1038,14 @@ begin
   Cpath := PKOLChar(Copy(path, 1, 2));
   Spath := Cpath[0];
   case GetDriveType(Cpath) of
-    0: Result := '<unknown>'; //Не известен
-    1: Result := '<disabled>'; //Не существует :)
-    DRIVE_REMOVABLE: Result := 'Removable'; //Флопик
+    0: Result := '<unknown>'; //РќРµ РёР·РІРµСЃС‚РµРЅ
+    1: Result := '<disabled>'; //РќРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ :)
+    DRIVE_REMOVABLE: Result := 'Removable'; //Р¤Р»РѕРїРёРє
     DRIVE_FIXED: if Length(VolumeID(Spath)) > 0 then Result := VolumeID(Spath) else Result := 'Local Disk'; //HDD
-    DRIVE_REMOTE: if Length(VolumeID(Spath)) > 0 then Result := VolumeID(Spath) else Result := 'Net Disk'; //Внешний носитель
-    //         DRIVE_REMOTE: if Length(VolumeID(Spath))>0 then Result:=NetworkVolume(Spath) else Result:='Net Disk';//Внешний носитель
+    DRIVE_REMOTE: if Length(VolumeID(Spath)) > 0 then Result := VolumeID(Spath) else Result := 'Net Disk'; //Р’РЅРµС€РЅРёР№ РЅРѕСЃРёС‚РµР»СЊ
+    //         DRIVE_REMOTE: if Length(VolumeID(Spath))>0 then Result:=NetworkVolume(Spath) else Result:='Net Disk';//Р’РЅРµС€РЅРёР№ РЅРѕСЃРёС‚РµР»СЊ
     DRIVE_CDROM: if Length(VolumeID(Spath)) > 0 then Result := VolumeID(Spath) else Result := 'Compact Disc'; //CD
-    DRIVE_RAMDISK: if Length(VolumeID(Spath)) > 0 then Result := VolumeID(Spath) else Result := 'Removable Disk'; //Внешний носитель
+    DRIVE_RAMDISK: if Length(VolumeID(Spath)) > 0 then Result := VolumeID(Spath) else Result := 'Removable Disk'; //Р’РЅРµС€РЅРёР№ РЅРѕСЃРёС‚РµР»СЊ
   end;
 end;
 

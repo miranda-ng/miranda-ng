@@ -3820,7 +3820,7 @@ asm
         {$IFDEF  USE_FLAGS}
         AND      [EBX].TControl.fFlagsG1, not(1 shl G1_IsStaticControl)
         {$ELSE}
-        DEC      [EBX].TControl.fIsStaticControl // снова 0 !
+        DEC      [EBX].TControl.fIsStaticControl // СЃРЅРѕРІР° 0 !
         {$ENDIF  USE_FLAGS}
         MOV      EDX, offset[WndProcLabelEffect]
         CALL     TControl.AttachProc
@@ -5230,7 +5230,7 @@ asm
         JLE      @@1
         CMP      byte ptr [EDX+1], 0
         JNZ      @@1
-        // система вернула текст как unicode
+        // СЃРёСЃС‚РµРјР° РІРµСЂРЅСѓР»Р° С‚РµРєСЃС‚ РєР°Рє unicode
         {$IFDEF UNICODE_CTRLS}
         CALL     System.@WStrFromPWChar // TODO: not need ecx
         {$ELSE not UNICODE_CTRLS}
@@ -5245,7 +5245,7 @@ asm
         {$ENDIF UNICODE_CTRLS}
         JMP      @@2
 @@1:
-        // система вернула текст как обычную строку
+        // СЃРёСЃС‚РµРјР° РІРµСЂРЅСѓР»Р° С‚РµРєСЃС‚ РєР°Рє РѕР±С‹С‡РЅСѓСЋ СЃС‚СЂРѕРєСѓ
         {$IFDEF UNICODE_CTRLS}
         CALL     System.@WStrFromPChar
         {$ELSE not UNICODE_CTRLS}
@@ -14808,9 +14808,9 @@ end;
 function WinVer : TWindowsVersion;
 asm
  MOVSX EAX, byte ptr [SaveWinVer]
- INC   AH     // если <> 0 после инкремента, то AL содержит вычисленную версию
+ INC   AH     // РµСЃР»Рё <> 0 РїРѕСЃР»Рµ РёРЅРєСЂРµРјРµРЅС‚Р°, С‚Рѕ AL СЃРѕРґРµСЂР¶РёС‚ РІС‹С‡РёСЃР»РµРЅРЅСѓСЋ РІРµСЂСЃРёСЋ
  JNZ   @@exit
- CALL  GetVersion // EAX < 0 для платформы 9х, иначе NT; AL=MajorVersion; AH=MinorVersion
+ CALL  GetVersion // EAX < 0 РґР»СЏ РїР»Р°С‚С„РѕСЂРјС‹ 9С…, РёРЅР°С‡Рµ NT; AL=MajorVersion; AH=MinorVersion
  XCHG  EDX, EAX
  XOR   EAX, EAX
  TEST  EDX, EDX

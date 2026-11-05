@@ -426,8 +426,8 @@ unit KOL;
                           Windows version than XP.
   FORCE_ALTERNATEFILENAME- TDirList.ScanDirectoryFORCE_ALTERNATEFILENAME - forced
                           using an alternate file path and filename for unicode
-                          paths (принудительное использование альтернативного имени
-                          пути и имени файла для юникод путей)
+                          paths (РїСЂРёРЅСѓРґРёС‚РµР»СЊРЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ Р°Р»СЊС‚РµСЂРЅР°С‚РёРІРЅРѕРіРѕ РёРјРµРЅРё
+                          РїСѓС‚Рё Рё РёРјРµРЅРё С„Р°Р№Р»Р° РґР»СЏ СЋРЅРёРєРѕРґ РїСѓС‚РµР№)
 
   NEW_GRADIENT - to use new gradient painting by homm (fast).
   OLD_ALIGN    - to prevent using new Align by Galkov.
@@ -519,7 +519,7 @@ unit KOL;
                           and this is applied automatically).
   |</pre>
 }
-{= K.O.L - ключевая библиотека объектов. (C) Кладов Владимир, 2000-2007.
+{= K.O.L - РєР»СЋС‡РµРІР°СЏ Р±РёР±Р»РёРѕС‚РµРєР° РѕР±СЉРµРєС‚РѕРІ. (C) РљР»Р°РґРѕРІ Р’Р»Р°РґРёРјРёСЂ, 2000-2007.
 }
 
 {$A-} // align off, otherwise code is not good
@@ -713,11 +713,11 @@ type
         filling its fields with 0. Can be overriden in descendant objects
         to add another initialization code there. (Main reason of intending
         is what constructors can not be virtual in poor objects). }
-     {= Вызывается для инициализации объекта. }
+     {= Р’С‹Р·С‹РІР°РµС‚СЃСЏ РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РѕР±СЉРµРєС‚Р°. }
    public
      function VmtAddr: Pointer;
      {* Returns addres of virtual methods table of object. ? }
-     {= возвращает адрес таблицы виртуальных методов (VMT). ? }
+     {= РІРѕР·РІСЂР°С‰Р°РµС‚ Р°РґСЂРµСЃ С‚Р°Р±Р»РёС†С‹ РІРёСЂС‚СѓР°Р»СЊРЅС‹С… РјРµС‚РѕРґРѕРІ (VMT). ? }
    end;
 
   PObj = ^TObj;
@@ -746,7 +746,7 @@ type
    TObj = object( _TObj )
    {* Prototype for all objects of KOL. All its methods are important to
       implement objects in a manner similar to Delphi TObject class. }
-   {= Базовый класс для всех прочих объектов KOL. }
+   {= Р‘Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ РґР»СЏ РІСЃРµС… РїСЂРѕС‡РёС… РѕР±СЉРµРєС‚РѕРІ KOL. }
    protected
      {$IFDEF DEBUG_OBJKIND}
      fObjKind: PChar;
@@ -762,7 +762,7 @@ type
         filling its fields with 0. Can be overriden in descendant objects
         to add another initialization code there. (Main reason of intending
         is what constructors can not be virtual in poor objects). }
-     {= Вызывается для инициализации объекта. }
+     {= Р’С‹Р·С‹РІР°РµС‚СЃСЏ РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РѕР±СЉРµРєС‚Р°. }
      fTag: DWORD;
      {* Custom data. }
    public
@@ -770,9 +770,9 @@ type
      {* Disposes memory, allocated to an object. Does not release huge strings,
         dynamic arrays and so on. Such memory should be freeing in overriden
         destructor. }
-     {= Освобождает память, выделенную для объекта. Не освобождает память, выделенную
-        для строк, динамичиских массивов и т.п. Такая память должна быть освобождена
-        в переопределенном деструкторе объекта. }
+     {= РћСЃРІРѕР±РѕР¶РґР°РµС‚ РїР°РјСЏС‚СЊ, РІС‹РґРµР»РµРЅРЅСѓСЋ РґР»СЏ РѕР±СЉРµРєС‚Р°. РќРµ РѕСЃРІРѕР±РѕР¶РґР°РµС‚ РїР°РјСЏС‚СЊ, РІС‹РґРµР»РµРЅРЅСѓСЋ
+        РґР»СЏ СЃС‚СЂРѕРє, РґРёРЅР°РјРёС‡РёСЃРєРёС… РјР°СЃСЃРёРІРѕРІ Рё С‚.Рї. РўР°РєР°СЏ РїР°РјСЏС‚СЊ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РѕСЃРІРѕР±РѕР¶РґРµРЅР°
+        РІ РїРµСЂРµРѕРїСЂРµРґРµР»РµРЅРЅРѕРј РґРµСЃС‚СЂСѓРєС‚РѕСЂРµ РѕР±СЉРµРєС‚Р°. }
      {$IFnDEF NIL_EVENTS}
      //procedure Init; virtual;
      {* Can be overriden in descendant objects
@@ -785,7 +785,7 @@ type
    public
      procedure RefInc;
      {* See comments below. }
-     {= См. RefDec ниже. }
+     {= РЎРј. RefDec РЅРёР¶Рµ. }
      function RefDec: Integer;
      {* Decrements reference count. If it is becoming <0, and Free
         method was already called, object is (self-) destroyed. Otherwise,
@@ -807,16 +807,16 @@ type
          any sensible value. It is declared as a function for internal
          needs (to avoid creating separate code for Free method)
      }
-     {= Уменьшает счетчик использования. Если в результате счетчик становится
-        < 0, и метод Free уже был вызван, объект (само-) разрушается. Иначе,
-        метод Free не разрушает объект, а только устанавливает флаг "Free был
-        вызван".
+     {= РЈРјРµРЅСЊС€Р°РµС‚ СЃС‡РµС‚С‡РёРє РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ. Р•СЃР»Рё РІ СЂРµР·СѓР»СЊС‚Р°С‚Рµ СЃС‡РµС‚С‡РёРє СЃС‚Р°РЅРѕРІРёС‚СЃСЏ
+        < 0, Рё РјРµС‚РѕРґ Free СѓР¶Рµ Р±С‹Р» РІС‹Р·РІР°РЅ, РѕР±СЉРµРєС‚ (СЃР°РјРѕ-) СЂР°Р·СЂСѓС€Р°РµС‚СЃСЏ. РРЅР°С‡Рµ,
+        РјРµС‚РѕРґ Free РЅРµ СЂР°Р·СЂСѓС€Р°РµС‚ РѕР±СЉРµРєС‚, Р° С‚РѕР»СЊРєРѕ СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ С„Р»Р°Рі "Free Р±С‹Р»
+        РІС‹Р·РІР°РЅ".
         |<br>
-        Используйте RefInc..RefDec для предотвращения разрушения объекта на
-        некотором участке кода (если есть такая необходимость).
+        РСЃРїРѕР»СЊР·СѓР№С‚Рµ RefInc..RefDec РґР»СЏ РїСЂРµРґРѕС‚РІСЂР°С‰РµРЅРёСЏ СЂР°Р·СЂСѓС€РµРЅРёСЏ РѕР±СЉРµРєС‚Р° РЅР°
+        РЅРµРєРѕС‚РѕСЂРѕРј СѓС‡Р°СЃС‚РєРµ РєРѕРґР° (РµСЃР»Рё РµСЃС‚СЊ С‚Р°РєР°СЏ РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚СЊ).
         |<br>
-        Если нужно убить (временный) объект вместе с последним RefDec, сделайте
-        вызов Free немедленно ПЕРЕД последним RefDec. }
+        Р•СЃР»Рё РЅСѓР¶РЅРѕ СѓР±РёС‚СЊ (РІСЂРµРјРµРЅРЅС‹Р№) РѕР±СЉРµРєС‚ РІРјРµСЃС‚Рµ СЃ РїРѕСЃР»РµРґРЅРёРј RefDec, СЃРґРµР»Р°Р№С‚Рµ
+        РІС‹Р·РѕРІ Free РЅРµРјРµРґР»РµРЅРЅРѕ РџР•Р Р•Р” РїРѕСЃР»РµРґРЅРёРј RefDec. }
      property RefCount: Integer read fRefCount;
      {* }
      {$IFDEF OLD_FREE}
@@ -826,8 +826,8 @@ type
      {* Before calling destructor of object, checks if passed pointer is not
         nil - similar what is done in VCL for TObject. It is ALWAYS recommended
         to use Free instead of Destroy - see also comments to RefInc, RefDec. }
-     {= До вызова деструктора, проверяет, не передан ли nil в качестве параметра.
-        ВСЕГДА рекомендуется использовать Free вместо Destroy - см. так же RefInc,
+     {= Р”Рѕ РІС‹Р·РѕРІР° РґРµСЃС‚СЂСѓРєС‚РѕСЂР°, РїСЂРѕРІРµСЂСЏРµС‚, РЅРµ РїРµСЂРµРґР°РЅ Р»Рё nil РІ РєР°С‡РµСЃС‚РІРµ РїР°СЂР°РјРµС‚СЂР°.
+        Р’РЎР•Р“Р”Рђ СЂРµРєРѕРјРµРЅРґСѓРµС‚СЃСЏ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ Free РІРјРµСЃС‚Рѕ Destroy - СЃРј. С‚Р°Рє Р¶Рµ RefInc,
         RefDec. }
      {$ENDIF NEW_FREE}
 
@@ -838,19 +838,19 @@ type
      constructor Create;
      {* Constructor. Do not call it. Instead, use New<objectname> function
         call for certain object, e.g., NewLabel( AParent, 'caption' ); }
-     {= Конструктор. Не следует вызывать его. Для конструирования объектов,
-        вызывайте соответствующую глобальную функцию New<имя-объекта>. Например,
-        NewLabel( MyForm, 'Метка№1' ); }
+     {= РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ. РќРµ СЃР»РµРґСѓРµС‚ РІС‹Р·С‹РІР°С‚СЊ РµРіРѕ. Р”Р»СЏ РєРѕРЅСЃС‚СЂСѓРёСЂРѕРІР°РЅРёСЏ РѕР±СЉРµРєС‚РѕРІ,
+        РІС‹Р·С‹РІР°Р№С‚Рµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰СѓСЋ РіР»РѕР±Р°Р»СЊРЅСѓСЋ С„СѓРЅРєС†РёСЋ New<РёРјСЏ-РѕР±СЉРµРєС‚Р°>. РќР°РїСЂРёРјРµСЂ,
+        NewLabel( MyForm, 'РњРµС‚РєР°в„–1' ); }
      class function AncestorOfObject( Obj: Pointer ): Boolean;
      {* Is intended to replace 'is' operator, which is not applicable to objects. }
      function VmtAddr: Pointer;
      {* Returns addres of virtual methods table of object. }
-     {= возвращает алрес таблицы виртуальных методов (VMT). }
+     {= РІРѕР·РІСЂР°С‰Р°РµС‚ Р°Р»СЂРµСЃ С‚Р°Р±Р»РёС†С‹ РІРёСЂС‚СѓР°Р»СЊРЅС‹С… РјРµС‚РѕРґРѕРІ (VMT). }
      property OnDestroy: TOnEvent read fOnDestroy write fOnDestroy;
      {* This event is provided for any KOL object, so You can provide your own
         OnDestroy event for it. }
-     {= Данное событие обеспечивается для всех объектов KOL. Позволяет сделать
-        что-нибудь в связи с разрушением объекта. }
+     {= Р”Р°РЅРЅРѕРµ СЃРѕР±С‹С‚РёРµ РѕР±РµСЃРїРµС‡РёРІР°РµС‚СЃСЏ РґР»СЏ РІСЃРµС… РѕР±СЉРµРєС‚РѕРІ KOL. РџРѕР·РІРѕР»СЏРµС‚ СЃРґРµР»Р°С‚СЊ
+        С‡С‚Рѕ-РЅРёР±СѓРґСЊ РІ СЃРІСЏР·Рё СЃ СЂР°Р·СЂСѓС€РµРЅРёРµРј РѕР±СЉРµРєС‚Р°. }
     procedure Add2AutoFree( Obj: PObj );
     {* Adds an object to the list of objects, destroyed automatically
        when the object is destroyed. Do not add here child controls of
@@ -890,7 +890,7 @@ type
   {* Simple list of pointers. It is used in KOL instead of standard VCL
      TList to store any kind data (or pointers to these ones). Can be created
      calling function NewList. }
-  {= Простой список указателей. }
+  {= РџСЂРѕСЃС‚РѕР№ СЃРїРёСЃРѕРє СѓРєР°Р·Р°С‚РµР»РµР№. }
   protected
     fItems: PPointerList;
     fCount: Integer;
@@ -4720,19 +4720,19 @@ type
     fKeyPreviewCount: Byte;
     fModal: Byte;
     fAllBtnReturnClick: Boolean;
-    //-- внимание! порядок следующих 3х полей не должен меняться!!!
+    //-- РІРЅРёРјР°РЅРёРµ! РїРѕСЂСЏРґРѕРє СЃР»РµРґСѓСЋС‰РёС… 3С… РїРѕР»РµР№ РЅРµ РґРѕР»Р¶РµРЅ РјРµРЅСЏС‚СЊСЃСЏ!!!
     FormCurrentParent: PControl;
-    {* контрол, использующийся в качестве родительского, в функциях создания }
+    {* РєРѕРЅС‚СЂРѕР», РёСЃРїРѕР»СЊР·СѓСЋС‰РёР№СЃСЏ РІ РєР°С‡РµСЃС‚РІРµ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРіРѕ, РІ С„СѓРЅРєС†РёСЏС… СЃРѕР·РґР°РЅРёСЏ }
     FormParams: PAnsiChar;
-    {* строка команд и параметров }
+    {* СЃС‚СЂРѕРєР° РєРѕРјР°РЅРґ Рё РїР°СЂР°РјРµС‚СЂРѕРІ }
     FormAddress: PPControl;
-    {* адрес поля Form в объекте формы MCK - нужен для вычисления адресов
-       контролов по смещению, для функции FormSetCurCtl }
+    {* Р°РґСЂРµСЃ РїРѕР»СЏ Form РІ РѕР±СЉРµРєС‚Рµ С„РѕСЂРјС‹ MCK - РЅСѓР¶РµРЅ РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёСЏ Р°РґСЂРµСЃРѕРІ
+       РєРѕРЅС‚СЂРѕР»РѕРІ РїРѕ СЃРјРµС‰РµРЅРёСЋ, РґР»СЏ С„СѓРЅРєС†РёРё FormSetCurCtl }
     FormObj: PObj;
     FormAlphabet: PFormInitFuncArray;
-    {* алфавит процедур }
+    {* Р°Р»С„Р°РІРёС‚ РїСЂРѕС†РµРґСѓСЂ }
     FormLastCreatedChild: PControl;
-    {* контрол, созданный последним }
+    {* РєРѕРЅС‚СЂРѕР», СЃРѕР·РґР°РЅРЅС‹Р№ РїРѕСЃР»РµРґРЅРёРј }
   {$IFDEF UNION_FIELDS}
     );
   4:( // ListView
@@ -5004,18 +5004,18 @@ type
     {$ENDIF USE_FLAGS}
   public //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     FormString: KOLString;
-    {* строка текущего параметра. Очищается после каждого вызова
-       FormExecuteCommands, так что специальная очистка не требуется. }
+    {* СЃС‚СЂРѕРєР° С‚РµРєСѓС‰РµРіРѕ РїР°СЂР°РјРµС‚СЂР°. РћС‡РёС‰Р°РµС‚СЃСЏ РїРѕСЃР»Рµ РєР°Р¶РґРѕРіРѕ РІС‹Р·РѕРІР°
+       FormExecuteCommands, С‚Р°Рє С‡С‚Рѕ СЃРїРµС†РёР°Р»СЊРЅР°СЏ РѕС‡РёСЃС‚РєР° РЅРµ С‚СЂРµР±СѓРµС‚СЃСЏ. }
     function FormGetIntParam: Integer;
-    {* извлекает очередной целочисленный параметр до ',' или до ';' }
+    {* РёР·РІР»РµРєР°РµС‚ РѕС‡РµСЂРµРґРЅРѕР№ С†РµР»РѕС‡РёСЃР»РµРЅРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ РґРѕ ',' РёР»Рё РґРѕ ';' }
     function FormGetColorParam: Integer;
-    {* извлекает очередной целочисленный параметр до ',' или до ';' }
+    {* РёР·РІР»РµРєР°РµС‚ РѕС‡РµСЂРµРґРЅРѕР№ С†РµР»РѕС‡РёСЃР»РµРЅРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ РґРѕ ',' РёР»Рё РґРѕ ';' }
     procedure FormGetStrParam;
-    {* извлекает очередной строковый параметр до ',' или до ';' -> FormString }
+    {* РёР·РІР»РµРєР°РµС‚ РѕС‡РµСЂРµРґРЅРѕР№ СЃС‚СЂРѕРєРѕРІС‹Р№ РїР°СЂР°РјРµС‚СЂ РґРѕ ',' РёР»Рё РґРѕ ';' -> FormString }
     procedure FormCreateParameters( alphabet: PFormInitFuncArray; params: PAnsiChar );
-    {* задает первоначальный алфавит и параметры с командами }
+    {* Р·Р°РґР°РµС‚ РїРµСЂРІРѕРЅР°С‡Р°Р»СЊРЅС‹Р№ Р°Р»С„Р°РІРёС‚ Рё РїР°СЂР°РјРµС‚СЂС‹ СЃ РєРѕРјР°РЅРґР°РјРё }
     procedure FormExecuteCommands(AForm: PControl; ControlPtrOffsets: PSmallIntArray);
-    {* выполняет команды (с параметрами) до конца или до ';' }
+    {* РІС‹РїРѕР»РЅСЏРµС‚ РєРѕРјР°РЅРґС‹ (СЃ РїР°СЂР°РјРµС‚СЂР°РјРё) РґРѕ РєРѕРЅС†Р° РёР»Рё РґРѕ ';' }
   {$IFDEF GDI}
   protected
     function GetDate: TDateTime;
@@ -10924,7 +10924,7 @@ type
     {$IFDEF LIN}
     {$IFNDEF GTK}
     {$IFNDEF QT}
-    fPrev, fNext: PTimer; // двусвязный список всех _активных_ таймеров
+    fPrev, fNext: PTimer; // РґРІСѓСЃРІСЏР·РЅС‹Р№ СЃРїРёСЃРѕРє РІСЃРµС… _Р°РєС‚РёРІРЅС‹С…_ С‚Р°Р№РјРµСЂРѕРІ
     fTimeStart: clock_t;
     fExpireNext: clock_t;
     fExpireTotal: Int64;
@@ -11105,22 +11105,22 @@ type
      This allows for You to make your form visible any time You wish, and without
      making application button visible if You do not wish.
   }
-  {= Когда Вы делаете невидимое приложение, которое должно быть представлено
-     только иконкой в трее, обеспечьте ненулевой Handle для окна, отвечающего
-     за обработку сообщений. Помните, что Handle окна создается автоматически
-     только в тот момент, когда оно должно появиться в первый раз. Если свойство
-     окна Visible установлено в FALSE, необходимо вызвать CreateWindow самостоятельно.
+  {= РљРѕРіРґР° Р’С‹ РґРµР»Р°РµС‚Рµ РЅРµРІРёРґРёРјРѕРµ РїСЂРёР»РѕР¶РµРЅРёРµ, РєРѕС‚РѕСЂРѕРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РїСЂРµРґСЃС‚Р°РІР»РµРЅРѕ
+     С‚РѕР»СЊРєРѕ РёРєРѕРЅРєРѕР№ РІ С‚СЂРµРµ, РѕР±РµСЃРїРµС‡СЊС‚Рµ РЅРµРЅСѓР»РµРІРѕР№ Handle РґР»СЏ РѕРєРЅР°, РѕС‚РІРµС‡Р°СЋС‰РµРіРѕ
+     Р·Р° РѕР±СЂР°Р±РѕС‚РєСѓ СЃРѕРѕР±С‰РµРЅРёР№. РџРѕРјРЅРёС‚Рµ, С‡С‚Рѕ Handle РѕРєРЅР° СЃРѕР·РґР°РµС‚СЃСЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё
+     С‚РѕР»СЊРєРѕ РІ С‚РѕС‚ РјРѕРјРµРЅС‚, РєРѕРіРґР° РѕРЅРѕ РґРѕР»Р¶РЅРѕ РїРѕСЏРІРёС‚СЊСЃСЏ РІ РїРµСЂРІС‹Р№ СЂР°Р·. Р•СЃР»Рё СЃРІРѕР№СЃС‚РІРѕ
+     РѕРєРЅР° Visible СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ РІ FALSE, РЅРµРѕР±С…РѕРґРёРјРѕ РІС‹Р·РІР°С‚СЊ CreateWindow СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ.
      <br>
-     Существует известный BUG с подобными невидимыми минимизированными в трей
-     приложениями. Когда в ответ на событие мыши активизирвано выпадающее меню,
-     оно не исчезает по щелчку мыши вне этого меню. Происходит это в Windows9x/ME.
-     чтобы решить эту проблему, сначала активизируйте свое окно (форму). Это окно
-     должно быть видимым (но, конечно, его можно разместить вне пределов видимой
-     части экрана, так что пользователю его видно не будет).
+     РЎСѓС‰РµСЃС‚РІСѓРµС‚ РёР·РІРµСЃС‚РЅС‹Р№ BUG СЃ РїРѕРґРѕР±РЅС‹РјРё РЅРµРІРёРґРёРјС‹РјРё РјРёРЅРёРјРёР·РёСЂРѕРІР°РЅРЅС‹РјРё РІ С‚СЂРµР№
+     РїСЂРёР»РѕР¶РµРЅРёСЏРјРё. РљРѕРіРґР° РІ РѕС‚РІРµС‚ РЅР° СЃРѕР±С‹С‚РёРµ РјС‹С€Рё Р°РєС‚РёРІРёР·РёСЂРІР°РЅРѕ РІС‹РїР°РґР°СЋС‰РµРµ РјРµРЅСЋ,
+     РѕРЅРѕ РЅРµ РёСЃС‡РµР·Р°РµС‚ РїРѕ С‰РµР»С‡РєСѓ РјС‹С€Рё РІРЅРµ СЌС‚РѕРіРѕ РјРµРЅСЋ. РџСЂРѕРёСЃС…РѕРґРёС‚ СЌС‚Рѕ РІ Windows9x/ME.
+     С‡С‚РѕР±С‹ СЂРµС€РёС‚СЊ СЌС‚Сѓ РїСЂРѕР±Р»РµРјСѓ, СЃРЅР°С‡Р°Р»Р° Р°РєС‚РёРІРёР·РёСЂСѓР№С‚Рµ СЃРІРѕРµ РѕРєРЅРѕ (С„РѕСЂРјСѓ). Р­С‚Рѕ РѕРєРЅРѕ
+     РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РІРёРґРёРјС‹Рј (РЅРѕ, РєРѕРЅРµС‡РЅРѕ, РµРіРѕ РјРѕР¶РЅРѕ СЂР°Р·РјРµСЃС‚РёС‚СЊ РІРЅРµ РїСЂРµРґРµР»РѕРІ РІРёРґРёРјРѕР№
+     С‡Р°СЃС‚Рё СЌРєСЂР°РЅР°, С‚Р°Рє С‡С‚Рѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ РµРіРѕ РІРёРґРЅРѕ РЅРµ Р±СѓРґРµС‚).
      <br>
-     Так же, чтобы сделать приложение невидимым, по крайней мере, пока это не
-     потребуется, используйте отдельный представитель класса TControl - глобальную
-     переменную Applet, и присвойте FALSE ее свойству Visible.
+     РўР°Рє Р¶Рµ, С‡С‚РѕР±С‹ СЃРґРµР»Р°С‚СЊ РїСЂРёР»РѕР¶РµРЅРёРµ РЅРµРІРёРґРёРјС‹Рј, РїРѕ РєСЂР°Р№РЅРµР№ РјРµСЂРµ, РїРѕРєР° СЌС‚Рѕ РЅРµ
+     РїРѕС‚СЂРµР±СѓРµС‚СЃСЏ, РёСЃРїРѕР»СЊР·СѓР№С‚Рµ РѕС‚РґРµР»СЊРЅС‹Р№ РїСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊ РєР»Р°СЃСЃР° TControl - РіР»РѕР±Р°Р»СЊРЅСѓСЋ
+     РїРµСЂРµРјРµРЅРЅСѓСЋ Applet, Рё РїСЂРёСЃРІРѕР№С‚Рµ FALSE РµРµ СЃРІРѕР№СЃС‚РІСѓ Visible.
   }
 
 function NewTrayIcon( Wnd: PControl; Icon: HIcon ): PTrayIcon;
@@ -11745,12 +11745,12 @@ procedure NormalizeUnixText( var S: AnsiString );
 procedure Koi8ToAnsi( s: PAnsiChar );
 {* Converts Koi8 text to Ansi (in place) }
 const KOI8_Rus: array[ #$C0..#$FF ] of AnsiChar = (
-     { 'ю',
-       'а', 'б', 'ц', 'д', 'е', 'ф', 'г', 'х', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п',
-       'я', 'р', 'с', 'т', 'у', 'ж', 'в', 'ь', 'ы', 'з', 'ш', 'э', 'щ', 'ч', 'ъ',
-       'Ю',
-       'А', 'Б', 'Ц', 'Д', 'Е', 'Ф', 'Г', 'Х', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П',
-       'Я', 'Р', 'С', 'Т', 'У', 'Ж', 'В', 'Ь', 'Ы', 'З', 'Ш', 'Э', 'Щ', 'Ч', 'Ъ'}
+     { 'СЋ',
+       'Р°', 'Р±', 'С†', 'Рґ', 'Рµ', 'С„', 'Рі', 'С…', 'Рё', 'Р№', 'Рє', 'Р»', 'Рј', 'РЅ', 'Рѕ', 'Рї',
+       'СЏ', 'СЂ', 'СЃ', 'С‚', 'Сѓ', 'Р¶', 'РІ', 'СЊ', 'С‹', 'Р·', 'С€', 'СЌ', 'С‰', 'С‡', 'СЉ',
+       'Р®',
+       'Рђ', 'Р‘', 'Р¦', 'Р”', 'Р•', 'Р¤', 'Р“', 'РҐ', 'Р', 'Р™', 'Рљ', 'Р›', 'Рњ', 'Рќ', 'Рћ', 'Рџ',
+       'РЇ', 'Р ', 'РЎ', 'Рў', 'РЈ', 'Р–', 'Р’', 'Р¬', 'Р«', 'Р—', 'РЁ', 'Р­', 'Р©', 'Р§', 'РЄ'}
        #$FE,
        #$E0, #$E1, #$F6, #$E4, #$E5, #$F4, #$E3, #$F5, #$E8, #$E9, #$EA, #$EB, #$EC, #$ED, #$EE, #$EF,
        #$FF, #$F0, #$F1, #$F2, #$F3, #$E6, #$E2, #$FC, #$FB, #$E7, #$F8, #$FD, #$F9, #$F7, #$FA,
@@ -11982,8 +11982,8 @@ function Str2DateTimeFmt( const sFmtStr, sS: KOLString ): TDateTime;
    mm   Minutes with leading zeros for single-digit minutes.
    s    Seconds without leading zeros for single-digit seconds.
    ss   Seconds with leading zeros for single-digit seconds.
-   t    One character–time marker string (usually P or A, in English locales).
-   tt   Multicharacter–time marker string (usually PM or AM, in English locales).
+   t    One characterвЂ“time marker string (usually P or A, in English locales).
+   tt   MulticharacterвЂ“time marker string (usually PM or AM, in English locales).
    |</pre>
    E.g., 'D, yyyy/MM/dd h:mm:ss'.
    See also Str2DateTimeShort function.
@@ -13543,13 +13543,13 @@ const
   #0#0 + //BN_CLICKED
   #6#0 + //BN_SETFOCUS
   #7#0 + //BN_KILLFOCUS
-  #225 + //25 нулей
+  #225 + //25 РЅСѓР»РµР№
   #0#1 + //BS_LEFT
   #0#2 + //BS_RIGHT
   #0#3 + //BS_CENTER
   #0#4 + //0, BS_TOP>>8
   #12#8+ // BS_VCENTER>>8, BS_BOTTOM>>8
-  #204 //4 нуля
+  #204 //4 РЅСѓР»СЏ
   ;
   {$ELSE}
   ButtonActions: TCommandActions = (
@@ -13603,7 +13603,7 @@ const
 const
   {$IFDEF PACK_COMMANDACTIONS}
     LabelActions_Packed: PAnsiChar = Char( LABEL_ACTIONS ) +
-  #229 + //29 нулей
+  #229 + //29 РЅСѓР»РµР№
   #2#0 + // SS_RIGHT
   #1#0 + // SS_CENTER
   #12#0 + // SS_LEFTNOWORDWRAP, 0
@@ -16204,11 +16204,11 @@ begin
       fName := '';
       Exit; {>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>}
      end;
-    // здесь тот случай, когда в приложении без Applet'а устанавливается
-    // имя для главной формы (наверное)
-    FOwnerObj := @ Self; // владельцем списка именованных объектов становится
-    // сам объект. Для вышеозначенного случая - главная форма держит себя и
-    // другие формы.
+    // Р·РґРµСЃСЊ С‚РѕС‚ СЃР»СѓС‡Р°Р№, РєРѕРіРґР° РІ РїСЂРёР»РѕР¶РµРЅРёРё Р±РµР· Applet'Р° СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ
+    // РёРјСЏ РґР»СЏ РіР»Р°РІРЅРѕР№ С„РѕСЂРјС‹ (РЅР°РІРµСЂРЅРѕРµ)
+    FOwnerObj := @ Self; // РІР»Р°РґРµР»СЊС†РµРј СЃРїРёСЃРєР° РёРјРµРЅРѕРІР°РЅРЅС‹С… РѕР±СЉРµРєС‚РѕРІ СЃС‚Р°РЅРѕРІРёС‚СЃСЏ
+    // СЃР°Рј РѕР±СЉРµРєС‚. Р”Р»СЏ РІС‹С€РµРѕР·РЅР°С‡РµРЅРЅРѕРіРѕ СЃР»СѓС‡Р°СЏ - РіР»Р°РІРЅР°СЏ С„РѕСЂРјР° РґРµСЂР¶РёС‚ СЃРµР±СЏ Рё
+    // РґСЂСѓРіРёРµ С„РѕСЂРјС‹.
   end;
   if FOwnerObj.fNamedObjList = nil then
      FOwnerObj.fNamedObjList := NewList;
@@ -16387,10 +16387,10 @@ begin
   {$IFDEF TLIST_FAST}
   if fUseBlocks and (fBlockList <> nil) then
   begin
-      if  Value > 256 then // Capacitity в обычном смысле работает только для первого
-          Value := 256;    // блока - до 256 элементов, далее оно смысла не имеет,
-      fCapacity := Value;  // т.к. все прочие блоки всегда содержат по 256 позиций
-                           // для элементов, независимо от процента использования.
+      if  Value > 256 then // Capacitity РІ РѕР±С‹С‡РЅРѕРј СЃРјС‹СЃР»Рµ СЂР°Р±РѕС‚Р°РµС‚ С‚РѕР»СЊРєРѕ РґР»СЏ РїРµСЂРІРѕРіРѕ
+          Value := 256;    // Р±Р»РѕРєР° - РґРѕ 256 СЌР»РµРјРµРЅС‚РѕРІ, РґР°Р»РµРµ РѕРЅРѕ СЃРјС‹СЃР»Р° РЅРµ РёРјРµРµС‚,
+      fCapacity := Value;  // С‚.Рє. РІСЃРµ РїСЂРѕС‡РёРµ Р±Р»РѕРєРё РІСЃРµРіРґР° СЃРѕРґРµСЂР¶Р°С‚ РїРѕ 256 РїРѕР·РёС†РёР№
+                           // РґР»СЏ СЌР»РµРјРµРЅС‚РѕРІ, РЅРµР·Р°РІРёСЃРёРјРѕ РѕС‚ РїСЂРѕС†РµРЅС‚Р° РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ.
   end else
   {$ENDIF}
   begin
@@ -16636,7 +16636,7 @@ begin
     end;
     CountCurrent := CountBefore + Integer( fBlockList.fItems[ i*2+1 ] );
     if Idx - CountCurrent > fCount - CountCurrent then
-    begin // поиск в обратном направлении может оказаться быстрее
+    begin // РїРѕРёСЃРє РІ РѕР±СЂР°С‚РЅРѕРј РЅР°РїСЂР°РІР»РµРЅРёРё РјРѕР¶РµС‚ РѕРєР°Р·Р°С‚СЊСЃСЏ Р±С‹СЃС‚СЂРµРµ
       CountBefore := fCount;
       i := fBlockList.fCount div 2 - 1;
       while TRUE do
@@ -20058,7 +20058,7 @@ end;
 asm
    XCHG EAX, EDX  // (1) EDX=N, AL=first
    {$IFDEF PARANOIA} DB $3C, 31 {$ELSE} CMP AL, 31 {$ENDIF} // first(AL) > 31 ?
-   JBE  @@1       // (2) если да, то Result := 0;
+   JBE  @@1       // (2) РµСЃР»Рё РґР°, С‚Рѕ Result := 0;
 @@0:
    XOR  EAX, EAX  // (2)
    RET            // (1)
@@ -20067,19 +20067,19 @@ asm
    XCHG EAX, ECX  // (1) AL = last CL = first
    SHR  EDX, CL   // (2) EDX = N shr first
    SUB  AL,  CL	  // (2) AL = last - first
-   JL @@0         // (2) если last < first то Result := 0;
+   JL @@0         // (2) РµСЃР»Рё last < first С‚Рѕ Result := 0;
 
    {$IFDEF PARANOIA} DB $3C, 32 {$ELSE} CMP AL, 32 {$ENDIF} // (2) last - first >= 32 ?
    XCHG ECX, EAX  // (1) CL = last - first
    XCHG EAX, EDX  // (1) EAX = N shr first
-   JAE  @@exit    // (2) если last - first > 31, то Result := EAX;
+   JAE  @@exit    // (2) РµСЃР»Рё last - first > 31, С‚Рѕ Result := EAX;
    SBB  EDX, EDX  // (2) EDX = -1
    DEC  EDX       // (1) EDX = 1111...10 = -2
-   SHL  EDX, CL   // (2) EDX = 111...100..0 (где n(0)=last-first+1)
-   NOT  EDX       // (2) EDX = маска 000..0111...1 (где n(1)=last-first+1)
+   SHL  EDX, CL   // (2) EDX = 111...100..0 (РіРґРµ n(0)=last-first+1)
+   NOT  EDX       // (2) EDX = РјР°СЃРєР° 000..0111...1 (РіРґРµ n(1)=last-first+1)
    AND  EAX, EDX  // (2)
 @@exit:
-   // EAX = результат, (1 байт на команду RET)
+   // EAX = СЂРµР·СѓР»СЊС‚Р°С‚, (1 Р±Р°Р№С‚ РЅР° РєРѕРјР°РЅРґСѓ RET)
 end;
 {$ENDIF F_P/DELPHI}
 
@@ -27586,7 +27586,7 @@ function NewFileStream( const FileName: KOLString; Options: DWORD ): PStream;
 begin
   Result := _NewStream( BaseFileMethods );
   Result.fMethods.fRead := ReadFileStreamProc;
-  Result.fMethods.fWrite := WriteFileStream; // not WriteStreamEOF, Алексей Шувалов
+  Result.fMethods.fWrite := WriteFileStream; // not WriteStreamEOF, РђР»РµРєСЃРµР№ РЁСѓРІР°Р»РѕРІ
   Result.fMethods.fSetSiz := SetSizeFileStream;
   Result.fData.fHandle := FileCreate( FileName, Options );
 end;
@@ -27595,7 +27595,7 @@ function NewFileStreamWithEvent( const FileName: KOLString; Options: DWORD ): PS
 begin
   Result := _NewStream( BaseFileMethods );
   Result.fMethods.fRead := ReadFileStreamWithEvent;
-  Result.fMethods.fWrite := WriteFileStreamWithEvent; // not WriteStreamEOF, Алексей Шувалов
+  Result.fMethods.fWrite := WriteFileStreamWithEvent; // not WriteStreamEOF, РђР»РµРєСЃРµР№ РЁСѓРІР°Р»РѕРІ
   Result.fMethods.fSetSiz := SetSizeFileStream;
   Result.fData.fHandle := FileCreate( FileName, Options );
 end;
@@ -28086,7 +28086,7 @@ begin
            PKOLChar(Key), PKOLChar(Value), Buffer, SizeOf(Buffer) div Sizeof(KOLChar),
            PKOLChar(fFileName)) <> 0 then
            Result := Buffer
-      else Result := ''; //: FPC выдает ошибку при отсутствии Key в INI-файле // MTsv DN
+      else Result := ''; //: FPC РІС‹РґР°РµС‚ РѕС€РёР±РєСѓ РїСЂРё РѕС‚СЃСѓС‚СЃС‚РІРёРё Key РІ INI-С„Р°Р№Р»Рµ // MTsv DN
   end else
   begin
        Result := Value;
@@ -28114,7 +28114,7 @@ end;
 
 const
   IniBufferSize = 32767;
-  IniBufferStrSize = IniBufferSize+4;         /// для махинаций :)
+  IniBufferStrSize = IniBufferSize+4;         /// РґР»СЏ РјР°С…РёРЅР°С†РёР№ :)
 
 {$IFDEF ASM_UNICODE}{$ELSE PAS_VERSION} //Pascal
 procedure TIniFile.GetSectionNames(Names:PKOLStrList);
@@ -28549,7 +28549,7 @@ BEGIN
   new( Result, Create );
   i := -1;
   IF  AParent.fMenuObj = nil THEN
-  BEGIN // создается главное меню с линейкой меню (наверху формы? любого контрола?)
+  BEGIN // СЃРѕР·РґР°РµС‚СЃСЏ РіР»Р°РІРЅРѕРµ РјРµРЅСЋ СЃ Р»РёРЅРµР№РєРѕР№ РјРµРЅСЋ (РЅР°РІРµСЂС…Сѓ С„РѕСЂРјС‹? Р»СЋР±РѕРіРѕ РєРѕРЅС‚СЂРѕР»Р°?)
       AParent.fMenuObj := Result;
       Result.fGtkMenuBar := gtk_menu_bar_new;
       //AParent.fMenuBar  := Result.fGtkMenuBar;
@@ -32012,7 +32012,7 @@ function NewLabelEffect( AParent: PControl; const Caption: KOLString; ShadowDeep
 begin
   Result := NewLabel( AParent, '' );
   {$IFDEF USE_FLAGS} exclude( Result.fFlagsG1, G1_IsStaticControl );
-  {$ELSE} Dec( Result.fIsStaticControl ); { снова 0 ! } {$ENDIF}
+  {$ELSE} Dec( Result.fIsStaticControl ); { СЃРЅРѕРІР° 0 ! } {$ENDIF}
   Result.AttachProc( WndProcLabelEffect );
   Result.Caption := Caption;
   Result.AttachProc( WndProcDoEraseBkgnd );
@@ -37169,7 +37169,7 @@ BEGIN
   GDK_MOTION_NOTIFY,
   GDK_BUTTON_PRESS,
   GDK_2BUTTON_PRESS,
-  GDK_3BUTTON_PRESS, // тройной клик мыши - считать как двойной?
+  GDK_3BUTTON_PRESS, // С‚СЂРѕР№РЅРѕР№ РєР»РёРє РјС‹С€Рё - СЃС‡РёС‚Р°С‚СЊ РєР°Рє РґРІРѕР№РЅРѕР№?
   GDK_BUTTON_RELEASE,
   GDK_SCROLL: ;
   else Exit; {>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>}
@@ -38235,8 +38235,8 @@ begin
       Sender.EV.fOnQueryEndSession( Sender, Accept );
       Sender.DF.fCloseQueryReason := qClose;
       Rslt := Integer( Accept );
-      // Добавить. Нужно для того, чтобы отменилось завершение сеанса,
-      // если Accept установлен в False и сеанс завершился при Accept = True
+      // Р”РѕР±Р°РІРёС‚СЊ. РќСѓР¶РЅРѕ РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РѕС‚РјРµРЅРёР»РѕСЃСЊ Р·Р°РІРµСЂС€РµРЅРёРµ СЃРµР°РЅСЃР°,
+      // РµСЃР»Рё Accept СѓСЃС‚Р°РЅРѕРІР»РµРЅ РІ False Рё СЃРµР°РЅСЃ Р·Р°РІРµСЂС€РёР»СЃСЏ РїСЂРё Accept = True
       // Add (YS). To cancel ending session if Accept=FALSE but allow ending
       // session if Accept=TRUE.
       Result := True;  // {YS}: no further processing
@@ -38653,7 +38653,7 @@ var I: Integer;
     CR, VR: TRect;
 begin
    Result := nil;
-   CR := ControlRect; // относительные координаты в системе РОДИТЕЛЬСКОГО КОНТРОЛА
+   CR := ControlRect; // РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ РІ СЃРёСЃС‚РµРјРµ Р РћР”РРўР•Р›Р¬РЎРљРћР“Рћ РљРћРќРўР РћР›Рђ
    if  {$IFDEF USE_FLAGS} not(G6_GraphicCtl in fFlagsG6)
        {$ELSE} fWindowed {$ENDIF} then CR := MakeRect( 0, 0, 0, 0 );
    X := X + CR.Left; // - R.Left;
@@ -42349,9 +42349,9 @@ BEGIN
       fCanvas.fOwnerControl := @Self;
       fCanvas.fDrawable := Pointer( fEventboxHandle.window );
   END;
-  fCanvas.GetHandle; // получим здесь тот контекст, который соответствует
-                     // текущему состоянию контрола (если это контрол) и текущей
-                     // стадии рисования
+  fCanvas.GetHandle; // РїРѕР»СѓС‡РёРј Р·РґРµСЃСЊ С‚РѕС‚ РєРѕРЅС‚РµРєСЃС‚, РєРѕС‚РѕСЂС‹Р№ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚
+                     // С‚РµРєСѓС‰РµРјСѓ СЃРѕСЃС‚РѕСЏРЅРёСЋ РєРѕРЅС‚СЂРѕР»Р° (РµСЃР»Рё СЌС‚Рѕ РєРѕРЅС‚СЂРѕР») Рё С‚РµРєСѓС‰РµР№
+                     // СЃС‚Р°РґРёРё СЂРёСЃРѕРІР°РЅРёСЏ
   Result := fCanvas;
 END;
 {$ENDIF GTK}
@@ -53307,7 +53307,7 @@ procedure AlignChildrenProc(Sender: PObj);
     Result := (
               (F3_Visible in S.fStyle.f3_Style)
               or (
-              (G3_IsForm in S.fFlagsG3) // так надо!
+              (G3_IsForm in S.fFlagsG3) // С‚Р°Рє РЅР°РґРѕ!
               {$IFDEF CREATE_HIDDEN}
               or (G4_CreateHidden in S.fFlagsG4)
               {$ENDIF CREATE_HIDDEN}
@@ -57979,7 +57979,7 @@ asm
         CALL  TControl.Set_Prop_Int
 
         {$IFnDEF NO_DEFAULT_BUTTON_BOLD}
-        XCHG  EAX, ESI //---- больше @Self не нужен
+        XCHG  EAX, ESI //---- Р±РѕР»СЊС€Рµ @Self РЅРµ РЅСѓР¶РµРЅ
         MOV   EDX, [EAX].TControl.fStyle
         AND   DL, not BS_DEFPUSHBUTTON //---- BS_DEFPUSHBUTTON = 1, BH = Value = 1 : 0
         OR    DL, BH
@@ -59424,8 +59424,8 @@ begin
       Free_And_Nil( C.fCanvas );
       C.fCanvas := Self_.Canvas;
       Self_.Canvas.Brush.Assign( Self_.Brush );
-      Self_.Canvas.Font.Assign( Self_.Font ); // не присваивается?
-      Self_.fCanvas.DeselectHandles;          // не помогает???
+      Self_.Canvas.Font.Assign( Self_.Font ); // РЅРµ РїСЂРёСЃРІР°РёРІР°РµС‚СЃСЏ?
+      Self_.fCanvas.DeselectHandles;          // РЅРµ РїРѕРјРѕРіР°РµС‚???
       {$IFDEF NIL_EVENTS}
       if  Assigned( C.EV.fOnPrepaint ) then
       {$ENDIF}
@@ -60516,7 +60516,7 @@ begin if not DF.fErasingBkgnd then Exit; {>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>}
               EndPath( DC );
               Canvas.TextOut( R1.Left, R1.Top, fCaption );
               rgntxt := PathToRegion( DC );
-              if rgntxt = 0 then // такое - в случае шрифта по умолчанию!
+              if rgntxt = 0 then // С‚Р°РєРѕРµ - РІ СЃР»СѓС‡Р°Рµ С€СЂРёС„С‚Р° РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ!
               begin
                 R1.Right := R1.Left + Canvas.TextWidth( fCaption );
                 R1.Bottom := R1.Top + Canvas.TextHeight( fCaption );

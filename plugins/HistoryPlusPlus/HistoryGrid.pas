@@ -1114,7 +1114,7 @@ begin
     else if (ghtUnknown in HintHitTests) and GetHintAtPoint(CursorPos.X, CursorPos.Y, tempHint,
       tempRect) then
     begin
-      Hint := WideStringReplace(tempHint, '|', '¦', [rfReplaceAll]);
+      Hint := WideStringReplace(tempHint, '|', 'Â¦', [rfReplaceAll]);
       CursorRect := tempRect;
       Message.Result := 0;
     end
@@ -3459,8 +3459,8 @@ begin
         subst := WrapText(Mes, #13#10, [' ', #9, '-'], 72)
       else if tok[toksp[i]] = '%quot_mes%' then
       begin
-        subst := WideStringReplace('» ' + Mes, #13#10, #13#10 + '» ', [rfReplaceAll]);
-        subst := WrapText(subst, #13#10 + '» ', [' ', #9, '-'], 70)
+        subst := WideStringReplace('Â» ' + Mes, #13#10, #13#10 + 'Â» ', [rfReplaceAll]);
+        subst := WrapText(subst, #13#10 + 'Â» ', [' ', #9, '-'], 70)
       end
       else if tok[toksp[i]] = '%selmes%' then
         subst := selmes
@@ -3468,8 +3468,8 @@ begin
         subst := WrapText(selmes, #13#10, [' ', #9, '-'], 72)
       else if tok[toksp[i]] = '%quot_selmes%' then
       begin
-        subst := WideStringReplace('» ' + selmes, #13#10, #13#10 + '» ', [rfReplaceAll]);
-        subst := WrapText(subst, #13#10 + '» ', [' ', #9, '-'], 70)
+        subst := WideStringReplace('Â» ' + selmes, #13#10, #13#10 + 'Â» ', [rfReplaceAll]);
+        subst := WrapText(subst, #13#10 + 'Â» ', [' ', #9, '-'], 70)
       end
       else if tok[toksp[i]] = '%nick%' then
         subst := nick

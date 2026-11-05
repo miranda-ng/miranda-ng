@@ -5,7 +5,7 @@ unit FreeImage;
 //
 // Design and implementation by
 // - Simon Beavis
-// - Peter Byström
+// - Peter BystrÑ†m
 // - Anatoliy Pulyaevskiy (xvel84@rambler.ru)
 //
 // Contributors:

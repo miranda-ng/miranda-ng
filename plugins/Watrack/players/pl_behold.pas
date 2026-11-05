@@ -10,14 +10,14 @@ uses windows,messages,common,wrapper,srv_player,wat_api;
 
 const
   WM_BHCMD            = WM_USER+200;
-  WMBH_CHNLUP         = WM_USER+203; // Переключить на следующий канал
-  WMBH_CHNLDOWN       = WM_USER+204; // Переключить на предыдущий канал
-  WMBH_VOLUMEUP       = WM_USER+210; // Увеличить выбранный уровень
-  WMBH_VOLUMEDOWN     = WM_USER+211; // Уменьшить выбранный уровень
-  WMBH_FREEZE         = WM_USER+232; // Триггер стоп-кадра
-  WMBH_SETVOLUME      = WM_USER+280; // Установить уровень громкости (LParam = 0..65535)
-  WMBH_GETVOLUME      = WM_USER+281; // Получить текущий уровень громкости (использовать SendMessage, Result = 0..65535)
-  WMBH_GETVERSION     = WM_USER+285; // Получить новер версии ПО (использовать SendMessage)
+  WMBH_CHNLUP         = WM_USER+203; // РџРµСЂРµРєР»СЋС‡РёС‚СЊ РЅР° СЃР»РµРґСѓСЋС‰РёР№ РєР°РЅР°Р»
+  WMBH_CHNLDOWN       = WM_USER+204; // РџРµСЂРµРєР»СЋС‡РёС‚СЊ РЅР° РїСЂРµРґС‹РґСѓС‰РёР№ РєР°РЅР°Р»
+  WMBH_VOLUMEUP       = WM_USER+210; // РЈРІРµР»РёС‡РёС‚СЊ РІС‹Р±СЂР°РЅРЅС‹Р№ СѓСЂРѕРІРµРЅСЊ
+  WMBH_VOLUMEDOWN     = WM_USER+211; // РЈРјРµРЅСЊС€РёС‚СЊ РІС‹Р±СЂР°РЅРЅС‹Р№ СѓСЂРѕРІРµРЅСЊ
+  WMBH_FREEZE         = WM_USER+232; // РўСЂРёРіРіРµСЂ СЃС‚РѕРї-РєР°РґСЂР°
+  WMBH_SETVOLUME      = WM_USER+280; // РЈСЃС‚Р°РЅРѕРІРёС‚СЊ СѓСЂРѕРІРµРЅСЊ РіСЂРѕРјРєРѕСЃС‚Рё (LParam = 0..65535)
+  WMBH_GETVOLUME      = WM_USER+281; // РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСѓС‰РёР№ СѓСЂРѕРІРµРЅСЊ РіСЂРѕРјРєРѕСЃС‚Рё (РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ SendMessage, Result = 0..65535)
+  WMBH_GETVERSION     = WM_USER+285; // РџРѕР»СѓС‡РёС‚СЊ РЅРѕРІРµСЂ РІРµСЂСЃРёРё РџРћ (РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ SendMessage)
 
 const
   TitleWndClass = 'TApplication';

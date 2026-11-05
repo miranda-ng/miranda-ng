@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Включаемый файл, созданный в Microsoft Visual C++.
-// Используется E:\github\miranda-ng\protocols\VKontakte\res\resource.rc
+// Р’РєР»СЋС‡Р°РµРјС‹Р№ С„Р°Р№Р», СЃРѕР·РґР°РЅРЅС‹Р№ РІ Microsoft Visual C++.
+// РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ E:\github\miranda-ng\protocols\VKontakte\res\resource.rc
 //
 #define IDOPENBROWSER                   3
 #define IDD_ACCMGRUI                    101

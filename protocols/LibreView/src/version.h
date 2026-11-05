@@ -10,4 +10,4 @@
 #define __DESCRIPTION             "Retrieves blood glucose data from LibreView service and displays it in your contact list."
 #define __AUTHOR                  "Miranda NG team"
 #define __AUTHORWEB               "https://miranda-ng.org/p/LibreView"
-#define __COPYRIGHT               "© 2026 Miranda NG team"
+#define __COPYRIGHT               "Â© 2026 Miranda NG team"

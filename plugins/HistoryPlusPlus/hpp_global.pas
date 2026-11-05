@@ -176,7 +176,7 @@ const
 
   hppDescription = 'Easy, fast and feature complete history viewer.';
   hppAuthor      = 'theMIROn, Art Fedorov';
-  hppCopyright   = '© 2006-2009 theMIROn, 2003-2006 Art Fedorov. History+ parts © 2001 Christian Kastner';
+  hppCopyright   = 'Â© 2006-2009 theMIROn, 2003-2006 Art Fedorov. History+ parts Â© 2001 Christian Kastner';
 
   hppHomePageURL  = 'https://miranda-ng.org/p/HistoryPP';
 
@@ -639,8 +639,8 @@ begin;
         StringReplace(
           StringReplace(
             StringReplace(
-              string(Result),'‘','&apos;',[rfReplaceAll]),
-          '“','&quot;',[rfReplaceAll]),
+              string(Result),'â€˜','&apos;',[rfReplaceAll]),
+          'â€œ','&quot;',[rfReplaceAll]),
         '<','&lt;',[rfReplaceAll]),
       '>','&gt;',[rfReplaceAll]),
     '&','&amp;',[rfReplaceAll]));
@@ -652,8 +652,8 @@ begin;
   Result := StringReplace(Result,'&','&amp;',[rfReplaceAll]);
   Result := StringReplace(Result,'>','&gt;',[rfReplaceAll]);
   Result := StringReplace(Result,'<','&lt;',[rfReplaceAll]);
-  Result := StringReplace(Result,'“','&quot;',[rfReplaceAll]);
-  Result := StringReplace(Result,'‘','&apos;',[rfReplaceAll]);
+  Result := StringReplace(Result,'â€œ','&quot;',[rfReplaceAll]);
+  Result := StringReplace(Result,'â€˜','&apos;',[rfReplaceAll]);
 end;
 
 function FormatCString(const Text: WideString): WideString;

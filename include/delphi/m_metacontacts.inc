@@ -1,8 +1,8 @@
 {
   Miranda IM: the free IM client for Microsoft  Windows
 
-  Copyright © 2004 Universite Louis PASTEUR, STRASBOURG.
-  Copyright © 2004 Scott Ellis (www.scottellis.com.au mail@scottellis.com.au)
+  Copyright Â© 2004 Universite Louis PASTEUR, STRASBOURG.
+  Copyright Â© 2004 Scott Ellis (www.scottellis.com.au mail@scottellis.com.au)
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License

@@ -8,8 +8,8 @@
 //
 // Beispiel:
 // pc := TPunyClass.Create;
-// e := pc.Encode('müller'); // Verschlüsselt 'müller' zu 'mller-kva'
-// d := pc.Decode(e); // Entschlüsselt 'mller-kva' zu 'müller'
+// e := pc.Encode('mÑŒller'); // VerschlÑŒsselt 'mÑŒller' zu 'mller-kva'
+// d := pc.Decode(e); // EntschlÑŒsselt 'mller-kva' zu 'mÑŒller'
 // pc.Free;
 
 unit hpp_puny;

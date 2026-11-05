@@ -1254,7 +1254,7 @@ asm
   push edx
   push eax
   call ExtractFileName
-  pop  edx // Path - íå íóæåí áîëüøå
+  pop  edx // Path - Ð½Ðµ Ð½ÑƒÐ¶ÐµÐ½ Ð±Ð¾Ð»ÑŒÑˆÐµ
   mov  eax, [esp] // eax = Result = ExtractFileName(Path)
   mov  eax, [eax]
   push 0
@@ -1263,7 +1263,7 @@ asm
   mov  eax, [esp]
   call System.@LStrLen
   xchg ebx, eax   // ebx = Length(ExtractFileExt(Result))
-  call RemoveStr  // ExtractFileExt - áîëüøå íå íóæåí
+  call RemoveStr  // ExtractFileExt - Ð±Ð¾Ð»ÑŒÑˆÐµ Ð½Ðµ Ð½ÑƒÐ¶ÐµÐ½
   mov  eax, [esp]
   mov  eax, [eax]
   call System.@LStrLen // eax = Length(Result)
@@ -1497,15 +1497,15 @@ asm
 @@exit:
 end;
 
-procedure _FillStrList;    // Ýòà ÷àñòü êîäà îáùàÿ äëÿ äâóõ ñëåäóþùèõ ïðîöåäóð
+procedure _FillStrList;    // Ð­Ñ‚Ð° Ñ‡Ð°ÑÑ‚ÑŒ ÐºÐ¾Ð´Ð° Ð¾Ð±Ñ‰Ð°Ñ Ð´Ð»Ñ Ð´Ð²ÑƒÑ… ÑÐ»ÐµÐ´ÑƒÑŽÑ‰Ð¸Ñ… Ð¿Ñ€Ð¾Ñ†ÐµÐ´ÑƒÑ€
 asm
 ///////////////////////////////
         OR      EAX,0
         JE      @@EXIT                  //ERROR
 //        LEA     EAX,[EAX-IniBufferSize]
 //        JE      @@EXIT
-//      âîçìîæíà íåõâàòêà Áóôåðà... â ïðèíöèïå íå îøèáêà :)
-//      âîçâðàùàåì ÷òî âëåçëî...
+//      Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð° Ð½ÐµÑ…Ð²Ð°Ñ‚ÐºÐ° Ð‘ÑƒÑ„ÐµÑ€Ð°... Ð² Ð¿Ñ€Ð¸Ð½Ñ†Ð¸Ð¿Ðµ Ð½Ðµ Ð¾ÑˆÐ¸Ð±ÐºÐ° :)
+//      Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÐ¼ Ñ‡Ñ‚Ð¾ Ð²Ð»ÐµÐ·Ð»Ð¾...
 @@LOOP:
         LEA     EAX,[ESI+4]
         CALL    StrLen
@@ -1596,7 +1596,7 @@ asm
 
         MOV     EDX,0
         MOV     EBP,[EDI].TStrList.fCount
-        MOV     EBX,IniBufferSize-2 // îñòàâèì ìåñòî äëÿ #0#0
+        MOV     EBX,IniBufferSize-2 // Ð¾ÑÑ‚Ð°Ð²Ð¸Ð¼ Ð¼ÐµÑÑ‚Ð¾ Ð´Ð»Ñ #0#0
 
 {ECM+++>} OR      EBP,EBP  // otherwise GetPChars when StrList.Count = 0 crashed
 
