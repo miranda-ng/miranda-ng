@@ -434,6 +434,16 @@ function GetMUUID(folder, array) {
     }
 }
 
+//remove all C/C++ comments (preserving string literals so URLs and "/*" inside quotes aren't affected)
+function StripComments(text) {
+    return text.replace(/("(?:\\.|[^"\\])*")|('(?:\\.|[^'\\])*')|(\/\*[\s\S]*?\*\/)|(\/\/[^\r\n]*)/g, function(match, str, chr, block) {
+        if (str) return str;
+        if (chr) return chr;
+        if (block) return " ";
+        return "";
+    });
+}
+
 //read text file, removing all commented text for further processing
 function ReadFile(file) {
     //If file zero size, return;
@@ -442,11 +452,8 @@ function ReadFile(file) {
     var file_stream = FSO.GetFile(file).OpenAsTextStream(ForReading, TristateUseDefault);
     //read file fully into var
     var allstrings = file_stream.ReadAll();
-    //remove all comments. The text starting with \\ 
-    //(but not with ":\\" it's a link like https://miranda-ng.org/ 
-    //and ")//" -there is one comment right after needed string)
-    //and remove multi-line comments, started with /* and ended with */
-    var text = allstrings.replace(/(?:[^\):])(\/{2}.+?(?=$))|(\s\/\*[\S\s]+?\*\/)/mg, ".");
+    //remove all comments
+    var text = StripComments(allstrings);
     //close file
     file_stream.Close();
     return text;
@@ -595,9 +602,8 @@ function ReadWholeFile(path, codepage) {
     bs.Open();
     bs.LoadFromFile(path);
     var text = bs.ReadText;
-    //remove all comments. The text starting with \\ (but not with ":\\" it's a links like https://miranda-ng.org/ and ")//" -there is one comment right after needed string)
-    //and remove multi-line comments, started with /* and ended with */
-    text = text.replace(/(?:[^\):])(\/{2}.+?(?=$))|(\s\/\*[\S\s]+?\*\/)/mg, ".");
+    //remove all comments
+    text = StripComments(text);
     bs.Close();
     return text;
 }
