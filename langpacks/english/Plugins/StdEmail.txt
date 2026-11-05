@@ -1,0 +1,12 @@
+#muuid {b774d10a-c761-11e1-8405-27e76188709b}
+;============================================================
+;  File: stdemail.dll
+;  Plugin: Standard Email module
+;  Version: x.x.x.x
+;  Authors: Miranda NG team
+;============================================================
+[Core module for e-mail urls handling.]
+;file \src\core\stdemail\src\email.cpp
+[User has not registered an e-mail address]
+[Send e-mail]
+[&E-mail]

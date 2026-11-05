@@ -1,0 +1,10 @@
+#muuid {d3637189-a5a5-41f5-bc72-67a2f8af1b6f}
+;============================================================
+;  File: stdcrypt.dll
+;  Plugin: Standard encrypting module
+;  Version: x.x.x.x
+;  Authors: Miranda NG team
+;============================================================
+[Core module for encryption.]
+;file \src\core\stdcrypt\src\encrypt.cpp
+[Standard crypto provider]

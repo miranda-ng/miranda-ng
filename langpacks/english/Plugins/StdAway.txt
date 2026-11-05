@@ -1,0 +1,37 @@
+#muuid {e58558e3-83e7-44ef-8e39-d9e0541956df}
+;============================================================
+;  File: stdaway.dll
+;  Plugin: Standard Away module
+;  Version: x.x.x.x
+;  Authors: Miranda NG team
+;============================================================
+[Core module for the away messages processing.]
+;file \src\core\stdaway\res\resource.rc
+[%s message for %s]
+[&Cancel]
+[Retrieving %s message...]
+[Do not reply to requests for this message]
+[Do not pop up dialog asking for new message]
+[By default, use the same message as last time]
+[By default, use this message:]
+[Use %time% for the current time, %date% for the current date]
+[Status messages]
+[Reset]
+[Change %s message]
+[Closing in %d]
+;file \src\core\stdaway\src\awaymsg.cpp
+[&Close]
+[Re&ad %s message]
+[Read status message]
+;file \src\core\stdaway\src\options.cpp
+[Status]
+;file \src\core\stdaway\src\sendmsg.cpp
+[I've been away since %time%.]
+[Give it up, I'm not in!]
+[Not right now.]
+[Give a guy some peace, would ya?]
+[I'm a chatbot!]
+[Yep, I'm here.]
+[Nope, not here.]
+[I'm hiding from the mafia.]
+[idleeeeeeee]

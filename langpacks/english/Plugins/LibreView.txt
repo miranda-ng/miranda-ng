@@ -26,12 +26,17 @@
 [Glucose history]
 ;file \protocols\LibreView\src\check.cpp
 [updating...]
+[LibreView maintenance]
+[maintenance]
 [LibreView update failed]
 [error]
 ;file \protocols\LibreView\src\graph.cpp
 [No data available]
 [&Glucose history]
 ;file \protocols\LibreView\src\main.cpp
+[Main icon]
+[Graph viewer]
+[Protocols]
 [LibreView]
 [&Update data]
 ;file \protocols\LibreView\src\options.cpp
@@ -45,6 +50,8 @@
 [rising]
 [rising quickly]
 [trend unknown]
+[sensor expired]
+[warming up]
 [Failed to connect to LibreView server. Please check your internet connection and try again.]
 ;file \protocols\LibreView\src\userinfo.cpp
 [N/A]

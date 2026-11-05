@@ -27,7 +27,6 @@
 [Remove password]
 [Change password]
 [Set password]
-[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via toxme.io.]
 [DNS name:]
 [Enter password]
 [Cancel]
@@ -85,8 +84,6 @@
 ;file \protocols\Tox\src\tox_proto.cpp
 [You cannot add yourself to your contact list]
 [Contact already in your contact list]
-;file \protocols\Tox\src\tox_search.cpp
-[Query]
 [Invalid search string]
 ;file \protocols\Tox\src\tox_utils.cpp
 [One of the arguments is missing]
