@@ -686,26 +686,18 @@ function eliminateDuplicates(arr) {
 
 //Output array of strings into file
 function WriteToFile(array, langpack) {
-    var i = 0,
-        len = 0;
-    //Create file, overwrite if exists
+    if (array.length === 0) return;
     var langpackfile = FSO.CreateTextFile(langpack, overwritefile, unicode);
-    //Finally, write strings from array to file
-    len = array.length - 1;
-    for (i = 0; i <= len; i++) {
-        langpackfile.WriteLine(array[i]);
-    }
-    //Close file
+    langpackfile.Write(array.join("\r\n") + "\r\n");
     langpackfile.Close();
 }
 
 //Write file as UTF-8 without BOM
 function WriteToUnicodeFileNoBOM(array, filename) {
+    if (array.length === 0) return;
     var UTFStream = WScript.CreateObject("ADODB.Stream");
     var BinaryStream = WScript.CreateObject("ADODB.Stream");
-    var i = 0,
-        len = 0,
-        adTypeBinary = 1,
+    var adTypeBinary = 1,
         adTypeText = 2,
         adModeReadWrite = 3,
         adSaveCreateOverWrite = 2;
@@ -714,11 +706,7 @@ function WriteToUnicodeFileNoBOM(array, filename) {
     UTFStream.Mode = adModeReadWrite;
     UTFStream.Charset = "utf-8";
     UTFStream.Open();
-    
-    len = array.length - 1;
-    for (i = 0; i <= len; i++) {
-        UTFStream.WriteText(array[i] + "\r\n");
-    }
+    UTFStream.WriteText(array.join("\r\n") + "\r\n");
 
     UTFStream.Position = 3; // skip BOM
     BinaryStream.Type = adTypeBinary;
