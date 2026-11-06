@@ -85,12 +85,12 @@ if (WScript.FullName.toLowerCase().charAt(WScript.FullName.length - 11) == "w") 
     }
 }
 
-//when /plugin: specified, parse only this path and quit
+//when /path: specified, parse only this path and quit
 if (WScript.Arguments.Named.Item("path")) {
     //Call GeneratePluginTranslate for path specified in command line argument /path:"path/to/plugin", output result to "scriptpath"
     GeneratePluginTranslate(WScript.Arguments.Named.Item("path"), scriptpath);
     //Write garbage crap array into crap file, if crap exist
-    if (crap.length > 0) {
+    if (WScript.Arguments.Named.Item("crap") && crap.length > 0) {
         WriteToFile(crap, plugin + "_crap.txt");
     }
     //We are done, quit.
