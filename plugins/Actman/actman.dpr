@@ -251,7 +251,7 @@ begin
   PluginInfo.description:= 'Plugin for manage hotkeys to open contact window, insert text, '+
                           'run program and call services';
   PluginInfo.author     := 'Awkward';
-  PluginInfo.copyright  := '(c) 2007-13 Awkward';
+  PluginInfo.copyright  := '© 2007-13 Awkward';
   PluginInfo.homepage   := 'https://miranda-ng.org/p/Actman';
   PluginInfo.flags      := UNICODE_AWARE;
   PluginInfo.uuid       := PluginId;

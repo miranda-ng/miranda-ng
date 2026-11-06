@@ -191,7 +191,7 @@ begin
   PluginInfo.description:= 'This plugin plays and records Internet radio streams.'+
                            ' Also local media files can be played.';
   PluginInfo.author     := 'Awkward';
-  PluginInfo.copyright  := '(c) 2007-14 Awkward';
+  PluginInfo.copyright  := '© 2007-14 Awkward';
   PluginInfo.homepage   := 'https://miranda-ng.org/p/MRadio';
   PluginInfo.flags      := UNICODE_AWARE;
   PluginInfo.uuid       := PluginId;
