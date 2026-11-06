@@ -50,6 +50,16 @@ var crapfile = "Crap.txt";
 //Crap array
 var crap = [];
 
+//filters for _T() function results
+//filter for exact matched strings
+var filter1 = /^(&?[Oo][Kk]|ANSI|APOP|BBS|Bing|CTCP|DCC|Foodnetwork|Google|GPG|ICQ|ICQ Corp|ID|IP|ISDN|iTunes|Jabber|JID|Miranda|MirandaG15|Miranda NG|mRadio|NewStory|NickServ|OSD|OTR|PCS|PGP|PSK|PUB|SASL|SMS|SSL|SteamID|Steam Guard|Tox|Winamp \(\*\)|Windows|X400|Yahoo)$/;
+//filter string starting from following words
+var filter2 = /^(SOFTWARE\\|SYSTEM\\|http|ftp|UTF-|utf-|TEXT|EXE|exe|txt|css|html|dat[^a]|txt|MS\x20|CLVM|TM_|CLCB|CLSID|CLUI|HKEY_|MButton|BUTTON|WindowClass|MHeader|RichEdit|RICHEDIT|STATIC|EDIT|CList|listbox|LISTBOX|combobox|COMBOBOX|TitleB|std\w|iso-|windows-|<div|<html|<img|<span|<hr|<a\x20|<table|<td|miranda_|kernel32|user32|muc|pubsub|shlwapi|Tahoma|NBRichEdit|CreatePopup|&?[Oo][Kk]|<\/|<\w>|\w\\\w|urn\:|<\?xml|<\!|h\d|\.!\.).*$/;
+//filter string ending with following words
+var filter3 = /^.+(001|\/value|\*!\*|=)$/;
+//filter from Kildor
+var filter4 = /^((d\s\w)|\[\/?(\w|url|img|size|quote|color)(=\w*)?\]?|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W|\s|\d)+$/i;
+
 //*********************************************************************************//
 //                         Checking command line parameters                       *//
 //*********************************************************************************//
@@ -557,28 +567,7 @@ function ParseSourceFile(FileTextVar, array) {
 
 //filter _T() function results
 function filter_T(string) {
-    //filter for exact matched strings
-    var filter1 = /^(&?[Oo][Kk]|ANSI|APOP|BBS|Bing|CTCP|DCC|Foodnetwork|Google|GPG|ICQ|ICQ Corp|ID|IP|ISDN|iTunes|Jabber|JID|Miranda|MirandaG15|Miranda NG|mRadio|NewStory|NickServ|OSD|OTR|PCS|PGP|PSK|PUB|SASL|SMS|SSL|SteamID|Steam Guard|Tox|Winamp \(\*\)|Windows|X400|Yahoo)$/g;
-    //filter string starting from following words
-    var filter2 = /^(SOFTWARE\\|SYSTEM\\|http|ftp|UTF-|utf-|TEXT|EXE|exe|txt|css|html|dat[^a]|txt|MS\x20|CLVM|TM_|CLCB|CLSID|CLUI|HKEY_|MButton|BUTTON|WindowClass|MHeader|RichEdit|RICHEDIT|STATIC|EDIT|CList|listbox|LISTBOX|combobox|COMBOBOX|TitleB|std\w|iso-|windows-|<div|<html|<img|<span|<hr|<a\x20|<table|<td|miranda_|kernel32|user32|muc|pubsub|shlwapi|Tahoma|NBRichEdit|CreatePopup|&?[Oo][Kk]|<\/|<\w>|\w\\\w|urn\:|<\?xml|<\!|h\d|\.!\.).*$/g;
-    //filter string ending with following words
-    var filter3 = /^.+(001|\/value|\*!\*|=)$/g;
-    //filter from Kildor
-    var filter4 = /^((d\s\w)|\[\/?(\w|url|img|size|quote|color)(=\w*)?\]?|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W|\s|\d)+$/gi;
-    //filter from Kildor for remove filenames and paths.
-    //var filter5=/^[\w_:%.\\\/*-]+\.\w+$/g;
-
-    //apply filters to our string
-    var test1 = filter1.test(string);
-    var test2 = filter2.test(string);
-    var test3 = filter3.test(string);
-    var test4 = filter4.test(string);
-    //test5=filter5.test(string);
-
-    //if match (test1) first filter and NOT match other tests, thus string are good, return this string back.
-    //if (test1 && !test2 && !test3 && !test4 && !test5) {
-    //if (!test1 && !test2 && !test3 && !test4 && !test5) {
-    if (!test1 && !test2 && !test3 && !test4) {
+    if (!filter1.test(string) && !filter2.test(string) && !filter3.test(string) && !filter4.test(string)) {
         return string;
     } else {
         //in other case, string is a garbage, put into crap array.
