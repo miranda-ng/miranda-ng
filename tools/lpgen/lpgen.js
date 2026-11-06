@@ -28,11 +28,6 @@ var unicode = false;
 var log = false;
 //remove dupes by default
 var dupes = false;
-//stream - our variable for output UTF-8 files with BOM
-var stream = new ActiveXObject("ADODB.Stream");
-//stream var tune
-stream.Type = 2; // text mode
-stream.Charset = "utf-8";
 //plugin - variable for plugin name
 var plugin = "";
 
@@ -702,19 +697,6 @@ function WriteToFile(array, langpack) {
     }
     //Close file
     langpackfile.Close();
-}
-
-//Write UTF-8 file
-function WriteToUnicodeFile(array, langpack) {
-    var i = 0,
-        len = 0;
-    stream.Open();
-    len = array.length - 1;
-    for (i = 0; i <= len; i++) {
-        stream.WriteText(array[i] + "\r\n");
-    }
-    stream.SaveToFile(langpack, 2);
-    stream.Close();
 }
 
 //Write file as UTF-8 without BOM
