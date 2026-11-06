@@ -143,17 +143,15 @@ sln_stream.Close();
 // project_files.push(trunkPath+"\\plugins\\Watrack\\watrack.dpr");
 // project_files.push(trunkPath+"\\plugins\\mRadio\\mradio.dpr");
 
-//create Enumerator with project files from sln and dpr files, sorted alphabetically
-var files = new Enumerator(project_files.sort());
-while (!files.atEnd()) {
+//process project files from sln and dpr files, sorted alphabetically
+project_files.sort();
+for (var i = 0; i < project_files.length; i++) {
     //get file name
-    var file = FSO.GetFile(files.item());
+    var file = FSO.GetFile(project_files[i]);
     //get parent folder name
     var plugfolder = FSO.GetParentFolderName(file);
     //call function for plugin folder, output to plugins folder.
     GeneratePluginTranslate(plugfolder, langpack_en + "\\Plugins", file);
-    //next project file
-    files.moveNext();
 }
 //Write Crap to file.
 if (WScript.Arguments.Named.Item("crap")) {
@@ -383,12 +381,10 @@ function GetMUUID(folder, array) {
         vals = "";
     //search for files in "folder" by mask, put result into muuidfilelist
     FindFiles(folder, "\\.cpp$|\\.c$|\\.h$", muuidfilelist);
-    //now we have files, let's put them to Enumerator
-    var filesenum = new Enumerator(muuidfilelist);
     //cycle through file list and lookup each file for UNICODE_AWARE
-    while (!filesenum.atEnd()) {
-        //curfile is our current file in files enumerator
-        curfile = filesenum.item();
+    for (var f = 0; f < muuidfilelist.length; f++) {
+        //curfile is our current file in files list
+        curfile = muuidfilelist[f];
         //this is a regexp to search UNICODE_AWARE
         find = /(?:UNICODE_AWARE(?:\s*?\|\s*?STATIC_PLUGIN)?,[\s\S]*?\{)(.+?)(?=\}\s{0,2}\})/g;
         //read file fully into var "allstrings"
@@ -425,8 +421,6 @@ function GetMUUID(folder, array) {
                 break;
             }
         }
-        //moving to next file
-        filesenum.moveNext();
     }
     //if we didn't find muuid, put alarm into "muuid"
     if (!muuid) {
@@ -472,16 +466,14 @@ function ParseFiles(filelist, stringsarray, parsefunction) {
         curfile = {},
         filetext = "",
         curfilepath = "";
-    //create enumerator filesenum from filelist
-    var filesenum = new Enumerator(filelist);
     //cycle through file list
-    while (!filesenum.atEnd()) {
+    for (var i = 0; i < filelist.length; i++) {
         //record into current_strings current length of stringsarray
         current_strings = stringsarray.length;
         //record into crap_strings current length of crap array
         crap_strings = crap.length;
-        //curfile is our current file in files enumerator
-        curfile = filesenum.item();
+        //curfile is our current file in files list
+        curfile = filelist[i];
         //read file (filtering comments) into filetext
         filetext = ReadFile(curfile);
         //now apply a parsing function to current filetext, and put result into stringsarray
@@ -496,8 +488,6 @@ function ParseFiles(filelist, stringsarray, parsefunction) {
         if (crap.length > crap_strings) {
             crap.splice(crap_strings, 0, ";file " + curfilepath.substring(trunkPath.length));
         }
-        //move to next file
-        filesenum.moveNext();
     }
 }
 
