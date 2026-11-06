@@ -1,0 +1,13 @@
+// The OK logo: orange while polling, grey when offline.
+//
+#include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+#include "afxres.h"
+#undef APSTUDIO_READONLY_SYMBOLS
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+
+// the icon with the lowest id goes first, so that it represents the file
+IDI_ONLINE              ICON                    "Online.ico"
+IDI_OFFLINE             ICON                    "Offline.ico"

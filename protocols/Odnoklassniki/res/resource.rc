@@ -1,0 +1,53 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+#include "winres.h"
+#undef APSTUDIO_READONLY_SYMBOLS
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ACCMGRUI DIALOGEX 0, 0, 186, 80
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Login (e-mail, phone or user name):",IDC_STATIC,0,2,185,8
+    EDITTEXT        IDC_LOGIN,0,12,185,12,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,0,30,185,8
+    EDITTEXT        IDC_PASSWORD,0,40,185,12,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "Your OK friends appear as contacts. Existing group chats open as chat rooms.",IDC_STATIC,0,58,185,18
+END
+
+IDD_OPTIONS DIALOGEX 0, 0, 305, 110
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Account",IDC_STATIC,7,7,291,55
+    LTEXT           "Login (e-mail, phone or user name):",IDC_STATIC,15,22,120,8
+    EDITTEXT        IDC_LOGIN,140,20,150,12,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,15,40,120,8
+    EDITTEXT        IDC_PASSWORD,140,38,150,12,ES_PASSWORD | ES_AUTOHSCROLL
+    GROUPBOX        "Connection",IDC_STATIC,7,67,291,35
+    LTEXT           "Check for new messages every (seconds):",IDC_STATIC,15,82,140,8
+    EDITTEXT        IDC_INTERVAL,160,80,30,12,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+IDI_OK                  ICON                    "ok.ico"
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
