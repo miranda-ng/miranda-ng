@@ -912,7 +912,7 @@ INT_PTR __cdecl CVkProto::SvcAddAsFriend(WPARAM hContact, LPARAM)
 	if (iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER)
 		return 1;
 
-	MsgPopup(hContact, TranslateT("The current API doesn’t allow performing the required action. Please do it on the website yourself."), TranslateT("Attention!"));
+	MsgPopup(hContact, TranslateT("The current API doesn't allow performing the required action. Please do it on the website yourself."), TranslateT("Attention!"));
 	SvcVisitProfile(hContact, 0);
 
 	return 0;
