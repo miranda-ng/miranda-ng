@@ -445,19 +445,19 @@ function StripComments(text) {
     });
 }
 
-//read text file, removing all commented text for further processing
+//read text file as UTF-8, removing all commented text for further processing
 function ReadFile(file) {
-    //If file zero size, return;
-    if (FSO.GetFile(file).Size === 0) return;
-    //reading current file
-    var file_stream = FSO.GetFile(file).OpenAsTextStream(ForReading, TristateUseDefault);
-    //read file fully into var
-    var allstrings = file_stream.ReadAll();
-    //remove all comments
-    var text = StripComments(allstrings);
-    //close file
-    file_stream.Close();
-    return text;
+    var filePath = (typeof file === "object" && file.Path) ? file.Path : file;
+    if (!FSO.FileExists(filePath) || FSO.GetFile(filePath).Size === 0) return "";
+    var adTypeText = 2;
+    var bs = WScript.CreateObject("ADODB.Stream");
+    bs.Type = adTypeText;
+    bs.CharSet = "utf-8";
+    bs.Open();
+    bs.LoadFromFile(filePath);
+    var text = bs.ReadText;
+    bs.Close();
+    return StripComments(text);
 }
 
 //Parsing filelist into stringsarray by parsefunction (ParseSourceFile OR ParseRCFile)
@@ -592,23 +592,6 @@ function filter_T(string) {
     return;
 }
 
-function ReadWholeFile(path, codepage) {
-    if (codepage === undefined) {
-        codepage = "utf-8";
-    }
-    var adTypeText = 2;
-    var bs = WScript.CreateObject("ADODB.Stream");
-    bs.Type = adTypeText;
-    bs.CharSet = codepage;
-    bs.Open();
-    bs.LoadFromFile(path);
-    var text = bs.ReadText;
-    //remove all comments
-    text = StripComments(text);
-    bs.Close();
-    return text;
-}
-
 //Parse Version.h file to get one translated string from "Description" and make a plugin template header.
 function ParseVersion_h(pluginfolder, array) {
     //cleanup var
@@ -630,7 +613,7 @@ function ParseVersion_h(pluginfolder, array) {
     //If we still not found version.h, return
     if (!VersionFile) return;
     //read file fully into var allstrings
-    allstrings = ReadWholeFile(VersionFile);
+    allstrings = ReadFile(VersionFile);
     //define RegExp for defines.
     var filename = /(?:#define\s+_*?FILENAME\s+")(.+)(?=")/m;
     var pluginname = /(?:#define\s+_*?PLUG(?:IN)?_?NAME\s+")(.+)(?=")/i;
