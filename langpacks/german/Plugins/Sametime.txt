@@ -72,7 +72,7 @@ Bitte treten Sie diesem Treffen bei.
 [Normal]
 Normal
 [%s's conference]
-Konverenz von %s
+Konferenz von %s
 [Leave conference]
 Konferenz verlassen
 [Start conference]
@@ -85,9 +85,9 @@ Keine gemeinsame Verschlüsselungsmethode. Aktivieren Sie Verschlüsselung in de
 DIENST NICHT IMPLEMENTIERT. %s
 ;file \protocols\Sametime\src\options.cpp
 [Sametime (Use old client version)]
-
+Sametime (Alte Client-Version verwenden)
 [Sametime (Miranda default)]
-
+Sametime (Miranda-Standard)
 [Client protocol version: %03d.%03d]
 Client-Protokollversion: %03d.%03d
 [Server protocol version: %03d.%03d]
@@ -191,11 +191,11 @@ Port wird verwendet
 [Network error]
 Netzwerkfehler
 [Master channel error]
-
+Master-Channel-Fehler
 [Already subscribed]
-
+Bereits abonniert
 [Not subscribed]
-
+Nicht abonniert
 [Encryption method not supported]
 Verschlüsselungsmethode nicht unterstützt
 [Encryption not initialized]
@@ -215,7 +215,7 @@ Ungültiger Eintrag
 [Version mismatch]
 Version stimmt nicht überein
 [Not enough buffers memory]
-
+Nicht genügend Puffer-Speicher
 [Not in use]
 Nicht verwendet
 [Not enough sockets]
@@ -237,11 +237,11 @@ Server voll
 [Server not responding]
 Server antwortet nicht
 [Connection error]
-Verbiundungsfehler
+Verbindungsfehler
 [User removed]
 Benutzer entfernt
 [Sametime protocol error]
-Sametimeprotokollfehler
+Sametime-Protokollfehler
 [User restricted]
 Benutzer eingeschränkt
 [Incorrect Username/Password]
@@ -259,7 +259,7 @@ Der Gastname wird bereits verwendet.
 [User exists]
 Benutzer existiert
 [User relogin]
-
+Benutzer erneut anmelden
 [Bad name]
 Falscher Name
 [Registration error]
@@ -275,15 +275,15 @@ Schwerer DNS-Fehler
 [DNS not found]
 DNS nicht gefunden
 [Connection broken]
-
+Verbindung unterbrochen
 [Connection aborted]
-
+Verbindung abgebrochen
 [Connection refused]
-
+Verbindung verweigert
 [Connection reset]
-
+Verbindung zurückgesetzt
 [Connection timed out]
-
+Zeitüberschreitung der Verbindung
 [Connection closed]
 Verbindung beendet
 [Login to two different servers concurrently (1)]
@@ -299,9 +299,9 @@ Server fehlkonfiguriert
 [Server needs upgrade]
 Server muss aktualisiert werden
 [Applet Logout]
-
+Applet-Abmeldung
 [User is in Do Not Disturb mode]
-Benutzer ist in Bitte-Nicht-Stören-Modus
+Benutzer ist im Bitte-Nicht-Stören-Modus
 [Already logged in elsewhere]
 Bereits woanders angemeldet
 [Cannot register a reserved type]
@@ -325,9 +325,9 @@ Anfrage akzeptiert, wird aber später beantwortet
 [Request is invalid due to invalid state or parameters]
 Anfrage ist wegen ungültigem Zustand oder Parameter ungültig
 [Not logged in to community]
-
+Nicht in Community angemeldet
 [Unauthorized to perform an action or access a resource]
-
+Für diese Aktion oder den Zugriff auf eine Ressource nicht berechtigt
 [Operation has been aborted]
 Operation wurde abgebrochen
 [The element is non-existent]
@@ -339,7 +339,7 @@ Die Daten sind ungültig oder beschädigt
 [The requested feature is not implemented]
 Die angeforderte Funktion ist nicht implementiert
 [Not enough resources to perform the operation]
-Nicht ausreichend Resourcen um diese Operation auszuführen
+Nicht ausreichend Ressourcen für diese Operation
 [The requested channel is not supported]
 Der angefragte Channel wird nicht unterstützt
 [The requested channel already exists]
@@ -353,21 +353,21 @@ Das angefragte Protokoll wird nicht unterstützt (2)
 [The version is not supported]
 Die Version wird nicht unterstützt
 [Not an owner of the requested resource]
-
+Nicht Eigentümer der angeforderten Ressource
 [Token has expired]
-
+Token abgelaufen
 [Token IP mismatch]
-
+Token-IP stimmt nicht überein
 [WK port is in use]
 WK-Port wird verwendet
 [Low-level network error occurred]
-
+Niedrigstufiger Netzwerkfehler aufgetreten
 [No master channel exists]
-
+Kein Master-Channel vorhanden
 [Already subscribed to object(s) or event(s)]
-
+Bereits auf Objekt(e) oder Ereignis(se) abonniert
 [Not subscribed to object(s) or event(s)]
-
+Nicht auf Objekt(e) oder Ereignis(se) abonniert
 [Encryption is not supported or failed unexpectedly]
 Verschlüsselung wird nicht unterstützt oder ist unerwartet fehlgeschlagen
 [Encryption mechanism has not been initialized yet]
@@ -377,19 +377,19 @@ Das angeforderte Verschlüsselungslevel ist inakzeptabel schwach
 [The encryption data passed are invalid or corrupted]
 Die übergebenen Verschlüsselungsdaten sind ungültig oder beschädigt
 [There is no common encryption method]
-Es gibt keine gemeinsame Verschüsselungsmethode
+Es gibt keine gemeinsame Verschlüsselungsmethode
 [The channel is destroyed after a recommendation is made connect elsewhere]
-
+Der Channel wurde nach einer Empfehlung zur Verbindung an einen anderen Ort zerstört
 [The channel has been redirected to another destination]
-
+Der Channel wurde an ein anderes Ziel weitergeleitet
 [Incorrect entry for server in cluster document]
-
+Falscher Eintrag für Server im Cluster-Dokument
 [Versions don't match]
 Versionen stimmen nicht überein
 [Not enough resources for connection (buffers)]
-Nicht ausreichend Resourcen für Verbinding (Buffer)
+Nicht ausreichend Ressourcen für Verbindung (Buffer)
 [Not enough resources for connection (socket id)]
-Nicht ausreichend Resourcen für Verbinding (Socket-ID)
+Nicht ausreichend Ressourcen für Verbindung (Socket-ID)
 [Hardware error occurred]
 Hardwarefehler aufgetreten
 [Network down]
@@ -411,7 +411,7 @@ Benutzer wurde vom Server entfernt
 [Virtual Places protocol error]
 Virtual-Places-Protokollfehler
 [Cannot connect because user has been restricted]
-
+Verbindung nicht möglich, da der Benutzer eingeschränkt ist
 [Incorrect login]
 Ungültige Anmeldedaten
 [User is unregistered]
@@ -423,7 +423,7 @@ Der Benutzer war zu lange untätig
 [The user is already signed on]
 Der Benutzer ist bereits angemeldet
 [The user has signed on again]
-Der Benutzer hat sich wieder angelemdet
+Der Benutzer hat sich wieder angemeldet
 [The name cannot be used]
 Der Name kann nicht verwendet werden
 [The registration mode is not supported]
@@ -439,17 +439,17 @@ Schwerer Fehler in DNS
 [Server name not found]
 Servername nicht gefunden
 [The connection has been broken]
-
+Die Verbindung wurde unterbrochen
 [An established connection was aborted by the software in the host machine]
-
+Eine bestehende Verbindung wurde von der Software auf dem Host-Rechner abgebrochen
 [The connection has been refused]
-
+Die Verbindung wurde abgelehnt
 [The connection has been reset]
-
+Die Verbindung wurde zurückgesetzt
 [The connection has timed out]
-
+Die Verbindung ist abgelaufen
 [The connection has been closed]
-
+Die Verbindung wurde geschlossen
 [Disconnected due to login in two Sametime servers concurrently (1)]
 Getrennt, da Sie bei zwei verschiedenen Sametimeservern gleichzeitig angemeldet sind (1)
 [Disconnected due to login in two Sametime servers concurrently (2)]
@@ -457,27 +457,27 @@ Getrennt, da Sie bei zwei verschiedenen Sametimeservern gleichzeitig angemeldet 
 [Disconnected due to login from another computer.]
 Getrennt, da Sie gleichzeitig von einem anderen Computer angemeldet sind.
 [Unable to log in because you are already logged on from another computer]
-Sie können sich nicht anmelden da Sie von einem anderen Computer aus gleichzeitig angemeldet sind
+Sie können sich nicht anmelden, da Sie von einem anderen Computer aus gleichzeitig angemeldet sind.
 [Unable to log in because the server is either unreachable, or not configured properly.]
-Sie können sich nicht anmelden da der Server entweder unerreichbar oder nicht richtig eingerichtet ist.
+Sie können sich nicht anmelden, da der Server entweder unerreichbar oder nicht richtig eingerichtet ist.
 [Unable to log in to home Sametime server through the requested server, since your home server needs to be upgraded.]
-
+Anmeldung am Heimat-Sametime-Server über den angeforderten Server nicht möglich, da der Heimatserver aktualisiert werden muss.
 [The applet was logged out with this reason. Perform relogin and you will return to the former state.]
-
+Das Applet wurde aus diesem Grund abgemeldet. Führen Sie eine erneute Anmeldung durch; dann kehren Sie in den vorherigen Zustand zurück.
 [The user is not online]
 Der Benutzer ist nicht online.
 [The user is in do not disturb mode]
-Der Bennutzer ist im Bitte-Nicht-Stören-Modus
+Der Benutzer ist im Bitte-Nicht-Stören-Modus
 [Cannot log in because already logged in with a different user name (Java only)]
-
+Anmeldung nicht möglich, da bereits mit einem anderen Benutzernamen angemeldet (nur Java)
 [The requested type is already registered]
-
+Der angeforderte Typ ist bereits registriert
 [The requested type is not registered]
-
+Der angeforderte Typ ist nicht registriert
 [The resolve process was not completed, but a partial response is available]
-
+Der Auflösungsprozess wurde nicht abgeschlossen, aber eine Teilantwort ist verfügbar
 [The name was found, but is not unique (request was for unique only)]
-
+Der Name wurde gefunden, aber er ist nicht eindeutig (Anfrage war nur für eindeutige Ergebnisse)
 [The name is not resolvable due to its format, for example an Internet email address]
 Der Name ist wegen seines Formates nicht auflösbar, beispielsweise eine Internet-/E-Mail-Adresse
 [Unknown error code]
