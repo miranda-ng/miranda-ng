@@ -1,0 +1,49 @@
+#muuid {5eedf3c5-3071-4234-a627-efd062a4d694}
+;============================================================
+;  File: stduihist.dll
+;  Plugin: Standard History UI
+;  Version: x.x.x.x
+;  Authors: Miranda NG team
+;============================================================
+[Core module for built-in history viewer.]
+Kernmodul zum Anzeigen des Nachrichtenverlaufs.
+;file \src\core\stduihist\res\resource.rc
+[Find]
+Suchen
+[&Find next]
+&Weitersuchen
+[Cancel]
+Abbrechen
+[Find what:]
+Suchen nach:
+[Message history]
+Nachrichtenverlauf
+[Close]
+Schließen
+[&Find...]
+&Suchen...
+[Delete]
+Löschen
+;file \src\core\stduihist\src\history.cpp
+[Outgoing message]
+Ausgehende Nachricht
+[Incoming message]
+Eingehende Nachricht
+[Outgoing file]
+Ausgehende Datei
+[Incoming file]
+Eingehende Datei
+[Authorization request]
+Autorisierungsanfrage
+[Added event]
+Sie wurden von jemandem hinzugefügt
+[History for %s]
+Verlauf von %s
+[System history]
+Systemverlauf
+[Are you sure you want to delete this history item?]
+Soll dieser Verlaufseintrag gelöscht werden?
+[Delete history]
+Verlauf löschen
+[View &history]
+&Verlauf anzeigen

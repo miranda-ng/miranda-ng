@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.19.7
+;  Version: 0.1.20.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -253,6 +253,10 @@ Nachrichten können nicht an diesen Benutzer wegen seiner Privatsphäre-Einstell
 Nachricht ist zu lang.
 [Enter new nickname]
 Neuen Nicknamen eingeben
+[The current API doesn't allow performing the required action. Please do it on the website yourself.]
+Die aktuelle API erlaubt die Durchführung der erforderlichen Aktion nicht. Bitte führen Sie diese selbst auf der Website durch.
+[Attention!]
+Achtung!
 [Message read: %s]
 Nachricht gelesen: %s
 [has invited you to a group]
@@ -488,8 +492,6 @@ Unbekannter Fehler aufgetreten
 ;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Möchten Sie wirklich alle Nachrichten von vk.com neu laden?\nDer lokale Verlauf des Kontaktes wird gelöscht und vom Server neu geladen.\nDas kann lange dauern.\nMöchten Sie fortfahren?
-[Attention!]
-Achtung!
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nDo you want to continue?]
 Sind Sie sich sicher, dass Sie alle Nachrichten für alle Kontakte von vk.com laden wollen?\nDer lokale Verlauf Ihrer Kontakte wird gelöscht und vom Server neu geladen.\nDies kann sehr lange Zeit dauern und/oder die Miranda-Datenbank beschädigen.\nMöchten Sie fortfahren?
 [Error loading message history from server.]
@@ -570,10 +572,6 @@ Nachrichten als gelesen markieren
 Nachricht auf Pinnwand des Benutzers senden
 [Add as friend]
 Als Freund hinzufügen
-[Delete from friend list]
-Von Freundesliste löschen
-[Ban user]
-Benutzer bannen
 [Open broadcast]
 Übertragung öffnen
 [View/change topic]
@@ -598,14 +596,6 @@ Fehler
 Benachrichtigung
 [VK user activate/deactivate action]
 VK-Benutzer wurde aktiviert/deaktiviert
-[User %s added as friend]
-Benutzer %s wurde als Freund hinzugefügt.
-[You cannot add yourself as friend]
-Sie können sich nicht selbst als Freund hinzufügen.
-[Cannot add this user to friends as they have put you on their blacklist]
-Sie können diesen Benutzer nicht als Freund hinzufügen da dieser Sie auf seiner Blockierliste hat.
-[Cannot add this user to friends as you put him on blacklist]
-Sie können diesen Benutzer nicht als Freund hinzufügen da Sie diesen auf Ihrer Blockierliste haben.
 ;file \protocols\VKontakte\src\vk_status.cpp
 [Loading status message from vk.com.\nThis may take some time.]
 Lade Statusnachricht von vk.com.\nDies kann einige Zeit dauern.
@@ -632,33 +622,5 @@ Bücher
 Spiele
 [Quotes]
 Zitate
-[Please authorize me to add you to my friend list.]
-Bitte autorisieren Sie mich, Sie zu meiner Freundesliste hinzuzufügen.
 [Are you sure to wipe local contacts missing in your friend list?]
 Sind Sie sich sicher dass Sie lokale Kontakte außerhalb Ihrer Freundesliste löschen wollen?
-[Are you sure to delete %s from your friend list?]
-Sind Sie sich sicher dass Sie %s von Ihrer Freundesliste löschen wollen?
-[User %s was deleted from your friend list]
-Benutzer %s wurde aus Ihrer Freundesliste gelöscht.
-[Your request to the user %s was deleted]
-Ihre Anfrage an Benutzer %s wurde gelöscht.
-[Friend request from the user %s declined]
-Freundesanfrage von Benutzer %s abgelehnt.
-[Friend request suggestion for the user %s deleted]
-Freundesanfragenvorschlag von %s abgelehnt.
-[User or request was not deleted]
-Benutzer oder Anfrage wurde nicht gelöscht.
-[ report abuse on him/her]
- Missbrauch durch ihn/sie melden
-[ clear server history with him/her]
- Serververlauf mit ihm/ihr löschen
-[ remove him/her from your friend list]
- ihn/sie aus Ihrer Freundesliste löschen
-[ remove him/her from your contact list]
- ihn/sie aus Ihrer Kontaktliste entfernen
-[Are you sure to ban %s? %s%sContinue?]
-Wollen Sie %s wirklich bannen? %s%sFortfahren?
-[\nIt will also]
-\Dies wird auch
-[Are you sure to report abuse on %s?]
-Wollen Sie wirklich Missbrauch durch %s melden?

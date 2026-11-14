@@ -1,0 +1,165 @@
+#muuid {8198dc94-0bc4-448a-8495-8fe832c1d333}
+;============================================================
+;  File: stduserinfo.dll
+;  Plugin: Standard User Info module
+;  Version: x.x.x.x
+;  Authors: Miranda NG team
+;============================================================
+[Core module for providing user information.]
+Kernmodul zum Anzeigen von Benutzerinformationen.
+;file \src\core\stduserinfo\res\resource.rc
+[Add phone number]
+Telefonnummer hinzufügen
+[Enter country, area code and phone number:]
+Landes-, Ortsvorwahl und Rufnummer:
+[Or enter a full international number:]
+oder internationale Rufnummer:
+[Phone can receive SMS text messages]
+Telefon kann SMS-Nachrichten empfangen
+[Cancel]
+Abbrechen
+[Add e-mail address]
+E-Mail-Adresse hinzufügen
+[%s: user details]
+%s: Benutzerdetails
+[View personal user details and more]
+Persönliche Benutzerdetails und mehr ansehen
+[Update now]
+Jetzt aktualisieren
+[Updating]
+Aktualisieren
+[First name:]
+Vorname:
+[Gender:]
+Geschlecht:
+[Last name:]
+Nachname:
+[Age:]
+Alter:
+[E-mail:]
+E-Mail:
+[Date of birth:]
+Geburtsdatum:
+[Marital status:]
+Familienstand:
+[Copy]
+Kopieren
+[Phone:]
+Telefon:
+[Web page:]
+Webseite:
+[Past background:]
+Vergangenheit:
+[Interests:]
+Interessen:
+[About:]
+Über mich:
+[My notes:]
+Meine Notizen:
+[Street:]
+Straße:
+[City:]
+Stadt:
+[State:]
+Region:
+[Postal code:]
+Postleitzahl:
+[Country:]
+Land:
+[Spoken languages:]
+Gesprochene Sprachen:
+[Timezone:]
+Zeitzone:
+[Local time:]
+Lokale Zeit:
+[Set custom time zone]
+Eigene Zeitzone setzen
+[Company:]
+Firma:
+[Department:]
+Abteilung:
+[Position:]
+Position:
+[Website:]
+Webseite:
+;file \src\core\stduserinfo\src\contactinfo.cpp
+[Edit e-mail address]
+E-Mail-Adresse bearbeiten
+[Edit phone number]
+Telefonnummer bearbeiten
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+Die Telefonnummer sollte mit + beginnen und darf nur Nummern, Leerzeichen, Klammern und Bindestriche enthalten.
+[Invalid phone number]
+Ungültige Telefonnummer
+[Primary]
+Standard
+[Custom %d]
+Eigene %d
+[Fax]
+Fax
+[Mobile]
+Mobiltelefon
+[Work phone]
+Arbeitstelefon
+[Work fax]
+Arbeitsfax
+[Contact]
+Kontakt
+;file \src\core\stduserinfo\src\stdafx.h
+[UserInfo]
+Nutzerinfo
+;file \src\core\stduserinfo\src\stdinfo.cpp
+[No avatar]
+Kein Avatar
+[<not specified>]
+<nicht angegeben>
+[Summary]
+Zusammenfassung
+[Location]
+Ort
+[Work]
+Arbeit
+[Background info]
+Hintergrund-Info
+[Notes]
+Notizen
+;file \src\core\stduserinfo\src\userinfo.cpp
+[General]
+Allgemein
+[Owner]
+Inhaber
+[User &details]
+Kontakt&profil
+[Folder]
+Ordner
+[Page]
+Seite
+[View/change my &details...]
+Mein Profil än&dern...
+;file \src\core\stduserinfo\src\utils.h
+[Male]
+Männlich
+[Female]
+Weiblich
+[Single]
+Single
+[Close relationships]
+Feste Beziehung
+[Engaged]
+Verlobt
+[Married]
+Verheiratet
+[Divorced]
+Geschieden
+[Separated]
+Getrennt
+[Widowed]
+Verwitwet
+[Actively searching]
+Aktiv suchend
+[In love]
+Verliebt
+[It's complicated]
+Es ist kompliziert
+[In a civil union]
+Eingetragene Partnerschaft

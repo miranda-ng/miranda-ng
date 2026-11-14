@@ -1,0 +1,39 @@
+#muuid {9f5ca736-1108-4872-bec3-19c84bc2143b}
+;============================================================
+;  File: stdautoaway.dll
+;  Plugin: Standard AutoAway module
+;  Version: x.x.x.x
+;  Authors: Miranda NG team
+;============================================================
+[Core module for away state processing.]
+Kernmodul zum Verwalten von Abwesenheitssstatus.
+;file \src\core\stdautoaway\res\resource.rc
+[Become idle if the following is left unattended:]
+Untätig werden, wenn keine Aktion innerhalb von:
+[Become idle if the screen saver is active]
+Untätig werden, wenn Bildschirmschoner aktiviert wird
+[Become idle if the computer is locked]
+Untätig werden, wenn Computer gesperrt wird
+[Become idle if a terminal session is disconnected]
+Untätig werden, wenn Terminalsitzung getrennt wurde
+[Do not let protocols report any idle information]
+Protokolle sollen keine Untätigkeitsinformationen senden
+[minute(s)]
+Minute(n)
+[for]
+für
+[Change my status mode to:]
+Meinen Status ändern zu:
+[Do not set status back to online when returning from idle]
+Status nicht automatisch zu 'Online' ändern, sobald Untätigkeit vorbei
+[Idle options]
+Untätigkeits-Einstellungen
+[Become idle if application full screen]
+Untätig werden, wenn eine Vollbildanwendung aktiviert wird
+[Disable sounds on idle]
+Klänge bei Untätigkeit deaktivieren
+;file \src\core\stdautoaway\src\options.cpp
+[Status]
+Status
+[Idle]
+Untätigkeit

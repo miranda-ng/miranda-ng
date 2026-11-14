@@ -1,547 +1,8 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.7
+;  Version: 0.96.8
 ;============================================================
-;file \src\core\stdautoaway\res\resource.rc
-[Become idle if the following is left unattended:]
-Untätig werden, wenn keine Aktion innerhalb von:
-[Become idle if the screen saver is active]
-Untätig werden, wenn Bildschirmschoner aktiviert wird
-[Become idle if the computer is locked]
-Untätig werden, wenn Computer gesperrt wird
-[Become idle if a terminal session is disconnected]
-Untätig werden, wenn Terminalsitzung getrennt wurde
-[Do not let protocols report any idle information]
-Protokolle sollen keine Untätigkeitsinformationen senden
-[minute(s)]
-Minute(n)
-[for]
-für
-[Change my status mode to:]
-Meinen Status ändern zu:
-[Do not set status back to online when returning from idle]
-Status nicht automatisch zu 'Online' ändern, sobald Untätigktät vorbei
-[Idle options]
-Untätigkeits-Einstellungen
-[Become idle if application full screen]
-Untätig werden, wenn eine Vollbildanwendung aktiviert wird
-[Disable sounds on idle]
-Klänge bei Untätigkeit deaktivieren
-;file \src\core\stdaway\res\resource.rc
-[%s message for %s]
-'%s'-Nachricht von %s
-[&Cancel]
-Abbre&chen
-[Retrieving %s message...]
-Rufe '%s'-Nachricht ab...
-[Do not reply to requests for this message]
-Anfragen nach dieser Nachricht nicht beantworten
-[Do not pop up dialog asking for new message]
-Keinen Dialog für neue Nachricht anzeigen
-[By default, use the same message as last time]
-Die letzte Nachricht als Standard verwenden
-[By default, use this message:]
-Folgende Nachricht als Standard verwenden:
-[Use %time% for the current time, %date% for the current date]
-%time%, %date% für die aktuelle Uhrzeit oder Datum
-[Status messages]
-Statusnachrichten
-[Reset]
-Standard
-[Change %s message]
-'%s'-Nachricht ändern
-[Closing in %d]
-In %d schließen
-;file \src\core\stdclist\res\resource.rc
-[Delete contact]
-Kontakt löschen
-[No]
-Nein
-[Yes]
-Ja
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Nur in der Kontaktliste ausblenden. Verlauf und Einstellungen bleiben erhalten.
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-Unter Einstellungen -> Kontakte -> Ignorieren Kontakt wieder einblenden.
-[Are you sure you want to delete %s?]
-Soll Kontakt %s wirklich gelöscht werden ?
-[This will erase all history and settings for this contact!]
-Damit werden der Verlauf und die Einstellungen des Kontakts gelöscht!
-[Contact list sorting]
-Sortierung der Kontaktliste
-[Sort contacts by name]
-Kontakte nach Name sortieren
-[Sort contacts by status]
-Kontakte nach Status sortieren
-[Sort contacts by protocol]
-Kontakte nach Protokoll sortieren
-[Move offline users to bottom]
-Offline-Nutzer nach unten schieben
-[Show]
-Zeige
-[icon when statuses differ]
--Icon, wenn Status unterschiedlich
-[Cycle icons every]
-Icon durchwechseln alle
-[seconds, when statuses differ]
-Sekunden, wenn Status unterschiedlich
-[Show multiple icons]
-Mehrere Icons anzeigen
-[Only when statuses differ]
-Nur, wenn Status untersch.
-[System tray icon when using multiple protocols]
-Systemtray-Icon bei Benutzung mehrerer Protokolle
-[Window]
-Fenster
-[Always on top]
-Immer im Vordergrund
-[Tool style main window]
-Schmale Titelleiste
-[Minimize to tray]
-In Systemtray minimieren
-[Show menu bar]
-Menüleiste anzeigen
-[Easy move]
-Einfaches Bewegen
-[Show title bar]
-Titelleiste anzeigen
-[Title bar text:]
-Titelleistentext:
-[Show drop shadow (restart required)]
-Schatten werfen (erfordert Neustart)
-[Hide contact list after it has been idle for]
-Kontaktliste verstecken nach Untätigkeit von
-[seconds]
-Sekunden
-[Automatically resize window to height of list]
-Höhe automatisch an Kontaktanzahl anpassen
-[maximum]
-Maximal
-[% of screen]
-% des Bildschirms
-[Size upwards]
-Größenanpassung nach oben
-[If window is partially covered, bring to front instead of hiding]
-Teilweise verdeckte Fenster in Vordergrund bringen, anstatt sie zu verstecken
-[Translucency options]
-Transparenz-Einstellungen
-[Fade contact list in/out]
-Ein-/Ausblenden animieren
-[Transparent contact list]
-Transparente Kontaktliste
-[Inactive opacity:]
-Deckkraft inaktiv:
-[Active opacity:]
-Deckkraft aktiv:
-[Items]
-Objekte
-[Show divider between online and offline contacts]
-Trennlinie zwischen Online-/Offline-Kontakten
-[Hot track items as mouse passes over]
-Kontakt bei Mausbewegung hervorheben
-[Disable drag and drop of items]
-Drag&&Drop von Objekten ausschalten
-[Disable rename of items by clicking twice]
-Umbenennen durch zwei Mausklicks ausschalten
-[Show selection even when list is not focused]
-Markierung immer anzeigen
-[Make selection highlight translucent]
-Transparente Markierung
-[Dim idle contacts]
-Untätige Kontakte abblenden
-[Groups]
-Gruppen
-[Draw a line alongside group names]
-Linie neben den Gruppennamen
-[Show counts of number of contacts in a group]
-Anzahl der Kontakte in der Gruppe anzeigen
-[Hide group counts when there are none online]
-Summe der Kontakte ausblenden, wenn niemand online ist
-[Sort groups alphabetically]
-Gruppen alphabetisch sortieren
-[Quick search in open groups only]
-Schnellsuche nur in offenen Gruppen
-[Indent groups by:]
-Gruppen einrücken:
-[pixels]
-Pixel
-[Visual]
-Ansicht
-[Scroll list smoothly]
-Sanfter Bildlauf
-[Time:]
-Zeit:
-[milliseconds]
-Millisekunden
-[Hide vertical scroll bar]
-Vertikale Bildlaufleiste ausblenden
-[Left margin:]
-Linker Rand:
-[Row height:]
-Zeilenhöhe:
-[Gamma correction]
-Gammakorrektur
-[Gray out entire list when:]
-Liste grau färben, wenn:
-[Contact list background]
-Hintergrund der Kontaktliste
-[Background color]
-Hintergrundfarbe
-[Selection color]
-Auswahlfarbe
-[Use background image]
-Hintergrundbild verwenden
-[Stretch to width]
-In Breite strecken
-[Stretch to height]
-In Höhe strecken
-[Tile horizontally]
-Horizontal kacheln
-[Tile vertically]
-Vertikal kacheln
-[Scroll with text]
-Mit Text scrollen
-[Stretch proportionally]
-Proportional strecken
-[Use Windows colors]
-Windowsfarben verwenden
-[Status bar]
-Statusleiste
-[Show status bar]
-Statusleiste anzeigen
-[Show icons]
-Icons anzeigen
-[Show account names]
-Kontonamen anzeigen
-[Show status text]
-Statustext anzeigen
-[Right click opens status menu]
-Rechtsklick öffnet Statusmenü
-[Right click opens Miranda NG menu]
-Rechtsklick öffnet Miranda-Hauptmenü
-[Make sections equal width]
-Alle Protokolle gleiche Breite
-[Show bevels on panels]
-Rahmen um Protokolle
-[Show resize grip indicator]
-Ecke zur Größenänderung anzeigen
-;file \src\core\stdmsg\res\resource.rc
-[Automatically popup window when:]
-Fenster automatisch öffnen, wenn:
-[Don't steal focus]
-Fokus nicht wegnehmen
-[Maximum number of flashes (0 = indefinite)]
-Maximale Anzahl Blinken (0 bedeutet unendlich)
-[Close the message window on send]
-Nachrichtenfenster beim Senden schließen
-[Minimize the message window on send]
-Nachrichtenfenster beim Senden minimieren
-[Use the contact's status icon as the window icon]
-Statusicon des Kontaktes als Fenstericon verwenden
-[Save the window size and location individually for each contact]
-Fenstergröße und Position für jeden Kontakt einzeln speichern
-[Cascade new windows]
-Neue Fenster überlappend
-[Support Ctrl+Up/Down in message area to show previously sent messages]
-Zuvor gesendete Nachrichten mit Strg+Auf/Ab erneut abrufen
-[Delete temporary contacts when closing message window]
-Temporäre Kontakte löschen, wenn Nachrichtenfenster geschlossen wird
-[Enable avatar support in the message window]
-Avatar-Unterstützung im Nachrichtenfenster aktivieren
-[Limit avatar height to]
-Avatarhöhe begrenzen auf
-[Show 'Send' button]
-'Senden'-Button anzeigen
-[Show character count]
-Zeichenzähler anzeigen
-[Show toolbar buttons on top row]
-Toolbarbuttons oben anzeigen
-[Show warning when message has not been received after]
-Warnung anzeigen, wenn Nachricht nicht zugestellt wurde nach
-[Send error]
-Fehler beim Senden
-[An error has occurred. The protocol reported the following error:]
-Es ist ein Fehler aufgetreten. Das Protokoll meldete folgenden Fehler:
-[while sending the following message:]
-Während des Sendens folgender Nachricht:
-[Try again]
-Erneut versuchen
-[Cancel]
-Abbrechen
-[&Send]
-&Senden
-[Preload history events on window opening]
-Verlaufsereignisse beim Öffnen des Fensters laden
-[Preload unread events only]
-Nur ungelesene Ereignisse laden
-[Preload number of previous events]
-Lade Anzahl vorheriger Ereignisse
-[Preload previous events less than]
-Lade Ereignisse, die nicht älter als
-[minutes old]
-Minuten alt
-[Message window event log]
-Nachrichtenfenster-Ereignislog
-[Show names]
-Namen anzeigen
-[Show timestamp]
-Zeitstempel anzeigen
-[Show seconds]
-Sekunden anzeigen
-[Show dates]
-Datum anzeigen
-[Show formatting]
-Formatierung anzeigen
-[Automatically copy selected text]
-Markierten Text automatisch kopieren
-[Use a tabbed interface]
-Chatfenster mit Tabs verwenden
-[Close tab on double click]
-Tabs mit Doppelklick schließen
-[Show tabs at the bottom]
-Tabs unten anzeigen
-[Send typing notifications to the following users when you are typing a message to them:]
-An folgende Kontakte eine Benachrichtigung senden, wenn Sie gerade eine Nachricht tippen:
-[Show typing notifications when a user is typing a message]
-Benachrichtigungen anzeigen, wenn ein Kontakt eine Nachricht tippt
-[Update inactive message window icons when a user is typing]
-Inaktive Nachrichtenfenster aktualisieren, wenn Kontakt tippt
-[Show typing notification when no message dialog is open]
-Benachrichtigungen anzeigen, wenn kein Nachrichtenfenster offen ist
-[Flash in the system tray and in the contact list]
-Im Systemtray und der Kontaktliste blinken
-[Show balloon popup]
-Ballonpopup anzeigen
-[Show these events only:]
-Nur folgende Ereignisse anzeigen:
-[Actions]
-Aktionen
-[Messages]
-Nachrichten
-[Nick changes]
-Nickänderungen
-[Users joining]
-Beitretende Benutzer
-[Users leaving]
-Verlassende Benutzer
-[Topic changes]
-Themenänderungen
-[Status changes]
-Statusänderungen
-[Information]
-Information
-[Disconnects]
-Verbindungsabbrüche
-[User kicks]
-Gekickte Benutzer
-[Notices]
-Notizen
-[Options]
-Einstellungen
-[Add new rooms to group:]
-Gruppe für neue Räume:
-[Log options]
-Verlaufseinstellungen
-[Log timestamp]
-Zeitstempel in Logdatei
-[Timestamp]
-Zeitstempel
-[Other name]
-Andere Namen
-[Your name]
-Ihr Name
-[Enable highlighting]
-Hervorhebungen aktivieren
-[Limit log text to (events):]
-Textbegrenzung (Ereignisse):
-[Trim to (KB)]
-Max. Größe (KB)
-[Words to highlight (wildcards allowed)]
-Wörter zum Hervorheben (Wildcards möglich)
-[Enable logging to disk]
-Logdatei aktivieren
-[Log directory]
-Verzeichnis für Logdateien
-[Other]
-Sonstige
-[Nick list row distance (pixels):]
-Vertikaler Abstand Benutzerliste:
-[Message]
-Nachricht
-[Undo]
-Rückgängig
-[Redo]
-Wiederherstellen
-[Copy]
-Kopieren
-[Cut]
-Ausschneiden
-[Paste]
-Einfügen
-[Select all]
-Alles auswählen
-[Clear]
-Löschen
-[Tabs]
-Tabs
-[&Close tab]
-Tab s&chließen
-[C&lose other tabs]
-Andere Tabs sch&ließen
-[&Open at this position]
-An dieser Position &öffnen
-[Log]
-Verlauf
-[C&lear log]
-Verlauf &leeren
-[&Copy]
-&Kopieren
-[Co&py all]
-Alles ko&pieren
-[Select &all]
-&Alles auswählen
-[Paste and send]
-Einfügen und senden
-[Delete]
-Löschen
-;file \src\core\stdpopup\res\resource.rc
-[Popup history]
-Popupverlauf
-[Close]
-Schließen
-[Case sensitive]
-Groß-/Kleinschreibung beachten
-[Default timeout]
-Standard-Timeout
-[Never timeout]
-Kein Timeout
-[Set timeout:]
-Timeout setzen:
-[Width:]
-Breite:
-[Maximum height:]
-Maximale Höhe:
-[Opacity (%):]
-Deckkraft (%):
-[Border]
-Rand
-[Round corners (window)]
-Runde Ecken (Fenster)
-[Preview]
-Vorschau
-[Transparent background]
-Transparenter Hintergrund
-[Layout]
-Layout
-[Avatar size:]
-Avatargröße:
-[Global hover]
-Alle Popups bei Mausb. nicht ausbl.
-[Sidebar width:]
-Seitenleiste Breite:
-[Text indent:]
-Texteinzug:
-[Padding:]
-Randabstand:
-[Round corners (avatar)]
-Runde Ecken (Avatar)
-[Disable when]
-Deaktivieren bei
-[Fullscreen mode]
-Vollbildschirm-Modus
-[Statuses]
-Status
-[Text color:]
-Textfarbe:
-[Background color:]
-Hintergrundfarbe:
-[Set timeout]
-Anzeigedauer setzen
-[Timeout value (0 = default):]
-Anzeigedauer (0 = Standard):
-;file \src\core\stduihist\res\resource.rc
-[Find]
-Suchen
-[&Find next]
-&Weitersuchen
-[Find what:]
-Suchen nach:
-[Message history]
-Nachrichtenverlauf
-[&Find...]
-&Suchen...
-;file \src\core\stduserinfo\res\resource.rc
-[Add phone number]
-Telefonnummer hinzufügen
-[Enter country, area code and phone number:]
-Landes-, Ortsvorwahl und Rufnummer:
-[Or enter a full international number:]
-oder internationale Rufnummer:
-[Phone can receive SMS text messages]
-Telefon kann SMS-Nachrichten empfangen
-[Add e-mail address]
-E-Mail-Adresse hinzufügen
-[%s: user details]
-%s: Benutzerdetails
-[View personal user details and more]
-Persönliche Benutzerdetails und mehr ansehen
-[Update now]
-Aktualisieren
-[Updating]
-Aktualisieren
-[First name:]
-Vorname:
-[Gender:]
-Geschlecht:
-[Last name:]
-Nachname:
-[Age:]
-Alter:
-[E-mail:]
-E-Mail:
-[Date of birth:]
-Geburtstag:
-[Marital status:]
-Familienstand:
-[Phone:]
-Telefon:
-[Web page:]
-Webseite:
-[Past background:]
-Vergangenheit:
-[Interests:]
-Interessen:
-[About:]
-Über mich:
-[My notes:]
-Meine Notizen:
-[Street:]
-Straße:
-[City:]
-Stadt:
-[State:]
-Region:
-[Postal code:]
-Postleitzahl:
-[Country:]
-Land:
-[Spoken languages:]
-Sprachen:
-[Timezone:]
-Zeitzone:
-[Local time:]
-Lokale Zeit:
-[Set custom time zone]
-Eigene Zeitzone für diesen Kontakt setzen
-[Company:]
-Firma:
-[Department:]
-Abteilung:
-[Position:]
-Position:
-[Website:]
-Webseite:
 ;file \src\mir_app\res\resource.rc
 [Enter account name (for example, My Google)]
 Geben Sie den Kontonamen (z. B. Mein Google) ein
@@ -549,10 +10,14 @@ Geben Sie den Kontonamen (z. B. Mein Google) ein
 Wählen Sie den Protokolltyp aus
 [Specify the internal account name (optional)]
 Geben Sie den internen Kontonamen an (optional)
+[Cancel]
+Abbrechen
 [Add contact]
 Kontakt hinzufügen
 [&Add]
 &Hinzufügen
+[&Cancel]
+Abbre&chen
 [Send authorization request]
 Autorisierungsanfrage senden
 [Open contact's chat window]
@@ -561,8 +26,16 @@ Chatfenster des Kontaktes öffnen
 Eigener Name:
 [Group:]
 Gruppe:
+[Options]
+Einstellungen
 [Authorization request]
 Autorisierungsanfrage
+[Delete contact]
+Kontakt löschen
+[Are you sure you want to delete %s?]
+Soll Kontakt %s wirklich gelöscht werden?
+[This will erase all history and settings for this contact!]
+Damit werden der Verlauf und die Einstellungen des Kontakts gelöscht!
 [Remove contact from server too]
 Kontakt auch vom Server entfernen
 [Remove server history]
@@ -629,6 +102,10 @@ Hier können Sie Ihre Miranda-NG-Einstellungen anpassen.
 Bitte einen Unterpunkt aus der Baumstruktur auswählen.
 [Install database settings]
 Datenbankeinstellungen installieren
+[Yes]
+Ja
+[No]
+Nein
 [A file containing new database settings has been placed in the Miranda NG directory.]
 Eine Datei mit neuen Datenbankeinstellungen wurde im Miranda-NG-Verzeichnis gefunden.
 [Do you want to import the settings now?]
@@ -660,7 +137,7 @@ Der Import wurde abgeschlossen von
 [What do you want to do with the file now?]
 Was wollen Sie mit der Datei jetzt tun?
 [&Recycle]
-Wiede&rherstellen
+Papie&rkorb
 [&Delete]
 &Löschen
 [&Move]
@@ -669,6 +146,8 @@ Wiede&rherstellen
 Ver&lassen
 [Netlib log options]
 Netlib-Logeinstellungen
+[Show]
+Zeige
 [Received bytes]
 Empfangene Bytes
 [Sent bytes]
@@ -717,6 +196,8 @@ Name:
 Klänge aktivieren
 [The following events are being ignored:]
 Die folgenden Ereignisse werden ignoriert:
+[Messages]
+Nachrichten
 [Files]
 Dateien
 [Cloud files]
@@ -815,6 +296,10 @@ Copyright:
 Sie müssen Miranda NG neu starten, bevor diese Änderungen wirksam werden.
 [Fonts and colors]
 Schriften und Farben
+[Undo]
+Rückgängig
+[Reset]
+Zurücksetzen
 [Export...]
 Exportieren...
 [Color/background]
@@ -925,6 +410,8 @@ Bitte einen Metakontakt wählen:
 Alphabetisch sortieren
 [Editing]
 Bearbeiten
+[Information]
+Information
 [Contacts]
 Kontakte
 [&Remove]
@@ -1037,12 +524,32 @@ Immer Status als Tooltip anzeigen
 Offline-Kontakte ohne Gruppen ausblenden
 [Default settings for known event types]
 Standardeinstellungen für bekannte Ereignis-Typen
+[Window]
+Fenster
 [Popup]
 Popup
 [Sound]
 Klanghinweis
 [Log to file]
 In Datei speichern
+[Actions]
+Aktionen
+[Nick changes]
+Nickänderungen
+[Users joining]
+Beitretende Benutzer
+[Users leaving]
+Verlassende Benutzer
+[Topic changes]
+Themenänderungen
+[Status changes]
+Statusänderungen
+[Disconnects]
+Verbindungsabbrüche
+[User kicks]
+Gekickte Benutzer
+[Notices]
+Notizen
 [Highlight event]
 Hebe Ereignis hervor
 [Show icons in tray only when the chat room is not active]
@@ -1099,6 +606,8 @@ Hintergrund
 (0 = Standardwert vom Popup-Plugin, -1 = dauerhafte Anzeige)
 [Send file(s)]
 Datei(en) senden
+[&Send]
+&Senden
 [To:]
 An:
 [File(s):]
@@ -1169,6 +678,8 @@ Datei wird empfangen
 Dateiübertragungen
 [Clear completed]
 Abgeschlossene entfernen
+[Close]
+Schließen
 [Receiving files]
 Dateien empfangen
 [Received files folder:]
@@ -1233,8 +744,12 @@ Gruppierung aufheben
 Liste
 [&Message]
 &Nachricht
+[Log]
+Verlauf
 [Clear lo&g]
 &Verlauf löschen
+[Copy]
+Kopieren
 [No word to look up]
 Kein Wort zum Nachschlagen
 [Yandex]
@@ -1267,564 +782,16 @@ Bitte nicht st&ören\tStrg+5
 &Für Chat bereit\tStrg+6
 [&Invisible\tCtrl+7]
 Uns&ichtbar\tStrg+7
-;file \src\core\stdautoaway\src\options.cpp
-[Status]
-Status
-[Idle]
-Untätigkeit
-;file \src\core\stdaway\src\awaymsg.cpp
-[Re&ad %s message]
-'%s'-N&achricht lesen
-[Read status message]
-Statusnachricht lesen
-;file \src\core\stdaway\src\options.cpp
-;file \src\core\stdaway\src\sendmsg.cpp
-[I've been away since %time%.]
-Ich bin nicht da seit %time%.
-[Give it up, I'm not in!]
-Gib's auf! Ich bin nicht da!
-[Not right now.]
-Im Moment nicht!
-[Give a guy some peace, would ya?]
-Lass' mich im Moment mal in Ruhe!
-[I'm a chatbot!]
-Laber mich voll!
-[Yep, I'm here.]
-Ja, ich bin da.
-[Nope, not here.]
-Nein, ich bin weg.
-[I'm hiding from the mafia.]
-Ich zieh' mir ne Tarnkappe auf!
-[idleeeeeeee]
-Langweilig
-;file \src\core\stdclist\src\clcfonts.cpp
-[Standard contacts]
-Standardkontakte
-[Online contacts to whom you have a different visibility]
-Online-Kontakte mit anderer Sichtbarkeit
-[Offline contacts]
-Offline-Kontakte
-[Contacts which are 'not on list']
-Temporäre Kontakte
-[Group member counts]
-Kontaktzähler einer Gruppe
-[Dividers]
-Trennlinien
-[Offline contacts to whom you have a different visibility]
-Offline-Kontakte mit anderer Sichtbarkeit
-[Selected text]
-Markierter Text
-[Hottrack text]
-Hottracktext
-[Quicksearch text]
-Schnellsuche-Text
-;file \src\core\stdclist\src\clcopts.cpp
-[Not focused]
-nicht fokussiert
-[Offline]
-Offline
-[Online]
-Online
-[Away]
-Abwesend
-[Not available]
-Außer Haus
-[Occupied]
-Beschäftigt
-[Do not disturb]
-Bitte nicht stören
-[Free for chat]
-Für Chat bereit
-[Invisible]
-Unsichtbar
-[List background]
-Hintergrund Liste
-;file \src\core\stdclist\src\clistopts.cpp
-[Global]
-Global
-[General]
-Allgemein
-;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdcrypt\src\encrypt.cpp
-[Standard crypto provider]
-Standard-Verschlüsselungsanbieter
-;file \src\core\stdemail\src\email.cpp
-[User has not registered an e-mail address]
-Kontakt hat keine E-Mail-Adresse angegeben
-[Send e-mail]
-E-Mail senden
-[&E-mail]
-&E-Mail
-;file \src\core\stdmsg\src\chat_manager.cpp
-[Message sessions]
-Nachrichtensitzungen
-[Chat module]
-Chatfenster
-[Group chat log background]
-Gruppenchat-Verlaufshintergrund
-[Message background]
-Nachrichten-Hintergrund
-[Nick list background]
-Benutzerliste Hintergrund
-[Nick list lines]
-Benutzerliste Linien
-[Nick list background (selected)]
-Benutzerliste Hintergrund (ausgewählt)
-[Messaging]
-Nachrichten
-[Send message]
-Nachricht senden
-;file \src\core\stdmsg\src\chat_options.cpp
-[Window icon]
-Fenstericon
-[Bold]
-Fett
-[Italics]
-Kursiv
-[Underlined]
-Unterstrichen
-[Strikethrough]
-Durchgestrichen
-[Smiley button]
-Smileybutton
-[Room history]
-Raumverlauf
-[Room settings]
-Raumeinstellungen
-[Event filter disabled]
-Ereignisfilter deaktiviert
-[Event filter enabled]
-Ereignisfilter aktiviert
-[Hide nick list]
-Benutzerliste ausblenden
-[Show nick list]
-Benutzerliste einblenden
-[Icon overlay]
-Neue Nachricht Tab
-[Message in (10x10)]
-Eingehende Nachricht (10x10)
-[Message out (10x10)]
-Ausgehende Nachrichten (10x10)
-[Action (10x10)]
-Aktion (10x10)
-[Add status (10x10)]
-Status hinzufügen (10x10)
-[Remove status (10x10)]
-Status entfernen (10x10)
-[Join (10x10)]
-Betreten (10x10)
-[Leave (10x10)]
-Verlassen (10x10)
-[Quit (10x10)]
-Beenden (10x10)
-[Kick (10x10)]
-Kick (10x10)
-[Nick change (10x10)]
-Nick ändern (10x10)
-[Notice (10x10)]
-Notiz (10x10)
-[Topic (10x10)]
-Thema (10x10)
-[Highlight (10x10)]
-Hervorhebung (10x10)
-[Information (10x10)]
-Information (10x10)
-[Group chats log]
-Gruppenchatverlauf
-[Appearance and functionality of chat room windows]
-Aussehen und Funktionen des Chatfensters
-[Flash window when someone speaks]
-Fenster blinkt, wenn jemand schreibt
-[Flash window when a word is highlighted]
-Fenster blinkt, wenn Wort hervorgehoben wird
-[Show list of users in the chat room]
-Benutzerliste im Chatraum anzeigen
-[Show the topic of the room on your contact list (if supported)]
-Thema des Raumes in der Kontaktliste anzeigen (falls unterstützt)
-[Do not play sounds when the chat room is focused]
-Keine Klänge abspielen, wenn Chatfenster den Eingabefokus hat
-[Do not pop up the window when joining a chat room]
-Fenster nicht automatisch anzeigen, wenn man einen Raum betritt
-[Show contact statuses if protocol supports them]
-Statusicons der Kontakte anzeigen, falls das Protokoll das unterstützt
-[Display contact status icon before user role icon]
-Statusicon vor dem Rangicon anzeigen
-[Appearance of the message log]
-Aussehen des Verlaufsfensters
-[Prefix all events with a timestamp]
-Zeitstempel bei allen Ereignissen
-[Only prefix with timestamp if it has changed]
-Zeitstempel nur bei Änderungen
-[Timestamp has same color as the event]
-Zeitstempel hat die gleiche Farbe wie das Ereignis
-[Indent the second line of a message]
-2. Zeile einer Nachricht einziehen
-[Limit user names in the message log to 20 characters]
-Benutzername im Nachrichtenverlauf auf 20 Zeichen beschränken
-[Add ':' to auto-completed user names]
-':' zu automatisch vervollständigten Nachrichten hinzufügen
-[Strip colors from messages in the log]
-Farben aus der Verlaufsanzeige entfernen
-[Enable the 'event filter' for new rooms]
-Ereignisfilter für neue Räume aktivieren
-[Icons to display in the message log]
-Folgende Icons im Verlaufsfenster anzeigen
-[Show icon for topic changes]
-Icon für Themenänderungen anzeigen
-[Show icon for users joining]
-Icon für beitretende Benutzer anzeigen
-[Show icon for users disconnecting]
-Icon anzeigen, wenn Benutzer Verbindung unterbricht
-[Show icon for messages]
-Icon für Nachrichten anzeigen
-[Show icon for actions]
-Icon für Aktionen anzeigen
-[Show icon for highlights]
-Icon für Hervorhebungen anzeigen
-[Show icon for users leaving]
-Icon für verlassende Benutzer anzeigen
-[Show icon for users kicking other user]
-Icon anzeigen, wenn Benutzer gekickt wird
-[Show icon for notices]
-Icon für Notizen anzeigen
-[Show icon for name changes]
-Icon für Namensänderungen anzeigen
-[Show icon for information messages]
-Icon für Informationsnachrichten anzeigen
-[Show icon for status changes]
-Icon für Statusänderungen anzeigen
-[Select folder]
-Ordner wählen
-[Chat log]
-Chatverlauf
-;file \src\core\stdmsg\src\cmdlist.cpp
-[The message send timed out.]
-Timeout beim Nachrichtenversand
-;file \src\core\stdmsg\src\msgdialog.cpp
-[%s is typing a message...]
-%s tippt eine Nachricht...
-[Last message received on %s at %s.]
-Letzte Nachricht am %s um %s erhalten.
-[%s: chat room (%u user)]
-%s: Chatraum (%u Benutzer)
-[%s: chat room (%u users)]
-%s: Chatraum (%u Benutzer)
-[%s: message session]
-%s: Nachrichtensitzung
-[%s: message session (%u users)]
-%s: Nachrichtensitzung (%u Benutzer)
-[Message session]
-Nachrichtensitzung
-;file \src\core\stdmsg\src\msglog.cpp
-[Incoming message (10x10)]
-Eingehende Nachricht (10x10)
-[Outgoing message (10x10)]
-Ausgehende Nachricht (10x10)
-[Secure message (10x10)]
-Sichere Nachricht (10x10)
-[Secure verified message (10x10)]
-Sichere verifizierte Nachricht (10x10)
-[Me]
-Ich
-[File sent]
-Datei gesendet
-[File received]
-Datei empfangen
-;file \src\core\stdmsg\src\msgoptions.cpp
-[Outgoing messages]
-Ausgehende Nachrichten
-[Incoming messages]
-Eingehende Nachrichten
-[Outgoing name]
-Ausgehender Name
-[Outgoing time]
-Ausgehende Zeit
-[Outgoing colon]
-Ausgehender Doppelpunkt
-[Incoming name]
-Eingehender Name
-[Incoming time]
-Eingehende Zeit
-[Incoming colon]
-Eingehender Doppelpunkt
-[Message area]
-Nachrichtenbereich
-[Other events]
-Sonstige Ereignisse
-[Message log]
-Nachrichtenverlauf
-[** New contacts **]
-** Neue Kontakte **
-[** Unknown contacts **]
-** Unbekannte Kontakte **
-[Messaging log]
-Nachrichtenverlauf
-[Typing notify]
-Tippbenachrichtigungen
-;file \src\core\stdmsg\src\msgs.cpp
-[%s is typing a message]
-%s tippt eine Nachricht
-[Typing notification]
-Tippbenachrichtigungen
-[Add contact permanently to list]
-Kontakt dauerhaft zur Liste hinzufügen
-[User menu]
-Benutzermenü
-[View user's details]
-Benutzerprofil anzeigen
-[View user's history]
-Benutzerverlauf anzeigen
-[&Bold]
-&Fett
-[Make the text bold]
-Text fett formatieren
-[&Italic]
-&Kursiv
-[Make the text italicized]
-Text kursiv formatieren
-[&Underline]
-&Unterstreichen
-[Make the text underlined]
-Text unterstreichen
-[&Strikethrough]
-&Durchstreichen
-[Make the text strikethrough]
-Text durchstreichen
-[&Color]
-&Farbe
-[Select text color]
-Textfarbe auswählen
-[&Background color]
-&Hintergrundfarbe
-[Select background color]
-Hintergrundfarbe auswählen
-[&Room settings]
-&Raumeinstellungen
-[Control this room]
-Diesen Raum kontrollieren
-[&Show/hide nick list]
-Benutzerliste &anzeigen/verbergen
-[Show/hide the nick list]
-Benutzerliste anzeigen/verstecken
-[&Filter]
-&Filter
-[Enable/disable the event filter]
-Ereignisfilter aktivieren/deaktivieren
-[Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
-Miranda konnte nicht das eingebaute Nachrichtenmodul laden, msftedit.dll fehlt. Drücken Sie "Ja" um Miranda weiter laden zu können.
-[Instant messages]
-Sofortnachrichten
-[Incoming (focused window)]
-Eingehend (Fenster im Vordergrund)
-[Incoming (unfocused window)]
-Eingehend (Fenster im Hintergrund)
-[Incoming (new session)]
-Eingehend (Neue Sitzung)
-[Outgoing]
-Ausgehend
-[Message send error]
-Fehler beim Senden der Nachricht
-[Contact started typing]
-Kontakt beginnt zu tippen
-[Contact stopped typing]
-Kontakt tippt nicht mehr
-;file \src\core\stdmsg\src\msgtimedout.cpp
-[An unknown error has occurred.]
-Ein unbekannter Fehler ist aufgetreten.
-;file \src\core\stdmsg\src\srmm.cpp
-[StdMsg internal log]
-StdMsg interner Verlauf
-;file \src\core\stdpopup\src\options.cpp
-[Bottom right]
-Unten rechts
-[Bottom left]
-Unten links
-[Top right]
-Oben rechts
-[Top left]
-Oben links
-[Icon on left]
-Icon links
-[Icon on right]
-Icon rechts
-[No time]
-Keine Zeit
-[Time on left]
-Zeit links
-[Time on right]
-Zeit rechts
-[Time above avatar]
-Zeit über Avatar
-[No avatar]
-Kein Avatar
-[Left avatar]
-Avatar links
-[Right avatar]
-Avatar rechts
-[No animate]
-Keine Animation
-[Horizontal animate]
-Horizontale Animation
-[Vertical animate]
-Vertikale Animation
-[You cannot set a default timeout of 0.\nValue has been reset.]
-Ein Timeout von 0 ist ungültig.\nWert wurde zurückgesetzt.
-[Error]
-Fehler
-[Example]
-Beispiel
-[The quick brown fox jumps over the lazy dog.]
-Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.
-[Example With a Long Title]
-Beispiel mit langem Titel
-[Thequickbrownfoxjumpsoverthelazydog.]
-FranzjagtimkomplettverwahrlostenTaxiquerdurchBayern.
-[An avatar.]
-Ein Avatar.
-[Popups]
-Popups
-[Settings]
-Einstellungen
-[Classes]
-Kategorien
-;file \src\core\stdpopup\src\services.cpp
-[Disable popups]
-Popups deaktivieren
-[Enable popups]
-Popups aktivieren
-;file \src\core\stdpopup\src\yapp.cpp
-[Popups are enabled]
-Popups sind aktiviert
-[Popups are disabled]
-Popups sind deaktiviert
-[Toggle popups]
-Popups ein-/ausschalten
-[First line]
-Erste Zeile
-[Second line]
-Zweite Zeile
-[Time]
-Zeit
-[Sidebar]
-Seitenleiste
-[Title underline]
-Trennlinie unter Titel
-[Popup mode]
-Popup-Modus
-;file \src\core\stdpopup\src\yapp_history_dlg.cpp
-[Copy title to clipboard]
-Titel in Zwischenablage kopieren
-[Copy message to clipboard]
-Nachricht in Zwischenablage kopieren
-[Copy timestamp to clipboard]
-Zeitstempel in Zwischenablage kopieren
-;file \src\core\stduihist\src\history.cpp
-[Outgoing message]
-Ausgehende Nachricht
-[Incoming message]
-Eingehende Nachricht
-[Outgoing file]
-Ausgehende Datei
-[Incoming file]
-Eingehende Datei
-[Added event]
-Sie wurden von jemandem hinzugefügt
-[History for %s]
-Verlauf von %s
-[System history]
-Systemverlauf
-[Are you sure you want to delete this history item?]
-Soll dieser Verlaufseintrag gelöscht werden?
-[Delete history]
-Verlauf löschen
-[View &history]
-&Verlauf anzeigen
-;file \src\core\stduserinfo\src\contactinfo.cpp
-[Edit e-mail address]
-E-Mail-Adresse bearbeiten
-[Edit phone number]
-Telefonnummer bearbeiten
-[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
-Die Telefonnummer sollte mit + beginnen und darf nur Nummern, Leerzeichen, Klammern und Bindestriche enthalten.
-[Invalid phone number]
-Ungültige Telefonnummer
-[Primary]
-Standard
-[Custom %d]
-Eigene %d
-[Fax]
-Fax
-[Mobile]
-Mobiltelefon
-[Work phone]
-Arbeitstelefon
-[Work fax]
-Arbeitsfax
-[Contact]
-Kontakt
-;file \src\core\stduserinfo\src\stdafx.h
-[UserInfo]
-Nutzerinfo
-;file \src\core\stduserinfo\src\stdinfo.cpp
-[<not specified>]
-<nicht angegeben>
-[Summary]
-Zusammenfassung
-[Location]
-Ort
-[Work]
-Arbeit
-[Background info]
-Hintergrund-Info
-[Notes]
-Notizen
-;file \src\core\stduserinfo\src\userinfo.cpp
-[Owner]
-Inhaber
-[Folder]
-Ordner
-[Page]
-Seite
-[View/change my &details...]
-Mein Profil än&dern...
-;file \src\core\stduserinfo\src\utils.h
-[Male]
-männlich
-[Female]
-weiblich
-[Single]
-Single
-[Close relationships]
-Feste Beziehung
-[Engaged]
-Verlobt
-[Married]
-Verheiratet
-[Divorced]
-Geschieden
-[Separated]
-Getrennt
-[Widowed]
-Verwitwet
-[Actively searching]
-Aktiv suchend
-[In love]
-Verliebt
-[It's complicated]
-Es ist kompliziert
-[In a civil union]
-Eingetragene Partnerschaft
-;file \src\core\stduseronline\src\useronline.cpp
-[%s is online]
-%s ist online
-[Alerts]
-Hinweis
 ;file \src\mir_app\src\addcontact.cpp
 [Add %s]
 %s hinzufügen
 [Please authorize my request and add me to your contact list.]
 Bitte autorisieren Sie mich und fügen Sie mich Ihrer Kontaktliste hinzu.
 ;file \src\mir_app\src\auth.cpp
+[View user's details]
+Benutzerprofil anzeigen
+[Add contact permanently to list]
+Kontakt dauerhaft zur Liste hinzufügen
 [<Unknown>]
 <Unbekannt>
 [ requested authorization\n%u (%s) on %s]
@@ -1851,6 +818,10 @@ Diese Funktion wird durch dieses Protokoll nicht unterstützt
 %s fügte Sie zu seiner Kontaktliste hinzu
 [%u added you to their contact list]
 %u fügte Sie zu seiner Kontaktliste hinzu
+[Alerts]
+Hinweis
+[Added event]
+Sie wurden von jemandem hinzugefügt
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined %s]
 %s ist %s beigetreten
@@ -1881,6 +852,8 @@ Das Thema ist '%s'
 [<invalid>]
 <ungültig>
 ;file \src\mir_app\src\chat_opts.cpp
+[Timestamp]
+Zeitstempel
 [Others nicknames]
 Andere Nicknamen
 [Your nickname]
@@ -1897,6 +870,10 @@ Benutzer gekickt ...
 Benutzer ist nun bekannt als ...
 [Notice from user]
 Notiz von Benutzer
+[Incoming messages]
+Eingehende Nachrichten
+[Outgoing messages]
+Ausgehende Nachrichten
 [The topic is ...]
 Das Thema ist ...
 [Information messages]
@@ -1913,10 +890,16 @@ Hervorgehobene Nachrichten
 Benutzerliste (online)
 [Nick list members (away)]
 Benutzerliste (abwesend)
+[Nick list background]
+Benutzerliste Hintergrund
 [Message typing area]
 Nachrichteneingabefeld
+[Message background]
+Nachrichten-Hintergrund
 [Chat log symbols (Webdings)]
 Chatverlaufssymbole (Webdings)
+[Group chat log background]
+Gruppenchat-Verlaufshintergrund
 ;file \src\mir_app\src\chat_svc.cpp
 [&Join chat]
 Chat &betreten
@@ -1942,6 +925,8 @@ Status 4 (10x10)
 Status 5 (10x10)
 [Status 6 (10x10)]
 Status 6 (10x10)
+[Messaging]
+Nachrichten
 [Message is highlighted]
 Nachricht ist hervorgehoben
 [User has performed an action]
@@ -1974,9 +959,15 @@ Informationen in %s
 [Chat rooms]
 Chaträume
 ;file \src\mir_app\src\chat_ui.cpp
+[Message sessions]
+Nachrichtensitzungen
 [Events and filters]
 Ereignisse und Filter
+[Popups]
+Popups
 ;file \src\mir_app\src\clcitems.cpp
+[Offline]
+Offline
 ;file \src\mir_app\src\clistcontacts.cpp
 [My custom name (not movable)]
 Selbst gewählter Name (nicht verschiebbar)
@@ -2016,6 +1007,22 @@ Diese Gruppe
 ;file \src\mir_app\src\clistmod.cpp
 [Connecting]
 Verbinden
+[Online]
+Online
+[Away]
+Abwesend
+[Do not disturb]
+Bitte nicht stören
+[Not available]
+Außer Haus
+[Occupied]
+Beschäftigt
+[Free for chat]
+Für Chat bereit
+[Invisible]
+Unsichtbar
+[Idle]
+Untätigkeit
 [Connecting (attempt %d)]
 Verbinden (%d. Versuch)
 [&Accounts...]
@@ -2038,6 +1045,8 @@ Dieser Kontakt befindet sich in einem Instant-Messaging-System, welches seine Ko
 [&Add permanently to list]
 D&auerhaft zur Kontaktliste hinzufügen
 ;file \src\mir_app\src\colorchooser.cpp
+[Background color]
+Hintergrundfarbe
 ;file \src\mir_app\src\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda versucht, Ihre Profilstruktur anzupassen.\nEs kann Profil %s nicht an den neuen Ort %s verschieben\nweil ein anderen Profil mit diesem Namen schon existiert. Bitte lösen Sie den Konflikt manuell.
@@ -2095,6 +1104,8 @@ Diese Änderung ist bekannt dafür, dass sie potenziell gefährlich ist.
 Diese Veränderung ist nicht bekannt dafür, sicher zu sein.
 [File names must be different]
 Dateinamen müssen verschieden sein
+[Error]
+Fehler
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Ungültiger Einstellungs-Typ für '%s'. Das erste Zeichen für jeden String muss b, w, d, l, s, e, u, g, h oder n sein.
 ;file \src\mir_app\src\db_upgrade.cpp
@@ -2126,9 +1137,15 @@ Konto
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 Extraicons
+[General]
+Allgemein
 ;file \src\mir_app\src\ei_services.cpp
 [Mute chat]
 Chat stummschalten
+[Male]
+Männlich
+[Female]
+Weiblich
 [Attach]
 Anhängen
 [Code]
@@ -2165,8 +1182,14 @@ Ereignisse
 [Security]
 Sicherheit
 ;file \src\mir_app\src\filerecvdlg.cpp
+[Select folder]
+Ordner wählen
 [My received files]
 Meine empfangenen Dateien
+[View user's history]
+Benutzerverlauf anzeigen
+[User menu]
+Benutzermenü
 [This file transfer has been canceled by the other side]
 Diese Dateiübertragung wurde von der anderen Seite abgebrochen.
 [Canceled]
@@ -2182,6 +1205,8 @@ Bytes
 ;file \src\mir_app\src\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Diese Datei wurde noch nicht auf Viren untersucht, wirklich öffnen?
+[File received]
+Datei empfangen
 [of]
 von
 [Request sent, waiting for acceptance...]
@@ -2233,6 +1258,8 @@ Untersuche auf Viren...
 Sie haben keinen Suchbegriff eingegeben, bitte einen Text eingeben und erneut versuchen.
 [Search]
 Suchen
+[<not specified>]
+<nicht angegeben>
 [Ctrl+Search add contact]
 Strg+Suchen fügt einen Kontakt hinzu
 [Results]
@@ -2284,6 +1311,8 @@ Allgemeiner Text
 [Small text]
 Kleiner Text
 ;file \src\mir_app\src\ftmanager.cpp
+[Outgoing]
+Ausgehend
 ;file \src\mir_app\src\help.cpp
 [< Copyright]
 < Copyright
@@ -2363,6 +1392,8 @@ Mirandaweit
 ;file \src\mir_app\src\ignore.cpp
 [** All contacts **]
 ** Alle Kontakte **
+[** Unknown contacts **]
+** Unbekannte Kontakte **
 ;file \src\mir_app\src\keyboard.cpp
 [Main]
 Allgemein
@@ -2411,6 +1442,8 @@ Custom Status
 Statusmenü
 [Main menu]
 Hauptmenü
+[System history]
+Systemverlauf
 ;file \src\mir_app\src\menu_frames.cpp
 [Frame menu]
 Framemenü
@@ -2465,6 +1498,8 @@ Zuweisung zum Metakontakt fehlgeschlagen.
 [Assignment failure]
 Zuweisungsfehler
 ;file \src\mir_app\src\meta_edit.cpp
+[Contact]
+Kontakt
 [Protocol]
 Protokoll
 [Send offline]
@@ -2648,6 +1683,8 @@ Geändert
 Starten
 [Check database]
 Datenbank prüfen
+[Delete]
+Löschen
 [My profiles]
 Meine Profile
 [New profile]
@@ -2748,6 +1785,8 @@ Kein Kontakt gefunden
 [Icon sets]
 Iconsammlung
 ;file \src\mir_app\src\skinicons.cpp
+[Message]
+Nachricht
 [URL]
 URL
 [User online]
@@ -2764,6 +1803,8 @@ Verlauf
 Pfeil nach unten
 [Find user]
 Kontakte suchen/hinzufügen
+[Send e-mail]
+E-Mail senden
 [Search all]
 Suche überall
 [Tick]
@@ -2784,10 +1825,16 @@ Leerer Klecks
 Unicode-Plugin
 [ANSI plugin]
 ANSI-Plugin
+[Popups are enabled]
+Popups sind aktiviert
+[Popups are disabled]
+Popups sind deaktiviert
 [Show/Hide]
 Anzeigen/Verstecken
 [Exit]
 Beenden
+[Status]
+Status
 [Join chat]
 Chat betreten
 [Leave chat]
@@ -2818,11 +1865,15 @@ Statusicons
 %s Icons
 [Main icons]
 Allgemeine Icons
+[Global]
+Global
 ;file \src\mir_app\src\sounds.cpp
 [Sound files]
 Klangdateien
 [WAV files]
 WAV-Dateien
+[Select all]
+Alle auswählen
 [Unselect all]
 Alle abwählen
 ;file \src\mir_app\src\srmm_base.cpp
@@ -2899,6 +1950,8 @@ Nachricht von %s
 ;file \src\mir_app\src\utils.cpp
 [Unspecified]
 unspezifiziert
+[Other]
+Sonstige
 [Afghanistan]
 Afghanistan
 [Aland Islands]

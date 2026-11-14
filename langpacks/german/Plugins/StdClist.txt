@@ -1,0 +1,236 @@
+#muuid {240a91dc-9464-457a-9787-ff1ea88e77e2}
+;============================================================
+;  File: stdclist.dll
+;  Plugin: Classic contact list
+;  Version: x.x.x.x
+;  Authors: Miranda NG team
+;============================================================
+[Core module for displaying contacts.]
+Kernmodul zur Anzeige von Kontakten.
+;file \src\core\stdclist\res\resource.rc
+[Delete contact]
+Kontakt löschen
+[No]
+Nein
+[Yes]
+Ja
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Nur in der Kontaktliste ausblenden. Verlauf und Einstellungen bleiben erhalten.
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Unter Einstellungen -> Kontakte -> Ignorieren Kontakt wieder einblenden.
+[Are you sure you want to delete %s?]
+Soll Kontakt %s wirklich gelöscht werden?
+[This will erase all history and settings for this contact!]
+Damit werden der Verlauf und die Einstellungen des Kontakts gelöscht!
+[Contact list sorting]
+Sortierung der Kontaktliste
+[Sort contacts by name]
+Kontakte nach Namen sortieren
+[Sort contacts by status]
+Kontakte nach Status sortieren
+[Sort contacts by protocol]
+Kontakte nach Protokoll sortieren
+[Move offline users to bottom]
+Offline-Nutzer nach unten schieben
+[Show]
+Zeige
+[icon when statuses differ]
+-Icon, wenn Status unterschiedlich
+[Cycle icons every]
+Icon durchwechseln alle
+[seconds, when statuses differ]
+Sekunden, wenn Status unterschiedlich
+[Show multiple icons]
+Mehrere Icons anzeigen
+[Only when statuses differ]
+Nur, wenn Status untersch.
+[System tray icon when using multiple protocols]
+Systemtray-Icon bei Benutzung mehrerer Protokolle
+[Window]
+Fenster
+[Always on top]
+Immer im Vordergrund
+[Tool style main window]
+Schmale Titelleiste
+[Minimize to tray]
+In Systemtray minimieren
+[Show menu bar]
+Menüleiste anzeigen
+[Easy move]
+Einfaches Bewegen
+[Show title bar]
+Titelleiste anzeigen
+[Title bar text:]
+Titelleistentext:
+[Show drop shadow (restart required)]
+Schatten werfen (erfordert Neustart)
+[Hide contact list after it has been idle for]
+Kontaktliste verstecken nach Untätigkeit von
+[seconds]
+Sekunden
+[Automatically resize window to height of list]
+Fenster automatisch an Höhe der Liste anpassen
+[maximum]
+Maximal
+[% of screen]
+% des Bildschirms
+[Size upwards]
+Größenanpassung nach oben
+[If window is partially covered, bring to front instead of hiding]
+Teilweise verdeckte Fenster in Vordergrund bringen, anstatt sie zu verstecken
+[Translucency options]
+Transparenz-Einstellungen
+[Fade contact list in/out]
+Ein-/Ausblenden animieren
+[Transparent contact list]
+Transparente Kontaktliste
+[Inactive opacity:]
+Deckkraft inaktiv:
+[Active opacity:]
+Deckkraft aktiv:
+[Items]
+Objekte
+[Show divider between online and offline contacts]
+Trennlinie zwischen Online-/Offline-Kontakten
+[Hot track items as mouse passes over]
+Objekte bei Mausbewegung hervorheben
+[Disable drag and drop of items]
+Drag&&Drop von Objekten deaktivieren
+[Disable rename of items by clicking twice]
+Umbenennen durch zwei Mausklicks deaktivieren
+[Show selection even when list is not focused]
+Markierung auch anzeigen wenn Liste nicht fokussiert
+[Make selection highlight translucent]
+Transparente Markierung
+[Dim idle contacts]
+Untätige Kontakte abblenden
+[Groups]
+Gruppen
+[Draw a line alongside group names]
+Linie neben den Gruppennamen
+[Show counts of number of contacts in a group]
+Anzahl Kontakte in der Gruppe anzeigen
+[Hide group counts when there are none online]
+Anzahl Kontakte ausblenden, wenn niemand online ist
+[Sort groups alphabetically]
+Gruppen alphabetisch sortieren
+[Quick search in open groups only]
+Schnellsuche nur in offenen Gruppen
+[Indent groups by:]
+Gruppen einrücken:
+[pixels]
+Pixel
+[Visual]
+Ansicht
+[Scroll list smoothly]
+Sanfter Bildlauf
+[Time:]
+Zeit:
+[milliseconds]
+Millisekunden
+[Hide vertical scroll bar]
+Vertikale Bildlaufleiste ausblenden
+[Left margin:]
+Linker Rand:
+[Row height:]
+Zeilenhöhe:
+[Gamma correction]
+Gammakorrektur
+[Gray out entire list when:]
+Liste grau färben, wenn:
+[Contact list background]
+Hintergrund der Kontaktliste
+[Background color]
+Hintergrundfarbe
+[Selection color]
+Auswahlfarbe
+[Use background image]
+Hintergrundbild verwenden
+[Stretch to width]
+In Breite strecken
+[Stretch to height]
+In Höhe strecken
+[Tile horizontally]
+Horizontal kacheln
+[Tile vertically]
+Vertikal kacheln
+[Scroll with text]
+Mit Text scrollen
+[Stretch proportionally]
+Proportional strecken
+[Use Windows colors]
+Windowsfarben verwenden
+[Status bar]
+Statusleiste
+[Show status bar]
+Statusleiste anzeigen
+[Show icons]
+Icons anzeigen
+[Show account names]
+Kontonamen anzeigen
+[Show status text]
+Statustext anzeigen
+[Right click opens status menu]
+Rechtsklick öffnet Statusmenü
+[Right click opens Miranda NG menu]
+Rechtsklick öffnet Miranda-NG-Menü
+[Make sections equal width]
+Alle Bereiche gleiche Breite
+[Show bevels on panels]
+Abschrägungen auf Paneelen anzeigen
+[Show resize grip indicator]
+Ecke zur Größenänderung anzeigen
+;file \src\core\stdclist\src\clcfonts.cpp
+[Standard contacts]
+Standardkontakte
+[Online contacts to whom you have a different visibility]
+Online-Kontakte mit anderer Sichtbarkeit
+[Offline contacts]
+Offline-Kontakte
+[Contacts which are 'not on list']
+Temporäre Kontakte
+[Group member counts]
+Anzahl Kontakte in einer Gruppe
+[Dividers]
+Trennlinien
+[Offline contacts to whom you have a different visibility]
+Offline-Kontakte mit anderer Sichtbarkeit
+[Contact list]
+Kontaktliste
+[Background]
+Hintergrund
+[Selected text]
+Markierter Text
+[Hottrack text]
+Hottracktext
+[Quicksearch text]
+Schnellsuche-Text
+;file \src\core\stdclist\src\clcopts.cpp
+[Not focused]
+nicht fokussiert
+[Offline]
+Offline
+[Online]
+Online
+[Away]
+Abwesend
+[Not available]
+Außer Haus
+[Occupied]
+Beschäftigt
+[Do not disturb]
+Bitte nicht stören
+[Free for chat]
+Für Chat bereit
+[Invisible]
+Unsichtbar
+[List]
+Liste
+[List background]
+Hintergrund Liste
+;file \src\core\stdclist\src\clistopts.cpp
+[Global]
+Global
+[General]
+Allgemein
+;file \src\core\stdclist\src\cluiopts.cpp

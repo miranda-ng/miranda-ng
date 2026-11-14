@@ -1,0 +1,16 @@
+#muuid {251c78d7-f6e0-4083-92dc-252dcb3be724}
+;============================================================
+;  File: stduseronline.dll
+;  Plugin: Standard User-Is-Online module
+;  Version: x.x.x.x
+;  Authors: Miranda NG team
+;============================================================
+[Core module for user-is-online event processing.]
+Kernmodul zur Anzeige wenn Benutzer online geht.
+;file \src\core\stduseronline\src\useronline.cpp
+[%s is online]
+%s ist online
+[Alerts]
+Hinweise
+[Online]
+Online

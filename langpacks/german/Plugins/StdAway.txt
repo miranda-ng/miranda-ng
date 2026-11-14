@@ -1,0 +1,63 @@
+#muuid {e58558e3-83e7-44ef-8e39-d9e0541956df}
+;============================================================
+;  File: stdaway.dll
+;  Plugin: Standard Away module
+;  Version: x.x.x.x
+;  Authors: Miranda NG team
+;============================================================
+[Core module for the away messages processing.]
+Kernmodul zum Verwalten von Abwesenheitsnachrichten.
+;file \src\core\stdaway\res\resource.rc
+[%s message for %s]
+'%s'-Nachricht von %s
+[&Cancel]
+Abbre&chen
+[Retrieving %s message...]
+Rufe '%s'-Nachricht ab...
+[Do not reply to requests for this message]
+Anfragen nach dieser Nachricht nicht beantworten
+[Do not pop up dialog asking for new message]
+Keinen Dialog für neue Nachricht anzeigen
+[By default, use the same message as last time]
+Die letzte Nachricht als Standard verwenden
+[By default, use this message:]
+Folgende Nachricht als Standard verwenden:
+[Use %time% for the current time, %date% for the current date]
+%time%, %date% für die aktuelle Uhrzeit oder Datum
+[Status messages]
+Statusnachrichten
+[Reset]
+Zurücksetzen
+[Change %s message]
+'%s'-Nachricht ändern
+[Closing in %d]
+In %d schließen
+;file \src\core\stdaway\src\awaymsg.cpp
+[&Close]
+S&chließen
+[Re&ad %s message]
+'%s'-N&achricht lesen
+[Read status message]
+Statusnachricht lesen
+;file \src\core\stdaway\src\options.cpp
+[Status]
+Status
+;file \src\core\stdaway\src\sendmsg.cpp
+[I've been away since %time%.]
+Ich bin nicht da seit %time%.
+[Give it up, I'm not in!]
+Gib's auf! Ich bin nicht da!
+[Not right now.]
+Im Moment nicht!
+[Give a guy some peace, would ya?]
+Lass' mich im Moment mal in Ruhe!
+[I'm a chatbot!]
+Laber mich voll!
+[Yep, I'm here.]
+Ja, ich bin da.
+[Nope, not here.]
+Nein, ich bin weg.
+[I'm hiding from the mafia.]
+Ich zieh' mir ne Tarnkappe auf!
+[idleeeeeeee]
+Langweilig

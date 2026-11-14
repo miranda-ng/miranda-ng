@@ -1,0 +1,156 @@
+#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
+;============================================================
+;  File: stdpopup.dll
+;  Plugin: Standard popup module
+;  Version: x.x.x.x
+;  Authors: Scott Ellis, Miranda NG team
+;============================================================
+[Core module for popups.]
+Kernmodul für Popups.
+;file \src\core\stdpopup\res\resource.rc
+[Popup history]
+Popupverlauf
+[Close]
+Schließen
+[Case sensitive]
+Groß-/Kleinschreibung beachten
+[Default timeout]
+Standard-Timeout
+[Never timeout]
+Kein Timeout
+[Set timeout:]
+Timeout setzen:
+[Width:]
+Breite:
+[Maximum height:]
+Maximale Höhe:
+[Options]
+Einstellungen
+[Opacity (%):]
+Deckkraft (%):
+[Border]
+Rand
+[Round corners (window)]
+Runde Ecken (Fenster)
+[Preview]
+Vorschau
+[Transparent background]
+Transparenter Hintergrund
+[Layout]
+Layout
+[Avatar size:]
+Avatargröße:
+[Global hover]
+Alle Popups bei Mausb. nicht ausbl.
+[Sidebar width:]
+Seitenleiste Breite:
+[Text indent:]
+Texteinzug:
+[Padding:]
+Randabstand:
+[Round corners (avatar)]
+Runde Ecken (Avatar)
+[Disable when]
+Deaktivieren bei
+[Fullscreen mode]
+Vollbildschirm-Modus
+[Statuses]
+Status
+[Text color:]
+Textfarbe:
+[Background color:]
+Hintergrundfarbe:
+[Set timeout]
+Anzeigedauer setzen
+[Timeout value (0 = default):]
+Anzeigedauer (0 = Standard):
+;file \src\core\stdpopup\src\options.cpp
+[Bottom right]
+Unten rechts
+[Bottom left]
+Unten links
+[Top right]
+Oben rechts
+[Top left]
+Oben links
+[Icon on left]
+Icon links
+[Icon on right]
+Icon rechts
+[No time]
+Keine Zeit
+[Time on left]
+Zeit links
+[Time on right]
+Zeit rechts
+[Time above avatar]
+Zeit über Avatar
+[No avatar]
+Kein Avatar
+[Left avatar]
+Avatar links
+[Right avatar]
+Avatar rechts
+[No animate]
+Keine Animation
+[Horizontal animate]
+Horizontale Animation
+[Vertical animate]
+Vertikale Animation
+[You cannot set a default timeout of 0.\nValue has been reset.]
+Ein Timeout von 0 ist ungültig.\nWert wurde zurückgesetzt.
+[Error]
+Fehler
+[Example]
+Beispiel
+[The quick brown fox jumps over the lazy dog.]
+Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.
+[Example With a Long Title]
+Beispiel mit langem Titel
+[Thequickbrownfoxjumpsoverthelazydog.]
+FranzjagtimkomplettverwahrlostenTaxiquerdurchBayern.
+[An avatar.]
+Ein Avatar.
+[Status]
+Status
+[Popups]
+Popups
+[Settings]
+Einstellungen
+[Advanced]
+Erweitert
+[Classes]
+Kategorien
+;file \src\core\stdpopup\src\services.cpp
+[Disable popups]
+Popups deaktivieren
+[Enable popups]
+Popups aktivieren
+;file \src\core\stdpopup\src\yapp.cpp
+[Popups are enabled]
+Popups sind aktiviert
+[Popups are disabled]
+Popups sind deaktiviert
+[Toggle popups]
+Popups ein-/ausschalten
+[First line]
+Erste Zeile
+[Second line]
+Zweite Zeile
+[Time]
+Zeit
+[Background]
+Hintergrund
+[Sidebar]
+Seitenleiste
+[Title underline]
+Trennlinie unter Titel
+[Popup mode]
+Popup-Modus
+;file \src\core\stdpopup\src\yapp_history_dlg.cpp
+[Copy title to clipboard]
+Titel in Zwischenablage kopieren
+[Copy message to clipboard]
+Nachricht in Zwischenablage kopieren
+[Copy timestamp to clipboard]
+Zeitstempel in Zwischenablage kopieren
