@@ -110,6 +110,32 @@ static std::vector<GraphDataPoint> ParseGraphData(const JSONNode& graphData, boo
 	return result;
 }
 
+static void AppendCurrentMeasurement(std::vector<GraphDataPoint> &graphData, CLibreViewProto *ppro, MCONTACT hContact, bool bApiMgdl, int offset)
+{
+	CMStringW lastValue = ppro->getMStringW(hContact, "Value");
+	CMStringW lastTimestamp = ppro->getMStringW(hContact, "Timestamp");
+	if (lastValue.IsEmpty() || lastTimestamp.IsEmpty())
+		return;
+
+	const bool bUseMgdl = ppro->DisplayUnits == 1;
+	double rawValue = _wtof(lastValue.c_str()) + (double)offset;
+
+	GraphDataPoint lastPoint = {};
+	if (bApiMgdl && !bUseMgdl)
+		lastPoint.value = rawValue / 18.0;
+	else if (!bApiMgdl && bUseMgdl)
+		lastPoint.value = rawValue * 18.0;
+	else
+		lastPoint.value = rawValue;
+
+	lastPoint.timestamp = ParseLibreTimestamp(lastTimestamp);
+
+	// Append only if value is positive and newer than the last historical point
+	if (lastPoint.value > 0 && (graphData.empty() || lastPoint.timestamp > graphData.back().timestamp)) {
+		graphData.push_back(lastPoint);
+	}
+}
+
 struct GraphDialogParams {
 	MCONTACT hContact;
 	CMStringW title;
@@ -201,40 +227,7 @@ public:
 		}
 		
 		// Add Value as last point if available
-		CMStringW lastValue = ppro->getMStringW(m_hContact, "Value");
-		CMStringW lastTimestamp = ppro->getMStringW(m_hContact, "Timestamp");
-		
-		if (!lastValue.IsEmpty() && !lastTimestamp.IsEmpty()) {
-			GraphDataPoint lastPoint;
-			
-			const bool bUseMgdl = ppro->DisplayUnits == 1;
-			
-			// Apply offset to original API value, then convert to display units
-			double rawValue = _wtof(lastValue.c_str()) + (double)offset;
-			
-			// Convert to display units for graph
-			if (bApiMgdl && !bUseMgdl) {
-				// API mg/dL -> Display mmol/L (convert)
-				lastPoint.value = rawValue / 18.0;
-			}
-			else if (!bApiMgdl && bUseMgdl) {
-				// API mmol/L -> Display mg/dL (convert)
-				lastPoint.value = rawValue * 18.0;
-			}
-			else {
-				// No conversion needed
-				lastPoint.value = rawValue;
-			}
-			
-			lastPoint.timestamp = ParseLibreTimestamp(lastTimestamp);
-			
-			// Add to graph data if not duplicate and value is positive (check last point)
-			if (lastPoint.value > 0 && (newGraphData.empty() || 
-				newGraphData.back().timestamp != lastPoint.timestamp ||
-				newGraphData.back().value != lastPoint.value)) {
-				newGraphData.push_back(lastPoint);
-			}
-		}
+		AppendCurrentMeasurement(newGraphData, ppro, m_hContact, bApiMgdl, offset);
 		
 		// Update data and redraw
 		m_data = newGraphData;
@@ -742,39 +735,7 @@ static void GraphThreadFunc(void *param)
 	}
 	
 	// Add Value as last point if available
-	CMStringW lastValue = ppro->getMStringW(hContact, "Value");
-	CMStringW lastTimestamp = ppro->getMStringW(hContact, "Timestamp");
-	
-	if (!lastValue.IsEmpty() && !lastTimestamp.IsEmpty()) {
-		GraphDataPoint lastPoint;
-		const bool bUseMgdl = ppro && ppro->DisplayUnits == 1;
-		
-		// Apply offset to original API value, then convert to display units
-		double rawValue = _wtof(lastValue.c_str()) + (double)offset;
-		
-		// Convert to display units for graph
-		if (bApiMgdl && !bUseMgdl) {
-			// API mg/dL -> Display mmol/L (convert)
-			lastPoint.value = rawValue / 18.0;
-		}
-		else if (!bApiMgdl && bUseMgdl) {
-			// API mmol/L -> Display mg/dL (convert)
-			lastPoint.value = rawValue * 18.0;
-		}
-		else {
-			// No conversion needed
-			lastPoint.value = rawValue;
-		}
-		
-		lastPoint.timestamp = ParseLibreTimestamp(lastTimestamp);
-		
-		// Add to graph data if not duplicate and value is positive (check last point)
-		if (lastPoint.value > 0 && (graphData.empty() || 
-			graphData.back().timestamp != lastPoint.timestamp ||
-			graphData.back().value != lastPoint.value)) {
-			graphData.push_back(lastPoint);
-		}
-	}
+	AppendCurrentMeasurement(graphData, ppro, hContact, bApiMgdl, (int)offset);
 	
 	// Build title as "Nick: Glucose history"
 	CMStringW nick = ppro->getMStringW(hContact, "Nick");
