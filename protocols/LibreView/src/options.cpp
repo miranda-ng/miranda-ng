@@ -54,10 +54,6 @@ public:
 		ptrW wszPassword(edtPassword.GetText());
 		ptrW wszApiUrl(edtApiUrl.GetText());
 		
-		// Reset to defaults if fields are cleared
-		if (!mir_wstrlen(wszApiUrl))
-			wszApiUrl = mir_wstrdup(_A2W(DEFAULT_API_URL));
-
 		ptrW wszInterval(edtInterval.GetText());
 		if (!mir_wstrlen(wszInterval)) {
 			m_proto->delSetting("UpdateInterval");
@@ -77,13 +73,14 @@ public:
 		else
 			m_proto->setWString("Password", wszPassword);
 		
-		if (!mir_wstrlen(wszApiUrl)) {
+		CMStringA szApiUrl = NormalizeBaseUrl(mir_wstrlen(wszApiUrl) ? _T2A(wszApiUrl) : "");
+		if (!mir_wstrlen(wszApiUrl) || szApiUrl == DEFAULT_API_URL) {
 			m_proto->delSetting("ApiUrl");
 			m_proto->szApiUrl = DEFAULT_API_URL;
 		}
 		else {
-			m_proto->setWString("ApiUrl", wszApiUrl);
-			m_proto->szApiUrl = _T2A(wszApiUrl);
+			m_proto->setString("ApiUrl", szApiUrl);
+			m_proto->szApiUrl = szApiUrl;
 		}
 
 		m_proto->ClearAuth();
@@ -113,10 +110,10 @@ public:
 		edtEmail.SetText(m_proto->getMStringW("Email"));
 		edtPassword.SetText(m_proto->getMStringW("Password"));
 
-		CMStringW wszApiUrl(m_proto->getMStringW("ApiUrl"));
-		if (wszApiUrl.IsEmpty())
-			wszApiUrl = _A2W(DEFAULT_API_URL);
-		edtApiUrl.SetText(wszApiUrl);
+		CMStringA szApiUrl(m_proto->getMStringA("ApiUrl"));
+		if (szApiUrl.IsEmpty())
+			szApiUrl = DEFAULT_API_URL;
+		edtApiUrl.SetText(CMStringW(_A2W(szApiUrl)));
 	}
 
 	void onChange_Units(CCtrlCheck *)

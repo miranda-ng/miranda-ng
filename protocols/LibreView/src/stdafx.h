@@ -31,6 +31,17 @@
 #define SENSOR_LIFETIME (14 * 24 * 60 * 60)
 #define MAINTENANCE_STATUS 911
 
+static inline CMStringA NormalizeBaseUrl(const CMStringA &url)
+{
+	CMStringA result(url);
+	result.Trim();
+	while (!result.IsEmpty() && result[result.GetLength() - 1] == '/')
+		result.Truncate(result.GetLength() - 1);
+	if (result.IsEmpty())
+		result = DEFAULT_API_URL;
+	return result;
+}
+
 static inline bool IsSensorExpired(uint32_t activation)
 {
 	return activation > 0 && time(0) >= (activation + SENSOR_LIFETIME);

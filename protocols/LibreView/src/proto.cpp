@@ -44,17 +44,6 @@ static CMStringA Sha256Hex(const CMStringA &src)
 	return result;
 }
 
-static CMStringA NormalizeBaseUrl(const CMStringA &url)
-{
-	CMStringA result(url);
-	result.Trim();
-	while (!result.IsEmpty() && result[result.GetLength() - 1] == '/')
-		result.Truncate(result.GetLength() - 1);
-	if (result.IsEmpty())
-		result = DEFAULT_API_URL;
-	return result;
-}
-
 static const wchar_t* GetLocalizedUnit(bool bUseMgdl)
 {
 	return bUseMgdl ? TranslateT("mg/dL") : TranslateT("mmol/L");
