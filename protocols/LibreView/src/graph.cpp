@@ -187,11 +187,14 @@ public:
 			SendMessage(m_hToolTip, TTM_SETMAXTIPWIDTH, 0, 200);
 		}
 		
+		Utils_RestoreWindowPositionNoSize(m_hwnd, 0, MODULENAME, "GraphWindow");
 		return true;
 	}
 	
 	void OnDestroy() override
 	{
+		Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "GraphWindow");
+
 		// Clear global window handle
 		if (g_hGraphWindow == m_hwnd) {
 			g_hGraphWindow = nullptr;
@@ -586,24 +589,11 @@ private:
 							valueStr.Format(L"%.1f %s", point.value, TranslateT("mmol/L"));
 						}
 						
-						// Format time using system format
-						struct tm *tmLocal = localtime(&point.timestamp);
-						wchar_t timeBuf[64] = {0};
-						if (tmLocal) {
-							SYSTEMTIME st;
-							st.wYear = 1900 + tmLocal->tm_year;
-							st.wMonth = tmLocal->tm_mon + 1;
-							st.wDay = tmLocal->tm_mday;
-							st.wHour = tmLocal->tm_hour;
-							st.wMinute = tmLocal->tm_min;
-							st.wSecond = 0;
-							st.wMilliseconds = 0;
-							st.wDayOfWeek = tmLocal->tm_wday;
-							
-							GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, &st, nullptr, timeBuf, _countof(timeBuf));
-						}
+						// Format date and time using Miranda NG settings
+						wchar_t timeBuf[64] = {};
+						TimeZone_PrintTimeStamp(nullptr, (uint32_t)point.timestamp, L"d t", timeBuf, _countof(timeBuf), 0);
 						
-						// Build tooltip text (value and time only)
+						// Build tooltip text (value and time)
 						CMStringW tooltipText;
 						tooltipText.Format(L"%s\n%s", valueStr.c_str(), timeBuf);
 						
