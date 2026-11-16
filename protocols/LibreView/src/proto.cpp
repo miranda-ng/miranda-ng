@@ -263,18 +263,6 @@ static const wchar_t* TrendToText(int trend)
 	}
 }
 
-static const wchar_t* TrendToArrow(int trend)
-{
-	switch (trend) {
-	case 1: return L"\x2193\x2193";  // falling quickly (↓↓)
-	case 2: return L"\x2193";         // falling (↓)
-	case 3: return L"\x2192";         // steady (→)
-	case 4: return L"\x2191";         // rising (↑)
-	case 5: return L"\x2191\x2191";  // rising quickly (↑↑)
-	default: return L"";
-	}
-}
-
 static CMStringW FormatGlucoseValue(double value)
 {
 	CMStringW result(FORMAT, L"%.1f", value);

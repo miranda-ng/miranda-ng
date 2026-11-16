@@ -31,6 +31,17 @@ static CMStringW GetSensorRemaining(MCONTACT hContact)
 	if (expires <= now)
 		return TranslateT("Expired");
 
+	uint32_t warmupMinutes = ppro ? ppro->getDword(hContact, "SensorWarmupMinutes", 0) : 0;
+	if (IsSensorWarmingUp(activation, warmupMinutes)) {
+		time_t warmupEnd = activation + warmupMinutes * 60;
+		int minutesLeft = int((warmupEnd - now) / 60) + 1;
+		if (minutesLeft < 1)
+			minutesLeft = 1;
+		CMStringW result;
+		result.Format(TranslateT("Warming up (%d min left)"), minutesLeft);
+		return result;
+	}
+
 	time_t remaining = expires - now;
 	int days = int(remaining / (24 * 60 * 60));
 	int hours = int((remaining % (24 * 60 * 60)) / (60 * 60));
@@ -89,8 +100,13 @@ public:
 
 		const wchar_t *pwszUnit = GetLocalizedUnitByKey(bUseMgdl ? L"mg/dL" : L"mmol/L");
 		CMStringW lastValue;
-		if (!displayValue.IsEmpty())
+		if (!displayValue.IsEmpty()) {
 			lastValue.Format(L"%s %s", displayValue.c_str(), pwszUnit);
+			int trendValue = ppro ? ppro->getDword(m_hContact, "TrendArrow", 0) : 0;
+			CMStringW trendArrow(TrendToArrow(trendValue));
+			if (!trendArrow.IsEmpty())
+				lastValue.AppendFormat(L" (%s)", trendArrow.c_str());
+		}
 
 		SetDlgItemText(m_hwnd, IDC_LAST_GLUCOSE, lastValue);
 		uint32_t activationTime = ppro ? ppro->getDword(m_hContact, "SensorActivationTime", 0) : 0;
@@ -125,8 +141,7 @@ public:
 
 int UserInfoInit(WPARAM wParam, LPARAM hContact)
 {
-	char *szProto = Proto_GetBaseAccountName(hContact);
-	if (g_plugin.getInstance(szProto) == nullptr)
+	if (g_plugin.getInstance((MCONTACT)hContact) == nullptr)
 		return 0;
 
 	USERINFOPAGE uip = {};

@@ -52,6 +52,18 @@ static inline bool IsSensorWarmingUp(uint32_t activation, uint32_t warmupMinutes
 	return activation > 0 && warmupMinutes > 0 && time(0) < (activation + warmupMinutes * 60);
 }
 
+static inline const wchar_t* TrendToArrow(int trend)
+{
+	switch (trend) {
+	case 1: return L"\x2193\x2193";  // falling quickly (↓↓)
+	case 2: return L"\x2193";         // falling (↓)
+	case 3: return L"\x2192";         // steady (→)
+	case 4: return L"\x2191";         // rising (↑)
+	case 5: return L"\x2191\x2191";  // rising quickly (↑↑)
+	default: return L"";
+	}
+}
+
 class CLibreViewProto;
 
 extern HNETLIBUSER hNetlibUser;
