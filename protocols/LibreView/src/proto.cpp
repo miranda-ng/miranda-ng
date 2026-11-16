@@ -476,6 +476,11 @@ bool CLibreViewProto::FetchGlucose()
 
 	uint32_t sensorActivationTime = connection["sensor"]["a"].as_int();
 	if (sensorActivationTime) {
+		uint32_t prevActivation = getDword(m_hContact, "SensorActivationTime", 0);
+		if (prevActivation != 0 && prevActivation != sensorActivationTime) {
+			// New sensor activated: purge previous sensor's graph cache
+			delSetting(m_hContact, "GraphData");
+		}
 		// API returns GMT/UTC time, store as-is
 		setDword(m_hContact, "SensorActivationTime", sensorActivationTime);
 	}
