@@ -60,6 +60,9 @@ struct GraphDataPoint {
 	int trendArrow;
 };
 
+// Gap threshold for breaking the graph line (1 hour)
+static const time_t MAX_GRAPH_GAP = 60 * 60;
+
 static std::vector<GraphDataPoint> ParseGraphData(const JSONNode& graphData, bool useMgdl, bool bApiMgdl, int offset)
 {
 	std::vector<GraphDataPoint> result;
@@ -316,6 +319,12 @@ private:
 		// Use maxValue directly for grid calculation (data is already in correct units)
 		double displayMaxValue = maxValue;
 		
+		time_t timeSpan = maxTime - minTime;
+		if (timeSpan < 3600) {
+			timeSpan = 3600;
+			maxTime = minTime + timeSpan;
+		}
+		
 		// Get font and colors from FontService using LOGFONTW
 		LOGFONTW lf = {};
 		memset(&lf, 0, sizeof(lf));
@@ -404,18 +413,32 @@ private:
 		
 		// Time labels use the same font (hLabelFont already selected)
 		
-		// Calculate time range and find hour boundaries
+		// Calculate time range and determine adaptive step for hour boundaries
+		double totalHours = (double)timeSpan / 3600.0;
+		int stepHours = 1;
+		if (totalHours > 72.0)
+			stepHours = 12;
+		else if (totalHours > 36.0)
+			stepHours = 6;
+		else if (totalHours > 16.0)
+			stepHours = 4;
+		else if (totalHours > 8.0)
+			stepHours = 2;
+		
+		time_t stepSeconds = stepHours * 3600;
+
 		struct tm *tmStart = localtime(&minTime);
 		struct tm *tmEnd = localtime(&maxTime);
 		if (tmStart && tmEnd) {
-			// Round start time to nearest hour
-			time_t startHour = minTime - (tmStart->tm_min * 60) - tmStart->tm_sec;
+			// Find nearest prior hour aligned to stepHours
+			int alignedHour = (tmStart->tm_hour / stepHours) * stepHours;
+			time_t startHour = minTime - (tmStart->tm_min * 60) - tmStart->tm_sec - ((tmStart->tm_hour - alignedHour) * 3600);
 			
-			// Generate time labels for each hour only (no half hours to avoid duplication)
+			// Generate time labels using adaptive step
 			time_t currentTime = startHour;
 			while (currentTime <= maxTime) {
 				// Calculate X position
-				int x = graphLeft + (int)((double)(currentTime - minTime) / (maxTime - minTime) * graphWidth);
+				int x = graphLeft + (int)((double)(currentTime - minTime) / timeSpan * graphWidth);
 				
 				if (x >= graphLeft && x <= graphRight) {
 					// Format time - only show full hours
@@ -449,8 +472,8 @@ private:
 					}
 				}
 				
-				// Move to next hour
-				currentTime += 3600; // Add 1 hour
+				// Move to next aligned step
+				currentTime += stepSeconds;
 			}
 		}
 		
@@ -465,28 +488,42 @@ private:
 		// Draw graph line
 		if (m_data.size() > 1) {
 			HPEN hLinePen = CreatePen(PS_SOLID, 2, lineColor);  // Configurable line color
-			HPEN hPointPen = CreatePen(PS_SOLID, 1, pointsColor);   // Configurable points border
-			HBRUSH hPointBrush = CreateSolidBrush(pointsColor);   // Configurable points fill
-			
 			SelectObject(hdc, hLinePen);
 			
-			// Draw main line - configurable color
+			// Draw main line segments - break line if gap exceeds MAX_GRAPH_GAP
+			bool bPenDown = false;
 			for (size_t i = 1; i < m_data.size(); i++) {
-				int x1 = graphLeft + (int)((double)(m_data[i-1].timestamp - minTime) / (maxTime - minTime) * graphWidth);
-				double value1 = m_data[i-1].value;
-				double value2 = m_data[i].value;
-				int y1 = graphBottom - (int)((value1 - minValue) / (displayMaxValue - minValue) * graphHeight);
-				int x2 = graphLeft + (int)((double)(m_data[i].timestamp - minTime) / (maxTime - minTime) * graphWidth);
-				int y2 = graphBottom - (int)((value2 - minValue) / (displayMaxValue - minValue) * graphHeight);
-				
-				MoveToEx(hdc, x1, y1, nullptr);
-				LineTo(hdc, x2, y2);
+				time_t timeDiff = m_data[i].timestamp - m_data[i - 1].timestamp;
+				if (timeDiff <= MAX_GRAPH_GAP) {
+					int x1 = graphLeft + (int)((double)(m_data[i - 1].timestamp - minTime) / timeSpan * graphWidth);
+					double value1 = m_data[i - 1].value;
+					int y1 = graphBottom - (int)((value1 - minValue) / (displayMaxValue - minValue) * graphHeight);
+					int x2 = graphLeft + (int)((double)(m_data[i].timestamp - minTime) / timeSpan * graphWidth);
+					double value2 = m_data[i].value;
+					int y2 = graphBottom - (int)((value2 - minValue) / (displayMaxValue - minValue) * graphHeight);
+					
+					if (!bPenDown) {
+						MoveToEx(hdc, x1, y1, nullptr);
+						bPenDown = true;
+					}
+					LineTo(hdc, x2, y2);
+				}
+				else {
+					bPenDown = false;
+				}
 			}
 			
-			// Draw points
+			DeleteObject(hLinePen);
+		}
+		
+		// Draw points
+		if (!m_data.empty()) {
+			HPEN hPointPen = CreatePen(PS_SOLID, 1, pointsColor);   // Configurable points border
+			HBRUSH hPointBrush = CreateSolidBrush(pointsColor);   // Configurable points fill
 			SelectObject(hdc, hPointPen);
+			
 			for (const auto& point : m_data) {
-				int x = graphLeft + (int)((double)(point.timestamp - minTime) / (maxTime - minTime) * graphWidth);
+				int x = graphLeft + (int)((double)(point.timestamp - minTime) / timeSpan * graphWidth);
 				double value = point.value;
 				int y = graphBottom - (int)((value - minValue) / (displayMaxValue - minValue) * graphHeight);
 				
@@ -495,7 +532,6 @@ private:
 				SelectObject(hdc, hOldBrush);
 			}
 			
-			DeleteObject(hLinePen);
 			DeleteObject(hPointPen);
 			DeleteObject(hPointBrush);
 		}
@@ -622,10 +658,16 @@ private:
 		if (valueRange < 0.1) valueRange = 1.0;
 		maxValue += valueRange * 0.1;
 		
+		time_t timeSpan = maxTime - minTime;
+		if (timeSpan < 3600) {
+			timeSpan = 3600;
+			maxTime = minTime + timeSpan;
+		}
+
 		// Check each point
 		const int hitRadius = 8; // Slightly larger than visual radius for easier hitting
 		for (size_t i = 0; i < m_data.size(); i++) {
-			int px = graphLeft + (int)((double)(m_data[i].timestamp - minTime) / (maxTime - minTime) * graphWidth);
+			int px = graphLeft + (int)((double)(m_data[i].timestamp - minTime) / timeSpan * graphWidth);
 			int py = graphBottom - (int)((m_data[i].value - minValue) / (maxValue - minValue) * graphHeight);
 			
 			int dx = mouseX - px;
