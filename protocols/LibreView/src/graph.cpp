@@ -488,7 +488,7 @@ private:
 		// Draw graph line
 		if (m_data.size() > 1) {
 			HPEN hLinePen = CreatePen(PS_SOLID, 2, lineColor);  // Configurable line color
-			SelectObject(hdc, hLinePen);
+			HPEN hPrevPen = (HPEN)SelectObject(hdc, hLinePen);
 			
 			// Draw main line segments - break line if gap exceeds MAX_GRAPH_GAP
 			bool bPenDown = false;
@@ -513,6 +513,7 @@ private:
 				}
 			}
 			
+			SelectObject(hdc, hPrevPen);
 			DeleteObject(hLinePen);
 		}
 		
@@ -520,18 +521,19 @@ private:
 		if (!m_data.empty()) {
 			HPEN hPointPen = CreatePen(PS_SOLID, 1, pointsColor);   // Configurable points border
 			HBRUSH hPointBrush = CreateSolidBrush(pointsColor);   // Configurable points fill
-			SelectObject(hdc, hPointPen);
+			HPEN hPrevPen = (HPEN)SelectObject(hdc, hPointPen);
+			HBRUSH hPrevBrush = (HBRUSH)SelectObject(hdc, hPointBrush);
 			
 			for (const auto& point : m_data) {
 				int x = graphLeft + (int)((double)(point.timestamp - minTime) / timeSpan * graphWidth);
 				double value = point.value;
 				int y = graphBottom - (int)((value - minValue) / (displayMaxValue - minValue) * graphHeight);
 				
-				HBRUSH hOldBrush = (HBRUSH)SelectObject(hdc, hPointBrush);
 				Ellipse(hdc, x - 3, y - 3, x + 3, y + 3);  // Smaller points (radius 3)
-				SelectObject(hdc, hOldBrush);
 			}
 			
+			SelectObject(hdc, hPrevPen);
+			SelectObject(hdc, hPrevBrush);
 			DeleteObject(hPointPen);
 			DeleteObject(hPointBrush);
 		}
