@@ -218,7 +218,7 @@ bool CLibreViewProto::Login()
 		CMStringA minimumVersion = data["minimumVersion"].as_mstring();
 		if (!minimumVersion.IsEmpty() && minimumVersion != szMinVersion) {
 			szMinVersion = minimumVersion;
-			setString(m_hContact, "MinVersion", szMinVersion);
+			setString("MinVersion", szMinVersion);
 			continue;
 		}
 
