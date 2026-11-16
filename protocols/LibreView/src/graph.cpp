@@ -238,6 +238,10 @@ public:
 		
 		// Update data and redraw
 		m_data = newGraphData;
+		if (m_hToolTip) {
+			SendMessage(m_hToolTip, TTM_TRACKACTIVATE, FALSE, (LPARAM)&m_ti);
+		}
+		m_hoverIndex = -1;
 		InvalidateRect(m_hwnd, nullptr, TRUE);
 	}
 
@@ -660,6 +664,9 @@ private:
 		const int graphWidth = graphRight - graphLeft;
 		const int graphHeight = graphBottom - graphTop;
 		
+		if (graphWidth <= 0 || graphHeight <= 0)
+			return -1;
+		
 		// Find min and max (same as DrawGraph)
 		double minValue = 0.0;
 		double maxValue = DBL_MIN;
@@ -673,7 +680,7 @@ private:
 		
 		double valueRange = maxValue - minValue;
 		if (valueRange < 0.1) valueRange = 1.0;
-		maxValue += valueRange * 0.1;
+		double displayMaxValue = maxValue + valueRange * 0.1;
 		
 		time_t timeSpan = maxTime - minTime;
 		if (timeSpan < 3600) {
@@ -681,21 +688,26 @@ private:
 			maxTime = minTime + timeSpan;
 		}
 
-		// Check each point
+		// Find closest point within hit radius
 		const int hitRadius = 8; // Slightly larger than visual radius for easier hitting
+		int bestIndex = -1;
+		int bestDistSq = hitRadius * hitRadius;
+
 		for (size_t i = 0; i < m_data.size(); i++) {
 			int px = graphLeft + (int)((double)(m_data[i].timestamp - minTime) / timeSpan * graphWidth);
-			int py = graphBottom - (int)((m_data[i].value - minValue) / (maxValue - minValue) * graphHeight);
+			int py = graphBottom - (int)((m_data[i].value - minValue) / (displayMaxValue - minValue) * graphHeight);
 			
 			int dx = mouseX - px;
 			int dy = mouseY - py;
+			int distSq = dx * dx + dy * dy;
 			
-			if (dx * dx + dy * dy <= hitRadius * hitRadius) {
-				return (int)i;
+			if (distSq <= bestDistSq) {
+				bestDistSq = distSq;
+				bestIndex = (int)i;
 			}
 		}
 		
-		return -1;
+		return bestIndex;
 	}
 };
 
@@ -705,6 +717,13 @@ static void GraphThreadFunc(void *param)
 	CLibreViewProto *ppro = g_plugin.getInstance(hContact);
 	if (!ppro) return;
 	
+	if (g_hGraphWindow && IsWindow(g_hGraphWindow)) {
+		PostMessage(g_hGraphWindow, WM_SET_GRAPH_CONTACT, (WPARAM)hContact, 0);
+		SetForegroundWindow(g_hGraphWindow);
+		ShowWindow(g_hGraphWindow, SW_RESTORE);
+		return;
+	}
+
 	bool useMgdl = ppro->DisplayUnits == 1;
 	
 	// Get API units and offset from database
@@ -795,6 +814,14 @@ static INT_PTR GraphMenuCommand(WPARAM hContact, LPARAM)
 	if (!ppro || !ppro->m_hContact)
 		return 0;
 	
+	// If graph window is already open, switch contact directly from UI thread
+	if (g_hGraphWindow && IsWindow(g_hGraphWindow)) {
+		PostMessage(g_hGraphWindow, WM_SET_GRAPH_CONTACT, (WPARAM)hContact, 0);
+		SetForegroundWindow(g_hGraphWindow);
+		ShowWindow(g_hGraphWindow, SW_RESTORE);
+		return 0;
+	}
+
 	mir_forkthread(GraphThreadFunc, (void*)(uintptr_t)hContact);
 	
 	return 0;
