@@ -161,7 +161,6 @@ public:
 			SendMessage(m_hToolTip, TTM_SETMAXTIPWIDTH, 0, 200);
 		}
 		
-		DrawGraph();
 		return true;
 	}
 	
@@ -243,7 +242,7 @@ public:
 	}
 
 private:
-	void DrawGraph()
+	void DrawGraph(HDC hdc)
 	{
 		// Update m_useMgdl from current settings
 		CLibreViewProto *ppro = g_plugin.getInstance(m_hContact);
@@ -251,17 +250,38 @@ private:
 			m_useMgdl = ppro->DisplayUnits == 1;
 		}
 		
-		HDC hdc = GetDC(m_hwnd);
 		RECT rc;
 		GetClientRect(m_hwnd, &rc);
 		
-		// Clear background
-		FillRect(hdc, &rc, (HBRUSH)(COLOR_WINDOW + 1));
+		// Get font and colors from FontService using LOGFONTW
+		LOGFONTW lf = {};
+		memset(&lf, 0, sizeof(lf));
+		
+		// Initialize default font settings
+		lf.lfHeight = -14;
+		lf.lfWeight = FW_NORMAL;
+		wcscpy(lf.lfFaceName, L"Arial");
+		lf.lfCharSet = DEFAULT_CHARSET;
+		lf.lfOutPrecision = OUT_DEFAULT_PRECIS;
+		lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
+		lf.lfQuality = CLEARTYPE_QUALITY;
+		lf.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
+		
+		// Get font and color from FontService
+		COLORREF fontColor = Font_GetW(L"LibreView", L"Graph Text", &lf);
+		
+		// Get background, line and points colors from FontService
+		COLORREF bgColor = Colour_GetW(L"LibreView", L"Graph Background");
+		COLORREF lineColor = Colour_GetW(L"LibreView", L"Graph Line");
+		COLORREF pointsColor = Colour_GetW(L"LibreView", L"Graph Points");
+		
+		// Fill the entire client area with background color
+		HBRUSH hBgBrush = CreateSolidBrush(bgColor);
+		FillRect(hdc, &rc, hBgBrush);
+		DeleteObject(hBgBrush);
 		
 		if (m_data.empty()) {
-			HFONT hFont = CreateFont(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, 
-				DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, 
-				CLEARTYPE_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Arial");
+			HFONT hFont = CreateFontIndirectW(&lf);
 			HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
 			
 			SetTextColor(hdc, RGB(128, 128, 128));
@@ -270,7 +290,6 @@ private:
 			
 			SelectObject(hdc, hOldFont);
 			DeleteObject(hFont);
-			ReleaseDC(m_hwnd, hdc);
 			return;
 		}
 		
@@ -285,7 +304,6 @@ private:
 		const int graphHeight = graphBottom - graphTop;
 		
 		if (graphWidth <= 0 || graphHeight <= 0) {
-			ReleaseDC(m_hwnd, hdc);
 			return;
 		}
 		
@@ -313,33 +331,6 @@ private:
 			timeSpan = 3600;
 			maxTime = minTime + timeSpan;
 		}
-		
-		// Get font and colors from FontService using LOGFONTW
-		LOGFONTW lf = {};
-		memset(&lf, 0, sizeof(lf));
-		
-		// Initialize default font settings
-		lf.lfHeight = -14;
-		lf.lfWeight = FW_NORMAL;
-		wcscpy(lf.lfFaceName, L"Arial");
-		lf.lfCharSet = DEFAULT_CHARSET;
-		lf.lfOutPrecision = OUT_DEFAULT_PRECIS;
-		lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
-		lf.lfQuality = CLEARTYPE_QUALITY;
-		lf.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-		
-		// Get font and color from FontService
-		COLORREF fontColor = Font_GetW(L"LibreView", L"Graph Text", &lf);
-		
-		// Get background, line and points colors from FontService
-		COLORREF bgColor = Colour_GetW(L"LibreView", L"Graph Background");
-		COLORREF lineColor = Colour_GetW(L"LibreView", L"Graph Line");
-		COLORREF pointsColor = Colour_GetW(L"LibreView", L"Graph Points");
-		
-		// Fill the entire client area with background color FIRST
-		HBRUSH hBgBrush = CreateSolidBrush(bgColor);
-		FillRect(hdc, &rc, hBgBrush);
-		DeleteObject(hBgBrush);
 		
 		// Create font from settings
 		HFONT hLabelFont = CreateFontIndirectW(&lf);
@@ -526,13 +517,14 @@ private:
 			DeleteObject(hPointPen);
 			DeleteObject(hPointBrush);
 		}
-		
-		ReleaseDC(m_hwnd, hdc);
 	}
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch (msg) {
+		case WM_ERASEBKGND:
+			return TRUE;
+
 		case WM_REFRESH_GRAPH:
 			if (wParam == 0 || (MCONTACT)wParam == m_hContact) {
 				RefreshData();
@@ -560,8 +552,8 @@ private:
 		case WM_PAINT:
 			{
 				PAINTSTRUCT ps;
-				BeginPaint(m_hwnd, &ps);
-				DrawGraph();
+				HDC hdc = BeginPaint(m_hwnd, &ps);
+				DrawGraph(hdc);
 				EndPaint(m_hwnd, &ps);
 			}
 			return TRUE;
