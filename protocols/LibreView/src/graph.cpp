@@ -7,6 +7,7 @@ uint32_t ParseLibreTimestamp(const CMStringW &timestamp);
 static HGENMENU g_hContactMenuGraph = nullptr;
 static HWND g_hGraphWindow = nullptr; // Track open graph window
 #define WM_REFRESH_GRAPH (WM_USER + 100)
+#define WM_SET_GRAPH_CONTACT (WM_USER + 101)
 
 // Register graph font in Customize -> Fonts and Colors
 void RegisterGraphFont()
@@ -110,6 +111,7 @@ static std::vector<GraphDataPoint> ParseGraphData(const JSONNode& graphData, boo
 }
 
 struct GraphDialogParams {
+	MCONTACT hContact;
 	CMStringW title;
 	std::vector<GraphDataPoint> data;
 	bool useMgdl;
@@ -117,6 +119,7 @@ struct GraphDialogParams {
 
 class CGraphDialog : public CDlgBase
 {
+	MCONTACT m_hContact;
 	CMStringW m_title;
 	std::vector<GraphDataPoint> m_data;
 	bool m_useMgdl;
@@ -125,8 +128,8 @@ class CGraphDialog : public CDlgBase
 	int m_hoverIndex;
 	
 public:
-	CGraphDialog(const CMStringW &title, const std::vector<GraphDataPoint> &data, bool useMgdl) :
-		CDlgBase(g_plugin, IDD_GRAPH), m_data(data), m_useMgdl(useMgdl), m_title(title)
+	CGraphDialog(MCONTACT hContact, const CMStringW &title, const std::vector<GraphDataPoint> &data, bool useMgdl) :
+		CDlgBase(g_plugin, IDD_GRAPH), m_hContact(hContact), m_data(data), m_useMgdl(useMgdl), m_title(title)
 	{
 	}
 
@@ -177,28 +180,20 @@ public:
 
 	void RefreshData()
 	{
-		CLibreViewProto *ppro = nullptr;
-		MCONTACT hContact = 0;
-		for (auto &it : g_plugin.g_arInstances) {
-			if (it->m_hContact != 0) {
-				ppro = it;
-				hContact = it->m_hContact;
-				break;
-			}
-		}
-		if (!ppro || !hContact) return;
+		CLibreViewProto *ppro = g_plugin.getInstance(m_hContact);
+		if (!ppro || !m_hContact) return;
 		
 		// Update m_useMgdl from current settings
 		m_useMgdl = ppro->DisplayUnits == 1;
 		
 		// Get API units and offset from database
-		const int apiUnits = ppro->getDword(hContact, "GlucoseUnits", 0);
+		const int apiUnits = ppro->getDword(m_hContact, "GlucoseUnits", 0);
 		const bool bApiMgdl = apiUnits == 1;
 		int offset = ppro->Offset;
 		
 		// Reload graphData from database
 		std::vector<GraphDataPoint> newGraphData;
-		CMStringA storedGraphData = ppro->getMStringA(hContact, "GraphData");
+		CMStringA storedGraphData = ppro->getMStringA(m_hContact, "GraphData");
 		if (!storedGraphData.IsEmpty()) {
 			JSONNode jsonData = JSONNode::parse(storedGraphData.c_str());
 			if (!jsonData.empty()) {
@@ -207,8 +202,8 @@ public:
 		}
 		
 		// Add Value as last point if available
-		CMStringW lastValue = ppro->getMStringW(hContact, "Value");
-		CMStringW lastTimestamp = ppro->getMStringW(hContact, "Timestamp");
+		CMStringW lastValue = ppro->getMStringW(m_hContact, "Value");
+		CMStringW lastTimestamp = ppro->getMStringW(m_hContact, "Timestamp");
 		
 		if (!lastValue.IsEmpty() && !lastTimestamp.IsEmpty()) {
 			GraphDataPoint lastPoint;
@@ -251,13 +246,7 @@ private:
 	void DrawGraph()
 	{
 		// Update m_useMgdl from current settings
-		CLibreViewProto *ppro = nullptr;
-		for (auto &it : g_plugin.g_arInstances) {
-			if (it->m_hContact != 0) {
-				ppro = it;
-				break;
-			}
-		}
+		CLibreViewProto *ppro = g_plugin.getInstance(m_hContact);
 		if (ppro) {
 			m_useMgdl = ppro->DisplayUnits == 1;
 		}
@@ -545,7 +534,27 @@ private:
 	{
 		switch (msg) {
 		case WM_REFRESH_GRAPH:
-			RefreshData();
+			if (wParam == 0 || (MCONTACT)wParam == m_hContact) {
+				RefreshData();
+			}
+			return TRUE;
+
+		case WM_SET_GRAPH_CONTACT:
+			{
+				MCONTACT hContact = (MCONTACT)wParam;
+				CLibreViewProto *ppro = g_plugin.getInstance(hContact);
+				if (ppro) {
+					m_hContact = hContact;
+					CMStringW nick = ppro->getMStringW(hContact, "Nick");
+					if (!nick.IsEmpty()) {
+						m_title.Format(L"%s: %s", nick.c_str(), TranslateT("Glucose history"));
+					} else {
+						m_title = TranslateT("Glucose history");
+					}
+					SetWindowTextW(m_hwnd, m_title);
+					RefreshData();
+				}
+			}
 			return TRUE;
 
 		case WM_PAINT:
@@ -767,7 +776,7 @@ static void GraphThreadFunc(void *param)
 	
 	// Check if graph window is already open
 	if (g_hGraphWindow && IsWindow(g_hGraphWindow)) {
-		// Focus existing window instead of creating new one
+		PostMessage(g_hGraphWindow, WM_SET_GRAPH_CONTACT, (WPARAM)hContact, 0);
 		SetForegroundWindow(g_hGraphWindow);
 		ShowWindow(g_hGraphWindow, SW_RESTORE);
 		return;
@@ -775,13 +784,14 @@ static void GraphThreadFunc(void *param)
 	
 	// Show dialog in main thread
 	GraphDialogParams *params = new GraphDialogParams;
+	params->hContact = hContact;
 	params->title = title;
 	params->data = graphData;
 	params->useMgdl = useMgdl;
 	
 	CallFunctionAsync([](void *param) {
 		GraphDialogParams *params = (GraphDialogParams*)param;
-		CGraphDialog* dlg = new CGraphDialog(params->title, params->data, params->useMgdl);
+		CGraphDialog* dlg = new CGraphDialog(params->hContact, params->title, params->data, params->useMgdl);
 		dlg->Show();
 		delete params;
 	}, params);
@@ -804,10 +814,10 @@ static int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-void RefreshGraphWindow()
+void RefreshGraphWindow(MCONTACT hContact)
 {
 	if (g_hGraphWindow && IsWindow(g_hGraphWindow)) {
-		SendMessage(g_hGraphWindow, WM_REFRESH_GRAPH, 0, 0);
+		PostMessage(g_hGraphWindow, WM_REFRESH_GRAPH, (WPARAM)hContact, 0);
 	}
 }
 

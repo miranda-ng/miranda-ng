@@ -102,7 +102,7 @@ public:
 		UpdateContactDisplay(m_proto->m_hContact);
 
 		// Refresh graph if open (event 3: DisplayUnits or Offset setting changes)
-		RefreshGraphWindow();
+		RefreshGraphWindow(m_proto->m_hContact);
 
 		RestartTimer();
 		return true;

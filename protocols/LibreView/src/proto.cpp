@@ -519,7 +519,7 @@ bool CLibreViewProto::FetchGlucose()
 	setWString(m_hContact, "Timestamp", timestamp);
 
 	// Refresh graph if open (event 2: new Value arrives)
-	RefreshGraphWindow();
+	RefreshGraphWindow(m_hContact);
 
 	// Create StatusMsg first so UpdateContactDisplay can access it
 	CMStringW statusMsg;
@@ -543,7 +543,7 @@ bool CLibreViewProto::FetchGlucose()
 	if (!graphDataArray.empty()) {
 		setString(m_hContact, "GraphData", graphDataArray.write().c_str());
 		// Refresh graph if open (event 1: new GraphData arrives)
-		RefreshGraphWindow();
+		RefreshGraphWindow(m_hContact);
 	}
 
 	return true;
