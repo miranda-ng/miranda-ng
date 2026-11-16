@@ -315,20 +315,28 @@ uint32_t ParseLibreTimestamp(const CMStringW &timestamp)
 
 void UpdateContactDisplay(MCONTACT hContact)
 {
+	if (!hContact)
+		return;
+
 	CLibreViewProto *ppro = g_plugin.getInstance(hContact);
-	const bool bUseMgdl = ppro && ppro->DisplayUnits == 1;
+	if (!ppro)
+		return;
+
+	const bool bUseMgdl = ppro->DisplayUnits == 1;
 
 	// Get account name from Nick (always set to account name)
 	CMStringW title = ppro->getMStringW(hContact, "Nick");
+	if (title.IsEmpty())
+		title = ppro->m_tszUserName;
 
 	// Check sensor state
-	uint32_t activation = ppro ? ppro->getDword(hContact, "SensorActivationTime", 0) : 0;
+	uint32_t activation = ppro->getDword(hContact, "SensorActivationTime", 0);
 	if (IsSensorExpired(activation)) {
 		CMStringW expiredMsg(FORMAT, L"%s: %s", title.c_str(), TranslateT("sensor expired"));
 		db_set_ws(hContact, "CList", "MyHandle", expiredMsg);
 		return;
 	}
-	uint32_t warmupMinutes = ppro ? ppro->getDword(hContact, "SensorWarmupMinutes", 0) : 0;
+	uint32_t warmupMinutes = ppro->getDword(hContact, "SensorWarmupMinutes", 0);
 	if (IsSensorWarmingUp(activation, warmupMinutes)) {
 		CMStringW warmupMsg(FORMAT, L"%s: %s", title.c_str(), TranslateT("warming up"));
 		db_set_ws(hContact, "CList", "MyHandle", warmupMsg);
@@ -336,9 +344,9 @@ void UpdateContactDisplay(MCONTACT hContact)
 	}
 
 	// Get API units from database
-	const int apiUnits = ppro ? ppro->getDword(hContact, "GlucoseUnits", 0) : 0;
+	const int apiUnits = ppro->getDword(hContact, "GlucoseUnits", 0);
 	const bool bApiMgdl = apiUnits == 1;
-	const int offset = ppro ? ppro->Offset : 0;
+	const int offset = ppro->Offset;
 
 	// Get stored original API value and convert for display
 	CMStringW originalValueText = GetGlucoseDbText(hContact, "Value");
@@ -392,7 +400,7 @@ static void AddHistoryEvent(MCONTACT hContact, const CMStringW &timestamp)
 	T2Utf utfMessage(message);
 
 	DBEVENTINFO dbei = {};
-	dbei.szModule = MODULENAME;
+	dbei.szModule = ppro->m_szModuleName;
 	CMStringW timestampText = GetGlucoseDbText(hContact, "Timestamp");
 	dbei.iTimestamp = ParseLibreTimestamp(timestampText);
 	if (!dbei.iTimestamp)
