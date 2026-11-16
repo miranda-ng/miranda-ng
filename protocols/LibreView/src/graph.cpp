@@ -563,6 +563,12 @@ private:
 			
 		case WM_MOUSEMOVE:
 			{
+				TRACKMOUSEEVENT tme = {};
+				tme.cbSize = sizeof(tme);
+				tme.dwFlags = TME_LEAVE;
+				tme.hwndTrack = m_hwnd;
+				TrackMouseEvent(&tme);
+
 				int x = LOWORD(lParam);
 				int y = HIWORD(lParam);
 				int hoveredPoint = FindPointAt(x, y);
@@ -620,10 +626,18 @@ private:
 			break;
 			
 		case WM_MOUSELEAVE:
+		case WM_KILLFOCUS:
 			if (m_hToolTip) {
 				SendMessage(m_hToolTip, TTM_TRACKACTIVATE, FALSE, (LPARAM)&m_ti);
 			}
 			m_hoverIndex = -1;
+			break;
+
+		case WM_ACTIVATE:
+			if (LOWORD(wParam) == WA_INACTIVE && m_hToolTip) {
+				SendMessage(m_hToolTip, TTM_TRACKACTIVATE, FALSE, (LPARAM)&m_ti);
+				m_hoverIndex = -1;
+			}
 			break;
 		}
 		return CDlgBase::DlgProc(msg, wParam, lParam);
