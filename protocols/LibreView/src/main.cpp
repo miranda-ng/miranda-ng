@@ -33,7 +33,9 @@ CMPlugin::CMPlugin() :
 
 static INT_PTR PluginMenuCommand(WPARAM hContact, LPARAM)
 {
-	mir_forkthread(Check_ThreadFunc, g_plugin.getInstance(hContact));
+	CLibreViewProto *ppro = g_plugin.getInstance(hContact);
+	if (ppro)
+		mir_forkthread(Check_ThreadFunc, ppro);
 	return 0;
 }
 

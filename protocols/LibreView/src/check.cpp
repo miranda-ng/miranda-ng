@@ -14,6 +14,8 @@ void CLibreViewProto::CheckAccount()
 
 	// Get account name from Nick
 	CMStringW title = getMStringW(m_hContact, "Nick");
+	if (title.IsEmpty())
+		title = m_tszUserName;
 	if (UpdateInterval > 0)
 		db_set_ws(m_hContact, "CList", "MyHandle", CMStringW(FORMAT, L"%s [%s]", title.c_str(), TranslateT("updating...")));
 
