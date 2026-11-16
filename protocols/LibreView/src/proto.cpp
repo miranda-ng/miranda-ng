@@ -242,6 +242,12 @@ bool CLibreViewProto::FetchConnections()
 	if (!JsonTransaction(request, root))
 		return false;
 
+	int status = root["status"].as_int();
+	if (status != 0) {
+		m_lastServerStatus = status;
+		return false;
+	}
+
 	for (auto &connection : root["data"]) {
 		szPatientId = connection["patientId"].as_mstring();
 		if (!szPatientId.IsEmpty())
@@ -416,12 +422,8 @@ bool CLibreViewProto::FetchGlucose()
 	AddLibreHeaders(request, this);
 
 	JSONNode root;
-	if (!JsonTransaction(request, root)) {
-		ClearAuth();
-		// Show popup for network/HTTP errors
-		PUShowMessageW(TranslateT("Failed to connect to LibreView server. Please check your internet connection and try again."), SM_WARNING);
+	if (!JsonTransaction(request, root))
 		return false;
-	}
 
 	{
 		int status = root["status"].as_int();
@@ -479,10 +481,8 @@ bool CLibreViewProto::FetchGlucose()
 		valueMmol = measurement["Value"].as_float();
 		valueMgdl = valueMmol * 18.0;
 	}
-	if (valueMmol == 0 && valueMgdl == 0) {
-		ClearAuth();
+	if (valueMmol == 0 && valueMgdl == 0)
 		return false;
-	}
 	CMStringW timestamp = measurement["Timestamp"].as_mstring();
 
 	CMStringW trendText(TranslateW(TrendToText(trend)));

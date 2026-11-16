@@ -47,7 +47,7 @@ static void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	time_t now = time(0);
 	for (auto &it : g_plugin.g_arInstances) {
-		if (it->m_hContact == 0)
+		if (it->m_hContact == 0 || it->m_iStatus == ID_STATUS_OFFLINE)
 			continue;
 
 		uint32_t minutes = it->UpdateInterval;
