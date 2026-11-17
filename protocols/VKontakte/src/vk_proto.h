@@ -140,6 +140,8 @@ struct CVkProto : public PROTO<CVkProto>
 	int ForwardMsg(MCONTACT hContact, std::vector<MEVENT> &vForvardEvents, const char* szMsg);
 	uint8_t GetContactType(MCONTACT hContact);
 
+	void VKIDLogIn(LPCSTR pszUrl);
+	bool VKIDLogInStep2(LPCSTR pszUrl, CMStringA szCodeVerifer);
 	void LogIn(LPCSTR pszUrl = nullptr);
 
 private:
@@ -215,7 +217,8 @@ private:
 		m_szPollingServer,
 		m_szPollingKey,
 		m_szPollingTs,
-		m_szAccessToken;
+		m_szAccessToken,
+		m_szRefreshToken;
 
 	HNETLIBCONN
 		m_hPollingConn,

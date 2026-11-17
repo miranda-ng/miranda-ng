@@ -154,6 +154,7 @@ void CVkProto::WorkerThread(void*)
 	debugLogA("CVkProto::WorkerThread: entering");
 	m_bTerminated = m_bPrevError = false;
 	m_szAccessToken = getStringA("AccessToken");
+	m_szRefreshToken = getStringA("RefreshToken");
 
 	extern char szScore[];
 

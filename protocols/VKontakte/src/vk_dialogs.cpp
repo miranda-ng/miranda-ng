@@ -147,10 +147,10 @@ bool CVkTokenForm::OnApply()
 
 void CVkTokenForm::On_edtValue_Change(CCtrlEdit*)
 {
-	extern char szVKTokenBeg[];
+	extern char szVKTokenBeg[], szVKTokenCodeBeg[];
 	ptrA pszUrlSring(m_edtValue.GetTextA());
 	
-	if (!IsEmpty(pszUrlSring) && strstr(pszUrlSring, szVKTokenBeg))
+	if (!IsEmpty(pszUrlSring) && (strstr(pszUrlSring, szVKTokenBeg) || strstr(pszUrlSring, szVKTokenCodeBeg)))
 		m_btnOk.Enable();
 	else
 		m_btnOk.Disable();

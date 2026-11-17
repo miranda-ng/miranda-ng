@@ -23,6 +23,8 @@ mir_cs CVkProto::m_csTimer;
 char szBlankUrl[] = "https://oauth.vk.ru/blank.html";
 char szScore[] = "friends,photos,audio,docs,video,wall,messages,offline,status,notifications,groups";
 char szVKTokenBeg[] = "access_token=";
+char szVKTokenCodeBeg[] = "code=";
+char szVKTokenDeviceIdBeg[] = "device_id=";
 char szVKCookieDomain[] = ".vk.ru";
 
 
@@ -242,8 +244,141 @@ bool CVkProto::LoadToken(LPCSTR pszUrlSring)
 	return true;
 }
 
+bool CVkProto::VKIDLogInStep2(LPCSTR pszUrlSring, CMStringA szCodeVerifer)
+{
+	LPCSTR p = strstr(pszUrlSring, szVKTokenCodeBeg);
+	if (!p) {
+		debugLogA("CVkProto::VKIDLogInStep2 code error");
+		return false;
+	}
+
+	ptrA szCode;
+
+	p += sizeof(szVKTokenCodeBeg) - 1;
+	for (LPCSTR q = p + 1; *q; q++) {
+		if (*q == '&' || *q == '=' || *q == '\"') {
+			szCode = mir_strndup(p, q - p);
+			break;
+		}
+	}
+	if (szCode == nullptr)
+		szCode = mir_strdup(p);
+
+
+	p = strstr(pszUrlSring, szVKTokenDeviceIdBeg);
+	if (!p) {
+		debugLogA("CVkProto::VKIDLogInStep2 divece_id error");
+		return false;
+	}
+
+	ptrA szDeviceId;
+
+	p += sizeof(szVKTokenDeviceIdBeg) - 1;
+	for (LPCSTR q = p + 1; *q; q++) {
+		if (*q == '&' || *q == '=' || *q == '\"') {
+			szDeviceId = mir_strndup(p, q - p);
+			break;
+		}
+	}
+	if (szDeviceId == nullptr)
+		szDeviceId = mir_strdup(p);
+
+	setString("DeviceId", szDeviceId);
+
+	AsyncHttpRequest* pReq = new AsyncHttpRequest(this, REQUEST_POST, "https://id.vk.ru/oauth2/auth", false, nullptr, AsyncHttpRequest::rpHigh);
+	pReq->m_bApiReq = false;
+	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
+	pReq
+		<< CHAR_PARAM("grant_type", "authorization_code")
+		<< CHAR_PARAM("code_verifier", szCodeVerifer.c_str())
+		<< CHAR_PARAM("redirect_uri", szBlankUrl)
+		<< CHAR_PARAM("code", szCode)
+		<< INT_PARAM("client_id", VK_APP_ID)
+		<< CHAR_PARAM("device_id", szDeviceId)
+		<< CHAR_PARAM("state", "miranda123456789012345678901234567890")
+	;
+
+	NLHR_PTR reply(Netlib_HttpTransaction(m_hNetlibUser, pReq));
+
+	if (!reply) {
+		debugLogA("CVkProto::VKIDLogInStep2 reply null");
+		delete pReq;
+		return false;
+	}
+
+	if (reply->resultCode != 200) {
+		ConnectionFailed(LOGINERR_WRONGPASSWORD);
+		delete pReq;
+		return false;
+	}
+
+	JSONNode jnRoot = JSONNode::parse(reply->body);
+
+	if (!CheckJsonResult(pReq, jnRoot)){
+		delete pReq;
+		ConnectionFailed(LOGINERR_NOSERVER);
+		return false;
+	}
+
+	m_szAccessToken = mir_u2a(jnRoot["access_token"].as_mstring());
+	m_szRefreshToken = mir_u2a(jnRoot["refresh_token"].as_mstring());
+
+	setString("AccessToken", m_szAccessToken);
+	setString("RefreshToken", m_szAccessToken);
+	setDword("LastAccessTokenTime", time(0));
+
+	debugLogA("CVkProto::LoadToken OK");
+	delete pReq;
+	return true;
+
+}
+
+void CVkProto::VKIDLogIn(LPCSTR pszUrl)
+{
+	if (m_bExecLoginDlg)
+		return;
+
+	m_bExecLoginDlg = true;
+	HANDLE hWorkerThread = m_hWorkerThread;
+	debugLogA("CVkProto::VKIDLogIn %s", pszUrl ? pszUrl : " ");
+
+	CMStringA szCodeVerifer = "miranda123456789012345678901234567890";
+	uint8_t uCodeChallenge[33] = "";
+
+	mir_sha256_hash(szCodeVerifer.c_str(), mir_strlen(szCodeVerifer.c_str()), uCodeChallenge);
+	uCodeChallenge[32] = 0;
+	CMStringA szCodeChallengeVerifer(mir_base64_encode(uCodeChallenge, 32));
+	szCodeChallengeVerifer.Replace("=", "");
+
+	CMStringA szTokenReq(
+		FORMAT,
+		"https://id.vk.ru/authorize?response_type=code&client_id=%d&redirect_uri=%s&state=%s&code_challenge=%s&code_challenge_method=S256&scope=%s",
+		VK_APP_ID,
+		mir_urlEncode(szBlankUrl).c_str(), // redirect_uri
+		"miranda123456789012345678901234567890", // state 
+		szCodeChallengeVerifer.c_str(), //code_challenge
+		mir_urlEncode(szScore).c_str() // scope
+	);
+
+	debugLogA("CVkProto::VKIDLogIn %s", szTokenReq.c_str());
+	
+	CVkTokenForm dlg(this, pszUrl ? pszUrl : szTokenReq.c_str());
+	if (dlg.DoModal() && VKIDLogInStep2(dlg.Result, szCodeVerifer) && hWorkerThread == m_hWorkerThread)
+		RetrieveMyInfo();
+	else
+		ConnectionFailed(LOGINERR_NOSERVER);
+
+	m_bExecLoginDlg = false;
+	return;
+}
+
 void CVkProto::LogIn(LPCSTR pszUrl)
 {
+	if (false) {
+		VKIDLogIn(pszUrl);
+		return;
+	}
+
 	if (m_bExecLoginDlg)
 		return;
 
