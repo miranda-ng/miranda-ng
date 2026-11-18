@@ -115,8 +115,6 @@
 Пропуск дубликата %S контакт %s
 [Failed to create contact %s (%s)]
 Не удалось создать контакт %s (%s)
-[Failed to add %S contact %s]
-Не удалось добавить %S контакт %s
 [Added %S contact %s, '%s']
 Добавлен %S контакт %s, '%s'
 [Added %S contact %s]

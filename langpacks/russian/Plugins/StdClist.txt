@@ -1,0 +1,236 @@
+#muuid {240a91dc-9464-457a-9787-ff1ea88e77e2}
+;============================================================
+;  File: stdclist.dll
+;  Plugin: Classic contact list
+;  Version: x.x.x.x
+;  Authors: Miranda NG team
+;============================================================
+[Core module for displaying contacts.]
+
+;file \src\core\stdclist\res\resource.rc
+[Delete contact]
+Удалить контакт
+[No]
+Нет
+[Yes]
+Да
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Скрыть из списка (останутся история и настройки)
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Управление отображением контактов осуществляется в разделе "Настройки -> Контакты -> Игнорировать".
+[Are you sure you want to delete %s?]
+Удалить %s из списка?
+[This will erase all history and settings for this contact!]
+Будет удалена вся история и все настройки для данного контакта!
+[Contact list sorting]
+Сортировка списка контактов
+[Sort contacts by name]
+Сортировка по имени
+[Sort contacts by status]
+Сортировка по статусу
+[Sort contacts by protocol]
+Сортировка по протоколу
+[Move offline users to bottom]
+Перемещать отключённых вниз
+[Show]
+Показать
+[icon when statuses differ]
+при разных статусах
+[Cycle icons every]
+Менять каждые
+[seconds, when statuses differ]
+секунд, при разных статусах
+[Show multiple icons]
+Несколько значков
+[Only when statuses differ]
+При разных статусах
+[System tray icon when using multiple protocols]
+Значки протоколов в системном трее
+[Window]
+Окно
+[Always on top]
+Поверх всех окон
+[Tool style main window]
+Стиль панели у заголовка
+[Minimize to tray]
+Сворачивать в трей
+[Show menu bar]
+Показывать меню
+[Easy move]
+Простое перемещение
+[Show title bar]
+Показывать заголовок
+[Title bar text:]
+Заголовок окна:
+[Show drop shadow (restart required)]
+Тень (нужен перезапуск)
+[Hide contact list after it has been idle for]
+Скрыть список, если я неактивен более
+[seconds]
+секунд
+[Automatically resize window to height of list]
+Автоматически изменять размер окна
+[maximum]
+максимум
+[% of screen]
+% от экрана
+[Size upwards]
+Растягивать вверх
+[If window is partially covered, bring to front instead of hiding]
+Поместить окно на передний план, если оно прикрыто другими окнами
+[Translucency options]
+Настройки прозрачности
+[Fade contact list in/out]
+Плавно скрывать список контактов
+[Transparent contact list]
+Прозрачный список контактов
+[Inactive opacity:]
+Окно неактивно:
+[Active opacity:]
+Окно активно:
+[Items]
+Элементы
+[Show divider between online and offline contacts]
+Граница между подкл. и откл. пользователями
+[Hot track items as mouse passes over]
+Подсветка при наведении курсора мыши
+[Disable drag and drop of items]
+Отключить перетаскивание элементов
+[Disable rename of items by clicking twice]
+Отключить переименование по дв. щелчку
+[Show selection even when list is not focused]
+Выделение, даже если окно неактивно
+[Make selection highlight translucent]
+Полупрозрачное выделение
+[Dim idle contacts]
+Затемнить неактивных пользователей
+[Groups]
+Группы
+[Draw a line alongside group names]
+Линия вдоль названий групп
+[Show counts of number of contacts in a group]
+Показать количество пользователей в группах
+[Hide group counts when there are none online]
+Скрыть счётчик, если нет пользователей в сети
+[Sort groups alphabetically]
+Сортировать группы по алфавиту
+[Quick search in open groups only]
+Быстрый поиск только в открытых группах
+[Indent groups by:]
+Отступ для групп:
+[pixels]
+пикселей
+[Visual]
+Визуальные настройки
+[Scroll list smoothly]
+Плавная прокрутка
+[Time:]
+Время:
+[milliseconds]
+мс
+[Hide vertical scroll bar]
+Скрыть полосу прокрутки
+[Left margin:]
+Левое поле:
+[Row height:]
+Высота строки:
+[Gamma correction]
+Коррекция гаммы
+[Gray out entire list when:]
+Сделать серым, если:
+[Contact list background]
+Фон списка контактов
+[Background color]
+Цвет фона
+[Selection color]
+Цвет выделения
+[Use background image]
+Использовать фон
+[Stretch to width]
+Растянуть по ширине
+[Stretch to height]
+Растянуть по высоте
+[Tile horizontally]
+Горизонтальная мозаика
+[Tile vertically]
+Вертикальная мозаика
+[Scroll with text]
+Прокручивать с текстом
+[Stretch proportionally]
+Растянуть
+[Use Windows colors]
+Цвета Windows
+[Status bar]
+Панель статусов
+[Show status bar]
+Показывать панель статусов
+[Show icons]
+Показывать значки
+[Show account names]
+Показывать имена учётных записей
+[Show status text]
+Показывать текст статуса
+[Right click opens status menu]
+Правый щелчок - меню статуса
+[Right click opens Miranda NG menu]
+Правый щелчок - главное меню
+[Make sections equal width]
+Разделы равной ширины
+[Show bevels on panels]
+Бордюры на панелях
+[Show resize grip indicator]
+Индикатор изменения размера
+;file \src\core\stdclist\src\clcfonts.cpp
+[Standard contacts]
+Стандартные контакты
+[Online contacts to whom you have a different visibility]
+Контакты с изменённой видимостью (в сети)
+[Offline contacts]
+Отключённые контакты
+[Contacts which are 'not on list']
+Контакты 'не в списке'
+[Group member counts]
+Счётчики групп
+[Dividers]
+Разделители
+[Offline contacts to whom you have a different visibility]
+Контакты с изменённой видимостью (отключённые)
+[Contact list]
+Список контактов
+[Background]
+Фон
+[Selected text]
+Выделенный текст
+[Hottrack text]
+Под курсором
+[Quicksearch text]
+Быстрый поиск
+;file \src\core\stdclist\src\clcopts.cpp
+[Not focused]
+Не в фокусе
+[Offline]
+Не в сети
+[Online]
+В сети
+[Away]
+Отсутствую
+[Not available]
+Недоступен
+[Occupied]
+Занят
+[Do not disturb]
+Не беспокоить
+[Free for chat]
+Готов болтать
+[Invisible]
+Невидимый
+[List]
+Список
+[List background]
+Фон списка
+;file \src\core\stdclist\src\clistopts.cpp
+[Global]
+Глобальные
+[General]
+Общее
+;file \src\core\stdclist\src\cluiopts.cpp

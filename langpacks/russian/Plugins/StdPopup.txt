@@ -1,0 +1,156 @@
+#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
+;============================================================
+;  File: stdpopup.dll
+;  Plugin: Standard popup module
+;  Version: x.x.x.x
+;  Authors: Scott Ellis, Miranda NG team
+;============================================================
+[Core module for popups.]
+
+;file \src\core\stdpopup\res\resource.rc
+[Popup history]
+История всплывающих окон
+[Close]
+Закрыть
+[Case sensitive]
+Учёт регистра
+[Default timeout]
+Длительность по умолчанию
+[Never timeout]
+Постоянно
+[Set timeout:]
+Длительность:
+[Width:]
+Ширина:
+[Maximum height:]
+Макс. высота:
+[Options]
+Настройки
+[Opacity (%):]
+Непрозрачность (%):
+[Border]
+Рамка
+[Round corners (window)]
+Округлять углы окна
+[Preview]
+Тест
+[Transparent background]
+Прозрачный фон
+[Layout]
+Размещение
+[Avatar size:]
+Аватар:
+[Global hover]
+Общее наведение
+[Sidebar width:]
+Ширина врезки:
+[Text indent:]
+Отступ текста:
+[Padding:]
+Промежуток:
+[Round corners (avatar)]
+Округлять углы аватара
+[Disable when]
+Выключить когда
+[Fullscreen mode]
+Полноэкранный режим
+[Statuses]
+Статусы
+[Text color:]
+Цвет текста:
+[Background color:]
+Цвет фона:
+[Set timeout]
+Установить длительность
+[Timeout value (0 = default):]
+Длительность (0 = по умолчанию):
+;file \src\core\stdpopup\src\options.cpp
+[Bottom right]
+Внизу справа
+[Bottom left]
+Внизу слева
+[Top right]
+Вверху справа
+[Top left]
+Вверху слева
+[Icon on left]
+Значок слева
+[Icon on right]
+Значок справа
+[No time]
+Без времени
+[Time on left]
+Время слева
+[Time on right]
+Время справа
+[Time above avatar]
+Время над аватаром
+[No avatar]
+Без аватара
+[Left avatar]
+Аватар слева
+[Right avatar]
+Аватар справа
+[No animate]
+Без анимации
+[Horizontal animate]
+Горизонтальная анимация
+[Vertical animate]
+Вертикальная анимация
+[You cannot set a default timeout of 0.\nValue has been reset.]
+Невозможно установить длительность, равную 0. Значение было сброшено.
+[Error]
+Ошибка
+[Example]
+Пример
+[The quick brown fox jumps over the lazy dog.]
+Съешь же ещё этих мягких французских булок, да выпей йаду.
+[Example With a Long Title]
+Пример с длинным заголовком
+[Thequickbrownfoxjumpsoverthelazydog.]
+Съешьжеещёэтихмягкихфранцузскихбулокдавыпеййаду.
+[An avatar.]
+С аватаром
+[Status]
+Статус
+[Popups]
+Всплывающие окна
+[Settings]
+Настройки
+[Advanced]
+Дополнительно
+[Classes]
+Классы
+;file \src\core\stdpopup\src\services.cpp
+[Disable popups]
+Выключить всплывающие окна
+[Enable popups]
+Включить всплывающие окна
+;file \src\core\stdpopup\src\yapp.cpp
+[Popups are enabled]
+Всплывающие окна включены
+[Popups are disabled]
+Всплывающие окна выключены
+[Toggle popups]
+Вкл/Выкл всплывающие окна
+[First line]
+Первая строка
+[Second line]
+Вторая строка
+[Time]
+Время
+[Background]
+Фон
+[Sidebar]
+Врезка
+[Title underline]
+Подчёркивание заголовка
+[Popup mode]
+Режим работы всплывающих окон
+;file \src\core\stdpopup\src\yapp_history_dlg.cpp
+[Copy title to clipboard]
+Копировать заголовок в буфер обмена
+[Copy message to clipboard]
+Копировать сообщение в буфер обмена
+[Copy timestamp to clipboard]
+Копировать время в буфер обмена

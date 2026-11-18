@@ -1,0 +1,511 @@
+#muuid {657fe89b-d121-40c2-8ac9-b9fa5755b30D}
+;============================================================
+;  File: stdmsg.dll
+;  Plugin: Send/Receive Messages
+;  Version: x.x.x.x
+;  Authors: Miranda NG team
+;============================================================
+[Core module for send/receive instant messages.]
+
+;file \src\core\stdmsg\res\resource.rc
+[Automatically popup window when:]
+Открывать окно, если:
+[Don't steal focus]
+Не перехватывать фокус
+[Maximum number of flashes (0 = indefinite)]
+Макс. количество миганий (0 = бесконечно)
+[Close the message window on send]
+Закрывать окно после отправки
+[Minimize the message window on send]
+Сворачивать окно после отправки
+[Use the contact's status icon as the window icon]
+Использовать в качестве значка окна значок статуса контакта
+[Save the window size and location individually for each contact]
+Сохранять размер и положение окна для каждого контакта
+[Cascade new windows]
+Располагать новые окна каскадом
+[Support Ctrl+Up/Down in message area to show previously sent messages]
+Показывать старые сообщения при нажатии Ctrl+Вверх/Вниз
+[Delete temporary contacts when closing message window]
+Удалять временные контакты при закрытии окна сообщений
+[Enable avatar support in the message window]
+Поддержка аватаров в окне сообщений
+[Limit avatar height to]
+Ограничить высоту аватара
+[pixels]
+пикселей
+[Show 'Send' button]
+Показывать кнопку "Отправить"
+[Show character count]
+Показывать счётчик символов
+[Show toolbar buttons on top row]
+Показывать кнопки в верхней строке
+[Show warning when message has not been received after]
+Сообщать, если сообщение не удалось отправить за
+[seconds]
+секунд
+[Send error]
+Ошибка отправки
+[An error has occurred. The protocol reported the following error:]
+Протокол вернул следующую ошибку:
+[while sending the following message:]
+при посылке следующего сообщения:
+[Try again]
+Ещё раз
+[Cancel]
+Отмена
+[&Send]
+&Отправить
+[Preload history events on window opening]
+Подгрузка истории при открытии окна
+[Preload unread events only]
+Подгружать только непрочитанные события
+[Preload number of previous events]
+Подгружать события в количестве
+[Preload previous events less than]
+Подгружать события за последние
+[minutes old]
+минут
+[Message window event log]
+Журнал в окне сообщений
+[Show icons]
+Показывать значки
+[Show names]
+Показывать имена
+[Show timestamp]
+Показывать время
+[Show seconds]
+Секунды
+[Show dates]
+Показывать даты
+[Show formatting]
+Показывать форматирование
+[Automatically copy selected text]
+Автоматически копировать выделенный текст
+[Use a tabbed interface]
+Использовать вкладки
+[Close tab on double click]
+Закрывать по двойному щелчку
+[Show tabs at the bottom]
+Вкладки внизу
+[Send typing notifications to the following users when you are typing a message to them:]
+Уведомлять отмеченных пользователей о том, что вы набираете сообщение:
+[Show typing notifications when a user is typing a message]
+Показывать уведомления о наборе текста
+[Update inactive message window icons when a user is typing]
+Обновить значок неактивного окна при наборе контактом сообщения
+[Show typing notification when no message dialog is open]
+Уведомлять о наборе текста, когда окно беседы не открыто
+[Flash in the system tray and in the contact list]
+Мигать в трее и в списке контактов
+[Show balloon popup]
+Показывать всплывающую подсказку
+[Show these events only:]
+Показывать только:
+[Actions]
+Действия
+[Messages]
+Сообщения
+[Nick changes]
+Смена ника
+[Users joining]
+Входы в чат
+[Users leaving]
+Выходы из чата
+[Topic changes]
+Смены темы
+[Status changes]
+Смены статуса
+[Information]
+Информация
+[Disconnects]
+Отключения
+[User kicks]
+Пинки
+[Notices]
+Уведомления
+[Options]
+Настройки
+[Add new rooms to group:]
+Добавлять комнаты чата в группу:
+[Log options]
+Настройки журнала
+[Log timestamp]
+Записывать время
+[Timestamp]
+Время
+[Other name]
+Имена других
+[Your name]
+Ваше имя
+[Enable highlighting]
+Включить выделение
+[Limit log text to (events):]
+Ограничить журнал до (событий):
+[Trim to (KB)]
+Лимит (КБ)
+[Words to highlight (wildcards allowed)]
+Слова для подсветки (разрешены маски)
+[Enable logging to disk]
+Запись журнала на диск
+[Log directory]
+Папка журнала
+[Other]
+Другое
+[Nick list row distance (pixels):]
+Расстояние между строками (пикселей):
+[Message]
+Сообщение
+[Undo]
+Откат
+[Redo]
+Вернуть
+[Copy]
+Копировать
+[Cut]
+Вырезать
+[Paste]
+Вставить
+[Select all]
+Выделить всё
+[Clear]
+Очистить
+[Tabs]
+Вкладки
+[&Close tab]
+&Закрыть вкладку
+[C&lose other tabs]
+За&крыть остальные вкладки
+[&Open at this position]
+&Открыть в этом месте
+[Log]
+Журнал
+[C&lear log]
+Оч&истить журнал
+[&Copy]
+&Копировать
+[Co&py all]
+Ко&пировать всё
+[Select &all]
+Выделить &всё
+[Paste and send]
+Вставить и отправить
+[Delete]
+Удалить
+;file \src\core\stdmsg\src\chat_manager.cpp
+[Message sessions]
+Беседы
+[Chat module]
+Модуль чата
+[Group chat log background]
+Фон журнала чата
+[Message background]
+Фон поля ввода
+[Nick list background]
+Фон списка пользователей
+[Nick list lines]
+Цвета линий в списке пользователей
+[Nick list background (selected)]
+Заливка списка пользователей (выбрано)
+[Messaging]
+Сообщения
+[Send message]
+Отправить сообщение
+;file \src\core\stdmsg\src\chat_options.cpp
+[Window icon]
+Значок окна
+[Text color]
+Цвет текста
+[Background color]
+Цвет фона
+[Bold]
+Жирный
+[Italics]
+Курсив
+[Underlined]
+Подчёркнутый
+[Strikethrough]
+Перечёркнутый
+[Smiley button]
+Смайлы
+[Room history]
+История
+[Room settings]
+Настройки
+[Event filter disabled]
+Фильтр событий выключен
+[Event filter enabled]
+Фильтр событий включён
+[Hide nick list]
+Скрыть список пользователей
+[Show nick list]
+Показать список пользователей
+[Icon overlay]
+Значок поверх
+[Close]
+Закрыть
+[Message in (10x10)]
+Принятое сообщение (10х10)
+[Message out (10x10)]
+Отправленное сообщение (10х10)
+[Action (10x10)]
+Действие (10x10)
+[Add status (10x10)]
+Добавить статус (10х10)
+[Remove status (10x10)]
+Удалить статус (10х10)
+[Join (10x10)]
+Войти (10x10)
+[Leave (10x10)]
+Покинуть (10х10)
+[Quit (10x10)]
+Выход (10х10)
+[Kick (10x10)]
+Выкинуть (10х10)
+[Nick change (10x10)]
+Смена псевдонима (10х10)
+[Notice (10x10)]
+Уведомление (10x10)
+[Topic (10x10)]
+Тема (10х10)
+[Highlight (10x10)]
+Выделить (10х10)
+[Information (10x10)]
+Информация (10х10)
+[Group chats]
+Чаты
+[Group chats log]
+Журналы чатов
+[Appearance and functionality of chat room windows]
+Интерфейс и функциональность окон чата
+[Flash window when someone speaks]
+Мигать окном, если есть новое сообщение
+[Flash window when a word is highlighted]
+Мигать окном, если есть подсвеченные сообщения
+[Show list of users in the chat room]
+Показывать список пользователей в комнате чата
+[Show the topic of the room on your contact list (if supported)]
+Показывать тему комнаты чата в списке контактов (если поддерживается)
+[Do not play sounds when the chat room is focused]
+Не играть звук, когда комната чата на переднем плане
+[Do not pop up the window when joining a chat room]
+Не открывать окно чата при входе в комнату чата
+[Show contact statuses if protocol supports them]
+Показывать статусы, если есть поддержка в протоколе
+[Display contact status icon before user role icon]
+Показывать значок статуса перед значком роли
+[Appearance of the message log]
+Внешний вид журнала сообщений
+[Prefix all events with a timestamp]
+Указывать время всех событий
+[Only prefix with timestamp if it has changed]
+Указывать время, только если оно изменилось
+[Timestamp has same color as the event]
+Время того же цвета, что и событие
+[Indent the second line of a message]
+Отступ второй строки сообщения
+[Limit user names in the message log to 20 characters]
+Ограничить имена в журнале 20-ю символами
+[Add ':' to auto-completed user names]
+Добавлять ":" к именам пользователей
+[Strip colors from messages in the log]
+Запретить цвета в журнале
+[Enable the 'event filter' for new rooms]
+Включить 'фильтр событий' для новых комнат чата
+[Icons to display in the message log]
+Значки журнала сообщений
+[Show icon for topic changes]
+Смены темы
+[Show icon for users joining]
+Новые пользователи
+[Show icon for users disconnecting]
+Отключения участников
+[Show icon for messages]
+Сообщения
+[Show icon for actions]
+Действия
+[Show icon for highlights]
+Подсвеченные сообщения
+[Show icon for users leaving]
+Выходы участников
+[Show icon for users kicking other user]
+Пинки
+[Show icon for notices]
+Уведомления
+[Show icon for name changes]
+Смены ников
+[Show icon for information messages]
+Информационные сообщения
+[Show icon for status changes]
+Смены статусов
+[Select folder]
+Выбрать папку
+[General]
+Общее
+[Chat log]
+Журнал чата
+;file \src\core\stdmsg\src\cmdlist.cpp
+[The message send timed out.]
+Таймаут отправки сообщения
+;file \src\core\stdmsg\src\msgdialog.cpp
+[%s is typing a message...]
+%s набирает текст...
+[Last message received on %s at %s.]
+Последнее сообщение вы получили %s в %s.
+[%s: chat room (%u user)]
+%s: комната чата (%u пользователь)
+[%s: chat room (%u users)]
+%s: комната чата (%u пользователей)
+[%s: message session]
+%s: беседа
+[%s: message session (%u users)]
+%s: беседа (%u пользователей)
+[Message session]
+Беседа
+;file \src\core\stdmsg\src\msglog.cpp
+[Incoming message (10x10)]
+Входящее сообщение (10x10)
+[Outgoing message (10x10)]
+Исходящее сообщение (10x10)
+[Secure message (10x10)]
+Шифрованное сообщение (10x10)
+[Secure verified message (10x10)]
+Шифрованное подтверждённое сообщение (10x10)
+[Me]
+Я
+[File sent]
+Отправка файла
+[File received]
+Файл получен
+;file \src\core\stdmsg\src\msgoptions.cpp
+[Outgoing messages]
+Исходящие сообщения
+[Incoming messages]
+Входящие сообщения
+[Outgoing name]
+Моё имя
+[Outgoing time]
+Время отправления
+[Outgoing colon]
+Двоеточие в исходящих сообщениях
+[Incoming name]
+Имя собеседника
+[Incoming time]
+Время получения
+[Incoming colon]
+Двоеточие во входящих сообщениях
+[Message area]
+Область сообщений
+[Other events]
+Другие события
+[Message log]
+Журнал
+[Background]
+Фон
+[Offline]
+Не в сети
+[Online]
+В сети
+[Away]
+Отсутствую
+[Not available]
+Недоступен
+[Occupied]
+Занят
+[Do not disturb]
+Не беспокоить
+[Free for chat]
+Готов болтать
+[Invisible]
+Невидимый
+[** New contacts **]
+** Новые контакты **
+[** Unknown contacts **]
+** Неизвестные контакты **
+[Messaging log]
+Журнал
+[Typing notify]
+Набирает текст
+;file \src\core\stdmsg\src\msgs.cpp
+[%s is typing a message]
+%s набирает текст
+[Typing notification]
+Уведомление о наборе текста
+[&Add]
+&Добавить
+[Add contact permanently to list]
+Добавить в список контактов
+[&User menu]
+Меню &пользователя
+[User menu]
+Меню пользователя
+[User &details]
+&Информация
+[View user's details]
+Информация о пользователе
+[&History]
+&История
+[View user's history]
+История сообщений
+[&Bold]
+&Жирный
+[Make the text bold]
+Выделить текст жирным
+[&Italic]
+&Курсив
+[Make the text italicized]
+Выделить текст курсивом
+[&Underline]
+&Подчёркнутый
+[Make the text underlined]
+Подчеркнуть текст
+[&Strikethrough]
+Пере&чёркнутый
+[Make the text strikethrough]
+Перечеркнуть текст
+[&Color]
+&Цвет
+[Select text color]
+Выбрать цвет текста
+[&Background color]
+Цвет &фона
+[Select background color]
+Выбрать цвет фона
+[&Room settings]
+&Настройки
+[Control this room]
+Управление комнатой чата
+[&Show/hide nick list]
+&Показать/скрыть список пользователей
+[Show/hide the nick list]
+Показать/скрыть список пользователей
+[&Filter]
+&Фильтр
+[Enable/disable the event filter]
+Включить/выключить фильтр событий
+[&Message]
+&Сообщение
+[Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda не смогла загрузить встроенную систему сообщений из-за отсутствия msftedit.dll. Нажмите "Да" для продолжения загрузки программы.
+[Instant messages]
+Сообщения IM
+[Incoming (focused window)]
+Входящие (активное окно)
+[Incoming (unfocused window)]
+Входящие (неактивное окно)
+[Incoming (new session)]
+Входящие (новая сессия)
+[Outgoing]
+Исходящие
+[Message send error]
+Ошибка отправки сообщения
+[Contact started typing]
+Контакт начал набор текста
+[Contact stopped typing]
+Контакт закончил набор текста
+;file \src\core\stdmsg\src\msgtimedout.cpp
+[An unknown error has occurred.]
+Неизвестная ошибка.
+;file \src\core\stdmsg\src\srmm.cpp
+[StdMsg internal log]
+Встроенный журнал StdMsg

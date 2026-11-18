@@ -1,0 +1,165 @@
+#muuid {8198dc94-0bc4-448a-8495-8fe832c1d333}
+;============================================================
+;  File: stduserinfo.dll
+;  Plugin: Standard User Info module
+;  Version: x.x.x.x
+;  Authors: Miranda NG team
+;============================================================
+[Core module for providing user information.]
+
+;file \src\core\stduserinfo\res\resource.rc
+[Add phone number]
+Добавить телефон
+[Enter country, area code and phone number:]
+Введите страну, код города и номер телефона:
+[Or enter a full international number:]
+Или введите международный номер:
+[Phone can receive SMS text messages]
+Телефон может получать SMS
+[Cancel]
+Отмена
+[Add e-mail address]
+Добавить адрес e-mail
+[%s: user details]
+О пользователе %s
+[View personal user details and more]
+Просмотр личных данных пользователя
+[Update now]
+Обновить
+[Updating]
+Обновление
+[First name:]
+Имя:
+[Gender:]
+Пол:
+[Last name:]
+Фамилия:
+[Age:]
+Возраст:
+[E-mail:]
+Почта:
+[Date of birth:]
+Дата рождения:
+[Marital status:]
+Семейное положение:
+[Copy]
+Копировать
+[Phone:]
+Телефон:
+[Web page:]
+Сайт:
+[Past background:]
+Прошлое:
+[Interests:]
+Интересы:
+[About:]
+Информация:
+[My notes:]
+Мои заметки:
+[Street:]
+Улица:
+[City:]
+Город:
+[State:]
+Штат:
+[Postal code:]
+Индекс:
+[Country:]
+Страна:
+[Spoken languages:]
+Языки:
+[Timezone:]
+Часовой пояс:
+[Local time:]
+Местное время:
+[Set custom time zone]
+Установить часовой пояс
+[Company:]
+Компания:
+[Department:]
+Отдел:
+[Position:]
+Должность:
+[Website:]
+Сайт:
+;file \src\core\stduserinfo\src\contactinfo.cpp
+[Edit e-mail address]
+Редактировать адрес e-mail
+[Edit phone number]
+Редактировать телефон
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+Телефон должен начинаться с + и состоять только из цифр, пробелов, скобок и тире.
+[Invalid phone number]
+Неверный номер телефона
+[Primary]
+Главный
+[Custom %d]
+Разное %d
+[Fax]
+Факс
+[Mobile]
+Мобильный
+[Work phone]
+Рабочий телефон
+[Work fax]
+Рабочий факс
+[Contact]
+Контакт
+;file \src\core\stduserinfo\src\stdafx.h
+[UserInfo]
+Инфо
+;file \src\core\stduserinfo\src\stdinfo.cpp
+[No avatar]
+Без аватара
+[<not specified>]
+<не указано>
+[Summary]
+Резюме
+[Location]
+Место
+[Work]
+Работа
+[Background info]
+Биография
+[Notes]
+Заметки
+;file \src\core\stduserinfo\src\userinfo.cpp
+[General]
+Общее
+[Owner]
+Владелец
+[User &details]
+&Информация
+[Folder]
+Папка
+[Page]
+Страница
+[View/change my &details...]
+Личные &данные...
+;file \src\core\stduserinfo\src\utils.h
+[Male]
+Мужской
+[Female]
+Женский
+[Single]
+В одиночестве
+[Close relationships]
+В близких отношениях
+[Engaged]
+Помолвлен(а)
+[Married]
+В браке
+[Divorced]
+В разводе
+[Separated]
+Разошлись
+[Widowed]
+Вдовец/вдова
+[Actively searching]
+В активном поиске
+[In love]
+Влюблённость
+[It's complicated]
+Всё сложно
+[In a civil union]
+В незарегистрированном браке

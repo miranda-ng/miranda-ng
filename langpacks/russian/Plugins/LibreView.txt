@@ -45,6 +45,10 @@ API URL:
 ;file \protocols\LibreView\src\check.cpp
 [updating...]
 обновление...
+[LibreView maintenance]
+
+[maintenance]
+техническое обслуживание
 [LibreView update failed]
 Не удалось получить данные
 [error]
@@ -55,6 +59,12 @@ API URL:
 [&Glucose history]
 &История
 ;file \protocols\LibreView\src\main.cpp
+[Main icon]
+Основной значок
+[Graph viewer]
+История
+[Protocols]
+Протоколы
 [LibreView]
 LibreView
 [&Update data]
@@ -79,13 +89,18 @@ LibreView
 быстро растёт
 [trend unknown]
 динамика неизвестна
-[Failed to connect to LibreView server. Please check your internet connection and try again.]
-Не удалось соединиться с сервером LibreView. Проверьте наличие доступа в сеть и попробуйте снова.
+[sensor expired]
+истёк срок службы датчика
+
+[warming up]
+
 ;file \protocols\LibreView\src\userinfo.cpp
 [N/A]
 Недоступен
 [Expired]
 Истекло
+[Warming up (%d min left)]
+
 [%d days %d hours]
 %d дней %d часов
 [%d hours %d minutes]

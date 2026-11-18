@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.5
+;  Version: 0.1.0.6
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -39,6 +39,8 @@
 [Move spam contacts to the following group]
 Поместить спамеров в группу
 ;file \plugins\StopSpamPlus\src\events.cpp
+[Spam]
+Спам
 [You haven't sent authorization request, this message was ignored]
 Вы не запросили авторизацию, это сообщение было проигнорировано
 [StopSpam automatic message:\r\n]
@@ -64,6 +66,3 @@ StopSpam: отправьте сообщение и ответьте на воп�
 ;file \plugins\StopSpamPlus\src\stdafx.h
 [StopSpam]
 Антиспам
-;file \plugins\StopSpamPlus\src\stopspam.cpp
-[Spam]
-Спам

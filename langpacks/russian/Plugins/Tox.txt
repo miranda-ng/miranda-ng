@@ -48,8 +48,6 @@ Tox ID:
 Изменить пароль
 [Set password]
 Установить пароль
-[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via toxme.io.]
-При вводе в поле поиска адреса Tox (семьдесят шесть шестнадцатеричных символов), будет выдан запрос на добавление в список друзей. Иначе поиск будет произведён при помощи toxme.io.
 [DNS name:]
 DNS имя:
 [Enter password]
@@ -156,9 +154,6 @@ IPv6 адрес (необязательно)
 Невозможно добавить себя в список контактов
 [Contact already in your contact list]
 Контакт уже в вашем списке контактов
-;file \protocols\Tox\src\tox_search.cpp
-[Query]
-Запрос
 [Invalid search string]
 Недопустимая строка для поиска
 ;file \protocols\Tox\src\tox_utils.cpp

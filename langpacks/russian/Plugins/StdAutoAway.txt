@@ -1,0 +1,39 @@
+#muuid {9f5ca736-1108-4872-bec3-19c84bc2143b}
+;============================================================
+;  File: stdautoaway.dll
+;  Plugin: Standard AutoAway module
+;  Version: x.x.x.x
+;  Authors: Miranda NG team
+;============================================================
+[Core module for away state processing.]
+
+;file \src\core\stdautoaway\res\resource.rc
+[Become idle if the following is left unattended:]
+Перейти в режим ожидания, если неактивны:
+[Become idle if the screen saver is active]
+Режим ожидания, если включена заставка
+[Become idle if the computer is locked]
+Режим ожидания, если компьютер заблокирован
+[Become idle if a terminal session is disconnected]
+Режим ожидания, если удалённая сессия завершена
+[Do not let protocols report any idle information]
+Не позволять протоколам сообщать информацию об ожидании
+[minute(s)]
+минут(ы)
+[for]
+в течение
+[Change my status mode to:]
+Сменить статус на:
+[Do not set status back to online when returning from idle]
+Не восстанавливать статус при возвращении из режима ожидания
+[Idle options]
+Режим ожидания
+[Become idle if application full screen]
+Режим ожидания, если приложение запущено в полноэкранном режиме
+[Disable sounds on idle]
+Отключить звуки при переходе в режим ожидания
+;file \src\core\stdautoaway\src\options.cpp
+[Status]
+Статус
+[Idle]
+Ожидание

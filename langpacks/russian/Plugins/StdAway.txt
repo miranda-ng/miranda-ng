@@ -1,0 +1,63 @@
+#muuid {e58558e3-83e7-44ef-8e39-d9e0541956df}
+;============================================================
+;  File: stdaway.dll
+;  Plugin: Standard Away module
+;  Version: x.x.x.x
+;  Authors: Miranda NG team
+;============================================================
+[Core module for the away messages processing.]
+
+;file \src\core\stdaway\res\resource.rc
+[%s message for %s]
+%s сообщение для %s
+[&Cancel]
+О&тмена
+[Retrieving %s message...]
+Загрузка сообщения "%s"...
+[Do not reply to requests for this message]
+Не отвечать на запросы этого сообщения
+[Do not pop up dialog asking for new message]
+Не показывать диалог для нового сообщения
+[By default, use the same message as last time]
+Использовать предыдущее сообщение
+[By default, use this message:]
+Использовать сообщение:
+[Use %time% for the current time, %date% for the current date]
+%date% - сегодняшняя дата; %time% - текущее время
+[Status messages]
+Сообщения статуса
+[Reset]
+Сброс
+[Change %s message]
+Изменить сообщение "%s"
+[Closing in %d]
+Закрыть (%d)
+;file \src\core\stdaway\src\awaymsg.cpp
+[&Close]
+&Закрыть
+[Re&ad %s message]
+&Прочитать сообщение "%s"
+[Read status message]
+Прочитать статусное сообщение
+;file \src\core\stdaway\src\options.cpp
+[Status]
+Статус
+;file \src\core\stdaway\src\sendmsg.cpp
+[I've been away since %time%.]
+Отсутствую с %time%.
+[Give it up, I'm not in!]
+Ну нет меня сейчас, нет...
+[Not right now.]
+Не сейчас.
+[Give a guy some peace, would ya?]
+Прошу не тревожить...
+[I'm a chatbot!]
+Свободен.
+[Yep, I'm here.]
+Да, я здесь.
+[Nope, not here.]
+Нет, меня здесь нет.
+[I'm hiding from the mafia.]
+Я прячусь от мафии.
+[idleeeeeeee]
+ожидание...

@@ -107,6 +107,10 @@
 Следующее резервирование:
 [Select backup folder]
 Выберите папку для хранения резервных копий
+[Customize]
+Тонкая настройка
+[Folders]
+Папки
 ;file \plugins\Db_autobackups\src\zip.cpp
 [Miranda NG [%s] database backup]
 Резервная копия базы Miranda NG [%s]

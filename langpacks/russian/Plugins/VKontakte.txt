@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.19.8
+;  Version: 0.1.20.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -253,6 +253,10 @@ URL:
 Слишком длинное сообщение
 [Enter new nickname]
 Введите новое имя
+[The current API doesn't allow performing the required action. Please do it on the website yourself.]
+Используемый API не позволяет выполнить требуемое действие. Сделайте это через веб-сайт.
+[Attention!]
+Внимание!
 [Message read: %s]
 Сообщение прочтено в: %s
 [has invited you to a group]
@@ -488,8 +492,6 @@ ID получателя ошибочен или неизвестен
 ;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Вы уверены, что хотите загрузить все сообщения с сайта vk.com?\nЛокальная история контакта будет удалена и загружена с сервера.\nЭто может занять много времени.\nВы уверены, что хотите продолжить?
-[Attention!]
-Внимание!
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nDo you want to continue?]
 Вы уверены, что хотите заново загрузить с vk.com все сообщения для всех контактов?\nЛокальная история контактов будет удалена и загружена с сервера.\nЭто может занять продолжительное время и/или повредить базу.\nПродолжить?
 [Error loading message history from server.]
@@ -570,10 +572,6 @@ ID получателя ошибочен или неизвестен
 Отправить сообщение на стену пользователя
 [Add as friend]
 Добавить в друзья
-[Delete from friend list]
-Удалить из списка друзей
-[Ban user]
-Забанить пользователя
 [Open broadcast]
 Открыть трансляцию
 [View/change topic]
@@ -598,14 +596,6 @@ ID получателя ошибочен или неизвестен
 Уведомления
 [VK user activate/deactivate action]
 Действие активации/деактивации пользователя ВКонтакте
-[User %s added as friend]
-Пользователь %s добавлен в друзья
-[You cannot add yourself as friend]
-Вы не можете добавить себя в друзья
-[Cannot add this user to friends as they have put you on their blacklist]
-Невозможно добавить пользователя в друзья, так как вы находитесь в его чёрном списке
-[Cannot add this user to friends as you put him on blacklist]
-Невозможно добавить пользователя в друзья, так как он находится в вашем чёрном списке
 ;file \protocols\VKontakte\src\vk_status.cpp
 [Loading status message from vk.com.\nThis may take some time.]
 Загрузка сообщения статуса с vk.com.\nЭто может занять некоторое время.
@@ -632,33 +622,5 @@ ID получателя ошибочен или неизвестен
 Игры
 [Quotes]
 Цитаты
-[Please authorize me to add you to my friend list.]
-Пожалуйста, разрешите мне добавить вас в список друзей.
 [Are you sure to wipe local contacts missing in your friend list?]
 Вы действительно хотите удалить локальные контакты, отсутствующие в списке друзей?
-[Are you sure to delete %s from your friend list?]
-Вы уверены, что хотите удалить %s из списка друзей?
-[User %s was deleted from your friend list]
-Контакт %s был удалён из вашего списка друзей
-[Your request to the user %s was deleted]
-Ваш запрос пользователю %s удалён
-[Friend request from the user %s declined]
-Запрос дружбы от пользователя %s отклонён
-[Friend request suggestion for the user %s deleted]
-Рекомендация добавить в друзья пользователя %s удалена
-[User or request was not deleted]
-Пользователь или запрос не были удалены
-[ report abuse on him/her]
- отправит жалобу на пользователя
-[ clear server history with him/her]
- удалит историю с пользователем на сайте
-[ remove him/her from your friend list]
- удалит пользователя из друзей
-[ remove him/her from your contact list]
- удалит пользователя из списка контактов
-[Are you sure to ban %s? %s%sContinue?]
-Вы уверены, что хотите забанить %s? %s%sПродолжить?
-[\nIt will also]
-\nЭто также
-[Are you sure to report abuse on %s?]
-Вы уверены, что хотите отправить жалобу на %s?
