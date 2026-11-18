@@ -113,7 +113,7 @@ public:
 		CMStringA szApiUrl(m_proto->getMStringA("ApiUrl"));
 		if (szApiUrl.IsEmpty())
 			szApiUrl = DEFAULT_API_URL;
-		edtApiUrl.SetText(CMStringW(_A2W(szApiUrl)));
+		edtApiUrl.SetTextA(szApiUrl);
 	}
 
 	void onChange_Units(CCtrlCheck *)
