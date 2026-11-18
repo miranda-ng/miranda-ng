@@ -347,7 +347,7 @@ public:
 
 	void onClick_FoldersPageLink(CCtrlHyperlink*)
 	{
-		g_plugin.openOptions(L"Customize", L"Folders");
+		g_plugin.openOptions(LPGENW("Customize"), LPGENW("Folders"));
 	}
 };
 
