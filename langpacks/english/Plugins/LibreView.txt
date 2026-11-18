@@ -52,10 +52,10 @@
 [trend unknown]
 [sensor expired]
 [warming up]
-[Failed to connect to LibreView server. Please check your internet connection and try again.]
 ;file \protocols\LibreView\src\userinfo.cpp
 [N/A]
 [Expired]
+[Warming up (%d min left)]
 [%d days %d hours]
 [%d hours %d minutes]
 [%d minutes]

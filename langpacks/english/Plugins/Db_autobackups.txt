@@ -58,5 +58,7 @@
 [Error creating backup folder]
 [Next backup is scheduled to]
 [Select backup folder]
+[Customize]
+[Folders]
 ;file \plugins\Db_autobackups\src\zip.cpp
 [Miranda NG [%s] database backup]

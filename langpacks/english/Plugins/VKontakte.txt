@@ -130,7 +130,7 @@
 [Can't send messages to this user due to their privacy settings]
 [Message is too long]
 [Enter new nickname]
-[The current API doesn’t allow performing the required action. Please do it on the website yourself.]
+[The current API doesn't allow performing the required action. Please do it on the website yourself.]
 [Attention!]
 [Message read: %s]
 [has invited you to a group]
