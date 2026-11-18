@@ -13,6 +13,13 @@
 #define MinutesToFileTime (60ll * FILETIME_TICKS_PER_SEC)
 #define DayToFileTime (86400ll * FILETIME_TICKS_PER_SEC)
 
+static const int days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+static bool IsLeapYear(int year)
+{
+	return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int date2int(const SYSTEMTIME &t)
@@ -1213,34 +1220,42 @@ public:
 		arReminders.remove(m_pReminder);
 		if (chkAfter.GetState()) {
 			// delta time
-			SYSTEMTIME tm;
+			SYSTEMTIME tm, tm2;
 			GetSystemTime(&tm);
 
 			ULONGLONG li;
 			SystemTimeToFileTime(&tm, (FILETIME*)&li);
 
-			int TT;
+			int TT = 0;
 			switch (m_pReminder->RepeatMode) {
+			case REPEAT::NONE:
+				// if repeat mode is off, reset When from the current time
+				m_pReminder->When = li;
+				TT = cmbRemindAgainIn.GetCurData() * 60;
+				break;
 			case REPEAT::DAILY:
+				// if repeat mode is on, use the current When's value and advance it
 				TT = 24 * 60 * 60;
 				break;
 			case REPEAT::WEEKLY:
 				TT = 7 * 24 * 60 * 60;
 				break;
 			case REPEAT::MONTHLY:
-				{	SYSTEMTIME tm2 = tm;
-					if (tm2.wMonth == 12)
-						tm2.wYear++, tm2.wMonth = 1;
-					else
-						tm2.wMonth++;
+				tm2 = tm;
+				if (tm2.wMonth == 12)
+					tm2.wYear++, tm2.wMonth = 1;
+				else {
+					tm2.wMonth++;
 
-					ULONGLONG li2;
-					SystemTimeToFileTime(&tm2, (FILETIME *)&li2);
-					TT = int((li2 - li) / FILETIME_TICKS_PER_SEC);
+					// prevent the invalid date creation
+					int iDaysInMonth = (tm2.wMonth == 2 && IsLeapYear(tm2.wYear)) ? 29 : days[tm2.wMonth - 1];
+					if (tm2.wDay > iDaysInMonth)
+						tm2.wDay = iDaysInMonth;
 				}
-				break;
-			default:
-				TT = cmbRemindAgainIn.GetCurData() * 60;
+
+				ULONGLONG li2;
+				SystemTimeToFileTime(&tm2, (FILETIME *)&li2);
+				TT = int((li2 - li) / FILETIME_TICKS_PER_SEC);
 				break;
 			}
 
@@ -1248,7 +1263,7 @@ public:
 				// selection is 1 day or more, take daylight saving boundaries into consideration
 				// (ie. 24 hour might actually be 23 or 25, in order for reminder to pop up at the
 				// same time tomorrow)
-				SYSTEMTIME tm2, tm3;
+				SYSTEMTIME tm3;
 				ULONGLONG li2 = li;
 				FileTimeToTzLocalST((FILETIME*)&li2, &tm2);
 				li2 += (TT * FILETIME_TICKS_PER_SEC);
@@ -1266,9 +1281,6 @@ public:
 				}
 			}
 
-			// reset When from the current time
-			if (!m_pReminder->RepeatMode)
-				m_pReminder->When = li;
 			m_pReminder->When += (TT * FILETIME_TICKS_PER_SEC);
 		}
 		else if (chkOnDate.GetState()) {
