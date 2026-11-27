@@ -135,7 +135,7 @@ int CKicqProto::ResolveGroupFor(MCONTACT hContact)
 		wszGroup = mir_wstrdup(m_wszDefaultGroup);
 
 	mir_cslock lck(m_csRoster);
-	if (auto *pGroup = FindGroup(wszGroup))
+	if (auto *pGroup = FindGroup(wszGroup.get()))
 		return pGroup->id;
 	return 0;
 }
