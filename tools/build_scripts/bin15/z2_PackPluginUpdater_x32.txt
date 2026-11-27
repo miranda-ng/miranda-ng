@@ -68,6 +68,7 @@ Plugins\irc.dll
 Plugins\jabber.dll
 Plugins\jingle.dll
 Plugins\keyboardnotify.dll
+Plugins\kicq.dll
 Plugins\libreview.dll
 Plugins\linklist.dll
 Plugins\listeningto.dll
@@ -97,6 +98,7 @@ Plugins\nohistory.dll
 Plugins\notesreminders.dll
 Plugins\notifyanything.dll
 Plugins\nudge.dll
+Plugins\odnoklassniki.dll
 Plugins\openfolder.dll
 Plugins\packupdater.dll
 Plugins\pasteit.dll
