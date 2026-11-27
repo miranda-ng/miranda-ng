@@ -159,7 +159,7 @@ int COdnoklassnikiProto::SetStatus(int iNewStatus)
 	if (m_bOnline || IsStatusConnecting(m_iStatus))
 		return 0;
 
-	if (mir_wstrlen(ptrW(m_wszLogin)) == 0 || (getMStringA("Password").IsEmpty() && getMStringA(DB_KEY_TOKEN).IsEmpty())) {
+	if (mir_wstrlen(m_wszLogin) == 0 || (getMStringA("Password").IsEmpty() && getMStringA(DB_KEY_TOKEN).IsEmpty())) {
 		ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_BADUSERID);
 		return 0;
 	}

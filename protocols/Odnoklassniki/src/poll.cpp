@@ -92,7 +92,7 @@ bool COdnoklassnikiProto::Login()
 		}
 
 		std::map<CMStringA, CMStringA> params;
-		params["user_name"] = T2Utf(ptrW(m_wszLogin)).get();
+		params["user_name"] = CMStringA(m_wszLogin);
 		params["password"] = szPassword;
 		params["gen_token"] = "true";
 		params["verification_supported_v"] = "1";
